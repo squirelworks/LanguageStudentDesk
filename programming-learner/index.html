@@ -33,7 +33,7 @@
   header p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
   .layout { display: flex; flex: 1; overflow: hidden; }
   .sidebar {
-    width: 220px;
+    width: 240px;
     background: var(--sidebar);
     border-right: 1px solid #2a2a32;
     padding: 1rem 0.6rem;
@@ -74,17 +74,18 @@
     margin-bottom: 1rem;
     border: 1px solid #2a2a32;
   }
-  .card h2 { margin: 0 0 0.8rem; font-size: 1.15rem; }
-  .placeholder {
-    color: var(--muted);
-    font-style: italic;
-  }
-  code {
+  .card h2 { margin: 0 0 0.6rem; font-size: 1.15rem; }
+  .card h3 { margin: 1rem 0 0.4rem; font-size: 1rem; color: var(--accent); }
+  pre {
     background: #111;
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.9em;
+    padding: 0.8rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
+  code { font-family: ui-monospace, monospace; }
+  .muted { color: var(--muted); }
   footer {
     text-align: center;
     padding: 1rem;
@@ -98,69 +99,165 @@
 <body>
 <header>
   <h1>Programming Learner</h1>
-  <p>Scaffold for learning programming languages — syntax, concepts, and practice</p>
+  <p>Historical and esoteric languages — QuickBASIC, brainfuck, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16</p>
 </header>
 <div class="layout">
   <aside class="sidebar">
     <h2>Languages</h2>
     <button class="lang-btn active" data-lang="overview">Overview</button>
-    <button class="lang-btn" data-lang="python">Python</button>
-    <button class="lang-btn" data-lang="javascript">JavaScript</button>
-    <button class="lang-btn" data-lang="rust">Rust</button>
-    <button class="lang-btn" data-lang="go">Go</button>
-    <button class="lang-btn" data-lang="sql">SQL</button>
-    <button class="lang-btn" data-lang="shell">Shell</button>
+    <button class="lang-btn" data-lang="quickbasic">QuickBASIC</button>
+    <button class="lang-btn" data-lang="brainfuck">brainfuck</button>
+    <button class="lang-btn" data-lang="delphi">Delphi 5/6/7</button>
+    <button class="lang-btn" data-lang="intercal">INTERCAL</button>
+    <button class="lang-btn" data-lang="lolcode">LOLCODE</button>
+    <button class="lang-btn" data-lang="malbolge">Malbolge</button>
+    <button class="lang-btn" data-lang="piet">Piet</button>
+    <button class="lang-btn" data-lang="whitespace">Whitespace</button>
+    <button class="lang-btn" data-lang="win16">Win16</button>
   </aside>
   <main class="content">
     <div class="card" id="panel-overview">
       <h2>Overview</h2>
-      <p>This tool is a scaffold for programming-language learning inside Language Student Desk.</p>
-      <p>Intended future features:</p>
+      <p>A focused learner for historical BASIC-era tools, classic Windows programming, and well-known esoteric languages.</p>
+      <p>Each panel gives a short description, core concepts, and a minimal example where practical. Expand with quizzes or interactive interpreters later.</p>
+      <p class="muted">Select a language in the sidebar.</p>
+    </div>
+
+    <div class="card lang-panel hidden" id="panel-quickbasic">
+      <h2>QuickBASIC</h2>
+      <p>Microsoft’s structured BASIC for DOS (late 1980s–early 1990s). Line numbers optional, procedures with <code>SUB</code>/<code>FUNCTION</code>, and a full IDE.</p>
+      <h3>Key ideas</h3>
       <ul>
-        <li>Syntax and concept cards per language</li>
-        <li>Interactive examples and quizzes</li>
-        <li>Progress tracking (similar to Character Learner)</li>
-        <li>Shared data under <code>languages/programming/</code> or a dedicated folder</li>
-        <li>Language-scoped launch via <code>?lang=python</code> etc.</li>
+        <li>Variables, <code>INPUT</code>, <code>PRINT</code></li>
+        <li>Control flow: <code>IF</code>…<code>THEN</code>, <code>FOR</code>…<code>NEXT</code>, <code>WHILE</code></li>
+        <li>Subs and functions</li>
       </ul>
-      <p class="placeholder">Select a language in the sidebar to see its placeholder panel.</p>
+      <h3>Hello + loop</h3>
+      <pre><code>PRINT "Hello from QuickBASIC"
+FOR i = 1 TO 5
+  PRINT i
+NEXT i</code></pre>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-python">
-      <h2>Python</h2>
-      <p class="placeholder">Placeholder — add syntax cards, exercises, and references here.</p>
-      <p>Suggested structure: data file with topics (variables, functions, classes, etc.) that the UI can render as learn / quiz / reference modes.</p>
+    <div class="card lang-panel hidden" id="panel-brainfuck">
+      <h2>brainfuck</h2>
+      <p>Minimalist esolang with eight commands that operate on a tape of cells and a pointer.</p>
+      <h3>Commands</h3>
+      <ul>
+        <li><code>></code> <code><</code> move pointer</li>
+        <li><code>+</code> <code>-</code> increment / decrement cell</li>
+        <li><code>.</code> <code>,</code> output / input</li>
+        <li><code>[</code> <code>]</code> loop while cell nonzero</li>
+      </ul>
+      <h3>Hello World (classic)</h3>
+      <pre><code>++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.</code></pre>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-javascript">
-      <h2>JavaScript</h2>
-      <p class="placeholder">Placeholder — add syntax cards, exercises, and references here.</p>
+    <div class="card lang-panel hidden" id="panel-delphi">
+      <h2>Delphi 5 / 6 / 7</h2>
+      <p>Object Pascal RAD environment for Windows. Delphi 5–7 were the peak of classic VCL (Visual Component Library) development.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Units, forms, events (<code>OnClick</code> etc.)</li>
+        <li>VCL components (TButton, TEdit, TLabel…)</li>
+        <li>Strong typing, <code>class</code>, properties</li>
+      </ul>
+      <h3>Minimal form event</h3>
+      <pre><code>procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ShowMessage('Hello from Delphi');
+end;</code></pre>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-rust">
-      <h2>Rust</h2>
-      <p class="placeholder">Placeholder — add ownership, borrowing, and syntax cards here.</p>
+    <div class="card lang-panel hidden" id="panel-intercal">
+      <h2>INTERCAL</h2>
+      <p>The original esoteric language (1972). Deliberately obtuse syntax and operators. Famous for the <code>COME FROM</code> statement.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Variables like <code>.1</code>, <code>:1</code>, <code>,1</code></li>
+        <li>Operators: <code>mingle</code>, <code>select</code>, unary <code>~</code></li>
+        <li><code>PLEASE</code> politeness (too many or too few can be errors)</li>
+      </ul>
+      <h3>Notes</h3>
+      <p class="muted">Full programs are verbose. Start by reading the INTERCAL Reference Manual and a short “Hello World” example from the C-INTERCAL distribution.</p>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-go">
-      <h2>Go</h2>
-      <p class="placeholder">Placeholder — add concurrency and syntax cards here.</p>
+    <div class="card lang-panel hidden" id="panel-lolcode">
+      <h2>LOLCODE</h2>
+      <p>Esolang based on lolcat-speak. Keywords are English phrases.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li><code>HAI</code> / <code>KTHXBYE</code> program bounds</li>
+        <li><code>I HAS A</code> variable, <code>VISIBLE</code> print</li>
+        <li><code>IM IN YR</code> loops, <code>O RLY?</code> conditionals</li>
+      </ul>
+      <h3>Hello</h3>
+      <pre><code>HAI 1.2
+VISIBLE "Hello from LOLCODE"
+KTHXBYE</code></pre>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-sql">
-      <h2>SQL</h2>
-      <p class="placeholder">Placeholder — add query patterns and schema examples here.</p>
+    <div class="card lang-panel hidden" id="panel-malbolge">
+      <h2>Malbolge</h2>
+      <p>Named after the eighth circle of Hell. Designed to be nearly impossible to program. Instructions are encrypted and the code mutates as it runs.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Ternary (base-3) arithmetic</li>
+        <li>Self-modifying code</li>
+        <li>Almost no hand-written programs exist; most were generated</li>
+      </ul>
+      <h3>Notes</h3>
+      <p class="muted">Practical learning focuses on reading the specification and examining known generated programs rather than writing new ones by hand.</p>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-shell">
-      <h2>Shell</h2>
-      <p class="placeholder">Placeholder — add command and pipeline examples here.</p>
+    <div class="card lang-panel hidden" id="panel-piet">
+      <h2>Piet</h2>
+      <p>Programs are images. Execution follows colored blocks (codels). Direction and stack operations are determined by color changes.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Hue and lightness encode operations</li>
+        <li>Direction pointer and codel chooser</li>
+        <li>Stack-based</li>
+      </ul>
+      <h3>Notes</h3>
+      <p class="muted">Best studied with a visual editor or interpreter (e.g. npiet) and small example images. Text representation is not practical.</p>
+    </div>
+
+    <div class="card lang-panel hidden" id="panel-whitespace">
+      <h2>Whitespace</h2>
+      <p>Only spaces, tabs, and newlines are significant. Everything else is ignored (comments).</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Commands are sequences of whitespace</li>
+        <li>Stack and heap operations, I/O, flow control</li>
+        <li>Imperative, stack-based</li>
+      </ul>
+      <h3>Notes</h3>
+      <p class="muted">Programs are invisible in normal editors. Use a dedicated Whitespace IDE or carefully constructed files. A common first exercise is a simple number printer.</p>
+    </div>
+
+    <div class="card lang-panel hidden" id="panel-win16">
+      <h2>Win16 programming</h2>
+      <p>16-bit Windows (Windows 3.x era) programming. Classic API with <code>WinMain</code>, message loops, and resource files.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li><code>WinMain</code> entry point</li>
+        <li>Window class registration, <code>CreateWindow</code>, message loop (<code>GetMessage</code> / <code>DispatchMessage</code>)</li>
+        <li>Window procedures (<code>WndProc</code>) handling <code>WM_*</code> messages</li>
+        <li>Often written in C with the Windows SDK or early Visual C++</li>
+      </ul>
+      <h3>Minimal skeleton (conceptual)</h3>
+      <pre><code>int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR cmd, int show) {
+  // register class, create window, message loop
+  return 0;
+}</code></pre>
+      <p class="muted">Modern compilers no longer target Win16. Study with old SDKs, books, or emulators (e.g. Windows 3.1 in DOSBox / 86Box).</p>
     </div>
   </main>
 </div>
 <footer>
-  LanguageStudentDesk · Programming Learner (scaffold)<br>
-  Ready for data-driven lessons, quizzes, and progress tracking.
+  LanguageStudentDesk · Programming Learner<br>
+  QuickBASIC · brainfuck · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16
 </footer>
 
 <script>
@@ -183,7 +280,6 @@ buttons.forEach(btn => {
   btn.addEventListener('click', () => showLang(btn.dataset.lang));
 });
 
-// Support ?lang= for future scoped launches
 const params = new URLSearchParams(location.search);
 const start = params.get('lang');
 if (start) showLang(start);
