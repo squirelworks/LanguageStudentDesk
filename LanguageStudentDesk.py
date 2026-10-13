@@ -13,6 +13,15 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
 
+# Preferred order: Klingon flagship, then the core learners
+PREFERRED_ORDER = [
+    "klingon",
+    "language-learner",
+    "grammar-learner",
+    "vocabulary-learner",
+    "character-learner",
+]
+
 class LanguageStudentDesk:
     def __init__(self, root):
         self.root = root
@@ -55,7 +64,7 @@ class LanguageStudentDesk:
         ttk.Label(lang_frame, text="Scope to language (optional):").pack(side="left")
         self.lang_var = tk.StringVar()
         self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=20, state="readonly")
-        self.lang_combo['values'] = ("", "japanese", "klingon", "arabic", "chinese", "cyrillic", "hangul", "hindi")
+        self.lang_combo['values'] = ("", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi")
         self.lang_combo.pack(side="left", padx=8)
         ttk.Label(lang_frame, text="(adds ?lang= to character-learner)", foreground="gray").pack(side="left")
 
@@ -78,7 +87,7 @@ class LanguageStudentDesk:
         self.tree.bind("<Double-1>", lambda e: self.open_selected())
 
     def scan_tools(self):
-        """Scan the directory for folders containing index.html"""
+        """Scan the directory for folders containing index.html and order by preference"""
         self.tree.delete(*self.tree.get_children())
         base = Path(__file__).parent if "__file__" in globals() else Path.cwd()
         tools = []
@@ -90,10 +99,20 @@ class LanguageStudentDesk:
         if not tools:
             self.tree.insert("", "end", text="(No tools found)", values=("Place folders with index.html nearby",))
             self.status.config(text="No micro-apps detected. Add folders containing index.html.")
-        else:
-            for name, path in sorted(tools):
-                self.tree.insert("", "end", text=name, values=(path,))
-            self.status.config(text=f"Found {len(tools)} tool(s). Double-click or select + Open in Browser.")
+            return
+
+        def sort_key(item):
+            name = item[0].lower()
+            try:
+                return PREFERRED_ORDER.index(name)
+            except ValueError:
+                return len(PREFERRED_ORDER) + 1
+
+        tools.sort(key=sort_key)
+
+        for name, path in tools:
+            self.tree.insert("", "end", text=name, values=(path,))
+        self.status.config(text=f"Found {len(tools)} tool(s). Double-click or select + Open in Browser.")
 
     def open_selected(self):
         selection = self.tree.selection()
