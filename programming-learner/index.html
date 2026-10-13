@@ -99,7 +99,7 @@
 <body>
 <header>
   <h1>Programming Learner</h1>
-  <p>Historical and fun languages — QuickBASIC, brainFOOD, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16</p>
+  <p>Historical and fun languages — QuickBASIC, brainFOOD, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16, Z80</p>
 </header>
 <div class="layout">
   <aside class="sidebar">
@@ -114,11 +114,12 @@
     <button class="lang-btn" data-lang="piet">Piet</button>
     <button class="lang-btn" data-lang="whitespace">Whitespace</button>
     <button class="lang-btn" data-lang="win16">Win16</button>
+    <button class="lang-btn" data-lang="z80">Z80 Assembly</button>
   </aside>
   <main class="content">
     <div class="card" id="panel-overview">
       <h2>Overview</h2>
-      <p>A focused learner for historical BASIC-era tools, classic Windows programming, and fun programming languages that are great for exploring how computers think.</p>
+      <p>A focused learner for historical BASIC-era tools, classic Windows programming, assembly, and fun programming languages that are great for exploring how computers think.</p>
       <p>Each panel gives a short description, core concepts, and a minimal example where practical. Expand with quizzes or interactive interpreters later.</p>
       <p class="muted">Select a language in the sidebar.</p>
     </div>
@@ -258,11 +259,29 @@ KTHXBYE</code></pre>
 }</code></pre>
       <p class="muted">Modern compilers no longer target Win16. Study with old SDKs, books, or emulators (e.g. Windows 3.1 in DOSBox / 86Box).</p>
     </div>
+
+    <div class="card lang-panel hidden" id="panel-z80">
+      <h2>Z80 Assembly</h2>
+      <p>Assembly language for the Zilog Z80 CPU. Widely used in 1980s home computers (ZX Spectrum, MSX, TRS-80, CP/M machines) and still popular for retro and embedded work.</p>
+      <h3>Key ideas</h3>
+      <ul>
+        <li>Registers: A, B, C, D, E, H, L, and pairs (BC, DE, HL)</li>
+        <li>Flags, stack, and memory addressing modes</li>
+        <li>Common instructions: <code>LD</code>, <code>ADD</code>, <code>INC</code>, <code>DJNZ</code>, <code>CALL</code>, <code>RET</code></li>
+        <li>Interrupt modes and I/O ports</li>
+      </ul>
+      <h3>Minimal example (load and increment)</h3>
+      <pre><code>    LD   A, 5      ; load 5 into accumulator
+    INC  A         ; A = 6
+    LD   (HL), A   ; store A at address in HL
+    RET</code></pre>
+      <p class="muted">Great next step after learning how a CPU actually moves data. Pair with a Z80 emulator or assembler (e.g. z80asm, SjASMPlus).</p>
+    </div>
   </main>
 </div>
 <footer>
   LanguageStudentDesk · Programming Learner<br>
-  QuickBASIC · brainFOOD · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16
+  QuickBASIC · brainFOOD · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16 · Z80
 </footer>
 
 <script>
