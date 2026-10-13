@@ -119,6 +119,18 @@
   .progress { height: 6px; background: #333; border-radius: 3px; margin: 0.8rem 0; }
   .progress-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
   .hidden { display: none; }
+  .forms-table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+  }
+  .forms-table th, .forms-table td {
+    padding: 0.6rem;
+    text-align: center;
+    border: 1px solid #444;
+  }
+  .forms-table th { background: #2a2a32; }
+  .forms-table .form-char { font-size: 2rem; }
   footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
 </style>
 </head>
@@ -147,6 +159,7 @@
       <h3 id="detailRoman" style="text-align:center"></h3>
       <p id="detailInfo"></p>
       <p><strong>Example:</strong> <span id="detailExample"></span></p>
+      <div id="formsContainer"></div>
       <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
       <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
     </div>
@@ -247,7 +260,7 @@ function showMode(mode) {
 function renderGrid() {
   const grid = document.getElementById('charGrid');
   grid.innerHTML = currentData.map(c => `
-    <div class="char-card" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+    <div class="char-card" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
       <span class="big">${c.char}</span>
       <span class="small">${c.roman}</span>
     </div>
@@ -259,6 +272,31 @@ function showDetail(c) {
   document.getElementById('detailRoman').textContent = c.roman;
   document.getElementById('detailInfo').textContent = c.info || '';
   document.getElementById('detailExample').textContent = c.example || '';
+
+  const formsEl = document.getElementById('formsContainer');
+  if (c.forms) {
+    formsEl.innerHTML = `
+      <h4>Contextual forms</h4>
+      <table class="forms-table">
+        <tr>
+          <th>Isolated</th>
+          <th>Initial</th>
+          <th>Medial</th>
+          <th>Final</th>
+        </tr>
+        <tr>
+          <td class="form-char">${c.forms.isolated || '—'}</td>
+          <td class="form-char">${c.forms.initial || '—'}</td>
+          <td class="form-char">${c.forms.medial || '—'}</td>
+          <td class="form-char">${c.forms.final || '—'}</td>
+        </tr>
+      </table>
+      <p style="font-size:0.85rem; color:var(--muted)">Letters that do not connect to the left show — for initial and medial.</p>
+    `;
+  } else {
+    formsEl.innerHTML = '';
+  }
+
   document.getElementById('detailCard').classList.remove('hidden');
 }
 
