@@ -99,14 +99,14 @@
 <body>
 <header>
   <h1>Programming Learner</h1>
-  <p>Historical and esoteric languages — QuickBASIC, brainfuck, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16</p>
+  <p>Historical and fun languages — QuickBASIC, brainFOOD, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16</p>
 </header>
 <div class="layout">
   <aside class="sidebar">
     <h2>Languages</h2>
     <button class="lang-btn active" data-lang="overview">Overview</button>
     <button class="lang-btn" data-lang="quickbasic">QuickBASIC</button>
-    <button class="lang-btn" data-lang="brainfuck">brainfuck</button>
+    <button class="lang-btn" data-lang="brainfood">brainFOOD</button>
     <button class="lang-btn" data-lang="delphi">Delphi 5/6/7</button>
     <button class="lang-btn" data-lang="intercal">INTERCAL</button>
     <button class="lang-btn" data-lang="lolcode">LOLCODE</button>
@@ -118,7 +118,7 @@
   <main class="content">
     <div class="card" id="panel-overview">
       <h2>Overview</h2>
-      <p>A focused learner for historical BASIC-era tools, classic Windows programming, and well-known esoteric languages.</p>
+      <p>A focused learner for historical BASIC-era tools, classic Windows programming, and fun programming languages that are great for exploring how computers think.</p>
       <p>Each panel gives a short description, core concepts, and a minimal example where practical. Expand with quizzes or interactive interpreters later.</p>
       <p class="muted">Select a language in the sidebar.</p>
     </div>
@@ -139,18 +139,23 @@ FOR i = 1 TO 5
 NEXT i</code></pre>
     </div>
 
-    <div class="card lang-panel hidden" id="panel-brainfuck">
-      <h2>brainfuck</h2>
-      <p>Minimalist esolang with eight commands that operate on a tape of cells and a pointer.</p>
-      <h3>Commands</h3>
+    <div class="card lang-panel hidden" id="panel-brainfood">
+      <h2>brainFOOD</h2>
+      <p>A tiny programming language with only eight commands. It is great for learning how computers move data around and follow simple instructions. (This is the kid-friendly name for a classic minimalist language.)</p>
+      <h3>The eight commands</h3>
       <ul>
-        <li><code>></code> <code><</code> move pointer</li>
-        <li><code>+</code> <code>-</code> increment / decrement cell</li>
-        <li><code>.</code> <code>,</code> output / input</li>
-        <li><code>[</code> <code>]</code> loop while cell nonzero</li>
+        <li><code>></code> move right to the next box</li>
+        <li><code><</code> move left to the previous box</li>
+        <li><code>+</code> add 1 to the number in the box</li>
+        <li><code>-</code> subtract 1 from the number in the box</li>
+        <li><code>.</code> show the character for the number in the box</li>
+        <li><code>,</code> wait for the user to type a character</li>
+        <li><code>[</code> start a loop (repeat while the box is not zero)</li>
+        <li><code>]</code> end the loop</li>
       </ul>
-      <h3>Hello World (classic)</h3>
+      <h3>Hello World</h3>
       <pre><code>++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.</code></pre>
+      <p class="muted">Try changing numbers or adding commands to see what happens!</p>
     </div>
 
     <div class="card lang-panel hidden" id="panel-delphi">
@@ -257,7 +262,7 @@ KTHXBYE</code></pre>
 </div>
 <footer>
   LanguageStudentDesk · Programming Learner<br>
-  QuickBASIC · brainfuck · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16
+  QuickBASIC · brainFOOD · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16
 </footer>
 
 <script>
