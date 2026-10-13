@@ -15,6 +15,7 @@
     --muted: #9e9e9e;
     --correct: #4caf50;
     --wrong: #ef5350;
+    --sidebar-bg: #16161c;
   }
   * { box-sizing: border-box; }
   body {
@@ -23,40 +24,72 @@
     color: var(--text);
     margin: 0;
     line-height: 1.5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   header {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
     padding: 1.2rem;
     text-align: center;
     border-bottom: 3px solid var(--accent);
+    flex-shrink: 0;
   }
   header h1 { margin: 0; font-size: 1.6rem; }
   header p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.9rem; }
-  .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
-  .script-select {
+  .app-body {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-    margin: 1rem 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .sidebar {
+    width: 220px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .sidebar h3 {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1rem;
+    border-bottom: 1px solid #333;
+    background: #1a1a22;
+  }
+  .script-select {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
   .script-select button {
     background: #222;
     color: var(--text);
     border: 1px solid #444;
-    padding: 0.6rem 1rem;
+    padding: 0.7rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
+    text-align: left;
+    font-size: 0.95rem;
   }
   .script-select button.active, .script-select button:hover {
     background: var(--accent);
     border-color: var(--accent);
   }
+  .main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
   .mode-nav {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
+    flex-wrap: wrap;
   }
   .mode-nav button {
     background: #2a2a32;
@@ -146,7 +179,14 @@
     color: var(--muted);
     margin-bottom: 0.5rem;
   }
-  footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
+  footer {
+    text-align: center;
+    padding: 1rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid #333;
+    flex-shrink: 0;
+  }
 </style>
 </head>
 <body>
@@ -154,68 +194,72 @@
   <h1>Character Learner</h1>
   <p>Modular script trainer — Language Student Desk</p>
 </header>
-<div class="container">
-  <div class="script-select" id="scriptSelect"></div>
-
-  <div class="mode-nav hidden" id="modeNav">
-    <button class="active" data-mode="learn">Learn</button>
-    <button data-mode="quiz">Quiz</button>
-    <button data-mode="flash">Flashcards</button>
-    <button data-mode="groups" id="groupsBtn" style="display:none">On-yomi Groups</button>
-  </div>
-
-  <div id="learnView" class="hidden">
-    <div class="card">
-      <h2 id="scriptTitle">Select a script</h2>
-      <div class="progress-summary" id="progressSummary"></div>
-      <div class="char-grid" id="charGrid"></div>
+<div class="app-body">
+  <aside class="sidebar">
+    <h3>Scripts</h3>
+    <div class="script-select" id="scriptSelect"></div>
+  </aside>
+  <div class="main-content">
+    <div class="mode-nav hidden" id="modeNav">
+      <button class="active" data-mode="learn">Learn</button>
+      <button data-mode="quiz">Quiz</button>
+      <button data-mode="flash">Flashcards</button>
+      <button data-mode="groups" id="groupsBtn" style="display:none">On-yomi Groups</button>
     </div>
-    <div class="card hidden" id="detailCard">
-      <div class="big-char" id="detailChar"></div>
-      <h3 id="detailRoman" style="text-align:center"></h3>
-      <p id="detailInfo"></p>
-      <p><strong>Example:</strong> <span id="detailExample"></span></p>
-      <div id="formsContainer"></div>
-      <button class="primary" onclick="markLearned()">Mark as Learned</button>
-      <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
-      <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
-    </div>
-  </div>
 
-  <div id="quizView" class="hidden">
-    <div class="card">
-      <h2>Recognition Quiz</h2>
-      <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-      <div id="quizArea">
-        <p id="quizQuestion">Select a script to start.</p>
-        <div id="quizOptions"></div>
+    <div id="learnView" class="hidden">
+      <div class="card">
+        <h2 id="scriptTitle">Select a script</h2>
+        <div class="progress-summary" id="progressSummary"></div>
+        <div class="char-grid" id="charGrid"></div>
       </div>
-      <p id="quizFeedback"></p>
-      <button class="primary hidden" id="nextBtn">Next</button>
-    </div>
-  </div>
-
-  <div id="flashView" class="hidden">
-    <div class="card" style="text-align:center">
-      <h2>Flashcards</h2>
-      <div class="big-char" id="flashChar">?</div>
-      <div id="flashAnswer" class="hidden">
-        <h3 id="flashRoman"></h3>
-        <p id="flashInfo"></p>
-      </div>
-      <div style="margin-top:1rem">
-        <button class="primary" onclick="flipFlash()">Flip</button>
-        <button class="primary" onclick="nextFlash()">Next</button>
-        <button class="primary" onclick="speak(document.getElementById('flashChar').textContent)">Speak</button>
+      <div class="card hidden" id="detailCard">
+        <div class="big-char" id="detailChar"></div>
+        <h3 id="detailRoman" style="text-align:center"></h3>
+        <p id="detailInfo"></p>
+        <p><strong>Example:</strong> <span id="detailExample"></span></p>
+        <div id="formsContainer"></div>
+        <button class="primary" onclick="markLearned()">Mark as Learned</button>
+        <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
+        <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
       </div>
     </div>
-  </div>
 
-  <div id="groupsView" class="hidden">
-    <div class="card">
-      <h2>On-yomi Groupings (stub)</h2>
-      <p>Characters that share the same on-reading. Expand this module later.</p>
-      <div id="groupsList"></div>
+    <div id="quizView" class="hidden">
+      <div class="card">
+        <h2>Recognition Quiz</h2>
+        <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+        <div id="quizArea">
+          <p id="quizQuestion">Select a script to start.</p>
+          <div id="quizOptions"></div>
+        </div>
+        <p id="quizFeedback"></p>
+        <button class="primary hidden" id="nextBtn">Next</button>
+      </div>
+    </div>
+
+    <div id="flashView" class="hidden">
+      <div class="card" style="text-align:center">
+        <h2>Flashcards</h2>
+        <div class="big-char" id="flashChar">?</div>
+        <div id="flashAnswer" class="hidden">
+          <h3 id="flashRoman"></h3>
+          <p id="flashInfo"></p>
+        </div>
+        <div style="margin-top:1rem">
+          <button class="primary" onclick="flipFlash()">Flip</button>
+          <button class="primary" onclick="nextFlash()">Next</button>
+          <button class="primary" onclick="speak(document.getElementById('flashChar').textContent)">Speak</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="groupsView" class="hidden">
+      <div class="card">
+        <h2>On-yomi Groupings (stub)</h2>
+        <p>Characters that share the same on-reading. Expand this module later.</p>
+        <div id="groupsList"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -387,7 +431,7 @@ function showQuestion() {
     document.getElementById('quizArea').innerHTML = `<h3>Done!</h3><p>Score: ${quizScore} / ${quizQuestions.length}</p>`;
     document.getElementById('nextBtn').classList.add('hidden');
     document.getElementById('progressBar').style.width = '100%';
-    renderGrid(); // refresh summary if needed
+    renderGrid();
     return;
   }
   const q = quizQuestions[quizIndex];
