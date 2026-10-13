@@ -13,9 +13,10 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
 
-# Preferred order: Klingon flagship, then the core learners
+# Preferred order: Klingon flagship, then the core learners (resource first as original intent)
 PREFERRED_ORDER = [
     "klingon",
+    "resource-learner",
     "language-learner",
     "grammar-learner",
     "vocabulary-learner",
