@@ -196,9 +196,17 @@
     color: var(--muted);
     margin-bottom: 0.5rem;
   }
-  .layout-toggle {
+  .layout-toggle, .level-select {
     margin: 0.5rem 0 1rem;
     text-align: center;
+  }
+  .level-select select {
+    background: #222;
+    color: var(--text);
+    border: 1px solid #444;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
   }
   footer {
     text-align: center;
@@ -234,6 +242,19 @@
         <div class="progress-summary" id="progressSummary"></div>
         <div class="layout-toggle hidden" id="layoutToggle">
           <button class="primary" id="toggleLayoutBtn" onclick="toggleKanaLayout()">Switch to Iroha order</button>
+        </div>
+        <div class="level-select hidden" id="levelSelect">
+          <label>JLPT Level: 
+            <select id="kanjiLevel" onchange="renderGrid()">
+              <option value="all">All levels</option>
+              <option value="N5">N5</option>
+              <option value="N4">N4</option>
+              <option value="N3">N3</option>
+              <option value="N2">N2</option>
+              <option value="N1">N1</option>
+              <option value="post-N1">post-N1</option>
+            </select>
+          </label>
         </div>
         <div class="char-grid" id="charGrid"></div>
       </div>
@@ -330,7 +351,6 @@ const GOJUON_ROWS = [
 
 const IROHA = ["i", "ro", "ha", "ni", "ho", "he", "to", "chi", "ri", "nu", "ru", "wo", "wa", "ka", "yo", "ta", "re", "so", "tsu", "ne", "na", "ra", "mu", "u", "wi", "no", "o", "ku", "ya", "ma", "ke", "fu", "ko", "e", "te", "a", "sa", "ki", "yu", "me", "mi", "shi", "e", "hi", "mo", "se", "su"];
 
-// Hangul groups (by character)
 const HANGUL_GROUPS = [
   { title: "Basic Vowels", chars: ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅜ"] },
   { title: "Basic Consonants", chars: ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"] },
@@ -369,6 +389,14 @@ function getAllowedScripts() {
 }
 function isKana() { return currentScript === 'hiragana' || currentScript === 'katakana'; }
 function isHangul() { return currentScript === 'hangul'; }
+function isKanji() { return currentScript === 'kanji'; }
+
+function getFilteredData() {
+  if (!isKanji()) return currentData;
+  const level = document.getElementById('kanjiLevel')?.value || 'all';
+  if (level === 'all') return currentData;
+  return currentData.filter(c => c.level === level);
+}
 
 function toggleKanaLayout() {
   kanaLayout = kanaLayout === 'gojuon' ? 'iroha' : 'gojuon';
@@ -420,6 +448,7 @@ function selectScript(key) {
   document.getElementById('modeNav').classList.remove('hidden');
   document.getElementById('groupsBtn').style.display = key === 'kanji' ? 'inline-block' : 'none';
   document.getElementById('layoutToggle').classList.toggle('hidden', !isKana());
+  document.getElementById('levelSelect').classList.toggle('hidden', !isKanji());
   document.getElementById('scriptTitle').textContent = SCRIPTS[key].name;
   renderGrid();
   showMode('learn');
@@ -445,10 +474,11 @@ function renderGrid() {
   const grid = document.getElementById('charGrid');
   const prog = getScriptProgress(currentScript);
   const learnedSet = new Set(prog.learned || []);
+  const data = getFilteredData();
   const byChar = {};
-  currentData.forEach(c => { byChar[c.char] = c; });
+  data.forEach(c => { byChar[c.char] = c; });
   const byRoman = {};
-  currentData.forEach(c => { byRoman[c.roman] = c; });
+  data.forEach(c => { byRoman[c.roman] = c; });
 
   grid.className = (isKana() && kanaLayout === 'gojuon') ? 'kana-grid' : 'char-grid';
 
@@ -472,29 +502,46 @@ function renderGrid() {
       html += `<div class="section-title">${group.title}</div>`;
       items.forEach(c => { html += cardHTML(c, learnedSet); });
     });
-    // Any remaining not categorized
     const categorized = new Set(HANGUL_GROUPS.flatMap(g => g.chars));
-    const rest = currentData.filter(c => !categorized.has(c.char));
+    const rest = data.filter(c => !categorized.has(c.char));
     if (rest.length) {
       html += `<div class="section-title">Other</div>`;
       rest.forEach(c => { html += cardHTML(c, learnedSet); });
     }
+  } else if (isKanji()) {
+    const level = document.getElementById('kanjiLevel')?.value || 'all';
+    if (level === 'all') {
+      const levels = ['N5','N4','N3','N2','N1','post-N1'];
+      levels.forEach(lv => {
+        const items = data.filter(c => c.level === lv);
+        if (!items.length) return;
+        html += `<div class="section-title">${lv}</div>`;
+        items.forEach(c => { html += cardHTML(c, learnedSet); });
+      });
+      const unleveled = data.filter(c => !c.level);
+      if (unleveled.length) {
+        html += `<div class="section-title">Other</div>`;
+        unleveled.forEach(c => { html += cardHTML(c, learnedSet); });
+      }
+    } else {
+      html = data.map(c => cardHTML(c, learnedSet)).join('');
+    }
   } else {
-    html = currentData.map(c => cardHTML(c, learnedSet)).join('');
+    html = data.map(c => cardHTML(c, learnedSet)).join('');
   }
 
-  grid.innerHTML = html;
+  grid.innerHTML = html || '<p style="color:var(--muted)">No characters for this selection.</p>';
 
   const summary = document.getElementById('progressSummary');
-  const learnedCount = prog.learned ? prog.learned.length : 0;
-  summary.textContent = `Learned: ${learnedCount} / ${currentData.length}  ·  Best quiz: ${prog.bestQuiz || 0}%`;
+  const learnedCount = prog.learned ? prog.learned.filter(ch => data.some(c => c.char === ch)).length : 0;
+  summary.textContent = `Learned: ${learnedCount} / ${data.length}  ·  Best quiz: ${prog.bestQuiz || 0}%`;
 }
 
 function showDetail(c) {
   currentDetailChar = c;
   document.getElementById('detailChar').textContent = c.char;
   document.getElementById('detailRoman').textContent = c.roman;
-  document.getElementById('detailInfo').textContent = c.info || '';
+  document.getElementById('detailInfo').textContent = (c.info || '') + (c.level ? ` (${c.level})` : '');
   document.getElementById('detailExample').textContent = c.example || '';
   const formsEl = document.getElementById('formsContainer');
   if (c.forms) {
@@ -523,11 +570,12 @@ function markLearned() {
 }
 
 function startQuiz() {
+  const data = getFilteredData();
   quizIndex = 0; quizScore = 0;
-  quizQuestions = [...currentData].sort(() => 0.5 - Math.random()).slice(0, Math.min(12, currentData.length)).map(c => ({
+  quizQuestions = [...data].sort(() => 0.5 - Math.random()).slice(0, Math.min(12, data.length)).map(c => ({
     question: `Which character is "${c.roman}"?`,
     answer: c.char,
-    options: [c.char, ...currentData.filter(x => x.char !== c.char).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.char)].sort(() => 0.5 - Math.random())
+    options: [c.char, ...data.filter(x => x.char !== c.char).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.char)].sort(() => 0.5 - Math.random())
   }));
   showQuestion();
 }
@@ -565,10 +613,12 @@ function checkAnswer(btn, chosen, correct) {
 function nextQuestion() { quizIndex++; showQuestion(); }
 function startFlash() { flashIndex = 0; showFlash(); }
 function showFlash() {
-  const c = currentData[flashIndex % currentData.length];
+  const data = getFilteredData();
+  const c = data[flashIndex % data.length];
+  if (!c) return;
   document.getElementById('flashChar').textContent = c.char;
   document.getElementById('flashRoman').textContent = c.roman;
-  document.getElementById('flashInfo').textContent = c.info || c.example || '';
+  document.getElementById('flashInfo').textContent = (c.info || c.example || '') + (c.level ? ` (${c.level})` : '');
   document.getElementById('flashAnswer').classList.add('hidden');
 }
 function flipFlash() { document.getElementById('flashAnswer').classList.toggle('hidden'); }
