@@ -60,21 +60,21 @@ const SCRIPTS = {
   arabic: {
     name: "Arabic",
     chars: [
-      { char: "ا", roman: "a / alif", info: "Long a or glottal", example: "أحمد" },
-      { char: "ب", roman: "b", info: "b", example: "باب" },
-      { char: "ت", roman: "t", info: "t", example: "تفاح" },
-      { char: "ث", roman: "th", info: "th as in think", example: "ثلاثة" },
-      { char: "ج", roman: "j", info: "j", example: "جميل" },
-      { char: "ح", roman: "h", info: "pharyngeal h", example: "حب" },
-      { char: "خ", roman: "kh", info: "kh", example: "خبز" },
-      { char: "د", roman: "d", info: "d", example: "دار" },
-      { char: "ذ", roman: "dh", info: "dh as in this", example: "ذهب" },
-      { char: "ر", roman: "r", info: "r", example: "رجل" },
-      { char: "ز", roman: "z", info: "z", example: "زيت" },
-      { char: "س", roman: "s", info: "s", example: "سمك" },
-      { char: "ش", roman: "sh", info: "sh", example: "شمس" },
-      { char: "ص", roman: "s", info: "emphatic s", example: "صباح" },
-      { char: "ض", roman: "d", info: "emphatic d", example: "ضوء" }
+      { char: "ا", roman: "alif", info: "Does not connect to the left. Isolated and final look similar.", example: "أحمد", forms: { isolated: "ا", initial: "—", medial: "—", final: "ا" } },
+      { char: "ب", roman: "bāʾ", info: "Connects on both sides.", example: "باب", forms: { isolated: "ب", initial: "بـ", medial: "ـبـ", final: "ـب" } },
+      { char: "ت", roman: "tāʾ", info: "Connects on both sides.", example: "تفاح", forms: { isolated: "ت", initial: "تـ", medial: "ـتـ", final: "ـت" } },
+      { char: "ث", roman: "thāʾ", info: "Connects on both sides.", example: "ثلاثة", forms: { isolated: "ث", initial: "ثـ", medial: "ـثـ", final: "ـث" } },
+      { char: "ج", roman: "jīm", info: "Connects on both sides.", example: "جميل", forms: { isolated: "ج", initial: "جـ", medial: "ـجـ", final: "ـج" } },
+      { char: "ح", roman: "ḥāʾ", info: "Connects on both sides.", example: "حب", forms: { isolated: "ح", initial: "حـ", medial: "ـحـ", final: "ـح" } },
+      { char: "خ", roman: "khāʾ", info: "Connects on both sides.", example: "خبز", forms: { isolated: "خ", initial: "خـ", medial: "ـخـ", final: "ـخ" } },
+      { char: "د", roman: "dāl", info: "Does not connect to the left.", example: "دار", forms: { isolated: "د", initial: "—", medial: "—", final: "د" } },
+      { char: "ذ", roman: "dhāl", info: "Does not connect to the left.", example: "ذهب", forms: { isolated: "ذ", initial: "—", medial: "—", final: "ذ" } },
+      { char: "ر", roman: "rāʾ", info: "Does not connect to the left.", example: "رجل", forms: { isolated: "ر", initial: "—", medial: "—", final: "ر" } },
+      { char: "ز", roman: "zāy", info: "Does not connect to the left.", example: "زيت", forms: { isolated: "ز", initial: "—", medial: "—", final: "ز" } },
+      { char: "س", roman: "sīn", info: "Connects on both sides.", example: "سمك", forms: { isolated: "س", initial: "سـ", medial: "ـسـ", final: "ـس" } },
+      { char: "ش", roman: "shīn", info: "Connects on both sides.", example: "شمس", forms: { isolated: "ش", initial: "شـ", medial: "ـشـ", final: "ـش" } },
+      { char: "ص", roman: "ṣād", info: "Connects on both sides.", example: "صباح", forms: { isolated: "ص", initial: "صـ", medial: "ـصـ", final: "ـص" } },
+      { char: "ض", roman: "ḍād", info: "Connects on both sides.", example: "ضوء", forms: { isolated: "ض", initial: "ضـ", medial: "ـضـ", final: "ـض" } }
     ]
   },
   cyrillic: {
