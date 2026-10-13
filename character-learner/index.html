@@ -86,8 +86,18 @@
     text-align: center;
     cursor: pointer;
     border: 2px solid transparent;
+    position: relative;
   }
   .char-card:hover { border-color: var(--gold); }
+  .char-card.learned { border-color: var(--correct); }
+  .char-card.learned::after {
+    content: "✓";
+    position: absolute;
+    top: 2px;
+    right: 6px;
+    color: var(--correct);
+    font-size: 0.8rem;
+  }
   .char-card .big { font-size: 2.2rem; display: block; }
   .char-card .small { font-size: 0.8rem; color: var(--muted); }
   .big-char { font-size: 6rem; text-align: center; margin: 0.5rem 0; }
@@ -131,6 +141,11 @@
   }
   .forms-table th { background: #2a2a32; }
   .forms-table .form-char { font-size: 2rem; }
+  .progress-summary {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
   footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
 </style>
 </head>
@@ -152,6 +167,7 @@
   <div id="learnView" class="hidden">
     <div class="card">
       <h2 id="scriptTitle">Select a script</h2>
+      <div class="progress-summary" id="progressSummary"></div>
       <div class="char-grid" id="charGrid"></div>
     </div>
     <div class="card hidden" id="detailCard">
@@ -160,6 +176,7 @@
       <p id="detailInfo"></p>
       <p><strong>Example:</strong> <span id="detailExample"></span></p>
       <div id="formsContainer"></div>
+      <button class="primary" onclick="markLearned()">Mark as Learned</button>
       <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
       <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
     </div>
@@ -204,7 +221,7 @@
 </div>
 <footer>
   LanguageStudentDesk · Character Learner<br>
-  Modular core — add new scripts by dropping in a data file.
+  Modular core — add new scripts by dropping in a data file. Progress saved locally.
 </footer>
 
 <script src="data.js"></script>
@@ -215,6 +232,44 @@ let quizIndex = 0;
 let quizScore = 0;
 let quizQuestions = [];
 let flashIndex = 0;
+let currentDetailChar = null;
+
+// Progress storage
+function getProgress() {
+  try {
+    return JSON.parse(localStorage.getItem('lsd-progress') || '{}');
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveProgress(p) {
+  localStorage.setItem('lsd-progress', JSON.stringify(p));
+}
+
+function getScriptProgress(script) {
+  const p = getProgress();
+  return p[script] || { learned: [], bestQuiz: 0 };
+}
+
+function markCharLearned(script, char) {
+  const p = getProgress();
+  if (!p[script]) p[script] = { learned: [], bestQuiz: 0 };
+  if (!p[script].learned.includes(char)) {
+    p[script].learned.push(char);
+    saveProgress(p);
+  }
+}
+
+function updateBestQuiz(script, score, total) {
+  const p = getProgress();
+  if (!p[script]) p[script] = { learned: [], bestQuiz: 0 };
+  const pct = Math.round((score / total) * 100);
+  if (pct > p[script].bestQuiz) {
+    p[script].bestQuiz = pct;
+    saveProgress(p);
+  }
+}
 
 function init() {
   const select = document.getElementById('scriptSelect');
@@ -259,15 +314,23 @@ function showMode(mode) {
 
 function renderGrid() {
   const grid = document.getElementById('charGrid');
+  const prog = getScriptProgress(currentScript);
+  const learnedSet = new Set(prog.learned || []);
+
   grid.innerHTML = currentData.map(c => `
-    <div class="char-card" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+    <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
       <span class="big">${c.char}</span>
       <span class="small">${c.roman}</span>
     </div>
   `).join('');
+
+  const summary = document.getElementById('progressSummary');
+  const learnedCount = prog.learned ? prog.learned.length : 0;
+  summary.textContent = `Learned: ${learnedCount} / ${currentData.length}  ·  Best quiz: ${prog.bestQuiz || 0}%`;
 }
 
 function showDetail(c) {
+  currentDetailChar = c;
   document.getElementById('detailChar').textContent = c.char;
   document.getElementById('detailRoman').textContent = c.roman;
   document.getElementById('detailInfo').textContent = c.info || '';
@@ -300,6 +363,13 @@ function showDetail(c) {
   document.getElementById('detailCard').classList.remove('hidden');
 }
 
+function markLearned() {
+  if (!currentDetailChar || !currentScript) return;
+  markCharLearned(currentScript, currentDetailChar.char);
+  renderGrid();
+  document.getElementById('detailCard').classList.add('hidden');
+}
+
 function startQuiz() {
   quizIndex = 0;
   quizScore = 0;
@@ -313,9 +383,11 @@ function startQuiz() {
 
 function showQuestion() {
   if (quizIndex >= quizQuestions.length) {
+    updateBestQuiz(currentScript, quizScore, quizQuestions.length);
     document.getElementById('quizArea').innerHTML = `<h3>Done!</h3><p>Score: ${quizScore} / ${quizQuestions.length}</p>`;
     document.getElementById('nextBtn').classList.add('hidden');
     document.getElementById('progressBar').style.width = '100%';
+    renderGrid(); // refresh summary if needed
     return;
   }
   const q = quizQuestions[quizIndex];
