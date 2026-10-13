@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Learner — Language Student Desk</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --card: #1a1a20;
+    --accent: #5c6bc0;
+    --accent2: #7e57c2;
+    --gold: #ffd54f;
+    --text: #e8e8e8;
+    --muted: #9e9e9e;
+    --correct: #4caf50;
+    --wrong: #ef5350;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 1.2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+  }
+  header h1 { margin: 0; font-size: 1.6rem; }
+  header p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.9rem; }
+  .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+  .script-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  .script-select button {
+    background: #222;
+    color: var(--text);
+    border: 1px solid #444;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .script-select button.active, .script-select button:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .mode-nav {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  .mode-nav button {
+    background: #2a2a32;
+    color: var(--text);
+    border: 1px solid #555;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .mode-nav button.active { background: var(--accent2); }
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    border: 1px solid #333;
+  }
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.6rem;
+  }
+  .char-card {
+    background: #252530;
+    padding: 0.8rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .char-card:hover { border-color: var(--gold); }
+  .char-card .big { font-size: 2.2rem; display: block; }
+  .char-card .small { font-size: 0.8rem; color: var(--muted); }
+  .big-char { font-size: 6rem; text-align: center; margin: 0.5rem 0; }
+  button.primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  button.primary:hover { opacity: 0.9; }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #252530;
+    border: 1px solid #444;
+    color: var(--text);
+    padding: 0.8rem;
+    margin: 0.4rem 0;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .quiz-option:hover { border-color: var(--gold); }
+  .quiz-option.correct { background: #1b3a1b; border-color: var(--correct); }
+  .quiz-option.wrong { background: #3a1b1b; border-color: var(--wrong); }
+  .progress { height: 6px; background: #333; border-radius: 3px; margin: 0.8rem 0; }
+  .progress-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+  .hidden { display: none; }
+  footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Character Learner</h1>
+  <p>Modular script trainer — Language Student Desk</p>
+</header>
+<div class="container">
+  <div class="script-select" id="scriptSelect"></div>
+
+  <div class="mode-nav hidden" id="modeNav">
+    <button class="active" data-mode="learn">Learn</button>
+    <button data-mode="quiz">Quiz</button>
+    <button data-mode="flash">Flashcards</button>
+    <button data-mode="groups" id="groupsBtn" style="display:none">On-yomi Groups</button>
+  </div>
+
+  <div id="learnView" class="hidden">
+    <div class="card">
+      <h2 id="scriptTitle">Select a script</h2>
+      <div class="char-grid" id="charGrid"></div>
+    </div>
+    <div class="card hidden" id="detailCard">
+      <div class="big-char" id="detailChar"></div>
+      <h3 id="detailRoman" style="text-align:center"></h3>
+      <p id="detailInfo"></p>
+      <p><strong>Example:</strong> <span id="detailExample"></span></p>
+      <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
+      <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
+    </div>
+  </div>
+
+  <div id="quizView" class="hidden">
+    <div class="card">
+      <h2>Recognition Quiz</h2>
+      <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div id="quizArea">
+        <p id="quizQuestion">Select a script to start.</p>
+        <div id="quizOptions"></div>
+      </div>
+      <p id="quizFeedback"></p>
+      <button class="primary hidden" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <div id="flashView" class="hidden">
+    <div class="card" style="text-align:center">
+      <h2>Flashcards</h2>
+      <div class="big-char" id="flashChar">?</div>
+      <div id="flashAnswer" class="hidden">
+        <h3 id="flashRoman"></h3>
+        <p id="flashInfo"></p>
+      </div>
+      <div style="margin-top:1rem">
+        <button class="primary" onclick="flipFlash()">Flip</button>
+        <button class="primary" onclick="nextFlash()">Next</button>
+        <button class="primary" onclick="speak(document.getElementById('flashChar').textContent)">Speak</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="groupsView" class="hidden">
+    <div class="card">
+      <h2>On-yomi Groupings (stub)</h2>
+      <p>Characters that share the same on-reading. Expand this module later.</p>
+      <div id="groupsList"></div>
+    </div>
+  </div>
+</div>
+<footer>
+  LanguageStudentDesk · Character Learner<br>
+  Modular core — add new scripts by dropping in a data file.
+</footer>
+
+<script src="data.js"></script>
+<script>
+let currentScript = null;
+let currentData = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizQuestions = [];
+let flashIndex = 0;
+
+function init() {
+  const select = document.getElementById('scriptSelect');
+  Object.keys(SCRIPTS).forEach(key => {
+    const btn = document.createElement('button');
+    btn.textContent = SCRIPTS[key].name;
+    btn.onclick = () => selectScript(key);
+    select.appendChild(btn);
+  });
+
+  document.querySelectorAll('.mode-nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-nav button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showMode(btn.dataset.mode);
+    });
+  });
+
+  document.getElementById('nextBtn').onclick = nextQuestion;
+}
+
+function selectScript(key) {
+  currentScript = key;
+  currentData = SCRIPTS[key].chars;
+  document.querySelectorAll('.script-select button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('modeNav').classList.remove('hidden');
+  document.getElementById('groupsBtn').style.display = key === 'kanji' ? 'inline-block' : 'none';
+  document.getElementById('scriptTitle').textContent = SCRIPTS[key].name;
+  renderGrid();
+  showMode('learn');
+  if (key === 'kanji') renderGroups();
+}
+
+function showMode(mode) {
+  ['learn','quiz','flash','groups'].forEach(m => {
+    document.getElementById(m + 'View').classList.toggle('hidden', m !== mode);
+  });
+  if (mode === 'quiz') startQuiz();
+  if (mode === 'flash') startFlash();
+}
+
+function renderGrid() {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = currentData.map(c => `
+    <div class="char-card" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+      <span class="big">${c.char}</span>
+      <span class="small">${c.roman}</span>
+    </div>
+  `).join('');
+}
+
+function showDetail(c) {
+  document.getElementById('detailChar').textContent = c.char;
+  document.getElementById('detailRoman').textContent = c.roman;
+  document.getElementById('detailInfo').textContent = c.info || '';
+  document.getElementById('detailExample').textContent = c.example || '';
+  document.getElementById('detailCard').classList.remove('hidden');
+}
+
+function startQuiz() {
+  quizIndex = 0;
+  quizScore = 0;
+  quizQuestions = [...currentData].sort(() => 0.5 - Math.random()).slice(0, Math.min(12, currentData.length)).map(c => ({
+    question: `Which character is "${c.roman}"?`,
+    answer: c.char,
+    options: [c.char, ...currentData.filter(x => x.char !== c.char).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.char)].sort(() => 0.5 - Math.random())
+  }));
+  showQuestion();
+}
+
+function showQuestion() {
+  if (quizIndex >= quizQuestions.length) {
+    document.getElementById('quizArea').innerHTML = `<h3>Done!</h3><p>Score: ${quizScore} / ${quizQuestions.length}</p>`;
+    document.getElementById('nextBtn').classList.add('hidden');
+    document.getElementById('progressBar').style.width = '100%';
+    return;
+  }
+  const q = quizQuestions[quizIndex];
+  document.getElementById('quizQuestion').textContent = q.question;
+  document.getElementById('quizOptions').innerHTML = q.options.map(opt =>
+    `<button class="quiz-option" onclick="checkAnswer(this, '${opt}', '${q.answer}')">${opt}</button>`
+  ).join('');
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('progressBar').style.width = `${(quizIndex / quizQuestions.length) * 100}%`;
+}
+
+function checkAnswer(btn, chosen, correct) {
+  document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    document.getElementById('quizFeedback').textContent = 'Correct!';
+    quizScore++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-option').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+    document.getElementById('quizFeedback').textContent = 'Not quite.';
+  }
+  document.getElementById('nextBtn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  quizIndex++;
+  showQuestion();
+}
+
+function startFlash() {
+  flashIndex = 0;
+  showFlash();
+}
+
+function showFlash() {
+  const c = currentData[flashIndex % currentData.length];
+  document.getElementById('flashChar').textContent = c.char;
+  document.getElementById('flashRoman').textContent = c.roman;
+  document.getElementById('flashInfo').textContent = c.info || c.example || '';
+  document.getElementById('flashAnswer').classList.add('hidden');
+}
+
+function flipFlash() {
+  document.getElementById('flashAnswer').classList.toggle('hidden');
+}
+
+function nextFlash() {
+  flashIndex++;
+  showFlash();
+}
+
+function renderGroups() {
+  const el = document.getElementById('groupsList');
+  if (!SCRIPTS.kanji.groups) {
+    el.innerHTML = '<p>No groups defined yet.</p>';
+    return;
+  }
+  el.innerHTML = SCRIPTS.kanji.groups.map(g => `
+    <div style="margin:0.8rem 0; padding:0.6rem; background:#252530; border-radius:6px">
+      <strong>${g.reading}</strong>: ${g.chars.map(c => c.char).join(' ')}<br>
+      <small>${g.note || ''}</small>
+    </div>
+  `).join('');
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = currentScript === 'arabic' ? 'ar' :
+           currentScript === 'cyrillic' ? 'ru' :
+           currentScript === 'hangul' ? 'ko' :
+           currentScript === 'devanagari' ? 'hi' :
+           'ja';
+  speechSynthesis.speak(u);
+}
+
+init();
+</script>
+</body>
+</html>
