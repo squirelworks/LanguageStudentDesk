@@ -49,6 +49,16 @@ class LanguageStudentDesk:
         self.tree.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
 
+        # Language scope (optional)
+        lang_frame = ttk.Frame(root)
+        lang_frame.pack(fill="x", padx=20, pady=5)
+        ttk.Label(lang_frame, text="Scope to language (optional):").pack(side="left")
+        self.lang_var = tk.StringVar()
+        self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=20, state="readonly")
+        self.lang_combo['values'] = ("", "japanese", "klingon", "arabic", "chinese", "cyrillic", "hangul", "hindi")
+        self.lang_combo.pack(side="left", padx=8)
+        ttk.Label(lang_frame, text="(adds ?lang= to character-learner)", foreground="gray").pack(side="left")
+
         # Buttons
         btn_frame = ttk.Frame(root)
         btn_frame.pack(fill="x", padx=20, pady=15)
@@ -93,8 +103,13 @@ class LanguageStudentDesk:
         item = selection[0]
         path = self.tree.item(item, "values")[0]
         if path and Path(path).exists():
-            webbrowser.open(f"file://{Path(path).resolve()}")
-            self.status.config(text=f"Opened {Path(path).parent.name} in browser")
+            url = f"file://{Path(path).resolve()}"
+            lang = self.lang_var.get().strip()
+            if lang and "character-learner" in path:
+                url += f"?lang={lang}"
+            webbrowser.open(url)
+            scope = f" (lang={lang})" if lang and "character-learner" in path else ""
+            self.status.config(text=f"Opened {Path(path).parent.name} in browser{scope}")
         else:
             messagebox.showwarning("Not found", "The selected tool path does not exist.")
 
@@ -114,7 +129,6 @@ class LanguageStudentDesk:
                 os.system(f'xdg-open "{folder}"')
 
 def main():
-    # Support simple --browser flag (currently just informational; browser is the launch method)
     if "--browser" in sys.argv:
         print("LanguageStudentDesk: browser launch mode active")
 
