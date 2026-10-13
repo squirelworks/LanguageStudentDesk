@@ -17,6 +17,7 @@ from pathlib import Path
 PREFERRED_ORDER = [
     "klingon",
     "resource-learner",
+    "translation-learner",
     "programming-learner",
     "language-learner",
     "grammar-learner",
@@ -68,7 +69,8 @@ class LanguageStudentDesk:
         self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=22, state="readonly")
         self.lang_combo['values'] = (
             "", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi",
-            "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80"
+            "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80",
+            "latin", "english", "python"
         )
         self.lang_combo.pack(side="left", padx=8)
         ttk.Label(lang_frame, text="(adds ?lang= to supported tools)", foreground="gray").pack(side="left")
@@ -129,10 +131,10 @@ class LanguageStudentDesk:
         if path and Path(path).exists():
             url = f"file://{Path(path).resolve()}"
             lang = self.lang_var.get().strip()
-            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner"]):
+            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner"]):
                 url += f"?lang={lang}"
             webbrowser.open(url)
-            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner"]) else ""
+            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner"]) else ""
             self.status.config(text=f"Opened {Path(path).parent.name} in browser{scope}")
         else:
             messagebox.showwarning("Not found", "The selected tool path does not exist.")
