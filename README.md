@@ -35,6 +35,17 @@ Examples:
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`.
 
+## Core language engine
+
+Shared translation and language logic lives in [squirrelator](https://github.com/squirelworks/squirrelator).
+
+LSDesk consumes it for learning tools; squirrelator owns the actual language transformations (human ↔ code, code ↔ code, pseudocode, etc.).
+
+```python
+from squirrelator import translate
+result = translate("print hello", from_lang="english", to_lang="python")
+```
+
 ## Shared language data
 
 See [languages/](languages/) for the emerging data layer (`meta.json` per language). Future grammar, vocabulary, and full language learners will read from here.
