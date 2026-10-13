@@ -137,6 +137,37 @@ const SCRIPTS = {
       { char: "च", roman: "cha", info: "consonant", example: "च" }
     ]
   },
+  klingon: {
+    name: "Klingon (pIqaD)",
+    chars: [
+      { char: "ⱋ", roman: "a", info: "Like 'a' in father", example: "tlhIngan" },
+      { char: "ⱌ", roman: "b", info: "Like English 'b'", example: "baH" },
+      { char: "ⱍ", roman: "ch", info: "Like 'ch' in church", example: "choH" },
+      { char: "ⱎ", roman: "D", info: "Like 'd' but more forceful", example: "Duj" },
+      { char: "ⱏ", roman: "e", info: "Like 'e' in get", example: "legh" },
+      { char: "ⱐ", roman: "gh", info: "Voiced version of H", example: "ghob" },
+      { char: "ⱑ", roman: "H", info: "Harsh 'h' sound", example: "Hol" },
+      { char: "ⱒ", roman: "I", info: "Like 'i' in machine", example: "jIH" },
+      { char: "ⱓ", roman: "j", info: "Like 'j' in job", example: "jatlh" },
+      { char: "ⱔ", roman: "l", info: "Like English 'l'", example: "legh" },
+      { char: "ⱕ", roman: "m", info: "Like English 'm'", example: "maj" },
+      { char: "ⱖ", roman: "n", info: "Like English 'n'", example: "nuq" },
+      { char: "ⱗ", roman: "ng", info: "Like 'ng' in sing", example: "ngan" },
+      { char: "ⱘ", roman: "o", info: "Like 'o' in go", example: "HoD" },
+      { char: "ⱙ", roman: "p", info: "Like English 'p'", example: "puq" },
+      { char: "ⱚ", roman: "q", info: "Like 'k' but further back", example: "qet" },
+      { char: "ⱛ", roman: "Q", info: "Even further back than q", example: "Qapla'" },
+      { char: "ⱜ", roman: "r", info: "Trilled or tapped", example: "ram" },
+      { char: "ⱝ", roman: "S", info: "Like 'sh'", example: "SoH" },
+      { char: "ⱞ", roman: "t", info: "Like English 't'", example: "tlhIngan" },
+      { char: "ⱟ", roman: "tlh", info: "Like 'tl' in atlas", example: "tlhIngan" },
+      { char: "Ⱡ", roman: "u", info: "Like 'oo' in boot", example: "Duj" },
+      { char: "ⱡ", roman: "v", info: "Like English 'v'", example: "vav" },
+      { char: "Ɫ", roman: "w", info: "Like English 'w'", example: "wa'" },
+      { char: "Ᵽ", roman: "y", info: "Like English 'y'", example: "yIH" },
+      { char: "Ɽ", roman: "'", info: "Glottal stop", example: "Qapla'" }
+    ]
+  },
   kanji: {
     name: "Kanji (stub)",
     chars: [
