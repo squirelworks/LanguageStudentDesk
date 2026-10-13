@@ -65,8 +65,11 @@ class LanguageStudentDesk:
         lang_frame.pack(fill="x", padx=20, pady=5)
         ttk.Label(lang_frame, text="Scope to language (optional):").pack(side="left")
         self.lang_var = tk.StringVar()
-        self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=20, state="readonly")
-        self.lang_combo['values'] = ("", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi", "python", "javascript", "rust", "go", "sql", "shell")
+        self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=22, state="readonly")
+        self.lang_combo['values'] = (
+            "", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi",
+            "quickbasic", "brainfuck", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16"
+        )
         self.lang_combo.pack(side="left", padx=8)
         ttk.Label(lang_frame, text="(adds ?lang= to supported tools)", foreground="gray").pack(side="left")
 
@@ -126,7 +129,6 @@ class LanguageStudentDesk:
         if path and Path(path).exists():
             url = f"file://{Path(path).resolve()}"
             lang = self.lang_var.get().strip()
-            # Apply ?lang= to tools that support it
             if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner"]):
                 url += f"?lang={lang}"
             webbrowser.open(url)
