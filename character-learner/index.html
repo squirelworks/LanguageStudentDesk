@@ -113,6 +113,13 @@
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 0.6rem;
   }
+  .kana-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(80px, 1fr));
+    gap: 0.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
   .char-card {
     background: #252530;
     padding: 0.8rem;
@@ -180,6 +187,10 @@
     color: var(--muted);
     margin-bottom: 0.5rem;
   }
+  .layout-toggle {
+    margin: 0.5rem 0 1rem;
+    text-align: center;
+  }
   footer {
     text-align: center;
     padding: 1rem;
@@ -212,6 +223,9 @@
       <div class="card">
         <h2 id="scriptTitle">Select a script</h2>
         <div class="progress-summary" id="progressSummary"></div>
+        <div class="layout-toggle hidden" id="layoutToggle">
+          <button class="primary" id="toggleLayoutBtn" onclick="toggleKanaLayout()">Switch to Iroha order</button>
+        </div>
         <div class="char-grid" id="charGrid"></div>
       </div>
       <div class="card hidden" id="detailCard">
@@ -279,6 +293,7 @@ let quizQuestions = [];
 let flashIndex = 0;
 let currentDetailChar = null;
 let scopedLang = null;
+let kanaLayout = 'gojuon'; // 'gojuon' or 'iroha'
 
 // Language grouping for scoped mode
 const LANG_SCRIPTS = {
@@ -290,6 +305,24 @@ const LANG_SCRIPTS = {
   hangul: ["hangul"],
   hindi: ["devanagari"]
 };
+
+// Gojūon rows (a i u e o) — roman keys
+const GOJUON_ROWS = [
+  ["a", "i", "u", "e", "o"],
+  ["ka", "ki", "ku", "ke", "ko"],
+  ["sa", "shi", "su", "se", "so"],
+  ["ta", "chi", "tsu", "te", "to"],
+  ["na", "ni", "nu", "ne", "no"],
+  ["ha", "hi", "fu", "he", "ho"],
+  ["ma", "mi", "mu", "me", "mo"],
+  ["ya", "", "yu", "", "yo"],
+  ["ra", "ri", "ru", "re", "ro"],
+  ["wa", "", "", "", "wo"],
+  ["n", "", "", "", ""]
+];
+
+// Basic iroha order (roman)
+const IROHA = ["i", "ro", "ha", "ni", "ho", "he", "to", "chi", "ri", "nu", "ru", "wo", "wa", "ka", "yo", "ta", "re", "so", "tsu", "ne", "na", "ra", "mu", "u", "wi", "no", "o", "ku", "ya", "ma", "ke", "fu", "ko", "e", "te", "a", "sa", "ki", "yu", "me", "mi", "shi", "e", "hi", "mo", "se", "su"];
 
 // Progress storage
 function getProgress() {
@@ -333,6 +366,16 @@ function getAllowedScripts() {
   return (LANG_SCRIPTS[scopedLang] || []).filter(k => SCRIPTS[k]);
 }
 
+function isKana() {
+  return currentScript === 'hiragana' || currentScript === 'katakana';
+}
+
+function toggleKanaLayout() {
+  kanaLayout = kanaLayout === 'gojuon' ? 'iroha' : 'gojuon';
+  document.getElementById('toggleLayoutBtn').textContent = kanaLayout === 'gojuon' ? 'Switch to Iroha order' : 'Switch to Gojūon (a-i-u-e-o)';
+  renderGrid();
+}
+
 function init() {
   const params = new URLSearchParams(window.location.search);
   scopedLang = params.get('lang');
@@ -373,7 +416,6 @@ function init() {
 
   document.getElementById('nextBtn').onclick = nextQuestion;
 
-  // Auto-select if only one script in scoped mode
   if (scopedLang && allowed.length === 1) {
     selectScript(allowed[0]);
   }
@@ -383,12 +425,12 @@ function selectScript(key) {
   currentScript = key;
   currentData = SCRIPTS[key].chars;
   document.querySelectorAll('.script-select button').forEach(b => b.classList.remove('active'));
-  // Find and activate the matching button
   document.querySelectorAll('.script-select button').forEach(b => {
     if (b.textContent === SCRIPTS[key].name) b.classList.add('active');
   });
   document.getElementById('modeNav').classList.remove('hidden');
   document.getElementById('groupsBtn').style.display = key === 'kanji' ? 'inline-block' : 'none';
+  document.getElementById('layoutToggle').classList.toggle('hidden', !isKana());
   document.getElementById('scriptTitle').textContent = SCRIPTS[key].name;
   renderGrid();
   showMode('learn');
@@ -407,13 +449,46 @@ function renderGrid() {
   const grid = document.getElementById('charGrid');
   const prog = getScriptProgress(currentScript);
   const learnedSet = new Set(prog.learned || []);
+  const byRoman = {};
+  currentData.forEach(c => { byRoman[c.roman] = c; });
 
-  grid.innerHTML = currentData.map(c => `
-    <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">
-      <span class="big">${c.char}</span>
-      <span class="small">${c.roman}</span>
-    </div>
-  `).join('');
+  grid.className = isKana() && kanaLayout === 'gojuon' ? 'kana-grid' : 'char-grid';
+
+  let html = '';
+  if (isKana() && kanaLayout === 'gojuon') {
+    GOJUON_ROWS.forEach(row => {
+      row.forEach(roman => {
+        if (!roman || !byRoman[roman]) {
+          html += '<div></div>';
+          return;
+        }
+        const c = byRoman[roman];
+        html += `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+          <span class="big">${c.char}</span>
+          <span class="small">${c.roman}</span>
+        </div>`;
+      });
+    });
+    // Append remaining (dakuten etc.) in regular flow if desired — for now show basic table
+  } else if (isKana() && kanaLayout === 'iroha') {
+    IROHA.forEach(roman => {
+      const c = byRoman[roman];
+      if (!c) return;
+      html += `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+        <span class="big">${c.char}</span>
+        <span class="small">${c.roman}</span>
+      </div>`;
+    });
+  } else {
+    html = currentData.map(c => `
+      <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+        <span class="big">${c.char}</span>
+        <span class="small">${c.roman}</span>
+      </div>
+    `).join('');
+  }
+
+  grid.innerHTML = html;
 
   const summary = document.getElementById('progressSummary');
   const learnedCount = prog.learned ? prog.learned.length : 0;
