@@ -68,7 +68,7 @@ class LanguageStudentDesk:
         self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=22, state="readonly")
         self.lang_combo['values'] = (
             "", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi",
-            "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16"
+            "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80"
         )
         self.lang_combo.pack(side="left", padx=8)
         ttk.Label(lang_frame, text="(adds ?lang= to supported tools)", foreground="gray").pack(side="left")
