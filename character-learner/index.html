@@ -120,6 +120,15 @@
     max-width: 700px;
     margin: 0 auto;
   }
+  .section-title {
+    grid-column: 1 / -1;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 1.2rem 0 0.4rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #444;
+  }
   .char-card {
     background: #252530;
     padding: 0.8rem;
@@ -293,9 +302,8 @@ let quizQuestions = [];
 let flashIndex = 0;
 let currentDetailChar = null;
 let scopedLang = null;
-let kanaLayout = 'gojuon'; // 'gojuon' or 'iroha'
+let kanaLayout = 'gojuon';
 
-// Language grouping for scoped mode
 const LANG_SCRIPTS = {
   japanese: ["hiragana", "katakana", "kanji"],
   klingon: ["klingon"],
@@ -306,7 +314,6 @@ const LANG_SCRIPTS = {
   hindi: ["devanagari"]
 };
 
-// Gojūon rows (a i u e o) — roman keys
 const GOJUON_ROWS = [
   ["a", "i", "u", "e", "o"],
   ["ka", "ki", "ku", "ke", "ko"],
@@ -321,27 +328,24 @@ const GOJUON_ROWS = [
   ["n", "", "", "", ""]
 ];
 
-// Basic iroha order (roman)
 const IROHA = ["i", "ro", "ha", "ni", "ho", "he", "to", "chi", "ri", "nu", "ru", "wo", "wa", "ka", "yo", "ta", "re", "so", "tsu", "ne", "na", "ra", "mu", "u", "wi", "no", "o", "ku", "ya", "ma", "ke", "fu", "ko", "e", "te", "a", "sa", "ki", "yu", "me", "mi", "shi", "e", "hi", "mo", "se", "su"];
 
-// Progress storage
+// Hangul groups (by character)
+const HANGUL_GROUPS = [
+  { title: "Basic Vowels", chars: ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅜ"] },
+  { title: "Basic Consonants", chars: ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"] },
+  { title: "Complex Vowels", chars: ["ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"] },
+  { title: "Complex Consonants", chars: ["ㄲ", "ㄳ", "ㄵ", "ㄶ", "ㄸ", "ㅀ", "ㅃ", "ㅄ", "ㅆ", "ㅉ"] }
+];
+
 function getProgress() {
-  try {
-    return JSON.parse(localStorage.getItem('lsd-progress') || '{}');
-  } catch (e) {
-    return {};
-  }
+  try { return JSON.parse(localStorage.getItem('lsd-progress') || '{}'); } catch (e) { return {}; }
 }
-
-function saveProgress(p) {
-  localStorage.setItem('lsd-progress', JSON.stringify(p));
-}
-
+function saveProgress(p) { localStorage.setItem('lsd-progress', JSON.stringify(p)); }
 function getScriptProgress(script) {
   const p = getProgress();
   return p[script] || { learned: [], bestQuiz: 0 };
 }
-
 function markCharLearned(script, char) {
   const p = getProgress();
   if (!p[script]) p[script] = { learned: [], bestQuiz: 0 };
@@ -350,7 +354,6 @@ function markCharLearned(script, char) {
     saveProgress(p);
   }
 }
-
 function updateBestQuiz(script, score, total) {
   const p = getProgress();
   if (!p[script]) p[script] = { learned: [], bestQuiz: 0 };
@@ -360,15 +363,12 @@ function updateBestQuiz(script, score, total) {
     saveProgress(p);
   }
 }
-
 function getAllowedScripts() {
   if (!scopedLang) return Object.keys(SCRIPTS);
   return (LANG_SCRIPTS[scopedLang] || []).filter(k => SCRIPTS[k]);
 }
-
-function isKana() {
-  return currentScript === 'hiragana' || currentScript === 'katakana';
-}
+function isKana() { return currentScript === 'hiragana' || currentScript === 'katakana'; }
+function isHangul() { return currentScript === 'hangul'; }
 
 function toggleKanaLayout() {
   kanaLayout = kanaLayout === 'gojuon' ? 'iroha' : 'gojuon';
@@ -379,24 +379,18 @@ function toggleKanaLayout() {
 function init() {
   const params = new URLSearchParams(window.location.search);
   scopedLang = params.get('lang');
-
   const select = document.getElementById('scriptSelect');
   const allowed = getAllowedScripts();
-
   if (scopedLang && allowed.length === 0) {
     document.getElementById('appSubtitle').textContent = 'Language not found. Falling back to all scripts.';
     scopedLang = null;
   }
-
   if (scopedLang) {
     document.getElementById('appTitle').textContent = 'Character Learner — ' + (scopedLang.charAt(0).toUpperCase() + scopedLang.slice(1));
     document.getElementById('appSubtitle').textContent = 'Scoped to ' + scopedLang;
     document.getElementById('sidebarTitle').textContent = 'Writing systems';
-    if (allowed.length <= 1) {
-      document.getElementById('sidebar').classList.add('hidden');
-    }
+    if (allowed.length <= 1) document.getElementById('sidebar').classList.add('hidden');
   }
-
   const scriptsToShow = scopedLang ? allowed : Object.keys(SCRIPTS);
   scriptsToShow.forEach(key => {
     if (!SCRIPTS[key]) return;
@@ -405,7 +399,6 @@ function init() {
     btn.onclick = () => selectScript(key);
     select.appendChild(btn);
   });
-
   document.querySelectorAll('.mode-nav button').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.mode-nav button').forEach(b => b.classList.remove('active'));
@@ -413,12 +406,8 @@ function init() {
       showMode(btn.dataset.mode);
     });
   });
-
   document.getElementById('nextBtn').onclick = nextQuestion;
-
-  if (scopedLang && allowed.length === 1) {
-    selectScript(allowed[0]);
-  }
+  if (scopedLang && allowed.length === 1) selectScript(allowed[0]);
 }
 
 function selectScript(key) {
@@ -445,47 +434,53 @@ function showMode(mode) {
   if (mode === 'flash') startFlash();
 }
 
+function cardHTML(c, learnedSet) {
+  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+    <span class="big">${c.char}</span>
+    <span class="small">${c.roman}</span>
+  </div>`;
+}
+
 function renderGrid() {
   const grid = document.getElementById('charGrid');
   const prog = getScriptProgress(currentScript);
   const learnedSet = new Set(prog.learned || []);
+  const byChar = {};
+  currentData.forEach(c => { byChar[c.char] = c; });
   const byRoman = {};
   currentData.forEach(c => { byRoman[c.roman] = c; });
 
-  grid.className = isKana() && kanaLayout === 'gojuon' ? 'kana-grid' : 'char-grid';
+  grid.className = (isKana() && kanaLayout === 'gojuon') ? 'kana-grid' : 'char-grid';
 
   let html = '';
   if (isKana() && kanaLayout === 'gojuon') {
     GOJUON_ROWS.forEach(row => {
       row.forEach(roman => {
-        if (!roman || !byRoman[roman]) {
-          html += '<div></div>';
-          return;
-        }
-        const c = byRoman[roman];
-        html += `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
-          <span class="big">${c.char}</span>
-          <span class="small">${c.roman}</span>
-        </div>`;
+        if (!roman || !byRoman[roman]) { html += '<div></div>'; return; }
+        html += cardHTML(byRoman[roman], learnedSet);
       });
     });
-    // Append remaining (dakuten etc.) in regular flow if desired — for now show basic table
   } else if (isKana() && kanaLayout === 'iroha') {
     IROHA.forEach(roman => {
       const c = byRoman[roman];
-      if (!c) return;
-      html += `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
-        <span class="big">${c.char}</span>
-        <span class="small">${c.roman}</span>
-      </div>`;
+      if (c) html += cardHTML(c, learnedSet);
     });
+  } else if (isHangul()) {
+    HANGUL_GROUPS.forEach(group => {
+      const items = group.chars.map(ch => byChar[ch]).filter(Boolean);
+      if (items.length === 0) return;
+      html += `<div class="section-title">${group.title}</div>`;
+      items.forEach(c => { html += cardHTML(c, learnedSet); });
+    });
+    // Any remaining not categorized
+    const categorized = new Set(HANGUL_GROUPS.flatMap(g => g.chars));
+    const rest = currentData.filter(c => !categorized.has(c.char));
+    if (rest.length) {
+      html += `<div class="section-title">Other</div>`;
+      rest.forEach(c => { html += cardHTML(c, learnedSet); });
+    }
   } else {
-    html = currentData.map(c => `
-      <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
-        <span class="big">${c.char}</span>
-        <span class="small">${c.roman}</span>
-      </div>
-    `).join('');
+    html = currentData.map(c => cardHTML(c, learnedSet)).join('');
   }
 
   grid.innerHTML = html;
@@ -501,18 +496,12 @@ function showDetail(c) {
   document.getElementById('detailRoman').textContent = c.roman;
   document.getElementById('detailInfo').textContent = c.info || '';
   document.getElementById('detailExample').textContent = c.example || '';
-
   const formsEl = document.getElementById('formsContainer');
   if (c.forms) {
     formsEl.innerHTML = `
       <h4>Contextual forms</h4>
       <table class="forms-table">
-        <tr>
-          <th>Isolated</th>
-          <th>Initial</th>
-          <th>Medial</th>
-          <th>Final</th>
-        </tr>
+        <tr><th>Isolated</th><th>Initial</th><th>Medial</th><th>Final</th></tr>
         <tr>
           <td class="form-char">${c.forms.isolated || '—'}</td>
           <td class="form-char">${c.forms.initial || '—'}</td>
@@ -522,10 +511,7 @@ function showDetail(c) {
       </table>
       <p style="font-size:0.85rem; color:var(--muted)">Letters that do not connect to the left show — for initial and medial.</p>
     `;
-  } else {
-    formsEl.innerHTML = '';
-  }
-
+  } else formsEl.innerHTML = '';
   document.getElementById('detailCard').classList.remove('hidden');
 }
 
@@ -537,8 +523,7 @@ function markLearned() {
 }
 
 function startQuiz() {
-  quizIndex = 0;
-  quizScore = 0;
+  quizIndex = 0; quizScore = 0;
   quizQuestions = [...currentData].sort(() => 0.5 - Math.random()).slice(0, Math.min(12, currentData.length)).map(c => ({
     question: `Which character is "${c.roman}"?`,
     answer: c.char,
@@ -546,7 +531,6 @@ function startQuiz() {
   }));
   showQuestion();
 }
-
 function showQuestion() {
   if (quizIndex >= quizQuestions.length) {
     updateBestQuiz(currentScript, quizScore, quizQuestions.length);
@@ -565,7 +549,6 @@ function showQuestion() {
   document.getElementById('nextBtn').classList.add('hidden');
   document.getElementById('progressBar').style.width = `${(quizIndex / quizQuestions.length) * 100}%`;
 }
-
 function checkAnswer(btn, chosen, correct) {
   document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
   if (chosen === correct) {
@@ -574,24 +557,13 @@ function checkAnswer(btn, chosen, correct) {
     quizScore++;
   } else {
     btn.classList.add('wrong');
-    document.querySelectorAll('.quiz-option').forEach(b => {
-      if (b.textContent === correct) b.classList.add('correct');
-    });
+    document.querySelectorAll('.quiz-option').forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
     document.getElementById('quizFeedback').textContent = 'Not quite.';
   }
   document.getElementById('nextBtn').classList.remove('hidden');
 }
-
-function nextQuestion() {
-  quizIndex++;
-  showQuestion();
-}
-
-function startFlash() {
-  flashIndex = 0;
-  showFlash();
-}
-
+function nextQuestion() { quizIndex++; showQuestion(); }
+function startFlash() { flashIndex = 0; showFlash(); }
 function showFlash() {
   const c = currentData[flashIndex % currentData.length];
   document.getElementById('flashChar').textContent = c.char;
@@ -599,22 +571,11 @@ function showFlash() {
   document.getElementById('flashInfo').textContent = c.info || c.example || '';
   document.getElementById('flashAnswer').classList.add('hidden');
 }
-
-function flipFlash() {
-  document.getElementById('flashAnswer').classList.toggle('hidden');
-}
-
-function nextFlash() {
-  flashIndex++;
-  showFlash();
-}
-
+function flipFlash() { document.getElementById('flashAnswer').classList.toggle('hidden'); }
+function nextFlash() { flashIndex++; showFlash(); }
 function renderGroups() {
   const el = document.getElementById('groupsList');
-  if (!SCRIPTS.kanji.groups) {
-    el.innerHTML = '<p>No groups defined yet.</p>';
-    return;
-  }
+  if (!SCRIPTS.kanji.groups) { el.innerHTML = '<p>No groups defined yet.</p>'; return; }
   el.innerHTML = SCRIPTS.kanji.groups.map(g => `
     <div style="margin:0.8rem 0; padding:0.6rem; background:#252530; border-radius:6px">
       <strong>${g.reading}</strong>: ${g.chars.map(c => c.char).join(' ')}<br>
@@ -622,18 +583,12 @@ function renderGroups() {
     </div>
   `).join('');
 }
-
 function speak(text) {
   if (!window.speechSynthesis) return;
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = currentScript === 'arabic' ? 'ar' :
-           currentScript === 'cyrillic' ? 'ru' :
-           currentScript === 'hangul' ? 'ko' :
-           currentScript === 'devanagari' ? 'hi' :
-           'ja';
+  u.lang = currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
   speechSynthesis.speak(u);
 }
-
 init();
 </script>
 </body>
