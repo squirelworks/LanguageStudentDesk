@@ -1,0 +1,8 @@
+{
+  "id": "klingon",
+  "name": "Klingon",
+  "nativeName": "tlhIngan Hol",
+  "writingSystems": ["pIqaD"],
+  "characterKeys": ["klingon"],
+  "notes": "pIqaD script."
+}

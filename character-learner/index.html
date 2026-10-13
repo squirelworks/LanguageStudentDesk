@@ -50,6 +50,7 @@
     flex-direction: column;
     flex-shrink: 0;
   }
+  .sidebar.hidden { display: none; }
   .sidebar h3 {
     margin: 0;
     padding: 1rem;
@@ -191,12 +192,12 @@
 </head>
 <body>
 <header>
-  <h1>Character Learner</h1>
-  <p>Modular script trainer — Language Student Desk</p>
+  <h1 id="appTitle">Character Learner</h1>
+  <p id="appSubtitle">Modular script trainer — Language Student Desk</p>
 </header>
 <div class="app-body">
-  <aside class="sidebar">
-    <h3>Scripts</h3>
+  <aside class="sidebar" id="sidebar">
+    <h3 id="sidebarTitle">Scripts</h3>
     <div class="script-select" id="scriptSelect"></div>
   </aside>
   <div class="main-content">
@@ -277,6 +278,18 @@ let quizScore = 0;
 let quizQuestions = [];
 let flashIndex = 0;
 let currentDetailChar = null;
+let scopedLang = null;
+
+// Language grouping for scoped mode
+const LANG_SCRIPTS = {
+  japanese: ["hiragana", "katakana", "kanji"],
+  klingon: ["klingon"],
+  arabic: ["arabic"],
+  chinese: ["kanji"],
+  cyrillic: ["cyrillic"],
+  hangul: ["hangul"],
+  hindi: ["devanagari"]
+};
 
 // Progress storage
 function getProgress() {
@@ -315,9 +328,35 @@ function updateBestQuiz(script, score, total) {
   }
 }
 
+function getAllowedScripts() {
+  if (!scopedLang) return Object.keys(SCRIPTS);
+  return (LANG_SCRIPTS[scopedLang] || []).filter(k => SCRIPTS[k]);
+}
+
 function init() {
+  const params = new URLSearchParams(window.location.search);
+  scopedLang = params.get('lang');
+
   const select = document.getElementById('scriptSelect');
-  Object.keys(SCRIPTS).forEach(key => {
+  const allowed = getAllowedScripts();
+
+  if (scopedLang && allowed.length === 0) {
+    document.getElementById('appSubtitle').textContent = 'Language not found. Falling back to all scripts.';
+    scopedLang = null;
+  }
+
+  if (scopedLang) {
+    document.getElementById('appTitle').textContent = 'Character Learner — ' + (scopedLang.charAt(0).toUpperCase() + scopedLang.slice(1));
+    document.getElementById('appSubtitle').textContent = 'Scoped to ' + scopedLang;
+    document.getElementById('sidebarTitle').textContent = 'Writing systems';
+    if (allowed.length <= 1) {
+      document.getElementById('sidebar').classList.add('hidden');
+    }
+  }
+
+  const scriptsToShow = scopedLang ? allowed : Object.keys(SCRIPTS);
+  scriptsToShow.forEach(key => {
+    if (!SCRIPTS[key]) return;
     const btn = document.createElement('button');
     btn.textContent = SCRIPTS[key].name;
     btn.onclick = () => selectScript(key);
@@ -333,13 +372,21 @@ function init() {
   });
 
   document.getElementById('nextBtn').onclick = nextQuestion;
+
+  // Auto-select if only one script in scoped mode
+  if (scopedLang && allowed.length === 1) {
+    selectScript(allowed[0]);
+  }
 }
 
 function selectScript(key) {
   currentScript = key;
   currentData = SCRIPTS[key].chars;
   document.querySelectorAll('.script-select button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  // Find and activate the matching button
+  document.querySelectorAll('.script-select button').forEach(b => {
+    if (b.textContent === SCRIPTS[key].name) b.classList.add('active');
+  });
   document.getElementById('modeNav').classList.remove('hidden');
   document.getElementById('groupsBtn').style.display = key === 'kanji' ? 'inline-block' : 'none';
   document.getElementById('scriptTitle').textContent = SCRIPTS[key].name;
@@ -362,7 +409,7 @@ function renderGrid() {
   const learnedSet = new Set(prog.learned || []);
 
   grid.innerHTML = currentData.map(c => `
-    <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+    <div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">
       <span class="big">${c.char}</span>
       <span class="small">${c.roman}</span>
     </div>

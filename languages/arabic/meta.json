@@ -1,0 +1,8 @@
+{
+  "id": "arabic",
+  "name": "Arabic",
+  "nativeName": "العربية",
+  "writingSystems": ["arabic"],
+  "characterKeys": ["arabic"],
+  "notes": "Abjad with contextual forms (isolated, initial, medial, final)."
+}
