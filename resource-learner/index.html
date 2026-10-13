@@ -12,6 +12,7 @@
     --gold: #ffd54f;
     --text: #e8e8e8;
     --muted: #9e9e9e;
+    --sidebar: #141418;
   }
   * { box-sizing: border-box; }
   body {
@@ -19,124 +20,263 @@
     background: var(--bg);
     color: var(--text);
     margin: 0;
-    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   header {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
-    padding: 1.5rem;
+    padding: 1.2rem 1.5rem;
     text-align: center;
     border-bottom: 3px solid var(--accent);
   }
-  header h1 { margin: 0; font-size: 1.8rem; }
-  header p { margin: 0.3rem 0 0; color: var(--muted); }
-  main { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
+  header h1 { margin: 0; font-size: 1.6rem; }
+  header p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
+  .layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  .sidebar {
+    width: 220px;
+    background: var(--sidebar);
+    border-right: 1px solid #2a2a32;
+    padding: 1rem 0.6rem;
+    overflow-y: auto;
+  }
+  .sidebar h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 0.4rem 0.6rem 0.6rem;
+  }
+  .lang-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    padding: 0.55rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .lang-btn:hover, .lang-btn.active {
+    background: #2a2a32;
+  }
+  .lang-btn.active { color: var(--accent); font-weight: 600; }
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem 1.5rem;
+  }
   .card {
     background: var(--card);
     border-radius: 10px;
-    padding: 1.2rem;
+    padding: 1.1rem 1.2rem;
     margin-bottom: 1rem;
-    border: 1px solid #333;
+    border: 1px solid #2a2a32;
   }
+  .card h2 { margin: 0 0 0.8rem; font-size: 1.15rem; }
   .resource {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 0.8rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid #2a2a32;
   }
   .resource:last-child { border-bottom: none; }
-  .resource h3 { margin: 0 0 0.3rem; font-size: 1.1rem; }
+  .resource h3 { margin: 0 0 0.25rem; font-size: 1.05rem; }
   .resource .meta { color: var(--muted); font-size: 0.85rem; }
-  .stars { color: var(--gold); }
+  .stars { color: var(--gold); white-space: nowrap; }
   .tag {
     display: inline-block;
     background: #2a2a32;
-    padding: 0.15rem 0.5rem;
+    padding: 0.12rem 0.45rem;
     border-radius: 4px;
-    font-size: 0.75rem;
-    margin-right: 0.3rem;
+    font-size: 0.72rem;
+    margin-right: 0.25rem;
   }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
   footer {
     text-align: center;
-    padding: 1.5rem;
+    padding: 1rem;
     color: var(--muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    border-top: 1px solid #2a2a32;
   }
+  .hidden { display: none; }
 </style>
 </head>
 <body>
 <header>
   <h1>Resource Learner</h1>
-  <p>Collect, rank, and improve language-learning resources — the original goal of Language Student Desk</p>
+  <p>General resources and Klingon are always shown. Select a language for specialized lists.</p>
 </header>
-<main>
-  <div class="card">
-    <h2>Japanese</h2>
-    <div class="resource">
-      <div>
-        <h3><a href="https://www.tanos.co.uk" target="_blank">Tanos.co.uk</a></h3>
-        <div class="meta">JLPT lists, kanji, vocabulary, grammar · Free</div>
-        <div><span class="tag">kanji</span><span class="tag">vocab</span><span class="tag">JLPT</span></div>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Languages</h2>
+    <button class="lang-btn" data-lang="japanese">Japanese</button>
+    <button class="lang-btn" data-lang="arabic">Arabic</button>
+    <button class="lang-btn" data-lang="korean">Korean</button>
+    <button class="lang-btn" data-lang="chinese">Chinese</button>
+    <button class="lang-btn" data-lang="hindi">Hindi</button>
+    <button class="lang-btn" data-lang="cyrillic">Cyrillic</button>
+  </aside>
+  <main class="content" id="main">
+    <!-- General + Klingon always visible -->
+    <div class="card">
+      <h2>General Resources</h2>
+      <div class="resource">
+        <div>
+          <h3><a href="https://apps.ankiweb.net" target="_blank">Anki</a></h3>
+          <div class="meta">Spaced-repetition flashcards · Free / open source</div>
+          <div><span class="tag">SRS</span><span class="tag">custom</span><span class="tag">all languages</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
       </div>
-      <div class="stars">★★★★☆</div>
-    </div>
-    <div class="resource">
-      <div>
-        <h3>Japanese From Zero!</h3>
-        <div class="meta">Structured beginner series (books + YouTube) · Paid / Free videos</div>
-        <div><span class="tag">beginner</span><span class="tag">grammar</span><span class="tag">structured</span></div>
+      <div class="resource">
+        <div>
+          <h3><a href="https://www.tanos.co.uk" target="_blank">Tanos.co.uk</a></h3>
+          <div class="meta">JLPT lists, kanji, vocabulary, grammar · Free</div>
+          <div><span class="tag">JLPT</span><span class="tag">reference</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
       </div>
-      <div class="stars">★★★★☆</div>
     </div>
-    <div class="resource">
-      <div>
-        <h3>Anki</h3>
-        <div class="meta">Spaced-repetition flashcards · Free / open</div>
-        <div><span class="tag">SRS</span><span class="tag">custom</span></div>
-      </div>
-      <div class="stars">★★★★★</div>
-    </div>
-    <div class="resource">
-      <div>
-        <h3>TenguGo Kanji / Kana</h3>
-        <div class="meta">Character trainers (inspiration for Character Learner) · Paid</div>
-        <div><span class="tag">kana</span><span class="tag">kanji</span></div>
-      </div>
-      <div class="stars">★★★★☆</div>
-    </div>
-  </div>
 
-  <div class="card">
-    <h2>Other languages</h2>
-    <div class="resource">
-      <div>
-        <h3>Klingon (pIqaD)</h3>
-        <div class="meta">Official resources are sparse; this Desk's Klingon learner focuses on the script</div>
-        <div><span class="tag">constructed</span><span class="tag">script</span></div>
+    <div class="card">
+      <h2>Klingon (always shown)</h2>
+      <div class="resource">
+        <div>
+          <h3>Language Student Desk — Klingon learner</h3>
+          <div class="meta">pIqaD script, vocab, grammar, and Reader section</div>
+          <div><span class="tag">script</span><span class="tag">pIqaD</span><span class="tag">flagship</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
       </div>
-      <div class="stars">★★★☆☆</div>
-    </div>
-    <div class="resource">
-      <div>
-        <h3>Arabic, Korean, Chinese, etc.</h3>
-        <div class="meta">Add your preferred textbooks, apps, and sites here</div>
-        <div><span class="tag">placeholder</span></div>
+      <div class="resource">
+        <div>
+          <h3>The Klingon Dictionary / KLI</h3>
+          <div class="meta">Canonical reference materials</div>
+          <div><span class="tag">dictionary</span><span class="tag">grammar</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
       </div>
-      <div class="stars">★★☆☆☆</div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>Notes</h2>
-    <p>This is the seed of the original Resource Learner idea: a place to rank what works, note improvements, and eventually feed better tools back into the Desk.</p>
-    <p>Future versions can add user ratings, local notes, links to specific lessons, and export into vocabulary or grammar learners.</p>
-  </div>
-</main>
+    <!-- Language-specific panels -->
+    <div class="card lang-panel" id="panel-japanese">
+      <h2>Japanese</h2>
+      <div class="resource">
+        <div>
+          <h3>Japanese From Zero!</h3>
+          <div class="meta">Structured beginner series (books + YouTube)</div>
+          <div><span class="tag">beginner</span><span class="tag">grammar</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+      </div>
+      <div class="resource">
+        <div>
+          <h3>TenguGo Kanji / Kana</h3>
+          <div class="meta">Character trainers (inspiration for Character Learner)</div>
+          <div><span class="tag">kana</span><span class="tag">kanji</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+      </div>
+    </div>
+
+    <div class="card lang-panel" id="panel-arabic">
+      <h2>Arabic</h2>
+      <div class="resource">
+        <div>
+          <h3>Alif Baa / Al-Kitaab series</h3>
+          <div class="meta">Standard university textbooks</div>
+          <div><span class="tag">textbook</span><span class="tag">script</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+      </div>
+    </div>
+
+    <div class="card lang-panel" id="panel-korean">
+      <h2>Korean</h2>
+      <div class="resource">
+        <div>
+          <h3>Talk To Me In Korean</h3>
+          <div class="meta">Podcasts, lessons, and textbooks</div>
+          <div><span class="tag">beginner</span><span class="tag">audio</span></div>
+        </div>
+        <div class="stars">★★★★☆</div>
+      </div>
+    </div>
+
+    <div class="card lang-panel" id="panel-chinese">
+      <h2>Chinese</h2>
+      <div class="resource">
+        <div>
+          <h3>Pleco</h3>
+          <div class="meta">Dictionary and flashcards</div>
+          <div><span class="tag">dictionary</span><span class="tag">SRS</span></div>
+        </div>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+
+    <div class="card lang-panel" id="panel-hindi">
+      <h2>Hindi</h2>
+      <div class="resource">
+        <div>
+          <h3>Add resources here</h3>
+          <div class="meta">Textbooks, apps, and sites</div>
+          <div><span class="tag">placeholder</span></div>
+        </div>
+        <div class="stars">★★☆☆☆</div>
+      </div>
+    </div>
+
+    <div class="card lang-panel" id="panel-cyrillic">
+      <h2>Cyrillic / Russian</h2>
+      <div class="resource">
+        <div>
+          <h3>Add resources here</h3>
+          <div class="meta">Textbooks, apps, and sites</div>
+          <div><span class="tag">placeholder</span></div>
+        </div>
+        <div class="stars">★★☆☆☆</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Notes</h2>
+      <p>General tools (Anki, etc.) and Klingon stay visible for everyone. Language-specific lists appear when you select a language in the sidebar.</p>
+    </div>
+  </main>
+</div>
 <footer>
   LanguageStudentDesk · Resource Learner<br>
-  Original project intention — collect and improve the best learning resources.
+  General resources and Klingon always shown · specialized lists under each language.
 </footer>
+
+<script>
+const buttons = document.querySelectorAll('.lang-btn');
+const panels = document.querySelectorAll('.lang-panel');
+
+function showLang(lang) {
+  panels.forEach(p => p.classList.add('hidden'));
+  const target = document.getElementById('panel-' + lang);
+  if (target) target.classList.remove('hidden');
+  buttons.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+}
+
+// Hide all language panels by default
+panels.forEach(p => p.classList.add('hidden'));
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => showLang(btn.dataset.lang));
+});
+</script>
 </body>
 </html>
