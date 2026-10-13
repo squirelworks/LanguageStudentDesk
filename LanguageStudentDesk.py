@@ -13,10 +13,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
 
-# Preferred order: Klingon flagship, then the core learners (resource first as original intent)
+# Preferred order: Klingon flagship, then the core learners
 PREFERRED_ORDER = [
     "klingon",
     "resource-learner",
+    "programming-learner",
     "language-learner",
     "grammar-learner",
     "vocabulary-learner",
@@ -65,9 +66,9 @@ class LanguageStudentDesk:
         ttk.Label(lang_frame, text="Scope to language (optional):").pack(side="left")
         self.lang_var = tk.StringVar()
         self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=20, state="readonly")
-        self.lang_combo['values'] = ("", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi")
+        self.lang_combo['values'] = ("", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi", "python", "javascript", "rust", "go", "sql", "shell")
         self.lang_combo.pack(side="left", padx=8)
-        ttk.Label(lang_frame, text="(adds ?lang= to character-learner)", foreground="gray").pack(side="left")
+        ttk.Label(lang_frame, text="(adds ?lang= to supported tools)", foreground="gray").pack(side="left")
 
         # Buttons
         btn_frame = ttk.Frame(root)
@@ -125,10 +126,11 @@ class LanguageStudentDesk:
         if path and Path(path).exists():
             url = f"file://{Path(path).resolve()}"
             lang = self.lang_var.get().strip()
-            if lang and "character-learner" in path:
+            # Apply ?lang= to tools that support it
+            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner"]):
                 url += f"?lang={lang}"
             webbrowser.open(url)
-            scope = f" (lang={lang})" if lang and "character-learner" in path else ""
+            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner"]) else ""
             self.status.config(text=f"Opened {Path(path).parent.name} in browser{scope}")
         else:
             messagebox.showwarning("Not found", "The selected tool path does not exist.")

@@ -20,16 +20,19 @@ The GUI stays open and launches micro-apps in your system browser.
 
 ### Language-scoped launch
 
-In the Desk, select a tool (especially Character Learner) and optionally choose a language from the dropdown. This opens the tool with `?lang=<id>` so it scopes itself to that language only.
+In the Desk, select a tool and optionally choose a language from the dropdown. This opens the tool with `?lang=<id>` where supported.
 
 Examples:
 - `character-learner/index.html?lang=japanese` → only hiragana, katakana, kanji
 - `character-learner/index.html?lang=klingon` → only pIqaD
-- Open without `?lang=` → full multi-language sidebar (standalone mode)
+- `programming-learner/index.html?lang=python` → Python panel
+- Open without `?lang=` → full multi-language / overview mode
 
 ## Tools
 
 - [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section.
+- [Resource Learner](resource-learner/) — General resources always visible; specialized lists under each language. Klingon always shown.
+- [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`.
 
 ## Shared language data
