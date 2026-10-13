@@ -1,6 +1,6 @@
 // Modular script data for Character Learner
 // Kanji expanded by JLPT level (N5–N1 + post-N1)
-// Full N5 set included; higher levels have representative entries and are ready for expansion
+// On-yomi groups implemented
 
 const SCRIPTS = {
   hiragana: {
@@ -343,8 +343,111 @@ const SCRIPTS = {
       { char: "饗", roman: "kyou", info: "banquet", level: "post-N1" }
     ],
     groups: [
-      { reading: "on: ka", note: "Example on-yomi group", chars: [{ char: "火", roman: "ka" }, { char: "花", roman: "ka" }] },
-      { reading: "on: sui", note: "Water-related", chars: [{ char: "水", roman: "sui" }] }
+      {
+        reading: "ka (か)",
+        note: "Common on-yomi for fire, flower, science, etc.",
+        chars: [
+          { char: "火", roman: "ka" },
+          { char: "花", roman: "ka" },
+          { char: "何", roman: "ka" }
+        ]
+      },
+      {
+        reading: "sui (すい)",
+        note: "Water-related on-yomi",
+        chars: [
+          { char: "水", roman: "sui" }
+        ]
+      },
+      {
+        reading: "nichi / jitsu (にち / じつ)",
+        note: "Day / sun readings",
+        chars: [
+          { char: "日", roman: "nichi / jitsu" }
+        ]
+      },
+      {
+        reading: "getsu / gatsu (げつ / がつ)",
+        note: "Month / moon",
+        chars: [
+          { char: "月", roman: "getsu / gatsu" }
+        ]
+      },
+      {
+        reading: "jin / nin (じん / にん)",
+        note: "Person",
+        chars: [
+          { char: "人", roman: "jin / nin" }
+        ]
+      },
+      {
+        reading: "sei / shou (せい / しょう)",
+        note: "Life / birth",
+        chars: [
+          { char: "生", roman: "sei / shou" }
+        ]
+      },
+      {
+        reading: "kou (こう)",
+        note: "High, school, mouth, etc.",
+        chars: [
+          { char: "高", roman: "kou" },
+          { char: "校", roman: "kou" },
+          { char: "口", roman: "kou" }
+        ]
+      },
+      {
+        reading: "den (でん)",
+        note: "Electricity, rice field",
+        chars: [
+          { char: "電", roman: "den" },
+          { char: "田", roman: "den" }
+        ]
+      },
+      {
+        reading: "sha (しゃ)",
+        note: "Vehicle, company",
+        chars: [
+          { char: "車", roman: "sha" }
+        ]
+      },
+      {
+        reading: "gaku (がく)",
+        note: "Study / learning",
+        chars: [
+          { char: "学", roman: "gaku" }
+        ]
+      },
+      {
+        reading: "kai (かい)",
+        note: "Meet, sea",
+        chars: [
+          { char: "会", roman: "kai" },
+          { char: "海", roman: "kai" }
+        ]
+      },
+      {
+        reading: "hon (ほん)",
+        note: "Book / origin",
+        chars: [
+          { char: "本", roman: "hon" }
+        ]
+      },
+      {
+        reading: "go (ご)",
+        note: "Language, five",
+        chars: [
+          { char: "語", roman: "go" },
+          { char: "五", roman: "go" }
+        ]
+      },
+      {
+        reading: "koku (こく)",
+        note: "Country",
+        chars: [
+          { char: "国", roman: "koku" }
+        ]
+      }
     ]
   }
 };
