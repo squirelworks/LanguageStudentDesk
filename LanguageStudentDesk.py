@@ -17,6 +17,7 @@ from pathlib import Path
 PREFERRED_ORDER = [
     "klingon",
     "resource-learner",
+    "reference-learner",
     "translation-learner",
     "programming-learner",
     "language-learner",
@@ -131,10 +132,10 @@ class LanguageStudentDesk:
         if path and Path(path).exists():
             url = f"file://{Path(path).resolve()}"
             lang = self.lang_var.get().strip()
-            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner"]):
+            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner", "reference-learner"]):
                 url += f"?lang={lang}"
             webbrowser.open(url)
-            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner"]) else ""
+            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner", "reference-learner"]) else ""
             self.status.config(text=f"Opened {Path(path).parent.name} in browser{scope}")
         else:
             messagebox.showwarning("Not found", "The selected tool path does not exist.")

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference Learner — Language Student Desk</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --card: #1a1a20;
+    --accent: #42a5f5;
+    --text: #e8e8e8;
+    --muted: #9e9e9e;
+    --sidebar: #141418;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #1a1a2e, #0d47a1);
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--accent);
+  }
+  header h1 { margin: 0; font-size: 1.6rem; }
+  header p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
+  .layout { display: flex; flex: 1; overflow: hidden; }
+  .sidebar {
+    width: 220px;
+    background: var(--sidebar);
+    border-right: 1px solid #2a2a32;
+    padding: 1rem 0.6rem;
+    overflow-y: auto;
+  }
+  .sidebar h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 0.4rem 0.6rem 0.6rem;
+  }
+  .lang-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.92rem;
+  }
+  .lang-btn:hover, .lang-btn.active {
+    background: #2a2a32;
+  }
+  .lang-btn.active { color: var(--accent); font-weight: 600; }
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem 1.5rem;
+  }
+  .search {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    font: inherit;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid #2a2a32;
+  }
+  .card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+  .card .meta { color: var(--muted); font-size: 0.85rem; }
+  .tag {
+    display: inline-block;
+    background: #2a2a32;
+    padding: 0.12rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    margin-right: 0.25rem;
+  }
+  footer {
+    text-align: center;
+    padding: 0.8rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid #2a2a32;
+  }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reference Learner</h1>
+  <p>Quick lookup for language facts, grammar points, and character notes</p>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Languages</h2>
+    <button class="lang-btn active" data-lang="all">All</button>
+    <button class="lang-btn" data-lang="japanese">Japanese</button>
+    <button class="lang-btn" data-lang="klingon">Klingon</button>
+    <button class="lang-btn" data-lang="latin">Latin</button>
+    <button class="lang-btn" data-lang="arabic">Arabic</button>
+    <button class="lang-btn" data-lang="programming">Programming</button>
+  </aside>
+  <main class="content">
+    <input class="search" id="search" type="text" placeholder="Search references..." oninput="filter()">
+    <div id="results"></div>
+  </main>
+</div>
+<footer>
+  LanguageStudentDesk · Reference Learner<br>
+  Quick facts and notes. Expand with more entries as needed.
+</footer>
+
+<script>
+const REFS = [
+  { lang: "japanese", title: "Particles wa / ga", body: "は (wa) marks the topic. が (ga) marks the subject. Topic is broader; subject is the doer of the verb.", tags: ["grammar", "particles"] },
+  { lang: "japanese", title: "On-yomi vs Kun-yomi", body: "On-yomi is the Chinese-derived reading (used in compounds). Kun-yomi is the native Japanese reading (used alone or with okurigana).", tags: ["kanji", "readings"] },
+  { lang: "japanese", title: "Hiragana vs Katakana", body: "Hiragana for native words and grammar. Katakana for foreign words, names, and emphasis.", tags: ["kana", "script"] },
+  { lang: "klingon", title: "Word order", body: "Klingon is OVS (Object-Verb-Subject). Example: tlhIngan jIH = 'I am a Klingon' (literally Klingon am-I).", tags: ["grammar", "OVS"] },
+  { lang: "klingon", title: "pIqaD", body: "The Klingon writing system. Unicode block U+F8D0–U+F8FF (private use). The Desk learner focuses on this script.", tags: ["script", "pIqaD"] },
+  { lang: "latin", title: "Cases", body: "Nominative (subject), Accusative (object), Genitive (possession), Dative (indirect object), Ablative (various), Vocative (address).", tags: ["grammar", "cases"] },
+  { lang: "latin", title: "Verb conjugations", body: "Four conjugations based on the infinitive ending: -are, -ere, -ere, -ire.", tags: ["grammar", "verbs"] },
+  { lang: "arabic", title: "Abjad forms", body: "Letters change shape depending on position: isolated, initial, medial, final. Some letters do not connect to the left.", tags: ["script", "forms"] },
+  { lang: "programming", title: "brainFOOD commands", body: "> < move pointer, + - change value, . , output/input, [ ] loop. Eight commands total.", tags: ["brainfood", "esolang"] },
+  { lang: "programming", title: "Z80 registers", body: "A (accumulator), B C D E H L, and pairs BC DE HL. Also IX IY and alternate set.", tags: ["z80", "assembly"] },
+  { lang: "programming", title: "QuickBASIC structure", body: "Optional line numbers. SUB and FUNCTION for procedures. FOR...NEXT, IF...THEN, WHILE.", tags: ["quickbasic", "BASIC"] },
+];
+
+let currentLang = "all";
+
+function render(items) {
+  const el = document.getElementById("results");
+  if (!items.length) {
+    el.innerHTML = '<div class="card"><p class="meta">No matches.</p></div>';
+    return;
+  }
+  el.innerHTML = items.map(r => `
+    <div class="card">
+      <h3>${r.title}</h3>
+      <p>${r.body}</p>
+      <div class="meta">${r.tags.map(t => `<span class="tag">${t}</span>`).join("")} · ${r.lang}</div>
+    </div>
+  `).join("");
+}
+
+function filter() {
+  const q = document.getElementById("search").value.toLowerCase();
+  let items = REFS;
+  if (currentLang !== "all") items = items.filter(r => r.lang === currentLang);
+  if (q) items = items.filter(r =>
+    r.title.toLowerCase().includes(q) ||
+    r.body.toLowerCase().includes(q) ||
+    r.tags.some(t => t.includes(q))
+  );
+  render(items);
+}
+
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentLang = btn.dataset.lang;
+    filter();
+  });
+});
+
+// Support ?lang=
+const params = new URLSearchParams(location.search);
+const start = params.get("lang");
+if (start) {
+  const btn = document.querySelector(`[data-lang="${start}"]`);
+  if (btn) btn.click();
+  else filter();
+} else {
+  filter();
+}
+</script>
+</body>
+</html>
