@@ -2,18 +2,39 @@
 
 A collection of language learning tools and a desktop environment launcher.
 
+## Fresh install
+
+```bash
+cd ~/FU
+git clone https://github.com/squirelworks/LanguageStudentDesk
+cd LanguageStudentDesk
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .  # if/when a package is defined; currently just the launcher
+python3 LanguageStudentDesk.py
+```
+
+## Update existing install
+
+```bash
+cd ~/FU/LanguageStudentDesk
+git pull
+source .venv/bin/activate
+python3 LanguageStudentDesk.py
+```
+
 ## Main Desk Launcher
 
 Run the desktop GUI to scan for and launch available tools:
 
 ```bash
-python LanguageStudentDesk.py
+python3 LanguageStudentDesk.py
 ```
 
 Or with the browser flag (informational):
 
 ```bash
-python LanguageStudentDesk.py --browser
+python3 LanguageStudentDesk.py --browser
 ```
 
 The GUI stays open and launches micro-apps in your system browser.
@@ -32,8 +53,10 @@ Examples:
 
 - [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section.
 - [Resource Learner](resource-learner/) — General resources always visible; specialized lists under each language. Klingon always shown.
+- [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
+- [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
-- [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`.
+- [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`. Includes on-yomi groups.
 
 ## Core language engine
 
