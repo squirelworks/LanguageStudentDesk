@@ -559,7 +559,7 @@ function renderGrid() {
       const unleveled = data.filter(c => !c.level);
       if (unleveled.length) {
         html += `<div class="section-title">Other</div>`;
-        unleveled.forEach((c, i) => { html += cardHTML(c, learnedSet, 'u'+i); });
+        unleveled.forEach((c) => { html += cardHTML(c, learnedSet, window._cardIdx++); });
       }
     } else {
       html = data.map((c, i) => cardHTML(c, learnedSet, i)).join('');
