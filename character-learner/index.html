@@ -483,10 +483,10 @@ function showMode(mode) {
   if (mode === 'flash') startFlash();
 }
 
-function cardHTML(c, learnedSet) {
-  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(JSON.parse(this.dataset.char))" data-char='${JSON.stringify(c).replace(/'/g,"&#39;")}' >
+function cardHTML(c, learnedSet, idx) {
+  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" data-idx="${idx}">
     <span class="big">${c.char}</span>
-    <span class="small">${c.roman}</span>
+    <span class="small">${c.roman || ''}</span>
   </div>`;
 }
 
@@ -541,16 +541,31 @@ function renderGrid() {
       const unleveled = data.filter(c => !c.level);
       if (unleveled.length) {
         html += `<div class="section-title">Other</div>`;
-        unleveled.forEach(c => { html += cardHTML(c, learnedSet); });
+        unleveled.forEach((c, i) => { html += cardHTML(c, learnedSet, 'u'+i); });
       }
     } else {
-      html = data.map(c => cardHTML(c, learnedSet)).join('');
+      html = data.map((c, i) => cardHTML(c, learnedSet, i)).join('');
     }
   } else {
-    html = data.map(c => cardHTML(c, learnedSet)).join('');
+    html = data.map((c, i) => cardHTML(c, learnedSet, i)).join('');
   }
 
   grid.innerHTML = html || '<p style="color:var(--muted)">No characters for this selection.</p>';
+  // Store current filtered data for click lookup
+  window._currentGridData = data;
+  grid.onclick = (e) => {
+    const card = e.target.closest('.char-card');
+    if (!card) return;
+    const idx = card.dataset.idx;
+    let c;
+    if (idx && idx.startsWith('u')) {
+      const unleveled = data.filter(x => !x.level);
+      c = unleveled[parseInt(idx.slice(1))];
+    } else {
+      c = data[parseInt(idx)];
+    }
+    if (c) showDetail(c);
+  };
 
   const summary = document.getElementById('progressSummary');
   const learnedCount = prog.learned ? prog.learned.filter(ch => data.some(c => c.char === ch)).length : 0;
