@@ -262,6 +262,7 @@
         <div class="big-char" id="detailChar"></div>
         <h3 id="detailRoman" style="text-align:center"></h3>
         <p id="detailInfo"></p>
+        <div id="detailExtra" style="margin:0.8rem 0; font-size:0.95rem; line-height:1.5;"></div>
         <p><strong>Example:</strong> <span id="detailExample"></span></p>
         <div id="formsContainer"></div>
         <button class="primary" onclick="markLearned()">Mark as Learned</button>
@@ -553,9 +554,18 @@ function renderGrid() {
 function showDetail(c) {
   currentDetailChar = c;
   document.getElementById('detailChar').textContent = c.char;
-  document.getElementById('detailRoman').textContent = c.roman;
+  document.getElementById('detailRoman').textContent = c.roman || '';
   document.getElementById('detailInfo').textContent = (c.info || '') + (c.level ? ` (${c.level})` : '');
   document.getElementById('detailExample').textContent = c.example || '';
+  const extra = [];
+  if (c.on) extra.push(`<strong>On:</strong> ${c.on}`);
+  if (c.kun) extra.push(`<strong>Kun:</strong> ${c.kun}`);
+  if (c.radical) extra.push(`<strong>Radical:</strong> ${c.radical}`);
+  if (c.strokes) extra.push(`<strong>Strokes:</strong> ${c.strokes}`);
+  if (c.grade) extra.push(`<strong>Grade:</strong> ${c.grade}`);
+  if (c.frequency) extra.push(`<strong>Frequency:</strong> ${c.frequency}`);
+  const extraEl = document.getElementById('detailExtra');
+  if (extraEl) extraEl.innerHTML = extra.join('<br>');
   const formsEl = document.getElementById('formsContainer');
   if (c.forms) {
     formsEl.innerHTML = `
