@@ -245,14 +245,14 @@
         </div>
         <div class="level-select hidden" id="levelSelect">
           <label>JLPT Level: 
-            <select id="kanjiLevel" onchange="renderGrid()">
+            <select id="kanjiLevel" onchange="renderGrid(); if(document.getElementById('quizView') && !document.getElementById('quizView').classList.contains('hidden')) startQuiz();">
               <option value="all">All levels</option>
               <option value="N5">N5</option>
               <option value="N4">N4</option>
               <option value="N3">N3</option>
               <option value="N2">N2</option>
               <option value="N1">N1</option>
-              <option value="post-N1">post-N1</option>
+              <option value="post-N1">post-N1 (not in Jōyō set)</option>
             </select>
           </label>
         </div>
@@ -478,7 +478,7 @@ function showMode(mode) {
 }
 
 function cardHTML(c, learnedSet) {
-  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(c).replace(/"/g,'"')})">
+  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(JSON.parse(this.dataset.char))" data-char='${JSON.stringify(c).replace(/'/g,"&#39;")}' >
     <span class="big">${c.char}</span>
     <span class="small">${c.roman}</span>
   </div>`;
@@ -673,7 +673,7 @@ function showGroupDetail(index) {
   const learnedSet = new Set(prog.learned || []);
   document.getElementById('groupDetailChars').innerHTML = g.chars.map(c => {
     const full = currentData.find(x => x.char === c.char) || c;
-    return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(full).replace(/"/g,'"')})">
+    return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(JSON.parse(this.dataset.char))" data-char='${JSON.stringify(full).replace(/'/g,"&#39;")}' >
       <span class="big">${c.char}</span>
       <span class="small">${c.roman || ''}</span>
     </div>`;
