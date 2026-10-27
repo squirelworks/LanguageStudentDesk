@@ -232,7 +232,24 @@
   .layout-with-detail { display: flex; }
   .main-content { flex: 1; }
 
-  </style>
+  
+  .app-body { display: flex !important; height: calc(100vh - 70px); }
+  .sidebar { width: 200px; flex-shrink: 0; overflow-y: auto; }
+  .main-content { flex: 1; min-width: 0; overflow-y: auto; }
+  .detail-sidebar { width: 320px; flex-shrink: 0; overflow-y: auto; border-left: 1px solid #333; }
+  .detail-sidebar.hidden { display: none !important; width: 0; }
+
+
+  @font-face {
+    font-family: 'pIqaD';
+    src: url('https://github.com/dadap/pIqaD-fonts/raw/master/pIqaD-qolqoS.ttf') format('truetype');
+    font-display: swap;
+  }
+  .klingon-char, .char-card .big {
+    font-family: 'pIqaD', 'Klingon pIqaD', sans-serif;
+  }
+
+</style>
 </head>
 <body>
 <header>
@@ -491,6 +508,7 @@ function cardHTML(c, learnedSet, idx) {
 }
 
 function renderGrid() {
+  window._cardIdx = 0;
   const grid = document.getElementById('charGrid');
   const prog = getScriptProgress(currentScript);
   const learnedSet = new Set(prog.learned || []);
@@ -507,26 +525,26 @@ function renderGrid() {
     GOJUON_ROWS.forEach(row => {
       row.forEach(roman => {
         if (!roman || !byRoman[roman]) { html += '<div></div>'; return; }
-        html += cardHTML(byRoman[roman], learnedSet);
+        html += cardHTML(byRoman[roman], learnedSet, window._cardIdx++);
       });
     });
   } else if (isKana() && kanaLayout === 'iroha') {
     IROHA.forEach(roman => {
       const c = byRoman[roman];
-      if (c) html += cardHTML(c, learnedSet);
+      if (c) html += cardHTML(c, learnedSet, window._cardIdx++);
     });
   } else if (isHangul()) {
     HANGUL_GROUPS.forEach(group => {
       const items = group.chars.map(ch => byChar[ch]).filter(Boolean);
       if (items.length === 0) return;
       html += `<div class="section-title">${group.title}</div>`;
-      items.forEach(c => { html += cardHTML(c, learnedSet); });
+      items.forEach(c => { html += cardHTML(c, learnedSet, window._cardIdx++); });
     });
     const categorized = new Set(HANGUL_GROUPS.flatMap(g => g.chars));
     const rest = data.filter(c => !categorized.has(c.char));
     if (rest.length) {
       html += `<div class="section-title">Other</div>`;
-      rest.forEach(c => { html += cardHTML(c, learnedSet); });
+      rest.forEach(c => { html += cardHTML(c, learnedSet, window._cardIdx++); });
     }
   } else if (isKanji()) {
     const level = document.getElementById('kanjiLevel')?.value || 'all';
@@ -536,7 +554,7 @@ function renderGrid() {
         const items = data.filter(c => c.level === lv);
         if (!items.length) return;
         html += `<div class="section-title">${lv}</div>`;
-        items.forEach(c => { html += cardHTML(c, learnedSet); });
+        items.forEach(c => { html += cardHTML(c, learnedSet, window._cardIdx++); });
       });
       const unleveled = data.filter(c => !c.level);
       if (unleveled.length) {
@@ -551,19 +569,11 @@ function renderGrid() {
   }
 
   grid.innerHTML = html || '<p style="color:var(--muted)">No characters for this selection.</p>';
-  // Store current filtered data for click lookup
-  window._currentGridData = data;
+  window._gridData = data;
   grid.onclick = (e) => {
     const card = e.target.closest('.char-card');
-    if (!card) return;
-    const idx = card.dataset.idx;
-    let c;
-    if (idx && idx.startsWith('u')) {
-      const unleveled = data.filter(x => !x.level);
-      c = unleveled[parseInt(idx.slice(1))];
-    } else {
-      c = data[parseInt(idx)];
-    }
+    if (!card || card.dataset.idx === undefined) return;
+    const c = window._gridData[parseInt(card.dataset.idx, 10)];
     if (c) showDetail(c);
   };
 
