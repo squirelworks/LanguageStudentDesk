@@ -1,1 +1,510 @@
-PLACEHOLDER
+// Modular script data for Character Learner
+// Kanji expanded by JLPT level (N5–N1 + post-N1)
+// On-yomi groups implemented
+
+const SCRIPTS = {
+  hiragana: {
+    name: "Hiragana",
+    chars: [
+      { char: "あ", roman: "a", info: "Vowel", example: "あめ (ame)" },
+      { char: "い", roman: "i", info: "Vowel", example: "いぬ (inu)" },
+      { char: "う", roman: "u", info: "Vowel", example: "うみ (umi)" },
+      { char: "え", roman: "e", info: "Vowel", example: "えき (eki)" },
+      { char: "お", roman: "o", info: "Vowel", example: "おんな (onna)" },
+      { char: "か", roman: "ka", info: "k + a", example: "かお (kao)" },
+      { char: "き", roman: "ki", info: "k + i", example: "き (ki)" },
+      { char: "く", roman: "ku", info: "k + u", example: "くも (kumo)" },
+      { char: "け", roman: "ke", info: "k + e", example: "け (ke)" },
+      { char: "こ", roman: "ko", info: "k + o", example: "こども (kodomo)" },
+      { char: "さ", roman: "sa", info: "s + a", example: "さかな (sakana)" },
+      { char: "し", roman: "shi", info: "s + i", example: "しろ (shiro)" },
+      { char: "す", roman: "su", info: "s + u", example: "すき (suki)" },
+      { char: "せ", roman: "se", info: "s + e", example: "せんせい (sensei)" },
+      { char: "そ", roman: "so", info: "s + o", example: "そら (sora)" },
+      { char: "た", roman: "ta", info: "t + a", example: "たべ (tabe)" },
+      { char: "ち", roman: "chi", info: "t + i", example: "ちいさい (chiisai)" },
+      { char: "つ", roman: "tsu", info: "t + u", example: "つき (tsuki)" },
+      { char: "て", roman: "te", info: "t + e", example: "て (te)" },
+      { char: "と", roman: "to", info: "t + o", example: "ともだち (tomodachi)" },
+      { char: "な", roman: "na", info: "n + a", example: "なまえ (namae)" },
+      { char: "に", roman: "ni", info: "n + i", example: "にほん (nihon)" },
+      { char: "ぬ", roman: "nu", info: "n + u", example: "ぬ (nu)" },
+      { char: "ね", roman: "ne", info: "n + e", example: "ねこ (neko)" },
+      { char: "の", roman: "no", info: "n + o", example: "のむ (nomu)" },
+      { char: "は", roman: "ha", info: "h + a", example: "はな (hana)" },
+      { char: "ひ", roman: "hi", info: "h + i", example: "ひと (hito)" },
+      { char: "ふ", roman: "fu", info: "h + u", example: "ふね (fune)" },
+      { char: "へ", roman: "he", info: "h + e", example: "へや (heya)" },
+      { char: "ほ", roman: "ho", info: "h + o", example: "ほん (hon)" },
+      { char: "ま", roman: "ma", info: "m + a", example: "まち (machi)" },
+      { char: "み", roman: "mi", info: "m + i", example: "みず (mizu)" },
+      { char: "む", roman: "mu", info: "m + u", example: "むし (mushi)" },
+      { char: "め", roman: "me", info: "m + e", example: "め (me)" },
+      { char: "も", roman: "mo", info: "m + o", example: "もり (mori)" },
+      { char: "や", roman: "ya", info: "y + a", example: "やま (yama)" },
+      { char: "ゆ", roman: "yu", info: "y + u", example: "ゆき (yuki)" },
+      { char: "よ", roman: "yo", info: "y + o", example: "よる (yoru)" },
+      { char: "ら", roman: "ra", info: "r + a", example: "らいとう (raitou)" },
+      { char: "り", roman: "ri", info: "r + i", example: "りんご (ringo)" },
+      { char: "る", roman: "ru", info: "r + u", example: "るす (rusu)" },
+      { char: "れ", roman: "re", info: "r + e", example: "れんしゅう (renshuu)" },
+      { char: "ろ", roman: "ro", info: "r + o", example: "ろく (roku)" },
+      { char: "わ", roman: "wa", info: "w + a", example: "わたし (watashi)" },
+      { char: "を", roman: "wo", info: "w + o (particle)", example: "を" },
+      { char: "ん", roman: "n", info: "syllabic n", example: "にほん (nihon)" },
+      { char: "が", roman: "ga", info: "g + a (dakuten)", example: "がくせい (gakusei)" },
+      { char: "ぎ", roman: "gi", info: "g + i", example: "ぎんこう (ginkou)" },
+      { char: "ぐ", roman: "gu", info: "g + u", example: "ぐらす (gurasu)" },
+      { char: "げ", roman: "ge", info: "g + e", example: "げんき (genki)" },
+      { char: "ご", roman: "go", info: "g + o", example: "ごはん (gohan)" },
+      { char: "ざ", roman: "za", info: "z + a", example: "ざっし (zasshi)" },
+      { char: "じ", roman: "ji", info: "j + i", example: "じかん (jikan)" },
+      { char: "ず", roman: "zu", info: "z + u", example: "ずっと (zutto)" },
+      { char: "ぜ", roman: "ze", info: "z + e", example: "ぜんぶ (zenbu)" },
+      { char: "ぞ", roman: "zo", info: "z + o", example: "ぞう (zou)" },
+      { char: "だ", roman: "da", info: "d + a", example: "だれ (dare)" },
+      { char: "ぢ", roman: "ji", info: "d + i (ji)", example: "ぢしん (jishin)" },
+      { char: "づ", roman: "zu", info: "d + u (zu)", example: "づくえ (zukue)" },
+      { char: "で", roman: "de", info: "d + e", example: "でんしゃ (densha)" },
+      { char: "ど", roman: "do", info: "d + o", example: "どあ (doa)" },
+      { char: "ば", roman: "ba", info: "b + a", example: "ばん (ban)" },
+      { char: "び", roman: "bi", info: "b + i", example: "びる (biru)" },
+      { char: "ぶ", roman: "bu", info: "b + u", example: "ぶん (bun)" },
+      { char: "べ", roman: "be", info: "b + e", example: "べんきょう (benkyou)" },
+      { char: "ぼ", roman: "bo", info: "b + o", example: "ぼうし (boushi)" },
+      { char: "ぱ", roman: "pa", info: "p + a", example: "ぱん (pan)" },
+      { char: "ぴ", roman: "pi", info: "p + i", example: "ぴアノ (piano)" },
+      { char: "ぷ", roman: "pu", info: "p + u", example: "ぷる (puru)" },
+      { char: "ぺ", roman: "pe", info: "p + e", example: "ぺン (pen)" },
+      { char: "ぽ", roman: "po", info: "p + o", example: "ぽスト (posuto)" }
+    ]
+  },
+  katakana: {
+    name: "Katakana",
+    chars: [
+      { char: "ア", roman: "a", info: "Vowel", example: "アメリカ" },
+      { char: "イ", roman: "i", info: "Vowel", example: "インド" },
+      { char: "ウ", roman: "u", info: "Vowel", example: "ウィスキー" },
+      { char: "エ", roman: "e", info: "Vowel", example: "エレベーター" },
+      { char: "オ", roman: "o", info: "Vowel", example: "オレンジ" },
+      { char: "カ", roman: "ka", info: "k + a", example: "カメラ" },
+      { char: "キ", roman: "ki", info: "k + i", example: "キッチン" },
+      { char: "ク", roman: "ku", info: "k + u", example: "クロス" },
+      { char: "ケ", roman: "ke", info: "k + e", example: "ケーキ" },
+      { char: "コ", roman: "ko", info: "k + o", example: "コーヒー" },
+      { char: "サ", roman: "sa", info: "s + a", example: "サラダ" },
+      { char: "シ", roman: "shi", info: "s + i", example: "シャツ" },
+      { char: "ス", roman: "su", info: "s + u", example: "スポーツ" },
+      { char: "セ", roman: "se", info: "s + e", example: "センター" },
+      { char: "ソ", roman: "so", info: "s + o", example: "ソファ" },
+      { char: "タ", roman: "ta", info: "t + a", example: "タクシー" },
+      { char: "チ", roman: "chi", info: "t + i", example: "チケット" },
+      { char: "ツ", roman: "tsu", info: "t + u", example: "ツアー" },
+      { char: "テ", roman: "te", info: "t + e", example: "テレビ" },
+      { char: "ト", roman: "to", info: "t + o", example: "トイレ" },
+      { char: "ナ", roman: "na", info: "n + a", example: "ナイフ" },
+      { char: "ニ", roman: "ni", info: "n + i", example: "ニュース" },
+      { char: "ヌ", roman: "nu", info: "n + u", example: "ヌードル" },
+      { char: "ネ", roman: "ne", info: "n + e", example: "ネクタイ" },
+      { char: "ノ", roman: "no", info: "n + o", example: "ノート" },
+      { char: "ハ", roman: "ha", info: "h + a", example: "ハイテク" },
+      { char: "ヒ", roman: "hi", info: "h + i", example: "ヒーロー" },
+      { char: "フ", roman: "fu", info: "h + u", example: "ファイル" },
+      { char: "ヘ", roman: "he", info: "h + e", example: "ヘルプ" },
+      { char: "ホ", roman: "ho", info: "h + o", example: "ホテル" },
+      { char: "マ", roman: "ma", info: "m + a", example: "マイク" },
+      { char: "ミ", roman: "mi", info: "m + i", example: "ミルク" },
+      { char: "ム", roman: "mu", info: "m + u", example: "ムービー" },
+      { char: "メ", roman: "me", info: "m + e", example: "メニュー" },
+      { char: "モ", roman: "mo", info: "m + o", example: "モデル" },
+      { char: "ヤ", roman: "ya", info: "y + a", example: "ヤッツ" },
+      { char: "ユ", roman: "yu", info: "y + u", example: "ユニフォーム" },
+      { char: "ヨ", roman: "yo", info: "y + o", example: "ヨーク" },
+      { char: "ラ", roman: "ra", info: "r + a", example: "ラジオ" },
+      { char: "リ", roman: "ri", info: "r + i", example: "リンゴ" },
+      { char: "ル", roman: "ru", info: "r + u", example: "ルール" },
+      { char: "レ", roman: "re", info: "r + e", example: "レストラン" },
+      { char: "ロ", roman: "ro", info: "r + o", example: "ロボット" },
+      { char: "ワ", roman: "wa", info: "w + a", example: "ワイン" },
+      { char: "ヲ", roman: "wo", info: "w + o", example: "ヲ" },
+      { char: "ン", roman: "n", info: "syllabic n", example: "パン" },
+      { char: "ガ", roman: "ga", info: "g + a", example: "ガス" },
+      { char: "ギ", roman: "gi", info: "g + i", example: "ギター" },
+      { char: "グ", roman: "gu", info: "g + u", example: "グループ" },
+      { char: "ゲ", roman: "ge", info: "g + e", example: "ゲーム" },
+      { char: "ゴ", roman: "go", info: "g + o", example: "ゴルフ" },
+      { char: "ザ", roman: "za", info: "z + a", example: "ザル" },
+      { char: "ジ", roman: "ji", info: "j + i", example: "ジーンズ" },
+      { char: "ズ", roman: "zu", info: "z + u", example: "ズット" },
+      { char: "ゼ", roman: "ze", info: "z + e", example: "ゼリー" },
+      { char: "ゾ", roman: "zo", info: "z + o", example: "ゾウ" },
+      { char: "ダ", roman: "da", info: "d + a", example: "ダンス" },
+      { char: "ヂ", roman: "ji", info: "d + i", example: "ヂャズ" },
+      { char: "ヅ", roman: "zu", info: "d + u", example: "ヅ" },
+      { char: "デ", roman: "de", info: "d + e", example: "デザイン" },
+      { char: "ド", roman: "do", info: "d + o", example: "ドア" },
+      { char: "バ", roman: "ba", info: "b + a", example: "バス" },
+      { char: "ビ", roman: "bi", info: "b + i", example: "ビール" },
+      { char: "ブ", roman: "bu", info: "b + u", example: "ブルー" },
+      { char: "ベ", roman: "be", info: "b + e", example: "ベッド" },
+      { char: "ボ", roman: "bo", info: "b + o", example: "ボール" },
+      { char: "パ", roman: "pa", info: "p + a", example: "パン" },
+      { char: "ピ", roman: "pi", info: "p + i", example: "ピアノ" },
+      { char: "プ", roman: "pu", info: "p + u", example: "プール" },
+      { char: "ペ", roman: "pe", info: "p + e", example: "ペン" },
+      { char: "ポ", roman: "po", info: "p + o", example: "ポスト" }
+    ]
+  },
+  arabic: {
+    name: "Arabic",
+    chars: [
+      { char: "ا", roman: "alif", info: "Does not connect left", example: "أحمد", forms: { isolated: "ا", initial: "—", medial: "—", final: "ا" } },
+      { char: "ب", roman: "bāʾ", info: "Connects both sides", example: "باب", forms: { isolated: "ب", initial: "بـ", medial: "ـبـ", final: "ـب" } },
+      { char: "ت", roman: "tāʾ", info: "Connects both sides", example: "تفاح", forms: { isolated: "ت", initial: "تـ", medial: "ـتـ", final: "ـت" } },
+      { char: "ث", roman: "thāʾ", info: "Connects both sides", example: "ثلاثة", forms: { isolated: "ث", initial: "ثـ", medial: "ـثـ", final: "ـث" } },
+      { char: "ج", roman: "jīm", info: "Connects both sides", example: "جميل", forms: { isolated: "ج", initial: "جـ", medial: "ـجـ", final: "ـج" } },
+      { char: "ح", roman: "ḥāʾ", info: "Connects both sides", example: "حب", forms: { isolated: "ح", initial: "حـ", medial: "ـحـ", final: "ـح" } },
+      { char: "خ", roman: "khāʾ", info: "Connects both sides", example: "خبز", forms: { isolated: "خ", initial: "خـ", medial: "ـخـ", final: "ـخ" } },
+      { char: "د", roman: "dāl", info: "Does not connect left", example: "دار", forms: { isolated: "د", initial: "—", medial: "—", final: "د" } },
+      { char: "ذ", roman: "dhāl", info: "Does not connect left", example: "ذهب", forms: { isolated: "ذ", initial: "—", medial: "—", final: "ذ" } },
+      { char: "ر", roman: "rāʾ", info: "Does not connect left", example: "رجل", forms: { isolated: "ر", initial: "—", medial: "—", final: "ر" } },
+      { char: "ز", roman: "zāy", info: "Does not connect left", example: "زيت", forms: { isolated: "ز", initial: "—", medial: "—", final: "ز" } },
+      { char: "س", roman: "sīn", info: "Connects both sides", example: "سمك", forms: { isolated: "س", initial: "سـ", medial: "ـسـ", final: "ـس" } },
+      { char: "ش", roman: "shīn", info: "Connects both sides", example: "شمس", forms: { isolated: "ش", initial: "شـ", medial: "ـشـ", final: "ـش" } },
+      { char: "ص", roman: "ṣād", info: "Connects both sides", example: "صباح", forms: { isolated: "ص", initial: "صـ", medial: "ـصـ", final: "ـص" } },
+      { char: "ض", roman: "ḍād", info: "Connects both sides", example: "ضوء", forms: { isolated: "ض", initial: "ضـ", medial: "ـضـ", final: "ـض" } },
+      { char: "ط", roman: "ṭāʾ", info: "Connects both sides", example: "طير", forms: { isolated: "ط", initial: "طـ", medial: "ـطـ", final: "ـط" } },
+      { char: "ظ", roman: "ẓāʾ", info: "Connects both sides", example: "ظل", forms: { isolated: "ظ", initial: "ظـ", medial: "ـظـ", final: "ـظ" } },
+      { char: "ع", roman: "ʿayn", info: "Connects both sides", example: "عين", forms: { isolated: "ع", initial: "عـ", medial: "ـعـ", final: "ـع" } },
+      { char: "غ", roman: "ghayn", info: "Connects both sides", example: "غدا", forms: { isolated: "غ", initial: "غـ", medial: "ـغـ", final: "ـغ" } },
+      { char: "ف", roman: "fāʾ", info: "Connects both sides", example: "فيل", forms: { isolated: "ف", initial: "فـ", medial: "ـفـ", final: "ـف" } },
+      { char: "ق", roman: "qāf", info: "Connects both sides", example: "قلم", forms: { isolated: "ق", initial: "قـ", medial: "ـقـ", final: "ـق" } },
+      { char: "ك", roman: "kāf", info: "Connects both sides", example: "كتاب", forms: { isolated: "ك", initial: "كـ", medial: "ـكـ", final: "ـك" } },
+      { char: "ل", roman: "lām", info: "Connects both sides", example: "ليل", forms: { isolated: "ل", initial: "لـ", medial: "ـلـ", final: "ـل" } },
+      { char: "م", roman: "mīm", info: "Connects both sides", example: "ماء", forms: { isolated: "م", initial: "مـ", medial: "ـمـ", final: "ـم" } },
+      { char: "ن", roman: "nūn", info: "Connects both sides", example: "نور", forms: { isolated: "ن", initial: "نـ", medial: "ـنـ", final: "ـن" } },
+      { char: "ه", roman: "hāʾ", info: "Connects both sides", example: "هوا", forms: { isolated: "ه", initial: "هـ", medial: "ـهـ", final: "ـه" } },
+      { char: "و", roman: "wāw", info: "Does not connect left", example: "ورد", forms: { isolated: "و", initial: "—", medial: "—", final: "و" } },
+      { char: "ي", roman: "yāʾ", info: "Connects both sides", example: "يد", forms: { isolated: "ي", initial: "يـ", medial: "ـيـ", final: "ـي" } }
+    ]
+  },
+  cyrillic: {
+    name: "Cyrillic",
+    chars: [
+      { char: "А", roman: "A", info: "a", example: "Анна" },
+      { char: "Б", roman: "B", info: "b", example: "Брат" },
+      { char: "В", roman: "V", info: "v", example: "Вода" },
+      { char: "Г", roman: "G", info: "g", example: "Город" },
+      { char: "Д", roman: "D", info: "d", example: "Дом" },
+      { char: "Е", roman: "Ye", info: "ye", example: "Елена" },
+      { char: "Ё", roman: "Yo", info: "yo", example: "Ёж" },
+      { char: "Ж", roman: "Zh", info: "zh", example: "Жизнь" },
+      { char: "З", roman: "Z", info: "z", example: "Зима" }
+    ]
+  },
+  hangul: {
+    name: "Hangul",
+    chars: [
+      // Basic consonants
+      { char: "ㄱ", roman: "g/k", info: "basic consonant", example: "가" },
+      { char: "ㄴ", roman: "n", info: "basic consonant", example: "나" },
+      { char: "ㄷ", roman: "d/t", info: "basic consonant", example: "다" },
+      { char: "ㄹ", roman: "r/l", info: "basic consonant", example: "라" },
+      { char: "ㅁ", roman: "m", info: "basic consonant", example: "마" },
+      { char: "ㅂ", roman: "b/p", info: "basic consonant", example: "바" },
+      { char: "ㅅ", roman: "s", info: "basic consonant", example: "사" },
+      { char: "ㅇ", roman: "ng", info: "basic consonant (silent initial)", example: "아" },
+      { char: "ㅈ", roman: "j", info: "basic consonant", example: "자" },
+      { char: "ㅊ", roman: "ch", info: "basic consonant", example: "차" },
+      { char: "ㅋ", roman: "k", info: "basic consonant", example: "카" },
+      { char: "ㅌ", roman: "t", info: "basic consonant", example: "타" },
+      { char: "ㅍ", roman: "p", info: "basic consonant", example: "파" },
+      { char: "ㅎ", roman: "h", info: "basic consonant", example: "하" },
+      // Basic vowels
+      { char: "ㅏ", roman: "a", info: "basic vowel", example: "아" },
+      { char: "ㅐ", roman: "ae", info: "basic vowel", example: "애" },
+      { char: "ㅑ", roman: "ya", info: "basic vowel", example: "야" },
+      { char: "ㅒ", roman: "yae", info: "basic vowel", example: "얘" },
+      { char: "ㅓ", roman: "eo", info: "basic vowel", example: "어" },
+      { char: "ㅔ", roman: "e", info: "basic vowel", example: "에" },
+      { char: "ㅕ", roman: "yeo", info: "basic vowel", example: "여" },
+      { char: "ㅖ", roman: "ye", info: "basic vowel", example: "예" },
+      { char: "ㅗ", roman: "o", info: "basic vowel", example: "오" },
+      { char: "ㅜ", roman: "u", info: "basic vowel", example: "우" },
+      // Complex vowels
+      { char: "ㅘ", roman: "wa", info: "complex vowel", example: "와" },
+      { char: "ㅙ", roman: "wae", info: "complex vowel", example: "왜" },
+      { char: "ㅚ", roman: "oe", info: "complex vowel", example: "외" },
+      { char: "ㅛ", roman: "yo", info: "complex vowel", example: "요" },
+      { char: "ㅝ", roman: "wo", info: "complex vowel", example: "워" },
+      { char: "ㅞ", roman: "we", info: "complex vowel", example: "웨" },
+      { char: "ㅟ", roman: "wi", info: "complex vowel", example: "위" },
+      { char: "ㅠ", roman: "yu", info: "complex vowel", example: "유" },
+      { char: "ㅡ", roman: "eu", info: "complex vowel", example: "으" },
+      { char: "ㅢ", roman: "ui", info: "complex vowel", example: "의" },
+      { char: "ㅣ", roman: "i", info: "complex vowel", example: "이" },
+      // Complex consonants (double / tense)
+      { char: "ㄲ", roman: "kk", info: "complex consonant (tense)", example: "까" },
+      { char: "ㄸ", roman: "tt", info: "complex consonant (tense)", example: "따" },
+      { char: "ㅃ", roman: "pp", info: "complex consonant (tense)", example: "빠" },
+      { char: "ㅆ", roman: "ss", info: "complex consonant (tense)", example: "싸" },
+      { char: "ㅉ", roman: "jj", info: "complex consonant (tense)", example: "짜" },
+      // Complex consonants (clusters)
+      { char: "ㄳ", roman: "gs", info: "complex consonant", example: "값" },
+      { char: "ㄵ", roman: "nj", info: "complex consonant", example: "앉" },
+      { char: "ㄶ", roman: "nh", info: "complex consonant", example: "많" },
+      { char: "ㄺ", roman: "lg", info: "complex consonant", example: "닭" },
+      { char: "ㄻ", roman: "lm", info: "complex consonant", example: "삶" },
+      { char: "ㄼ", roman: "lb", info: "complex consonant", example: "여덟" },
+      { char: "ㄽ", roman: "ls", info: "complex consonant", example: "외곬" },
+      { char: "ㄾ", roman: "lt", info: "complex consonant", example: "핥" },
+      { char: "ㄿ", roman: "lp", info: "complex consonant", example: "읊" },
+      { char: "ㅀ", roman: "lh", info: "complex consonant", example: "싫" },
+      { char: "ㅄ", roman: "bs", info: "complex consonant", example: "값" }
+    ]
+  },
+      { char: "ㅏ", roman: "a", info: "basic vowel", example: "아" }
+    ]
+  },
+  devanagari: {
+    name: "Devanagari",
+    chars: [
+      { char: "अ", roman: "a", info: "vowel", example: "अ" }
+    ]
+  },
+  klingon: {
+    name: "Klingon (pIqaD)",
+    chars: [
+      { char: "ⱋ", roman: "a", info: "vowel", example: "tlhIngan" }
+    ]
+  },
+  kanji: {
+    name: "Kanji",
+    chars: [
+      { char: "一", roman: "ichi / hitotsu", info: "one", level: "N5" },
+      { char: "二", roman: "ni / futatsu", info: "two", level: "N5" },
+      { char: "三", roman: "san / mittsu", info: "three", level: "N5" },
+      { char: "四", roman: "shi / yottsu", info: "four", level: "N5" },
+      { char: "五", roman: "go / itsutsu", info: "five", level: "N5" },
+      { char: "六", roman: "roku / muttsu", info: "six", level: "N5" },
+      { char: "七", roman: "shichi / nanatsu", info: "seven", level: "N5" },
+      { char: "八", roman: "hachi / yattsu", info: "eight", level: "N5" },
+      { char: "九", roman: "kyuu / kokonotsu", info: "nine", level: "N5" },
+      { char: "十", roman: "juu / too", info: "ten", level: "N5" },
+      { char: "百", roman: "hyaku", info: "hundred", level: "N5" },
+      { char: "千", roman: "sen", info: "thousand", level: "N5" },
+      { char: "万", roman: "man", info: "ten thousand", level: "N5" },
+      { char: "円", roman: "en", info: "yen / circle", level: "N5" },
+      { char: "日", roman: "nichi / hi", info: "day / sun", level: "N5" },
+      { char: "月", roman: "getsu / tsuki", info: "month / moon", level: "N5" },
+      { char: "火", roman: "ka / hi", info: "fire", level: "N5" },
+      { char: "水", roman: "sui / mizu", info: "water", level: "N5" },
+      { char: "木", roman: "moku / ki", info: "tree / wood", level: "N5" },
+      { char: "金", roman: "kin / kane", info: "gold / metal", level: "N5" },
+      { char: "土", roman: "do / tsuchi", info: "earth / soil", level: "N5" },
+      { char: "人", roman: "jin / hito", info: "person", level: "N5" },
+      { char: "男", roman: "dan / otoko", info: "man", level: "N5" },
+      { char: "女", roman: "jo / onna", info: "woman", level: "N5" },
+      { char: "子", roman: "shi / ko", info: "child", level: "N5" },
+      { char: "年", roman: "nen / toshi", info: "year", level: "N5" },
+      { char: "時", roman: "ji / toki", info: "time", level: "N5" },
+      { char: "分", roman: "fun / bun", info: "minute / part", level: "N5" },
+      { char: "半", roman: "han", info: "half", level: "N5" },
+      { char: "今", roman: "kon / ima", info: "now", level: "N5" },
+      { char: "先", roman: "sen / saki", info: "before / ahead", level: "N5" },
+      { char: "後", roman: "go / ato", info: "after / behind", level: "N5" },
+      { char: "前", roman: "zen / mae", info: "before / front", level: "N5" },
+      { char: "上", roman: "jou / ue", info: "up / above", level: "N5" },
+      { char: "下", roman: "ka / shita", info: "down / below", level: "N5" },
+      { char: "中", roman: "chuu / naka", info: "middle / inside", level: "N5" },
+      { char: "外", roman: "gai / soto", info: "outside", level: "N5" },
+      { char: "右", roman: "u / migi", info: "right", level: "N5" },
+      { char: "左", roman: "sa / hidari", info: "left", level: "N5" },
+      { char: "東", roman: "tou / higashi", info: "east", level: "N5" },
+      { char: "西", roman: "sei / nishi", info: "west", level: "N5" },
+      { char: "南", roman: "nan / minami", info: "south", level: "N5" },
+      { char: "北", roman: "hoku / kita", info: "north", level: "N5" },
+      { char: "口", roman: "kou / kuchi", info: "mouth", level: "N5" },
+      { char: "目", roman: "moku / me", info: "eye", level: "N5" },
+      { char: "耳", roman: "ji / mimi", info: "ear", level: "N5" },
+      { char: "手", roman: "shu / te", info: "hand", level: "N5" },
+      { char: "足", roman: "soku / ashi", info: "foot / leg", level: "N5" },
+      { char: "大", roman: "dai / ookii", info: "big", level: "N5" },
+      { char: "小", roman: "shou / chiisai", info: "small", level: "N5" },
+      { char: "高", roman: "kou / takai", info: "high / expensive", level: "N5" },
+      { char: "安", roman: "an / yasui", info: "cheap / peaceful", level: "N5" },
+      { char: "新", roman: "shin / atarashii", info: "new", level: "N5" },
+      { char: "古", roman: "ko / furui", info: "old", level: "N5" },
+      { char: "白", roman: "haku / shiro", info: "white", level: "N5" },
+      { char: "赤", roman: "seki / aka", info: "red", level: "N5" },
+      { char: "青", roman: "sei / ao", info: "blue", level: "N5" },
+      { char: "山", roman: "san / yama", info: "mountain", level: "N5" },
+      { char: "川", roman: "sen / kawa", info: "river", level: "N5" },
+      { char: "田", roman: "den / ta", info: "rice field", level: "N5" },
+      { char: "海", roman: "kai / umi", info: "sea", level: "N5" },
+      { char: "空", roman: "kuu / sora", info: "sky", level: "N5" },
+      { char: "雨", roman: "u / ame", info: "rain", level: "N5" },
+      { char: "天", roman: "ten", info: "heaven / sky", level: "N5" },
+      { char: "気", roman: "ki", info: "spirit / air", level: "N5" },
+      { char: "電", roman: "den", info: "electricity", level: "N5" },
+      { char: "車", roman: "sha / kuruma", info: "car", level: "N5" },
+      { char: "駅", roman: "eki", info: "station", level: "N5" },
+      { char: "道", roman: "dou / michi", info: "road / way", level: "N5" },
+      { char: "店", roman: "ten / mise", info: "shop", level: "N5" },
+      { char: "学", roman: "gaku / manabu", info: "study / learn", level: "N5" },
+      { char: "校", roman: "kou", info: "school", level: "N5" },
+      { char: "生", roman: "sei / ikiru", info: "life / birth", level: "N5" },
+      { char: "友", roman: "yuu / tomo", info: "friend", level: "N5" },
+      { char: "名", roman: "mei / na", info: "name", level: "N5" },
+      { char: "何", roman: "ka / nani", info: "what", level: "N5" },
+      { char: "毎", roman: "mai", info: "every", level: "N5" },
+      { char: "読", roman: "doku / yomu", info: "read", level: "N5" },
+      { char: "書", roman: "sho / kaku", info: "write", level: "N5" },
+      { char: "話", roman: "wa / hanasu", info: "speak", level: "N5" },
+      { char: "聞", roman: "bun / kiku", info: "hear / ask", level: "N5" },
+      { char: "見", roman: "ken / miru", info: "see", level: "N5" },
+      { char: "行", roman: "kou / iku", info: "go", level: "N5" },
+      { char: "来", roman: "rai / kuru", info: "come", level: "N5" },
+      { char: "食", roman: "shoku / taberu", info: "eat", level: "N5" },
+      { char: "飲", roman: "in / nomu", info: "drink", level: "N5" },
+      { char: "買", roman: "bai / kau", info: "buy", level: "N5" },
+      { char: "休", roman: "kyuu / yasumu", info: "rest", level: "N5" },
+      { char: "入", roman: "nyuu / hairu", info: "enter", level: "N5" },
+      { char: "出", roman: "shutsu / deru", info: "exit", level: "N5" },
+      { char: "会", roman: "kai / au", info: "meet", level: "N5" },
+      { char: "本", roman: "hon / moto", info: "book / origin", level: "N5" },
+      { char: "語", roman: "go", info: "language", level: "N5" },
+      { char: "国", roman: "koku / kuni", info: "country", level: "N5" },
+      { char: "長", roman: "chou / nagai", info: "long / leader", level: "N5" },
+      { char: "間", roman: "kan / aida", info: "interval / between", level: "N5" },
+      { char: "花", roman: "ka / hana", info: "flower", level: "N5" },
+      { char: "魚", roman: "gyo / sakana", info: "fish", level: "N5" },
+      { char: "肉", roman: "niku", info: "meat", level: "N5" },
+      { char: "茶", roman: "cha", info: "tea", level: "N5" },
+      { char: "飯", roman: "han / meshi", info: "meal / rice", level: "N5" },
+      { char: "医", roman: "i", info: "medicine", level: "N4" },
+      { char: "院", roman: "in", info: "institution", level: "N4" },
+      { char: "運", roman: "un", info: "carry / fortune", level: "N4" },
+      { char: "音", roman: "on / oto", info: "sound", level: "N4" },
+      { char: "歌", roman: "ka / uta", info: "song", level: "N4" },
+      { char: "悪", roman: "aku / warui", info: "bad / evil", level: "N3" },
+      { char: "暗", roman: "an / kurai", info: "dark", level: "N3" },
+      { char: "愛", roman: "ai", info: "love", level: "N2" },
+      { char: "案", roman: "an", info: "plan / idea", level: "N2" },
+      { char: "委", roman: "i", info: "committee", level: "N2" },
+      { char: "亜", roman: "a", info: "Asia / sub-", level: "N1" },
+      { char: "哀", roman: "ai / aware", info: "grief / pity", level: "N1" },
+      { char: "握", roman: "aku / nigiru", info: "grasp", level: "N1" },
+      { char: "鬱", roman: "utsu", info: "depression / gloom", level: "post-N1" },
+      { char: "饗", roman: "kyou", info: "banquet", level: "post-N1" }
+    ],
+    groups: [
+      {
+        reading: "ka (か)",
+        note: "Common on-yomi for fire, flower, science, etc.",
+        chars: [
+          { char: "火", roman: "ka" },
+          { char: "花", roman: "ka" },
+          { char: "何", roman: "ka" }
+        ]
+      },
+      {
+        reading: "sui (すい)",
+        note: "Water-related on-yomi",
+        chars: [
+          { char: "水", roman: "sui" }
+        ]
+      },
+      {
+        reading: "nichi / jitsu (にち / じつ)",
+        note: "Day / sun readings",
+        chars: [
+          { char: "日", roman: "nichi / jitsu" }
+        ]
+      },
+      {
+        reading: "getsu / gatsu (げつ / がつ)",
+        note: "Month / moon",
+        chars: [
+          { char: "月", roman: "getsu / gatsu" }
+        ]
+      },
+      {
+        reading: "jin / nin (じん / にん)",
+        note: "Person",
+        chars: [
+          { char: "人", roman: "jin / nin" }
+        ]
+      },
+      {
+        reading: "sei / shou (せい / しょう)",
+        note: "Life / birth",
+        chars: [
+          { char: "生", roman: "sei / shou" }
+        ]
+      },
+      {
+        reading: "kou (こう)",
+        note: "High, school, mouth, etc.",
+        chars: [
+          { char: "高", roman: "kou" },
+          { char: "校", roman: "kou" },
+          { char: "口", roman: "kou" }
+        ]
+      },
+      {
+        reading: "den (でん)",
+        note: "Electricity, rice field",
+        chars: [
+          { char: "電", roman: "den" },
+          { char: "田", roman: "den" }
+        ]
+      },
+      {
+        reading: "sha (しゃ)",
+        note: "Vehicle, company",
+        chars: [
+          { char: "車", roman: "sha" }
+        ]
+      },
+      {
+        reading: "gaku (がく)",
+        note: "Study / learning",
+        chars: [
+          { char: "学", roman: "gaku" }
+        ]
+      },
+      {
+        reading: "kai (かい)",
+        note: "Meet, sea",
+        chars: [
+          { char: "会", roman: "kai" },
+          { char: "海", roman: "kai" }
+        ]
+      },
+      {
+        reading: "hon (ほん)",
+        note: "Book / origin",
+        chars: [
+          { char: "本", roman: "hon" }
+        ]
+      },
+      {
+        reading: "go (ご)",
+        note: "Language, five",
+        chars: [
+          { char: "語", roman: "go" },
+          { char: "五", roman: "go" }
+        ]
+      },
+      {
+        reading: "koku (こく)",
+        note: "Country",
+        chars: [
+          { char: "国", roman: "koku" }
+        ]
+      }
+    ]
+  }
+};
+
