@@ -263,9 +263,6 @@ const SCRIPTS = {
       { char: "ㅄ", roman: "bs", info: "complex consonant", example: "값" }
     ]
   },
-      { char: "ㅏ", roman: "a", info: "basic vowel", example: "아" }
-    ]
-  },
   devanagari: {
     name: "Devanagari",
     chars: [
