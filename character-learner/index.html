@@ -497,9 +497,17 @@ function showMode(mode) {
 }
 
 function cardHTML(c, learnedSet, idx) {
-  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" >
+  let forms = '';
+  if (c.forms) {
+    const f = c.forms;
+    forms = `<div style="font-size:0.7rem; margin-top:0.25rem; color:var(--muted); line-height:1.2;">
+      ${f.isolated || '—'} ${f.initial || '—'} ${f.medial || '—'} ${f.final || '—'}
+    </div>`;
+  }
+  return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}">
     <span class="big">${c.char}</span>
     <span class="small">${c.roman || ''}</span>
+    ${forms}
   </div>`;
 }
 
