@@ -400,24 +400,80 @@ const SCRIPTS = {
     ],
     groups: [
       {
-        reading: "ka (か)",
-        note: "Common on-yomi for fire, flower, science, etc.",
+        reading: "kou (こう)",
+        note: "Most common on-yomi group (Nihongo Classroom style, frequency order)",
         chars: [
-          { char: "火", roman: "ka" },
-          { char: "花", roman: "ka" },
-          { char: "何", roman: "ka" }
+          { char: "日", roman: "kou" },
+          { char: "後", roman: "kou" },
+          { char: "口", roman: "kou" },
+          { char: "考", roman: "kou" },
+          { char: "校", roman: "kou" },
+          { char: "高", roman: "kou" },
+          { char: "公", roman: "kou" },
+          { char: "工", roman: "kou" }
         ]
       },
       {
-        reading: "sui (すい)",
-        note: "Water-related on-yomi",
+        reading: "shou (しょう)",
+        note: "Second most frequent group",
         chars: [
-          { char: "水", roman: "sui" }
+          { char: "生", roman: "shou" },
+          { char: "小", roman: "shou" },
+          { char: "少", roman: "shou" },
+          { char: "正", roman: "shou" },
+          { char: "上", roman: "shou" }
+        ]
+      },
+      {
+        reading: "shi (し)",
+        note: "Common shi group",
+        chars: [
+          { char: "子", roman: "shi" },
+          { char: "市", roman: "shi" },
+          { char: "思", roman: "shi" },
+          { char: "四", roman: "shi" }
+        ]
+      },
+      {
+        reading: "kan (かん)",
+        note: "Kan group",
+        chars: [
+          { char: "間", roman: "kan" },
+          { char: "感", roman: "kan" },
+          { char: "関", roman: "kan" },
+          { char: "観", roman: "kan" }
+        ]
+      },
+      {
+        reading: "sei (せい)",
+        note: "Sei group",
+        chars: [
+          { char: "生", roman: "sei" },
+          { char: "正", roman: "sei" },
+          { char: "成", roman: "sei" },
+          { char: "性", roman: "sei" }
+        ]
+      },
+      {
+        reading: "ka (か)",
+        note: "Ka group",
+        chars: [
+          { char: "火", roman: "ka" },
+          { char: "花", roman: "ka" },
+          { char: "何", roman: "ka" },
+          { char: "家", roman: "ka" }
+        ]
+      },
+      {
+        reading: "jin / nin (じん / にん)",
+        note: "Person readings",
+        chars: [
+          { char: "人", roman: "jin / nin" }
         ]
       },
       {
         reading: "nichi / jitsu (にち / じつ)",
-        note: "Day / sun readings",
+        note: "Day / sun",
         chars: [
           { char: "日", roman: "nichi / jitsu" }
         ]
@@ -430,53 +486,30 @@ const SCRIPTS = {
         ]
       },
       {
-        reading: "jin / nin (じん / にん)",
-        note: "Person",
+        reading: "sui (すい)",
+        note: "Water",
         chars: [
-          { char: "人", roman: "jin / nin" }
-        ]
-      },
-      {
-        reading: "sei / shou (せい / しょう)",
-        note: "Life / birth",
-        chars: [
-          { char: "生", roman: "sei / shou" }
-        ]
-      },
-      {
-        reading: "kou (こう)",
-        note: "High, school, mouth, etc.",
-        chars: [
-          { char: "高", roman: "kou" },
-          { char: "校", roman: "kou" },
-          { char: "口", roman: "kou" }
+          { char: "水", roman: "sui" }
         ]
       },
       {
         reading: "den (でん)",
-        note: "Electricity, rice field",
+        note: "Electricity / field",
         chars: [
           { char: "電", roman: "den" },
           { char: "田", roman: "den" }
         ]
       },
       {
-        reading: "sha (しゃ)",
-        note: "Vehicle, company",
-        chars: [
-          { char: "車", roman: "sha" }
-        ]
-      },
-      {
         reading: "gaku (がく)",
-        note: "Study / learning",
+        note: "Study",
         chars: [
           { char: "学", roman: "gaku" }
         ]
       },
       {
         reading: "kai (かい)",
-        note: "Meet, sea",
+        note: "Meet / sea",
         chars: [
           { char: "会", roman: "kai" },
           { char: "海", roman: "kai" }
@@ -491,7 +524,7 @@ const SCRIPTS = {
       },
       {
         reading: "go (ご)",
-        note: "Language, five",
+        note: "Language / five",
         chars: [
           { char: "語", roman: "go" },
           { char: "五", roman: "go" }
