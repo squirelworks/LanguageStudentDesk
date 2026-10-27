@@ -301,9 +301,15 @@
 
     <div id="groupsView" class="hidden">
       <div class="card">
-        <h2>On-yomi Groupings (stub)</h2>
-        <p>Characters that share the same on-reading. Expand this module later.</p>
+        <h2>On-yomi Reading Groups</h2>
+        <p>Click a group to see all its members (Nihongo Classroom style).</p>
         <div id="groupsList"></div>
+        <div id="groupDetail" class="hidden" style="margin-top:1rem; padding:1rem; background:#252530; border-radius:8px;">
+          <button class="primary" onclick="document.getElementById('groupDetail').classList.add('hidden')">← Back to groups</button>
+          <h3 id="groupDetailTitle"></h3>
+          <p id="groupDetailNote" class="muted"></p>
+          <div id="groupDetailChars" class="char-grid" style="margin-top:1rem;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -625,13 +631,36 @@ function flipFlash() { document.getElementById('flashAnswer').classList.toggle('
 function nextFlash() { flashIndex++; showFlash(); }
 function renderGroups() {
   const el = document.getElementById('groupsList');
+  const detail = document.getElementById('groupDetail');
+  if (detail) detail.classList.add('hidden');
   if (!SCRIPTS.kanji.groups) { el.innerHTML = '<p>No groups defined yet.</p>'; return; }
-  el.innerHTML = SCRIPTS.kanji.groups.map(g => `
-    <div style="margin:0.8rem 0; padding:0.6rem; background:#252530; border-radius:6px">
-      <strong>${g.reading}</strong>: ${g.chars.map(c => c.char).join(' ')}<br>
-      <small>${g.note || ''}</small>
+  el.innerHTML = SCRIPTS.kanji.groups.map((g, i) => `
+    <div class="group-item" style="margin:0.6rem 0; padding:0.8rem; background:#252530; border-radius:8px; cursor:pointer; border:1px solid #444;" onclick="showGroupDetail(${i})">
+      <strong style="color:var(--gold); font-size:1.1rem;">${g.reading}</strong>
+      <span style="color:var(--muted); font-size:0.85rem; margin-left:0.5rem;">(${g.chars.length})</span>
+      <div style="margin-top:0.3rem; font-size:1.2rem;">${g.chars.map(c => c.char).join(' ')}</div>
+      <small style="color:var(--muted);">${g.note || ''}</small>
     </div>
   `).join('');
+}
+
+function showGroupDetail(index) {
+  const g = SCRIPTS.kanji.groups[index];
+  if (!g) return;
+  document.getElementById('groupsList').style.display = 'none';
+  const detail = document.getElementById('groupDetail');
+  detail.classList.remove('hidden');
+  document.getElementById('groupDetailTitle').textContent = g.reading;
+  document.getElementById('groupDetailNote').textContent = g.note || '';
+  const prog = getScriptProgress('kanji');
+  const learnedSet = new Set(prog.learned || []);
+  document.getElementById('groupDetailChars').innerHTML = g.chars.map(c => {
+    const full = currentData.find(x => x.char === c.char) || c;
+    return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(${JSON.stringify(full).replace(/"/g,'"')})">
+      <span class="big">${c.char}</span>
+      <span class="small">${c.roman || ''}</span>
+    </div>`;
+  }).join('');
 }
 function speak(text) {
   if (!window.speechSynthesis) return;
