@@ -216,9 +216,25 @@
     border-top: 1px solid #333;
     flex-shrink: 0;
   }
-</style>
+
+  .detail-sidebar {
+    width: 340px;
+    background: var(--sidebar-bg);
+    border-left: 1px solid #333;
+    padding: 1rem;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  .detail-sidebar.hidden { display: none; }
+  .detail-sidebar .big-char { font-size: 4rem; text-align: center; }
+  .layout-with-detail { display: flex; }
+  .main-content { flex: 1; }
+
+  </style>
 </head>
-<body>
+<body style="display:flex; height:100vh; overflow:hidden;">
 <header>
   <h1 id="appTitle">Character Learner</h1>
   <p id="appSubtitle">Modular script trainer — Language Student Desk</p>
@@ -228,7 +244,7 @@
     <h3 id="sidebarTitle">Scripts</h3>
     <div class="script-select" id="scriptSelect"></div>
   </aside>
-  <div class="main-content">
+  <div class="main-content" style="flex:1; overflow-y:auto; height:100vh;">
     <div class="mode-nav hidden" id="modeNav">
       <button class="active" data-mode="learn">Learn</button>
       <button data-mode="quiz">Quiz</button>
@@ -258,17 +274,7 @@
         </div>
         <div class="char-grid" id="charGrid"></div>
       </div>
-      <div class="card hidden" id="detailCard">
-        <div class="big-char" id="detailChar"></div>
-        <h3 id="detailRoman" style="text-align:center"></h3>
-        <p id="detailInfo"></p>
-        <div id="detailExtra" style="margin:0.8rem 0; font-size:0.95rem; line-height:1.5;"></div>
-        <p><strong>Example:</strong> <span id="detailExample"></span></p>
-        <div id="formsContainer"></div>
-        <button class="primary" onclick="markLearned()">Mark as Learned</button>
-        <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
-        <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
-      </div>
+      
     </div>
 
     <div id="quizView" class="hidden">
@@ -687,5 +693,20 @@ function speak(text) {
 }
 init();
 </script>
+
+  <aside class="detail-sidebar hidden" id="detailCard">
+    <div class="big-char" id="detailChar"></div>
+    <h3 id="detailRoman" style="text-align:center"></h3>
+    <p id="detailInfo"></p>
+    <div id="detailExtra" style="margin:0.8rem 0; font-size:0.95rem; line-height:1.5;"></div>
+    <p><strong>Example:</strong> <span id="detailExample"></span></p>
+    <div id="formsContainer"></div>
+    <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <button class="primary" onclick="markLearned()">Mark as Learned</button>
+      <button class="primary" onclick="speak(document.getElementById('detailChar').textContent)">Speak</button>
+      <button class="primary" onclick="document.getElementById('detailCard').classList.add('hidden')">Close</button>
+    </div>
+  </aside>
+
 </body>
 </html>
