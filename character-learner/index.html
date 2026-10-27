@@ -234,17 +234,17 @@
 
   </style>
 </head>
-<body style="display:flex; height:100vh; overflow:hidden;">
+<body>
 <header>
   <h1 id="appTitle">Character Learner</h1>
   <p id="appSubtitle">Modular script trainer — Language Student Desk</p>
 </header>
-<div class="app-body">
+<div class="app-body" style="display:flex; height:calc(100vh - 80px);">
   <aside class="sidebar" id="sidebar">
     <h3 id="sidebarTitle">Scripts</h3>
     <div class="script-select" id="scriptSelect"></div>
   </aside>
-  <div class="main-content" style="flex:1; overflow-y:auto; height:100vh;">
+  <div class="main-content" style="flex:1; overflow-y:auto; min-width:0;">
     <div class="mode-nav hidden" id="modeNav">
       <button class="active" data-mode="learn">Learn</button>
       <button data-mode="quiz">Quiz</button>
@@ -682,18 +682,7 @@ function showGroupDetail(index) {
     return `<div class="char-card ${learnedSet.has(c.char) ? 'learned' : ''}" onclick="showDetail(JSON.parse(this.dataset.char))" data-char='${JSON.stringify(full).replace(/'/g,"&#39;")}' >
       <span class="big">${c.char}</span>
       <span class="small">${c.roman || ''}</span>
-    </div>`;
-  }).join('');
-}
-function speak(text) {
-  if (!window.speechSynthesis) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
-  speechSynthesis.speak(u);
-}
-init();
-</script>
-
+    
   <aside class="detail-sidebar hidden" id="detailCard">
     <div class="big-char" id="detailChar"></div>
     <h3 id="detailRoman" style="text-align:center"></h3>
@@ -708,5 +697,15 @@ init();
     </div>
   </aside>
 
-</body>
+</div>`;
+  }).join('');
+}
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
+  speechSynthesis.speak(u);
+}
+init();
+</script></body>
 </html>
