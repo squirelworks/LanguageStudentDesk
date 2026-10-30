@@ -995,6 +995,93 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "chrysostom-ru-1ti-1jn",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM",
+        "HEB",
+        "JAS",
+        "1PE",
+        "2PE",
+        "1JN"
+      ],
+      "tradition": "east",
+      "size": 2461163,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-1ti-1jn.js"
+    },
+    {
+      "id": "chrysostom-ru-2co-col",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL"
+      ],
+      "tradition": "east",
+      "size": 3715952,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-2co-col.js"
+    },
+    {
+      "id": "chrysostom-ru-act-rom",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "ACT",
+        "ROM"
+      ],
+      "tradition": "east",
+      "size": 3714227,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-act-rom.js"
+    },
+    {
+      "id": "chrysostom-ru-jhn",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "JHN"
+      ],
+      "tradition": "east",
+      "size": 2561276,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-jhn.js"
+    },
+    {
+      "id": "chrysostom-ru-psa-dan",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "PSA",
+        "PRO",
+        "ISA",
+        "JER",
+        "DAN"
+      ],
+      "tradition": "east",
+      "size": 3364775,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-psa-dan.js"
+    },
+    {
       "id": "cyril-alexandria",
       "author": "St Cyril of Alexandria",
       "work": "Commentary on the Gospel of John, Book; Catena Aurea; Commentary on the Gospel of Luke, Sermon; Commentary on the Gospel of John - Book; and other works",

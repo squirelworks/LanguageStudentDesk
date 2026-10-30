@@ -614,5 +614,92 @@
   "tradition": "east",
   "size": 387882,
   "pack": true
+ },
+ {
+  "id": "chrysostom-ru-psa-dan",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "PSA",
+   "PRO",
+   "ISA",
+   "JER",
+   "DAN"
+  ],
+  "tradition": "east",
+  "size": 3364775,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-jhn",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "JHN"
+  ],
+  "tradition": "east",
+  "size": 2561276,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-act-rom",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "ACT",
+   "ROM"
+  ],
+  "tradition": "east",
+  "size": 3714227,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-2co-col",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "2CO",
+   "GAL",
+   "EPH",
+   "PHP",
+   "COL"
+  ],
+  "tradition": "east",
+  "size": 3715952,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-1ti-1jn",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "1TI",
+   "2TI",
+   "TIT",
+   "PHM",
+   "HEB",
+   "JAS",
+   "1PE",
+   "2PE",
+   "1JN"
+  ],
+  "tradition": "east",
+  "size": 2461163,
+  "pack": true
  }
 ]
