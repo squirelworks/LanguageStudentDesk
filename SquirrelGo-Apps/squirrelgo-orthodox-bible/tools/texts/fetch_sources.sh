@@ -48,6 +48,11 @@ done
 [ -n "${SGO_SKIP_COMMENTARY:-}" ] && exit 0
 clone HistoricalChristianFaith/Commentaries-Database commentaries
 
+# Russian patristic commentaries from azbyka.ru, published to a data branch
+# by the "SquirrelGo Orthodox Bible Russian sources" workflow (fetch_azbyka.py).
+[ -d "$CACHE/azbyka/.git" ] || git clone -q --depth 1 --branch orthodox-bible-sources-ru \
+  https://github.com/squirelworks/LanguageStudentDesk "$CACHE/azbyka"
+
 # Orthodox lectionary and calendar tables from Orthocal (MIT), pinned so the
 # generated lectionary.js is reproducible. Only reading references, day titles
 # and commemoration names are used; see build_lectionary.py.
