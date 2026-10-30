@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Downloading extra Bibles and commentary packs. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Needed on Android 11+ to bind to the installed text-to-speech engine. -->
     <queries>
         <intent>
