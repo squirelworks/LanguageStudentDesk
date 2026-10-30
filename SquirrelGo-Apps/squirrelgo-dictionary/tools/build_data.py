@@ -13,7 +13,7 @@ Usage:
 Output (all plain <script>-loadable JS so the app works from file:// URLs):
   index-NN.js    search index shards, one line per entry:
                  "id<TAB>kanji;kanji<TAB>kana;kana<TAB>common<TAB>classes<TAB>gloss; gloss|gloss"
-                 classes: conjugation classes (v5k, adj-i…) and word types N V A D E
+                 classes: conjugation classes (v5k, adj-i…) and word types N V A D E C (counter) O (onomatopoeia)
   entries-NN.js  full entries for the same shard (senses, tags, examples)
   kanji.js       KANJIDIC2 subset
   radicals.js    RADKFILE radicals and KRADFILE decompositions
@@ -54,8 +54,10 @@ def build_words(jm):
         pos = {p for s in w["sense"] for p in s["partOfSpeech"] if p.startswith(("v1", "v5", "vk", "vs", "vz", "adj-i"))}
         # Plus coarse word-type letters for the search filters.
         for p in (p for s in w["sense"] for p in s["partOfSpeech"]):
-            cat = "N" if p.startswith("n") else "V" if p.startswith("v") else "A" if p.startswith("adj") else "D" if p.startswith("adv") else "E" if p == "exp" else None
+            cat = "N" if p.startswith("n") else "V" if p.startswith("v") else "A" if p.startswith("adj") else "D" if p.startswith("adv") else "E" if p == "exp" else "C" if p == "ctr" else None
             if cat: pos.add(cat)
+        if any("on-mim" in s["misc"] for s in w["sense"]):
+            pos.add("O")
         pos = sorted(pos)
         index.append("\t".join([w["id"], ";".join(kanji), ";".join(kana), "1" if common else "0", ",".join(pos), glosses]))
 

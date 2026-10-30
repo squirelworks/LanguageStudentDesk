@@ -87,38 +87,89 @@
     if (!prev || prev.score < score) hits.set(pos, { pos, score, note: note || (prev && prev.note) });
   }
 
-  // Returns {results: [{pos, score, note}], kana} — kana is the romaji reading
-  // that was also searched, if any.
-  const TYPES = { verb: "V", noun: "N", adj: "A", adv: "D", exp: "E" };
+  const TYPES = { verb: "V", noun: "N", adj: "A", adv: "D", exp: "E", ctr: "C", ono: "O" };
+  const CHARS = {
+    hira: /[\u3041-\u309f]/,
+    kata: /[\u30a1-\u30ff]/,
+    kanji: /[\u3400-\u9fff\uf900-\ufaff々]/,
+    latin: /[A-Za-zＡ-Ｚａ-ｚ0-9０-９]/,
+  };
 
-  // filters: {common: bool, type: "verb" | "noun" | "adj" | "adv" | "exp" | ""}
+  function keep(pos, f) {
+    if (f.only && !f.only.has(pos)) return false;
+    if (!f.common && !f.type && !f.chars) return true;
+    const row = Data.row(pos);
+    if (f.common && !row.common) return false;
+    if (f.type === "nonsuru") {
+      if (!row.cls.includes("V") || row.cls.some((c) => c.startsWith("vs"))) return false;
+    } else if (f.type && !row.cls.includes(TYPES[f.type])) return false;
+    if (f.chars) {
+      // JED's "allowed characters": every script in the headword must be ticked.
+      const hw = row.kanji[0] || row.kana[0];
+      for (const [name, re] of Object.entries(CHARS)) if (!f.chars[name] && re.test(hw)) return false;
+    }
+    return true;
+  }
+
+  // filters: {
+  //   common: bool,
+  //   type: "verb" | "nonsuru" | "noun" | "adj" | "adv" | "exp" | "ctr" | "ono" | "",
+  //   field: "both" | "read" | "mean",           (JED's Both / Read / Mean)
+  //   chars: {hira, kata, kanji, latin} or null,  (allowed characters)
+  //   only: Set of positions or null,            (tags / history scopes)
+  // }
+  // Returns {results: [{pos, score, note}], kana, total}; kana is the romaji
+  // reading that was also searched, if any. An empty query lists the scope.
   function search(raw, filters = {}) {
     const q = raw.trim().replace(/\s+/g, " ");
+    const field = filters.field || "both";
     const hits = new Map();
     let kana = null;
-    if (!q) return { results: [], kana };
+    if (!q) {
+      if (!filters.only && !filters.type) return { results: [], kana, total: 0 };
+      const source = filters.only ? [...filters.only] : Data.forms.keys();
+      let results = [];
+      for (const pos of source) if (keep(pos, filters)) results.push({ pos, score: 0 });
+      results.sort((a, b) => a.pos - b.pos);
+      return { results: results.slice(0, LIMIT), kana, total: results.length };
+    }
     if (Kana.hasJapanese(q) || /[*?＊？]/.test(q) && !/[a-z]/i.test(q)) {
-      japanese(Kana.kataToHira(q), hits);
+      if (field !== "mean") japanese(Kana.kataToHira(q), hits);
     } else {
       const lower = q.toLowerCase();
       const converted = Kana.romajiToHiragana(lower.replace(/\s/g, ""));
-      if (/^[\u3040-\u309fー*?]+$/.test(converted)) {
+      if (field !== "mean" && /^[\u3040-\u309fー*?]+$/.test(converted)) {
         kana = converted;
         japanese(converted, hits);
       }
-      english(lower, hits);
+      if (field !== "read") english(lower, hits);
     }
-    let results = [...hits.values()];
-    if (filters.common || filters.type) {
-      const t = TYPES[filters.type];
-      results = results.filter((r) => {
-        const row = Data.row(r.pos);
-        return (!filters.common || row.common) && (!t || row.cls.includes(t));
-      });
-    }
+    const results = [...hits.values()].filter((r) => keep(r.pos, filters));
     for (const r of results) if (isCommon(r.pos)) r.score += 20;
     results.sort((a, b) => b.score - a.score || a.pos - b.pos);
     return { results: results.slice(0, LIMIT), kana, total: results.length };
+  }
+
+  // KANJIDIC search for the "All Kanji" screen: by character, reading or meaning.
+  function kanji(raw, all) {
+    const q = raw.trim().toLowerCase();
+    const out = [];
+    const hira = Kana.kataToHira(Kana.romajiToHiragana(q));
+    for (const [ch, k] of Object.entries(all)) {
+      let score = 0;
+      if (!q) score = k.f ? 3000 - k.f : k.g ? 1 : 0;
+      else if (q.includes(ch)) score = 5000;
+      else {
+        const reads = [].concat(k.on || [], k.kun || []).map((r) => Kana.kataToHira(r).replace(/[.-]/g, ""));
+        if (reads.includes(hira)) score = 3000;
+        else if ((k.m || []).some((m) => m.toLowerCase() === q)) score = 2500;
+        else if ((k.m || []).some((m) => m.toLowerCase().split(/\W+/).includes(q))) score = 1500;
+        if (score && k.f) score += 1000 - k.f / 3;
+      }
+      if (score) out.push([ch, score]);
+    }
+    out.sort((a, b) => b[1] - a[1]);
+    return out.map((x) => x[0]);
   }
 
   // Common words that contain a kanji, for the kanji page.
@@ -133,5 +184,5 @@
     return out.sort((a, b) => len(a) - len(b) || a - b).slice(0, limit);
   }
 
-  window.Search = { search, wordsWithKanji };
+  window.Search = { search, kanji, wordsWithKanji };
 })();

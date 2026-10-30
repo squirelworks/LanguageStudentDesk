@@ -1,12 +1,13 @@
-// SquirrelGo Dictionary UI: search, entry details, kanji, radical lookup,
-// kana chart, word lists, history and notepad. Plain DOM, no framework.
+// SquirrelGo Dictionary UI, laid out after the original JED app: grey
+// gradient title bar with a search field, black list screens, a sectioned
+// menu, search options popup, long-press context menus, tag lists and a
+// notepad drawer. Plain DOM, no framework.
 (() => {
   const app = document.getElementById("app");
   const STORE_KEY = "squirrelgo-dictionary.v1";
-  const stack = [];
   const PAGE = 50;
-  let lastQuery = "";
-  let loadState = { loaded: 0, total: 0, error: null };
+  const stack = [];
+  const overlays = []; // open dialogs / drawers, closed first by Back
 
   // ---------- storage ----------
   const state = (() => {
@@ -16,8 +17,9 @@
     s.history = s.history || [];
     s.notepad = s.notepad || "";
     s.textScale = s.textScale || 1;
-    s.romaji = s.romaji !== false;
-    s.filters = s.filters || { common: false, type: "" };
+    s.romaji = s.romaji === true;
+    s.options = Object.assign({ field: "both", common: false, chars: { hira: true, kata: true, kanji: true, latin: true } }, s.options);
+    delete s.filters;
     return s;
   })();
   function save() {
@@ -26,20 +28,24 @@
 
   // ---------- helpers ----------
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const h = (html) => {
+  const frag = (html) => {
     const t = document.createElement("template");
     t.innerHTML = html.trim();
     return t.content;
   };
   const tagName = (t) => (Data.meta && Data.meta.tags[t]) || t;
   const head = (row) => row.kanji[0] || row.kana[0];
+  const num = (n) => Number(n).toLocaleString();
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
   function toast(msg) {
-    const el = h(`<div class="toast">${esc(msg)}</div>`).firstChild;
+    const el = frag(`<div class="toast">${esc(msg)}</div>`).firstChild;
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 1800);
+    setTimeout(() => el.remove(), 2000);
   }
   function copy(text) {
-    const done = () => toast("Copied");
+    const done = () => toast("Copied to clipboard");
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text));
     else fallbackCopy(text);
   }
@@ -48,512 +54,699 @@
     ta.value = text;
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand("copy"); toast("Copied"); } catch (e) { toast("Copy failed"); }
+    try { document.execCommand("copy"); toast("Copied to clipboard"); } catch (e) { toast("Copy failed"); }
     ta.remove();
   }
-  function speakBtn(text) {
-    return `<button class="speak" data-speak="${esc(text)}" title="Listen" aria-label="Listen">🔊</button>`;
+  function speak(text) {
+    if (!Speech.speak(text)) toast("No Japanese voice installed");
+  }
+
+  // Long press (and right click) → handler(ev); a plain tap still clicks.
+  function onLongPress(el, handler) {
+    let timer = 0;
+    let fired = false;
+    const clear = () => clearTimeout(timer);
+    el.addEventListener("pointerdown", (ev) => {
+      fired = false;
+      timer = setTimeout(() => { fired = true; handler(ev); }, 550);
+    });
+    ["pointerup", "pointerleave", "pointercancel"].forEach((t) => el.addEventListener(t, clear));
+    window.addEventListener("scroll", clear, { passive: true });
+    el.addEventListener("click", (ev) => { if (fired) { ev.stopPropagation(); ev.preventDefault(); fired = false; } }, true);
+    el.addEventListener("contextmenu", (ev) => { ev.preventDefault(); clear(); handler(ev); });
+  }
+
+  // ---------- dialogs (Android 2.x style) ----------
+  function dialog({ title, body = "", items, buttons = [], onOpen }) {
+    const el = frag(`<div class="dlg-bg"><div class="dlg" role="dialog">
+      ${title ? `<div class="dlg-title">${title}</div>` : ""}
+      ${items ? `<ul class="dlg-items">${items.map((it, i) => `<li data-i="${i}">${esc(it.label)}</li>`).join("")}</ul>` : ""}
+      ${body ? `<div class="dlg-body">${body}</div>` : ""}
+      ${buttons.length ? `<div class="dlg-buttons">${buttons.map((b, i) => `<button class="btn" data-b="${i}">${esc(b.label)}</button>`).join("")}</div>` : ""}
+    </div></div>`).firstChild;
+    const close = () => {
+      el.remove();
+      const i = overlays.indexOf(close);
+      if (i >= 0) overlays.splice(i, 1);
+      syncBack();
+    };
+    el.addEventListener("click", (ev) => {
+      if (ev.target === el) return close();
+      const li = ev.target.closest("[data-i]");
+      if (li) { close(); items[+li.dataset.i].action(); return; }
+      const b = ev.target.closest("[data-b]");
+      if (b) {
+        const btn = buttons[+b.dataset.b];
+        if (!btn.action || btn.action(el) !== false) close();
+      }
+    });
+    document.body.appendChild(el);
+    overlays.push(close);
+    syncBack();
+    if (onOpen) onOpen(el);
+    return close;
+  }
+  function ask(title, value, done) {
+    dialog({
+      title: esc(title),
+      body: `<input class="edit" id="askInput" value="${esc(value || "")}">`,
+      buttons: [{ label: "Ok", action: (el) => done($("#askInput", el).value.trim()) }, { label: "Cancel" }],
+      onOpen: (el) => { const i = $("#askInput", el); i.focus(); i.select(); },
+    });
+  }
+  function confirmDlg(text, yes) {
+    dialog({ title: "Are you sure?", body: esc(text), buttons: [{ label: "Yes", action: yes }, { label: "No" }] });
   }
 
   // ---------- navigation ----------
   function go(view, arg, replace) {
     if (replace) stack.pop();
-    stack.push({ view, arg, scroll: 0 });
+    stack.push({ view, arg, scroll: 0, query: "" });
     render();
   }
   function back() {
+    if (overlays.length) return overlays[overlays.length - 1]();
     if (stack.length > 1) {
       stack.pop();
       render(true);
     }
   }
+  const cur = () => stack[stack.length - 1];
 
-  function shell(title, sub, body, opts = {}) {
-    const top = stack.length > 1;
+  // MainActivity's Back key clicks #backBtn when it is not hidden.
+  function syncBack() {
+    const b = document.getElementById("backBtn");
+    if (b) b.classList.toggle("hidden", !(overlays.length || stack.length > 1));
+  }
+
+  // Title bar: [left button] [search field] [right button], as in JED.
+  function shell(opts, body) {
+    const isRoot = stack.length === 1;
+    overlays.length = 0;
     app.innerHTML = "";
-    app.appendChild(h(`
-      <header class="topbar">
-        <button id="backBtn" class="back-btn ${top ? "" : "hidden"}" aria-label="Back">‹</button>
-        <h1>${title}${sub ? `<span class="sub">${sub}</span>` : ""}</h1>
-        ${opts.action || ""}
+    app.appendChild(frag(`
+      <header class="titlebar">
+        <button class="btn tb-left" id="leftBtn">${isRoot ? "Menu" : "Back"}</button>
+        <div class="tb-field">
+          <input id="q" class="edit search" type="search" lang="ja" enterkeyhint="search" autocomplete="off"
+            placeholder="${esc(opts.hint || "Search for...")}" value="${esc(opts.query || "")}">
+          <span class="spinner ${Data.ready ? "hidden" : ""}" id="spinner"></span>
+        </div>
+        ${opts.right ? `<button class="btn tb-right" id="rightBtn">${esc(opts.right)}</button>` : ""}
       </header>
-      <main>${body}</main>`));
-    document.getElementById("backBtn").onclick = back;
+      <button id="backBtn" class="hidden" aria-hidden="true" tabindex="-1"></button>
+      <main id="content">${body}</main>
+      ${opts.notepad ? notepadHtml() : ""}`));
+    $("#leftBtn").onclick = () => (isRoot ? go("menu") : back());
+    $("#backBtn").onclick = back;
+    if (opts.right) $("#rightBtn").onclick = opts.onRight;
+    const input = $("#q");
+    if (opts.onInput) {
+      let timer = 0;
+      input.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(() => opts.onInput(input.value), 200); });
+    }
+    input.addEventListener("keydown", (ev) => {
+      if (ev.key !== "Enter") return;
+      ev.preventDefault();
+      input.blur();
+      if (opts.onInput) opts.onInput(input.value);
+      else searchAll(input.value);
+    });
+    if (opts.notepad) wireNotepad();
+    syncBack();
+  }
+
+  function searchAll(q) {
+    stack.length = 1;
+    stack[0].query = q;
+    render();
   }
 
   function render(restore) {
-    const cur = stack[stack.length - 1];
+    const c = cur();
     document.documentElement.style.fontSize = 16 * state.textScale + "px";
-    VIEWS[cur.view](cur.arg);
-    window.scrollTo(0, restore ? cur.scroll : 0);
+    c.refresh = null;
+    VIEWS[c.view](c.arg, c);
+    window.scrollTo(0, restore ? c.scroll : 0);
   }
-  window.addEventListener("scroll", () => {
-    if (stack.length) stack[stack.length - 1].scroll = window.scrollY;
-  }, { passive: true });
+  window.addEventListener("scroll", () => { if (stack.length) cur().scroll = window.scrollY; }, { passive: true });
 
-  // Delegated clicks for links rendered as data attributes.
-  document.addEventListener("click", (ev) => {
-    const t = ev.target.closest("[data-speak],[data-entry],[data-kanji],[data-go],[data-q]");
-    if (!t) return;
-    if (t.dataset.speak) {
-      if (!Speech.speak(t.dataset.speak)) toast("No Japanese voice available");
-    } else if (t.dataset.entry) go("entry", +t.dataset.entry);
-    else if (t.dataset.kanji) go("kanji", t.dataset.kanji);
-    else if (t.dataset.go) go(t.dataset.go, t.dataset.arg);
-    else if (t.dataset.q !== undefined) {
-      lastQuery = t.dataset.q;
-      stack.length = 1;
-      render();
-    }
-  });
+  // ---------- notepad drawer ----------
+  function notepadHtml() {
+    return `<div class="drawer" id="drawer">
+      <div class="drawer-handle" id="drawerHandle">Notepad</div>
+      <textarea class="lined" id="pad" lang="ja" spellcheck="false">${esc(state.notepad)}</textarea>
+    </div>`;
+  }
+  function wireNotepad() {
+    const drawer = $("#drawer");
+    const pad = $("#pad");
+    const close = () => {
+      drawer.classList.remove("open");
+      const i = overlays.indexOf(close);
+      if (i >= 0) overlays.splice(i, 1);
+      syncBack();
+    };
+    $("#drawerHandle").onclick = () => {
+      if (drawer.classList.toggle("open")) {
+        overlays.push(close);
+        syncBack();
+      } else close();
+    };
+    pad.addEventListener("input", () => { state.notepad = pad.value; save(); });
+    onLongPress(pad, () => {
+      const sel = pad.value.slice(pad.selectionStart, pad.selectionEnd).trim();
+      dialog({
+        title: "Notepad",
+        items: [
+          ...(sel ? [{ label: `Search “${sel}”`, action: () => { close(); searchAll(sel); } }] : []),
+          { label: "Copy all", action: () => copy(pad.value) },
+          { label: "Clear", action: () => { pad.value = ""; state.notepad = ""; save(); } },
+        ],
+      });
+    });
+  }
 
-  // ---------- result list ----------
-  function resultItem(pos, note) {
+  // ---------- list rows ----------
+  function resultRow(pos, note) {
     const r = Data.row(pos);
     const hw = head(r);
     const reading = r.kanji.length ? r.kana[0] : "";
-    const gloss = r.senses.slice(0, 3).map((s, i) => (r.senses.length > 1 ? `<b>${i + 1}</b> ` : "") + esc(s)).join(" ");
-    return `<li class="result" data-entry="${pos}">
-      <div class="hw"><span lang="ja" class="word">${esc(hw)}</span>
-        ${reading ? `<span lang="ja" class="reading">${esc(reading)}</span>` : ""}
-        ${state.romaji ? `<span class="romaji">${esc(Kana.toRomaji(r.kana[0]))}</span>` : ""}
-        ${r.common ? `<span class="badge">common</span>` : ""}</div>
-      ${note ? `<div class="note">${esc(note)}</div>` : ""}
-      <div class="gloss">${gloss}</div>
+    const gloss = r.senses.map((s, i) => (r.senses.length > 1 ? `(${i + 1}) ` : "") + s).join(" ");
+    const tags = Object.keys(state.lists).filter((n) => state.lists[n].some((w) => w.id === r.id));
+    const pills = (r.common ? ["common"] : []).concat(tags);
+    return `<li class="row result" data-pos="${pos}"${note ? ` data-note="${esc(note)}"` : ""}>
+      <div class="r-top"><span class="r-kanji" lang="ja">${esc(hw)}</span>
+        ${reading ? `<span class="r-kana" lang="ja">[${esc(reading)}]</span>` : ""}
+        ${state.romaji ? `<span class="r-romaji">${esc(Kana.toRomaji(r.kana[0]))}</span>` : ""}</div>
+      <div class="r-gloss">${note ? `<span class="r-note">${esc(note)}</span> ` : ""}${esc(gloss)}</div>
+      ${pills.length ? `<div class="r-pills">${pills.map((p) => `<span class="pill">${esc(p)}</span>`).join("")}</div>` : ""}
     </li>`;
+  }
+
+  function wireResults(root) {
+    $$(".result:not([data-wired])", root).forEach((li) => {
+      li.dataset.wired = "1";
+      li.onclick = () => go("details", { pos: +li.dataset.pos, note: li.dataset.note });
+      onLongPress(li, () => entryMenu(+li.dataset.pos));
+    });
+  }
+
+  function entryMenu(pos) {
+    const r = Data.row(pos);
+    const hw = head(r);
+    const items = [
+      { label: "Copy kanji", action: () => copy(hw) },
+      { label: "Copy reading", action: () => copy(r.kana.join(", ")) },
+      { label: "Copy meaning", action: () => copy(r.senses.join("; ")) },
+      { label: "Tag", action: async () => tagEntry(await Data.entry(pos)) },
+      { label: "Listen", action: () => speak(r.kana[0]) },
+    ];
+    if (cur().arg && cur().arg.scope === "history") items.push({ label: "Clear history", action: clearHistory });
+    dialog({ title: `<span lang="ja">${esc(hw)}</span>`, items });
+  }
+
+  function kanjiRow(ch, k) {
+    return `<li class="row kanji-row" data-kanji="${esc(ch)}">
+      <span class="k-big" lang="ja">${esc(ch)}</span>
+      <div class="k-info">
+        <div class="k-reads" lang="ja"><span>${esc((k.on || []).join("、"))}</span><span>${esc((k.kun || []).join("、"))}</span></div>
+        <div class="k-mean">${esc((k.m || []).join(", "))}</div>
+      </div>
+      <span class="arrow">›</span>
+    </li>`;
+  }
+  function wireKanjiRows(root) {
+    $$(".kanji-row:not([data-wired])", root).forEach((li) => {
+      li.dataset.wired = "1";
+      li.onclick = () => go("kanji", li.dataset.kanji);
+      onLongPress(li, () => {
+        const ch = li.dataset.kanji;
+        dialog({ title: `<span lang="ja">${esc(ch)}</span>`, items: [
+          { label: "Copy kanji", action: () => copy(ch) },
+          { label: "Search words with this kanji", action: () => searchAll("*" + ch + "*") },
+        ] });
+      });
+    });
+  }
+
+  const sep = (label) => `<li class="sep">${esc(label)}</li>`;
+  const nameValue = (name, value) => `<li class="row nv"><span class="nv-name">${esc(name)}</span><span class="nv-value">${value}</span></li>`;
+
+  // Pages of 50 rows with a "More" row, up to the search limit.
+  function pagedList(list, results, rowFn, wire) {
+    let shown = 0;
+    const more = () => {
+      const old = $("#moreRow", list);
+      if (old) old.remove();
+      list.insertAdjacentHTML("beforeend", results.slice(shown, shown + PAGE).map(rowFn).join(""));
+      wire(list);
+      shown = Math.min(results.length, shown + PAGE);
+      if (shown < results.length) {
+        list.insertAdjacentHTML("beforeend", `<li class="row more" id="moreRow">More results (${shown} of ${results.length})</li>`);
+        $("#moreRow", list).onclick = more;
+      }
+    };
+    more();
+  }
+
+  // ---------- scopes ----------
+  const CATEGORIES = {
+    verb: "Verbs", nonsuru: "Non suru verbs", noun: "Nouns", adj: "Adjectives", adv: "Adverbs", ctr: "Counters", ono: "Onomatopeia",
+  };
+  function scopeFilter(scope) {
+    const o = state.options;
+    const f = { field: o.field, common: o.common, chars: o.chars };
+    if (o.chars.hira && o.chars.kata && o.chars.kanji && o.chars.latin) f.chars = null;
+    if (!scope || scope.scope === "all") return f;
+    if (scope.scope === "category") f.type = scope.type;
+    if (scope.scope === "history" || scope.scope === "tags") {
+      const ids = scope.scope === "history" ? state.history.map((w) => w.id)
+        : (scope.tags || Object.keys(state.lists)).flatMap((n) => (state.lists[n] || []).map((w) => w.id));
+      f.only = new Set(ids.map((id) => Data.posOfId(id)).filter((p) => p !== undefined));
+    }
+    return f;
+  }
+  function scopeHint(scope) {
+    if (!scope || scope.scope === "all") return "Search all";
+    if (scope.scope === "history") return "Search history";
+    if (scope.scope === "tags") return "Search tags" + (scope.tags ? ": " + scope.tags.join(", ") : "");
+    if (scope.scope === "category") return "Search " + CATEGORIES[scope.type].toLowerCase();
+    return "Search for...";
   }
 
   // ---------- views ----------
   const VIEWS = {
-    home() {
-      const m = Data.meta;
-      const loading = !Data.ready;
-      const sub = loadState.error ? "Data missing" : loading ? `Loading dictionary… ${loadState.total ? Math.round(loadState.loaded * 100 / loadState.total) : 0}%` : `${m.words.toLocaleString()} words · JMdict ${m.jmdictDate}`;
-      shell("SquirrelGo Dictionary", sub, `
-        <form class="searchbar" autocomplete="off">
-          <input id="q" class="search" type="search" lang="ja" enterkeyhint="search"
-            placeholder="English, rōmaji, かな or 漢字" value="${esc(lastQuery)}">
-          <button type="button" id="clearQ" class="clear" aria-label="Clear">×</button>
-        </form>
-        <div class="filters">
-          <button type="button" class="fchip ${state.filters.common ? "on" : ""}" id="fCommon">Common only</button>
-          <select id="fType" class="fchip ${state.filters.type ? "on" : ""}" aria-label="Word type">
-            ${[["", "All types"], ["noun", "Nouns"], ["verb", "Verbs"], ["adj", "Adjectives"], ["adv", "Adverbs"], ["exp", "Expressions"]]
-              .map(([v, l]) => `<option value="${v}" ${state.filters.type === v ? "selected" : ""}>${l}</option>`).join("")}
-          </select>
-        </div>
-        <div id="results"></div>`, {
-        action: `<button class="icon-btn" data-go="menu" aria-label="Menu">☰</button>`,
-      });
-      const input = document.getElementById("q");
-      const out = document.getElementById("results");
-      let timer = 0;
+    // Search list for any scope (all, tags, history, a word category).
+    search(scope, c) {
+      shell({
+        hint: scopeHint(scope),
+        query: c.query,
+        right: "Options",
+        onRight: searchOptions,
+        onInput: (q) => { c.query = q; run(); },
+        notepad: true,
+      }, `<div class="status hidden" id="status"></div><ul class="list" id="results"></ul>`);
+      const showStatus = (msg) => {
+        const status = $("#status");
+        status.textContent = msg;
+        status.classList.toggle("hidden", !msg);
+      };
       const run = () => {
-        lastQuery = input.value;
-        if (loadState.error) {
-          out.innerHTML = `<div class="empty">${esc(loadState.error)}</div>`;
+        const out = $("#results");
+        out.innerHTML = "";
+        if (loadError) return showStatus(loadError);
+        const q = c.query || "";
+        const f = scopeFilter(scope);
+        if (!q.trim() && !f.only && !f.type) {
+          showStatus(Data.ready ? "" : "Loading dictionary…");
+          if (Data.ready) out.innerHTML = welcome();
+          wireResults(out);
           return;
         }
-        if (!lastQuery.trim()) {
-          out.innerHTML = homeLinks();
-          return;
-        }
-        const { results, kana, total } = Search.search(lastQuery, state.filters);
-        const partial = Data.ready ? "" : `<p class="muted">Still loading — results so far.</p>`;
-        const filtered = state.filters.common || state.filters.type;
-        out.innerHTML = partial + (kana ? `<p class="muted">Also searched <span lang="ja">${esc(kana)}</span></p>` : "") +
-          (results.length ? `<p class="muted count">${total.toLocaleString()} match${total === 1 ? "" : "es"}${total > results.length ? `, showing the best ${results.length}` : ""}</p><ul class="results" id="resultList"></ul>`
-            : `<div class="empty">No matches for “${esc(lastQuery)}”${filtered ? " with these filters" : ""}.</div>`);
-        // Pages of 50, up to the 1000 the search returns.
-        let shown = 0;
-        const list = document.getElementById("resultList");
-        const more = () => {
-          list.insertAdjacentHTML("beforeend", results.slice(shown, shown + PAGE).map((r) => resultItem(r.pos, r.note)).join(""));
-          shown = Math.min(results.length, shown + PAGE);
-          const btn = document.getElementById("moreBtn");
-          if (btn) btn.remove();
-          if (shown < results.length) {
-            list.insertAdjacentHTML("afterend", `<button class="btn wide" id="moreBtn">Show more (${shown} of ${results.length})</button>`);
-            document.getElementById("moreBtn").onclick = more;
-          }
-        };
-        if (list) more();
+        const { results, total } = Search.search(q, f);
+        if (!results.length) return showStatus("No result(s)");
+        showStatus("");
+        out.insertAdjacentHTML("beforeend", `<li class="count">${num(total)} result(s)${total > results.length ? `, showing the first ${results.length}` : ""}${Data.ready ? "" : " (still loading)"}</li>`);
+        pagedList(out, results, (r) => resultRow(r.pos, r.note), wireResults);
       };
-      document.getElementById("fCommon").onclick = (e) => {
-        state.filters.common = !state.filters.common;
-        e.target.classList.toggle("on", state.filters.common);
-        save();
-        run();
-      };
-      document.getElementById("fType").onchange = (e) => {
-        state.filters.type = e.target.value;
-        e.target.classList.toggle("on", !!e.target.value);
-        save();
-        run();
-      };
-      input.addEventListener("input", () => {
-        clearTimeout(timer);
-        timer = setTimeout(run, 220);
-      });
-      input.form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        clearTimeout(timer);
-        run();
-        input.blur();
-      });
-      document.getElementById("clearQ").onclick = () => {
-        input.value = "";
-        run();
-        input.focus();
-      };
+      c.refresh = run;
       run();
-      VIEWS.home.refresh = run;
     },
 
     menu() {
-      shell("Menu", "", `
-        <ul class="menu">
-          <li data-go="radicals">部 <span>Kanji by radicals</span></li>
-          <li data-go="kana">あ <span>Kana chart</span></li>
-          <li data-go="lists">★ <span>Word lists</span></li>
-          <li data-go="history">↺ <span>History</span></li>
-          <li data-go="notepad">✎ <span>Notepad</span></li>
-          <li data-go="settings">⚙ <span>Settings</span></li>
-          <li data-go="about">ⓘ <span>About &amp; licenses</span></li>
-        </ul>`);
+      const m = Data.meta || {};
+      const item = (to, title, desc, arg) => `<li class="row menu-item" data-go="${to}"${arg ? ` data-arg='${esc(JSON.stringify(arg))}'` : ""}>
+        <div class="mi-title">${esc(title)}</div><div class="mi-desc">${esc(desc)}</div></li>`;
+      const tagged = new Set(Object.values(state.lists).flat().map((w) => w.id)).size;
+      shell({ hint: "Menu" }, `<ul class="list">
+        ${sep("Search")}
+        ${item("search", "All", `Search among all entries (${num(m.words || 0)})`, { scope: "all" })}
+        ${item("tags", "Tags", `Search among your tagged entries (${num(tagged)})`)}
+        ${item("search", "History", `Search recently displayed entries (${num(state.history.length)})`, { scope: "history" })}
+        ${sep("Dictionary")}
+        ${item("search", "All Words/Expresions", `Search among words and expressions (${num(m.words || 0)})`, { scope: "all" })}
+        ${item("categories", "Words by category", "Choose the category to search from")}
+        ${sep("Kanji and Kana")}
+        ${item("kanjiList", "All Kanji", `Search in all kanji (${num(m.kanjiCount || 0)})`)}
+        ${item("radicals", "Kanji by radicals", "Search kanji by its radical(s)")}
+        ${item("kana", "Hiragana and Katakana", "Simple kana table")}
+        ${sep("Application")}
+        ${item("settings", "Settings", "Text size and display")}
+        ${item("about", "About", "Version, data and acknowledgements")}
+      </ul>`);
+      wireMenu();
     },
 
-    async entry(pos) {
-      shell("Entry", "", `<div class="empty">Loading…</div>`);
-      const e = await Data.entry(pos);
-      if (stack[stack.length - 1].arg !== pos) return;
+    categories() {
+      const counts = categoryCounts();
+      const item = (type) => `<li class="row menu-item" data-go="search" data-arg='${esc(JSON.stringify({ scope: "category", type }))}'>
+        <div class="mi-title">${CATEGORIES[type]}</div><div class="mi-desc">Search ${CATEGORIES[type].toLowerCase()} (${num(counts[type] || 0)})</div></li>`;
+      shell({ hint: "Categories" }, `<ul class="list">
+        ${sep("Parts of speech")}${["verb", "nonsuru", "noun", "adj", "adv"].map(item).join("")}
+        ${sep("Others")}${["ctr", "ono"].map(item).join("")}
+      </ul>`);
+      wireMenu();
+    },
+
+    async details(arg) {
+      shell({ hint: "Entry", right: "Tag", onRight: () => {}, notepad: true }, `<div class="status">Loading…</div>`);
+      const e = await Data.entry(arg.pos);
+      const kanjiAll = await Data.loadKanji();
+      if (cur().arg !== arg) return;
       addHistory(e);
       const hw = head(e);
-      const ktags = e.kt || {}, rtags = e.rt || {};
-      const common = new Set(e.c || []);
-      const tagChips = (list) => (list || []).map((t) => `<span class="tag" title="${esc(tagName(t))}">${esc(tagName(t))}</span>`).join("");
-      const kanjiForms = e.kanji.map((k) => `<span lang="ja" class="form ${common.has(k) ? "common" : ""}">${esc(k)}${tagChips(ktags[k])}</span>`).join("");
-      const kanaForms = e.kana.map((k) => `<span lang="ja" class="form ${common.has(k) ? "common" : ""}">${esc(k)}${e.ra && e.ra[k] ? `<span class="tag">only ${esc(e.ra[k].join(", "))}</span>` : ""}${tagChips(rtags[k])}</span>`).join("");
+      const ktags = e.kt || {};
+      const rtags = e.rt || {};
+      $("#rightBtn").onclick = () => tagEntry(e);
       let lastPos = "";
       const senses = e.s.map((s, i) => {
-        const pos = (s.p || []).map(tagName).join("; ");
-        const posLine = pos && pos !== lastPos ? `<div class="pos">${esc(pos)}</div>` : "";
+        const pos = (s.p || []).map(tagName).join(", ");
+        const posLine = pos && pos !== lastPos ? `<div class="s-pos">${esc(pos)}</div>` : "";
         if (pos) lastPos = pos;
         const extra = [].concat(s.m || [], s.f || [], s.d || []).map(tagName);
         const limits = [].concat(s.sk || [], s.sr || []);
-        const xref = (label, list) => list ? `<div class="xref">${label} ${list.map((r) => `<a data-q="${esc(r.split("・")[0])}" lang="ja">${esc(r)}</a>`).join(", ")}</div>` : "";
-        return `${posLine}<li><span class="gl">${esc(s.g.join("; "))}</span>
-          ${extra.length ? `<span class="meta">${esc(extra.join(", "))}</span>` : ""}
-          ${limits.length ? `<span class="meta">only for <span lang="ja">${esc(limits.join(", "))}</span></span>` : ""}
-          ${s.i ? `<div class="info">${esc(s.i.join("; "))}</div>` : ""}
-          ${s.l ? `<div class="info">From ${esc(s.l.join(", "))}</div>` : ""}
+        const xref = (label, list) => list ? `<div class="s-extra">${label}: ${list.map((r) => `<a class="xref" data-q="${esc(r.split("・")[0])}" lang="ja">${esc(r)}</a>`).join(", ")}</div>` : "";
+        return `<li class="row sense">${posLine}<div class="s-gloss"><span class="s-num">${i + 1}.</span> ${esc(s.g.join("; "))}</div>
+          ${extra.length ? `<div class="s-extra">${esc(extra.join(", "))}</div>` : ""}
+          ${limits.length ? `<div class="s-extra">only for <span lang="ja">${esc(limits.join(", "))}</span></div>` : ""}
+          ${s.i ? `<div class="s-extra">${esc(s.i.join("; "))}</div>` : ""}
+          ${s.l ? `<div class="s-extra">From ${esc(s.l.join(", "))}</div>` : ""}
           ${xref("See also", s.r)}${xref("Antonym", s.a)}</li>`;
       }).join("");
+      const tagChips = (list) => (list || []).map((t) => `<span class="alt-tag">${esc(tagName(t))}</span>`).join("");
+      const alts = [];
+      e.kanji.forEach((k, i) => {
+        if (i === 0) return;
+        const reads = e.kana.filter((r) => !e.ra || !e.ra[r] || e.ra[r].includes(k));
+        alts.push(`<li class="row alt"><span class="alt-word" lang="ja">${esc(k)}</span><span class="alt-read" lang="ja">[${esc(reads.join(", "))}]</span>${tagChips(ktags[k])}</li>`);
+      });
+      e.kana.slice(e.kanji.length ? 1 : 1).forEach((r) => alts.push(`<li class="row alt"><span class="alt-word" lang="ja">${esc(r)}</span>${tagChips(rtags[r])}</li>`));
       const shownKanji = e.kanji.filter((k) => !(ktags[k] || []).includes("sK"));
-      const kanjiChars = [...new Set([...shownKanji.join("")].filter(Kana.isKanji))];
-      const examples = (e.x || []).map(([jp, en]) => `<li><div lang="ja" class="jp">${esc(jp)} ${speakBtn(jp)}</div><div class="en">${esc(en)}</div></li>`).join("");
-      const inLists = Object.keys(state.lists).filter((n) => state.lists[n].some((w) => w.id === e.id));
-      shell(esc(hw), e.kanji.length ? `<span lang="ja">${esc(e.kana[0])}</span>` : "", `
-        <section class="card entry">
-          <div class="big"><span lang="ja">${esc(hw)}</span> ${speakBtn(e.kana[0])}</div>
-          ${e.kanji.length ? `<div class="reading-big" lang="ja">${esc(e.kana.join("、"))}</div>` : ""}
-          ${state.romaji ? `<div class="romaji">${esc(e.kana.map(Kana.toRomaji).join(", "))}</div>` : ""}
-          <div class="actions">
-            <button id="star" class="btn ${inLists.length ? "on" : ""}">${inLists.length ? "★ In " + esc(inLists.join(", ")) : "☆ Add to list"}</button>
-            <button id="copy" class="btn">Copy</button>
-          </div>
-        </section>
-        <h2>Meanings</h2>
-        <ol class="senses card">${senses}</ol>
-        ${e.kanji.length > 1 || e.kana.length > 1 ? `<h2>Other forms</h2><div class="card forms">${kanjiForms}${kanaForms}</div>` : ""}
-        ${kanjiChars.length ? `<h2>Kanji</h2><div class="kanji-chips">${kanjiChars.map((k) => `<button class="kchip" data-kanji="${esc(k)}" lang="ja">${esc(k)}</button>`).join("")}</div>` : ""}
-        ${examples ? `<h2>Examples</h2><ul class="card examples">${examples}</ul><p class="muted small">Example sentences from the Tatoeba project.</p>` : ""}
-        <p class="muted small">JMdict entry ${esc(e.id)}</p>`);
-      document.getElementById("copy").onclick = () => copy(`${hw}${e.kanji.length ? " [" + e.kana[0] + "]" : ""} — ${e.s.map((s) => s.g.join("; ")).join(" / ")}`);
-      document.getElementById("star").onclick = () => pickList(e);
+      const chars = [...new Set([...shownKanji.join("")].filter((ch) => kanjiAll[ch]))];
+      const examples = (e.x || []).map(([jp, en]) => `<li class="row sentence" data-speak="${esc(jp)}"><div class="se-jp" lang="ja">${esc(jp)}</div><div class="se-en">${esc(en)}</div></li>`).join("");
+      const tags = Object.keys(state.lists).filter((n) => state.lists[n].some((w) => w.id === e.id));
+      $("#content").innerHTML = `<ul class="list details">
+        <li class="furigana" data-speak="${esc(e.kana[0])}">
+          ${e.kanji.length ? `<ruby lang="ja">${esc(hw)}<rt>${esc(e.kana[0])}</rt></ruby>` : `<span lang="ja">${esc(hw)}</span>`}
+          ${state.romaji ? `<div class="f-romaji">${esc(Kana.toRomaji(e.kana[0]))}</div>` : ""}
+        </li>
+        ${arg.note ? nameValue("Root form", `<span lang="ja">${esc(hw)}</span> <span class="dim">(${esc(arg.note)})</span>`) : ""}
+        ${e.kanji.length ? nameValue("Reading", `<span lang="ja">${esc(e.kana[0])}</span>`) : ""}
+        ${(e.c || []).length ? nameValue("Common", "Yes") : ""}
+        ${tags.length ? nameValue("Tags", tags.map((t) => `<span class="pill">${esc(t)}</span>`).join(" ")) : ""}
+        ${sep("Meanings")}${senses}
+        ${alts.length ? sep("Alternatives") + alts.join("") : ""}
+        ${chars.length ? sep("Kanji") + chars.map((ch) => kanjiRow(ch, kanjiAll[ch])).join("") : ""}
+        ${examples ? sep("Sentences") + examples : ""}
+        <li class="foot">JMdict ${esc(e.id)}${examples ? " · sentences from Tatoeba" : ""}</li>
+      </ul>`;
+      wireKanjiRows($("#content"));
+      $$(".xref").forEach((a) => a.onclick = (ev) => { ev.stopPropagation(); searchAll(a.dataset.q); });
+      $$("[data-speak]", $("#content")).forEach((el) => el.onclick = () => speak(el.dataset.speak));
+      onLongPress($(".furigana"), () => entryMenu(arg.pos));
+    },
+
+    // "All Kanji": search KANJIDIC by character, reading or meaning.
+    async kanjiList(arg, c) {
+      shell({ hint: "Search kanji", query: c.query, onInput: (q) => { c.query = q; run(); }, notepad: true },
+        `<div class="status">Loading…</div>`);
+      const all = await Data.loadKanji();
+      const run = () => {
+        const list = Search.kanji(c.query || "", all);
+        $("#content").innerHTML = list.length ? `<ul class="list" id="klist"><li class="count">${num(list.length)} kanji</li></ul>` : `<div class="status">No result(s)</div>`;
+        if (list.length) pagedList($("#klist"), list, (ch) => kanjiRow(ch, all[ch]), wireKanjiRows);
+      };
+      run();
     },
 
     async kanji(ch) {
-      shell(esc(ch), "Kanji", `<div class="empty">Loading…</div>`);
+      shell({ hint: "Kanji", notepad: true }, `<div class="status">Loading…</div>`);
       const all = await Data.loadKanji();
-      if (stack[stack.length - 1].arg !== ch) return;
+      if (cur().arg !== ch) return;
       const k = all[ch];
-      const words = Search.wordsWithKanji(ch, 30);
       if (!k) {
-        shell(esc(ch), "Kanji", `<div class="card"><div class="kanji-big" lang="ja">${esc(ch)}</div><p class="muted">Not in KANJIDIC2.</p></div>`);
+        $("#content").innerHTML = `<div class="status">No result(s)</div>`;
         return;
       }
-      const row = (label, val) => val ? `<tr><th>${label}</th><td>${val}</td></tr>` : "";
-      const parts = k.p ? [...k.p].map((p) => `<button class="kchip small" data-go="radicals" data-arg="${esc(p)}" lang="ja">${esc(p)}</button>`).join("") : "";
-      shell(esc(ch), (k.m || []).slice(0, 3).join(", "), `
-        <section class="card kanji-card">
-          <div class="kanji-big" lang="ja">${esc(ch)}</div>
-          <div class="meanings">${esc((k.m || []).join(", "))}</div>
-        </section>
-        <table class="card facts">
-          ${row("On", k.on ? `<span lang="ja">${esc(k.on.join("、"))}</span>` : "")}
-          ${row("Kun", k.kun ? `<span lang="ja">${esc(k.kun.join("、"))}</span>` : "")}
-          ${row("Nanori", k.n ? `<span lang="ja">${esc(k.n.join("、"))}</span>` : "")}
-          ${row("Strokes", k.s)}
-          ${row("Radical", k.r ? "#" + k.r : "")}
-          ${row("Grade", k.g ? (k.g <= 6 ? "Kyōiku " + k.g : k.g === 8 ? "Jōyō (secondary)" : "Jinmeiyō") : "")}
-          ${row("JLPT (old)", k.j ? "N" + k.j : "")}
-          ${row("Frequency", k.f ? "#" + k.f + " of 2,500" : "")}
-          ${row("SKIP", k.sk ? esc(k.sk) : "")}
-          ${row("Heisig", k.h ? esc(k.h) : "")}
-        </table>
-        ${parts ? `<h2>Components</h2><div class="kanji-chips">${parts}</div>` : ""}
-        <h2>Words</h2>
-        <ul class="results">${words.map((p) => resultItem(p)).join("")}</ul>
-        <button class="btn wide" data-q="*${esc(ch)}*">Search all words with ${esc(ch)}</button>`);
+      const words = Search.wordsWithKanji(ch, 40);
+      const parts = k.p ? [...k.p].map((p) => `<span class="part" data-part="${esc(p)}" lang="ja">${esc(p)}</span>`).join("") : "";
+      $("#content").innerHTML = `<ul class="list">
+        <li class="row kanji-head">
+          <span class="k-huge" lang="ja">${esc(ch)}</span>
+          <div class="k-info">
+            <div class="k-reads" lang="ja"><span>${esc((k.on || []).join("、"))}</span></div>
+            <div class="k-reads" lang="ja"><span>${esc((k.kun || []).join("、"))}</span></div>
+            <div class="k-mean">${esc((k.m || []).join(", "))}</div>
+          </div>
+        </li>
+        ${nameValue("Strokes", k.s)}
+        ${k.r ? nameValue("Radical", "#" + k.r) : ""}
+        ${parts ? nameValue("Parts", parts) : ""}
+        ${k.g ? nameValue("Grade", k.g <= 6 ? "Kyōiku " + k.g : k.g === 8 ? "Jōyō" : "Jinmeiyō") : ""}
+        ${k.j ? nameValue("JLPT", "N" + k.j) : ""}
+        ${k.f ? nameValue("Frequency", k.f + " / 2500") : ""}
+        ${k.n ? nameValue("Nanori", `<span lang="ja">${esc(k.n.join("、"))}</span>`) : ""}
+        ${k.sk ? nameValue("SKIP", esc(k.sk)) : ""}
+        ${k.h ? nameValue("Heisig", esc(k.h)) : ""}
+        ${sep("Words")}
+        ${words.map((p) => resultRow(p)).join("")}
+        <li class="row more" id="allWords">Search all words with ${esc(ch)}</li>
+      </ul>`;
+      wireResults($("#content"));
+      $$(".part").forEach((p) => p.onclick = () => go("radicals", p.dataset.part));
+      $("#allWords").onclick = () => searchAll("*" + ch + "*");
     },
 
     async radicals(preset) {
-      shell("Radicals", "Tap parts to find a kanji", `<div class="empty">Loading…</div>`);
+      let picked = null;
+      let draw = () => {};
+      shell({ hint: "Search radicals", right: "Reset", onRight: () => { if (picked) { picked.clear(); draw(); } } }, `<div class="status">Loading…</div>`);
       const rads = await Data.loadRadicals();
       const kanji = Data.kanji;
-      const picked = new Set(preset && rads.some((r) => r[0] === preset) ? [preset] : []);
-      const draw = () => {
+      picked = new Set(preset && rads.some((r) => r[0] === preset) ? [preset] : []);
+      draw = () => {
         let matches = null;
         for (const r of picked) {
           const set = new Set(rads.find((x) => x[0] === r)[2]);
-          matches = matches ? new Set([...matches].filter((c) => set.has(c))) : set;
+          matches = matches ? new Set([...matches].filter((ch) => set.has(ch))) : set;
         }
         const list = matches ? [...matches].sort((a, b) => ((kanji[a] || {}).s || 99) - ((kanji[b] || {}).s || 99)) : [];
-        const possible = matches ? new Set(rads.filter((r) => !picked.has(r[0]) && list.some((c) => r[2].includes(c))).map((r) => r[0])) : null;
-        let lastStroke = 0;
+        const possible = matches ? new Set(rads.filter((r) => !picked.has(r[0]) && list.some((ch) => r[2].includes(ch))).map((r) => r[0])) : null;
+        let last = 0;
         const grid = rads.map(([r, s]) => {
-          const label = s !== lastStroke ? `<span class="stroke">${(lastStroke = s)}</span>` : "";
+          const label = s !== last ? `<span class="rad-stroke">${(last = s)}</span>` : "";
           const cls = picked.has(r) ? "on" : possible && !possible.has(r) ? "off" : "";
-          return `${label}<button class="rad ${cls}" data-rad="${esc(r)}" lang="ja">${esc(r)}</button>`;
+          return `${label}<span class="rad ${cls}" data-rad="${esc(r)}" lang="ja">${esc(r)}</span>`;
         }).join("");
-        let lastK = 0;
-        const res = list.slice(0, 300).map((c) => {
-          const s = (kanji[c] || {}).s || 0;
-          const label = s !== lastK ? `<span class="stroke">${(lastK = s)}</span>` : "";
-          return `${label}<button class="kchip" data-kanji="${esc(c)}" lang="ja">${esc(c)}</button>`;
-        }).join("");
-        const main = document.querySelector("main");
-        main.innerHTML = `
-          <div class="rad-results card">${picked.size ? (list.length ? res : `<span class="muted">No kanji have all of these parts.</span>`) + (list.length > 300 ? `<span class="muted">+${list.length - 300} more</span>` : "") : `<span class="muted">Pick one or more parts below.</span>`}
-            ${picked.size ? `<button class="btn small" id="resetRad">Clear</button>` : ""}</div>
+        $("#content").innerHTML = `
+          <div class="rad-head">Number of kanji: ${picked.size ? list.length : "-"}</div>
+          ${picked.size ? `<div class="rad-results">${list.slice(0, 200).map((ch) => `<span class="rad-kanji" data-kanji="${esc(ch)}" lang="ja">${esc(ch)}</span>`).join("")}${list.length > 200 ? `<span class="dim">+${list.length - 200}</span>` : ""}</div>` : ""}
           <div class="rad-grid">${grid}</div>`;
-        main.querySelectorAll("[data-rad]").forEach((b) => b.onclick = () => {
+        $$("[data-rad]").forEach((b) => b.onclick = () => {
           const r = b.dataset.rad;
           if (picked.has(r)) picked.delete(r);
           else if (!b.classList.contains("off")) picked.add(r);
           draw();
         });
-        const reset = document.getElementById("resetRad");
-        if (reset) reset.onclick = () => { picked.clear(); draw(); };
+        $$(".rad-kanji").forEach((b) => b.onclick = () => go("kanji", b.dataset.kanji));
       };
       draw();
     },
 
-    kana() {
-      const rows = ["あいうえお", "かきくけこ", "さしすせそ", "たちつてと", "なにぬねの", "はひふへほ", "まみむめも", "や　ゆ　よ", "らりるれろ", "わ　　　を", "ん　　　　",
-        "がぎぐげご", "ざじずぜぞ", "だぢづでど", "ばびぶべぼ", "ぱぴぷぺぽ"];
-      const yoon = ["きゃきゅきょ", "しゃしゅしょ", "ちゃちゅちょ", "にゃにゅにょ", "ひゃひゅひょ", "みゃみゅみょ", "りゃりゅりょ", "ぎゃぎゅぎょ", "じゃじゅじょ", "びゃびゅびょ", "ぴゃぴゅぴょ"];
-      const table = (kata) => `<div class="kana-grid">${rows.map((r) => [...r].map((c) => c === "　" ? `<span></span>` :
-        `<button class="kana" data-speak="${c}"><span lang="ja">${kata ? Kana.hiraToKata(c) : c}</span><small>${Kana.toRomaji(c)}</small></button>`).join("")).join("")}</div>
-        <div class="kana-grid three">${yoon.map((r) => r.match(/../g).map((c) =>
-        `<button class="kana" data-speak="${c}"><span lang="ja">${kata ? Kana.hiraToKata(c) : c}</span><small>${Kana.toRomaji(c)}</small></button>`).join("")).join("")}</div>`;
-      shell("Kana", "Tap to listen", `
-        <div class="tabs"><button class="tab on" data-k="0">Hiragana</button><button class="tab" data-k="1">Katakana</button></div>
-        <div id="kanaBody">${table(false)}</div>`);
-      document.querySelectorAll(".tab").forEach((t) => t.onclick = () => {
-        document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === t));
-        document.getElementById("kanaBody").innerHTML = table(t.dataset.k === "1");
-      });
+    kana(arg, c) {
+      const kata = !!c.kata;
+      const cols = ["A", "I", "U", "E", "O"];
+      const seion = [["-", "あいうえお"], ["K", "かきくけこ"], ["S", "さしすせそ"], ["T", "たちつてと"], ["N", "なにぬねの"], ["H", "はひふへほ"], ["M", "まみむめも"], ["Y", "や_ゆ_よ"], ["R", "らりるれろ"], ["W", "わ___を"], ["N", "ん____"]];
+      const daku = [["G", "がぎぐげご"], ["Z", "ざじずぜぞ"], ["D", "だぢづでど"], ["B", "ばびぶべぼ"]];
+      const handaku = [["P", "ぱぴぷぺぽ"]];
+      const yoon = [["Ky", "き"], ["Sh", "し"], ["Ch", "ち"], ["Ny", "に"], ["Hy", "ひ"], ["My", "み"], ["Ry", "り"], ["Gy", "ぎ"], ["J", "じ"], ["By", "び"], ["Py", "ぴ"]];
+      const cell = (k) => !k ? `<td></td>` : `<td class="kana-cell" data-speak="${k}"><span lang="ja">${kata ? Kana.hiraToKata(k) : k}</span><small>${Kana.toRomaji(k)}</small></td>`;
+      const rows = (list) => list.map(([label, s]) => `<tr><th>${label}</th>${[...s].map((ch) => cell(ch === "_" ? "" : ch)).join("")}</tr>`).join("");
+      const yrows = yoon.map(([label, base]) => `<tr><th>${label}</th>${cell(base + "ゃ")}<td></td>${cell(base + "ゅ")}<td></td>${cell(base + "ょ")}</tr>`).join("");
+      shell({ hint: kata ? "Katakana" : "Hiragana", right: "Switch", onRight: () => { c.kata = !kata; render(); } }, `
+        <table class="kana-table"><thead><tr><th></th>${cols.map((x) => `<th>${x}</th>`).join("")}</tr></thead>
+          <tbody>
+            <tr class="kana-sec"><td colspan="6">Seion</td></tr>${rows(seion)}
+            <tr class="kana-sec"><td colspan="6">Dakuon</td></tr>${rows(daku)}
+            <tr class="kana-sec"><td colspan="6">HanDakuon</td></tr>${rows(handaku)}
+            <tr class="kana-sec"><td colspan="6">Yoon</td></tr>${yrows}
+          </tbody></table>`);
+      $$("[data-speak]").forEach((el) => el.onclick = () => speak(el.dataset.speak));
     },
 
-    lists() {
+    // Tag list: tick tags, then Show (search them, merged) or Export.
+    tags(arg, c) {
+      const assign = arg && arg.assign; // entry being tagged
       const names = Object.keys(state.lists);
-      shell("Word lists", "", `
-        <ul class="menu">${names.map((n) => `<li data-go="list" data-arg="${esc(n)}">★ <span>${esc(n)}</span><em>${state.lists[n].length}</em></li>`).join("")}</ul>
-        <button class="btn wide" id="newList">+ New list</button>`);
-      document.getElementById("newList").onclick = () => {
-        const name = (prompt("Name for the new list") || "").trim();
+      c.checked = c.checked || new Set(assign ? names.filter((n) => state.lists[n].some((w) => w.id === assign.id)) : []);
+      shell({ hint: assign ? "Tag: " + head(assign) : "Tags" }, `
+        <ul class="list" id="tagList">${names.length ? names.map((n) => `<li class="row tag-row" data-name="${esc(n)}">
+          <label><input type="checkbox" ${c.checked.has(n) ? "checked" : ""}> <span>${esc(n)}</span> <span class="dim">(${state.lists[n].length})</span></label></li>`).join("")
+          : `<li class="status">No tag(s)</li>`}</ul>
+        <div class="bottombar">${assign
+          ? `<button class="btn" id="tCancel">Cancel</button><button class="btn" id="tAdd">Add</button><button class="btn" id="tSave">Save</button>`
+          : `<button class="btn" id="tExport">Export</button><button class="btn" id="tAdd">Add</button><button class="btn" id="tShow">Show</button>`}</div>`);
+      $$(".tag-row").forEach((li) => {
+        const name = li.dataset.name;
+        $("input", li).onchange = (ev) => { if (ev.target.checked) c.checked.add(name); else c.checked.delete(name); };
+        onLongPress(li, () => dialog({ title: "Tag menu", items: [
+          { label: "Rename tag", action: () => ask("Rename tag", name, (to) => {
+            if (!to || to === name || state.lists[to]) return;
+            const renamed = {};
+            for (const [n, l] of Object.entries(state.lists)) renamed[n === name ? to : n] = l;
+            state.lists = renamed;
+            if (c.checked.delete(name)) c.checked.add(to);
+            save();
+            render();
+          }) },
+          { label: "Delete tag", action: () => confirmDlg(`Delete the tag “${name}”?`, () => { delete state.lists[name]; c.checked.delete(name); save(); render(); }) },
+        ] }));
+      });
+      $("#tAdd").onclick = () => ask("Please enter a tag name...", "", (name) => {
         if (!name || state.lists[name]) return;
         state.lists[name] = [];
+        c.checked.add(name);
         save();
         render();
-      };
-    },
-
-    list(name) {
-      const items = state.lists[name] || [];
-      shell("★ " + esc(name), `${items.length} words`, `
-        ${items.length ? `<ul class="results">${items.map((w, i) => `<li class="result" data-id="${esc(w.id)}">
-          <div class="hw"><span lang="ja" class="word">${esc(w.head)}</span>${w.head !== w.kana ? `<span lang="ja" class="reading">${esc(w.kana)}</span>` : ""}
-          <button class="remove" data-i="${i}" aria-label="Remove">✕</button></div>
-          <div class="gloss">${esc(w.gloss)}</div></li>`).join("")}</ul>` : `<div class="empty">No words yet. Use “Add to list” on any entry.</div>`}
-        <div class="actions">
-          ${items.length ? `<button class="btn" id="export">Export CSV (Anki)</button>` : ""}
-          ${Object.keys(state.lists).length > 1 ? `<select class="btn" id="mergeFrom"><option value="">Merge in another list…</option>${Object.keys(state.lists).filter((n) => n !== name).map((n) => `<option>${esc(n)}</option>`).join("")}</select>` : ""}
-          <button class="btn" id="renameList">Rename</button>
-          ${name !== "Favorites" ? `<button class="btn danger" id="delList">Delete list</button>` : ""}
-        </div>`);
-      document.querySelectorAll(".result[data-id]").forEach((li) => li.onclick = (ev) => {
-        if (ev.target.closest(".remove")) {
-          items.splice(+ev.target.closest(".remove").dataset.i, 1);
+      });
+      if (assign) {
+        $("#tCancel").onclick = back;
+        $("#tSave").onclick = () => {
+          for (const n of Object.keys(state.lists)) {
+            const has = state.lists[n].some((w) => w.id === assign.id);
+            if (c.checked.has(n) && !has) state.lists[n].unshift(snapshot(assign));
+            if (!c.checked.has(n) && has) state.lists[n] = state.lists[n].filter((w) => w.id !== assign.id);
+          }
           save();
-          render();
-          return;
-        }
-        const pos = Data.posOfId(li.dataset.id);
-        if (pos === undefined) toast(Data.ready ? "Word not in this dictionary version" : "Still loading…");
-        else go("entry", pos);
-      });
-      const merge = document.getElementById("mergeFrom");
-      if (merge) merge.onchange = () => {
-        const from = merge.value;
-        if (!from) return;
-        const have = new Set(items.map((w) => w.id));
-        const added = state.lists[from].filter((w) => !have.has(w.id));
-        items.push(...added);
-        if (confirm(`Added ${added.length} words from “${from}”. Delete “${from}” now?`)) delete state.lists[from];
-        save();
-        render();
-      };
-      document.getElementById("renameList").onclick = () => {
-        const to = (prompt("New name", name) || "").trim();
-        if (!to || to === name || state.lists[to]) return;
-        const renamed = {};
-        for (const [n, l] of Object.entries(state.lists)) renamed[n === name ? to : n] = l;
-        state.lists = renamed;
-        save();
-        go("list", to, true);
-      };
-      const ex = document.getElementById("export");
-      if (ex) ex.onclick = () => exportCsv(name, items);
-      const del = document.getElementById("delList");
-      if (del) del.onclick = () => {
-        if (!confirm(`Delete the list “${name}”?`)) return;
-        delete state.lists[name];
-        save();
-        back();
-      };
-    },
-
-    history() {
-      shell("History", `${state.history.length} entries`, state.history.length ? `
-        <ul class="results">${state.history.map((w) => `<li class="result" data-id="${esc(w.id)}"><div class="hw"><span lang="ja" class="word">${esc(w.head)}</span>${w.head !== w.kana ? `<span lang="ja" class="reading">${esc(w.kana)}</span>` : ""}</div><div class="gloss">${esc(w.gloss)}</div></li>`).join("")}</ul>
-        <button class="btn wide danger" id="clearHist">Clear history</button>` : `<div class="empty">Nothing viewed yet.</div>`);
-      document.querySelectorAll(".result[data-id]").forEach((li) => li.onclick = () => {
-        const pos = Data.posOfId(li.dataset.id);
-        if (pos !== undefined) go("entry", pos);
-      });
-      const c = document.getElementById("clearHist");
-      if (c) c.onclick = () => { state.history = []; save(); render(); };
-    },
-
-    notepad() {
-      shell("Notepad", "Saved automatically", `
-        <textarea id="pad" class="pad" lang="ja" placeholder="Paste Japanese text here, then select a word and tap Look up.">${esc(state.notepad)}</textarea>
-        <div class="actions"><button class="btn" id="lookup">Look up selection</button><button class="btn" id="copyPad">Copy all</button></div>`);
-      const pad = document.getElementById("pad");
-      pad.addEventListener("input", () => { state.notepad = pad.value; save(); });
-      document.getElementById("copyPad").onclick = () => copy(pad.value);
-      document.getElementById("lookup").onclick = () => {
-        const sel = pad.value.slice(pad.selectionStart, pad.selectionEnd).trim();
-        if (!sel) { toast("Select some text first"); return; }
-        lastQuery = sel;
-        stack.length = 1;
-        render();
-      };
+          toast("Saved");
+          back();
+        };
+      } else {
+        $("#tShow").onclick = () => go("search", { scope: "tags", tags: c.checked.size ? [...c.checked] : null });
+        $("#tExport").onclick = () => {
+          const chosen = c.checked.size ? [...c.checked] : names;
+          if (!chosen.length) return toast("No tag(s)");
+          dialog({ title: "Export tag(s) to", items: [{ label: "Anki file (CSV)", action: () => exportCsv(chosen) }] });
+        };
+      }
     },
 
     settings() {
-      shell("Settings", "", `
-        <div class="card setting"><label>Text size</label>
-          <div class="seg">${[0.9, 1, 1.15, 1.3].map((s) => `<button class="btn ${state.textScale === s ? "on" : ""}" data-scale="${s}">${Math.round(s * 100)}%</button>`).join("")}</div></div>
-        <div class="card setting"><label><input type="checkbox" id="romaji" ${state.romaji ? "checked" : ""}> Show rōmaji under readings</label></div>`);
-      document.querySelectorAll("[data-scale]").forEach((b) => b.onclick = () => { state.textScale = +b.dataset.scale; save(); render(); });
-      document.getElementById("romaji").onchange = (e) => { state.romaji = e.target.checked; save(); };
+      shell({ hint: "Settings" }, `<ul class="list">
+        ${sep("Display")}
+        <li class="row setting"><div class="mi-title">Text size</div>
+          <div class="seg">${[0.9, 1, 1.15, 1.3].map((s) => `<button class="btn ${state.textScale === s ? "pressed" : ""}" data-scale="${s}">${Math.round(s * 100)}%</button>`).join("")}</div></li>
+        <li class="row setting"><label><input type="checkbox" id="romaji" ${state.romaji ? "checked" : ""}> <span class="mi-title">Show rōmaji</span></label>
+          <div class="mi-desc">Show rōmaji next to readings</div></li>
+        ${sep("Data")}
+        <li class="row setting"><div class="mi-title">Clear history</div><div class="mi-desc">${state.history.length} entries</div><button class="btn" id="clearHist">Clear</button></li>
+      </ul>`);
+      $$("[data-scale]").forEach((b) => b.onclick = () => { state.textScale = +b.dataset.scale; save(); render(); });
+      $("#romaji").onchange = (e) => { state.romaji = e.target.checked; save(); };
+      $("#clearHist").onclick = () => clearHistory();
     },
 
     about() {
       const m = Data.meta || {};
-      shell("About", "", `
-        <section class="card prose">
-          <p><b>SquirrelGo Dictionary</b> is an offline Japanese–English dictionary in the spirit of the old JED app. Everything is on the device; it never needs a server.</p>
-          <p>Search by English, rōmaji, kana or kanji. Conjugated verbs and adjectives (食べた, 高くない) are traced back to the dictionary form. Use <code>*</code> and <code>?</code> as wildcards (<span lang="ja">*学</span>).</p>
-          <p class="muted">Data: JMdict ${esc(m.jmdictDate || "?")} (${(m.words || 0).toLocaleString()} entries), KANJIDIC2 ${esc(m.kanjidicDate || "?")} (${(m.kanjiCount || 0).toLocaleString()} kanji), converted by jmdict-simplified ${esc(m.version || "")}.</p>
-        </section>
-        <h2>Acknowledgements</h2>
-        <section class="card prose small">
-          <p>This software uses the <b>JMdict</b>, <b>KANJIDIC2</b>, <b>RADKFILE</b> and <b>KRADFILE</b> files. These files are the property of the Electronic Dictionaries Research and Development Group, and are used in conformance with the Group's licence (Creative Commons Attribution-ShareAlike 4.0). See edrdg.org/edrdg/licence.html.</p>
-          <p>Example sentences come from the <b>Tatoeba</b> project (tatoeba.org), licensed CC BY 2.0 FR.</p>
-          <p>JSON conversion by <b>jmdict-simplified</b> (github.com/scriptin/jmdict-simplified).</p>
-          <p>Not affiliated with umibouzu or the original JED app; this is a new, independent implementation.</p>
-        </section>`);
+      shell({ hint: "About" }, `<div class="about">
+        <h3>SquirrelGo Dictionary</h3>
+        <p>Offline Japanese–English dictionary, laid out after JED. Everything is on the device; no download or server is needed.</p>
+        <p>Search with kanji, hiragana, katakana, rōmaji or English. Conjugated verbs and adjectives (食べた, 高くない) are traced back to their dictionary form. Use <b>*</b> and <b>?</b> as wildcards. Long-press any entry for copy and tag options.</p>
+        <p class="dim">JMdict ${esc(m.jmdictDate || "?")} · ${num(m.words || 0)} entries<br>KANJIDIC2 ${esc(m.kanjidicDate || "?")} · ${num(m.kanjiCount || 0)} kanji<br>jmdict-simplified ${esc(m.version || "")}</p>
+        <h3>Acknowledgements</h3>
+        <p>This software uses the JMdict, KANJIDIC2, RADKFILE and KRADFILE dictionary files. These files are the property of the Electronic Dictionaries Research and Development Group, and are used in conformance with the Group's licence (CC BY-SA 4.0). See edrdg.org.</p>
+        <p>Example sentences come from the Tatoeba project (formerly the Tanaka Corpus), CC BY 2.0 FR.</p>
+        <p>JSON conversion by jmdict-simplified.</p>
+        <p class="dim">Not affiliated with umibouzu.com or the original JED; this is an independent implementation.</p>
+      </div>`);
     },
   };
 
-  function homeLinks() {
-    const recent = state.history.slice(0, 8);
-    return `
-      <div class="quick">
-        <button class="qbtn" data-go="radicals"><span lang="ja">部</span>Radicals</button>
-        <button class="qbtn" data-go="kana"><span lang="ja">あ</span>Kana</button>
-        <button class="qbtn" data-go="lists"><span>★</span>Lists</button>
-        <button class="qbtn" data-go="notepad"><span>✎</span>Notepad</button>
-      </div>
-      ${recent.length ? `<h2>Recently viewed</h2><div class="recent">${recent.map((w) => `<button class="chip" data-id="${esc(w.id)}" lang="ja">${esc(w.head)}</button>`).join("")}</div>` : ""}
-      <p class="muted hint">Try <a data-q="neko">neko</a>, <a data-q="食べました">食べました</a>, <a data-q="library">library</a> or <a data-q="*語">*語</a>.</p>`;
+  function wireMenu() {
+    $$("[data-go]").forEach((li) => li.onclick = () => {
+      const arg = li.dataset.arg ? JSON.parse(li.dataset.arg) : undefined;
+      if (li.dataset.go === "search" && arg && arg.scope === "all") return searchAll(stack[0].query || "");
+      go(li.dataset.go, arg);
+    });
   }
-  document.addEventListener("click", (ev) => {
-    const chip = ev.target.closest(".recent [data-id]");
-    if (!chip) return;
-    const pos = Data.posOfId(chip.dataset.id);
-    if (pos !== undefined) go("entry", pos);
-  });
+
+  let catCounts = null;
+  function categoryCounts() {
+    if (catCounts) return catCounts;
+    const counts = {};
+    const map = { V: "verb", N: "noun", A: "adj", D: "adv", C: "ctr", O: "ono" };
+    for (let pos = 0; pos < Data.size; pos++) {
+      const cls = Data.row(pos).cls;
+      for (const c of cls) if (map[c]) counts[map[c]] = (counts[map[c]] || 0) + 1;
+      if (cls.includes("V") && !cls.some((c) => c.startsWith("vs"))) counts.nonsuru = (counts.nonsuru || 0) + 1;
+    }
+    if (Data.ready) catCounts = counts;
+    return counts;
+  }
+
+  function welcome() {
+    const recent = state.history.slice(0, 10);
+    return `<li class="hint">Type kanji, kana, rōmaji or English above. Long-press a result for more options.</li>
+      ${recent.length ? sep("History") + recent.map((w) => {
+        const pos = Data.posOfId(w.id);
+        return pos === undefined ? "" : resultRow(pos);
+      }).join("") : ""}`;
+  }
+
+  function searchOptions() {
+    const o = state.options;
+    dialog({
+      title: "Search Options",
+      body: `<div class="opt-row"><label>Search
+          <select id="oField">${[["both", "Both"], ["read", "Read"], ["mean", "Mean"]].map(([v, l]) => `<option value="${v}" ${o.field === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+        <label><input type="checkbox" id="oCommon" ${o.common ? "checked" : ""}> Common</label></div>
+        <div class="opt-label">Allowed Characters</div>
+        <div class="opt-row chars">${[["hira", "あ"], ["kata", "ア"], ["kanji", "漢字"], ["latin", "latin"]].map(([k, l]) =>
+          `<label><input type="checkbox" data-ch="${k}" ${o.chars[k] ? "checked" : ""}> <span lang="ja">${l}</span></label>`).join("")}</div>`,
+      buttons: [
+        { label: "Ok", action: (el) => {
+          o.field = $("#oField", el).value;
+          o.common = $("#oCommon", el).checked;
+          $$("[data-ch]", el).forEach((cb) => (o.chars[cb.dataset.ch] = cb.checked));
+          save();
+          if (cur().refresh) cur().refresh();
+        } },
+        { label: "Cancel" },
+      ],
+    });
+  }
 
   function snapshot(e) {
     return { id: e.id, head: head(e), kana: e.kana[0], gloss: e.s.slice(0, 3).map((s) => s.g.join("; ")).join(" / ") };
   }
-
   function addHistory(e) {
-    state.history = [snapshot(e)].concat(state.history.filter((w) => w.id !== e.id)).slice(0, 100);
+    state.history = [snapshot(e)].concat(state.history.filter((w) => w.id !== e.id)).slice(0, 200);
     save();
   }
-
-  function pickList(e) {
-    const names = Object.keys(state.lists);
-    const overlay = h(`<div class="sheet-bg"><div class="sheet">
-      <h3>Add <span lang="ja">${esc(head(e))}</span> to…</h3>
-      ${names.map((n) => `<label class="check"><input type="checkbox" value="${esc(n)}" ${state.lists[n].some((w) => w.id === e.id) ? "checked" : ""}> ${esc(n)}</label>`).join("")}
-      <div class="actions"><button class="btn" data-new>+ New list</button><button class="btn primary" data-done>Done</button></div>
-    </div></div>`).firstChild;
-    document.body.appendChild(overlay);
-    const close = () => {
-      overlay.querySelectorAll("input[type=checkbox]").forEach((c) => {
-        const list = state.lists[c.value];
-        const has = list.some((w) => w.id === e.id);
-        if (c.checked && !has) list.unshift(snapshot(e));
-        if (!c.checked && has) state.lists[c.value] = list.filter((w) => w.id !== e.id);
-      });
+  function clearHistory() {
+    confirmDlg("Clear history?", () => {
+      state.history = [];
       save();
-      overlay.remove();
-      render(true);
-    };
-    overlay.querySelector("[data-done]").onclick = close;
-    overlay.addEventListener("click", (ev) => { if (ev.target === overlay) close(); });
-    overlay.querySelector("[data-new]").onclick = () => {
-      const name = (prompt("Name for the new list") || "").trim();
-      if (!name || state.lists[name]) return;
-      state.lists[name] = [snapshot(e)];
-      save();
-      overlay.remove();
-      render(true);
-    };
+      toast("Clearing history!");
+      render();
+    });
+  }
+  function tagEntry(e) {
+    go("tags", { assign: e });
   }
 
-  function exportCsv(name, items) {
+  function exportCsv(names) {
     const cell = (s) => `"${String(s).replace(/"/g, '""')}"`;
-    const csv = items.map((w) => [w.head, w.kana, w.gloss].map(cell).join(",")).join("\n") + "\n";
-    const file = name.replace(/[^\w-]+/g, "_") + ".csv";
+    const seen = new Set();
+    const rows = [];
+    for (const n of names) for (const w of state.lists[n] || []) {
+      if (seen.has(w.id)) continue;
+      seen.add(w.id);
+      rows.push([w.head, w.kana, w.gloss, n].map(cell).join(","));
+    }
+    const csv = rows.join("\n") + "\n";
+    const file = (names.length === 1 ? names[0] : "jed-tags").replace(/[^\w-]+/g, "_") + ".csv";
     if (window.AndroidTTS && window.AndroidTTS.saveFile) {
       window.AndroidTTS.saveFile(file, csv);
       return;
@@ -563,23 +756,22 @@
     a.download = file;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast("Data successfully exported");
   }
 
   // ---------- start ----------
-  stack.push({ view: "home", scroll: 0 });
+  let loadError = null;
+  stack.push({ view: "search", arg: { scope: "all" }, scroll: 0, query: "" });
   render();
+  const spin = (on) => { const s = $("#spinner"); if (s) s.classList.toggle("hidden", !on); };
   Data.init((loaded, total) => {
-    loadState = { loaded, total, error: null };
-    const sub = document.querySelector(".topbar .sub");
-    const cur = stack[stack.length - 1];
-    if (cur.view === "home" && sub) {
-      sub.textContent = loaded < total ? `Loading dictionary… ${Math.round(loaded * 100 / total)}%` : `${Data.meta.words.toLocaleString()} words · JMdict ${Data.meta.jmdictDate}`;
-      // Re-run a typed query when the first shard (common words) and the last arrive.
-      if ((loaded === 1 || loaded === total) && lastQuery.trim() && VIEWS.home.refresh) VIEWS.home.refresh();
-    }
+    spin(loaded < total);
+    const c = cur();
+    if (c.view === "search" && c.refresh && (loaded === 1 || loaded === total)) c.refresh();
   }).catch(() => {
-    loadState.error = "Dictionary data is missing. Run tools/fetch_data.sh to download it (see README).";
-    if (stack[stack.length - 1].view === "home") render();
+    loadError = "Cannot load data. Run tools/fetch_data.sh (see README).";
+    spin(false);
+    if (cur().refresh) cur().refresh();
   });
 
   window.SquirrelDict = { back };
