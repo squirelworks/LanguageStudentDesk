@@ -1448,5 +1448,153 @@ window.PHRASEBOOK_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: "culture",
+    code: "cu",
+    title: "Culture & Etiquette",
+    jaTitle: "文化",
+    desc: "Shrines and temples, hot springs, homes, festivals and gift giving.",
+    categories: [
+      {
+        title: "Shrines & temples",
+        phrases: [
+          ["Is this a shrine or a temple?", "ここは神社ですか、お寺ですか。", "ここ は じんじゃ です か、 おてら です か。", "Shrines (神社) are Shinto and have a torii gate; temples (寺) are Buddhist."],
+          ["How do I pray here?", "どうやってお参りしますか。", "どう やって おまいり します か。"],
+          ["Where do I wash my hands?", "手水舎はどこですか。", "ちょうずや は どこ です か。", "Rinse the left hand, then the right, then your mouth from your cupped hand."],
+          ["I'd like a fortune slip.", "おみくじを引きたいです。", "おみくじ を ひきたい です。"],
+          ["Where can I get a stamp book seal?", "御朱印はどこでいただけますか。", "ごしゅいん は どこ で いただけます か。"],
+          ["May I go inside?", "中に入ってもいいですか。", "なか に はいって も いい です か。"],
+          ["Is photography allowed inside?", "中で写真を撮ってもいいですか。", "なか で しゃしん を とって も いい です か。"]
+        ]
+      },
+      {
+        title: "Hot springs & baths",
+        phrases: [
+          ["Where is the bath?", "お風呂はどこですか。", "おふろ は どこ です か。"],
+          ["Which side is the men's bath?", "男湯はどちらですか。", "おとこゆ は どちら です か。", "Look for 男 (men) and 女 (women) on the curtains; sides sometimes swap by time of day."],
+          ["Which side is the women's bath?", "女湯はどちらですか。", "おんなゆ は どちら です か。"],
+          ["Is it OK with a tattoo?", "タトゥーがあっても大丈夫ですか。", "タトゥー が あって も だいじょうぶ です か。", "Many baths still refuse tattoos; some allow them if covered."],
+          ["Do I need to bring a towel?", "タオルは必要ですか。", "タオル は ひつよう です か。"],
+          ["Wash before getting in.", "入る前に体を洗ってください。", "はいる まえ に からだ を あらって ください。"],
+          ["The water is very hot.", "お湯がとても熱いです。", "おゆ が とても あつい です。"],
+          ["Is there a private bath?", "貸切風呂はありますか。", "かしきり ぶろ は あります か。"]
+        ]
+      },
+      {
+        title: "Visiting a home",
+        phrases: [
+          ["Excuse me for intruding.", "お邪魔します。", "おじゃま します。", "Said as you step into someone's home."],
+          ["Thank you for having me.", "お邪魔しました。", "おじゃま しました。", "Said as you leave."],
+          ["Where should I put my shoes?", "靴はどこに置けばいいですか。", "くつ は どこ に おけば いい です か。"],
+          ["Please make yourself at home.", "どうぞ楽にしてください。", "どうぞ らく に して ください。"],
+          ["What a lovely home.", "すてきなお家ですね。", "すてき な おうち です ね。"],
+          ["Can I help with anything?", "何か手伝いましょうか。", "なにか てつだいましょう か。"],
+          ["I've had plenty, thank you.", "もう十分いただきました。", "もう じゅうぶん いただきました。"]
+        ]
+      },
+      {
+        title: "Gifts",
+        phrases: [
+          ["This is a souvenir from my country.", "国のお土産です。", "くに の おみやげ です。"],
+          ["I hope you like it.", "気に入ってもらえるとうれしいです。", "き に いって もらえる と うれしい です。"],
+          ["Thank you, you shouldn't have.", "わざわざありがとうございます。", "わざわざ ありがとう ございます。"],
+          ["May I open it?", "開けてもいいですか。", "あけて も いい です か。", "Gifts are often opened later, not in front of the giver; asking is polite."],
+          ["Where can I buy souvenirs?", "お土産はどこで買えますか。", "おみやげ は どこ で かえます か。"]
+        ]
+      },
+      {
+        title: "Festivals & events",
+        phrases: [
+          ["Is there a festival today?", "今日はお祭りがありますか。", "きょう は おまつり が あります か。"],
+          ["What time are the fireworks?", "花火は何時からですか。", "はなび は なんじ から です か。"],
+          ["Where can I rent a yukata?", "浴衣はどこで借りられますか。", "ゆかた は どこ で かりられます か。", "A light cotton kimono worn to summer festivals."],
+          ["Happy New Year!", "あけましておめでとうございます。", "あけまして おめでとう ございます。", "Said from New Year's Day; before it, say よいお年を (have a good year)."],
+          ["Have a good New Year.", "よいお年を。", "よい おとし を。"],
+          ["Let's go cherry-blossom viewing.", "お花見に行きましょう。", "おはなみ に いきましょう。"]
+        ]
+      },
+      {
+        title: "Manners",
+        phrases: [
+          ["Is it OK to eat while walking?", "歩きながら食べてもいいですか。", "あるきながら たべて も いい です か。", "Often frowned on; people usually eat near the stall where they bought the food."],
+          ["Please be quiet on the train.", "電車の中では静かにしてください。", "でんしゃ の なか で は しずか に して ください。", "Phone calls on trains are considered rude; set your phone to silent mode (マナーモード)."],
+          ["Please line up here.", "こちらに並んでください。", "こちら に ならんで ください。"],
+          ["Is it OK to sit here?", "ここに座ってもいいですか。", "ここ に すわって も いい です か。"],
+          ["Smoking is only allowed here.", "たばこはここだけで吸えます。", "たばこ は ここ だけ で すえます。"],
+          ["Sorry, I didn't know.", "すみません、知りませんでした。", "すみません、 しりません でした。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "health",
+    code: "hl",
+    title: "Health & Pharmacy",
+    jaTitle: "健康",
+    desc: "Pharmacies, everyday ailments, clinics, dentists and staying fit.",
+    categories: [
+      {
+        title: "At the pharmacy",
+        phrases: [
+          ["Do you have cold medicine?", "風邪薬はありますか。", "かぜぐすり は あります か。"],
+          ["Something for a headache, please.", "頭痛の薬をください。", "ずつう の くすり を ください。"],
+          ["How many should I take?", "何錠飲めばいいですか。", "なんじょう のめば いい です か。"],
+          ["Do I take it after meals?", "食後に飲みますか。", "しょくご に のみます か。", "Japanese dosing often says 食前 (before meals) or 食後 (after meals)."],
+          ["Is it OK for children?", "子供でも飲めますか。", "こども でも のめます か。"],
+          ["Does it make you drowsy?", "眠くなりますか。", "ねむく なります か。"],
+          ["I have a prescription.", "処方箋があります。", "しょほうせん が あります。"],
+          ["Do you have bandages?", "絆創膏はありますか。", "ばんそうこう は あります か。"]
+        ]
+      },
+      {
+        title: "Everyday ailments",
+        phrases: [
+          ["I have a cold.", "風邪をひきました。", "かぜ を ひきました。"],
+          ["I have a sore throat.", "喉が痛いです。", "のど が いたい です。"],
+          ["I have a runny nose.", "鼻水が出ます。", "はなみず が でます。"],
+          ["I have a cough.", "咳が出ます。", "せき が でます。"],
+          ["I have a stomachache.", "お腹が痛いです。", "おなか が いたい です。"],
+          ["I have hay fever.", "花粉症です。", "かふんしょう です。", "Very common in spring; masks and eye drops sell out quickly."],
+          ["I can't sleep.", "眠れません。", "ねむれません。"],
+          ["I got bitten by a mosquito.", "蚊に刺されました。", "か に さされました。"],
+          ["I think I have heatstroke.", "熱中症かもしれません。", "ねっちゅうしょう かも しれません。", "Move to shade, drink water with salt, and call 119 if confused or faint."]
+        ]
+      },
+      {
+        title: "At a clinic",
+        phrases: [
+          ["This is my first visit.", "初診です。", "しょしん です。", "Clinics ask whether it is your first visit (初診) or a return visit (再診)."],
+          ["Here is my insurance card.", "保険証です。", "ほけんしょう です。"],
+          ["How long is the wait?", "待ち時間はどのくらいですか。", "まちじかん は どの くらい です か。"],
+          ["Since yesterday.", "昨日からです。", "きのう から です。"],
+          ["Is it serious?", "重いですか。", "おもい です か。"],
+          ["When should I come back?", "次はいつ来ればいいですか。", "つぎ は いつ くれば いい です か。"],
+          ["Can I take a bath?", "お風呂に入ってもいいですか。", "おふろ に はいって も いい です か。", "Japanese doctors often advise on bathing when you're sick."]
+        ]
+      },
+      {
+        title: "Dentist",
+        phrases: [
+          ["I have a toothache.", "歯が痛いです。", "はが いたい です。"],
+          ["A filling came out.", "詰め物が取れました。", "つめもの が とれました。"],
+          ["My gums are bleeding.", "歯茎から血が出ます。", "はぐき から ち が でます。"],
+          ["It hurts when I drink cold things.", "冷たいものがしみます。", "つめたい もの が しみます。"],
+          ["I'd like a cleaning.", "歯のクリーニングをお願いします。", "はの クリーニング を おねがい します。"],
+          ["Please use anesthetic.", "麻酔をお願いします。", "ますい を おねがい します。"]
+        ]
+      },
+      {
+        title: "Staying fit",
+        phrases: [
+          ["Is there a gym near here?", "この近くにジムはありますか。", "この ちかく に ジム は あります か。"],
+          ["Can I use it for one day?", "一日だけ使えますか。", "いちにち だけ つかえます か。"],
+          ["Where is the locker room?", "更衣室はどこですか。", "こういしつ は どこ です か。"],
+          ["I go running every morning.", "毎朝走っています。", "まいあさ はしって います。"],
+          ["I'm trying to eat healthily.", "健康的な食事を心がけています。", "けんこうてき な しょくじ を こころがけて います。"],
+          ["Is there a swimming pool?", "プールはありますか。", "プール は あります か。", "Many public pools require a swim cap."]
+        ]
+      }
+    ]
   }
 ];
