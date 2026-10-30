@@ -9,6 +9,10 @@ each stroke is sampled into points, scaled, simplified and written as M/L.
 A combination like きゃ or ファ is two kana written side by side; both are
 drawn at 60% size, the first on the left and the small kana on the right.
 
+It also writes www/data/kana-strokes.js: every hiragana and katakana in
+KanjiVG in SquirrelGo Kanji's format (www/data/strokes.js there), so the
+kanji stroke player and Character Learner can draw kana too.
+
     python3 tools/build_strokes.py path/to/kanjivg/kanji
 
 Needs node (to read the lesson data). The output is committed and stays
@@ -147,6 +151,32 @@ def build(kvg_dir, glyph):
     return out
 
 
+def round_path(d):
+    """Round a KanjiVG path's numbers to one decimal, as the kanji data does."""
+    return re.sub(r"-?\d*\.\d+", lambda m: f"{float(m.group()):.1f}".rstrip("0").rstrip("."), d)
+
+
+def kanji_format(kvg_dir):
+    """{kana: [[paths], [[x, y] of each stroke number]]} on KanjiVG's 109 grid."""
+    out = {}
+    for code in list(range(0x3041, 0x3097)) + list(range(0x30A1, 0x30FB)) + [0x30FC]:
+        path = os.path.join(kvg_dir, f"{code:05x}.svg")
+        if not os.path.exists(path):
+            continue
+        svg = open(path, encoding="utf-8").read()
+        found = re.findall(r'<path id="kvg:[0-9a-f]+-s(\d+)"[^>]*\sd="([^"]+)"', svg)
+        paths = [round_path(d) for _, d in sorted(found, key=lambda t: int(t[0]))]
+        labels = [
+            [round(float(x)), round(float(y))]
+            for x, y, _ in sorted(
+                re.findall(r'<text transform="matrix\(1 0 0 1 ([\d.]+) ([\d.]+)\)">(\d+)</text>', svg),
+                key=lambda t: int(t[2]),
+            )
+        ]
+        out[chr(code)] = [paths, labels]
+    return out
+
+
 def main(kvg_dir):
     os.makedirs(os.path.join(WWW, "data", "strokes"), exist_ok=True)
     for script, glyphs in lesson_glyphs():
@@ -169,6 +199,19 @@ def main(kvg_dir):
             f.write(",\n".join(f"  {json.dumps(g, ensure_ascii=False)}: {json.dumps(v)}" for g, v in data.items()))
             f.write("\n};\n")
         print(f"{script}: {len(data)} characters, missing {''.join(missing) or 'none'}")
+
+    kana = kanji_format(kvg_dir)
+    with open(os.path.join(WWW, "data", "kana-strokes.js"), "w", encoding="utf-8") as f:
+        f.write(
+            "// Stroke order for hiragana and katakana in SquirrelGo Kanji's format, from KanjiVG\n"
+            "// (https://kanjivg.tagaini.net), © Ulrich Apel, CC BY-SA 3.0. Made by\n"
+            "// tools/build_strokes.py. Each entry is [stroke paths in order, stroke-number\n"
+            "// label positions] on a 109x109 grid. Loaded after the kanji data, it also adds\n"
+            "// the kana to KANJI_STROKES so the kanji stroke player can draw them.\n"
+        )
+        f.write("window.KANA_STROKES = " + json.dumps(kana, ensure_ascii=False, separators=(",", ":")) + ";\n")
+        f.write("window.KANJI_STROKES = Object.assign(window.KANJI_STROKES || {}, window.KANA_STROKES);\n")
+    print(f"kana-strokes.js: {len(kana)} kana")
 
 
 if __name__ == "__main__":

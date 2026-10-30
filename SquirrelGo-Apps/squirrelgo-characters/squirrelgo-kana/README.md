@@ -33,6 +33,7 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 - `www/data/kana.js` — all lessons and articles. Each character is `[kana, romaji, hint, example, example romaji, meaning]`; `null` leaves a gap in the chart
 - `www/data/strokes/` — stroke order, made from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0) by `tools/build_strokes.py`; these files stay under CC BY-SA 3.0
+- `www/data/kana-strokes.js` — the same KanjiVG data for all 177 kana in SquirrelGo Kanji's stroke format (`KANA_STROKES`, also merged into `KANJI_STROKES`), for the kanji stroke player and Character Learner
 - `www/audio/` and `www/data/audio/` — clips recorded with eSpeak NG by `tools/build_audio.py` (needs espeak-ng, ffmpeg and node; rerun it after changing words in `kana.js`)
 - `www/js/app.js` — the trainer (shared with SquirrelGo Alphabets)
 - `android/` — WebView shell targeting API 34, with a native text-to-speech bridge
