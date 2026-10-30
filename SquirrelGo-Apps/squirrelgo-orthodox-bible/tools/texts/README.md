@@ -208,6 +208,34 @@ Left out of the packs because they are modern translations still in copyright:
 
 Notes whose text is a failed machine translation ("I cannot provide...") are dropped.
 
+### Greek originals (downloadable packs)
+
+So a Father's note can be read in the language he wrote it in, beside the
+English and Russian, `build_commentary_grc.py` (called from
+`build_commentary.py`) builds Greek packs (`"lang": "grc"`) from
+[First1KGreek](https://github.com/OpenGreekAndLatin/First1KGreek) (Open Greek
+and Latin, University of Leipzig), licensed **CC BY-SA 4.0**. The license and
+source are in each pack's first line and catalog entry; anyone who
+redistributes these packs must credit First1KGreek and keep the same license.
+`fetch_sources.sh` checks out only the two folders used.
+
+| Pack | Text | Edition |
+| --- | --- | --- |
+| `catena-grc-*` | Catenae of the Greek Fathers on the whole New Testament (Chrysostom, Cyril of Alexandria, Severian, Theodoret, Isidore of Pelusium, Ammonius and others, each fragment headed with its author), with a second catena on Romans 7-16 and two on Revelation | J. A. Cramer, *Catenae Graecorum Patrum in Novum Testamentum*, Oxford 1838-44 (First1KGreek tlg4102) |
+| `cyril-alexandria-grc` | St Cyril of Alexandria on the Twelve Prophets | P. E. Pusey, Oxford 1868 (First1KGreek tlg4090.tlg001) |
+
+Neither edition numbers verses. Each prints the passage it explains as a short
+paragraph (the lemma), so a lemma is matched word for word (accents ignored)
+against the Greek Bible in the app, Robinson-Pierpont for the New Testament and
+Brenton's Septuagint (`lxx` numbering) for the Prophets, moving forward
+through the book; a comment that quotes a verse a little further on starts a
+note on that verse. The lemma itself is not repeated in the note. Catena
+fragments by Apollinaris, Theodore (of Mopsuestia or Heraclea), Didymus,
+Origen, Eusebius or Severus of Antioch are left out: those headed with the name
+or opening on it ("Θεόδωρος δέ φησι"), and the "Τοῦ αὐτοῦ" fragments that
+follow them. Fathers who only mention one of them are kept. The text is the editors' Greek as OCR'd by First1KGreek, so it has the
+occasional misread letter.
+
 ### Russian commentaries (downloadable packs)
 
 Pre-revolutionary Russian translations from [azbyka.ru/otechnik](https://azbyka.ru/otechnik/),
