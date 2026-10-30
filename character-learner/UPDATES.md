@@ -7,6 +7,14 @@
 - Full Devanagari, Cyrillic, Hangul
 - Klingon pIqaD with embedded font
 
+## 2026-10-31 (stroke depth, W2.5)
+
+- Stroke-order animation and checked writing pad for Arabic, Cyrillic, Hangul and Devanagari, from SquirrelGo Alphabets' stroke data
+- 21 more scripts loaded straight from SquirrelGo Alphabets, each with strokes, pad and recorded sounds
+- Hiragana and katakana strokes, pad and sounds from SquirrelGo Kana
+- pIqaD now uses the same stroke player and pad files as the Alphabets scripts
+- `?lang=` reads the `languages/` registry instead of a list kept in this tool
+
 ## 2026-10-31
 
 - Restored click-to-detail for all scripts

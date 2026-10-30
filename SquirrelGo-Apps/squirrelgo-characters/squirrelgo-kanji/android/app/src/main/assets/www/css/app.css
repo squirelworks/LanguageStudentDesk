@@ -296,6 +296,7 @@ main {
 }
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: .35rem;
   margin-bottom: .8rem;
 }
@@ -304,9 +305,11 @@ main {
   border: 1px solid var(--line);
   background: #fff;
   border-radius: 8px;
-  padding: .55rem;
+  padding: .55rem .4rem;
+  min-width: 0;
   cursor: pointer;
   font-family: system-ui, sans-serif;
+  font-size: .9rem;
 }
 .tabs button.active {
   background: var(--accent);
@@ -469,3 +472,57 @@ main {
 .so-hero .so-ghost path { stroke: #ebe6dd; stroke-width: 3.5; }
 .so-hero .so-ink path { stroke: var(--ink, #1a1a1a); stroke-width: 3.8; }
 .detail-anim-hint { display: block; font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted); }
+
+/* Example words and sentences (data/words.js) */
+.sub-h {
+  margin: 1rem 0 .4rem;
+  font-family: system-ui, sans-serif;
+  font-size: .8rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.word-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.word-list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "w r play" "m m play";
+  column-gap: .6rem;
+  align-items: baseline;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.word-w { grid-area: w; font-size: 1.35rem; }
+.word-r { grid-area: r; color: var(--muted); }
+.word-m { grid-area: m; font-family: system-ui, sans-serif; font-size: .9rem; }
+.word-list .play { grid-area: play; align-self: center; }
+.play {
+  border: 1px solid var(--line);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  cursor: pointer;
+  font-size: .8rem;
+  flex: none;
+}
+.sentence {
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  padding: .75rem .9rem;
+}
+.sentence-jp { font-size: 1.15rem; display: flex; gap: .5rem; align-items: center; justify-content: space-between; }
+.sentence-jp mark { background: none; color: var(--accent); font-weight: 700; }
+.sentence-en { margin-top: .35rem; font-family: system-ui, sans-serif; }
+.sentence-src { margin-top: .35rem; font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); }
+.quiz-char.quiz-word { font-size: clamp(2.4rem, 12vw, 4rem); }
+.quiz-note { text-align: center; font-size: 1.05rem; margin: .25rem 0 .75rem; }
+.lesson-section { margin: 1.25rem 0 .5rem; }
+.lesson-intro { margin: -.25rem 0 .75rem; font-family: system-ui, sans-serif; }

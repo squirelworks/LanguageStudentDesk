@@ -293,7 +293,7 @@
         <button class="btn" data-act="export">Export all phrases (Anki CSV)</button>
         <button class="btn" data-act="reset">Reset learned progress</button>
         <h2>About</h2>
-        <p class="muted">SquirrelGo Phrasebook is part of LanguageStudentDesk. ${ALL.length} original phrases in six packs: ${PACKS.map((p) => esc(p.title)).join(", ")}. Works offline. Audio uses your device's Japanese text-to-speech voice.</p>
+        <p class="muted">SquirrelGo Phrasebook is part of LanguageStudentDesk. ${ALL.length} original phrases in ${PACKS.length} packs: ${PACKS.map((p) => esc(p.title)).join(", ")}. Works offline. Audio uses your device's Japanese text-to-speech voice.</p>
       </main>`;
   }
 

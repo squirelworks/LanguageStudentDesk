@@ -7,6 +7,10 @@ Modular character learning tool for Language Student Desk.
 - Hiragana, Katakana
 - Arabic, Cyrillic, Hangul, Devanagari
 - Klingon pIqaD
+- Latin, Greek, Armenian, Georgian, Bengali, Gurmukhi, Gujarati, Tamil, Telugu,
+  Kannada, Malayalam, Sinhala, Hebrew, Ethiopic, Cherokee, Inuktitut syllabics,
+  Mongolian, Thai, Lao, Khmer, Tibetan — the SquirrelGo Alphabets scripts, loaded
+  from that app's data files
 - Kanji — full **Jōyō set (2,136)**, identical to [SquirrelGo Kanji](../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/)
 
 ## Features
@@ -14,7 +18,12 @@ Modular character learning tool for Language Student Desk.
 - Learn / Quiz / Flashcards
 - Click a character for details
 - **Kanji stroke-order animation** (shared KanjiVG data from SquirrelGo — works offline)
-- **pIqaD stroke order and checked writing pad** (shared with SquirrelGo Klingon)
+- **Stroke order and checked writing pad for every non-kanji script with SquirrelGo data**
+  (every script above except kanji, which has its own KanjiVG player).
+  Cards with two letters, such as Greek "Α α", animate both and let you pick which one to write.
+- Recorded sounds from SquirrelGo Alphabets for Speak, falling back to the browser's voice
+- `?lang=` scopes come from the shared `languages/` registry (`characterKeys`, else
+  `writingSystems`); a script id such as `?lang=greek` works too
 - Kanji **Lessons** and **Topics** (shared SquirrelGo curriculum)
 - On-yomi groups
 
@@ -27,7 +36,22 @@ Character Learner loads these from `SquirrelGo-Apps/squirrelgo-characters/squirr
 
 and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/`:
 
-- `data/strokes.js` + `js/strokes.js` + `js/writepad.js` — pIqaD stroke order and the writing pad that checks each stroke
+- `data/strokes.js` — pIqaD stroke order
+
+and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/`:
+
+- `data/<script>.js` — letters, hints and examples for the 21 scripts the Desk does not define itself
+  (`scripts/sg-alphabets.js` turns them into Character Learner scripts)
+- `data/strokes/<script>.js` — stroke orders for all 25 Alphabets scripts, used by the Desk's own
+  Arabic, Cyrillic, Hangul and Devanagari too (Hangul double finals such as ㄳ are drawn from their two parts)
+- `data/audio/<script>.js` + `audio/` — recorded sounds
+- `js/strokes.js` + `js/writepad.js` — the stroke player and the writing pad that checks each stroke,
+  for pIqaD as well (its table is filed under the key `klingon`)
+
+and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/`:
+
+- `data/strokes/hiragana.js`, `data/strokes/katakana.js` — kana stroke orders (KanjiVG)
+- `data/audio/hiragana.js`, `data/audio/katakana.js` + `audio/` — recorded kana sounds
 
 Open `index.html` in a browser (from the repo tree so relative paths resolve).
 

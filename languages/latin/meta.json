@@ -1,0 +1,9 @@
+{
+  "id": "latin",
+  "name": "Latin",
+  "nativeName": "Lingua Latina",
+  "writingSystems": ["latin"],
+  "characterKeys": [],
+  "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
+  "speech": "la"
+}

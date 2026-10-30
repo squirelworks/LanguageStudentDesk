@@ -331,3 +331,6 @@ svg.strokes .num text { fill: #fff; font: 700 6px system-ui, sans-serif; text-an
   .practice { grid-template-columns: 1fr 1fr; }
   .big-glyph { font-size: 4.5rem; }
 }
+/* practice-word tables in the articles */
+.article td.word { white-space: nowrap; }
+.article td .play { margin: 0; }
