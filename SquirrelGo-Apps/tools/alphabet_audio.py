@@ -13,10 +13,14 @@ For each character in www/data/<script>.js:
 Clips go to www/audio/<script>/ and a map from spoken text to file goes to
 www/data/audio/<script>.js, which the app checks before falling back to
 text-to-speech. Each clip is named after a hash of its voice and text, so a
-rerun only records what changed. For a script eSpeak has no voice for (Lao,
-Khmer, Tibetan), the clips are rendered from IPA with tools/ipa_audio.py: the
-letter from its IPA and the example from the example IPA (the tenth field),
-both without tones.
+rerun only records what changed.
+
+A script with audio: "ipa" is recorded from IPA instead, through
+tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
+the example's IPA, for the word. Use it where eSpeak reads the script badly
+(pointed Hebrew); a script eSpeak has no voice for (Lao, Khmer,
+Tibetan) is recorded this way too, with the "hi" voice. Tone marks are
+dropped. For either, set "voice" to pick the eSpeak voice.
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -122,10 +126,9 @@ def plain_ipa(ipa):
 
 
 def render(text, voice, path, speed=140):
-    if voice == "ipa":
-        ipa_audio.render(text, path)
-        return
     with tempfile.NamedTemporaryFile(suffix=".wav") as wav:
+        if text.startswith("ipa:"):
+            text = f"[[{ipa_audio.to_espeak(text[4:])}]]"
         subprocess.run(["espeak-ng", "-v", voice, "-s", str(speed), "-w", wav.name, text], check=True)
         subprocess.run(
             ["ffmpeg", "-loglevel", "error", "-y", "-i", wav.name,
@@ -137,7 +140,10 @@ def render(text, voice, path, speed=140):
 
 def run(script):
     s = load(script)
-    base_voice = voice_for(s["lang"])
+    base_voice = s.get("voice") or voice_for(s["lang"])
+    by_ipa = s.get("audio") == "ipa" or not base_voice
+    if not base_voice:
+        base_voice = "hi"  # ipa_audio's phoneme table
     out_dir = os.path.join(WWW, "audio", script)
     os.makedirs(out_dir, exist_ok=True)
     clips = {}  # text the app passes -> (voice, text eSpeak reads)
@@ -149,13 +155,14 @@ def run(script):
             g, _, _, ex, _, _, speak, ipa, ex_lang, ex_ipa = c[:10]
             key = speak or g
             voice = voice_for(ex_lang) or base_voice
-            if not voice and ipa:
+            if by_ipa:
                 sound = plain_ipa(ipa)
-                if not any(ch in IPA_VOWELS for ch in sound):
+                if sound and not any(ch in IPA_VOWELS for ch in sound):
                     sound += "a"
-                clips.setdefault(key, ("ipa", sound))
-                if ex and ex_ipa:
-                    clips.setdefault(ex, ("ipa", plain_ipa(ex_ipa)))
+                if sound and key not in clips:
+                    clips[key] = (voice, "ipa:" + sound)
+                if ex and ex_ipa and ex not in clips:
+                    clips[ex] = (voice, "ipa:" + plain_ipa(ex_ipa))
                 continue
             if voice and key not in clips:
                 # A speak text that is not one of the letters themselves is a
