@@ -15,7 +15,7 @@ import sys
 import tomllib
 import urllib.parse
 
-from common import CACHE, DATA, NAME_TO_USFM, book_ids, write_js
+from common import CACHE, COMMENTARY_PACKS_JSON, DATA, NAME_TO_USFM, PACKS_DIR, book_ids, write_js
 
 SRC = os.path.join(CACHE, "commentaries")
 
@@ -51,6 +51,8 @@ FATHERS = {
     "Victorinus of Pettau": ("victorinus", "St Victorinus of Pettau", "early"),
     "Cyprian": ("cyprian", "St Cyprian of Carthage", "early"),
     "Didache": ("didache", "The Didache", "early"),
+    "Shepherd of Hermas": ("hermas", "The Shepherd of Hermas", "early"),
+    "Epistle of Barnabas": ("barnabas", "The Epistle of Barnabas", "early"),
     "Ambrose of Milan": ("ambrose", "St Ambrose of Milan", "west"),
     "Augustine of Hippo": ("augustine", "Blessed Augustine of Hippo", "west"),
     "Jerome": ("jerome", "St Jerome", "west"),
@@ -60,6 +62,9 @@ FATHERS = {
     "Maximus of Turin": ("maximus-turin", "St Maximus of Turin", "west"),
     "Peter Chrysologus": ("peter-chrysologus", "St Peter Chrysologus", "west"),
     "Bede": ("bede", "St Bede the Venerable", "west"),
+    "John Cassian": ("john-cassian", "St John Cassian", "west"),
+    "Pacian of Barcelona": ("pacian", "St Pacian of Barcelona", "west"),
+    "Gregory of Elvira": ("gregory-elvira", "St Gregory of Elvira", "west"),
 }
 
 # Work folders on historicalchristian.faith whose English text is a public-domain
@@ -117,6 +122,24 @@ EXCLUDE_TITLES = re.compile(r"Commentary on Daniel|Pseudo-", re.I)
 CATENA_ONLY = {"Theophylact of Ohrid", "Isidore of Pelusium", "Maximus the Confessor", "Bede",
                "Maximus of Turin", "Peter Chrysologus"}
 
+# The Historical Christian Faith Writings Database, where every
+# historicalchristian.faith link points, is itself dedicated to the public
+# domain: besides the ANF/NPNF texts it holds the maintainer's own new
+# translations of the Greek and Latin (Migne) and of the 19th-century Russian
+# (Theophylact). Those go into downloadable "more" packs, apart from the works
+# below, which are modern translations still in copyright.
+COPYRIGHTED_FILES = (
+    "Theophylact of Ohrid/Commentary on Matthew.html",  # Chrysostom Press, 1992
+    "Jerome/Commentary on Ecclesiastes.html",  # Robin McGregor's translation, no license given
+    "Oecumenius/",  # John Litteral's translations, sold in print
+    "Berengaudus/",  # also John Litteral
+)
+# Failed machine translations that slipped into the database.
+JUNK = re.compile(r"I cannot provide|As an AI\b|locked for copyright|Please provide the (text|excerpt)")
+# Fathers whose own works (beyond the Catena Aurea) come only through such packs.
+MORE_ONLY = {"Theophylact of Ohrid", "Bede", "John Cassian", "Shepherd of Hermas",
+             "Epistle of Barnabas", "Pacian of Barcelona", "Gregory of Elvira"}
+
 REF_RE = re.compile(r"^(.+?) (\d+)_(\d+)(?:-(?:(\d+)_)?(\d+))?\.toml$")
 
 
@@ -127,16 +150,29 @@ def work_of(url):
     return "web", re.sub(r"^https?://", "", u)
 
 
+def hcf_file(url):
+    u = urllib.parse.unquote(urllib.parse.unquote(url or ""))
+    return u.split("file=", 1)[1] if "by_father.php?file=" in u else ""
+
+
 def allowed(father, url, title):
+    """"core" for the bundled set, "more" for a downloadable pack, or None."""
     kind, where = work_of(url)
     if EXCLUDE_TITLES.search(title or ""):
-        return False
+        return None
     if kind == "hcf":
-        if father in CATENA_ONLY and not where.startswith("Thomas Aquinas/Catena Aurea/"):
-            return False
-        return any(where == w.rstrip("/") or (w.endswith("/") and where.startswith(w))
-                   for w in PD_WORKS)
-    return father not in CATENA_ONLY and where.startswith(PD_SITES)
+        if where.startswith("Thomas Aquinas/Catena Aurea/"):
+            return "core"
+        if father not in CATENA_ONLY and father not in MORE_ONLY and any(
+                where == w.rstrip("/") or (w.endswith("/") and where.startswith(w)) for w in PD_WORKS):
+            return "core"
+        own = where == father or where.startswith(father + "/")
+        if own and "Pseudo" not in where and not hcf_file(url).startswith(COPYRIGHTED_FILES):
+            return "more"
+        return None
+    if father not in CATENA_ONLY and father not in MORE_ONLY and where.startswith(PD_SITES):
+        return "core"
+    return None
 
 
 def ref_key(fname, known):
@@ -168,7 +204,9 @@ def main():
         if not os.path.isdir(folder):
             print("missing folder", father)
             continue
-        notes, works, kept, dropped = {}, {}, 0, 0
+        notes = {"core": {}, "more": {}}
+        works = {"core": {}, "more": {}}
+        kept, dropped = 0, 0
         for fname in sorted(os.listdir(folder)):
             if not fname.endswith(".toml") or fname == "metadata.toml":
                 continue
@@ -183,15 +221,26 @@ def main():
                 continue
             for e in entries:
                 title = (e.get("source_title") or "").strip().strip("'")
-                if not allowed(father, e.get("source_url"), title) or not e.get("quote", "").strip():
+                tier = allowed(father, e.get("source_url"), title)
+                if not tier or not e.get("quote", "").strip() or JUNK.search(e["quote"]):
                     dropped += 1
                     continue
                 kept += 1
-                notes.setdefault(key, []).append(clean(e["quote"]) + "\n— " + title)
+                notes[tier].setdefault(key, []).append(clean(e["quote"]) + "\n— " + title)
                 kind, where = work_of(e.get("source_url"))
-                w = "Catena Aurea" if "Catena Aurea" in where else re.sub(r"[ ,]+\d.*$", "", title)
-                works[w] = works.get(w, 0) + 1
-        if not notes:
+                if tier == "more":  # the work's own name, e.g. "Commentary on Isaiah"
+                    w = os.path.splitext(hcf_file(e.get("source_url")).split("/")[1])[0]
+                else:
+                    w = "Catena Aurea" if "Catena Aurea" in where else re.sub(r"[ ,]+\d.*$", "", title)
+                works[tier][w] = works[tier].get(w, 0) + 1
+        # A handful of extra notes is not worth a separate download.
+        if len(json.dumps(notes["more"]).encode()) < 100_000:
+            for k, v in notes["more"].items():
+                notes["core"].setdefault(k, []).extend(v)
+            for w, n in works["more"].items():
+                works["core"][w] = works["core"].get(w, 0) + n
+            notes["more"], works["more"] = {}, {}
+        if not notes["core"] and not notes["more"]:
             print("%-26s nothing public-domain" % father)
             continue
         out[cid] = (father, display, tradition, notes, works, kept, dropped)
@@ -218,48 +267,76 @@ def split_by_books(notes, order):
     return parts
 
 
-def write(out):
-    entries = []
+CORE_TRANSLATOR = ("Public-domain English translations (Ante-Nicene and Nicene & Post-Nicene Fathers, "
+                   "Library of the Fathers, Newman's Catena Aurea and others)")
+MORE_TRANSLATOR = ("New English translations from the Historical Christian Faith Writings Database, made from "
+                   "Migne's Greek and Latin text or the 19th-century Russian and dedicated to the public domain, "
+                   "many of them machine-assisted; plus public-domain ANF/NPNF texts")
+
+
+def work_label(works):
+    top = [w for w, _ in sorted(works.items(), key=lambda x: -x[1])]
+    return "; ".join(top[:4]) + ("; and other works" if len(top) > 4 else "")
+
+
+def write(out, bundled=True):
+    """Write the bundled files to www/data/commentary/ (unless bundled is False)
+    and the downloadable "more" packs to PACKS_DIR/commentary/, and list the
+    packs in COMMENTARY_PACKS_JSON for build_catalog.py."""
     order = {b: i for i, b in enumerate(book_ids())}
+    packs = []
 
     def sort_key(k):
         b, c, v = k.split(".")
         return (order[b], int(c), int(v.split("-")[0]))
 
     for cid, (father, display, tradition, notes, works, kept, dropped) in out.items():
-        top = [w for w, _ in sorted(works.items(), key=lambda x: -x[1])]
-        work = "; ".join(top[:4]) + ("; and other works" if len(top) > 4 else "")
-        parts = split_by_books(notes, order)
-        for part in parts:
-            books = list(part)
-            span = books[0] if len(books) == 1 else books[0] + "-" + books[-1]
-            pid = cid if len(parts) == 1 else "%s-%s" % (cid, span.lower())
-            pnotes = {k: v for b in books for k, v in part[b].items()}
-            obj = {
-                "id": pid, "author": display, "work": work,
-                "translator": "Public-domain English translations (Ante-Nicene and Nicene & Post-Nicene "
-                              "Fathers, Library of the Fathers, Newman's Catena Aurea and others)",
-                "lang": "en", "license": "Public Domain",
-                "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (%s/)" % father,
-                "versification": "kjv", "tradition": tradition,
-                "notes": {k: pnotes[k] for k in sorted(pnotes, key=sort_key)},
-            }
-            header = [display + ": commentary keyed to verses. Public Domain.",
-                      "Source: " + obj["source"],
-                      "Generated by tools/texts/build_commentary.py; do not edit by hand."]
-            size = write_js(os.path.join(DATA, "commentary", pid + ".js"), header, "SGO_COMMENTARY", obj)
-            n = sum(len(v) for v in pnotes.values())
-            print("%-30s %5d notes on %4d passages, %2d books, %5.2f MB" % (
-                pid, n, len(pnotes), len(books), size / 1e6))
-            entries.append({"id": pid, "author": display, "work": work, "lang": "en",
-                            "license": "Public Domain", "source": obj["source"], "books": books,
-                            "tradition": tradition})
+        for tier in ("core", "more"):
+            if not notes[tier] or (tier == "core" and not bundled):
+                continue
+            work = work_label(works[tier])
+            base = cid if tier == "core" else cid + "-more"
+            parts = split_by_books(notes[tier], order)
+            for part in parts:
+                books = list(part)
+                span = books[0] if len(books) == 1 else books[0] + "-" + books[-1]
+                pid = base if len(parts) == 1 else "%s-%s" % (base, span.lower())
+                pnotes = {k: v for b in books for k, v in part[b].items()}
+                obj = {
+                    "id": pid, "author": display, "work": work,
+                    "translator": CORE_TRANSLATOR if tier == "core" else MORE_TRANSLATOR,
+                    "lang": "en", "license": "Public Domain",
+                    "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (%s/)" % father,
+                    "versification": "kjv", "tradition": tradition,
+                    "notes": {k: pnotes[k] for k in sorted(pnotes, key=sort_key)},
+                }
+                if tier == "core":
+                    header = [display + ": commentary keyed to verses. Public Domain.",
+                              "Source: " + obj["source"],
+                              "Generated by tools/texts/build_commentary.py; do not edit by hand."]
+                    path = os.path.join(DATA, "commentary", pid + ".js")
+                else:  # the app JSON-parses packs, so one comment line and nothing else
+                    header = [display + ": downloadable commentary pack. Public Domain. "
+                              "Generated by tools/texts/build_commentary.py."]
+                    path = os.path.join(PACKS_DIR, "commentary", pid + ".js")
+                size = write_js(path, header, "SGO_COMMENTARY", obj)
+                n = sum(len(v) for v in pnotes.values())
+                print("%-34s %5d notes on %4d passages, %2d books, %5.2f MB%s" % (
+                    pid, n, len(pnotes), len(books), size / 1e6, "" if tier == "core" else "  (pack)"))
+                if tier == "more":
+                    packs.append({"id": pid, "author": display, "work": work, "lang": "en",
+                                  "license": "Public Domain", "source": obj["source"], "books": books,
+                                  "tradition": tradition, "size": size, "pack": True})
         print("    %s: kept %d, left out %d not public domain" % (father, kept, dropped))
-    return entries
+    with open(COMMENTARY_PACKS_JSON, "w", encoding="utf-8") as f:
+        json.dump(packs, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+    print("%d commentary packs, %.1f MB" % (len(packs), sum(p["size"] for p in packs) / 1e6))
 
 
 if __name__ == "__main__":
+    # --packs: only the downloadable packs (the packs workflow); otherwise both.
     out, unknown = main()
     if unknown:
         print("book names not mapped:", sorted(unknown.items(), key=lambda x: -x[1])[:20])
-    write(out)
+    write(out, bundled="--packs" not in sys.argv)
