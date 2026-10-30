@@ -1,0 +1,58 @@
+name: SquirrelGo Orthodox Bible Russian sources
+
+# Downloads the public-domain Russian patristic commentaries listed in
+# tools/texts/sources_ru.py from azbyka.ru (which not every build machine can
+# reach) and force-pushes them, as one commit of gzipped pages, to the
+# data-only branch orthodox-bible-sources-ru. fetch_sources.sh clones that
+# branch; build_commentary_ru.py turns it into commentary packs. Pages already
+# on the branch are reused, so a rerun only downloads what is new.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/squirrelgo-orthodox-ru-sources.yml"
+      - "SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts/fetch_azbyka.py"
+      - "SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts/sources_ru.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: squirrelgo-orthodox-ru-sources
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reuse pages already downloaded
+        run: |
+          git clone -q --depth 1 --branch orthodox-bible-sources-ru \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" .cache/azbyka || true
+          rm -rf .cache/azbyka/.git
+      - name: Download from azbyka.ru
+        run: python3 fetch_azbyka.py
+      - name: Publish to the orthodox-bible-sources-ru branch
+        run: |
+          cd .cache/azbyka
+          cat > README.md <<'MD'
+          # SquirrelGo Orthodox Bible Russian sources
+
+          Public-domain Russian patristic commentaries downloaded from
+          azbyka.ru/otechnik by the "SquirrelGo Orthodox Bible Russian sources"
+          workflow (SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts/fetch_azbyka.py),
+          one gzipped page per file. Generated; do not edit.
+          MD
+          git init -q -b orthodox-bible-sources-ru
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Russian sources fetched from azbyka.ru for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" orthodox-bible-sources-ru

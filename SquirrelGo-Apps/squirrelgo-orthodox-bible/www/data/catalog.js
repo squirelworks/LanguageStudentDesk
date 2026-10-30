@@ -800,6 +800,20 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "andrew-caesarea-ru",
+      "author": "Святитель Андрей Кесарийский (St Andrew of Caesarea)",
+      "work": "Толкование на Апокалипсис (перевод с греч. прот. Михаила Богословского)",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "REV"
+      ],
+      "tradition": "east",
+      "size": 387882,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/andrew-caesarea-ru.js"
+    },
+    {
       "id": "athanasius",
       "author": "St Athanasius the Great",
       "work": "Discourses Against the Arians; Catena Aurea; On the Incarnation of the Word; Letter; and other works",
@@ -1130,6 +1144,37 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "euthymius-ru-mat-heb",
+      "author": "Евфимий Зигабен (Euthymius Zigabenus)",
+      "work": "Толковая псалтирь; Толковое Евангелие от Матфея, составленное по древним святоотеческим толкованиям; Толкование Евангелия от Иоанна, составленное по древним святоотеческим толкованиям; Толкование на послание к Титу; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "MAT",
+        "JHN",
+        "TIT",
+        "HEB"
+      ],
+      "tradition": "east",
+      "size": 2812342,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-mat-heb.js"
+    },
+    {
+      "id": "euthymius-ru-psa",
+      "author": "Евфимий Зигабен (Euthymius Zigabenus)",
+      "work": "Толковая псалтирь; Толковое Евангелие от Матфея, составленное по древним святоотеческим толкованиям; Толкование Евангелия от Иоанна, составленное по древним святоотеческим толкованиям; Толкование на послание к Титу; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "PSA"
+      ],
+      "tradition": "east",
+      "size": 5299741,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-psa.js"
+    },
+    {
       "id": "gregory-nyssa",
       "author": "St Gregory of Nyssa",
       "work": "Catena Aurea; AGAINST EUNOMIUS; ON VIRGINITY; ON THE MAKING OF MAN; and other works",
@@ -1318,6 +1363,64 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "theodoret-ru-dan-heb",
+      "author": "Блаженный Феодорит Кирский (Blessed Theodoret of Cyrus)",
+      "work": "Изъяснение псалмов; Толкование на книгу Песнь Песней Соломона; Толкование на пророка Иеремию; Толкование на книгу Варуха; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "DAN",
+        "ROM",
+        "1CO",
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL",
+        "1TH",
+        "2TH",
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM",
+        "HEB"
+      ],
+      "tradition": "east",
+      "size": 2228207,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-dan-heb.js"
+    },
+    {
+      "id": "theodoret-ru-psa-ezk",
+      "author": "Блаженный Феодорит Кирский (Blessed Theodoret of Cyrus)",
+      "work": "Изъяснение псалмов; Толкование на книгу Песнь Песней Соломона; Толкование на пророка Иеремию; Толкование на книгу Варуха; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "PSA",
+        "SNG",
+        "HOS",
+        "AMO",
+        "MIC",
+        "JOL",
+        "OBA",
+        "JON",
+        "NAM",
+        "ZEP",
+        "HAG",
+        "ZEC",
+        "MAL",
+        "JER",
+        "BAR",
+        "LAM",
+        "EZK"
+      ],
+      "tradition": "east",
+      "size": 3902064,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-psa-ezk.js"
+    },
+    {
       "id": "theonas",
       "author": "St Theonas of Alexandria",
       "work": "The Epistle of Theonas, Bishop of Alexandria, to Lucianus, the Chief Chamberlain",
@@ -1387,6 +1490,58 @@ window.SGO_CATALOG = {
       "tradition": "east",
       "size": 3835032,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theophylact-more.js"
+    },
+    {
+      "id": "theophylact-ru-1co-jud",
+      "author": "Блаженный Феофилакт Болгарский (Blessed Theophylact of Ohrid)",
+      "work": "Толкование на Евангелие от Матфея; Толкование на Евангелие от Марка; Толкование на Евангелие от Луки; Толкование на Евангелие от Иоанна; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "1CO",
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL",
+        "1TH",
+        "2TH",
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM",
+        "HEB",
+        "JAS",
+        "1PE",
+        "2PE",
+        "1JN",
+        "2JN",
+        "3JN",
+        "JUD"
+      ],
+      "tradition": "east",
+      "size": 2932435,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theophylact-ru-1co-jud.js"
+    },
+    {
+      "id": "theophylact-ru-mat-rom",
+      "author": "Блаженный Феофилакт Болгарский (Blessed Theophylact of Ohrid)",
+      "work": "Толкование на Евангелие от Матфея; Толкование на Евангелие от Марка; Толкование на Евангелие от Луки; Толкование на Евангелие от Иоанна; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "MAT",
+        "MRK",
+        "LUK",
+        "JHN",
+        "ACT",
+        "ROM"
+      ],
+      "tradition": "east",
+      "size": 3951591,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theophylact-ru-mat-rom.js"
     },
     {
       "id": "barnabas",
