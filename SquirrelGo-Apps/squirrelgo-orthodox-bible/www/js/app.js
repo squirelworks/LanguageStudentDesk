@@ -17,10 +17,11 @@
   const TRADITIONS = [["east", "Eastern Fathers"], ["early", "Early Church"], ["west", "Western Fathers (before the schism)"]];
 
   // ---- persistence ----
-  const firstBible = CATALOG.bibles[0]?.id || "";
+  const bundled = CATALOG.bibles.filter((b) => !b.url);
+  const firstBible = bundled[0]?.id || "";
   const defaults = {
     primary: firstBible,
-    parallel: CATALOG.bibles.filter((b) => b.lang !== CATALOG.bibles[0]?.lang).slice(0, 1).map((b) => b.id),
+    parallel: bundled.filter((b) => b.lang !== bundled[0]?.lang).slice(0, 1).map((b) => b.id),
     layout: "stack",
     textSize: 1.05,
     theme: "auto",
@@ -73,16 +74,92 @@
     return p;
   }
   async function ensureBible(id) {
-    if (BIBLES.has(id) || !catBible.has(id)) return BIBLES.get(id);
+    const c = catBible.get(id);
+    if (BIBLES.has(id) || !c) return BIBLES.get(id);
+    if (c.url) {
+      if (!isAvailable(c, "bible")) return undefined;
+      const b = parsePack(await packGet(packKey("bible", id)), "SGO_BIBLES.push(");
+      BIBLES.set(b.id, b);
+      return b;
+    }
     await loadScript(`data/bibles/${id}.js`);
     return BIBLES.get(id);
   }
   // Commentary files are large, so load only those covering the given books
   // (KJV book ids). An entry without a books list is loaded for every book.
+  const packCommentaryLoaded = new Set();
   async function ensureCommentary(books) {
-    const want = CATALOG.commentary.filter((c) => !c.books || c.books.some((b) => books.includes(b)));
-    await Promise.all(want.map((c) => loadScript(`data/commentary/${c.id}.js`).catch(() => {})));
+    const want = CATALOG.commentary.filter((c) => (!c.books || c.books.some((b) => books.includes(b))) && isAvailable(c, "commentary"));
+    await Promise.all(want.map(async (c) => {
+      if (!c.url) return loadScript(`data/commentary/${c.id}.js`).catch(() => {});
+      if (packCommentaryLoaded.has(c.id)) return;
+      packCommentaryLoaded.add(c.id);
+      try {
+        addCommentary(parsePack(await packGet(packKey("commentary", c.id)), "SGO_COMMENTARY.push("));
+      } catch {
+        packCommentaryLoaded.delete(c.id);
+      }
+    }));
   }
+
+  // ---- downloadable packs ----
+  // Catalog entries with a url are not bundled: they are downloaded on request
+  // and kept in IndexedDB for offline use. A pack is `SGO_BIBLES.push(<JSON>);`
+  // (or SGO_COMMENTARY); we JSON-parse the argument rather than run the file.
+  const INSTALLED = new Set();
+  const packKey = (kind, id) => `${kind}:${id}`;
+  const isAvailable = (c, kind) => !c.url || INSTALLED.has(packKey(kind, c.id));
+  const availableBibles = () => CATALOG.bibles.filter((c) => isAvailable(c, "bible"));
+  function parsePack(text, marker) {
+    const i = text.indexOf(marker);
+    const j = text.lastIndexOf(")");
+    if (i < 0 || j <= i) throw new Error("Not a SquirrelGo data pack");
+    return JSON.parse(text.slice(i + marker.length, j));
+  }
+  let dbPromise = null;
+  function packDb() {
+    dbPromise = dbPromise || new Promise((resolve, reject) => {
+      const req = indexedDB.open("squirrelgo-orthodox-packs", 1);
+      req.onupgradeneeded = () => req.result.createObjectStore("packs");
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    return dbPromise;
+  }
+  async function packTx(mode, fn) {
+    const db = await packDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction("packs", mode);
+      const req = fn(tx.objectStore("packs"));
+      tx.oncomplete = () => resolve(req?.result);
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+  const packGet = (key) => packTx("readonly", (st) => st.get(key));
+  async function loadInstalled() {
+    try {
+      (await packTx("readonly", (st) => st.getAllKeys())).forEach((k) => INSTALLED.add(k));
+    } catch {}
+  }
+  async function downloadPack(kind, c) {
+    const res = await fetch(c.url);
+    if (!res.ok) throw new Error(`Download failed (${res.status})`);
+    const text = await res.text();
+    parsePack(text, kind === "bible" ? "SGO_BIBLES.push(" : "SGO_COMMENTARY.push(");
+    await packTx("readwrite", (st) => st.put(text, packKey(kind, c.id)));
+    INSTALLED.add(packKey(kind, c.id));
+  }
+  async function removePack(kind, c) {
+    await packTx("readwrite", (st) => st.delete(packKey(kind, c.id)));
+    INSTALLED.delete(packKey(kind, c.id));
+    if (kind === "bible") {
+      BIBLES.delete(c.id);
+      store.parallel = store.parallel.filter((id) => id !== c.id);
+      if (store.primary === c.id) store.primary = availableBibles()[0]?.id || "";
+      save();
+    }
+  }
+  const mb = (bytes) => (bytes ? `${(bytes / 1048576).toFixed(1)} MB` : "");
 
   // ---- references and versification ----
   // A ref is "BOOK.CHAPTER.VERSE" in some translation's own numbering. To line
@@ -226,7 +303,7 @@
     }
     try {
       if (view === "books") return await renderBooks(args[0]);
-      if (view === "verse") return await renderVerse(args[0]);
+      if (view === "verse") return await renderVerse(args[0], args[1]);
       if (view === "search") return await renderSearch();
       if (view === "saved") return await renderSaved();
       if (view === "translations") return renderTranslations();
@@ -246,7 +323,17 @@
     const ids = [store.primary, ...store.parallel];
     const main = shell("…", { back: false, actions: readerActions, wide: store.layout === "columns" });
     main.innerHTML = `<p class="empty">Loading…</p>`;
-    const [primary, ...parallels] = await Promise.all(ids.map((id) => ensureBible(id).catch(() => null)));
+    let [primary, ...parallels] = await Promise.all(ids.map((id) => ensureBible(id).catch(() => null)));
+    // The main Bible may not have this book (a Septuagint has no New Testament),
+    // so read it from another one instead of stopping at a dead end.
+    const mainBible = primary;
+    if (!hasChapter(primary, book, chapter)) {
+      const standIn = await standInFor(book, chapter, parallels);
+      if (standIn) {
+        parallels = parallels.filter((p) => p !== standIn);
+        primary = standIn;
+      }
+    }
     // A chapter can map into other KJV books (Synodal Daniel 3 holds the Song of the Three).
     const kjvBooks = new Set([book]);
     (primary?.books?.[book]?.[chapter - 1] || []).forEach((_, i) => {
@@ -256,7 +343,12 @@
     ensureCommentary([...kjvBooks]).then(() => {
       if (route().view === "read") markCommentary();
     });
-    const shown = parallels.filter(Boolean);
+    // Leave out parallels without this book at all (an Old Testament-only text in John).
+    const coversChapter = (p) => [1, 2, 3].some((v) => {
+      const r = primary && sameRefIn(p, primary, `${book}.${chapter}.${v}`);
+      return r && p.books?.[parseRef(r).book];
+    });
+    const shown = parallels.filter((p) => p && (p.books?.[book] || coversChapter(p)));
     store.last = { book, chapter };
     save();
 
@@ -266,11 +358,14 @@
     title.className = "title-btn";
     title.id = "titleBtn";
     title.textContent = `${b.en} ${chapter}`;
-    title.onclick = () => go(`#/books/${book}`);
+    title.onclick = () => {
+      pickerTab = null;
+      go(`#/books/${book}`);
+    };
     app.querySelector(".topbar h1").replaceWith(title);
 
     const chips = [
-      `<button class="chip primary" data-go="#/translations">${esc(catBible.get(store.primary)?.name || store.primary)}</button>`,
+      `<button class="chip primary" data-go="#/translations">${esc(primary?.name || store.primary)}</button>`,
       ...shown.map((p) => `<button class="chip" data-go="#/translations">${esc(langName(p.lang))}</button>`),
       `<button class="chip add" data-go="#/translations">＋ language</button>`,
     ].join("");
@@ -314,6 +409,7 @@
     main.innerHTML = `
       <div class="chips">${chips}</div>
       ${primary?.sample ? `<div class="notice">Sample data: only a few chapters are installed until the full texts arrive.</div>` : ""}
+      ${primary && mainBible && primary !== mainBible ? `<div class="notice">${esc(mainBible.name)} does not include ${esc(b.en)}, so it is shown in ${esc(primary.name)}. <a href="#" data-primary="${primary.id}">Make this the main text</a></div>` : ""}
       <h2 class="chapter-head">${esc(b.en)} ${chapter}</h2>
       ${body}
       <div class="pager">
@@ -326,7 +422,8 @@
       setPrimary(el.dataset.primary);
       render();
     }));
-    main.querySelectorAll(".verse").forEach((el) => (el.onclick = () => go(`#/verse/${el.dataset.ref}`)));
+    const via = primary && primary.id !== store.primary ? `/${primary.id}` : "";
+    main.querySelectorAll(".verse").forEach((el) => (el.onclick = () => go(`#/verse/${el.dataset.ref}${via}`)));
     markCommentary();
     if (focus) document.getElementById(`v${focus}`)?.scrollIntoView({ block: "center" });
     else window.scrollTo(0, 0);
@@ -340,16 +437,17 @@
       el.querySelector(".marks").textContent = marks(el.dataset.kref);
     });
   }
-  // Previous or next chapter, skipping books the primary Bible lacks.
+  // Previous or next chapter in any loaded Bible; books the main one lacks are
+  // read from a stand-in, so the pager runs straight from Malachi into Matthew.
   function neighbour(book, chapter, dir) {
-    const primary = BIBLES.get(store.primary);
-    const count = (id) => primary?.books?.[id]?.length || 0;
+    const count = (id) => chapterCount(id);
+    const has = (id, c) => [...BIBLES.values()].some((b) => hasChapter(b, id, c));
     let i = bookIndex.get(book);
     let c = chapter + dir;
     for (let guard = 0; guard < BOOKS.length * 2; guard++) {
       const id = BOOKS[i].id;
       if (c >= 1 && c <= count(id)) {
-        if (hasChapter(primary, id, c)) return { book: id, chapter: c };
+        if (has(id, c)) return { book: id, chapter: c };
         c += dir;
         continue;
       }
@@ -360,53 +458,94 @@
     return null;
   }
 
+  // A Bible that has this chapter: a parallel already shown, else the first
+  // catalog entry covering the book's testament (loaded on demand).
+  async function standInFor(book, chapter, parallels) {
+    const shownHit = parallels.find((p) => hasChapter(p, book, chapter));
+    if (shownHit) return shownHit;
+    const b = bookById.get(book);
+    const part = b.nt ? "NT" : b.dc ? "DC" : "OT";
+    const candidates = availableBibles().filter((c) => c.id !== store.primary && (!c.testaments || c.testaments.split(",").includes(part)));
+    for (const c of candidates) {
+      const bible = await ensureBible(c.id).catch(() => null);
+      if (hasChapter(bible, book, chapter)) return bible;
+    }
+    return null;
+  }
+
   // ---- book and chapter picker ----
   const GROUPS = [
     ["law", "Law"], ["history", "History"], ["wisdom", "Wisdom"], ["prophets", "Prophets"],
     ["appendix", "Appendix"], ["gospels", "Gospels"], ["acts", "Acts"], ["epistles", "Epistles"], ["revelation", "Revelation"],
   ];
+  // One screen: Old/New Testament tabs, every book of that testament, and the
+  // chapters of the open book right under it. Opens on the book being read.
+  let pickerTab = null;
   async function renderBooks(bookId) {
-    await ensureBible(store.primary).catch(() => null);
+    const current = bookById.has(bookId) ? bookId : store.last.book;
+    await Promise.all([store.primary, ...store.parallel].map((id) => ensureBible(id).catch(() => null)));
     const primary = BIBLES.get(store.primary);
-    if (bookId && bookById.has(bookId)) {
-      const b = bookById.get(bookId);
-      const main = shell(b.en, { sub: b.alt || "" });
-      const n = chapterCount(bookId);
-      main.innerHTML = n
-        ? `<div class="grid chapters">${Array.from({ length: n }, (_, i) => {
-            const ok = hasChapter(primary, bookId, i + 1);
-            const cur = store.last.book === bookId && store.last.chapter === i + 1;
-            return `<button class="tile ${ok ? "" : "unavailable"} ${cur ? "current" : ""}" data-ch="${i + 1}">${i + 1}</button>`;
-          }).join("")}</div>`
-        : `<p class="empty">No installed translation includes ${esc(b.en)} yet.</p>`;
-      main.querySelectorAll("[data-ch]").forEach((el) => (el.onclick = () => history.replaceState(null, "", `#/read/${bookId}/${el.dataset.ch}`) || render()));
-      return;
-    }
+    let open = current;
+    let tab = pickerTab || (bookById.get(current)?.nt ? "nt" : "ot");
     const main = shell("Books", { sub: primary?.name || "" });
-    const tile = (b) => {
-      const ok = !!primary?.books?.[b.id]?.some(Boolean);
-      return `<button class="tile ${ok ? "" : "unavailable"} ${store.last.book === b.id ? "current" : ""}" data-book="${b.id}">${esc(b.en)}${b.dc ? `<span class="dc" title="Read in the Church, outside the Hebrew canon">◆</span>` : ""}${b.alt ? `<span class="alt">${esc(b.alt)}</span>` : ""}</button>`;
+    const draw = async () => {
+      pickerTab = tab;
+      const groups = tab === "nt" ? GROUPS.slice(5) : GROUPS.slice(0, 5);
+      // Make sure some loaded Bible covers this testament, so every book shows its chapters.
+      const list = BOOKS.filter((b) => (tab === "nt") === !!b.nt);
+      if (!list.some((b) => chapterCount(b.id))) await standInFor(list[0].id, 1, []);
+      const chapters = (id) => {
+        const n = chapterCount(id);
+        if (!n) return `<p class="muted">No installed translation includes this book yet.</p>`;
+        return `<div class="grid chapters">${Array.from({ length: n }, (_, i) => {
+          const cur = store.last.book === id && store.last.chapter === i + 1;
+          return `<button class="tile ${cur ? "current" : ""}" data-read="${id}/${i + 1}">${i + 1}</button>`;
+        }).join("")}</div>`;
+      };
+      const tile = (b) => {
+        return `<button class="tile book ${b.id === open ? "open" : ""} ${b.id === store.last.book ? "current" : ""}" data-book="${b.id}" aria-expanded="${b.id === open}">${esc(b.en)}${b.dc ? `<span class="dc" title="Read in the Church, outside the Hebrew canon">◆</span>` : ""}${b.alt ? `<span class="alt">${esc(b.alt)}</span>` : ""}</button>` +
+          (b.id === open ? `<div class="chapters-row">${chapters(b.id)}</div>` : "");
+      };
+      main.innerHTML = `
+        <div class="tabs" role="tablist">
+          <button role="tab" class="tab ${tab === "ot" ? "on" : ""}" data-tab="ot" aria-selected="${tab === "ot"}">Old Testament</button>
+          <button role="tab" class="tab ${tab === "nt" ? "on" : ""}" data-tab="nt" aria-selected="${tab === "nt"}">New Testament</button>
+        </div>
+        ${tab === "ot" ? `<p class="muted">In the order of the Septuagint. ◆ marks books the Church reads that are outside the Hebrew canon.</p>` : ""}
+        ${primary && !list.some((b) => primary.books?.[b.id]) ? `<p class="muted">${esc(primary.name)} has no ${tab === "nt" ? "New" : "Old"} Testament, so these books open in another translation.</p>` : ""}
+        ${groups.map(([g, label]) => {
+          const books = BOOKS.filter((b) => b.group === g);
+          return books.length ? `<h2>${label}</h2><div class="grid books">${books.map(tile).join("")}</div>` : "";
+        }).join("")}`;
+      main.querySelectorAll("[data-tab]").forEach((el) => (el.onclick = () => {
+        tab = el.dataset.tab;
+        draw().then(() => window.scrollTo(0, 0));
+      }));
+      main.querySelectorAll("[data-book]").forEach((el) => (el.onclick = () => {
+        open = open === el.dataset.book ? null : el.dataset.book;
+        draw().then(() => main.querySelector(".tile.open")?.scrollIntoView({ block: "nearest" }));
+      }));
+      main.querySelectorAll("[data-read]").forEach((el) => (el.onclick = () => {
+        pickerTab = null;
+        history.replaceState(null, "", `#/read/${el.dataset.read}`);
+        render();
+      }));
     };
-    const section = (label, list) => (list.length ? `<h2>${label}</h2><div class="grid">${list.map(tile).join("")}</div>` : "");
-    main.innerHTML =
-      `<p class="muted">Old Testament in the order of the Septuagint. ◆ marks the books the Church reads that are outside the Hebrew canon. Faded books are not in ${esc(primary?.name || "this translation")}.</p>` +
-      `<h2 style="color:var(--accent)">Old Testament</h2>` +
-      GROUPS.slice(0, 5).map(([g, label]) => section(label, BOOKS.filter((b) => b.group === g))).join("") +
-      `<h2 style="color:var(--accent)">New Testament</h2>` +
-      GROUPS.slice(5).map(([g, label]) => section(label, BOOKS.filter((b) => b.group === g))).join("");
-    main.querySelectorAll("[data-book]").forEach((el) => (el.onclick = () => go(`#/books/${el.dataset.book}`)));
+    await draw();
+    main.querySelector(".tile.open")?.scrollIntoView({ block: "center" });
   }
 
   // ---- one verse in every language, with commentary and notes ----
-  async function renderVerse(ref) {
+  // `via` names the Bible the verse was read in when the main one lacks the book.
+  async function renderVerse(ref, via) {
     if (!/^[0-9A-Z]{3}\.\d+\.\d+$/.test(ref || "")) return go("#/read");
-    const primary = await ensureBible(store.primary);
+    const primary = (via && catBible.has(via) && (await ensureBible(via).catch(() => null))) || (await ensureBible(store.primary));
     const kref = kjvKey(primary, ref);
     const { book, chapter, verse } = parseRef(ref);
     const main = shell(refLabel(ref), { sub: primary.name });
     const draw = () => {
       const loaded = CATALOG.bibles.filter((c) => BIBLES.has(c.id));
-      const unloaded = CATALOG.bibles.filter((c) => !BIBLES.has(c.id));
+      const unloaded = availableBibles().filter((c) => !BIBLES.has(c.id));
       const versions = loaded
         .map((c) => {
           const bible = BIBLES.get(c.id);
@@ -642,11 +781,12 @@
     const rows = [...byLang.entries()]
       .map(([lang, list]) => `<h2>${esc(langName(lang))}</h2>` + list
         .map((c) => `<div class="setting">
-            <span class="what">${esc(c.name)}<small>${esc([c.testaments, c.license].filter(Boolean).join(" · "))}</small></span>
-            <span class="pick">
+            <span class="what">${esc(c.name)}<small>${esc([c.testaments, c.license, c.url && mb(c.size)].filter(Boolean).join(" · "))}</small>
+              ${c.url && isAvailable(c, "bible") ? `<button class="mini" data-remove="bible:${c.id}">Remove download</button>` : ""}</span>
+            ${isAvailable(c, "bible") ? `<span class="pick">
               <label>Main<input type="radio" name="primary" value="${c.id}" ${c.id === store.primary ? "checked" : ""}></label>
               <label>Beside<input type="checkbox" data-par="${c.id}" ${store.parallel.includes(c.id) ? "checked" : ""} ${c.id === store.primary ? "disabled" : ""}></label>
-            </span>
+            </span>` : `<button class="btn small" data-download="bible:${c.id}">Download</button>`}
           </div>`).join(""))
       .join("");
     // One switch per Father, even when his commentary is split over several files.
@@ -658,8 +798,12 @@
     const comm = TRADITIONS.map(([t, label]) => {
       const list = [...authors.values()].filter((cs) => (cs[0].tradition || "east") === t);
       return list.length ? `<h3 class="trad">${label}</h3>` + list
-        .map((cs) => `<label class="setting"><span class="what">${esc(cs[0].author)}<small>${esc([...new Set(cs.map((c) => c.license).filter(Boolean))].join(" · "))}</small></span>
-          <input type="checkbox" data-comm="${cs.map((c) => c.id).join(" ")}" ${cs.every((c) => store.hiddenCommentary.includes(c.id)) ? "" : "checked"}></label>`)
+        .map((cs) => {
+          const missing = cs.filter((c) => !isAvailable(c, "commentary"));
+          const size = missing.reduce((n, c) => n + (c.size || 0), 0);
+          return `<label class="setting"><span class="what">${esc(cs[0].author)}<small>${esc([...new Set(cs.map((c) => c.license).filter(Boolean))].join(" · "))}${missing.length ? ` · ${esc(mb(size) || "download")}` : ""}</small></span>
+          ${missing.length ? `<button class="btn small" data-download="${missing.map((c) => `commentary:${c.id}`).join(" ")}">Download</button>` : `<input type="checkbox" data-comm="${cs.map((c) => c.id).join(" ")}" ${cs.every((c) => store.hiddenCommentary.includes(c.id)) ? "" : "checked"}>`}</label>`;
+        })
         .join("") : "";
     }).join("");
     main.innerHTML = `
@@ -675,6 +819,27 @@
       ${comm ? `<h2>Patristic commentary</h2>${comm}` : ""}
       <div class="row-actions"><button class="btn" data-go="#/about">About & sources</button></div>`;
     main.querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(el.dataset.go)));
+    const catEntry = (key) => {
+      const [kind, id] = key.split(":");
+      return [kind, (kind === "bible" ? CATALOG.bibles : CATALOG.commentary).find((c) => c.id === id)];
+    };
+    main.querySelectorAll("[data-download]").forEach((el) => (el.onclick = async (e) => {
+      e.preventDefault();
+      el.disabled = true;
+      el.textContent = "Downloading…";
+      try {
+        for (const key of el.dataset.download.split(" ")) await downloadPack(...catEntry(key));
+        toast("Downloaded");
+      } catch (err) {
+        toast(`Could not download: ${err.message}`);
+      }
+      renderTranslations();
+    }));
+    main.querySelectorAll("[data-remove]").forEach((el) => (el.onclick = async (e) => {
+      e.preventDefault();
+      await removePack(...catEntry(el.dataset.remove)).catch(() => {});
+      renderTranslations();
+    }));
     main.querySelector("#layout").value = store.layout;
     main.querySelector("#theme").value = store.theme;
     main.querySelectorAll("input[name=primary]").forEach((el) => (el.onchange = () => {
@@ -720,5 +885,9 @@
       ${CATALOG.commentary.length ? `<ul>${list(CATALOG.commentary, (c) => `<b>${esc(c.author)}</b>${c.work ? `, ${esc(c.work)}` : ""} · ${esc(c.license || "")}`)}</ul>` : `<p class="muted">None installed yet.</p>`}`;
   }
 
-  render();
+  loadInstalled().then(() => {
+    if (!isAvailable(catBible.get(store.primary) || {}, "bible")) store.primary = availableBibles()[0]?.id || "";
+    store.parallel = store.parallel.filter((id) => catBible.has(id) && isAvailable(catBible.get(id), "bible"));
+    render();
+  });
 })();

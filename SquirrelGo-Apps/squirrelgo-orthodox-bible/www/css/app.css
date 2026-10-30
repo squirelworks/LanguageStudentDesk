@@ -374,3 +374,28 @@ textarea {
   .layout-columns .vtext .tag { display: inline-block; }
   .layout-columns .vtext.par { color: var(--muted); font-size: .95em; }
 }
+
+/* book picker: testament tabs and chapters opening under the chosen book */
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .4rem;
+  background: var(--bg);
+  padding: .4rem 0 .6rem;
+}
+.tab {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: .65rem .5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tile.book.open { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.chapters-row {
+  grid-column: 1 / -1;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  padding: .55rem;
+}
