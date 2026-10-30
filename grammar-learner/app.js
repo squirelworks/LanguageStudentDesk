@@ -15,7 +15,14 @@
   };
   const pickOne = (a) => a[Math.floor(Math.random() * a.length)];
 
-  const FILES = { japanese: "data/japanese.js", klingon: "data/klingon.js" };
+  const FILES = {
+    japanese: "data/japanese.js",
+    klingon: "data/klingon.js",
+    hangul: "data/hangul.js",
+    arabic: "data/arabic.js",
+    cyrillic: "data/cyrillic.js",
+    hindi: "data/hindi.js",
+  };
   const PASS = 0.8;
 
   const store = LSD.store("lsd-grammar-v1", {});
@@ -74,7 +81,7 @@
     $("vocabLink").href = LSD.toolUrl("vocabulary-learner/index.html", meta && meta.id);
     if (!course) {
       $("title").textContent = "Grammar Learner";
-      $("subtitle").textContent = meta ? "No grammar lessons for " + meta.name + " yet. Japanese and Klingon are ready." : id ? "No language called “" + id + "” in languages/." : "Short lessons with examples, then a drill that explains every answer.";
+      $("subtitle").textContent = meta ? "No grammar lessons for " + meta.name + " yet." : id ? "No language called “" + id + "” in languages/." : "Short lessons with examples, then a drill that explains every answer.";
       document.title = "Grammar Learner — Language Student Desk";
       return;
     }
@@ -118,7 +125,7 @@
 
   function example(ex) {
     const pq = piqadOn() ? '<div class="pq">' + esc(LSD.piqad(plain(ex[0]))) + "</div>" : "";
-    return '<div class="ex">' + pq + '<div class="t">' + mark(ex[0]) + '</div><div class="r">' + esc(ex[1]) + '</div><div class="e">' + esc(ex[2]) + "</div></div>";
+    return '<div class="ex">' + pq + '<div class="t" dir="auto">' + mark(ex[0]) + '</div><div class="r">' + esc(ex[1]) + '</div><div class="e">' + esc(ex[2]) + "</div></div>";
   }
 
   function renderLesson() {
@@ -190,9 +197,9 @@
     box.innerHTML =
       '<div class="scorebar"><span>' + esc(drill.label) + (d.from ? " · " + esc(d.from) : "") + "</span><span>" + (drill.i + 1) + " / " + drill.items.length + " · " + drill.right + " right</span></div>" +
       '<div class="progress"><span style="width:' + (100 * drill.i) / drill.items.length + '%"></span></div>' +
-      '<div class="drill-q">' + pq + mark(d.q).replace(/＿/g, '<mark>＿＿</mark>') + "</div>" +
+      '<div class="drill-q" dir="auto">' + pq + mark(d.q).replace(/＿/g, '<mark>＿＿</mark>') + "</div>" +
       (d.en ? '<div class="drill-en">' + esc(d.en) + "</div>" : '<div class="drill-en"></div>') +
-      '<div class="opts">' + opts.map((o, i) => '<button data-o="' + i + '">' + esc(o) + "</button>").join("") + "</div>" +
+      '<div class="opts">' + opts.map((o, i) => '<button data-o="' + i + '" dir="auto">' + esc(o) + "</button>").join("") + "</div>" +
       '<div id="why"></div>';
     drill.answered = false;
     box.querySelectorAll("[data-o]").forEach((b) => (b.onclick = () => answer(opts[+b.dataset.o], b)));
