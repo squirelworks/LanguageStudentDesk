@@ -277,6 +277,10 @@ panels.forEach(p => p.classList.add('hidden'));
 buttons.forEach(btn => {
   btn.addEventListener('click', () => showLang(btn.dataset.lang));
 });
+
+// Opened from the Desk with ?lang=<id>: start on that language's list.
+const startLang = new URLSearchParams(location.search).get('lang');
+if (startLang) showLang(startLang);
 </script>
 </body>
 </html>
