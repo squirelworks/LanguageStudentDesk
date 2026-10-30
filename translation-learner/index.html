@@ -37,6 +37,8 @@
   .piece.kept { border-color: var(--correct); }
   .piece.shown { border-color: #64b5f6; }
   .piece.dropped { border-color: var(--wrong); background: #2a1719; }
+  .piece.close { border-color: var(--gold); }
+  .piece.close .m { color: var(--gold); }
   .piece.dropped .m { color: var(--wrong); }
   .piece.extra { border-color: var(--hard); background: #2a2116; }
   .piece.extra .m { color: var(--hard); }
@@ -54,6 +56,7 @@
   .legend span::before { content: ""; display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 3px; margin-right: 0.3rem; vertical-align: -1px; border: 1px solid; }
   .legend .l-kept::before { border-color: var(--correct); }
   .legend .l-dropped::before { border-color: var(--wrong); }
+  .legend .l-close::before { border-color: var(--gold); }
   .legend .l-extra::before { border-color: var(--hard); }
   .legend .l-grammar::before { border-color: var(--line); }
   .stats { color: var(--muted); font-size: 0.85rem; }
@@ -67,6 +70,17 @@
   table.matrix .here { background: #1d1d2a; }
   table.matrix th.here { color: var(--gold); }
   table.matrix td.gap { background: repeating-linear-gradient(135deg, transparent 0 6px, #18181d 6px 12px); }
+  .wb-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.35rem; max-height: 520px; overflow: auto; }
+  .wb-list button { text-align: left; display: flex; gap: 0.5rem; align-items: baseline; padding: 0.35rem 0.55rem; }
+  .wb-list .n { color: var(--muted); font-size: 0.75rem; min-width: 2.2rem; }
+  .wb-list .w { font-size: 1.1rem; }
+  .wb-list .e { color: var(--muted); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wb-list button.none .w { color: var(--muted); }
+  #wbDetail { background: var(--card2); border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem 1rem; margin-bottom: 0.8rem; }
+  #wbDetail .say { font-size: 1.8rem; }
+  .near { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.3rem 0; }
+  .near span { background: #15151b; border: 1px solid var(--line); border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.9rem; }
+  .near span small { color: var(--muted); margin-left: 0.3rem; }
   #langHome .tile .big { font-family: var(--cjk); }
 </style>
 </head>
@@ -83,6 +97,7 @@
   <button data-tab="toTarget" id="toTargetTab">Into the language</button>
   <button data-tab="breakdown">Break down a sentence</button>
   <button data-tab="matrix">Meaning matrix</button>
+  <button data-tab="words" id="wordsTab">Top 1,000 words</button>
 </nav>
 <main>
   <section id="langHome" hidden>
@@ -162,12 +177,43 @@
     <p class="muted small">Each row is one meaning; each column says it in one language. Hover a sentence to see which piece carries which meaning.</p>
     <div class="matrix-wrap" id="matrixTable"></div>
   </section>
+  <section id="words" class="practice" hidden>
+    <div class="card">
+      <h2>Practise the most used words</h2>
+      <p class="muted small">Words come up more often the higher they rank. Type what the word means in English.</p>
+      <div class="prompt">
+        <div class="deck" id="wpRank"></div>
+        <div class="say target" id="wpSay"></div>
+      </div>
+      <div class="answer">
+        <input type="text" id="wpInput" placeholder="English meaning" autocomplete="off">
+        <button class="primary" id="wpCheck">Check</button>
+      </div>
+      <div id="wpResult" hidden></div>
+    </div>
+    <div class="card">
+      <h2 id="wbTitle">The 1,000 most used words</h2>
+      <p class="muted small" id="wbIntro"></p>
+      <div class="bar">
+        <select id="wbFilter">
+          <option value="">All words</option>
+          <option value="known">With a meaning</option>
+          <option value="unknown">Not in the Desk yet</option>
+        </select>
+        <input type="search" id="wbSearch" placeholder="Find a word or meaning" class="grow">
+      </div>
+      <div id="wbDetail" hidden></div>
+      <div class="wb-list" id="wbList"></div>
+      <p class="small muted" id="wbCredit"></p>
+    </div>
+  </section>
 </main>
 <footer class="foot">Part of Language Student Desk · sentences written for the Desk, with word lists shared with the Vocabulary Learner.</footer>
 
 <script src="../languages/registry.js"></script>
 <script src="../languages/lsd-lang.js"></script>
 <script src="tokens.js"></script>
+<script src="net.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

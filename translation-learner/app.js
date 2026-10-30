@@ -13,6 +13,9 @@
   // Rows are [word, reading, English, note], or [word, English, note] for Klingon.
   const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, klingon: false };
 
+  // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
+  const BANKS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic"];
+
   const progress = LSD.store("lsd-translation-v1", {});
   const state = { lang: null, meta: null, col: null, sentences: [], lex: null, tab: "toEnglish", pack: "", reading: true };
   let metas = [];
@@ -55,7 +58,7 @@
     $("langHome").hidden = !!id && COLUMNS.includes(id);
     if (!id || !COLUMNS.includes(id)) {
       $("tabs").hidden = true;
-      ["toEnglish", "toTarget", "breakdown", "matrix"].forEach((s) => ($(s).hidden = true));
+      ["toEnglish", "toTarget", "breakdown", "matrix", "words"].forEach((s) => ($(s).hidden = true));
       $("title").textContent = "Translation Learner";
       $("subtitle").textContent = id
         ? state.meta
@@ -66,6 +69,14 @@
       return;
     }
     state.col = await loadColumn(id);
+    if (!state.net) {
+      try {
+        await LSD.loadScript("data/network.js");
+        state.net = window.MeaningNet.load(window.TL_NETWORK, T.stem);
+      } catch (e) {
+        state.net = null; // without the network, close words count as missing
+      }
+    }
     if (id === "japanese") await LSD.loadScript(ROMAJI);
     const built = T.build(matrix(), state.col);
     built.problems.forEach((p) => console.warn("Translation Learner, " + id + ": " + p));
@@ -80,6 +91,9 @@
     $("title").innerHTML = "Translation Learner <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
     $("subtitle").textContent = "Every piece of meaning carried over, nothing added.";
     $("toTargetTab").textContent = "Into " + name;
+    $("wordsTab").hidden = !BANKS.includes(id);
+    if (state.tab === "words" && !BANKS.includes(id)) state.tab = "toEnglish";
+    state.bank = null;
     $("tabs").hidden = false;
     fillPacks();
     const readable = state.sentences.some((s) => s.tokens.some((t) => t.reading));
@@ -238,7 +252,7 @@
     const s = cur.toEnglish;
     const answer = $("enInput").value.trim();
     if (!answer && !override) return;
-    const r = T.checkEnglish(s, answer);
+    const r = T.checkEnglish(s, answer, state.net);
     const honest = r.honest || override;
     $("enInput").disabled = true;
     $("enCheck").disabled = true;
@@ -248,13 +262,14 @@
     r.units.forEach((u) => (u.token < 0 ? implied : byToken[u.token]).push(u));
     const cls = (units) => {
       if (units.some((u) => u.status === "dropped")) return "dropped";
+      if (units.some((u) => u.status === "close")) return "close";
       if (units.some((u) => u.status === "kept")) return "kept";
       if (units.some((u) => u.status === "shown")) return "shown grammar";
       return "grammar";
     };
     const note = (units) =>
       units
-        .map((u) => (u.matched.length ? "“" + u.matched.join(" ") + "”" : u.status === "dropped" ? "missing" : ""))
+        .map((u) => (u.status === "close" ? "≈ “" + u.matched[0] + "”" : u.matched.length ? "“" + u.matched.join(" ") + "”" : u.status === "dropped" ? "missing" : ""))
         .filter(Boolean)
         .join(" ");
     let html = '<div class="verdict ' + (honest ? "ok" : "bad") + '">';
@@ -263,8 +278,9 @@
     else {
       const parts = [];
       if (r.dropped) parts.push(r.dropped + (r.dropped === 1 ? " meaning" : " meanings") + " missing");
+      if (r.close) parts.push(r.close + (r.close === 1 ? " close word" : " close words"));
       if (r.added.length) parts.push(r.added.length + (r.added.length === 1 ? " word adds" : " words add") + " meaning");
-      html += parts.join(", ") + ".";
+      html += parts.join(", ") + ". Meaning score " + Math.round(r.score * 100) + "%.";
     }
     html += "</div>";
     html += '<div class="pieces"' + dirAttr() + ">";
@@ -274,9 +290,10 @@
     });
     implied.forEach((u) => (html += piece("—", "", u.meaning.label, u.status === "kept" ? "kept" : "grammar", u.status === "kept" ? "“" + u.matched.join(" ") + "”" : "implied")));
     html += "</div>";
+    if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label)).join(", ") + ".</p>";
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";
-    html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
+    html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-close">close</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
     html += '<div class="row" style="margin-top:0.8rem"><button class="primary" id="enNext">Next</button>' + (honest ? "" : '<button id="enOverride">My translation means the same</button>') + "</div>";
     $("enResult").innerHTML = html;
     $("enResult").hidden = false;
@@ -458,6 +475,139 @@
     $("matrixTable").innerHTML = html;
   }
 
+  // ---- Word bank ----
+
+  // Display names for the network's language prefixes.
+  function langName(id) {
+    const m = metas.find((x) => x.id === id);
+    return m ? m.name : id;
+  }
+
+  // What the network puts near a word: the same meaning in other languages
+  // (the nearest word of each), and nearby English.
+  function neighbours(key) {
+    if (!state.net || !state.net.has(key)) return "";
+    const near = state.net.nearest(key, 400);
+    const other = [];
+    const seen = new Set([state.lang]);
+    for (const n of near) {
+      const [lang, word] = [n.key.slice(0, n.key.indexOf(":")), n.key.slice(n.key.indexOf(":") + 1)];
+      if (lang === "m" || lang === "en" || seen.has(lang) || n.sim < state.net.close) continue;
+      seen.add(lang);
+      const face = ["japanese", "chinese", "hangul"].includes(lang) ? ' class="target"' : "";
+      other.push("<span" + face + ">" + esc(word) + "<small>" + esc(langName(lang)) + "</small></span>");
+    }
+    const english = near.filter((n) => n.key.startsWith("en:") && !n.key.includes("'") && n.sim >= state.net.close).slice(0, 6);
+    let html = "";
+    if (english.length) html += '<div class="small muted">Near it in English</div><div class="near">' + english.map((n) => "<span>" + esc(n.key.slice(3)) + "</span>").join("") + "</div>";
+    if (other.length) html += '<div class="small muted">The same meaning in other Desk languages</div><div class="near">' + other.join("") + "</div>";
+    return html;
+  }
+
+  async function loadBank() {
+    if (state.bank) return state.bank;
+    await LSD.loadScript("data/wordbank/" + state.lang + ".js");
+    const bank = window.TL_WORDBANK[state.lang];
+    state.bank = bank.words.map((w, i) => ({ rank: i + 1, word: w[0], english: w[1], base: w[2] }));
+    state.bankCredit = bank.credit;
+    return state.bank;
+  }
+
+  async function showWords() {
+    const bank = await loadBank();
+    const known = bank.filter((w) => w.english && !w.base).length;
+    const forms = bank.filter((w) => w.base).length;
+    $("wbTitle").textContent = "The " + bank.length.toLocaleString("en") + " most used words in " + langName(state.lang);
+    $("wbIntro").textContent =
+      "Ranked by how often they appear in film and TV subtitles. The Desk has a meaning for " + known +
+      (forms ? ", and reads " + forms + " more as forms of a word it knows" : "") +
+      ".";
+    $("wbCredit").textContent = "Word list: " + state.bankCredit + ".";
+    $("wbDetail").hidden = true;
+    drawBank();
+    nextWord();
+  }
+
+  function drawBank() {
+    const filter = $("wbFilter").value;
+    const q = $("wbSearch").value.trim().toLowerCase();
+    const list = $("wbList");
+    list.innerHTML = "";
+    list.dir = state.meta && state.meta.direction === "rtl" ? "rtl" : "ltr";
+    for (const w of state.bank) {
+      if (filter === "known" && !w.english) continue;
+      if (filter === "unknown" && w.english) continue;
+      if (q && !w.word.includes(q) && !w.english.toLowerCase().includes(q)) continue;
+      const b = document.createElement("button");
+      b.className = w.english ? "" : "none";
+      b.innerHTML = '<span class="n">' + w.rank + '</span><span class="w target">' + esc(w.word) + '</span><span class="e">' + esc(w.english || "—") + "</span>";
+      b.onclick = () => showWord(w);
+      list.appendChild(b);
+    }
+  }
+
+  function showWord(w) {
+    const key = state.lang + ":" + (state.net && state.net.has(state.lang + ":" + w.word) ? w.word : w.base || w.word);
+    let html = '<div class="row"><span class="say target">' + esc(w.word) + '</span><span class="muted">No. ' + w.rank + "</span>";
+    html += '<button class="link small" id="wbSpeak" hidden>Listen</button></div>';
+    if (w.base) html += "<p>Probably a form of <b class=\"target\">" + esc(w.base) + "</b>: " + esc(w.english) + "</p>";
+    else if (w.english) html += "<p>" + esc(w.english) + "</p>";
+    else html += '<p class="muted">No meaning for this word in the Desk yet.</p>';
+    html += neighbours(key);
+    $("wbDetail").innerHTML = html;
+    $("wbDetail").hidden = false;
+    speakButton($("wbSpeak"), w.word);
+  }
+
+  // Word practice: higher-ranked words come up more often.
+  function nextWord() {
+    const pool = state.bank.filter((w) => w.english);
+    if (!pool.length) return;
+    const w = pool[Math.floor(pool.length * Math.random() ** 2)];
+    cur.word = w;
+    $("wpRank").textContent = "No. " + w.rank + " of " + state.bank.length;
+    $("wpSay").textContent = w.word;
+    $("wpSay").dir = state.meta && state.meta.direction === "rtl" ? "rtl" : "auto";
+    $("wpInput").value = "";
+    $("wpInput").disabled = false;
+    $("wpCheck").disabled = false;
+    $("wpResult").hidden = true;
+  }
+
+  function checkWord() {
+    const w = cur.word;
+    const answer = $("wpInput").value.trim();
+    if (!answer) return;
+    const want = new Set(T.englishWords(w.english).map((x) => x.stem));
+    const said = T.englishWords(answer);
+    let verdict = "bad", text = "Not quite.";
+    if (said.some((x) => want.has(x.stem))) {
+      verdict = "ok";
+      text = "Right.";
+    } else if (state.net) {
+      const key = state.lang + ":" + (state.net.has(state.lang + ":" + w.word) ? w.word : w.base);
+      const best = Math.max(...said.map((x) => {
+        const n = state.net.english(x.word);
+        const s = n == null ? null : state.net.sim(n, key);
+        return s == null ? -1 : s;
+      }));
+      if (best >= state.net.close) {
+        verdict = "close";
+        text = "Close: the meaning network puts your word next to it.";
+      }
+    }
+    $("wpInput").disabled = true;
+    $("wpCheck").disabled = true;
+    let html = '<div class="verdict ' + (verdict === "ok" ? "ok" : "bad") + '">' + text + "</div>";
+    html += "<p>" + (w.base ? "A form of <b class=\"target\">" + esc(w.base) + "</b>: " : "") + "<b>" + esc(w.english) + "</b></p>";
+    html += neighbours(state.lang + ":" + (state.net && state.net.has(state.lang + ":" + w.word) ? w.word : w.base || w.word));
+    html += '<div class="row" style="margin-top:0.6rem"><button class="primary" id="wpNext">Next</button></div>';
+    $("wpResult").innerHTML = html;
+    $("wpResult").hidden = false;
+    $("wpNext").onclick = nextWord;
+    $("wpNext").focus();
+  }
+
   // ---- Tabs ----
 
   function next(tab) {
@@ -468,13 +618,14 @@
       const s = draw("t");
       if (s) showTarget(s);
     } else if (tab === "matrix") showMatrix();
+    else if (tab === "words") showWords();
     stats();
   }
 
   function showTab(tab, redraw) {
     state.tab = tab;
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
-    ["toEnglish", "toTarget", "breakdown", "matrix"].forEach((id) => ($(id).hidden = id !== tab));
+    ["toEnglish", "toTarget", "breakdown", "matrix", "words"].forEach((id) => ($(id).hidden = id !== tab));
     if (redraw && tab === "toEnglish" && cur.toEnglish && $("enResult").hidden) return showEnglish(cur.toEnglish);
     if (redraw && tab === "toTarget" && cur.toTarget && $("tgResult").hidden) {
       $("tgResult").hidden = true;
@@ -505,6 +656,12 @@
   };
   $("tgSkip").onclick = () => next("toTarget");
   $("bdGo").onclick = breakDown;
+  $("wbFilter").onchange = drawBank;
+  $("wbSearch").oninput = drawBank;
+  $("wpCheck").onclick = checkWord;
+  $("wpInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkWord();
+  });
   $("bdInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();

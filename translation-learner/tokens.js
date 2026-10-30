@@ -151,10 +151,13 @@
   // Checks an English translation of a built sentence.
   // Returns { units, added: [word], dropped, honest }, one unit per meaning:
   //   { token (index, or -1 when implied), meaning, status, matched: [word] }
-  // status: "kept" (found), "dropped" (content meaning missing), "shown"
-  // (grammar English showed with a word), "grammar", "implied" (left to
-  // context and not written, which is fine).
-  function checkEnglish(sentence, answer) {
+  // status: "kept" (found), "close" (a word the meaning network puts near
+  // it), "dropped" (content meaning missing), "shown" (grammar English showed
+  // with a word), "grammar", "implied" (left to context and not written,
+  // which is fine).
+  // net is optional (net.js): with it, a missing meaning can be met by a
+  // leftover word whose learned vector is close to the meaning's.
+  function checkEnglish(sentence, answer, net) {
     const words = englishWords(answer);
     const used = words.map(() => false);
     const units = [];
@@ -176,13 +179,40 @@
       }
     }
     const model = new Set(englishWords(sentence.en).map((w) => w.stem));
+    const spare = (k) => !used[k] && !FUNCTION_WORDS.has(words[k].word) && !model.has(words[k].stem);
+    if (net) {
+      // Best pairs first, so one word is not spent on a weaker match.
+      const pairs = [];
+      units.forEach((x, ui) => {
+        if (x.status !== "dropped") return;
+        words.forEach((w, k) => {
+          if (!spare(k)) return;
+          const node = net.english(w.word);
+          const s = node == null ? null : net.sim(node, "m:" + x.meaning.id);
+          if (s != null && s >= net.close) pairs.push({ ui, k, s });
+        });
+      });
+      pairs.sort((a, b) => b.s - a.s);
+      for (const p of pairs) {
+        const x = units[p.ui];
+        if (x.status !== "dropped" || used[p.k]) continue;
+        used[p.k] = true;
+        x.status = "close";
+        x.matched = [words[p.k].word];
+        x.sim = p.s;
+      }
+    }
     const added = [];
     words.forEach((w, k) => {
-      if (used[k] || FUNCTION_WORDS.has(w.word) || model.has(w.stem)) return;
-      added.push(w.word);
+      if (spare(k)) added.push(w.word);
     });
     const dropped = units.filter((x) => x.status === "dropped").length;
-    return { units, added, dropped, honest: dropped === 0 && added.length === 0 };
+    const close = units.filter((x) => x.status === "close").length;
+    const content = units.filter((x) => !x.meaning.grammar && x.token >= 0).length;
+    const kept = units.filter((x) => x.status === "kept" && x.token >= 0).length;
+    // Meaning score: a close word earns half of an exact one; each added word costs as much as a missing meaning.
+    const score = content ? Math.max(0, (kept + close / 2 - added.length) / content) : 1;
+    return { units, added, dropped, close, score, honest: dropped === 0 && close === 0 && added.length === 0 };
   }
 
   // ---- Target-language side ----

@@ -35,3 +35,20 @@ const unused = matrix.sentences.filter((s) => !Object.values(window.TL_LANGS).so
 if (unused.length) console.log("rows no language renders yet: " + unused.map((s) => s.id).join(", "));
 process.exitCode = bad ? 1 : 0;
 console.log(bad ? bad + " problems" : "matrix ok");
+
+// The meaning network: close matches must stay on the right side of the line.
+const N = require("./net.js");
+new Function(fs.readFileSync(path.join(dir, "network.js"), "utf8"))();
+const net = N.load(window.TL_NETWORK, T.stem);
+const lines = [
+  ["boy", "child", true], ["kid", "child", true], ["large", "big", true], ["talk", "speak", true],
+  ["tea", "water", false], ["coffee", "tea", false], ["hot", "cold", false], ["hello", "thanks", false], ["dog", "cat", false],
+];
+for (const [word, mid, want] of lines) {
+  const s = net.sim(net.english(word), "m:" + mid);
+  if (s == null || s >= net.close !== want) {
+    console.log("network: " + word + " vs " + mid + " is " + (s == null ? "unknown" : s.toFixed(2)) + ", expected " + (want ? "close" : "not close"));
+    process.exitCode = 1;
+  }
+}
+console.log(process.exitCode ? "network check failed" : "network ok");
