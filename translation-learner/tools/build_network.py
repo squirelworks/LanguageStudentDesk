@@ -15,6 +15,9 @@
    Word bank glosses (tools/glosses) link each word to its English, and
    ConceptNet 5.7 (CC BY-SA 4.0) adds translation, synonym and word-form
    links between Desk words and English words already in the graph.
+   When present, tools/tatoeba/links.tsv (Tatoeba sentence pairs, CC BY 2.0 FR)
+   and tools/wiktionary/<lang>.tsv (Wiktionary, CC BY-SA 4.0), written by
+   fetch_corpora.py, add links from real translations and dictionary entries.
    Word bank words that look like a form of a known word (a Korean noun with
    a particle, a Russian ending, an Arabic article or pronoun suffix) are
    linked to that word.
@@ -97,6 +100,12 @@ GLOSS_CREDITS = {
 CONCEPTNET = "https://s3.amazonaws.com/conceptnet/downloads/2019/edges/conceptnet-assertions-5.7.0.csv.gz"
 CONCEPTNET_CREDIT = "ConceptNet 5.7, CC BY-SA 4.0, https://conceptnet.io"
 CN_EDGES = os.path.join(HERE, "conceptnet", "edges.tsv")
+# Written by fetch_corpora.py (run by the "Translation Learner corpora"
+# workflow, since not every machine can reach these sources).
+TATOEBA_LINKS = os.path.join(HERE, "tatoeba", "links.tsv")
+TATOEBA_CREDIT = "Tatoeba sentence pairs via OPUS, CC BY 2.0 FR, https://tatoeba.org"
+WIKTIONARY = os.path.join(HERE, "wiktionary")
+WIKTIONARY_CREDIT = "Wiktionary via kaikki.org, CC BY-SA 4.0, https://kaikki.org"
 CN_CODES = {"japanese": "ja", "hangul": "ko", "chinese": "zh", "cyrillic": "ru", "hindi": "hi", "arabic": "ar"}
 # How strongly each kind of ConceptNet link ties two words. RelatedTo is
 # loose (a word and its topic), so it counts for less.
@@ -220,10 +229,10 @@ def read_lists():
     return banks
 
 
-def read_glosses(name):
-    """word -> (base, English) from glosses/<name>.tsv; English "-" drops a word."""
+def read_glosses(name, folder=GLOSSES):
+    """word -> (base, English) from <folder>/<name>.tsv; English "-" drops a word."""
     out = {}
-    path = os.path.join(GLOSSES, name + ".tsv")
+    path = os.path.join(folder, name + ".tsv")
     if not os.path.exists(path):
         return out
     with open(path, encoding="utf-8") as f:
@@ -379,11 +388,12 @@ def build_graph(src, banks):
         if info:
             direct["japanese"].setdefault(char, info.split(";")[0].split(",")[0].strip())
     # Word bank glosses: hand-written ones first, then the Desk's own, then a
-    # dictionary's. Each glossed word links to the English of its gloss, to
+    # dictionary's, then Wiktionary's. Each glossed word links to the English of its gloss, to
     # a meaning whose English the gloss is, and to the word it is a form of.
     glossed = defaultdict(dict)  # lang -> word -> (base, English)
     for lang, rows in banks.items():
         desk, dictionary = read_glosses("desk-" + lang), read_glosses(lang)
+        wikt = read_glosses(lang, WIKTIONARY)
         for word, _ in rows:
             if word in desk:
                 base, english = desk[word]
@@ -391,6 +401,8 @@ def build_graph(src, banks):
                 continue
             elif word in dictionary:
                 base, english = dictionary[word]
+            elif word in wikt:
+                base, english = wikt[word]
             else:
                 continue
             if english == "-":
@@ -418,6 +430,27 @@ def build_graph(src, banks):
             ends.append(key)
         if len(ends) == 2:
             g.link(ends[0], ends[1], CN_RELATIONS[rel] * min(float(w), 2.0) / 2.0)
+    # Wiktionary: every Desk word with an entry, linked to the English words of
+    # its first senses that the graph already has, and to its headword.
+    for lang in CN_CODES:
+        for word, (head, english) in read_glosses(lang, WIKTIONARY).items():
+            key = lang + ":" + word
+            for words in english_words(english)[:3]:
+                known = [w for w in words if "en:" + w in g.ids]
+                for w in known:
+                    g.link(key, "en:" + w, 1.0 / len(words))
+            if head:
+                g.link(key, lang + ":" + head, 1.0)
+    # Tatoeba: a Desk word and the English words that keep turning up in the
+    # translations of its sentences, weighted by how reliably they do.
+    if os.path.exists(TATOEBA_LINKS):
+        with open(TATOEBA_LINKS, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("#"):
+                    continue
+                lang, word, en, _, dice = line.rstrip("\n").split("\t")
+                if "en:" + en in g.ids:
+                    g.link(lang + ":" + word, "en:" + en, min(1.0, 3 * float(dice)))
     # Word bank words that look like a form of a word the graph knows
     # (a noun with a particle, a conjugated verb) lean on that word.
     forms = defaultdict(dict)
@@ -559,8 +592,11 @@ def main():
         credit = CREDIT
         if lang in GLOSS_CREDITS:
             credit += ". Glosses partly from " + GLOSS_CREDITS[lang]
-        if os.path.exists(CN_EDGES):
-            credit += ". Word links partly from " + CONCEPTNET_CREDIT
+        if os.path.exists(os.path.join(WIKTIONARY, lang + ".tsv")):
+            credit += ". Glosses and word forms partly from " + WIKTIONARY_CREDIT
+        links = [c for path, c in ((CN_EDGES, CONCEPTNET_CREDIT), (TATOEBA_LINKS, TATOEBA_CREDIT)) if os.path.exists(path)]
+        if links:
+            credit += ". Word links partly from " + "; ".join(links)
         with open(os.path.join(DATA, "wordbank", lang + ".js"), "w", encoding="utf-8") as f:
             f.write("// Generated by tools/build_network.py from tools/wordlists/" + lang + ".txt. Do not edit.\n")
             f.write("// Word list: " + credit + ".\n")

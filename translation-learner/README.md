@@ -32,6 +32,7 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `tools/build_network.py` | Fetches the word banks and ConceptNet links, and trains the network |
 | `tools/gloss_dictionaries.py` | Writes `tools/glosses/japanese.tsv` and `chinese.tsv` from JMdict and CC-CEDICT |
 | `tools/glosses/desk-<lang>.tsv` | Glosses written for the Desk; they win over the dictionaries and the decks |
+| `tools/fetch_corpora.py` | Reduces Tatoeba sentence pairs and Wiktionary entries to `tools/tatoeba/links.tsv` and `tools/wiktionary/<lang>.tsv` |
 | `tools/conceptnet/edges.tsv` | The ConceptNet links that touch a Desk word (cached, about 2 MB) |
 | `tools/export_sources.js` | Hands the Desk's data to the trainer as JSON |
 | `tools/wordlists/<lang>.txt` | The cached top-1,000 frequency lists |
@@ -137,6 +138,21 @@ The licences are credited in every generated file and on the page.
 
 A `-` in a gloss file's English column leaves that word unknown on purpose.
 
+### Tatoeba and Wiktionary
+
+Their servers are not reachable from every machine, so the **Translation Learner corpora** GitHub Actions
+workflow (`.github/workflows/translation-learner-corpora.yml`) runs `tools/fetch_corpora.py`, retrains the
+network and commits only the small outputs. It runs when the script or workflow changes, or by hand from
+the Actions tab. Locally, `python3 translation-learner/tools/fetch_corpora.py [tatoeba|wiktionary]` does
+the same first step where the servers are reachable.
+
+- **Tatoeba:** for every Desk word found in a sentence, the English words of its translation are counted. A
+  pair is kept when it shares at least 3 sentences and a Dice coefficient of 0.08, so a particle that sits in
+  every sentence does not tie itself to every English word. Up to 4 English words per Desk word are kept.
+- **Wiktionary:** the first two senses of each entry whose headword or one of whose inflected forms is a
+  Desk word. Its English links only to English words the network already has, and an inflected form links
+  to its headword. It glosses a word bank word only when nothing else does.
+
 ### Sources considered
 
 | Source | Licence | Used? |
@@ -146,8 +162,9 @@ A `-` in a gloss file's English column leaves that word unknown on purpose.
 | CC-CEDICT | CC BY-SA 4.0 | Yes: Chinese glosses |
 | ConceptNet 5.7 | CC BY-SA 4.0 | Yes: links between words (it already carries Wiktionary, Open Multilingual WordNet, JMdict and CC-CEDICT links) |
 | Open Multilingual WordNet | per wordnet (CC BY-SA 3.0 for Arabic, others similar) | Through ConceptNet only |
-| Tatoeba, OPUS | CC BY 2.0 FR; varies | No: their download servers are not reachable from the build environment |
-| Wiktionary extracts (kaikki.org) | CC BY-SA | Through ConceptNet only; kaikki.org is not reachable |
+| Tatoeba (through OPUS) | CC BY 2.0 FR | Yes, by the workflow below: English words that keep turning up in a Desk word's translations |
+| Wiktionary extracts (kaikki.org) | CC BY-SA 4.0 | Yes, by the workflow below: first senses and inflected forms; also through ConceptNet |
+| Other OPUS corpora | varies, often unclear | No: Tatoeba is the part whose licence is clear |
 | CLICS colexifications | CC BY 4.0 | Not yet: it links concepts, not words, so it needs a concept mapping first |
 | FrequencyWords (OpenSubtitles) | CC BY-SA 4.0 | Replaced by wordfreq, whose Hindi list is a full 1,000 words |
 
