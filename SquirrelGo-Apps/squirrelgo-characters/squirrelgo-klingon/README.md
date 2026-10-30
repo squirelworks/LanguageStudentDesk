@@ -39,6 +39,8 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 - `www/data/strokes.js`: stroke paths for every letter and numeral in a 100 × 100 box (M, L and Q commands only)
 - `www/js/strokes.js`: stroke sampling, SVG drawing, animation and stroke matching
 - `www/js/writepad.js`: the checked writing pad
+
+The Desk's `klingon/` app and Character Learner's pIqaD load `data/strokes.js`, `js/strokes.js` and `js/writepad.js` from here by relative path, so keep their globals (`SG_STROKES`, `Strokes`, `WritePad`) and API stable or update those pages too.
 - `www/js/klingon-audio.js`: romanization to IPA, clip names and playback
 - `www/audio/`: generated audio clips; `tools/clips.js` lists them
 - `www/js/app.js`: screens and navigation

@@ -164,6 +164,22 @@
   }
   .pad-side { flex: 1; min-width: 200px; }
   .pad-side .pq { font-size: 4rem; line-height: 1.2; }
+  .pad-side .stroke-head { display: flex; align-items: center; gap: 1rem; }
+  .pad-msg { min-height: 1.5em; margin: 0.6rem 0 0; }
+  .pad-msg.good { color: #6fcf73; }
+  .pad-msg.bad { color: #ff7a7a; }
+  .detail-pair { display: flex; justify-content: center; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .stroke-panel { text-align: center; }
+  svg.strokes { width: 8.5rem; height: 8.5rem; background: #111; border: 1px solid #444; border-radius: 10px; display: block; }
+  svg.strokes.mini { width: 5.5rem; height: 5.5rem; flex: none; }
+  svg.strokes path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  svg.strokes .ghost path { stroke: #2c2c2c; stroke-width: 7; }
+  svg.strokes .ink path { stroke: var(--gold); stroke-width: 6.5; }
+  svg.strokes .ink path.now { stroke: var(--accent); }
+  svg.strokes .num { opacity: 0; transition: opacity .2s; }
+  svg.strokes .num.shown { opacity: 1; }
+  svg.strokes .num circle { fill: var(--accent); }
+  svg.strokes .num text { fill: #fff; font: 700 6px system-ui, sans-serif; text-anchor: middle; }
   select {
     background: #222;
     color: var(--text);
@@ -234,7 +250,13 @@
       <div class="letter-grid" id="letterGrid"></div>
     </div>
     <div class="card" id="detail">
-      <div class="big-letter pq" id="detailLetter"></div>
+      <div class="detail-pair">
+        <div class="big-letter pq" id="detailLetter"></div>
+        <div class="stroke-panel">
+          <div id="detailStrokes"></div>
+          <p class="muted" style="margin:0.4rem 0"><span id="detailStrokeCount"></span> · <button class="ghost" id="detailReplay">▶ Watch</button></p>
+        </div>
+      </div>
       <h3 id="detailRoman" style="text-align:center"></h3>
       <p id="detailInfo"></p>
       <p><strong>Example:</strong> <span class="pq" id="detailExamplePq" style="font-size:1.6rem"></span> <span id="detailExample"></span></p>
@@ -266,15 +288,22 @@
   <section id="handwrite" class="section" style="display:none">
     <div class="card">
       <h2>Handwriting</h2>
-      <p>Trace the faint letter with your mouse, finger or pen, then turn the guide off and write it from memory. pIqaD has no official stroke order; a common approach is the long outer strokes first, then the short inner ones, top to bottom.</p>
+      <p>Watch the stroke order, then write the letter with your mouse, finger or pen. With <strong>Check my strokes</strong> on, each stroke is compared with the model: a good one snaps into place, a wrong one is wiped so you can try again. Turn the guide off to write from memory. The stroke orders are the same ones SquirrelGo Klingon teaches on Android.</p>
       <div class="pad-wrap">
-        <canvas id="pad"></canvas>
+        <div>
+          <canvas id="pad"></canvas>
+          <p class="pad-msg muted" id="padMsg"></p>
+        </div>
         <div class="pad-side">
-          <div class="pq" id="padLetter"></div>
+          <div class="stroke-head">
+            <div class="pq" id="padLetter"></div>
+            <div id="padStrokes"></div>
+          </div>
           <h3 id="padRoman" style="margin:0"></h3>
           <p class="muted" id="padInfo"></p>
           <div class="row">
             <select id="padSelect" aria-label="Letter"></select>
+            <button class="ghost" id="padReplay">▶ Watch</button>
           </div>
           <div class="row">
             <button class="ghost" id="padPrev">‹ Prev</button>
@@ -282,9 +311,13 @@
             <button class="ghost" id="padRandom">Random</button>
           </div>
           <div class="row">
+            <button class="ghost" id="padHint">Hint</button>
             <button class="ghost" id="padUndo">Undo</button>
             <button class="primary" id="padClear">Clear</button>
+          </div>
+          <div class="row">
             <label class="muted"><input type="checkbox" id="padGuide" checked> Show guide</label>
+            <label class="muted"><input type="checkbox" id="padCheck" checked> Check my strokes</label>
           </div>
         </div>
       </div>
@@ -373,7 +406,10 @@
   <em>pIqaD qolqoS</em> font by Daniel Dadap (<a href="fonts/OFL.txt">SIL Open Font License</a>). Qapla'!
 </footer>
 
-<script src="js/pad.js"></script>
+<!-- Stroke orders and the checked writing pad are shared with SquirrelGo Klingon. -->
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/strokes.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/writepad.js"></script>
 <script>
 // The 26 pIqaD letters in alphabetical order. Each letter's ConScript code
 // point is U+F8D0 plus its index, so the glyph is derived from the position.
@@ -509,7 +545,12 @@ function showDetail(i) {
   document.getElementById('detailExamplePq').textContent = pq(l.example);
   document.getElementById('detailExample').textContent = `${l.example} — ${l.meaning}`;
   document.getElementById('detailWrite').onclick = () => { padIndex = i; showSection('handwrite'); };
+  const n = Strokes.count(l.roman);
+  document.getElementById('detailStrokes').innerHTML = Strokes.svg(l.roman, { numbers: true, cls: 'anim' });
+  document.getElementById('detailStrokeCount').textContent = `${n} stroke${n === 1 ? '' : 's'}`;
+  document.getElementById('detailReplay').onclick = () => playStrokes('detailStrokes');
   document.getElementById('detail').classList.add('show');
+  playStrokes('detailStrokes');
   document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -558,35 +599,67 @@ function renderKeyboard() {
   });
 }
 
-// Handwriting pad
+// Stroke-order animation. One animation per panel; starting a new one stops the old.
+const stopStrokes = {};
+function playStrokes(id) {
+  stopStrokes[id]?.();
+  const svg = document.querySelector(`#${id} svg`);
+  stopStrokes[id] = svg ? Strokes.animate(svg) : null;
+}
+
+// Handwriting pad: the 26 letters, then the numerals 0-9.
+const padItems = alphabet.map(l => ({ key: l.roman, glyph: l.piqaD, title: l.roman, info: l.info }))
+  .concat(NUM_WORDS.map((w, d) => ({ key: String(d), glyph: String.fromCharCode(0xF8F0 + d), title: `${d} · ${w}`, info: `The numeral ${d}, said ${w}` })));
 let pad = null;
 let padIndex = 0;
 const padCanvas = document.getElementById('pad');
-async function mountPad() {
-  // The canvas only draws the guide in the pIqaD font once the font is ready.
-  try { await document.fonts.load("40px 'pIqaD qolqoS'"); } catch {}
-  const l = alphabet[padIndex];
-  document.getElementById('padLetter').textContent = l.piqaD;
-  document.getElementById('padRoman').textContent = l.roman;
-  document.getElementById('padInfo').textContent = l.info;
+function mountPad() {
+  const it = padItems[padIndex];
+  const n = Strokes.count(it.key);
+  const msg = document.getElementById('padMsg');
+  const check = document.getElementById('padCheck').checked;
+  document.getElementById('padLetter').textContent = it.glyph;
+  document.getElementById('padRoman').textContent = it.title;
+  document.getElementById('padInfo').textContent = `${it.info}. ${n} stroke${n === 1 ? '' : 's'}.`;
   document.getElementById('padSelect').value = String(padIndex);
-  // Pad.mount sizes the canvas from its layout width, so replace it to remount.
+  document.getElementById('padStrokes').innerHTML = Strokes.svg(it.key, { numbers: true, cls: 'anim mini' });
+  playStrokes('padStrokes');
+  msg.textContent = check ? `Stroke 1 of ${n}` : 'Free drawing: strokes are not checked';
+  msg.className = 'pad-msg muted';
+  // WritePad.mount sizes the canvas from its layout width, so replace it to remount.
   const fresh = padCanvas.cloneNode(false);
   document.getElementById('pad').replaceWith(fresh);
-  pad = Pad.mount(fresh, { glyph: l.piqaD, font: "'pIqaD qolqoS'", guide: document.getElementById('padGuide').checked });
+  pad = WritePad.mount(fresh, {
+    key: it.key,
+    guide: document.getElementById('padGuide').checked,
+    check,
+    onStroke(result, i, total) {
+      if (result === 'ok') msg.textContent = i + 1 < total ? `Good. Stroke ${i + 2} of ${total}` : '';
+      else if (result === 'reversed') msg.textContent = `Right shape, wrong direction. Start stroke ${i + 1} from the numbered end.`;
+      else msg.textContent = `That doesn't match stroke ${i + 1}. Press Hint to see where it goes.`;
+      msg.className = `pad-msg ${result === 'ok' ? 'good' : 'bad'}`;
+    },
+    onDone() {
+      msg.textContent = 'Well written! Press Next for another letter.';
+      msg.className = 'pad-msg good';
+    },
+  });
 }
 function padGo(i) {
-  padIndex = (i + alphabet.length) % alphabet.length;
+  padIndex = (i + padItems.length) % padItems.length;
   mountPad();
 }
-document.getElementById('padSelect').innerHTML = alphabet.map((l, i) => `<option value="${i}">${l.roman}</option>`).join('');
+document.getElementById('padSelect').innerHTML = padItems.map((it, i) => `<option value="${i}">${it.title}</option>`).join('');
 document.getElementById('padSelect').onchange = e => padGo(Number(e.target.value));
 document.getElementById('padPrev').onclick = () => padGo(padIndex - 1);
 document.getElementById('padNext').onclick = () => padGo(padIndex + 1);
-document.getElementById('padRandom').onclick = () => padGo(Math.floor(Math.random() * alphabet.length));
+document.getElementById('padRandom').onclick = () => padGo(Math.floor(Math.random() * padItems.length));
+document.getElementById('padReplay').onclick = () => playStrokes('padStrokes');
+document.getElementById('padHint').onclick = () => pad && pad.hint();
 document.getElementById('padUndo').onclick = () => pad && pad.undo();
-document.getElementById('padClear').onclick = () => pad && pad.clear();
+document.getElementById('padClear').onclick = () => mountPad();
 document.getElementById('padGuide').onchange = e => pad && pad.setGuide(e.target.checked);
+document.getElementById('padCheck').onchange = () => mountPad();
 
 // Numbers
 function renderNumbers() {
