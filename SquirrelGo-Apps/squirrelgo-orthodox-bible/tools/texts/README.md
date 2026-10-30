@@ -27,6 +27,88 @@ its notes are copyrighted by Thomas Nelson) or from the Catena app.
 scrollmapper/bible_databases is MIT licensed; the license of each text is the
 one its source module declares (`sources/<lang>/<id>/README.md` there).
 
+### Downloadable packs
+
+These are too large to ship inside the APK (the bundled Bibles above already
+take most of its size), so the app downloads them on request. They are listed
+as `PACKS` in `sources.py`. `build_bibles.py --packs` writes them to
+`packs/bibles/<id>.js` (not committed; same format as `www/data/bibles/`) and
+records them in `packs.json`, which `build_catalog.py` merges into
+`catalog.js` with two extra fields: `url` and `size` (bytes). The
+**SquirrelGo Orthodox Bible text packs** workflow builds them and force-pushes
+`packs/` as a single commit to the data-only branch `orthodox-bible-texts`, so
+the url is
+`https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/<id>.js`.
+raw.githubusercontent.com allows cross-origin reads (a GitHub release asset
+does not), and the app parses the file as JSON rather than running it.
+
+<!-- packs table: regenerate from sources.PACKS and packs.json -->
+| id | Text | Language | Books | Numbering | Source | License |
+| --- | --- | --- | --- | --- | --- | --- |
+| `syc-peshitta` | ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament) | syc | NT | kjv | scrollmapper `Peshitta` (CrossWire) | Public Domain |
+| `cop-sahidic` | ⲧⲅⲣⲁⲫⲏ ⲉⲧⲟⲩⲁⲁⲃ (Coptic Sahidic Bible) | cop | OT, NT, deuterocanon | lxx | scrollmapper `CopSahBible2` (CrossWire) | CC BY-SA (CrossWire CopSahBible2 module; share alike) |
+| `hye-eastern` | Աստվածաշունչ (Eastern Armenian, partial) | hy | OT, NT | kjv | scrollmapper `ArmEastern` (CrossWire) | Public Domain |
+| `lat-vulgate-clementine` | Biblia Sacra Vulgata (Clementine Vulgate, 1592) | la | OT, NT, deuterocanon | vul | scrollmapper `VulgClementine` (CrossWire) | Public Domain |
+| `got-wulfila` | 𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions) | got | OT, NT | kjv | scrollmapper `Wulfila` (CrossWire) | Public Domain |
+| `heb-wlc` | תנ״ך (Hebrew Masoretic Text, Westminster Leningrad Codex) | he | OT | org | scrollmapper `WLC` (CrossWire) | Public Domain |
+| `rus-makarij` | Пятикнижие Моисея (Russian, Archimandrite Makarius Glukharev) | ru | OT | kjv | scrollmapper `RusMakarij` (CrossWire) | Public Domain |
+| `srp-danicic-karadzic-ekavian` | Свето писмо (Serbian, Daničić–Karadžić, ekavian) | sr | OT, NT | kjv | scrollmapper `SrKDEkavski` (CrossWire) | Public Domain |
+| `fin-biblia-1776` | Biblia (Finnish, 1776) | fi | OT, NT, deuterocanon | kjv | scrollmapper `FinBiblia` (CrossWire) | Public Domain |
+| `fin-pr-1938` | Pyhä Raamattu (Finnish, 1933/1938) | fi | OT, NT, deuterocanon | kjv | scrollmapper `FinPR` (CrossWire) | Public Domain |
+| `pol-gdanska` | Biblia Gdańska (Polish, 1881 edition) | pl | OT, NT | kjv | scrollmapper `PolGdanska` (CrossWire) | Public Domain |
+| `ces-kralicka` | Bible kralická (Czech, 1613) | cs | OT, NT | kjv | scrollmapper `CzeBKR` (CrossWire) | Public Domain |
+| `slv-stritar` | Novi testament in Psalmi (Slovene, Stritar) | sl | OT, NT | org | scrollmapper `SloStritar` (CrossWire) | Public Domain |
+| `hun-karoli` | Károli Biblia (Hungarian, 1908 revision) | hu | OT, NT | org | scrollmapper `HunKar` (CrossWire) | Public Domain |
+| `lav-gluck` | Bībele (Latvian, Glück, 8th edition) | lv | OT, NT | kjv | scrollmapper `LvGluck8` (CrossWire) | Public Domain |
+| `eng-drc` | Douay-Rheims Bible, Challoner Revision (1752) | en | OT, NT, deuterocanon | vul | scrollmapper `DRC` (CrossWire) | Public Domain |
+| `eng-cpdv` | Catholic Public Domain Version | en | OT, NT, deuterocanon | vul | scrollmapper `CPDV` (CrossWire) | Public Domain |
+| `eng-nheb` | New Heart English Bible | en | OT, NT | kjv | scrollmapper `NHEB` (CrossWire) | Public Domain |
+| `eng-asv` | American Standard Version (1901) | en | OT, NT | kjv | scrollmapper `ASV` (CrossWire) | Public Domain |
+| `eng-ylt` | Young's Literal Translation (1898) | en | OT, NT | kjv | scrollmapper `YLT` (CrossWire) | Public Domain |
+| `eng-geneva` | Geneva Bible (1599) | en | OT, NT | kjv | scrollmapper `Geneva1599` (CrossWire) | Public Domain |
+| `fra-crampon` | La Sainte Bible (French, Augustin Crampon, 1923) | fr | OT, NT, deuterocanon | org | scrollmapper `FreCrampon` (CrossWire) | Public Domain |
+| `fra-synodale-nt` | Le Nouveau Testament (French, Version Synodale, 1921) | fr | OT, NT | kjv | scrollmapper `FreSynodale1921` (CrossWire) | Public Domain |
+| `deu-menge` | Menge-Bibel (German, 1939) | de | OT, NT, deuterocanon | org | scrollmapper `GerMenge` (CrossWire) | Public Domain |
+| `deu-luther-1545` | Luther-Bibel (German, 1545) | de | OT, NT | org | scrollmapper `GerBoLut` (CrossWire) | Public Domain |
+| `deu-elberfelder-1905` | Elberfelder Bibel (German, 1905) | de | OT, NT | kjv | scrollmapper `GerElb1905` (CrossWire) | Public Domain |
+| `deu-albrecht-nt` | Das Neue Testament (German, Ludwig Albrecht, 1926) | de | OT, NT | kjv | scrollmapper `GerAlbrecht` (CrossWire) | Public Domain |
+| `spa-rv1909` | Reina-Valera (Spanish, 1909) | es | OT, NT | kjv | scrollmapper `SpaRV` (CrossWire) | Public Domain |
+| `por-biblia-livre` | Bíblia Livre (Portuguese) | pt | OT, NT | kjv | scrollmapper `PorBLivre` (CrossWire) | CC BY 3.0 BR (Bíblia Livre) |
+| `nld-statenvertaling` | Statenvertaling met apocriefe boeken (Dutch, 1637) | nl | OT, NT, deuterocanon | kjv | scrollmapper `DutSVVA` (CrossWire) | Public Domain |
+| `dan-1871-1907` | Bibelen (Danish, OT 1871, NT 1907) | da | OT, NT | kjv | scrollmapper `DaOT1871NT1907` (CrossWire) | Public Domain |
+| `swe-1917` | Bibeln (Swedish, 1917) | sv | OT, NT, deuterocanon | kjv | scrollmapper `Swe1917` (CrossWire) | Public Domain |
+| `epo-londona` | La Sankta Biblio (Esperanto, Londona Biblio) | eo | OT, NT | kjv | scrollmapper `Esperanto` (CrossWire) | Public Domain |
+| `zho-cuv` | 和合本 (Chinese Union Version, traditional, 1919) | zh | OT, NT | kjv | scrollmapper `ChiUn` (CrossWire) | Public Domain |
+| `lzh-cuv-wenli` | 文理和合譯本 (Chinese Union Version, classical Chinese) | lzh | OT, NT | kjv | scrollmapper `ChiUnL` (CrossWire) | Public Domain |
+| `jpn-bungo` | 文語訳聖書 (Japanese literary version, Meiji OT 1887, Taishō NT 1917) | ja | OT, NT | kjv | scrollmapper `JapBungo` (CrossWire) | Public Domain |
+| `vie-1934` | Kinh Thánh (Vietnamese, 1934) | vi | OT, NT | kjv | scrollmapper `Viet` (CrossWire) | Public Domain |
+| `tgl-ang-biblia` | Ang Biblia (Tagalog, 1905) | tl | OT, NT | kjv | scrollmapper `TagAngBiblia` (CrossWire) | Public Domain |
+| `mya-judson` | သမ္မာကျမ်းစာ (Burmese, Judson, 1835) | my | OT, NT | kjv | scrollmapper `BurJudson` (CrossWire) | Public Domain |
+| `mal-1910` | സത്യവേദപുസ്തകം (Malayalam, 1910) | ml | OT, NT | kjv | scrollmapper `Mal1910` (CrossWire) | Public Domain |
+| `mlg-1865` | Baiboly (Malagasy, 1865) | mg | OT, NT | org | scrollmapper `Mg1865` (CrossWire) | Public Domain |
+| `chr-nt-1860` | ᎪᎪᎳᏅ ᏗᎧᎿᏩᏛᏍᏗ (Cherokee New Testament, 1860) | chr | NT | kjv | scrollmapper `Che1860` (CrossWire) | Public Domain |
+| `ukr-kulish` | Біблія (Ukrainian, Kulish, Puluj and Nechuy-Levytsky, 1905) | uk | OT, NT | kjv | [eBible.org ukr1871](https://ebible.org/details.php?id=ukr1871) | Public Domain |
+| `eng-lxx2012` | LXX2012: Septuagint in American English | en | OT, deuterocanon | lxx | [eBible.org eng-lxx2012](https://ebible.org/details.php?id=eng-lxx2012) | Public Domain |
+| `eng-web` | World English Bible with Deuterocanon | en | OT, NT, deuterocanon | kjv | [eBible.org eng-web](https://ebible.org/details.php?id=eng-web) | Public Domain |
+| `eng-rv` | Revised Version with Apocrypha (1895) | en | OT, NT, deuterocanon | kjv | [eBible.org eng-rv](https://ebible.org/details.php?id=eng-rv) | Public Domain |
+| `ita-riveduta` | La Sacra Bibbia Riveduta (Italian, Giovanni Luzzi, 1927) | it | OT, NT | kjv | [eBible.org ita1927](https://ebible.org/details.php?id=ita1927) | Public Domain |
+| `ita-diodati` | La Sacra Bibbia (Italian, Diodati, 1885 revision) | it | OT, NT | kjv | [eBible.org ita1885](https://ebible.org/details.php?id=ita1885) | Public Domain |
+| `fra-segond` | La Sainte Bible (French, Louis Segond, 1910) | fr | OT, NT | org | [eBible.org fraLSG](https://ebible.org/details.php?id=fraLSG) | Public Domain |
+| `fra-bible-libre` | Sainte Bible libre pour le monde (French) | fr | OT, NT, deuterocanon | kjv | [eBible.org frasbl](https://ebible.org/details.php?id=frasbl) | Public Domain |
+| `spa-biblia-libre` | Santa Biblia libre para el mundo (Spanish) | es | OT, NT, deuterocanon | kjv | [eBible.org spablm](https://ebible.org/details.php?id=spablm) | Public Domain |
+| `cmn-cuv-simplified` | 和合本 (Chinese Union Version, simplified) | zh | OT, NT | kjv | [eBible.org cmn-cu89s](https://ebible.org/details.php?id=cmn-cu89s) | Public Domain |
+| `pes-opv` | کتاب مقدس (Persian, Old Persian Version) | fa | OT, NT | kjv | [eBible.org pesOPV](https://ebible.org/details.php?id=pesOPV) | Public Domain |
+| `swh-krapf-nt` | Agano Jipya (Swahili, Krapf, 1850) | sw | NT | kjv | [eBible.org swh1850](https://ebible.org/details.php?id=swh1850) | Public Domain |
+| `hin-irv` | पवित्र बाइबिल (Hindi, Indian Revised Version, 2017) | hi | OT, NT | kjv | [eBible.org hin2017](https://ebible.org/details.php?id=hin2017) | CC BY-SA 4.0 (Bridge Connectivity Solutions) |
+
+Numbering `org` is the Hebrew one (psalm titles counted as verses, Malachi in
+three chapters) and `vul` the Vulgate's. Partial texts: the Peshitta, Cherokee,
+French Synodale and Albrecht are New Testament only, the Armenian has Genesis,
+Exodus and the Gospels, Makarius's Russian is the Pentateuch, Stritar's
+Slovene is the New Testament and Psalms, and the Gothic is what survives of
+Wulfila's Bible. The Coptic Sahidic text is CC BY-SA: anything derived from
+that file must keep the same license and credit the CrossWire module.
+
 ### Considered and left out
 
 - **Byzantine NT from scrollmapper (`Byz`)**: that module is marked CC BY-NC-SA,
@@ -37,7 +119,26 @@ one its source module declares (`sources/<lang>/<id>/README.md` there).
 - **Ohienko's Ukrainian Bible (1962)**: the translator died in 1972, so it is
   very likely still in copyright despite being marked public domain in some modules.
 - **Romanian and Georgian Orthodox Bibles**: no public-domain digital Orthodox
-  edition was found. Cornilescu (Romanian) is a Protestant translation.
+  edition was found. Cornilescu (Romanian, also eBible `ron1924`) is a
+  Protestant translation still claimed in copyright; the Fidela (`ronbtf`) is
+  copyright Brian James Nibbe, 2015; Biblia Liberă (`ronbl`) is an unfinished
+  NT draft. The Georgian text in Beblia/Holy-Bible-XML-Format (scraped from
+  orthodox.ge) has no license from its publisher, so it is left out.
+- **No public-domain digital text found**: Bulgarian Synodal (1925/1940),
+  Macedonian, Belarusian (eBible's are CC BY-NC), Ge'ez/Ethiopic and Amharic
+  (© United Bible Societies), Classical Armenian.
+- **eBible `grclxx`** (Greek Septuagint from Orthodox Media Network): the
+  edition is not named, and the common digital LXX is Rahlfs (copyrighted),
+  so it is left out until its source is known.
+- **Left out of the scrollmapper packs as copyrighted or unclear**: Šarić's
+  Croatian Bible (translator died 1960), Straubinger's Spanish Biblia Platense
+  (died 1956), the Studium Biblicum Chinese Bible (1968), the Korean Revised
+  Version (1961), Schlachter (German), Zürcher 1931, Canisius (Dutch 1939),
+  the Grünewald Bible, the Japanese Kougo-yaku (1955), every module marked
+  NC, ND or "free non-commercial distribution" (for example CzeCSP, GerLeoNA28,
+  SpaRVG, LEB, AKJV, KorHKJV), and modules with no stated license (Estonian,
+  Maori, Modern Hebrew NT). The scrollmapper "Albanian Bible" names no
+  edition or translator, so it is left out until its source is known.
 - **The eBible corpus line-per-verse files** (BibleNLP/ebible): they squeeze
   every Bible into one verse list, which drops LXX verses that have no
   Hebrew-numbered slot (for example Psalm 9:22-39), so the original USFM is
@@ -45,9 +146,9 @@ one its source module declares (`sources/<lang>/<id>/README.md` there).
 
 ## Verse numbering
 
-`versification.js` maps the `lxx` and `rso` schemes to KJV numbering. It is
+`versification.js` maps the `lxx`, `rso`, `vul` and `org` schemes to KJV numbering. It is
 generated from the standard Paratext/SIL versification files (`lxx.vrs`,
-`rso.vrs`, `eng.vrs`, also in [sillsdev/libpalaso](https://github.com/sillsdev/libpalaso),
+`rso.vrs`, `vul.vrs`, `org.vrs`, `eng.vrs`, also in [sillsdev/libpalaso](https://github.com/sillsdev/libpalaso),
 MIT) by composing each scheme's map to the "original" scheme with the
 inverse of the English one. Psalm titles that are numbered as verses map to
 `null`. `build_versification.py --check` lists chapters whose verse count
@@ -84,13 +185,17 @@ file; the largest are split by book range so no file is over about 4 MB.
 ```bash
 cd SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts
 ./fetch_sources.sh            # GitHub-hosted sources into .cache/ (about 450 MB)
-python3 build_bibles.py       # every Bible whose source was fetched
+python3 build_bibles.py       # every Bible whose source was fetched (packs go to packs/)
 python3 build_commentary.py
 python3 build_versification.py --check
 python3 build_catalog.py
 ```
 
-eBible.org texts (`grc-brenton`, `eng-brenton`, `arb-vandyck`): run
+Downloadable packs: run the **SquirrelGo Orthodox Bible text packs**
+workflow (it also runs when `sources.py` changes); it publishes `packs/` and
+commits `packs.json`, `catalog.js` and `versification.js`.
+
+Bundled eBible.org texts (`grc-brenton`, `eng-brenton`, `arb-vandyck`): run
 `./fetch_sources.sh ebible` first, or run the **SquirrelGo Orthodox Bible
 texts (eBible.org)** workflow from the Actions tab, which builds them and
 commits the result to the branch.

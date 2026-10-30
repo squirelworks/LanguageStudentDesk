@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Rebuild www/data/catalog.js from the Bible and commentary files present."""
+"""Rebuild www/data/catalog.js from the Bible and commentary files present.
+
+Downloadable Bible packs are listed from packs.json, and commentary packs from
+commentary_packs.json, with their url and size.
+"""
 import glob
 import json
 import os
 
-from common import DATA, book_ids, testaments
-from sources import BIBLES
+from common import COMMENTARY_PACKS_JSON, DATA, PACKS_JSON, book_ids, testaments
+from sources import BIBLES, COMMENTARY_PACK_URL, PACKS
 
 
 def load(path):
@@ -15,13 +19,17 @@ def load(path):
 
 
 def main():
-    order = {b["id"]: i for i, b in enumerate(BIBLES)}
+    order = {b["id"]: i for i, b in enumerate(BIBLES + PACKS)}
     bibles = []
     for path in glob.glob(os.path.join(DATA, "bibles", "*.js")):
         b = load(path)
         entry = {k: b[k] for k in ("id", "name", "lang", "dir", "versification", "license", "source")}
         entry["testaments"] = testaments(b["books"])
         bibles.append(entry)
+    bundled = {e["id"] for e in bibles}
+    if os.path.exists(PACKS_JSON):
+        with open(PACKS_JSON, encoding="utf-8") as f:
+            bibles += [e for e in json.load(f) if e["id"] not in bundled and e["id"] in order]
     bibles.sort(key=lambda e: (order.get(e["id"], 999), e["id"]))
 
     books = {b: i for i, b in enumerate(book_ids())}
@@ -31,6 +39,14 @@ def main():
         entry = {k: c[k] for k in ("id", "author", "work", "lang", "license", "source", "tradition")}
         entry["books"] = sorted({k.split(".")[0] for k in c["notes"]}, key=books.get)
         commentary.append(entry)
+    bundled = {e["id"] for e in commentary}
+    if os.path.exists(COMMENTARY_PACKS_JSON):
+        with open(COMMENTARY_PACKS_JSON, encoding="utf-8") as f:
+            for e in json.load(f):
+                if e["id"] not in bundled:
+                    e = {k: v for k, v in e.items() if k != "pack"}
+                    e["url"] = COMMENTARY_PACK_URL + e["id"] + ".js"
+                    commentary.append(e)
     tradition = {"east": 0, "early": 1, "west": 2}
     commentary.sort(key=lambda e: (tradition[e["tradition"]], e["id"]))
 
@@ -42,7 +58,9 @@ def main():
                 "window.SGO_CATALOG = ")
         json.dump({"bibles": bibles, "commentary": commentary}, f, ensure_ascii=False, indent=2)
         f.write(";\n")
-    print("catalog: %d Bibles, %d commentary files" % (len(bibles), len(commentary)))
+    print("catalog: %d Bibles (%d downloadable), %d commentary files (%d downloadable)"
+          % (len(bibles), sum(1 for b in bibles if "url" in b), len(commentary),
+             sum(1 for c in commentary if "url" in c)))
 
 
 if __name__ == "__main__":
