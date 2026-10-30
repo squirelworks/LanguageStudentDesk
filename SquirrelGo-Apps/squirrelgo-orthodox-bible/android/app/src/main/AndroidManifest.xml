@@ -11,6 +11,24 @@
         </intent>
     </queries>
 
+    <!-- Sibling SquirrelGo apps, so the suite sheet can open them (Android 11+). -->
+    <queries>
+        <package android:name="com.squirelworks.squirrelgokana" />
+        <package android:name="com.squirelworks.squirrelgokana.debug" />
+        <package android:name="com.squirelworks.squirrelgokanji" />
+        <package android:name="com.squirelworks.squirrelgokanji.debug" />
+        <package android:name="com.squirelworks.squirrelgodictionary" />
+        <package android:name="com.squirelworks.squirrelgodictionary.debug" />
+        <package android:name="com.squirelworks.squirrelgophrasebook" />
+        <package android:name="com.squirelworks.squirrelgophrasebook.debug" />
+        <package android:name="com.squirelworks.squirrelgoalphabets" />
+        <package android:name="com.squirelworks.squirrelgoalphabets.debug" />
+        <package android:name="com.squirelworks.squirrelgoklingon" />
+        <package android:name="com.squirelworks.squirrelgoklingon.debug" />
+        <package android:name="com.squirelworks.squirrelgoorthodoxbible" />
+        <package android:name="com.squirelworks.squirrelgoorthodoxbible.debug" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -22,6 +40,7 @@
         android:usesCleartextTraffic="false">
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:exported="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="adjustResize">

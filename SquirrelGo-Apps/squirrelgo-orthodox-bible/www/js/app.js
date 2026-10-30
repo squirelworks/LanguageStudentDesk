@@ -277,6 +277,7 @@
         <button class="back-btn ${back ? "" : "hidden"}" id="backBtn" aria-label="Back">‹</button>
         ${head}
         ${actions}
+        <button class="icon-btn" data-suite="open" aria-label="SquirrelGo apps" title="SquirrelGo apps">▦</button>
       </header>
       <main class="${wide ? "wide" : ""}"></main>`;
     document.getElementById("backBtn").onclick = () => {
