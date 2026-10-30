@@ -1,8 +1,9 @@
 # Orthodox Bible texts: sources, licenses and build
 
-These scripts produce everything under `www/data/` except `books.js`:
-the Bibles (`bibles/<id>.js`), the patristic commentary (`commentary/<id>.js`),
-the verse-numbering map (`versification.js`) and `catalog.js`.
+These scripts produce everything under `www/data/` except `books.js` and
+`paschalion.js`: the Bibles (`bibles/<id>.js`), the patristic commentary
+(`commentary/<id>.js`), the verse-numbering map (`versification.js`),
+the daily-readings tables (`lectionary.js`) and `catalog.js`.
 
 Only **public-domain** texts are included. Nothing here comes from the
 Orthodox Study Bible (its NKJV text, its St Athanasius Academy Septuagint and
@@ -79,6 +80,28 @@ Christian Commentary on Scripture and the Fathers of the Church series), so
 Every note ends with a line naming its work and section. Each Father is one
 file; the largest are split by book range so no file is over about 4 MB.
 
+## Daily readings
+
+`lectionary.js` comes from the calendar tables of [Orthocal](https://github.com/brianglass/orthocal-python)
+(MIT, pinned to one commit in `fetch_sources.sh`): the Slavic lectionary as
+audited against oca.org, giving which pericope is read on each day of the
+Paschal cycle, each fixed (Menaion) date and each floating feast, plus the
+day titles and the names of the saints. `build_lectionary.py` keeps only
+those references and names. The lives of the saints in the same tables
+come from copyrighted sources and are not copied, nor is the Scripture text
+Orthocal stitches together for composite readings; the app shows the text
+from its own Bibles.
+
+`www/data/paschalion.js` is a JavaScript port of Orthocal's Slavic
+calculator: Pascha, the Lukan jump, the Sunday Gospels kept for the weeks
+after Theophany, the floating Saturdays and Sundays around the Elevation,
+Nativity and Theophany, the Annunciation, moved Lenten Vespers readings,
+and the Old Calendar (Menaion dates on the Julian calendar, modern
+commemorations kept on their civil date). It reproduces Orthocal's own test
+data exactly (all of January 2022, Theophany 2023, and its year tests).
+The Greek (GOA/Antiochian) Sunday numbering and fasting rules are not
+included yet.
+
 ## Rebuilding
 
 ```bash
@@ -88,6 +111,7 @@ python3 build_bibles.py       # every Bible whose source was fetched
 python3 build_commentary.py
 python3 build_versification.py --check
 python3 build_catalog.py
+python3 build_lectionary.py
 ```
 
 eBible.org texts (`grc-brenton`, `eng-brenton`, `arb-vandyck`): run

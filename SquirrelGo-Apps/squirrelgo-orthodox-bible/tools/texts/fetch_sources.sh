@@ -43,3 +43,12 @@ done
 
 # Patristic commentary keyed to verses (large: about 400 MB).
 clone HistoricalChristianFaith/Commentaries-Database commentaries
+
+# Orthodox lectionary and calendar tables from Orthocal (MIT), pinned so the
+# generated lectionary.js is reproducible. Only reading references, day titles
+# and commemoration names are used; see build_lectionary.py.
+OC=https://raw.githubusercontent.com/brianglass/orthocal-python/3eba406ec7d34825cf6ae828fbb285111effc689
+for f in calendarium commemorations; do
+  get "$OC/fixtures/$f.json" "$CACHE/orthocal/$f.json"
+done
+get "$OC/LICENSE" "$CACHE/orthocal/LICENSE"
