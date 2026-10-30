@@ -14,14 +14,17 @@ Download `SquirrelGoDictionary.apk` from the **SquirrelGo Dictionary (latest bui
 
 ## Features
 
+The interface follows the original JED layout: grey gradient title bar with Menu / search field / Options, black list screens, a sectioned menu (Search · Dictionary · Kanji and Kana), long-press context menus, tag screens and a notepad drawer.
+
+
 - ~219,000 JMdict entries, searched as you type by English, rōmaji, kana or kanji
 - Conjugated verbs/adjectives traced to the dictionary form (食べました → 食べる)
-- `*` / `?` wildcards (`*語`), common-only and word-type filters, up to 1,000 results in pages
+- `*` / `?` wildcards (`*語`), JED's Search Options (Both / Read / Mean, Common, allowed characters), word categories (verbs, non-suru verbs, nouns, adjectives, adverbs, counters, onomatopoeia), up to 1,000 results in pages
 - Entry pages with parts of speech, usage notes, other forms, cross-references and Tatoeba example sentences
 - Kanji pages from KANJIDIC2 (on/kun/nanori, strokes, grade, JLPT, frequency, components, words)
 - Kanji lookup by radicals (RADKFILE/KRADFILE) with live narrowing
 - Hiragana/katakana chart with audio, text-to-speech on words and examples
-- Word lists (merge, rename, export to CSV for Anki), history, notepad, copy
+- Tags (vocabulary lists: tick several and Show to search them merged, rename, delete, export to CSV for Anki), history, notepad, copy kanji / reading / meaning
 
 ## Data
 
