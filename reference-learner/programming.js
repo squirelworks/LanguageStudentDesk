@@ -81,6 +81,7 @@ window.LSD_REFERENCE_PROGRAMMING = {
     },
     {
       id: "python-basics",
+      lang: "python",
       topic: "overview",
       title: "Python essentials",
       body: "Indentation is the syntax: a colon opens a block and the indented lines below belong to it. Variables have no declarations, lists and dictionaries are built in, and for loops run over any collection.",
