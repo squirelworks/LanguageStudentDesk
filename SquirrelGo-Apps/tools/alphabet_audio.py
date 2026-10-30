@@ -13,8 +13,10 @@ For each character in www/data/<script>.js:
 Clips go to www/audio/<script>/ and a map from spoken text to file goes to
 www/data/audio/<script>.js, which the app checks before falling back to
 text-to-speech. Each clip is named after a hash of its voice and text, so a
-rerun only records what changed. Scripts eSpeak has no voice for are
-skipped here; tools/ipa_audio.py renders those from IPA.
+rerun only records what changed. For a script eSpeak has no voice for (Lao,
+Khmer, Tibetan), the clips are rendered from IPA with tools/ipa_audio.py: the
+letter from its IPA and the example from the example IPA (the tenth field),
+both without tones.
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -27,6 +29,8 @@ import subprocess
 import sys
 import tempfile
 import unicodedata
+
+import ipa_audio
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WWW = os.path.join(HERE, "..", "squirrelgo-characters", "squirrelgo-alphabets", "www")
@@ -111,7 +115,16 @@ def letter_text(s, ch, ipa, lang, voice):
     return first
 
 
+def plain_ipa(ipa):
+    """IPA without tone marks or alternatives, for ipa_audio."""
+    ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
+    return unicodedata.normalize("NFC", "".join(c for c in ipa if unicodedata.category(c) != "Mn"))
+
+
 def render(text, voice, path, speed=140):
+    if voice == "ipa":
+        ipa_audio.render(text, path)
+        return
     with tempfile.NamedTemporaryFile(suffix=".wav") as wav:
         subprocess.run(["espeak-ng", "-v", voice, "-s", str(speed), "-w", wav.name, text], check=True)
         subprocess.run(
@@ -132,10 +145,18 @@ def run(script):
         for c in lesson["chars"]:
             if not c:
                 continue
-            c = c + [""] * (9 - len(c))
-            g, _, _, ex, _, _, speak, ipa, ex_lang = c[:9]
+            c = c + [""] * (10 - len(c))
+            g, _, _, ex, _, _, speak, ipa, ex_lang, ex_ipa = c[:10]
             key = speak or g
             voice = voice_for(ex_lang) or base_voice
+            if not voice and ipa:
+                sound = plain_ipa(ipa)
+                if not any(ch in IPA_VOWELS for ch in sound):
+                    sound += "a"
+                clips.setdefault(key, ("ipa", sound))
+                if ex and ex_ipa:
+                    clips.setdefault(ex, ("ipa", plain_ipa(ex_ipa)))
+                continue
             if voice and key not in clips:
                 # A speak text that is not one of the letters themselves is a
                 # syllable or word chosen by hand (가 for ㄱ, мать for ь).

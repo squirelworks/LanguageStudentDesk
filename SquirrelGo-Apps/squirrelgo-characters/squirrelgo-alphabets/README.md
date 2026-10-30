@@ -16,6 +16,10 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Hangul 한글 | Korean (Revised Romanization) | basic and compound vowels; basic, aspirated and tense consonants | syllable block builder; articles on block shapes, batchim and sound changes |
 | Devanagari देवनागरी | Hindi (simplified IAST) | vowels, vowel signs on क, the five consonant rows, semivowels and sibilants, special letters | articles on matras, conjuncts, aspiration/retroflex and the silent a |
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
+| Thai ไทย | Thai (RTGS, doubled long vowels) | middle-, high- and low-class consonants, vowels on ก, tone marks | each consonant with its traditional name word; articles on consonant classes, vowel positions and word breaks |
+| Lao ລາວ | Vientiane Lao | middle-, high- and low-class consonants (with ໜ and ໝ), vowels on ກ | articles on Lao and Thai, classes and tones, and the silent ຫ |
+| Khmer ខ្មែរ | Khmer (letter names; simplified UNGEGN) | the chart in rows of five, vowels on ក | articles on the two consonant series, subscript letters and independent vowels |
+| Tibetan བོད་ཡིག | Lhasa Tibetan (Wylie) | the 30 letters in rows of four, the four vowel signs | articles on the tsheg and syllables, spelling and sound, and high and low tones |
 
 Every character has:
 
@@ -26,11 +30,11 @@ Every character has:
 
 ## Sounds
 
-Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Clips are mono MP3 at 32 kbps, about 2 KB each; the eight scripts come to about 1.5 MB.
+Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). eSpeak NG has no voice for Lao, Khmer or Tibetan, so their clips are made from IPA with `SquirrelGo-Apps/tools/ipa_audio.py` (through the Hindi phoneme table, without tones): the letter from its IPA and the example word from the example IPA given with the character. Clips are mono MP3 at 32 to 40 kbps, about 2 to 3 KB each; the twelve scripts come to about 2.5 MB.
 
 ## Stroke order
 
-Stroke paths live in `www/data/strokes/<script>.js`, in a 100 × 100 box. They are drafted by `SquirrelGo-Apps/tools/strokegen` from the outlines of the Noto fonts (SIL Open Font License): the glyph is thinned to its centre line and walked into pen strokes, which start where a hand would (top first, then left, or right for right-to-left scripts), split at sharp corners and draw dots and accents last. Letters where the draft did not match how people write them are drawn by hand in `tools/strokegen/overrides/`; accented letters reuse the hand-drawn base letter. Where a script has no fixed standard, the orders are suggestions for smooth handwriting.
+Stroke paths live in `www/data/strokes/<script>.js`, in a 100 × 100 box. They are drafted by `SquirrelGo-Apps/tools/strokegen` from the outlines of the Noto fonts (SIL Open Font License): the glyph is thinned to its centre line and walked into pen strokes, which start where a hand would (top first, then left, or right for right-to-left scripts), split at sharp corners and draw dots and accents last. Thai and Lao letters start at their head, the small loop, and are drawn in one stroke where the shape allows; Tibetan and Khmer drafts follow the font's centre line and are rougher. Letters where the draft did not match how people write them are drawn by hand in `tools/strokegen/overrides/`; accented letters reuse the hand-drawn base letter. Where a script has no fixed standard, the orders are suggestions for smooth handwriting.
 
 ## Install the APK
 
@@ -45,7 +49,7 @@ Open `www/index.html` in a browser (no build step).
 
 ## Adding a script
 
-1. Add `www/data/<script>.js` that pushes a script object onto `window.SG_SCRIPTS` (copy `greek.js` for the shape). Each character is `[letter, romanization, hint, example, example romanization, meaning, text to speak, IPA, example language]`; the last three are optional.
+1. Add `www/data/<script>.js` that pushes a script object onto `window.SG_SCRIPTS` (copy `greek.js` for the shape). Each character is `[letter, romanization, hint, example, example romanization, meaning, text to speak, IPA, example language, example IPA]`; the last four are optional. Give the example IPA when eSpeak NG has no voice for the language, so the example can be recorded from it.
 2. Add a spec in `SquirrelGo-Apps/tools/strokegen/specs/`, fetch its font with `fetch-fonts.sh`, then run `strokegen.py specs/<script>.json --sheet sheet.png --out <this app>/www/data/strokes`. Check the contact sheet and hand-draw any letter that needs it in `overrides/<script>.json`.
 3. Run `SquirrelGo-Apps/tools/alphabet_audio.py <script>` to record the sounds.
 4. Add the three `<script>` tags (data, strokes, audio) to `www/index.html`.

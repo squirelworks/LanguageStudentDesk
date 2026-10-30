@@ -251,9 +251,13 @@ def direction(p, k=6):
     return d / n if n else d
 
 
-def walk(centre, edges, start_score, smooth_turn=55):
-    """Turn the graph into pen strokes."""
+def walk(centre, edges, start_score, smooth_turn=55, head=0, head_low=False):
+    """Turn the graph into pen strokes. With head (a loop length in pixels),
+    a small loop is drawn first and the pen carries on from it through every
+    junction, as Thai and Lao letters are written from their head."""
     left = [list(e) for e in edges]
+    if head:
+        smooth_turn = 181
     strokes = []
     while left:
         deg = {}
@@ -266,7 +270,12 @@ def walk(centre, edges, start_score, smooth_turn=55):
             if a == b:
                 # loop: start at its top point
                 j = min(range(len(p)), key=lambda j: start_score(p[j], loop=True))
-                cands.append((start_score(p[j], loop=True) + (0 if deg[a] <= 2 else 5), i, "loop", j))
+                sc = start_score(p[j], loop=True) + (0 if deg[a] <= 2 else 5)
+                if head and deg[a] > 2 and len(p) < head:
+                    # the head nearest the top left first, or with "head_low" the lowest (Lao ກ)
+                    sc = -1000 - max(q[0] for q in p) / PX if head_low else sc - 1000
+                    j = -1  # start where the loop meets the rest
+                cands.append((sc, i, "loop", j))
                 continue
             for end, pt, other in ((a, p[0], b), (b, p[-1], a)):
                 pen = 0 if deg[end] == 1 else 8
@@ -274,15 +283,34 @@ def walk(centre, edges, start_score, smooth_turn=55):
         cands.sort(key=lambda c: c[0])
         _, i, how, j = cands[0]
         a, b, p = left.pop(i)
-        if how == "loop":
-            body = p[:-1]
+        if how == "loop" and j == -1:
+            # go round the head in the direction that leads on most smoothly
+            def lead(q):
+                vin = -direction(q[::-1])
+                outs = [direction(e[2] if e[0] == a else e[2][::-1]) for e in left if a in e[:2] and e[0] != e[1]]
+                return min((math.acos(max(-1, min(1, float(np.dot(vin, v))))) for v in outs), default=0)
+            path = min((p, p[::-1]), key=lead)
+            node = a
+        elif how == "loop":
+            body = p[:-1] or p
+            j %= len(body)
             path = body[j:] + body[:j] + [body[j]]
             strokes.append(path)
             continue
-        path = p if how == "fwd" else p[::-1]
-        node = b if how == "fwd" else a
+        else:
+            path = p if how == "fwd" else p[::-1]
+            node = b if how == "fwd" else a
         # carry on straight through junctions
         while True:
+            if head:
+                # a second loop on the way (Lao ກ) is drawn as the pen passes it
+                k = next((k for k, e in enumerate(left) if e[0] == e[1] == node), None)
+                if k is not None:
+                    q = left.pop(k)[2]
+                    vin = -direction(path[::-1])
+                    q = max((q, q[::-1]), key=lambda qq: float(np.dot(vin, direction(qq))))
+                    path = path + q[1:]
+                    continue
             vin = -direction(path[::-1])
             best = None
             for k, (c, d, q) in enumerate(left):
@@ -300,6 +328,21 @@ def walk(centre, edges, start_score, smooth_turn=55):
             path = path + qq[1:]
             node = nxt
         strokes.append(path)
+    if head:
+        # keep the pen down: a stroke that begins where the last one ended
+        # (either way round) carries straight on from it
+        joined = [strokes.pop(0)] if strokes else []
+        while strokes:
+            end = np.array(joined[-1][-1])
+            k, rev = min(((k, r) for k in range(len(strokes)) for r in (0, 1)),
+                         key=lambda kr: np.hypot(*(np.array(strokes[kr[0]][-1 if kr[1] else 0]) - end)))
+            st = strokes.pop(k)
+            st = st[::-1] if rev else st
+            if np.hypot(*(np.array(st[0]) - end)) <= 3 * PX:
+                joined[-1] = joined[-1] + st[1:]
+            else:
+                joined.append(st)
+        strokes = joined
     return strokes
 
 
@@ -437,7 +480,7 @@ def trace(img, cfg, xform):
             r = max(2.0, width * 0.4)
             parts.append((area, xs.min(), ys.min(), [[(cy - r, cx), (cy + r, cx)]], max(np.ptp(ys), np.ptp(xs)), (xs.min(), xs.max())))
             continue
-        strokes = walk(centre, edges, start_score)
+        strokes = walk(centre, edges, start_score, head=cfg.get("head", 0) * PX, head_low=cfg.get("head_low", False))
         parts.append((area, xs.min(), ys.min(), strokes, max(np.ptp(ys), np.ptp(xs)), (xs.min(), xs.max())))
     if not parts:
         return []
@@ -478,6 +521,9 @@ def trace(img, cfg, xform):
         (pa, pb), (qa, qb) = p[5], q[5]
         overlap = min(pb, qb) - max(pa, qa)
         if overlap > 0.5 * min(pb - pa, qb - qa):
+            if cfg.get("base_first") and kp[0] == kq[0]:
+                # marks above or below a letter (Thai กิ, กุ) come after it
+                return -1 if p[0] > q[0] else 1
             return -1 if p[2] < q[2] else 1
         return -1 if kp[1] < kq[1] else 1
 
@@ -492,7 +538,9 @@ def trace(img, cfg, xform):
             st = densify(st)
             for q in split_corners(st, cfg.get("corner", 80)):
                 if plen(q) >= 2 or len(p[3]) == 1:
-                    pieces.append(orient(rdp(q, cfg.get("eps", 0.9))))
+                    q = rdp(q, cfg.get("eps", 0.9))
+                    # a stroke that starts at a head keeps the direction it was walked
+                    pieces.append(q if cfg.get("head") and len(p[3]) == 1 and plen(q) > 12 else orient(q))
         if len(pieces) > 1:
             # junction scraps
             pieces = [q for q in pieces if plen(q) >= cfg.get("scrap", 4)] or pieces
@@ -501,9 +549,9 @@ def trace(img, cfg, xform):
         if key(p)[0]:
             marks.update(id(q) for q in pieces)
         out.extend(pieces)
-    if cfg.get("headline_last"):
+    if cfg.get("headline_last") or cfg.get("headline_first"):
         # Devanagari-style headline: the flat pieces along the top become one
-        # stroke, drawn last from left to right.
+        # stroke, drawn last from left to right (first in Tibetan).
         def flat(s):
             xs = [p[0] for p in s]
             ys = [p[1] for p in s]
@@ -514,7 +562,8 @@ def trace(img, cfg, xform):
             xs = [p[0] for s in heads for p in s]
             y = float(np.mean([p[1] for s in heads for p in s]))
             head = [(min(xs), y), (max(xs), y)]
-            out = [s for s in out if all(s is not h for h in heads)] + [head]
+            rest = [s for s in out if all(s is not h for h in heads)]
+            out = [head] + rest if cfg.get("headline_first") else rest + [head]
     return [(s, id(s) in marks) for s in out]
 
 
