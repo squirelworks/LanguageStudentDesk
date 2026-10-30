@@ -208,13 +208,40 @@ Left out of the packs because they are modern translations still in copyright:
 
 Notes whose text is a failed machine translation ("I cannot provide...") are dropped.
 
+### Russian commentaries (downloadable packs)
+
+Pre-revolutionary Russian translations from [azbyka.ru/otechnik](https://azbyka.ru/otechnik/),
+listed in `sources_ru.py`. azbyka.ru is not reachable from every build
+machine, so the **SquirrelGo Orthodox Bible Russian sources** workflow runs
+`fetch_azbyka.py` (one request a second) and force-pushes the gzipped pages to
+the data-only branch `orthodox-bible-sources-ru`, which `fetch_sources.sh`
+clones. `build_commentary_ru.py`, called from `build_commentary.py`, turns
+each verse heading (`<p class="h5">` with a verse link) and the paragraphs
+after it into notes, numbered in the Synodal scheme (`rso`), so Psalm 50 there
+is Psalm 51 in the KJV.
+
+| Pack | Text | Edition on azbyka.ru |
+| --- | --- | --- |
+| `theophylact-ru-*` | Blessed Theophylact on the Gospels (including Matthew), Acts and Epistles | Благовестник, the 19th-century Kazan / St Petersburg translation (Kiev Lavra reprint, 2006) |
+| `euthymius-ru-*` | Euthymius Zigabenus on the Psalter, Matthew, John, Titus and Hebrews | Kiev 1886-87 and 1907, Tula 1894 and 1897 |
+| `theodoret-ru-*` | Blessed Theodoret on the Psalms, Song of Songs, the Prophets and St Paul | Moscow Theological Academy, Творения, 1855-1861 (and its 2003 reprint) |
+| `andrew-caesarea-ru` | St Andrew of Caesarea on Revelation | Archpriest Michael Bogoslovsky, Moscow 1884 |
+
+`build_commentary_ru.py` reads each book's edition line and leaves out any
+book whose edition is later than 1925, unless it is a known reprint of the
+19th-century translation (`ACCEPT_REPRINT`), or names a modern translator
+(`REJECT_SOURCE`). Left out this way: Euthymius on Luke (a modern translation
+by Hieromonk Theodore Yulaev, exeget.ru) and Euthymius on 1-2 Timothy (no
+edition given). Theodoret's question-and-answer works on the Octateuch and
+Kings are not laid out verse by verse, so they give no notes.
+
 ### Not yet available
 
-Euthymius Zigabenus, Andrew of Caesarea and Oecumenius on Revelation, Ephrem's
-commentaries and the Philokalia have no public-domain English text keyed to
-verses that could be found. Their 19th-century Russian translations
-(azbyka.ru, Kazan and Moscow Theological Academy editions) and the Greek of
-Migne's Patrologia Graeca are public domain and would be the next sources.
+Oecumenius on Revelation and Ephrem's commentaries have no public-domain text
+keyed to verses that could be found. The Philokalia (Theophan the Recluse's
+Russian, 1877-1890, public domain) is not a commentary on verses, so it would
+only appear through the verses it quotes. The Russian Chrysostom (St
+Petersburg Theological Academy, 1895-1906) is the next large source.
 
 ## Daily readings
 

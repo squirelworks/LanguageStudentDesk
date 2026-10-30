@@ -111,3 +111,12 @@ AZBYKA_BOOKS = {
         {"url": "https://azbyka.ru/otechnik/Andrej_Kesarijskij/tolkovanie-na-apokalipsis-sv-ioanna-bogoslova/"},
     ],
 }
+
+import re  # noqa: E402
+
+# Editions that are modern translations (or name no edition) are left out.
+REJECT_SOURCE = re.compile(r"Электронный ресурс|Экзегет|Перевод иером|пер\. [А-Я]\. [А-Я]\. [А-Я]", re.I)
+# Modern reprints of the 19th-century translations: the Kazan/St Petersburg
+# "Благовестник" (Theophylact) and the Moscow Theological Academy's
+# "Творения блаженного Феодорита" (1855-1861), reissued since 2003.
+ACCEPT_REPRINT = re.compile(r"Благовестник|Творения блаженн\w+ Феодорита|Блаженный Феодорит Кирский : \[[Сс]очинения", re.I)

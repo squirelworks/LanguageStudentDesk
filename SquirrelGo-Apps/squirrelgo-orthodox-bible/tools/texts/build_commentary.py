@@ -15,6 +15,7 @@ import sys
 import tomllib
 import urllib.parse
 
+import build_commentary_ru
 from common import CACHE, COMMENTARY_PACKS_JSON, DATA, NAME_TO_USFM, PACKS_DIR, book_ids, write_js
 
 SRC = os.path.join(CACHE, "commentaries")
@@ -328,6 +329,7 @@ def write(out, bundled=True):
                                   "license": "Public Domain", "source": obj["source"], "books": books,
                                   "tradition": tradition, "size": size, "pack": True})
         print("    %s: kept %d, left out %d not public domain" % (father, kept, dropped))
+    packs += build_commentary_ru.build(order)  # Russian commentaries from azbyka.ru
     with open(COMMENTARY_PACKS_JSON, "w", encoding="utf-8") as f:
         json.dump(packs, f, ensure_ascii=False, indent=1)
         f.write("\n")

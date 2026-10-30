@@ -459,5 +459,160 @@
   "tradition": "west",
   "size": 2202901,
   "pack": true
+ },
+ {
+  "id": "theophylact-ru-mat-rom",
+  "author": "Блаженный Феофилакт Болгарский (Blessed Theophylact of Ohrid)",
+  "work": "Толкование на Евангелие от Матфея; Толкование на Евангелие от Марка; Толкование на Евангелие от Луки; Толкование на Евангелие от Иоанна; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "MAT",
+   "MRK",
+   "LUK",
+   "JHN",
+   "ACT",
+   "ROM"
+  ],
+  "tradition": "east",
+  "size": 3951591,
+  "pack": true
+ },
+ {
+  "id": "theophylact-ru-1co-jud",
+  "author": "Блаженный Феофилакт Болгарский (Blessed Theophylact of Ohrid)",
+  "work": "Толкование на Евангелие от Матфея; Толкование на Евангелие от Марка; Толкование на Евангелие от Луки; Толкование на Евангелие от Иоанна; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "1CO",
+   "2CO",
+   "GAL",
+   "EPH",
+   "PHP",
+   "COL",
+   "1TH",
+   "2TH",
+   "1TI",
+   "2TI",
+   "TIT",
+   "PHM",
+   "HEB",
+   "JAS",
+   "1PE",
+   "2PE",
+   "1JN",
+   "2JN",
+   "3JN",
+   "JUD"
+  ],
+  "tradition": "east",
+  "size": 2932435,
+  "pack": true
+ },
+ {
+  "id": "euthymius-ru-psa",
+  "author": "Евфимий Зигабен (Euthymius Zigabenus)",
+  "work": "Толковая псалтирь; Толковое Евангелие от Матфея, составленное по древним святоотеческим толкованиям; Толкование Евангелия от Иоанна, составленное по древним святоотеческим толкованиям; Толкование на послание к Титу; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "PSA"
+  ],
+  "tradition": "east",
+  "size": 5299741,
+  "pack": true
+ },
+ {
+  "id": "euthymius-ru-mat-heb",
+  "author": "Евфимий Зигабен (Euthymius Zigabenus)",
+  "work": "Толковая псалтирь; Толковое Евангелие от Матфея, составленное по древним святоотеческим толкованиям; Толкование Евангелия от Иоанна, составленное по древним святоотеческим толкованиям; Толкование на послание к Титу; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "MAT",
+   "JHN",
+   "TIT",
+   "HEB"
+  ],
+  "tradition": "east",
+  "size": 2812342,
+  "pack": true
+ },
+ {
+  "id": "theodoret-ru-psa-ezk",
+  "author": "Блаженный Феодорит Кирский (Blessed Theodoret of Cyrus)",
+  "work": "Изъяснение псалмов; Толкование на книгу Песнь Песней Соломона; Толкование на пророка Иеремию; Толкование на книгу Варуха; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "PSA",
+   "SNG",
+   "HOS",
+   "AMO",
+   "MIC",
+   "JOL",
+   "OBA",
+   "JON",
+   "NAM",
+   "ZEP",
+   "HAG",
+   "ZEC",
+   "MAL",
+   "JER",
+   "BAR",
+   "LAM",
+   "EZK"
+  ],
+  "tradition": "east",
+  "size": 3902064,
+  "pack": true
+ },
+ {
+  "id": "theodoret-ru-dan-heb",
+  "author": "Блаженный Феодорит Кирский (Blessed Theodoret of Cyrus)",
+  "work": "Изъяснение псалмов; Толкование на книгу Песнь Песней Соломона; Толкование на пророка Иеремию; Толкование на книгу Варуха; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "DAN",
+   "ROM",
+   "1CO",
+   "2CO",
+   "GAL",
+   "EPH",
+   "PHP",
+   "COL",
+   "1TH",
+   "2TH",
+   "1TI",
+   "2TI",
+   "TIT",
+   "PHM",
+   "HEB"
+  ],
+  "tradition": "east",
+  "size": 2228207,
+  "pack": true
+ },
+ {
+  "id": "andrew-caesarea-ru",
+  "author": "Святитель Андрей Кесарийский (St Andrew of Caesarea)",
+  "work": "Толкование на Апокалипсис (перевод с греч. прот. Михаила Богословского)",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "REV"
+  ],
+  "tradition": "east",
+  "size": 387882,
+  "pack": true
  }
 ]
