@@ -4,6 +4,26 @@
 window.SGO_CATALOG = {
   "bibles": [
     {
+      "id": "grc-brenton",
+      "name": "Ἡ Παλαιὰ Διαθήκη κατὰ τοὺς Ἑβδομήκοντα (Septuagint, Brenton's Greek, 1851)",
+      "lang": "grc",
+      "dir": "ltr",
+      "versification": "lxx",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=grcbrent",
+      "testaments": "OT,DC"
+    },
+    {
+      "id": "eng-brenton",
+      "name": "Brenton's English Septuagint (1851)",
+      "lang": "en",
+      "dir": "ltr",
+      "versification": "lxx",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=eng-Brenton",
+      "testaments": "OT,DC"
+    },
+    {
       "id": "grc-antoniades",
       "name": "Πατριαρχικὸν Κείμενον (Patriarchal Text, Antoniades 1904/1912)",
       "lang": "grc",
@@ -71,6 +91,16 @@ window.SGO_CATALOG = {
       "versification": "kjv",
       "license": "Public Domain",
       "source": "https://github.com/scrollmapper/bible_databases (formats/json/GreVamvas.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT"
+    },
+    {
+      "id": "arb-vandyck",
+      "name": "الكتاب المقدس (Arabic, Smith–Van Dyck, 1865)",
+      "lang": "ar",
+      "dir": "rtl",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=arb-vd",
       "testaments": "OT,NT"
     },
     {
