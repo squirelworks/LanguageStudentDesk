@@ -110,3 +110,166 @@ BIBLES = [
         "format": "scrollmapper", "file": "KJVA",
     },
 ]
+
+# --- Downloadable packs -------------------------------------------------------
+#
+# These are too large to bundle in the APK. build_bibles.py writes them to
+# packs/bibles/<id>.js (same format as www/data/bibles) and records them in
+# packs.json; the "SquirrelGo Orthodox Bible text packs" workflow publishes
+# packs/ to the data-only branch below, and build_catalog.py lists them in
+# catalog.js with their "url" and "size" so the app can download them.
+
+PACK_BRANCH = "orthodox-bible-texts"
+PACK_URL = ("https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/"
+            + PACK_BRANCH + "/bibles/")
+
+SM_SOURCE = "https://github.com/scrollmapper/bible_databases (formats/json/%s.json, from the CrossWire SWORD module)"
+
+
+def _sm(id, file, name, lang, script, versification, notes, license="Public Domain", dir="ltr"):
+    return {"id": id, "name": name, "lang": lang, "script": script, "dir": dir,
+            "versification": versification, "license": license,
+            "source": SM_SOURCE % file, "notes": notes,
+            "format": "scrollmapper", "file": file, "pack": True}
+
+
+def _eb(id, ebible, name, lang, script, versification, notes, license="Public Domain", dir="ltr"):
+    return {"id": id, "name": name, "lang": lang, "script": script, "dir": dir,
+            "versification": versification, "license": license,
+            "source": "https://ebible.org/details.php?id=" + ebible, "notes": notes,
+            "format": "ebible", "ebible": ebible, "pack": True}
+
+
+# Versification: "org" is the Hebrew numbering (psalm titles counted as
+# verses, Malachi in three chapters), "vul" the Vulgate's, "lxx" the
+# Septuagint's; see README.md.
+PACKS = [
+    # Ancient and liturgical languages of the Orthodox and Oriental churches
+    _sm("syc-peshitta", "Peshitta", "ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament)", "syc", "Syrc", "kjv",
+        "The Peshitta, the Bible of the Syriac churches since the 5th century. New Testament (27 books).",
+        dir="rtl"),
+    _sm("cop-sahidic", "CopSahBible2", "ⲧⲅⲣⲁⲫⲏ ⲉⲧⲟⲩⲁⲁⲃ (Coptic Sahidic Bible)", "cop", "Copt", "lxx",
+        "Sahidic Coptic text, the oldest Coptic version, translated from the Septuagint and Greek NT. Several Old Testament books are fragmentary.",
+        license="CC BY-SA (CrossWire CopSahBible2 module; share alike)"),
+    _sm("hye-eastern", "ArmEastern", "Աստվածաշունչ (Eastern Armenian, partial)", "hy", "Armn", "kjv",
+        "Modern Eastern Armenian translation. Only Genesis, Exodus and the four Gospels are in the source."),
+    _sm("lat-vulgate-clementine", "VulgClementine", "Biblia Sacra Vulgata (Clementine Vulgate, 1592)", "la", "Latn", "vul",
+        "St Jerome's Latin Bible in the Clementine edition, with the deuterocanonical books. The Bible of the Western Church before and after the schism."),
+    _sm("got-wulfila", "Wulfila", "𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions)", "got", "Goth", "kjv",
+        "The surviving fragments of the Gothic translation made by Bishop Wulfila from the Byzantine Greek text, in Gothic script. Gospels, Pauline epistles and part of Nehemiah."),
+    _sm("heb-wlc", "WLC", "תנ״ך (Hebrew Masoretic Text, Westminster Leningrad Codex)", "he", "Hebr", "org",
+        "The Hebrew Masoretic text of the Old Testament, with vowels and accents. Useful beside the Septuagint.",
+        dir="rtl"),
+    # Slavonic and Orthodox-country languages
+    _sm("rus-makarij", "RusMakarij", "Пятикнижие Моисея (Russian, Archimandrite Makarius Glukharev)", "ru", "Cyrl", "kjv",
+        "St Makarius (Glukharev) of Altai's 19th-century Russian translation of the Pentateuch, in pre-reform spelling."),
+    _sm("srp-danicic-karadzic-ekavian", "SrKDEkavski", "Свето писмо (Serbian, Daničić–Karadžić, ekavian)", "sr", "Cyrl", "kjv",
+        "The classic Serbian Bible in its ekavian form, as read in Serbia. Hebrew canon."),
+    _sm("fin-biblia-1776", "FinBiblia", "Biblia (Finnish, 1776)", "fi", "Latn", "kjv",
+        "The 1776 Finnish Bible, with the deuterocanonical books."),
+    _sm("fin-pr-1938", "FinPR", "Pyhä Raamattu (Finnish, 1933/1938)", "fi", "Latn", "kjv",
+        "Finnish Church Bible of 1933/1938, with the deuterocanonical books. Finland's Orthodox Church long used it alongside its own liturgical texts."),
+    _sm("pol-gdanska", "PolGdanska", "Biblia Gdańska (Polish, 1881 edition)", "pl", "Latn", "kjv",
+        "Polish Gdańsk Bible (1632), 1881 spelling. Hebrew canon."),
+    _sm("ces-kralicka", "CzeBKR", "Bible kralická (Czech, 1613)", "cs", "Latn", "kjv",
+        "Czech Kralice Bible. Hebrew canon."),
+    _sm("slv-stritar", "SloStritar", "Novi testament in Psalmi (Slovene, Stritar)", "sl", "Latn", "org",
+        "Slovene New Testament and Psalms by Josip Stritar and others."),
+    _sm("hun-karoli", "HunKar", "Károli Biblia (Hungarian, 1908 revision)", "hu", "Latn", "org",
+        "Hungarian Károli Bible, 1908 revision. Hebrew canon."),
+    _sm("lav-gluck", "LvGluck8", "Bībele (Latvian, Glück, 8th edition)", "lv", "Latn", "kjv",
+        "Ernst Glück's Latvian Bible (1689), 8th edition. Hebrew canon."),
+    # English
+    _sm("eng-drc", "DRC", "Douay-Rheims Bible, Challoner Revision (1752)", "en", "Latn", "vul",
+        "English translation of the Vulgate, with the deuterocanonical books and Vulgate (Septuagint) psalm numbering."),
+    _sm("eng-cpdv", "CPDV", "Catholic Public Domain Version", "en", "Latn", "vul",
+        "Modern English translation of the Clementine Vulgate by Ronald L. Conte Jr., with the deuterocanonical books."),
+    _sm("eng-nheb", "NHEB", "New Heart English Bible", "en", "Latn", "kjv",
+        "Modern English revision of the World English Bible. Hebrew canon."),
+    _sm("eng-asv", "ASV", "American Standard Version (1901)", "en", "Latn", "kjv",
+        "Hebrew canon."),
+    _sm("eng-ylt", "YLT", "Young's Literal Translation (1898)", "en", "Latn", "kjv",
+        "Very literal English translation. Hebrew canon."),
+    _sm("eng-geneva", "Geneva1599", "Geneva Bible (1599)", "en", "Latn", "kjv",
+        "Hebrew canon."),
+    # Western European
+    _sm("fra-crampon", "FreCrampon", "La Sainte Bible (French, Augustin Crampon, 1923)", "fr", "Latn", "org",
+        "French Catholic translation from the Hebrew and Greek, with the deuterocanonical books."),
+    _sm("fra-synodale-nt", "FreSynodale1921", "Le Nouveau Testament (French, Version Synodale, 1921)", "fr", "Latn", "kjv",
+        "New Testament only."),
+    _sm("deu-menge", "GerMenge", "Menge-Bibel (German, 1939)", "de", "Latn", "org",
+        "Hermann Menge's German translation, with the deuterocanonical books."),
+    _sm("deu-luther-1545", "GerBoLut", "Luther-Bibel (German, 1545)", "de", "Latn", "org",
+        "Martin Luther's 1545 German Bible. Hebrew canon in this edition."),
+    _sm("deu-elberfelder-1905", "GerElb1905", "Elberfelder Bibel (German, 1905)", "de", "Latn", "kjv",
+        "Unrevised Elberfelder Bible. Hebrew canon."),
+    _sm("deu-albrecht-nt", "GerAlbrecht", "Das Neue Testament (German, Ludwig Albrecht, 1926)", "de", "Latn", "kjv",
+        "New Testament only."),
+    _sm("spa-rv1909", "SpaRV", "Reina-Valera (Spanish, 1909)", "es", "Latn", "kjv",
+        "Hebrew canon."),
+    _sm("por-biblia-livre", "PorBLivre", "Bíblia Livre (Portuguese)", "pt", "Latn", "kjv",
+        "Hebrew canon.", license="CC BY 3.0 BR (Bíblia Livre)"),
+    _sm("nld-statenvertaling", "DutSVVA", "Statenvertaling met apocriefe boeken (Dutch, 1637)", "nl", "Latn", "kjv",
+        "Dutch States Translation with the apocrypha."),
+    _sm("dan-1871-1907", "DaOT1871NT1907", "Bibelen (Danish, OT 1871, NT 1907)", "da", "Latn", "kjv",
+        "Hebrew canon."),
+    _sm("swe-1917", "Swe1917", "Bibeln (Swedish, 1917)", "sv", "Latn", "kjv",
+        "Swedish Church Bible of 1917, with the deuterocanonical books."),
+    _sm("epo-londona", "Esperanto", "La Sankta Biblio (Esperanto, Londona Biblio)", "eo", "Latn", "kjv",
+        "Old Testament by L. L. Zamenhof, New Testament by a British committee (1912). Hebrew canon."),
+    # Asia, Africa, Oceania and the Americas
+    _sm("zho-cuv", "ChiUn", "和合本 (Chinese Union Version, traditional, 1919)", "zh", "Hant", "kjv",
+        "Hebrew canon."),
+    _sm("lzh-cuv-wenli", "ChiUnL", "文理和合譯本 (Chinese Union Version, classical Chinese)", "lzh", "Hant", "kjv",
+        "Hebrew canon."),
+    _sm("jpn-bungo", "JapBungo", "文語訳聖書 (Japanese literary version, Meiji OT 1887, Taishō NT 1917)", "ja", "Jpan", "kjv",
+        "Japanese literary translation. The Japanese Orthodox Church uses its own translation by St Nicholas of Japan, which is not available digitally. Hebrew canon."),
+    _sm("vie-1934", "Viet", "Kinh Thánh (Vietnamese, 1934)", "vi", "Latn", "kjv",
+        "Hebrew canon."),
+    _sm("tgl-ang-biblia", "TagAngBiblia", "Ang Biblia (Tagalog, 1905)", "tl", "Latn", "kjv",
+        "Hebrew canon."),
+    _sm("mya-judson", "BurJudson", "သမ္မာကျမ်းစာ (Burmese, Judson, 1835)", "my", "Mymr", "kjv",
+        "Hebrew canon."),
+    _sm("mal-1910", "Mal1910", "സത്യവേദപുസ്തകം (Malayalam, 1910)", "ml", "Mlym", "kjv",
+        "Hebrew canon. Read by the Malankara Orthodox and other St Thomas Christians of Kerala."),
+    _sm("mlg-1865", "Mg1865", "Baiboly (Malagasy, 1865)", "mg", "Latn", "org",
+        "Hebrew canon."),
+    _sm("chr-nt-1860", "Che1860", "ᎪᎪᎳᏅ ᏗᎧᎿᏩᏛᏍᏗ (Cherokee New Testament, 1860)", "chr", "Cher", "kjv",
+        "New Testament only."),
+    # From eBible.org (built by the text packs workflow, since ebible.org is
+    # only reachable from GitHub Actions)
+    _eb("ukr-kulish", "ukr1871", "Біблія (Ukrainian, Kulish, Puluj and Nechuy-Levytsky, 1905)", "uk", "Cyrl", "kjv",
+        "The first complete Ukrainian Bible, by Panteleimon Kulish, Ivan Puluj and Ivan Nechuy-Levytsky. Hebrew canon."),
+    _eb("eng-lxx2012", "eng-lxx2012", "LXX2012: Septuagint in American English", "en", "Latn", "lxx",
+        "Michael Paul Johnson's modernised revision of Brenton's English Septuagint, with the deuterocanonical books."),
+    _eb("eng-web", "eng-web", "World English Bible with Deuterocanon", "en", "Latn", "kjv",
+        "Modern English translation, with the deuterocanonical books including 3 and 4 Maccabees and 1 Esdras."),
+    _eb("eng-rv", "eng-rv", "Revised Version with Apocrypha (1895)", "en", "Latn", "kjv",
+        "The English Revised Version, with the Apocrypha."),
+    _eb("ita-riveduta", "ita1927", "La Sacra Bibbia Riveduta (Italian, Giovanni Luzzi, 1927)", "it", "Latn", "kjv",
+        "Hebrew canon."),
+    _eb("ita-diodati", "ita1885", "La Sacra Bibbia (Italian, Diodati, 1885 revision)", "it", "Latn", "kjv",
+        "Hebrew canon."),
+    _eb("fra-segond", "fraLSG", "La Sainte Bible (French, Louis Segond, 1910)", "fr", "Latn", "kjv",
+        "Hebrew canon."),
+    _eb("fra-bible-libre", "frasbl", "Sainte Bible libre pour le monde (French)", "fr", "Latn", "kjv",
+        "Modern French translation, with the deuterocanonical books."),
+    _eb("spa-biblia-libre", "spablm", "Santa Biblia libre para el mundo (Spanish)", "es", "Latn", "kjv",
+        "Modern Spanish translation, with the deuterocanonical books. eBible marks it as a draft still under review."),
+    _eb("cmn-cuv-simplified", "cmn-cu89s", "和合本 (Chinese Union Version, simplified)", "zh", "Hans", "kjv",
+        "Hebrew canon."),
+    _eb("pes-opv", "pesOPV", "کتاب مقدس (Persian, Old Persian Version)", "fa", "Arab", "kjv",
+        "Hebrew canon.", dir="rtl"),
+    _eb("swh-krapf-nt", "swh1850", "Agano Jipya (Swahili, Krapf, 1850)", "sw", "Latn", "kjv",
+        "Johann Ludwig Krapf's Swahili New Testament. Incomplete (26 books)."),
+    _eb("hin-irv", "hin2017", "पवित्र बाइबिल (Hindi, Indian Revised Version, 2017)", "hi", "Deva", "kjv",
+        "Hebrew canon.", license="CC BY-SA 4.0 (Bridge Connectivity Solutions)"),
+]
+
+
+if __name__ == "__main__":
+    # Used by fetch_sources.sh: "python3 sources.py scrollmapper" lists the
+    # scrollmapper files to download, "python3 sources.py ebible" the eBible ids.
+    import sys
+    key = {"scrollmapper": "file", "ebible": "ebible"}[sys.argv[1]]
+    print(" ".join(s[key] for s in BIBLES + PACKS if s["format"] == sys.argv[1]))

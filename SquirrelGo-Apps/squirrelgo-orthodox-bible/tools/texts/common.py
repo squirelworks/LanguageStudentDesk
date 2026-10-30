@@ -10,6 +10,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 APP = os.path.normpath(os.path.join(HERE, "..", ".."))
 DATA = os.path.join(APP, "www", "data")
 CACHE = os.environ.get("SGO_TEXTS_CACHE", os.path.join(HERE, ".cache"))
+# Downloadable packs are built here (not committed) and listed in packs.json.
+PACKS_DIR = os.environ.get("SGO_PACKS_DIR", os.path.join(HERE, "packs"))
+PACKS_JSON = os.path.join(HERE, "packs.json")
 
 # English book names (scrollmapper / SWORD style) -> USFM ids.
 NAME_TO_USFM = {
@@ -27,7 +30,7 @@ NAME_TO_USFM = {
     "Nahum": "NAM", "Habakkuk": "HAB", "Zephaniah": "ZEP", "Haggai": "HAG",
     "Zechariah": "ZEC", "Malachi": "MAL", "I Maccabees": "1MA", "II Maccabees": "2MA",
     "III Maccabees": "3MA", "IV Maccabees": "4MA", "Prayer of Azariah": "S3Y",
-    "Susanna": "SUS", "Bel and the Dragon": "BEL",
+    "Susanna": "SUS", "Bel and the Dragon": "BEL", "Esther (Greek)": "ESG",
     "Matthew": "MAT", "Mark": "MRK", "Luke": "LUK", "John": "JHN", "Acts": "ACT",
     "Romans": "ROM", "I Corinthians": "1CO", "II Corinthians": "2CO",
     "Galatians": "GAL", "Ephesians": "EPH", "Philippians": "PHP", "Colossians": "COL",
