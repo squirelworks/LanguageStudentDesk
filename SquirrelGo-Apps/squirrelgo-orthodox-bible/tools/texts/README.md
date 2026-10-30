@@ -236,6 +236,29 @@ or opening on it ("Θεόδωρος δέ φησι"), and the "Τοῦ αὐτο�
 follow them. Fathers who only mention one of them are kept. The text is the editors' Greek as OCR'd by First1KGreek, so it has the
 occasional misread letter.
 
+### Latin originals (downloadable packs)
+
+`build_commentary_lat.py` builds Latin packs (`"lang": "la"`) from Open Greek
+and Latin's [CSEL edition](https://github.com/OpenGreekAndLatin/csel-dev)
+(Corpus Scriptorum Ecclesiasticorum Latinorum), also **CC BY-SA 4.0**, with
+the same credit and share-alike terms.
+
+| Pack | Text | Edition |
+| --- | --- | --- |
+| `ambrose-lat` | St Ambrose of Milan on St Luke, on twelve Psalms (1, 35-40, 43, 45, 47, 48, 61) and on Psalm 118 | CSEL 32.4 (Schenkl, 1902), CSEL 64 (Petschenig, 1919), CSEL 62 (Petschenig, 1913) |
+| `hilary-lat` | St Hilary of Poitiers, Tractatus super psalmos (58 Psalms, with Psalm 118 by letter) | CSEL 22 (Zingerle, 1891) |
+
+The Luke commentary prints the verse each section discusses in its margin,
+which gives the key. The Psalm commentaries are split by Psalm and numbered
+section, and each section is keyed to the verse of that Psalm it quotes first,
+matched word pair by word pair against the Clementine Vulgate pack (so
+`fetch_sources.sh` and `build_bibles.py --packs` must run first, as the packs
+workflow does). Notes use the Vulgate numbering (`vul`): Psalm 118 there is
+Psalm 119 in the KJV, and Psalm titles are verse 1. Victorinus of Pettau on
+Revelation is in the same collection but left out for now: the edition prints
+Victorinus's text and St Jerome's revision of it side by side, and they are
+not yet told apart.
+
 ### Russian commentaries (downloadable packs)
 
 Pre-revolutionary Russian translations from [azbyka.ru/otechnik](https://azbyka.ru/otechnik/),
