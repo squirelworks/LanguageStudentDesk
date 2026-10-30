@@ -163,7 +163,7 @@ window.SGO_CATALOG = {
     },
     {
       "id": "got-wulfila",
-      "name": "Gothic Bible of Bishop Wulfila (4th century, surviving portions)",
+      "name": "𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions)",
       "lang": "got",
       "dir": "ltr",
       "versification": "kjv",
@@ -171,7 +171,7 @@ window.SGO_CATALOG = {
       "source": "https://github.com/scrollmapper/bible_databases (formats/json/Wulfila.json, from the CrossWire SWORD module)",
       "testaments": "OT,NT",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/got-wulfila.js",
-      "size": 1456825
+      "size": 1456885
     },
     {
       "id": "heb-wlc",
@@ -616,6 +616,162 @@ window.SGO_CATALOG = {
       "testaments": "NT",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/chr-nt-1860.js",
       "size": 1649982
+    },
+    {
+      "id": "ukr-kulish",
+      "name": "Біблія (Ukrainian, Kulish, Puluj and Nechuy-Levytsky, 1905)",
+      "lang": "uk",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=ukr1871",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/ukr-kulish.js",
+      "size": 6090608
+    },
+    {
+      "id": "eng-lxx2012",
+      "name": "LXX2012: Septuagint in American English",
+      "lang": "en",
+      "dir": "ltr",
+      "versification": "lxx",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=eng-lxx2012",
+      "testaments": "OT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-lxx2012.js",
+      "size": 3979751
+    },
+    {
+      "id": "eng-web",
+      "name": "World English Bible with Deuterocanon",
+      "lang": "en",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=eng-web",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-web.js",
+      "size": 4913627
+    },
+    {
+      "id": "eng-rv",
+      "name": "Revised Version with Apocrypha (1895)",
+      "lang": "en",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=eng-rv",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-rv.js",
+      "size": 4994627
+    },
+    {
+      "id": "ita-riveduta",
+      "name": "La Sacra Bibbia Riveduta (Italian, Giovanni Luzzi, 1927)",
+      "lang": "it",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=ita1927",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/ita-riveduta.js",
+      "size": 4251831
+    },
+    {
+      "id": "ita-diodati",
+      "name": "La Sacra Bibbia (Italian, Diodati, 1885 revision)",
+      "lang": "it",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=ita1885",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/ita-diodati.js",
+      "size": 4359256
+    },
+    {
+      "id": "fra-segond",
+      "name": "La Sainte Bible (French, Louis Segond, 1910)",
+      "lang": "fr",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=fraLSG",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-segond.js",
+      "size": 4379863
+    },
+    {
+      "id": "fra-bible-libre",
+      "name": "Sainte Bible libre pour le monde (French)",
+      "lang": "fr",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=frasbl",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-bible-libre.js",
+      "size": 5289059
+    },
+    {
+      "id": "spa-biblia-libre",
+      "name": "Santa Biblia libre para el mundo (Spanish)",
+      "lang": "es",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=spablm",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/spa-biblia-libre.js",
+      "size": 4902575
+    },
+    {
+      "id": "cmn-cuv-simplified",
+      "name": "和合本 (Chinese Union Version, simplified)",
+      "lang": "zh",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=cmn-cu89s",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/cmn-cuv-simplified.js",
+      "size": 3345263
+    },
+    {
+      "id": "pes-opv",
+      "name": "کتاب مقدس (Persian, Old Persian Version)",
+      "lang": "fa",
+      "dir": "rtl",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=pesOPV",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/pes-opv.js",
+      "size": 5757146
+    },
+    {
+      "id": "swh-krapf-nt",
+      "name": "Agano Jipya (Swahili, Krapf, 1850)",
+      "lang": "sw",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=swh1850",
+      "testaments": "NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/swh-krapf-nt.js",
+      "size": 964007
+    },
+    {
+      "id": "hin-irv",
+      "name": "पवित्र बाइबिल (Hindi, Indian Revised Version, 2017)",
+      "lang": "hi",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "CC BY-SA 4.0 (Bridge Connectivity Solutions)",
+      "source": "https://ebible.org/details.php?id=hin2017",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/hin-irv.js",
+      "size": 9608525
     }
   ],
   "commentary": [
