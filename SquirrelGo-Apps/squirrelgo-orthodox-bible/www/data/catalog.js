@@ -891,6 +891,85 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "catena-grc-1co-phm",
+      "author": "Catena of the Greek Fathers (Ἁλυσίς)",
+      "work": "Catenae on the New Testament, ed. J. A. Cramer",
+      "lang": "grc",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/First1KGreek",
+      "books": [
+        "1CO",
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL",
+        "1TH",
+        "2TH",
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM"
+      ],
+      "tradition": "east",
+      "size": 3017228,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/catena-grc-1co-phm.js"
+    },
+    {
+      "id": "catena-grc-act-rom",
+      "author": "Catena of the Greek Fathers (Ἁλυσίς)",
+      "work": "Catenae on the New Testament, ed. J. A. Cramer",
+      "lang": "grc",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/First1KGreek",
+      "books": [
+        "ACT",
+        "ROM"
+      ],
+      "tradition": "east",
+      "size": 2940707,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/catena-grc-act-rom.js"
+    },
+    {
+      "id": "catena-grc-heb-rev",
+      "author": "Catena of the Greek Fathers (Ἁλυσίς)",
+      "work": "Catenae on the New Testament, ed. J. A. Cramer",
+      "lang": "grc",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/First1KGreek",
+      "books": [
+        "HEB",
+        "JAS",
+        "1PE",
+        "2PE",
+        "1JN",
+        "2JN",
+        "3JN",
+        "JUD",
+        "REV"
+      ],
+      "tradition": "east",
+      "size": 3570152,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/catena-grc-heb-rev.js"
+    },
+    {
+      "id": "catena-grc-mat-jhn",
+      "author": "Catena of the Greek Fathers (Ἁλυσίς)",
+      "work": "Catenae on the New Testament, ed. J. A. Cramer",
+      "lang": "grc",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/First1KGreek",
+      "books": [
+        "MAT",
+        "MRK",
+        "LUK",
+        "JHN"
+      ],
+      "tradition": "east",
+      "size": 2908563,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/catena-grc-mat-jhn.js"
+    },
+    {
       "id": "chrysostom-gen-act",
       "author": "St John Chrysostom",
       "work": "Homily on Acts; Homily on the Gospel of John; Homily on the Gospel of Matthew; Homily on; and other works",
@@ -1101,6 +1180,31 @@ window.SGO_CATALOG = {
         "EPH",
         "HEB"
       ]
+    },
+    {
+      "id": "cyril-alexandria-grc",
+      "author": "Ἅγιος Κύριλλος Ἀλεξανδρείας (St Cyril of Alexandria)",
+      "work": "Ὑπόμνημα εἰς τοὺς δώδεκα προφήτας",
+      "lang": "grc",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/First1KGreek",
+      "books": [
+        "HOS",
+        "AMO",
+        "MIC",
+        "JOL",
+        "OBA",
+        "JON",
+        "NAM",
+        "HAB",
+        "ZEP",
+        "HAG",
+        "ZEC",
+        "MAL"
+      ],
+      "tradition": "east",
+      "size": 3614574,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/cyril-alexandria-grc.js"
     },
     {
       "id": "cyril-alexandria-more",
