@@ -3,14 +3,18 @@
 
     python3 translation-learner/tools/build_network.py           # train from the committed word lists
     python3 translation-learner/tools/build_network.py --fetch   # download the word lists first
+    python3 translation-learner/tools/build_network.py --fetch-conceptnet  # refresh tools/conceptnet/edges.tsv
 
-1. Word banks: the 1,000 most frequent words per language from Hermit Dave's
-   FrequencyWords (OpenSubtitles 2018; 2016 for Hindi), CC BY-SA 4.0. They are
-   cached in tools/wordlists/<lang>.txt so training needs no network.
+1. Word banks: the 1,000 most frequent words per language from wordfreq 3.1
+   (CC BY-SA 4.0). They are cached in tools/wordlists/<lang>.txt so training
+   needs no network; --fetch needs the msgpack package.
 2. A graph is built over meanings (data/matrix.js), English words, and words in
    each Desk language. Edges come from the matrix (meaning <-> its English, token
    <-> its meaning, meanings that share a sentence), the Vocabulary Learner decks
    (word <-> English gloss) and SquirrelGo Kanji (kanji <-> English meaning).
+   Word bank glosses (tools/glosses) link each word to its English, and
+   ConceptNet 5.7 (CC BY-SA 4.0) adds translation, synonym and word-form
+   links between Desk words and English words already in the graph.
    Word bank words that look like a form of a known word (a Korean noun with
    a particle, a Russian ending, an Arabic article or pronoun suffix) are
    linked to that word.
@@ -39,16 +43,20 @@ TL = os.path.dirname(HERE)
 LISTS = os.path.join(HERE, "wordlists")
 DATA = os.path.join(TL, "data")
 
-SOURCE = "https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/"
-CREDIT = "Hermit Dave, FrequencyWords (from OpenSubtitles), CC BY-SA 4.0, https://github.com/hermitdave/FrequencyWords"
-# Desk language id -> (FrequencyWords path, characters a real word is made of)
+# wordfreq 3.1.1 by Robyn Speer: word frequencies merged from subtitles,
+# Wikipedia, news, books, web text and social media. The data files are
+# CC BY-SA 4.0; they ship inside the Python wheel, pinned here by hash.
+WHEEL = "https://files.pythonhosted.org/packages/24/61/62835c475d69872d30689f284497853fe33fe1d6dd18f57346d13305861d/wordfreq-3.1.1-py3-none-any.whl"
+WHEEL_SHA256 = "4b1c6ecffc6198be3396d5cf871c4423ca71c907c231348d352dd54d62b97473"
+CREDIT = "wordfreq 3.1 by Robyn Speer, CC BY-SA 4.0, https://github.com/rspeer/wordfreq"
+# Desk language id -> (wordfreq data file, characters a real word is made of)
 BANKS = {
-    "japanese": ("2018/ja/ja_full.txt", r"[ぁ-ヿ一-鿿々ー]+"),
-    "hangul": ("2018/ko/ko_50k.txt", r"[가-힣]+"),
-    "chinese": ("2018/zh_cn/zh_cn_50k.txt", r"[一-鿿]+"),
-    "cyrillic": ("2018/ru/ru_50k.txt", r"[а-яё]+(-[а-яё]+)?"),
-    "hindi": ("2016/hi/hi_50k.txt", r"[ऀ-ॿ]+"),
-    "arabic": ("2018/ar/ar_50k.txt", r"[ء-يً-ْ]+"),
+    "japanese": ("large_ja", r"[\u3041-\u30ff\u4e00-\u9fff々ー]+"),
+    "hangul": ("small_ko", r"[\uac00-\ud7a3]+"),
+    "chinese": ("large_zh", r"[\u4e00-\u9fff]+"),
+    "cyrillic": ("large_ru", r"[а-яё]+(-[а-яё]+)?"),
+    "hindi": ("small_hi", r"[\u0900-\u097f]+"),
+    "arabic": ("large_ar", r"[\u0621-\u064a\u064b-\u0652]+"),
 }
 TOP = 1000
 
@@ -64,29 +72,135 @@ WALKS = 12
 WALK_LEN = 16
 WINDOW = 4
 NEG = 5
-EPOCHS = 3
+EPOCHS = 5
 SEED = 20261030
-CLOSE = 0.85
+# Where "close" starts is set from these pairs (the same ones check.js tests):
+# a word and a meaning it should be close to, and pairs that only share
+# topics. The line goes 60% of the way from the highest unrelated pair to the
+# lowest related one, leaning strict.
+CLOSE_PAIRS = [("boy", "child"), ("kid", "child"), ("large", "big"), ("talk", "speak")]
+APART_PAIRS = [("tea", "water"), ("coffee", "tea"), ("hot", "cold"), ("hello", "thanks"), ("dog", "cat")]
+
+# Glosses for word bank words the Desk itself does not know. glosses/<lang>.tsv
+# is generated from an open dictionary by gloss_dictionaries.py;
+# glosses/desk-<lang>.tsv is written by hand and wins over both the dictionary
+# and the Desk's own glosses.
+GLOSSES = os.path.join(HERE, "glosses")
+GLOSS_CREDITS = {
+    "japanese": "JMdict, Electronic Dictionary Research and Development Group, CC BY-SA, https://www.edrdg.org/edrdg/licence.html",
+    "chinese": "CC-CEDICT, MDBG, CC BY-SA 4.0, https://www.mdbg.net/chinese/dictionary?page=cc-cedict",
+}
+
+# ConceptNet 5.7 assertions (CC BY-SA 4.0). The full file is about 475 MB;
+# --fetch-conceptnet streams it and keeps only the links that touch a word the
+# Desk knows, in tools/conceptnet/edges.tsv (about 1 MB).
+CONCEPTNET = "https://s3.amazonaws.com/conceptnet/downloads/2019/edges/conceptnet-assertions-5.7.0.csv.gz"
+CONCEPTNET_CREDIT = "ConceptNet 5.7, CC BY-SA 4.0, https://conceptnet.io"
+CN_EDGES = os.path.join(HERE, "conceptnet", "edges.tsv")
+CN_CODES = {"japanese": "ja", "hangul": "ko", "chinese": "zh", "cyrillic": "ru", "hindi": "hi", "arabic": "ar"}
+# How strongly each kind of ConceptNet link ties two words. RelatedTo is
+# loose (a word and its topic), so it counts for less.
+CN_RELATIONS = {"Synonym": 1.0, "FormOf": 1.0, "SimilarTo": 0.8, "RelatedTo": 0.4, "IsA": 0.5}
+# Between two English words only these count: RelatedTo would tie tea to
+# coffee and hot to cold, which must stay apart.
+CN_ENGLISH = {"Synonym", "SimilarTo", "IsA"}
+
+
+def desk_vocabulary(src):
+    """Per ConceptNet language code, every word the Desk has a place for."""
+    vocab = defaultdict(set)
+    for lang, code in CN_CODES.items():
+        vocab[code].update(w for w, _ in read_lists().get(lang, []))
+        for name in ("desk-" + lang, lang):
+            for word, (base, _) in read_glosses(name).items():
+                vocab[code].add(word)
+                if base:
+                    vocab[code].add(base)
+        for word, _, _ in src["decks"].get(lang, []):
+            vocab[code].add(word)
+        for r in src["columns"].get(lang, {"r": {}})["r"].values():
+            for text, _, _ in r["t"]:
+                vocab[code].add(bare(text))
+    vocab["ja"].update(char for char, _, _ in src["kanji"])
+    # English words the Desk uses, for English-to-English links.
+    english = [raw for raw in src["meanings"].values()] + [e for rows in src["decks"].values() for _, _, e in rows]
+    for lang in CN_CODES:
+        for name in ("desk-" + lang, lang):
+            english += [e for _, e in read_glosses(name).values()]
+    for text in english:
+        for words in english_words(text.replace("|", ";").replace(")", ");")):
+            vocab["en"].update(words)
+    return vocab
+
+
+def fetch_conceptnet(src):
+    import gzip
+
+    vocab = desk_vocabulary(src)
+    print("streaming", CONCEPTNET)
+    kept = 0
+    os.makedirs(os.path.dirname(CN_EDGES), exist_ok=True)
+    with urllib.request.urlopen(CONCEPTNET) as r, open(CN_EDGES, "w", encoding="utf-8") as out:
+        out.write("# From " + CONCEPTNET_CREDIT + ". Written by build_network.py --fetch-conceptnet.\n")
+        out.write("# relation, language, word, language, word, weight: links that touch a Desk word\n")
+        for line in gzip.GzipFile(fileobj=r):
+            uri, rel, start, end, meta = line.decode("utf-8").rstrip("\n").split("\t")
+            rel = rel[3:]
+            if rel not in CN_RELATIONS or not start.startswith("/c/") or not end.startswith("/c/"):
+                continue
+            a, s = start.split("/")[2:4]
+            b, e = end.split("/")[2:4]
+            if a not in vocab or b not in vocab or (a == b == "en" and rel not in CN_ENGLISH):
+                continue
+            if rel == "IsA" and not a == b == "en":
+                continue
+            if (a == "en" and "_" in s) or (b == "en" and "_" in e):
+                continue
+            if (a == "en" and a != b or s in vocab[a]) and (b == "en" and a != b or e in vocab[b]):
+                w = json.loads(meta).get("weight", 1.0)
+                out.write("\t".join([rel, a, s, b, e, "%.2f" % w]) + "\n")
+                kept += 1
+    print("kept", kept, "ConceptNet links")
+
+
+def read_conceptnet():
+    if not os.path.exists(CN_EDGES):
+        return []
+    with open(CN_EDGES, encoding="utf-8") as f:
+        return [line.rstrip("\n").split("\t") for line in f if not line.startswith("#")]
 
 
 def fetch():
+    import gzip
+    import hashlib
+    import io
+    import zipfile
+
+    try:
+        import msgpack
+    except ImportError:
+        sys.exit("--fetch needs msgpack: pip install msgpack")
+    print("fetching", WHEEL)
+    with urllib.request.urlopen(WHEEL) as r:
+        blob = r.read()
+    if hashlib.sha256(blob).hexdigest() != WHEEL_SHA256:
+        sys.exit("wordfreq wheel does not match its pinned hash")
+    wheel = zipfile.ZipFile(io.BytesIO(blob))
     os.makedirs(LISTS, exist_ok=True)
-    for lang, (path, pattern) in BANKS.items():
-        print("fetching", lang, path)
-        with urllib.request.urlopen(SOURCE + path) as r:
-            lines = r.read().decode("utf-8").splitlines()
-        keep = []
+    for lang, (name, pattern) in BANKS.items():
+        # The file is a header, then words grouped in bins of one centibel each,
+        # most frequent first. Zipf frequency = 9 - bin / 100.
+        bins = msgpack.unpackb(gzip.decompress(wheel.read("wordfreq/data/" + name + ".msgpack.gz")), raw=False)[1:]
         rx = re.compile("^" + pattern + "$")
-        for line in lines:
-            parts = line.split()
-            if len(parts) != 2 or not rx.match(parts[0]):
-                continue
-            keep.append(parts[0] + "\t" + parts[1])
-            if len(keep) == TOP:
-                break
+        keep = []
+        for i, words in enumerate(bins):
+            for w in words:
+                if rx.match(w) and len(keep) < TOP:
+                    keep.append(w + "\t" + format(9 - i / 100, ".2f"))
         with open(os.path.join(LISTS, lang + ".txt"), "w", encoding="utf-8") as f:
-            f.write("# " + CREDIT + "\n# " + SOURCE + path + ", first " + str(TOP) + " entries that are words\n")
+            f.write("# " + CREDIT + "\n# " + name + ", the first " + str(TOP) + " entries that are words; word, Zipf frequency\n")
             f.write("\n".join(keep) + "\n")
+        print(lang, len(keep), "words")
 
 
 def read_lists():
@@ -101,9 +215,24 @@ def read_lists():
                 if line.startswith("#") or not line.strip():
                     continue
                 w, n = line.rstrip("\n").split("\t")
-                rows.append((w, int(n)))
+                rows.append((w, float(n)))
         banks[lang] = rows
     return banks
+
+
+def read_glosses(name):
+    """word -> (base, English) from glosses/<name>.tsv; English "-" drops a word."""
+    out = {}
+    path = os.path.join(GLOSSES, name + ".tsv")
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("#") or not line.strip():
+                continue
+            word, base, english = line.rstrip("\n").split("\t")
+            out[word] = (base, english.strip())
+    return out
 
 
 def english_words(gloss):
@@ -249,19 +378,60 @@ def build_graph(src, banks):
                 g.link("japanese:" + char, "en:" + w, 1.5 / len(words))
         if info:
             direct["japanese"].setdefault(char, info.split(";")[0].split(",")[0].strip())
+    # Word bank glosses: hand-written ones first, then the Desk's own, then a
+    # dictionary's. Each glossed word links to the English of its gloss, to
+    # a meaning whose English the gloss is, and to the word it is a form of.
+    glossed = defaultdict(dict)  # lang -> word -> (base, English)
+    for lang, rows in banks.items():
+        desk, dictionary = read_glosses("desk-" + lang), read_glosses(lang)
+        for word, _ in rows:
+            if word in desk:
+                base, english = desk[word]
+            elif word in direct[lang]:
+                continue
+            elif word in dictionary:
+                base, english = dictionary[word]
+            else:
+                continue
+            if english == "-":
+                continue
+            glossed[lang][word] = (base, english)
+            key = lang + ":" + word
+            for words in english_words(english)[:3]:
+                for w in words:
+                    g.link(key, "en:" + w, 1.5 / len(words))
+            for part in re.split(r"[;,/]", re.sub(r"\([^)]*\)", "", english.lower())):
+                for mid in alt_index.get(part.strip(), ()):
+                    g.link(key, "m:" + mid, 1.5)
+            if base and base != word:
+                g.link(key, lang + ":" + base, 1.0)
+    # ConceptNet: a Desk word and an English word already in the graph, or two
+    # Desk words in the same language (a word and its dictionary form, two
+    # synonyms). New English words are left out so the network stays small.
+    code_lang = {c: l for l, c in CN_CODES.items()}
+    for rel, a, s, b, e, w in read_conceptnet():
+        ends = []
+        for code, word in ((a, s), (b, e)):
+            key = ("en:" if code == "en" else code_lang[code] + ":") + word
+            if code == "en" and key not in g.ids:
+                break
+            ends.append(key)
+        if len(ends) == 2:
+            g.link(ends[0], ends[1], CN_RELATIONS[rel] * min(float(w), 2.0) / 2.0)
     # Word bank words that look like a form of a word the graph knows
     # (a noun with a particle, a conjugated verb) lean on that word.
     forms = defaultdict(dict)
     for lang, rows in banks.items():
-        lexicon = direct[lang]
+        lexicon = dict(direct[lang])
+        lexicon.update((w, e) for w, (_, e) in glossed[lang].items())
         for word, _ in rows:
-            if word in lexicon:
+            if word in lexicon or word in glossed[lang]:
                 continue
             base = form_of(lang, word, lexicon)
             if base:
                 forms[lang][word] = base
                 g.link(lang + ":" + word, lang + ":" + base, 1.0)
-    return g, direct, forms
+    return g, direct, forms, glossed
 
 
 def train(g):
@@ -332,14 +502,21 @@ def main():
         fetch()
     banks = read_lists()
     src = json.loads(subprocess.check_output(["node", os.path.join(HERE, "export_sources.js")]))
-    g, direct, forms = build_graph(src, banks)
+    if "--fetch-conceptnet" in sys.argv:
+        fetch_conceptnet(src)
+    g, direct, forms, glossed = build_graph(src, banks)
     v = train(g)
 
     # How similar a learner's word must be to a meaning to count as close.
-    # Related meanings in the same sentences sit well above chance (tea and
-    # coffee about 0.7, hot and cold about 0.6), so close must be clearly
-    # higher; check.js tests both sides of the line.
-    close = CLOSE
+    def sim(word, mid):
+        return float(v[g.ids["en:" + word]] @ v[g.ids["m:" + mid]])
+
+    near = min(sim(w, m) for w, m in CLOSE_PAIRS)
+    apart = max(sim(w, m) for w, m in APART_PAIRS)
+    if near - apart < 0.05:
+        sys.exit("related and unrelated pairs are too close together (%.2f vs %.2f)" % (near, apart))
+    close = apart + 0.6 * (near - apart)
+    print("close line %.3f (related from %.2f, unrelated up to %.2f)" % (close, near, apart))
 
     q = np.clip(np.round(v * 127), -127, 127).astype(np.int8)
     with open(os.path.join(DATA, "network.js"), "w", encoding="utf-8") as f:
@@ -364,24 +541,35 @@ def main():
         words = []
         known = guessed = 0
         for word, count in rows:
-            if word in direct[lang]:
+            if word in glossed[lang]:
+                base, english = glossed[lang][word]
+                words.append([word, english, base])
+                known += 1
+            elif word in direct[lang]:
                 words.append([word, direct[lang][word], ""])
                 known += 1
             elif word in forms[lang]:
                 base = forms[lang][word]
-                words.append([word, direct[lang][base], base])
+                english = glossed[lang][base][1] if base in glossed[lang] else direct[lang][base]
+                words.append([word, english, base, 1])
                 guessed += 1
             else:
                 words.append([word, "", ""])
         print(lang, "word bank:", known, "known,", guessed, "read as a form of a known word, of", len(rows))
+        credit = CREDIT
+        if lang in GLOSS_CREDITS:
+            credit += ". Glosses partly from " + GLOSS_CREDITS[lang]
+        if os.path.exists(CN_EDGES):
+            credit += ". Word links partly from " + CONCEPTNET_CREDIT
         with open(os.path.join(DATA, "wordbank", lang + ".js"), "w", encoding="utf-8") as f:
             f.write("// Generated by tools/build_network.py from tools/wordlists/" + lang + ".txt. Do not edit.\n")
-            f.write("// Word list: " + CREDIT + ".\n")
-            f.write("// Each word is [word, English, base]: base is the known word it is read as a\n")
-            f.write("// form of (\"\" when the word itself is known). English is \"\" for unknown words.\n")
+            f.write("// Word list: " + credit + ".\n")
+            f.write("// Each word is [word, English, base, guess]: base is the dictionary form the\n")
+            f.write("// word is a form of (\"\" when it is one); guess is 1 when that was read from the\n")
+            f.write("// word's shape rather than a gloss. English is \"\" for unknown words.\n")
             f.write("window.TL_WORDBANK = window.TL_WORDBANK || {};\n")
             f.write("window.TL_WORDBANK." + lang + " = ")
-            json.dump({"credit": CREDIT, "words": words}, f, ensure_ascii=False, separators=(",", ":"))
+            json.dump({"credit": credit, "words": words}, f, ensure_ascii=False, separators=(",", ":"))
             f.write(";\n")
 
 

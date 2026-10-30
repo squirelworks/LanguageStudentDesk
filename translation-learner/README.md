@@ -29,7 +29,10 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `net.js` | Reads the meaning network's vectors and compares them |
 | `data/network.js` | The trained meaning network (generated) |
 | `data/wordbank/<lang>.js` | Each word bank with what the network knows of it (generated) |
-| `tools/build_network.py` | Fetches the word banks and trains the network |
+| `tools/build_network.py` | Fetches the word banks and ConceptNet links, and trains the network |
+| `tools/gloss_dictionaries.py` | Writes `tools/glosses/japanese.tsv` and `chinese.tsv` from JMdict and CC-CEDICT |
+| `tools/glosses/desk-<lang>.tsv` | Glosses written for the Desk; they win over the dictionaries and the decks |
+| `tools/conceptnet/edges.tsv` | The ConceptNet links that touch a Desk word (cached, about 2 MB) |
 | `tools/export_sources.js` | Hands the Desk's data to the trainer as JSON |
 | `tools/wordlists/<lang>.txt` | The cached top-1,000 frequency lists |
 | `check.js` | `node translation-learner/check.js` validates every column and the network's close/not-close line; run it after any data change |
@@ -83,21 +86,26 @@ and words in each language (`hangul:물`). Edges come from:
 - the matrix: a meaning and its English, a token and its meaning, meanings that share a sentence;
 - the Vocabulary Learner decks: a word and the words of its English gloss (and the matrix meaning, when the gloss is one);
 - SquirrelGo Kanji: a kanji and its first English meaning;
+- the word bank glosses (`tools/glosses`): a word, the English of its gloss and the dictionary form it is a form of;
+- [ConceptNet 5.7](https://conceptnet.io): translations, synonyms, similar words and word forms between Desk words and English words already in the graph (63,000 links; `RelatedTo` counts for less, as it is often just a topic);
 - the word banks: a word that is plainly a form of a known word (Korean noun + particle or verb stem + ending, a Russian ending that fits the base word's kind, an Arabic article, conjunction or pronoun attached) and that word.
 
 It then trains a skip-gram network with negative sampling (word2vec's model) on random walks over the
-graph (DeepWalk), giving every node a 24-number vector, stored as int8 in `data/network.js` (about 300 KB).
-Training is seeded and takes about a minute:
+graph (DeepWalk), giving every node a 24-number vector, stored as int8 in `data/network.js` (about 650 KB,
+loaded only when needed). Training is seeded and takes about five minutes:
 
 ```
 python3 translation-learner/tools/build_network.py           # retrain from the cached word lists
-python3 translation-learner/tools/build_network.py --fetch   # download the word lists again first
+python3 translation-learner/tools/build_network.py --fetch   # download the word lists again first (needs msgpack)
+python3 translation-learner/tools/build_network.py --fetch-conceptnet   # stream ConceptNet (475 MB) and refresh its links
+python3 translation-learner/tools/gloss_dictionaries.py --jmdict jamdict.db --cedict cedict.json   # refresh the dictionary glosses
 node translation-learner/check.js
 ```
 
-Two words count as close at a cosine similarity of 0.85 or more (`CLOSE` in the script). Words that share
-sentences or topics sit lower (tea and coffee about 0.7, hot and cold about 0.6), and `check.js` holds a
-few pairs on each side of the line so a retrain cannot quietly blur them.
+Where "close" starts is set at each training run from a few reference pairs: words that should be close
+(boy and child, large and big) and words that only share a topic (tea and coffee, hot and cold). The line
+sits 60% of the way from the highest unrelated pair to the lowest related one, leaning strict (about 0.79
+now), and the build stops if the two groups are less than 0.05 apart. `check.js` tests the same pairs.
 
 What it cannot do: a word the Desk has never glossed has no place in the network, so it is neither close
 nor far; it is simply unknown. Glosses give one sense per word, so homographs (Korean 이 is listed as
@@ -105,23 +113,43 @@ nor far; it is simply unknown. Glosses give one sense per word, so homographs (K
 
 ### Word banks
 
-The 1,000 most frequent words per language come from Hermit Dave's
-[FrequencyWords](https://github.com/hermitdave/FrequencyWords) lists, built from OpenSubtitles and licensed
-**CC BY-SA 4.0** (the credit is in every list and word bank file, and on the page). The 2018 lists are used,
-except Hindi, which only has a 2016 list of under 600 usable words. Klingon has no frequency list, so it
-has no word bank tab.
+The 1,000 most frequent words per language come from [wordfreq 3.1](https://github.com/rspeer/wordfreq)
+by Robyn Speer, which blends subtitles, Wikipedia, news, books and web text; its data is licensed
+**CC BY-SA 4.0**. Klingon has no frequency list, so it has no word bank tab.
 
-| Language | Words with a Desk meaning | Read as a form of one |
+Each word's English comes, in order of preference, from:
+
+1. `tools/glosses/desk-<lang>.tsv`, written for the Desk (grammar words are glossed as what they do, such as "(topic marker)");
+2. the Desk's own sentences and Vocabulary Learner decks;
+3. a dictionary: [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html) for Japanese (EDRDG, CC BY-SA) and
+   [CC-CEDICT](https://www.mdbg.net/chinese/dictionary?page=cc-cedict) for Chinese (MDBG, CC BY-SA 4.0).
+
+The licences are credited in every generated file and on the page.
+
+| Language | Words with a meaning | Read as a form of one | Left unknown |
+|---|---|---|---|
+| Japanese | 985 | — | 15 (tokenizer fragments such as っ, ゚) |
+| Korean | 984 | 8 | 8 (loanword syllables such as 스) |
+| Chinese | 1,000 | — | 0 |
+| Russian | 929 | 66 | 5 (stray letters) |
+| Hindi | 996 | — | 4 (Latin letters spelled out) |
+| Arabic | 944 | 56 | 0 |
+
+A `-` in a gloss file's English column leaves that word unknown on purpose.
+
+### Sources considered
+
+| Source | Licence | Used? |
 |---|---|---|
-| Japanese | 233 | — |
-| Korean | 97 | 62 |
-| Chinese | 133 | — |
-| Russian | 124 | 87 |
-| Hindi | 27 of 582 | — |
-| Arabic | 89 | 62 |
-
-The rest of each list is the clearest guide to which words the decks should cover next. Add them to
-`vocabulary-learner/decks/<lang>.js` and retrain: they join the network and the word bank on their own.
+| wordfreq 3.1 | CC BY-SA 4.0 | Yes: the word lists |
+| JMdict | CC BY-SA | Yes: Japanese glosses |
+| CC-CEDICT | CC BY-SA 4.0 | Yes: Chinese glosses |
+| ConceptNet 5.7 | CC BY-SA 4.0 | Yes: links between words (it already carries Wiktionary, Open Multilingual WordNet, JMdict and CC-CEDICT links) |
+| Open Multilingual WordNet | per wordnet (CC BY-SA 3.0 for Arabic, others similar) | Through ConceptNet only |
+| Tatoeba, OPUS | CC BY 2.0 FR; varies | No: their download servers are not reachable from the build environment |
+| Wiktionary extracts (kaikki.org) | CC BY-SA | Through ConceptNet only; kaikki.org is not reachable |
+| CLICS colexifications | CC BY 4.0 | Not yet: it links concepts, not words, so it needs a concept mapping first |
+| FrequencyWords (OpenSubtitles) | CC BY-SA 4.0 | Replaced by wordfreq, whose Hindi list is a full 1,000 words |
 
 ## Adding a language
 
@@ -129,8 +157,9 @@ The rest of each list is the clearest guide to which words the decks should cove
 2. Create `data/<id>.js` with `window.TL_LANGS.<id> = { sep, r: { ... } }`, rendering any rows of the matrix you like. You do not have to render every row.
 3. Need a sentence the matrix lacks? Add a row to `TL_SENTENCES` (and any new meanings to `TL_MEANINGS`); every other language can then render it too.
 4. Add the id to `COLUMNS` in `app.js`. If the Vocabulary Learner has a deck for it, add it to `DECKS` too so Break down knows more words.
-5. For a word bank, add the language to `BANKS` in `tools/build_network.py` (its FrequencyWords path and
-   the characters its words are written with) and to `BANKS` in `app.js`, then run the script with `--fetch`.
+5. For a word bank, add the language to `BANKS` in `tools/build_network.py` (its wordfreq file name and
+   the characters its words are written with), to `CN_CODES` (its ConceptNet language code) and to `BANKS` in
+   `app.js`, then run the script with `--fetch --fetch-conceptnet`. Glosses go in `tools/glosses/desk-<id>.tsv`.
    Its deck and column join the network on the next retrain either way.
 6. Run `node translation-learner/check.js` until it prints `matrix ok` and `network ok`, then open the tool on the Desk server.
 
