@@ -18,9 +18,9 @@ rerun only records what changed.
 A script with audio: "ipa" is recorded from IPA instead, through
 tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
 the example's IPA, for the word. Use it where eSpeak reads the script badly
-(pointed Hebrew) or has no voice for it (Lao, Khmer, Tibetan, which use the
-"hi" voice); tone marks are dropped. Set "voice" to pick the eSpeak voice,
-and bareVowel: "before" to say a lone consonant as "ab" rather than "ba".
+(pointed Hebrew); a script eSpeak has no voice for (Lao, Khmer,
+Tibetan) is recorded this way too, with the "hi" voice. Tone marks are
+dropped. For either, set "voice" to pick the eSpeak voice.
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -48,7 +48,7 @@ VOICES = {
     "he": "he", "am": "am", "bn": "bn", "ta": "ta", "te": "te", "gu": "gu", "pa": "pa", "kn": "kn",
     "ml": "ml", "si": "si", "th": "th", "my": "my", "or": "or", "chr": "chr-US-Qaaa-x-west",
 }
-VOWEL_A = {"hi": "", "ko": "", "ru": "а", "el": "α", "hy": "ա", "ka": "ა", "ar": "َ", "he": "ָ"}
+VOWEL_A = {"hi": "", "ko": "", "bn": "", "pa": "", "gu": "", "ta": "", "te": "", "kn": "", "ml": "", "si": "", "ru": "а", "el": "α", "hy": "ա", "ka": "ა", "ar": "َ", "he": "ָ"}
 IPA_VOWELS = set("aeiouyɑɐæɛɜəɘɪɨʉʊɔœøɒʌɯɤãẽĩõũ")
 
 # Many voices read a lone letter by its name (ε is "epsilon", é is "e accent
@@ -73,7 +73,62 @@ FIXES = {
     ("greek", "ΓΓ γγ"): "[[aNga]]",
     ("devanagari", "ङ"): "[[N@]]",
     ("devanagari", "ण"): "[[n.@]]",
+    # The Bengali voice reads these by their letter names (ন as donto no).
+    ("bengali", "ঙ"): "[[NO]]",
+    ("bengali", "ঞ"): "[[nO]]",
+    ("bengali", "ণ"): "[[nO]]",
+    ("bengali", "ন"): "[[nO]]",
+    ("bengali", "য"): "[[dZO]]",
+    ("bengali", "শ"): "[[SO]]",
+    ("bengali", "ষ"): "[[SO]]",
+    ("bengali", "স"): "[[SO]]",
+    ("bengali", "ৎ"): "[[Ot]]",
+    ("gujarati", "ણ"): "[[n.@]]",
+    ("gujarati", "ળ"): "[[l.@]]",
+    ("tamil", "ஃ"): "[[ah]]",
+    ("sinhala", "ඇ"): "[[&]]",
+    ("sinhala", "ඈ"): "[[&:]]",
+    # The Malayalam voice voices k, t and p at the start of a word (ക as ga).
+    ("malayalam", "ക"): "[[ka]]",
+    ("malayalam", "കാ"): "[[ka:]]",
+    ("malayalam", "കി"): "[[ki]]",
+    ("malayalam", "കീ"): "[[ki:]]",
+    ("malayalam", "കു"): "[[ku]]",
+    ("malayalam", "കൂ"): "[[ku:]]",
+    ("malayalam", "കൃ"): "[[kri]]",
+    ("malayalam", "കെ"): "[[ke]]",
+    ("malayalam", "കേ"): "[[ke:]]",
+    ("malayalam", "കൈ"): "[[kai]]",
+    ("malayalam", "കൊ"): "[[ko]]",
+    ("malayalam", "കോ"): "[[ko:]]",
+    ("malayalam", "കൗ"): "[[kau]]",
+    ("malayalam", "പ"): "[[pa]]",
+    ("malayalam", "ത"): "[[t[a]]",
+    ("malayalam", "ട"): "[[t.a]]",
+    ("malayalam", "ൻ"): "[[an]]",
+    ("malayalam", "ർ"): "[[ar]]",
+    ("malayalam", "ൽ"): "[[al]]",
+    ("malayalam", "ൾ"): "[[al.]]",
+    ("malayalam", "ൺ"): "[[an.]]",
 }
+
+
+# The Malayalam voice also voices the first k, t, ṭ or p of a word (കാക്ക as
+# gākka), so those words are spoken from eSpeak's own phonemes with the first
+# sound put back.
+VOICED_START = {"ml": {"ക": ("g", "k"), "ത": ("d", "t["), "ട": ("d.", "t."), "പ": ("b", "p")}}
+
+
+def word_text(voice, text):
+    """What eSpeak should read for an example word."""
+    fix = VOICED_START.get(voice, {}).get(text[:1])
+    if not fix:
+        return text
+    code = subprocess.run(["espeak-ng", "-v", voice, "-q", "-x", text], capture_output=True, text=True).stdout.strip()
+    voiced, plain = fix
+    if code.startswith(voiced) and not code.startswith(plain):
+        return f"[[{plain}{code[len(voiced):]}]]"
+    return text
 
 
 def speaks(voice, text):
@@ -122,8 +177,7 @@ def letter_text(s, ch, ipa, lang, voice):
 def plain_ipa(ipa):
     """IPA without tone marks or alternatives, for ipa_audio."""
     ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
-    tones = {"\u0300", "\u0301", "\u0302", "\u0304", "\u030c"}  # à á â ā ǎ
-    return unicodedata.normalize("NFC", "".join(c for c in ipa if c not in tones and c not in "˥˦˧˨˩"))
+    return unicodedata.normalize("NFC", "".join(c for c in ipa if unicodedata.category(c) != "Mn"))
 
 
 def render(text, voice, path, speed=140):
@@ -159,9 +213,7 @@ def run(script):
             if by_ipa:
                 sound = plain_ipa(ipa)
                 if sound and not any(ch in IPA_VOWELS for ch in sound):
-                    # a lone consonant: said as "ba", or as "ab" where the
-                    # script's syllable "ba" has its own character
-                    sound = "a" + sound if s.get("bareVowel") == "before" else sound + "a"
+                    sound += "a"
                 if sound and key not in clips:
                     clips[key] = (voice, "ipa:" + sound)
                 if ex and ex_ipa and ex not in clips:
@@ -173,7 +225,7 @@ def run(script):
                 said = speak if (speak and speak not in g.split(" ")) else letter_text(s, g, ipa, ex_lang or s["lang"], voice)
                 clips[key] = (voice, said)
             if ex and voice and ex not in clips:
-                clips[ex] = (voice, ex)
+                clips[ex] = (voice, word_text(voice, ex))
     if not clips:
         print(f"{script}: no eSpeak voice for {s['lang']}, skipped")
         return

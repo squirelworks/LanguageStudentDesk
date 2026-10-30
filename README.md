@@ -53,14 +53,14 @@ Examples:
 ## Tools
 
 - [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section.
-- [Resource Learner](resource-learner/) — General study resources plus specialized lists for each language, including Klingon.
+- [Resource Learner](resource-learner/) — General resources always visible; specialized lists under each language. Klingon always shown.
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
 - [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular multi-script trainer (hiragana through pIqaD). Full Jōyō kanji (2,136) with stroke-order animation, Lessons, and Topics shared from SquirrelGo Kanji. Language-scoped via `?lang=`. Includes on-yomi groups.
 - [SquirrelGo Kana](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/) — Hiragana and katakana trainer: lessons by sound row, charts, quizzes, flashcards, writing pad, audio. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kana-latest/SquirrelGoKana-debug.apk)).
-- [SquirrelGo Alphabets](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/) — Latin, Greek, Cyrillic, Armenian, Georgian, Hebrew, Arabic, Devanagari, Hangul, Ethiopic, Cherokee, Inuktitut syllabics and Mongolian in one trainer: animated stroke order, a writing pad that checks each stroke, IPA and recorded sounds for every letter, a Hangul syllable builder and an Arabic letter-forms table. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk)).
-- [SquirrelGo Klingon](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/) — Learn to read and write pIqaD, the Klingon alphabet: animated stroke order for every letter and numeral, a writing pad that checks each stroke, IPA and recorded sounds for every letter and word, quizzes including whole-word reading, flashcards, a romanization-to-pIqaD converter and a pronunciation guide. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-klingon-latest/SquirrelGoKlingon-debug.apk)).
+- [SquirrelGo Alphabets](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/) — Hangul, Cyrillic, Devanagari and Arabic in one trainer, with a Hangul syllable builder and an Arabic letter-forms table. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk)).
+- [SquirrelGo Klingon](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/) — Learn to read and write pIqaD, the Klingon alphabet: animated stroke order for every letter and numeral, a writing pad that checks each stroke, quizzes including whole-word reading, flashcards, a romanization-to-pIqaD converter and a pronunciation guide. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-klingon-latest/SquirrelGoKlingon-debug.apk)).
 - [SquirrelGo Kanji](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups, stroke-order animation from KanjiVG). Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kanji-latest/SquirrelGoKanji-debug.apk)).
 - [SquirrelGo Japanese-English Dictionary](SquirrelGo-Apps/squirrelgo-dictionary/) — Offline Japanese–English dictionary (JMdict, KANJIDIC2, radicals, example sentences); replacement for the discontinued JED app. Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-dictionary-latest/SquirrelGoDictionary.apk)).
 - [SquirrelGo Phrasebook](SquirrelGo-Apps/squirrelgo-phrasebook/) — Offline Japanese phrasebook with ten packs (Basic, Air Crew, Civil Affairs, Medical, Naval, Public Affairs, Force Protection, Military Police, Cordon & Search, Weapons): audio, search, favorites, flashcards. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-phrasebook-latest/SquirrelGoPhrasebook-debug.apk)).
@@ -96,9 +96,5 @@ result = translate("print hello", from_lang="english", to_lang="python")
 ## Shared language data
 
 See [languages/](languages/) for the emerging data layer (`meta.json` per language). Future grammar, vocabulary, and full language learners will read from here.
-
-## Expanding LSD
-
-See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo.
 
 More languages and tools coming soon.

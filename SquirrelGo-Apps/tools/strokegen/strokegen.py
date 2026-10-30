@@ -546,6 +546,18 @@ def trace(img, cfg, xform):
             pieces = [q for q in pieces if plen(q) >= cfg.get("scrap", 4)] or pieces
         if not cfg.get("graphOrder"):
             pieces = sorted(pieces, key=score)
+        if cfg.get("join") and not key(p)[0]:
+            # Cursive scripts (Tamil, Malayalam): keep the pen down where one
+            # piece of a letter ends at the start, or end, of the next.
+            joined = []
+            for q in pieces:
+                if joined and math.dist(joined[-1][-1], q[0]) < cfg["join"]:
+                    joined[-1] = joined[-1] + q[1:]
+                elif joined and math.dist(joined[-1][-1], q[-1]) < cfg["join"] and math.dist(q[0], q[-1]) >= 3:
+                    joined[-1] = joined[-1] + q[::-1][1:]
+                else:
+                    joined.append(q)
+            pieces = joined
         if key(p)[0]:
             marks.update(id(q) for q in pieces)
         out.extend(pieces)
@@ -605,10 +617,6 @@ def build(spec_path, sheet=None, only=None):
     dirn = "rtl" if spec.get("dir") == "rtl" else None
     size = 220
     renders = {c: pick_font(fonts, c).render(c, size, dirn) for c in chars}
-    if spec.get("vertical"):
-        # Vertical scripts (Mongolian) are shaped lying on their side; stand
-        # each glyph upright, keeping the pen origin where it was.
-        renders = {c: (np.ascontiguousarray(np.rot90(img, k=-1)), img.shape[0] - oy, ox) for c, (img, ox, oy) in renders.items()}
     # One scale for the whole script so letters keep their relative sizes:
     # fit the union of all ink boxes (relative to the baseline) in the box.
     top = bot = None

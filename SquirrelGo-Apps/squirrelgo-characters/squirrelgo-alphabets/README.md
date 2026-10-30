@@ -15,12 +15,17 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Georgian ქართული | Georgian (national romanization) | vowels, easy consonants, hushing and throat sounds, aspirated consonants, ejectives | articles on the three Georgian scripts, Mtavruli and spelling |
 | Hangul 한글 | Korean (Revised Romanization) | basic and compound vowels; basic, aspirated and tense consonants | syllable block builder; articles on block shapes, batchim and sound changes |
 | Devanagari देवनागरी | Hindi (simplified IAST) | vowels, vowel signs on क, the five consonant rows, semivowels and sibilants, special letters | articles on matras, conjuncts, aspiration/retroflex and the silent a |
+| Bengali বাংলা | Bangla | vowels, vowel signs on ক, the five consonant rows, other consonants, special letters and signs (ড় য় ৎ ং ঃ ঁ) | articles on the disappearing o, conjuncts and Bengali digits |
+| Gurmukhi ਗੁਰਮੁਖੀ | Punjabi | vowels on their carriers, vowel signs on ਕ (with tippi, bindi and addak), the alphabet row by row, dotted letters | articles on vowel carriers, tones, nasal and double signs, and Gurmukhi vs Shahmukhi |
+| Gujarati ગુજરાતી | Gujarati | vowels, vowel signs on ક, the five consonant rows, semivowels and sibilants, ળ ક્ષ જ્ઞ | articles on Devanagari without the line, look-alikes, conjuncts and the silent a |
+| Tamil தமிழ் | Tamil | vowels and āytam, vowel signs on க, hard, soft and medium consonants, Grantha letters | articles on uyir, mey and uyirmey, one letter for k and g, and the three l's |
+| Telugu తెలుగు | Telugu | vowels, vowel signs on క, the five consonant rows, semivowels and sibilants, ళ క్ష ఱ | articles on the talakattu tick, second forms (vattulu) and vowel endings |
+| Kannada ಕನ್ನಡ | Kannada | vowels, vowel signs on ಕ, the five consonant rows, semivowels and sibilants, ಳ ಕ್ಷ | articles on Kannada and Telugu, second forms (ottakshara) and Kannada digits |
+| Malayalam മലയാളം | Malayalam | vowels, vowel signs on ക, the five consonant rows, other consonants (ള ഴ റ), chillu letters | articles on the chandrakkala and half-u, and the old and new spelling |
+| Sinhala සිංහල | Sinhala (Sri Lanka) | vowels (with ඇ ඈ), vowel signs on ක, stops, nasals and half-nasals, other consonants, letters for Sanskrit and Pali words | articles on pure and mixed alphabets and the half-nasal letters |
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
 | Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
 | Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
-| Cherokee ᏣᎳᎩ | Cherokee | all 85 syllables, a lesson per consonant row | articles on Sequoyah's syllabary, reading the chart and consonant clusters |
-| Syllabics ᖃᓂᐅᔮᖅᐸᐃᑦ | Inuktitut | the i, u, a series and finals for each consonant | articles on syllabics, how the shapes turn, and long vowels |
-| Mongolian ᠮᠣᠩᠭᠣᠯ | Mongolian (Inner Mongolia) | vowels, native consonants, letters for borrowed words; shown vertically | articles on the script, letter shapes in words, spelling and speech |
 | Thai ไทย | Thai (RTGS, doubled long vowels) | middle-, high- and low-class consonants, vowels on ก, tone marks | each consonant with its traditional name word; articles on consonant classes, vowel positions and word breaks |
 | Lao ລາວ | Vientiane Lao | middle-, high- and low-class consonants (with ໜ and ໝ), vowels on ກ | articles on Lao and Thai, classes and tones, and the silent ຫ |
 | Khmer ខ្មែរ | Khmer (letter names; simplified UNGEGN) | the chart in rows of five, vowels on ក | articles on the two consonant series, subscript letters and independent vowels |
