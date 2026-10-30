@@ -617,6 +617,10 @@ def build(spec_path, sheet=None, only=None):
     dirn = "rtl" if spec.get("dir") == "rtl" else None
     size = 220
     renders = {c: pick_font(fonts, c).render(c, size, dirn) for c in chars}
+    if spec.get("vertical"):
+        # Vertical scripts (Mongolian) are shaped lying on their side; stand
+        # each glyph upright, keeping the pen origin where it was.
+        renders = {c: (np.ascontiguousarray(np.rot90(img, k=-1)), img.shape[0] - oy, ox) for c, (img, ox, oy) in renders.items()}
     # One scale for the whole script so letters keep their relative sizes:
     # fit the union of all ink boxes (relative to the baseline) in the box.
     top = bot = None
