@@ -139,6 +139,7 @@
     return `<header class="topbar">
       <button id="backBtn" class="back-btn ${state.stack.length ? "" : "hidden"}" aria-label="Back">‹</button>
       <h1>${esc(title)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</h1>
+      <button class="icon-btn" data-suite="open" aria-label="SquirrelGo apps">▦</button>
       <button class="icon-btn" data-act="settings" aria-label="Settings">⚙</button>
     </header>`;
   }
@@ -234,6 +235,7 @@
         </div>
         <button class="round play" data-act="say" data-text="${esc(it.ex)}" aria-label="Play example">▶</button>
       </div>
+      ${s.lang === "ja-JP" ? `<button class="btn" data-suite="lookup" data-app="dictionary" data-q="${esc(it.ex)}">Look up ${esc(it.ex)} in the Dictionary</button>` : ""}
     </div>`;
   }
 
@@ -853,4 +855,10 @@
   });
 
   render();
+
+  // Another SquirrelGo app sent a character (e.g. the Dictionary's kana table).
+  SquirrelGoSuite.onQuery((q) => {
+    const it = SCRIPTS.flatMap((sc) => sc.all).find((x) => x.g === q.trim());
+    if (it) navigate("detail", { script: it.script, item: it, list: it.lesson.items });
+  });
 })();

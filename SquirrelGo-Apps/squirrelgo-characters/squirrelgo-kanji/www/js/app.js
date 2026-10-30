@@ -202,6 +202,7 @@
         <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
         <button class="back-btn ${canBack ? "" : "hidden"}" id="backBtn" type="button">← Back</button>
         <h1>${title}${subtitle ? `<span class="sub">${subtitle}</span>` : ""}</h1>
+        <button class="icon-btn" data-suite="open" type="button" aria-label="SquirrelGo apps">▦</button>
       </div>
     `;
   }
@@ -486,6 +487,7 @@
           <div id="detailBody"></div>
           <div class="actions">
             <button class="secondary" type="button" data-speak="${item.char}">Speak</button>
+            <button class="secondary" type="button" data-suite="lookup" data-app="dictionary" data-q="${item.char}">Words in Dictionary</button>
             ${fromQuiz ? "" : `<button class="secondary" type="button" id="prevCard">Previous</button>
             <button class="secondary" type="button" id="nextCard">Next</button>`}
           </div>
@@ -928,6 +930,15 @@
     const chars = window.SCRIPTS?.kanji?.chars || [];
     chars.forEach((c) => state.byChar.set(c.char, c));
     render();
+    // Another SquirrelGo app sent a kanji (e.g. the Dictionary's kanji page).
+    SquirrelGoSuite.onQuery((q) => {
+      const ch = [...q.trim()].find((c) => state.byChar.has(c));
+      if (!ch) return;
+      state.drawerOpen = false;
+      state.detailChar = ch;
+      state.detailTab = StrokeOrder.has(ch) ? "strokes" : "details";
+      navigate("detail");
+    });
   }
 
   boot();

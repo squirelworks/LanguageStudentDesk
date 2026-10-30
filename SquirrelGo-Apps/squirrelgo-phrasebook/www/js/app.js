@@ -116,6 +116,7 @@
     return `<header class="topbar">
       <button id="backBtn" class="back-btn ${state.stack.length ? "" : "hidden"}" aria-label="Back">‹</button>
       <h1>${esc(title)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</h1>
+      <button class="icon-btn" data-suite="open" aria-label="SquirrelGo apps">▦</button>
       <button class="icon-btn" data-act="settings" aria-label="Settings">⚙</button>
     </header>`;
   }
@@ -436,4 +437,11 @@
   });
 
   render();
+
+  // Another SquirrelGo app (the Dictionary) sent a word: show phrases using it.
+  SquirrelGoSuite.onQuery((q) => {
+    Object.assign(state, { view: "home", stack: [], query: q });
+    render();
+    window.scrollTo(0, 0);
+  });
 })();
