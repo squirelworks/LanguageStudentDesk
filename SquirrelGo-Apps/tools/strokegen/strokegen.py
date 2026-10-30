@@ -546,6 +546,18 @@ def trace(img, cfg, xform):
             pieces = [q for q in pieces if plen(q) >= cfg.get("scrap", 4)] or pieces
         if not cfg.get("graphOrder"):
             pieces = sorted(pieces, key=score)
+        if cfg.get("join") and not key(p)[0]:
+            # Cursive scripts (Tamil, Malayalam): keep the pen down where one
+            # piece of a letter ends at the start, or end, of the next.
+            joined = []
+            for q in pieces:
+                if joined and math.dist(joined[-1][-1], q[0]) < cfg["join"]:
+                    joined[-1] = joined[-1] + q[1:]
+                elif joined and math.dist(joined[-1][-1], q[-1]) < cfg["join"] and math.dist(q[0], q[-1]) >= 3:
+                    joined[-1] = joined[-1] + q[::-1][1:]
+                else:
+                    joined.append(q)
+            pieces = joined
         if key(p)[0]:
             marks.update(id(q) for q in pieces)
         out.extend(pieces)
