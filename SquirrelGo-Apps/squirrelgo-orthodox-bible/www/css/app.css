@@ -399,3 +399,8 @@ textarea {
   border-radius: var(--radius);
   padding: .55rem;
 }
+
+/* daily readings */
+.day-nav { display: flex; justify-content: space-between; gap: .5rem; margin: .5rem 0; }
+.card.main-reading { border-left: 3px solid var(--accent); }
+.card .body sup { color: var(--muted); font-size: .65em; }

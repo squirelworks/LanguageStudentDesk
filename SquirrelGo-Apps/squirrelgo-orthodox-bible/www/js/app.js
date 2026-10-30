@@ -26,6 +26,7 @@
     textSize: 1.05,
     theme: "auto",
     hiddenCommentary: [],
+    calendar: "new",
     last: { book: "JHN", chapter: 1 },
     bookmarks: [],
     notes: {},
@@ -256,7 +257,7 @@
   }
 
   // ---- routing ----
-  // #/read/JHN/1[/5]  #/books  #/books/JHN  #/verse/JHN.1.1  #/search  #/saved  #/translations  #/about
+  // #/read/JHN/1[/5]  #/books  #/books/JHN  #/verse/JHN.1.1  #/search  #/saved  #/translations  #/about  #/today[/2026-10-30]
   function route() {
     const parts = location.hash.replace(/^#\/?/, "").split("/").map(decodeURIComponent);
     return { view: parts[0] || "read", args: parts.slice(1) };
@@ -288,6 +289,7 @@
     return app.querySelector("main");
   }
   const readerActions = `
+    <button class="icon-btn" data-go="#/today" aria-label="Today's readings" title="Today's readings">📅</button>
     <button class="icon-btn" data-go="#/translations" aria-label="Translations" title="Translations">🌐</button>
     <button class="icon-btn" data-go="#/search" aria-label="Search" title="Search">⌕</button>
     <button class="icon-btn" data-go="#/saved" aria-label="Saved verses" title="Bookmarks and notes">★</button>`;
@@ -308,6 +310,7 @@
       if (view === "saved") return await renderSaved();
       if (view === "translations") return renderTranslations();
       if (view === "about") return renderAbout();
+      if (view === "today") return await renderToday(args[0]);
       return await renderReader(args);
     } catch (err) {
       shell("Something went wrong").innerHTML = `<p class="empty">${esc(err.message)}</p>`;
@@ -871,6 +874,88 @@
       save();
       applyLook();
     };
+  }
+
+  // ---- daily readings ----
+  // data/lectionary.js + data/paschalion.js give each day's feasts, saints and
+  // readings (refs in KJV numbering); we show the passages from the main Bible.
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const isoDate = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  async function passage(ref) {
+    const [book, c1, v1, c2, v2] = ref;
+    let bible = BIBLES.get(store.primary);
+    if (!bible?.books?.[book]) bible = await standInFor(book, c1, []);
+    if (!bible) return { bible: null, verses: [] };
+    const own = (c, v) => parseRef(fromKjv(bible.versification, `${book}.${c}.${v}`) || `${book}.${c}.${v}`);
+    const a = own(c1, v1), z = own(c2, v2);
+    const verses = [];
+    for (let c = a.chapter; c <= z.chapter; c++) {
+      const chap = bible.books[book]?.[c - 1] || [];
+      const last = c === z.chapter ? Math.min(z.verse, chap.length) : chap.length;
+      for (let v = c === a.chapter ? a.verse : 1; v <= last; v++) if (chap[v - 1]) verses.push({ ref: `${book}.${c}.${v}`, text: chap[v - 1] });
+    }
+    return { bible, verses };
+  }
+  async function renderToday(dateArg) {
+    const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(dateArg || "");
+    const date = m ? new Date(+m[1], m[2] - 1, +m[3], 12) : new Date();
+    const main = shell("Today", { sub: store.calendar === "old" ? "Old calendar" : "New calendar" });
+    if (!window.SGO_LECTIONARY?.day) {
+      main.innerHTML = `<p class="empty">The daily readings calendar isn't installed in this build yet.</p>`;
+      return;
+    }
+    main.innerHTML = `<p class="empty">Loading…</p>`;
+    await ensureBible(store.primary).catch(() => null);
+    const day = SGO_LECTIONARY.day(date, { calendar: store.calendar });
+    const shift = (n) => {
+      const d = new Date(date);
+      d.setDate(d.getDate() + n);
+      return `#/today/${isoDate(d)}`;
+    };
+    const dateLine = `${day.weekday}, ${MONTHS[day.date.m - 1]} ${day.date.d}, ${day.date.y}` +
+      (store.calendar === "old" ? ` <span class="muted">(${MONTHS[day.menaion.m - 1]} ${day.menaion.d} old style)</span>` : "");
+    const order = [...day.main, ...day.readings.map((_, i) => i).filter((i) => !day.main.includes(i))];
+    const blocks = [];
+    for (const i of order) {
+      const r = day.readings[i];
+      let body = "";
+      for (const ref of r.refs) {
+        const { bible, verses } = await passage(ref);
+        if (!verses.length) continue;
+        const [book, c, v] = ref;
+        const start = verses[0].ref.split(".");
+        body += `<div class="body">${verses.map((x) => `<sup>${x.ref.split(".")[2]}</sup> ${esc(x.text)}`).join(" ")}</div>
+          <div class="src">${esc(bible.name)} · <a href="#/read/${book}/${start[1]}/${start[2]}">Open in chapter</a></div>`;
+      }
+      if (!r.refs.length) body = `<div class="src">Composite reading; see the service books.</div>`;
+      blocks.push(`<li class="card${day.main.includes(i) ? " main-reading" : ""}">
+        <div class="label"><b>${esc(r.service)}${r.desc ? ` · ${esc(r.desc)}` : ""}</b><span>${esc(r.display)}</span></div>${body}</li>`);
+    }
+    main.innerHTML = `
+      <div class="day-nav">
+        <button class="mini" data-go="${shift(-1)}">‹ Previous</button>
+        <button class="mini" data-go="#/today">Today</button>
+        <button class="mini" data-go="${shift(1)}">Next ›</button>
+      </div>
+      <p class="ref-head">${dateLine}</p>
+      ${day.titles.map((t) => `<p><b>${esc(t)}</b></p>`).join("")}
+      <p class="muted">${day.tone ? `Tone ${day.tone}` : ""}${day.feasts.length ? `${day.tone ? " · " : ""}${day.feasts.map(esc).join("; ")}` : ""}</p>
+      ${day.saints.length ? `<h2>Commemorations</h2><p>${day.saints.map(esc).join(" · ")}</p>` : ""}
+      <h2>Readings</h2>
+      ${blocks.length ? `<ul class="cards">${blocks.join("")}</ul>` : `<p class="muted">No scripture readings appointed.</p>`}
+      ${day.main.length ? "" : `<p class="muted">No Divine Liturgy is appointed today.</p>`}
+      <h2>Calendar</h2>
+      <div class="tabs">
+        <button class="tab ${store.calendar === "new" ? "on" : ""}" data-cal="new">New (Revised Julian)</button>
+        <button class="tab ${store.calendar === "old" ? "on" : ""}" data-cal="old">Old (Julian)</button>
+      </div>
+      <p class="muted">Readings follow the Slavic usage, from Orthocal (MIT).</p>`;
+    main.querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(el.dataset.go)));
+    main.querySelectorAll("[data-cal]").forEach((el) => (el.onclick = () => {
+      store.calendar = el.dataset.cal;
+      save();
+      render();
+    }));
   }
 
   function renderAbout() {
