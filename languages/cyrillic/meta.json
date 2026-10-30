@@ -1,0 +1,9 @@
+{
+  "id": "cyrillic",
+  "name": "Russian",
+  "nativeName": "русский",
+  "writingSystems": ["cyrillic"],
+  "characterKeys": ["cyrillic"],
+  "speech": "ru-RU",
+  "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic."
+}

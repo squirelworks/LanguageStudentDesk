@@ -4,5 +4,7 @@
   "nativeName": "العربية",
   "writingSystems": ["arabic"],
   "characterKeys": ["arabic"],
-  "notes": "Abjad with contextual forms (isolated, initial, medial, final)."
+  "notes": "Abjad with contextual forms (isolated, initial, medial, final).",
+  "speech": "ar-SA",
+  "direction": "rtl"
 }

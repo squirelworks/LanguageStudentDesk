@@ -2,18 +2,191 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vocabulary Learner — Language Student Desk</title>
+<link rel="stylesheet" href="../languages/learners.css">
+<link rel="stylesheet" href="../languages/klingon/piqad.css">
 <style>
-  body { font-family: system-ui, sans-serif; background: #0f0f12; color: #e8e8e8; margin: 0; padding: 2rem; }
-  h1 { color: #ffd54f; }
-  .card { background: #1a1a20; padding: 1.5rem; border-radius: 10px; max-width: 700px; }
+  .review-wrap { max-width: 640px; margin: 0 auto; }
+  .counts { display: flex; gap: 1.2rem; justify-content: center; margin-bottom: 0.8rem; font-size: 0.9rem; }
+  .counts b { font-size: 1.1rem; }
+  .counts .n { color: #64b5f6; } .counts .l { color: var(--wrong); } .counts .r { color: var(--correct); }
+  .flash {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    min-height: 300px;
+    padding: 1.6rem 1.4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .flash .front { font-size: 2.6rem; line-height: 1.25; word-break: break-word; }
+  .flash .front.long { font-size: 1.7rem; }
+  .flash .front .piqad { display: block; font-size: 2.4rem; color: var(--gold); margin-bottom: 0.2rem; }
+  .flash .front.english { font-size: 1.7rem; }
+  .flash hr { border: none; border-top: 1px solid var(--line); width: 70%; margin: 0.6rem auto; }
+  .flash .reading { color: #90caf9; font-size: 1.15rem; }
+  .flash .back { font-size: 1.35rem; }
+  .flash .note { color: var(--muted); font-size: 0.9rem; }
+  .flash .deck { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .answer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.9rem; }
+  .answer-row button { padding: 0.7rem 0.3rem; }
+  .answer-row button small { display: block; color: var(--muted); font-size: 0.75rem; }
+  .answer-row .again { border-color: var(--wrong); }
+  .answer-row .hard { border-color: var(--hard); }
+  .answer-row .good { border-color: var(--correct); }
+  .answer-row .easy { border-color: #64b5f6; }
+  .show-row { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.9rem; }
+  .show-row .primary { min-width: 220px; padding: 0.7rem; }
+  .deck-group h3 { color: var(--gold); margin: 1.2rem 0 0.5rem; font-size: 1rem; }
+  .deck-row { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.8rem; background: var(--card); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 0.4rem; flex-wrap: wrap; }
+  .deck-row .title { flex: 1; min-width: 180px; }
+  .deck-row .title b { display: block; }
+  .deck-browse { margin: -0.2rem 0 0.6rem; max-height: 360px; overflow: auto; background: #141419; border: 1px solid var(--line); border-radius: 0 0 8px 8px; }
+  .word-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.5rem; }
+  .dict-results td.target { font-size: 1.15rem; }
+  #langHome .tile .big { font-family: var(--cjk); }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Vocabulary Learner</h1>
-  <p>Coming soon — word lists, spaced repetition, and context practice.</p>
-  <p>This is a placeholder so it appears in the Desk launcher. Full implementation will read from the shared <code>languages/</code> data layer.</p>
-</div>
+<header class="top">
+  <div class="grow">
+    <h1 id="title">Vocabulary Learner</h1>
+    <p id="subtitle">Flashcards and spaced review with words from the SquirrelGo apps. Export any deck to Anki.</p>
+  </div>
+  <label class="small muted">Language <select id="langSelect"></select></label>
+</header>
+<nav class="tabs" id="tabs" hidden>
+  <button data-tab="review" class="active">Review <span class="badge" id="dueBadge" hidden></span></button>
+  <button data-tab="flash">Flashcards</button>
+  <button data-tab="decks">Decks</button>
+  <button data-tab="add">Add words</button>
+  <button data-tab="export">Export to Anki</button>
+</nav>
+<main>
+  <section id="langHome" hidden>
+    <h2>Pick a language</h2>
+    <p class="muted">Each language gets its own decks and its own review schedule. Opening a tool with <code>?lang=</code> from the Desk skips this page.</p>
+    <div class="grid" id="langGrid"></div>
+  </section>
+
+  <section id="loading" class="empty" hidden>Loading words…</section>
+
+  <section data-view="review" hidden>
+    <div class="review-wrap">
+      <div class="counts" id="counts"></div>
+      <div id="reviewCard"></div>
+      <p class="small muted" style="text-align:center;margin-top:1rem">
+        <kbd>Space</kbd> show answer · <kbd>1</kbd>–<kbd>4</kbd> Again / Hard / Good / Easy · <kbd>S</kbd> speak
+      </p>
+      <div class="card small">
+        <div class="row">
+          <label>New cards a day <input type="number" id="newPerDay" min="0" max="500" style="width:5rem"></label>
+          <label>Ask
+            <select id="direction">
+              <option value="recognize">word → meaning</option>
+              <option value="produce">meaning → word</option>
+              <option value="both">both ways</option>
+            </select>
+          </label>
+          <label id="piqadOpt" hidden><input type="checkbox" id="piqad"> Show pIqaD on cards</label>
+        </div>
+        <p class="muted" style="margin:0.5rem 0 0">Review draws on the decks ticked in the Decks tab.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-view="flash" hidden>
+    <div class="review-wrap">
+      <div class="row" style="justify-content:center;margin-bottom:0.8rem">
+        <select id="flashDeck"></select>
+        <select id="flashSide">
+          <option value="word">Word first</option>
+          <option value="meaning">Meaning first</option>
+        </select>
+        <button id="flashShuffle">Shuffle</button>
+      </div>
+      <div id="flashCard"></div>
+      <div class="show-row">
+        <button id="flashPrev">← Previous</button>
+        <button id="flashFlip" class="primary">Flip</button>
+        <button id="flashNext">Next →</button>
+      </div>
+      <p class="small muted" style="text-align:center" id="flashPos"></p>
+      <p class="small muted" style="text-align:center"><kbd>←</kbd> <kbd>→</kbd> move · <kbd>Space</kbd> flip · <kbd>S</kbd> speak. Flashcards don't change your review schedule.</p>
+    </div>
+  </section>
+
+  <section data-view="decks" hidden>
+    <p class="muted">Tick a deck to include it in Review. Counts are for the current review direction.</p>
+    <div id="deckList"></div>
+    <div id="sourceErrors"></div>
+  </section>
+
+  <section data-view="add" hidden>
+    <div class="card" id="dictCard" hidden>
+      <h2>Look up a Japanese word</h2>
+      <p class="muted small">Search the SquirrelGo dictionary in English, romaji, kana or kanji (conjugated forms work too) and add words to <b>My words</b>.</p>
+      <div class="row">
+        <input type="search" id="dictQuery" placeholder="e.g. cat, neko, 猫, 食べた" style="flex:1;min-width:200px">
+        <button id="dictGo" class="primary">Search</button>
+      </div>
+      <div id="dictStatus" class="small muted" style="margin-top:0.5rem"></div>
+      <div id="dictResults"></div>
+    </div>
+    <div class="card">
+      <h2>Add your own word</h2>
+      <div class="word-form">
+        <input type="text" id="addFront" placeholder="Word">
+        <input type="text" id="addReading" placeholder="Reading (optional)">
+        <input type="text" id="addBack" placeholder="Meaning">
+        <input type="text" id="addNote" placeholder="Note (optional)">
+      </div>
+      <div class="row" style="margin-top:0.6rem"><button id="addBtn" class="primary">Add to My words</button><span id="addMsg" class="small muted"></span></div>
+    </div>
+    <div class="card">
+      <h2>My words</h2>
+      <div id="myWords"></div>
+    </div>
+  </section>
+
+  <section data-view="export" hidden>
+    <div class="card">
+      <h2>Export to Anki</h2>
+      <p class="muted">Makes a tab-separated text file that Anki imports directly (File → Import). Each deck becomes a subdeck under <b>SquirrelGo</b>, tagged with its source, so re-importing updates instead of duplicating when you keep the first field unchanged.</p>
+      <div id="exportDecks"></div>
+      <div class="row" style="margin-top:0.8rem">
+        <label>Note type
+          <select id="exportType">
+            <option value="Basic">Basic (word → meaning)</option>
+            <option value="Basic (and reversed card)">Basic (and reversed card)</option>
+          </select>
+        </label>
+        <button id="exportBtn" class="primary">Download Anki file</button>
+        <span id="exportMsg" class="small muted"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Back up your progress</h2>
+      <p class="muted">Your schedule and your own words are kept in this browser. Save a backup file to move them to another computer.</p>
+      <div class="row">
+        <button id="backupBtn">Download backup</button>
+        <label class="pill" style="cursor:pointer">Restore from file <input type="file" id="restoreFile" accept=".json,application/json" hidden></label>
+        <span id="backupMsg" class="small muted"></span>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="foot">Part of Language Student Desk · words from SquirrelGo Kana, Alphabets, Kanji, Phrasebook and Dictionary, plus starter decks written for the Desk.</footer>
+
+<script src="../languages/registry.js"></script>
+<script src="../languages/lsd-lang.js"></script>
+<script src="srs.js"></script>
+<script src="sources.js"></script>
+<script src="dictionary.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

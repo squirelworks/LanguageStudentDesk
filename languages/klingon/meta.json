@@ -4,5 +4,6 @@
   "nativeName": "tlhIngan Hol",
   "writingSystems": ["pIqaD"],
   "characterKeys": ["klingon"],
-  "notes": "pIqaD script."
+  "notes": "pIqaD script.",
+  "font": "pIqaD"
 }

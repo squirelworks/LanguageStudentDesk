@@ -4,5 +4,6 @@
   "nativeName": "中文",
   "writingSystems": ["hanzi"],
   "characterKeys": ["kanji"],
-  "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view."
+  "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
+  "speech": "zh-CN"
 }

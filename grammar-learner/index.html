@@ -2,18 +2,80 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grammar Learner — Language Student Desk</title>
+<link rel="stylesheet" href="../languages/learners.css">
+<link rel="stylesheet" href="../languages/klingon/piqad.css">
 <style>
-  body { font-family: system-ui, sans-serif; background: #0f0f12; color: #e8e8e8; margin: 0; padding: 2rem; }
-  h1 { color: #ffd54f; }
-  .card { background: #1a1a20; padding: 1.5rem; border-radius: 10px; max-width: 700px; }
+  .layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.2rem; align-items: start; }
+  .layout > * { min-width: 0; }
+  .lessons { position: sticky; top: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem; }
+  .lessons button { display: flex; width: 100%; text-align: left; gap: 0.5rem; align-items: center; background: none; border: 1px solid transparent; margin-bottom: 2px; padding: 0.5rem 0.6rem; }
+  .lessons button:hover { background: #22222a; border-color: transparent; }
+  .lessons button.active { background: var(--accent); }
+  .lessons .tick { width: 1.2rem; flex-shrink: 0; color: var(--correct); }
+  .lessons .lt { flex: 1; }
+  .lessons .score { font-size: 0.75rem; color: var(--muted); }
+  .lessons hr { border: none; border-top: 1px solid var(--line); margin: 0.4rem 0; }
+  .lesson h2 { margin-bottom: 0.2rem; }
+  .lesson .sum { color: var(--muted); margin-top: 0; }
+  .lesson h3 { color: #c5cae9; margin: 1.2rem 0 0.3rem; font-size: 1.05rem; }
+  .ex { border-left: 3px solid var(--accent2); background: #17171d; padding: 0.5rem 0.8rem; margin: 0.5rem 0; border-radius: 0 6px 6px 0; }
+  .ex .t { font-size: 1.3rem; font-family: var(--cjk); }
+  .ex .t mark, .drill-q mark { background: none; color: var(--gold); font-weight: 700; }
+  .ex .pq { font-family: "pIqaD", sans-serif; color: var(--gold); font-size: 1.3rem; }
+  .ex .r { color: #90caf9; font-size: 0.9rem; }
+  .ex .e { color: var(--text); font-size: 0.95rem; }
+  .gridtable { overflow-x: auto; margin: 0.8rem 0; }
+  .gridtable table { min-width: 560px; }
+  .gridtable td, .gridtable th { text-align: center; font-family: ui-monospace, Consolas, monospace; }
+  .gridtable th { font-family: inherit; }
+  .gridtable td.no { color: #444; }
+  .gridtable td { vertical-align: middle; }
+  .gridtable td.empty { color: var(--gold); font-style: italic; }
+  .lesson p mark { background: none; color: var(--gold); font-weight: 700; }
+  .gridtable tr:hover td { background: #1e1e26; }
+  .practice { border-top: 2px solid var(--accent); }
+  .drill-q { font-size: 1.35rem; font-family: var(--cjk); margin: 0.3rem 0; }
+  .drill-q .pq { display: block; font-family: "pIqaD", sans-serif; color: var(--gold); }
+  .drill-en { color: var(--muted); margin-bottom: 0.8rem; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; }
+  .opts button { font-family: var(--cjk); font-size: 1.05rem; padding: 0.7rem; text-align: left; }
+  .opts button.right { border-color: var(--correct); background: #1d2e1f; }
+  .opts button.wrongpick { border-color: var(--wrong); background: #321c1c; }
+  .why { margin-top: 0.8rem; padding: 0.6rem 0.8rem; border-radius: 6px; background: #17171d; }
+  .why.ok { border-left: 3px solid var(--correct); }
+  .why.bad { border-left: 3px solid var(--wrong); }
+  .scorebar { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .lessons { position: static; }
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Grammar Learner</h1>
-  <p>Coming soon — structured grammar lessons, drills, and explanations.</p>
-  <p>This is a placeholder so it appears in the Desk launcher. Full implementation will read from the shared <code>languages/</code> data layer.</p>
-</div>
+<header class="top">
+  <div class="grow">
+    <h1 id="title">Grammar Learner</h1>
+    <p id="subtitle">Short lessons with examples, then a drill that explains every answer.</p>
+  </div>
+  <label class="small muted" id="piqadOpt" hidden><input type="checkbox" id="piqad"> Show pIqaD</label>
+  <label class="small muted">Language <select id="langSelect"></select></label>
+</header>
+<main>
+  <section id="home" hidden>
+    <h2>Pick a language</h2>
+    <div class="grid" id="langGrid"></div>
+  </section>
+  <section id="course" class="layout" hidden>
+    <nav class="lessons" id="lessonList"></nav>
+    <div id="lesson"></div>
+  </section>
+</main>
+<footer class="foot">Part of Language Student Desk · lessons written for the Desk. Practise the words in the <a id="vocabLink" href="../vocabulary-learner/index.html">Vocabulary Learner</a>.</footer>
+
+<script src="../languages/registry.js"></script>
+<script src="../languages/lsd-lang.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
