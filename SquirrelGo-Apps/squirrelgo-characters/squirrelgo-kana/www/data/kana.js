@@ -38,6 +38,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "K row",
+        note: "Add k to each vowel. Every row after this one works the same way.",
         group: "Basic hiragana",
         chars: [
           ["か", "ka", "k + a", "かさ", "kasa", "umbrella"],
@@ -73,6 +74,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "N row",
+        note: "ぬ and め look alike; ぬ ends in a small loop. ね, れ and わ share their first stroke.",
         group: "Basic hiragana",
         chars: [
           ["な", "na", "n + a", "なつ", "natsu", "summer"],
@@ -96,6 +98,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "M row",
+        note: "む and す both have a loop; む also has a dot on the right.",
         group: "Basic hiragana",
         chars: [
           ["ま", "ma", "m + a", "まど", "mado", "window"],
@@ -206,6 +209,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "Combinations with M, R and voiced sounds",
+        note: "Voiced kana combine the same way: ぎゃ gya, じゃ ja, びゃ bya, ぴゃ pya.",
         group: "Combination sounds",
         cols: 3,
         chars: [
@@ -305,6 +309,147 @@ window.SG_SCRIPTS = [
 <tr><td lang="ja">い / り</td><td>り's right stroke is much longer</td></tr>
 </table>`,
       },
+      {
+        title: "Reading practice: the basic rows",
+        body: `<p>Every word here uses only the kana from the lessons up to that point, so you can read them as soon as you finish each row. Say each word, then press ▶ to check.</p>
+<h3>Vowels and K</h3>
+<table>
+<tr><td lang="ja" class="word">あい</td><td>ai, love</td><td><button class="round play" data-act="say" data-text="あい" aria-label="Play あい">▶</button></td></tr>
+<tr><td lang="ja" class="word">いえ</td><td>ie, house</td><td><button class="round play" data-act="say" data-text="いえ" aria-label="Play いえ">▶</button></td></tr>
+<tr><td lang="ja" class="word">うえ</td><td>ue, above</td><td><button class="round play" data-act="say" data-text="うえ" aria-label="Play うえ">▶</button></td></tr>
+<tr><td lang="ja" class="word">あお</td><td>ao, blue</td><td><button class="round play" data-act="say" data-text="あお" aria-label="Play あお">▶</button></td></tr>
+<tr><td lang="ja" class="word">かお</td><td>kao, face</td><td><button class="round play" data-act="say" data-text="かお" aria-label="Play かお">▶</button></td></tr>
+<tr><td lang="ja" class="word">あき</td><td>aki, autumn</td><td><button class="round play" data-act="say" data-text="あき" aria-label="Play あき">▶</button></td></tr>
+<tr><td lang="ja" class="word">いけ</td><td>ike, pond</td><td><button class="round play" data-act="say" data-text="いけ" aria-label="Play いけ">▶</button></td></tr>
+<tr><td lang="ja" class="word">きく</td><td>kiku, to listen</td><td><button class="round play" data-act="say" data-text="きく" aria-label="Play きく">▶</button></td></tr>
+</table>
+<h3>S and T</h3>
+<table>
+<tr><td lang="ja" class="word">すし</td><td>sushi, sushi</td><td><button class="round play" data-act="say" data-text="すし" aria-label="Play すし">▶</button></td></tr>
+<tr><td lang="ja" class="word">あさ</td><td>asa, morning</td><td><button class="round play" data-act="say" data-text="あさ" aria-label="Play あさ">▶</button></td></tr>
+<tr><td lang="ja" class="word">うそ</td><td>uso, lie</td><td><button class="round play" data-act="say" data-text="うそ" aria-label="Play うそ">▶</button></td></tr>
+<tr><td lang="ja" class="word">せき</td><td>seki, seat</td><td><button class="round play" data-act="say" data-text="せき" aria-label="Play せき">▶</button></td></tr>
+<tr><td lang="ja" class="word">たこ</td><td>tako, octopus</td><td><button class="round play" data-act="say" data-text="たこ" aria-label="Play たこ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ちかてつ</td><td>chikatetsu, subway</td><td><button class="round play" data-act="say" data-text="ちかてつ" aria-label="Play ちかてつ">▶</button></td></tr>
+<tr><td lang="ja" class="word">つくえ</td><td>tsukue, desk</td><td><button class="round play" data-act="say" data-text="つくえ" aria-label="Play つくえ">▶</button></td></tr>
+<tr><td lang="ja" class="word">とけい</td><td>tokei, clock</td><td><button class="round play" data-act="say" data-text="とけい" aria-label="Play とけい">▶</button></td></tr>
+</table>
+<h3>N and H</h3>
+<table>
+<tr><td lang="ja" class="word">なつ</td><td>natsu, summer</td><td><button class="round play" data-act="say" data-text="なつ" aria-label="Play なつ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ねこ</td><td>neko, cat</td><td><button class="round play" data-act="say" data-text="ねこ" aria-label="Play ねこ">▶</button></td></tr>
+<tr><td lang="ja" class="word">いぬ</td><td>inu, dog</td><td><button class="round play" data-act="say" data-text="いぬ" aria-label="Play いぬ">▶</button></td></tr>
+<tr><td lang="ja" class="word">にく</td><td>niku, meat</td><td><button class="round play" data-act="say" data-text="にく" aria-label="Play にく">▶</button></td></tr>
+<tr><td lang="ja" class="word">はな</td><td>hana, flower; nose</td><td><button class="round play" data-act="say" data-text="はな" aria-label="Play はな">▶</button></td></tr>
+<tr><td lang="ja" class="word">ひと</td><td>hito, person</td><td><button class="round play" data-act="say" data-text="ひと" aria-label="Play ひと">▶</button></td></tr>
+<tr><td lang="ja" class="word">ふね</td><td>fune, boat</td><td><button class="round play" data-act="say" data-text="ふね" aria-label="Play ふね">▶</button></td></tr>
+<tr><td lang="ja" class="word">ほし</td><td>hoshi, star</td><td><button class="round play" data-act="say" data-text="ほし" aria-label="Play ほし">▶</button></td></tr>
+</table>
+<h3>M, Y, R and W</h3>
+<table>
+<tr><td lang="ja" class="word">まち</td><td>machi, town</td><td><button class="round play" data-act="say" data-text="まち" aria-label="Play まち">▶</button></td></tr>
+<tr><td lang="ja" class="word">みみ</td><td>mimi, ear</td><td><button class="round play" data-act="say" data-text="みみ" aria-label="Play みみ">▶</button></td></tr>
+<tr><td lang="ja" class="word">むし</td><td>mushi, insect</td><td><button class="round play" data-act="say" data-text="むし" aria-label="Play むし">▶</button></td></tr>
+<tr><td lang="ja" class="word">もも</td><td>momo, peach</td><td><button class="round play" data-act="say" data-text="もも" aria-label="Play もも">▶</button></td></tr>
+<tr><td lang="ja" class="word">やま</td><td>yama, mountain</td><td><button class="round play" data-act="say" data-text="やま" aria-label="Play やま">▶</button></td></tr>
+<tr><td lang="ja" class="word">ゆき</td><td>yuki, snow</td><td><button class="round play" data-act="say" data-text="ゆき" aria-label="Play ゆき">▶</button></td></tr>
+<tr><td lang="ja" class="word">よる</td><td>yoru, night</td><td><button class="round play" data-act="say" data-text="よる" aria-label="Play よる">▶</button></td></tr>
+<tr><td lang="ja" class="word">さくら</td><td>sakura, cherry blossom</td><td><button class="round play" data-act="say" data-text="さくら" aria-label="Play さくら">▶</button></td></tr>
+<tr><td lang="ja" class="word">くるま</td><td>kuruma, car</td><td><button class="round play" data-act="say" data-text="くるま" aria-label="Play くるま">▶</button></td></tr>
+<tr><td lang="ja" class="word">わたし</td><td>watashi, I, me</td><td><button class="round play" data-act="say" data-text="わたし" aria-label="Play わたし">▶</button></td></tr>
+<tr><td lang="ja" class="word">ほん</td><td>hon, book</td><td><button class="round play" data-act="say" data-text="ほん" aria-label="Play ほん">▶</button></td></tr>
+<tr><td lang="ja" class="word">みかん</td><td>mikan, mandarin orange</td><td><button class="round play" data-act="say" data-text="みかん" aria-label="Play みかん">▶</button></td></tr>
+</table>`,
+      },
+      {
+        title: "Reading practice: voiced and combination sounds",
+        body: `<p>Dakuten, handakuten and the small ゃ ゅ ょ in everyday words.</p>
+<h3>Voiced sounds</h3>
+<table>
+<tr><td lang="ja" class="word">かぎ</td><td>kagi, key</td><td><button class="round play" data-act="say" data-text="かぎ" aria-label="Play かぎ">▶</button></td></tr>
+<tr><td lang="ja" class="word">かぜ</td><td>kaze, wind; a cold</td><td><button class="round play" data-act="say" data-text="かぜ" aria-label="Play かぜ">▶</button></td></tr>
+<tr><td lang="ja" class="word">まど</td><td>mado, window</td><td><button class="round play" data-act="say" data-text="まど" aria-label="Play まど">▶</button></td></tr>
+<tr><td lang="ja" class="word">ゆび</td><td>yubi, finger</td><td><button class="round play" data-act="say" data-text="ゆび" aria-label="Play ゆび">▶</button></td></tr>
+<tr><td lang="ja" class="word">ごはん</td><td>gohan, rice; a meal</td><td><button class="round play" data-act="say" data-text="ごはん" aria-label="Play ごはん">▶</button></td></tr>
+<tr><td lang="ja" class="word">でんわ</td><td>denwa, telephone</td><td><button class="round play" data-act="say" data-text="でんわ" aria-label="Play でんわ">▶</button></td></tr>
+<tr><td lang="ja" class="word">えんぴつ</td><td>enpitsu, pencil</td><td><button class="round play" data-act="say" data-text="えんぴつ" aria-label="Play えんぴつ">▶</button></td></tr>
+<tr><td lang="ja" class="word">さんぽ</td><td>sanpo, a walk</td><td><button class="round play" data-act="say" data-text="さんぽ" aria-label="Play さんぽ">▶</button></td></tr>
+</table>
+<h3>Combination sounds</h3>
+<table>
+<tr><td lang="ja" class="word">きょう</td><td>kyō, today</td><td><button class="round play" data-act="say" data-text="きょう" aria-label="Play きょう">▶</button></td></tr>
+<tr><td lang="ja" class="word">しゃしん</td><td>shashin, photograph</td><td><button class="round play" data-act="say" data-text="しゃしん" aria-label="Play しゃしん">▶</button></td></tr>
+<tr><td lang="ja" class="word">ちゃわん</td><td>chawan, rice bowl</td><td><button class="round play" data-act="say" data-text="ちゃわん" aria-label="Play ちゃわん">▶</button></td></tr>
+<tr><td lang="ja" class="word">りょこう</td><td>ryokō, trip</td><td><button class="round play" data-act="say" data-text="りょこう" aria-label="Play りょこう">▶</button></td></tr>
+<tr><td lang="ja" class="word">びょういん</td><td>byōin, hospital</td><td><button class="round play" data-act="say" data-text="びょういん" aria-label="Play びょういん">▶</button></td></tr>
+<tr><td lang="ja" class="word">じゅぎょう</td><td>jugyō, class, lesson</td><td><button class="round play" data-act="say" data-text="じゅぎょう" aria-label="Play じゅぎょう">▶</button></td></tr>
+<tr><td lang="ja" class="word">ぎゅうにゅう</td><td>gyūnyū, milk</td><td><button class="round play" data-act="say" data-text="ぎゅうにゅう" aria-label="Play ぎゅうにゅう">▶</button></td></tr>
+<tr><td lang="ja" class="word">にんぎょう</td><td>ningyō, doll</td><td><button class="round play" data-act="say" data-text="にんぎょう" aria-label="Play にんぎょう">▶</button></td></tr>
+</table>
+<p>Compare <span lang="ja">びよういん</span> biyōin (beauty salon) with <span lang="ja">びょういん</span> byōin (hospital): the small ょ removes a beat.</p>`,
+      },
+      {
+        title: "Reading practice: small っ and long vowels",
+        body: `<p>Count the beats as you read. A small っ and each half of a long vowel take one beat each.</p>
+<table>
+<tr><td lang="ja" class="word">がっこう</td><td>gakkō, school</td><td><button class="round play" data-act="say" data-text="がっこう" aria-label="Play がっこう">▶</button></td></tr>
+<tr><td lang="ja" class="word">きって</td><td>kitte, postage stamp</td><td><button class="round play" data-act="say" data-text="きって" aria-label="Play きって">▶</button></td></tr>
+<tr><td lang="ja" class="word">ざっし</td><td>zasshi, magazine</td><td><button class="round play" data-act="say" data-text="ざっし" aria-label="Play ざっし">▶</button></td></tr>
+<tr><td lang="ja" class="word">いっしょ</td><td>issho, together</td><td><button class="round play" data-act="say" data-text="いっしょ" aria-label="Play いっしょ">▶</button></td></tr>
+<tr><td lang="ja" class="word">おかあさん</td><td>okāsan, mother</td><td><button class="round play" data-act="say" data-text="おかあさん" aria-label="Play おかあさん">▶</button></td></tr>
+<tr><td lang="ja" class="word">おとうさん</td><td>otōsan, father</td><td><button class="round play" data-act="say" data-text="おとうさん" aria-label="Play おとうさん">▶</button></td></tr>
+<tr><td lang="ja" class="word">おねえさん</td><td>onēsan, older sister</td><td><button class="round play" data-act="say" data-text="おねえさん" aria-label="Play おねえさん">▶</button></td></tr>
+<tr><td lang="ja" class="word">せんせい</td><td>sensei, teacher</td><td><button class="round play" data-act="say" data-text="せんせい" aria-label="Play せんせい">▶</button></td></tr>
+<tr><td lang="ja" class="word">ゆうびん</td><td>yūbin, mail</td><td><button class="round play" data-act="say" data-text="ゆうびん" aria-label="Play ゆうびん">▶</button></td></tr>
+<tr><td lang="ja" class="word">とおい</td><td>tōi, far</td><td><button class="round play" data-act="say" data-text="とおい" aria-label="Play とおい">▶</button></td></tr>
+</table>
+<p>がっこう is four beats: が・っ・こ・う. Clapping the beats is a quick way to hear the difference between きて and きって.</p>`,
+      },
+      {
+        title: "Reading practice: short sentences",
+        body: `<p>Short sentences in hiragana only, with spaces between the words as in children's books. Watch for the particles は (wa), へ (e) and を (o).</p>
+<table>
+<tr><td lang="ja" class="word">わたしは がくせいです。</td><td>watashi wa gakusei desu, I am a student</td><td><button class="round play" data-act="say" data-text="わたしは がくせいです。" aria-label="Play わたしは がくせいです。">▶</button></td></tr>
+<tr><td lang="ja" class="word">がっこうへ いきます。</td><td>gakkō e ikimasu, I go to school</td><td><button class="round play" data-act="say" data-text="がっこうへ いきます。" aria-label="Play がっこうへ いきます。">▶</button></td></tr>
+<tr><td lang="ja" class="word">みずを のみます。</td><td>mizu o nomimasu, I drink water</td><td><button class="round play" data-act="say" data-text="みずを のみます。" aria-label="Play みずを のみます。">▶</button></td></tr>
+<tr><td lang="ja" class="word">これは ねこです。</td><td>kore wa neko desu, this is a cat</td><td><button class="round play" data-act="say" data-text="これは ねこです。" aria-label="Play これは ねこです。">▶</button></td></tr>
+<tr><td lang="ja" class="word">あしたは あめです。</td><td>ashita wa ame desu, tomorrow it will rain</td><td><button class="round play" data-act="say" data-text="あしたは あめです。" aria-label="Play あしたは あめです。">▶</button></td></tr>
+<tr><td lang="ja" class="word">おはよう ございます。</td><td>ohayō gozaimasu, good morning</td><td><button class="round play" data-act="say" data-text="おはよう ございます。" aria-label="Play おはよう ございます。">▶</button></td></tr>
+</table>
+<p>Real Japanese leaves out the spaces and writes most nouns in kanji: <span lang="ja">私は学生です。</span></p>`,
+      },
+      {
+        title: "Quiet vowels: why です sounds like dess",
+        body: `<p>In standard Japanese, i and u often go quiet when they fall between voiceless consonants (k, s, t, h, p) or at the end of a sentence after one. The mouth still shapes the vowel, but the voice drops out.</p>
+<table>
+<tr><td lang="ja">です</td><td>desu, said almost like dess</td></tr>
+<tr><td lang="ja">ます</td><td>masu, said almost like mass</td></tr>
+<tr><td lang="ja">すき</td><td>suki (like), said almost like ski</td></tr>
+<tr><td lang="ja">ひと</td><td>hito (person), the i barely heard</td></tr>
+</table>
+<p>Spelling never changes: the kana stay the same, and you still count them as beats. Some text-to-speech voices say every vowel fully, so listen to real speakers too.</p>`,
+      },
+      {
+        title: "じ and ぢ, ず and づ",
+        body: `<p>ぢ and じ are both said ji, and づ and ず are both said zu. In modern spelling じ and ず are the normal choice. ぢ and づ appear in only two situations:</p>
+<ul>
+<li>when a word repeats a ち or つ sound with a voiced mark: <span lang="ja">ちぢむ</span> chijimu (shrink), <span lang="ja">つづく</span> tsuzuku (continue)</li>
+<li>when a compound voices a word that starts with ち or つ: <span lang="ja">はな</span> + <span lang="ja">ち</span> = <span lang="ja">はなぢ</span> hanaji (nosebleed), <span lang="ja">みか</span> + <span lang="ja">つき</span> = <span lang="ja">みかづき</span> mikazuki (crescent moon)</li>
+</ul>
+<p>When typing on a keyboard, ぢ is di and づ is du.</p>`,
+      },
+      {
+        title: "Punctuation and vertical writing",
+        body: `<p>Japanese punctuation is full width, one square like a kana:</p>
+<table>
+<tr><td lang="ja">。</td><td>full stop (maru)</td></tr>
+<tr><td lang="ja">、</td><td>comma (ten)</td></tr>
+<tr><td lang="ja">「 」</td><td>quotation marks (kagi-kakko)</td></tr>
+<tr><td lang="ja">・</td><td>middle dot, between foreign names: <span lang="ja">ジョン・スミス</span></td></tr>
+<tr><td lang="ja">〜</td><td>wave dash, for ranges: <span lang="ja">3〜5</span></td></tr>
+</table>
+<p>Books, newspapers and manga are often written vertically: columns run top to bottom, and the columns go from right to left. Small kana sit in the upper right of their square, and the long-vowel bar turns vertical. The shapes of the kana do not change.</p>`,
+      },
     ],
   },
   {
@@ -319,6 +464,7 @@ window.SG_SCRIPTS = [
     lessons: [
       {
         title: "Vowels",
+        note: "Katakana is built from short, straight strokes. The sounds are the same as hiragana.",
         group: "Basic katakana",
         chars: [
           ["ア", "a", "a as in father", "アイス", "aisu", "ice cream"],
@@ -330,6 +476,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "K row",
+        note: "カ and か, キ and き, コ and こ look much like their hiragana twins.",
         group: "Basic katakana",
         chars: [
           ["カ", "ka", "k + a", "カメラ", "kamera", "camera"],
@@ -353,6 +500,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "T row",
+        note: "チ is chi and ツ is tsu, as in hiragana. テ and チ are easy to mix up.",
         group: "Basic katakana",
         chars: [
           ["タ", "ta", "t + a", "タオル", "taoru", "towel"],
@@ -364,6 +512,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "N row",
+        note: "ヌ and ス are close: ヌ's second stroke crosses the first, ス's does not.",
         group: "Basic katakana",
         chars: [
           ["ナ", "na", "n + a", "バナナ", "banana", "banana"],
@@ -375,6 +524,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "H row",
+        note: "ヘ is nearly identical to hiragana へ. フ is a single hooked stroke.",
         group: "Basic katakana",
         chars: [
           ["ハ", "ha", "h + a", "ハム", "hamu", "ham"],
@@ -386,6 +536,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "M row",
+        note: "ム is a triangle with a tail; メ is two crossing strokes.",
         group: "Basic katakana",
         chars: [
           ["マ", "ma", "m + a", "マスク", "masuku", "face mask"],
@@ -397,6 +548,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "Y row",
+        note: "ヤ, ユ and ヨ: ユ is a box with an open left side, ヨ has three bars.",
         group: "Basic katakana",
         chars: [
           ["ヤ", "ya", "y + a", "タイヤ", "taiya", "tire"],
@@ -408,6 +560,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "R row",
+        note: "ル and レ are the two-stroke and one-stroke versions of the same shape.",
         group: "Basic katakana",
         chars: [
           ["ラ", "ra", "tapped r + a", "ラジオ", "rajio", "radio"],
@@ -419,6 +572,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "W row and ン",
+        note: "ヲ is almost never used in modern writing. ン and ソ look alike: see the look-alikes article.",
         group: "Basic katakana",
         chars: [
           ["ワ", "wa", "w + a", "ワイン", "wain", "wine"],
@@ -431,6 +585,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "Voiced G, Z, D",
+        note: "The same two small strokes (dakuten) as in hiragana: ガ ga, ザ za, ダ da.",
         group: "Voiced katakana",
         chars: [
           ["ガ", "ga", "g + a", "ガム", "gamu", "chewing gum"],
@@ -452,6 +607,7 @@ window.SG_SCRIPTS = [
       },
       {
         title: "Voiced B and P",
+        note: "ハ becomes バ with dakuten and パ with the small circle.",
         group: "Voiced katakana",
         chars: [
           ["バ", "ba", "b + a", "バス", "basu", "bus"],
@@ -559,6 +715,77 @@ window.SG_SCRIPTS = [
 <tr><td lang="ja">チ / テ</td><td>chi's middle stroke curves down through the line; te's hangs below it</td></tr>
 </table>
 <p>The angle of the strokes is the clue. Practise シ, ツ, ソ and ン in the writing pad until the direction feels natural.</p>`,
+      },
+      {
+        title: "Reading practice: loanwords",
+        body: `<p>Everyday loanwords from English and other languages. Read each one aloud and guess the original word before you look at the meaning.</p>
+<table>
+<tr><td lang="ja" class="word">カメラ</td><td>kamera, camera</td><td><button class="round play" data-act="say" data-text="カメラ" aria-label="Play カメラ">▶</button></td></tr>
+<tr><td lang="ja" class="word">テレビ</td><td>terebi, television</td><td><button class="round play" data-act="say" data-text="テレビ" aria-label="Play テレビ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ホテル</td><td>hoteru, hotel</td><td><button class="round play" data-act="say" data-text="ホテル" aria-label="Play ホテル">▶</button></td></tr>
+<tr><td lang="ja" class="word">タクシー</td><td>takushī, taxi</td><td><button class="round play" data-act="say" data-text="タクシー" aria-label="Play タクシー">▶</button></td></tr>
+<tr><td lang="ja" class="word">バス</td><td>basu, bus</td><td><button class="round play" data-act="say" data-text="バス" aria-label="Play バス">▶</button></td></tr>
+<tr><td lang="ja" class="word">コーヒー</td><td>kōhī, coffee</td><td><button class="round play" data-act="say" data-text="コーヒー" aria-label="Play コーヒー">▶</button></td></tr>
+<tr><td lang="ja" class="word">パン</td><td>pan, bread</td><td><button class="round play" data-act="say" data-text="パン" aria-label="Play パン">▶</button></td></tr>
+<tr><td lang="ja" class="word">ケーキ</td><td>kēki, cake</td><td><button class="round play" data-act="say" data-text="ケーキ" aria-label="Play ケーキ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ノート</td><td>nōto, notebook</td><td><button class="round play" data-act="say" data-text="ノート" aria-label="Play ノート">▶</button></td></tr>
+<tr><td lang="ja" class="word">ピアノ</td><td>piano, piano</td><td><button class="round play" data-act="say" data-text="ピアノ" aria-label="Play ピアノ">▶</button></td></tr>
+<tr><td lang="ja" class="word">トマト</td><td>tomato, tomato</td><td><button class="round play" data-act="say" data-text="トマト" aria-label="Play トマト">▶</button></td></tr>
+<tr><td lang="ja" class="word">メニュー</td><td>menyū, menu</td><td><button class="round play" data-act="say" data-text="メニュー" aria-label="Play メニュー">▶</button></td></tr>
+<tr><td lang="ja" class="word">ゲーム</td><td>gēmu, game</td><td><button class="round play" data-act="say" data-text="ゲーム" aria-label="Play ゲーム">▶</button></td></tr>
+<tr><td lang="ja" class="word">コンビニ</td><td>konbini, convenience store</td><td><button class="round play" data-act="say" data-text="コンビニ" aria-label="Play コンビニ">▶</button></td></tr>
+</table>`,
+      },
+      {
+        title: "Reading practice: extended katakana",
+        body: `<p>Words that need the newer combinations from the last lesson.</p>
+<table>
+<tr><td lang="ja" class="word">ファン</td><td>fan, fan, supporter</td><td><button class="round play" data-act="say" data-text="ファン" aria-label="Play ファン">▶</button></td></tr>
+<tr><td lang="ja" class="word">フォーク</td><td>fōku, fork</td><td><button class="round play" data-act="say" data-text="フォーク" aria-label="Play フォーク">▶</button></td></tr>
+<tr><td lang="ja" class="word">パーティー</td><td>pātī, party</td><td><button class="round play" data-act="say" data-text="パーティー" aria-label="Play パーティー">▶</button></td></tr>
+<tr><td lang="ja" class="word">ソファ</td><td>sofa, sofa</td><td><button class="round play" data-act="say" data-text="ソファ" aria-label="Play ソファ">▶</button></td></tr>
+<tr><td lang="ja" class="word">チェック</td><td>chekku, check</td><td><button class="round play" data-act="say" data-text="チェック" aria-label="Play チェック">▶</button></td></tr>
+<tr><td lang="ja" class="word">ジェット</td><td>jetto, jet</td><td><button class="round play" data-act="say" data-text="ジェット" aria-label="Play ジェット">▶</button></td></tr>
+<tr><td lang="ja" class="word">シェフ</td><td>shefu, chef</td><td><button class="round play" data-act="say" data-text="シェフ" aria-label="Play シェフ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ウェブ</td><td>webu, the web</td><td><button class="round play" data-act="say" data-text="ウェブ" aria-label="Play ウェブ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ウォーター</td><td>wōtā, water (in names)</td><td><button class="round play" data-act="say" data-text="ウォーター" aria-label="Play ウォーター">▶</button></td></tr>
+<tr><td lang="ja" class="word">デュエット</td><td>dyuetto, duet</td><td><button class="round play" data-act="say" data-text="デュエット" aria-label="Play デュエット">▶</button></td></tr>
+</table>
+<p>Older spellings are still common: <span lang="ja">バイオリン</span> baiorin (violin) is more usual than <span lang="ja">ヴァイオリン</span>.</p>`,
+      },
+      {
+        title: "Reading practice: countries and cities",
+        body: `<p>Foreign place names are written in katakana. Japan's neighbours China and Korea are the exception: they use kanji (<span lang="ja">中国</span>, <span lang="ja">韓国</span>).</p>
+<table>
+<tr><td lang="ja" class="word">アメリカ</td><td>Amerika, America</td><td><button class="round play" data-act="say" data-text="アメリカ" aria-label="Play アメリカ">▶</button></td></tr>
+<tr><td lang="ja" class="word">イギリス</td><td>Igirisu, Britain</td><td><button class="round play" data-act="say" data-text="イギリス" aria-label="Play イギリス">▶</button></td></tr>
+<tr><td lang="ja" class="word">フランス</td><td>Furansu, France</td><td><button class="round play" data-act="say" data-text="フランス" aria-label="Play フランス">▶</button></td></tr>
+<tr><td lang="ja" class="word">ドイツ</td><td>Doitsu, Germany</td><td><button class="round play" data-act="say" data-text="ドイツ" aria-label="Play ドイツ">▶</button></td></tr>
+<tr><td lang="ja" class="word">イタリア</td><td>Itaria, Italy</td><td><button class="round play" data-act="say" data-text="イタリア" aria-label="Play イタリア">▶</button></td></tr>
+<tr><td lang="ja" class="word">カナダ</td><td>Kanada, Canada</td><td><button class="round play" data-act="say" data-text="カナダ" aria-label="Play カナダ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ブラジル</td><td>Burajiru, Brazil</td><td><button class="round play" data-act="say" data-text="ブラジル" aria-label="Play ブラジル">▶</button></td></tr>
+<tr><td lang="ja" class="word">インド</td><td>Indo, India</td><td><button class="round play" data-act="say" data-text="インド" aria-label="Play インド">▶</button></td></tr>
+<tr><td lang="ja" class="word">オーストラリア</td><td>Ōsutoraria, Australia</td><td><button class="round play" data-act="say" data-text="オーストラリア" aria-label="Play オーストラリア">▶</button></td></tr>
+<tr><td lang="ja" class="word">ロンドン</td><td>Rondon, London</td><td><button class="round play" data-act="say" data-text="ロンドン" aria-label="Play ロンドン">▶</button></td></tr>
+<tr><td lang="ja" class="word">パリ</td><td>Pari, Paris</td><td><button class="round play" data-act="say" data-text="パリ" aria-label="Play パリ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ニューヨーク</td><td>Nyūyōku, New York</td><td><button class="round play" data-act="say" data-text="ニューヨーク" aria-label="Play ニューヨーク">▶</button></td></tr>
+</table>
+<p>イギリス comes from Portuguese inglês, and ドイツ from Dutch duits, a trace of the first Europeans to trade with Japan.</p>`,
+      },
+      {
+        title: "Sound words in katakana",
+        body: `<p>Japanese has thousands of sound and feeling words, often written in katakana in manga and ads.</p>
+<table>
+<tr><td lang="ja" class="word">ワンワン</td><td>wanwan, woof (a dog)</td><td><button class="round play" data-act="say" data-text="ワンワン" aria-label="Play ワンワン">▶</button></td></tr>
+<tr><td lang="ja" class="word">ニャー</td><td>nyā, meow</td><td><button class="round play" data-act="say" data-text="ニャー" aria-label="Play ニャー">▶</button></td></tr>
+<tr><td lang="ja" class="word">ドキドキ</td><td>dokidoki, heart pounding</td><td><button class="round play" data-act="say" data-text="ドキドキ" aria-label="Play ドキドキ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ワクワク</td><td>wakuwaku, excited</td><td><button class="round play" data-act="say" data-text="ワクワク" aria-label="Play ワクワク">▶</button></td></tr>
+<tr><td lang="ja" class="word">ザーザー</td><td>zāzā, pouring rain</td><td><button class="round play" data-act="say" data-text="ザーザー" aria-label="Play ザーザー">▶</button></td></tr>
+<tr><td lang="ja" class="word">ゴロゴロ</td><td>gorogoro, rumbling; lazing about</td><td><button class="round play" data-act="say" data-text="ゴロゴロ" aria-label="Play ゴロゴロ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ピカピカ</td><td>pikapika, sparkling</td><td><button class="round play" data-act="say" data-text="ピカピカ" aria-label="Play ピカピカ">▶</button></td></tr>
+<tr><td lang="ja" class="word">ペコペコ</td><td>pekopeko, starving</td><td><button class="round play" data-act="say" data-text="ペコペコ" aria-label="Play ペコペコ">▶</button></td></tr>
+</table>
+<p>Many are doubled words. Writing them in hiragana makes them softer, in katakana louder.</p>`,
       },
     ],
   },
