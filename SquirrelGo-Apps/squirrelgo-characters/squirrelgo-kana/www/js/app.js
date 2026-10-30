@@ -159,7 +159,8 @@
     }
     return a;
   }
-  const g = (s, text, cls = "") => `<span class="glyph ${cls}" lang="${s.lang}" dir="${s.dir || "ltr"}">${esc(text)}</span>`;
+  const g = (s, text, cls = "") =>
+    `<span class="glyph ${cls} ${s.vertical ? "vert" : ""}" lang="${s.lang}" dir="${s.dir || "ltr"}">${esc(text)}</span>`;
   const countMastered = (items) => items.filter(mastered).length;
   const bar = (n, total, cls = "") =>
     `<span class="bar ${cls}"><span style="width:${total ? Math.round((100 * n) / total) : 0}%"></span></span>`;
