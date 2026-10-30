@@ -232,7 +232,14 @@ def run_gui(tools, server):
 
     root = tk.Tk()
     root.title("Language Student Desk")
-    root.geometry("1100x720")
+    # Open at 88% of the current screen, centered (not a fixed 1100x720 box).
+    sw = root.winfo_screenwidth()
+    sh = root.winfo_screenheight()
+    ww = max(820, int(sw * 0.88))
+    wh = max(540, int(sh * 0.88))
+    x = max(0, (sw - ww) // 2)
+    y = max(0, (sh - wh) // 2)
+    root.geometry(f"{ww}x{wh}+{x}+{y}")
     root.minsize(820, 540)
 
     family = _ui_font_family()
