@@ -40,7 +40,7 @@ VOICES = {
     "he": "he", "am": "am", "bn": "bn", "ta": "ta", "te": "te", "gu": "gu", "pa": "pa", "kn": "kn",
     "ml": "ml", "si": "si", "th": "th", "my": "my", "or": "or", "chr": "chr-US-Qaaa-x-west",
 }
-VOWEL_A = {"hi": "", "ko": "", "ru": "а", "el": "α", "hy": "ա", "ka": "ა", "ar": "َ", "he": "ָ"}
+VOWEL_A = {"hi": "", "ko": "", "bn": "", "pa": "", "gu": "", "ta": "", "te": "", "kn": "", "ml": "", "si": "", "ru": "а", "el": "α", "hy": "ա", "ka": "ა", "ar": "َ", "he": "ָ"}
 IPA_VOWELS = set("aeiouyɑɐæɛɜəɘɪɨʉʊɔœøɒʌɯɤãẽĩõũ")
 
 # Many voices read a lone letter by its name (ε is "epsilon", é is "e accent
@@ -65,7 +65,62 @@ FIXES = {
     ("greek", "ΓΓ γγ"): "[[aNga]]",
     ("devanagari", "ङ"): "[[N@]]",
     ("devanagari", "ण"): "[[n.@]]",
+    # The Bengali voice reads these by their letter names (ন as donto no).
+    ("bengali", "ঙ"): "[[NO]]",
+    ("bengali", "ঞ"): "[[nO]]",
+    ("bengali", "ণ"): "[[nO]]",
+    ("bengali", "ন"): "[[nO]]",
+    ("bengali", "য"): "[[dZO]]",
+    ("bengali", "শ"): "[[SO]]",
+    ("bengali", "ষ"): "[[SO]]",
+    ("bengali", "স"): "[[SO]]",
+    ("bengali", "ৎ"): "[[Ot]]",
+    ("gujarati", "ણ"): "[[n.@]]",
+    ("gujarati", "ળ"): "[[l.@]]",
+    ("tamil", "ஃ"): "[[ah]]",
+    ("sinhala", "ඇ"): "[[&]]",
+    ("sinhala", "ඈ"): "[[&:]]",
+    # The Malayalam voice voices k, t and p at the start of a word (ക as ga).
+    ("malayalam", "ക"): "[[ka]]",
+    ("malayalam", "കാ"): "[[ka:]]",
+    ("malayalam", "കി"): "[[ki]]",
+    ("malayalam", "കീ"): "[[ki:]]",
+    ("malayalam", "കു"): "[[ku]]",
+    ("malayalam", "കൂ"): "[[ku:]]",
+    ("malayalam", "കൃ"): "[[kri]]",
+    ("malayalam", "കെ"): "[[ke]]",
+    ("malayalam", "കേ"): "[[ke:]]",
+    ("malayalam", "കൈ"): "[[kai]]",
+    ("malayalam", "കൊ"): "[[ko]]",
+    ("malayalam", "കോ"): "[[ko:]]",
+    ("malayalam", "കൗ"): "[[kau]]",
+    ("malayalam", "പ"): "[[pa]]",
+    ("malayalam", "ത"): "[[t[a]]",
+    ("malayalam", "ട"): "[[t.a]]",
+    ("malayalam", "ൻ"): "[[an]]",
+    ("malayalam", "ർ"): "[[ar]]",
+    ("malayalam", "ൽ"): "[[al]]",
+    ("malayalam", "ൾ"): "[[al.]]",
+    ("malayalam", "ൺ"): "[[an.]]",
 }
+
+
+# The Malayalam voice also voices the first k, t, ṭ or p of a word (കാക്ക as
+# gākka), so those words are spoken from eSpeak's own phonemes with the first
+# sound put back.
+VOICED_START = {"ml": {"ക": ("g", "k"), "ത": ("d", "t["), "ട": ("d.", "t."), "പ": ("b", "p")}}
+
+
+def word_text(voice, text):
+    """What eSpeak should read for an example word."""
+    fix = VOICED_START.get(voice, {}).get(text[:1])
+    if not fix:
+        return text
+    code = subprocess.run(["espeak-ng", "-v", voice, "-q", "-x", text], capture_output=True, text=True).stdout.strip()
+    voiced, plain = fix
+    if code.startswith(voiced) and not code.startswith(plain):
+        return f"[[{plain}{code[len(voiced):]}]]"
+    return text
 
 
 def speaks(voice, text):
@@ -142,7 +197,7 @@ def run(script):
                 said = speak if (speak and speak not in g.split(" ")) else letter_text(s, g, ipa, ex_lang or s["lang"], voice)
                 clips[key] = (voice, said)
             if ex and voice and ex not in clips:
-                clips[ex] = (voice, ex)
+                clips[ex] = (voice, word_text(voice, ex))
     if not clips:
         print(f"{script}: no eSpeak voice for {s['lang']}, skipped")
         return
