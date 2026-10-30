@@ -19,7 +19,7 @@ Modular character learning tool for Language Student Desk.
 - Click a character for details
 - **Kanji stroke-order animation** (shared KanjiVG data from SquirrelGo — works offline)
 - **Stroke order and checked writing pad for every non-kanji script with SquirrelGo data**
-  (all of the above except hiragana and katakana, which have no stroke data in SquirrelGo yet).
+  (every script above except kanji, which has its own KanjiVG player).
   Cards with two letters, such as Greek "Α α", animate both and let you pick which one to write.
 - Recorded sounds from SquirrelGo Alphabets for Speak, falling back to the browser's voice
 - `?lang=` scopes come from the shared `languages/` registry (`characterKeys`, else
@@ -47,6 +47,11 @@ and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/`:
 - `data/audio/<script>.js` + `audio/` — recorded sounds
 - `js/strokes.js` + `js/writepad.js` — the stroke player and the writing pad that checks each stroke,
   for pIqaD as well (its table is filed under the key `klingon`)
+
+and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/`:
+
+- `data/strokes/hiragana.js`, `data/strokes/katakana.js` — kana stroke orders (KanjiVG)
+- `data/audio/hiragana.js`, `data/audio/katakana.js` + `audio/` — recorded kana sounds
 
 Open `index.html` in a browser (from the repo tree so relative paths resolve).
 

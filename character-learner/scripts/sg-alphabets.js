@@ -49,5 +49,9 @@ if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
     SCRIPTS[s.id] = { name: s.title, chars, sg: true };
   }
 
+  // Hiragana and katakana strokes and sounds come from SquirrelGo Kana.
+  const KANA_BASE = '../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/';
+  for (const id of ['hiragana', 'katakana']) SG_INFO[id] = { lang: 'ja-JP', dir: '', audio: KANA_BASE + 'audio/' + id + '/' };
+
   window.SG_SCRIPT_INFO = SG_INFO;
 })();
