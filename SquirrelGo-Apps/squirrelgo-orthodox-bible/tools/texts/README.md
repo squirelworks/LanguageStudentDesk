@@ -87,19 +87,19 @@ does not), and the app parses the file as JSON rather than running it.
 | `mal-1910` | സത്യവേദപുസ്തകം (Malayalam, 1910) | ml | OT, NT | kjv | scrollmapper `Mal1910` (CrossWire) | Public Domain |
 | `mlg-1865` | Baiboly (Malagasy, 1865) | mg | OT, NT | org | scrollmapper `Mg1865` (CrossWire) | Public Domain |
 | `chr-nt-1860` | ᎪᎪᎳᏅ ᏗᎧᎿᏩᏛᏍᏗ (Cherokee New Testament, 1860) | chr | NT | kjv | scrollmapper `Che1860` (CrossWire) | Public Domain |
-| `ukr-kulish` | Біблія (Ukrainian, Kulish, Puluj and Nechuy-Levytsky, 1905) | uk | not built yet | kjv | [eBible.org ukr1871](https://ebible.org/details.php?id=ukr1871) | Public Domain |
-| `eng-lxx2012` | LXX2012: Septuagint in American English | en | not built yet | lxx | [eBible.org eng-lxx2012](https://ebible.org/details.php?id=eng-lxx2012) | Public Domain |
-| `eng-web` | World English Bible with Deuterocanon | en | not built yet | kjv | [eBible.org eng-web](https://ebible.org/details.php?id=eng-web) | Public Domain |
-| `eng-rv` | Revised Version with Apocrypha (1895) | en | not built yet | kjv | [eBible.org eng-rv](https://ebible.org/details.php?id=eng-rv) | Public Domain |
-| `ita-riveduta` | La Sacra Bibbia Riveduta (Italian, Giovanni Luzzi, 1927) | it | not built yet | kjv | [eBible.org ita1927](https://ebible.org/details.php?id=ita1927) | Public Domain |
-| `ita-diodati` | La Sacra Bibbia (Italian, Diodati, 1885 revision) | it | not built yet | kjv | [eBible.org ita1885](https://ebible.org/details.php?id=ita1885) | Public Domain |
-| `fra-segond` | La Sainte Bible (French, Louis Segond, 1910) | fr | not built yet | kjv | [eBible.org fraLSG](https://ebible.org/details.php?id=fraLSG) | Public Domain |
-| `fra-bible-libre` | Sainte Bible libre pour le monde (French) | fr | not built yet | kjv | [eBible.org frasbl](https://ebible.org/details.php?id=frasbl) | Public Domain |
-| `spa-biblia-libre` | Santa Biblia libre para el mundo (Spanish) | es | not built yet | kjv | [eBible.org spablm](https://ebible.org/details.php?id=spablm) | Public Domain |
-| `cmn-cuv-simplified` | 和合本 (Chinese Union Version, simplified) | zh | not built yet | kjv | [eBible.org cmn-cu89s](https://ebible.org/details.php?id=cmn-cu89s) | Public Domain |
-| `pes-opv` | کتاب مقدس (Persian, Old Persian Version) | fa | not built yet | kjv | [eBible.org pesOPV](https://ebible.org/details.php?id=pesOPV) | Public Domain |
-| `swh-krapf-nt` | Agano Jipya (Swahili, Krapf, 1850) | sw | not built yet | kjv | [eBible.org swh1850](https://ebible.org/details.php?id=swh1850) | Public Domain |
-| `hin-irv` | पवित्र बाइबिल (Hindi, Indian Revised Version, 2017) | hi | not built yet | kjv | [eBible.org hin2017](https://ebible.org/details.php?id=hin2017) | CC BY-SA 4.0 (Bridge Connectivity Solutions) |
+| `ukr-kulish` | Біблія (Ukrainian, Kulish, Puluj and Nechuy-Levytsky, 1905) | uk | OT, NT | kjv | [eBible.org ukr1871](https://ebible.org/details.php?id=ukr1871) | Public Domain |
+| `eng-lxx2012` | LXX2012: Septuagint in American English | en | OT, deuterocanon | lxx | [eBible.org eng-lxx2012](https://ebible.org/details.php?id=eng-lxx2012) | Public Domain |
+| `eng-web` | World English Bible with Deuterocanon | en | OT, NT, deuterocanon | kjv | [eBible.org eng-web](https://ebible.org/details.php?id=eng-web) | Public Domain |
+| `eng-rv` | Revised Version with Apocrypha (1895) | en | OT, NT, deuterocanon | kjv | [eBible.org eng-rv](https://ebible.org/details.php?id=eng-rv) | Public Domain |
+| `ita-riveduta` | La Sacra Bibbia Riveduta (Italian, Giovanni Luzzi, 1927) | it | OT, NT | kjv | [eBible.org ita1927](https://ebible.org/details.php?id=ita1927) | Public Domain |
+| `ita-diodati` | La Sacra Bibbia (Italian, Diodati, 1885 revision) | it | OT, NT | kjv | [eBible.org ita1885](https://ebible.org/details.php?id=ita1885) | Public Domain |
+| `fra-segond` | La Sainte Bible (French, Louis Segond, 1910) | fr | OT, NT | org | [eBible.org fraLSG](https://ebible.org/details.php?id=fraLSG) | Public Domain |
+| `fra-bible-libre` | Sainte Bible libre pour le monde (French) | fr | OT, NT, deuterocanon | kjv | [eBible.org frasbl](https://ebible.org/details.php?id=frasbl) | Public Domain |
+| `spa-biblia-libre` | Santa Biblia libre para el mundo (Spanish) | es | OT, NT, deuterocanon | kjv | [eBible.org spablm](https://ebible.org/details.php?id=spablm) | Public Domain |
+| `cmn-cuv-simplified` | 和合本 (Chinese Union Version, simplified) | zh | OT, NT | kjv | [eBible.org cmn-cu89s](https://ebible.org/details.php?id=cmn-cu89s) | Public Domain |
+| `pes-opv` | کتاب مقدس (Persian, Old Persian Version) | fa | OT, NT | kjv | [eBible.org pesOPV](https://ebible.org/details.php?id=pesOPV) | Public Domain |
+| `swh-krapf-nt` | Agano Jipya (Swahili, Krapf, 1850) | sw | NT | kjv | [eBible.org swh1850](https://ebible.org/details.php?id=swh1850) | Public Domain |
+| `hin-irv` | पवित्र बाइबिल (Hindi, Indian Revised Version, 2017) | hi | OT, NT | kjv | [eBible.org hin2017](https://ebible.org/details.php?id=hin2017) | CC BY-SA 4.0 (Bridge Connectivity Solutions) |
 
 Numbering `org` is the Hebrew one (psalm titles counted as verses, Malachi in
 three chapters) and `vul` the Vulgate's. Partial texts: the Peshitta, Cherokee,

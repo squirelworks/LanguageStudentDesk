@@ -250,7 +250,7 @@ PACKS = [
         "Hebrew canon."),
     _eb("ita-diodati", "ita1885", "La Sacra Bibbia (Italian, Diodati, 1885 revision)", "it", "Latn", "kjv",
         "Hebrew canon."),
-    _eb("fra-segond", "fraLSG", "La Sainte Bible (French, Louis Segond, 1910)", "fr", "Latn", "kjv",
+    _eb("fra-segond", "fraLSG", "La Sainte Bible (French, Louis Segond, 1910)", "fr", "Latn", "org",
         "Hebrew canon."),
     _eb("fra-bible-libre", "frasbl", "Sainte Bible libre pour le monde (French)", "fr", "Latn", "kjv",
         "Modern French translation, with the deuterocanonical books."),

@@ -97,7 +97,7 @@ def load_antoniades(src):
 
 # Character-style markers whose text is kept (the marker itself is dropped).
 # Notes (\f, \fe, \x) and their contents are removed entirely.
-NOTE_RE = re.compile(r"\\(f|fe|x|ef|ex)\s.*?\\\1\*", re.S)
+NOTE_RE = re.compile(r"\\(f|fe|x|ef|ex|rq)\s.*?\\\1\*", re.S)
 WORD_RE = re.compile(r"\\\+?w\s+([^|\\]*?)(\|[^\\]*?)?\\\+?w\*")
 CHAR_RE = re.compile(r"\\\+?[a-z]+[0-9]*\*?")
 # Paragraph markers whose line content is not Scripture text.
