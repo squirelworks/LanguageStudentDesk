@@ -2348,6 +2348,21 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "ambrose-lat",
+      "author": "Sanctus Ambrosius (St Ambrose of Milan)",
+      "work": "Expositio evangelii secundum Lucan; Explanatio psalmorum XII; Expositio psalmi CXVIII",
+      "lang": "la",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/csel-dev",
+      "books": [
+        "PSA",
+        "LUK"
+      ],
+      "tradition": "west",
+      "size": 2349016,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/ambrose-lat.js"
+    },
+    {
       "id": "ambrose-more",
       "author": "St Ambrose of Milan",
       "work": "Commentary on Luke; Commentaries on the Twelve Davidic Psalms; The Six Days of Creation; On Joseph the Patriarch; and other works",
@@ -2847,6 +2862,20 @@ window.SGO_CATALOG = {
         "TIT",
         "2PE"
       ]
+    },
+    {
+      "id": "hilary-lat",
+      "author": "Sanctus Hilarius Pictaviensis (St Hilary of Poitiers)",
+      "work": "Tractatus super psalmos",
+      "lang": "la",
+      "license": "CC BY-SA 4.0",
+      "source": "https://github.com/OpenGreekAndLatin/csel-dev",
+      "books": [
+        "PSA"
+      ],
+      "tradition": "west",
+      "size": 1320691,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/hilary-lat.js"
     },
     {
       "id": "jerome",
