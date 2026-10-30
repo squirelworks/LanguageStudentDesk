@@ -2,18 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Language Learner — Language Student Desk</title>
+<link rel="stylesheet" href="../languages/learners.css">
+<link rel="stylesheet" href="../languages/klingon/piqad.css">
 <style>
-  body { font-family: system-ui, sans-serif; background: #0f0f12; color: #e8e8e8; margin: 0; padding: 2rem; }
-  h1 { color: #ffd54f; }
-  .card { background: #1a1a20; padding: 1.5rem; border-radius: 10px; max-width: 700px; }
+  .today { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1rem; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem 1rem; }
+  .stat b { display: block; font-size: 1.7rem; color: var(--gold); line-height: 1.2; }
+  .stat a, .stat button { margin-top: 0.4rem; display: inline-block; }
+  .stage { margin-bottom: 1.4rem; }
+  .stage-head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+  .stage-head h2 { margin: 0; flex: 1; }
+  .stage-head .progress { width: 160px; }
+  .step { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.8rem; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 0.5rem; }
+  .step.next { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .step.done { opacity: 0.7; }
+  .step .dot { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid #555; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--muted); }
+  .step.done .dot { border-color: var(--correct); background: var(--correct); color: #111; }
+  .step.next .dot { border-color: var(--gold); color: var(--gold); }
+  .step h3 { margin: 0 0 0.2rem; font-size: 1.02rem; }
+  .step p { margin: 0 0 0.4rem; color: #cfcfd6; font-size: 0.92rem; }
+  .step .tools a { margin-right: 0.8rem; font-size: 0.9rem; }
+  .step .meter { font-size: 0.8rem; color: var(--muted); }
+  .step .side { text-align: right; min-width: 7rem; }
+  #home .tile .big { font-family: var(--cjk); }
+  @media (max-width: 640px) {
+    .step { grid-template-columns: 2.2rem 1fr; }
+    .step .side { grid-column: 2; text-align: left; }
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Language Learner</h1>
-  <p>Coming soon — the all-in-one environment that brings characters, vocabulary, and grammar together for a single language.</p>
-  <p>This is a placeholder so it appears in the Desk launcher. Full implementation will read from the shared <code>languages/</code> data layer.</p>
-</div>
+<header class="top">
+  <div class="grow">
+    <h1 id="title">Language Learner</h1>
+    <p id="subtitle">A guided path through the Desk: script, words, grammar, then real use.</p>
+  </div>
+  <label class="small muted">Language <select id="langSelect"></select></label>
+</header>
+<main>
+  <section id="home" hidden>
+    <h2>Pick a language</h2>
+    <p class="muted">Each path strings the Desk's tools together in a sensible order and ticks steps off as you finish them in the Vocabulary and Grammar Learners.</p>
+    <div class="grid" id="langGrid"></div>
+  </section>
+  <section id="course" hidden>
+    <div class="today" id="today"></div>
+    <div id="stages"></div>
+    <p class="small muted">Steps with a progress meter tick themselves off from your work in the Vocabulary and Grammar Learners (when they are opened from the same Desk). Tick the others yourself when you feel ready.</p>
+  </section>
+</main>
+<footer class="foot">Part of Language Student Desk.</footer>
+
+<script src="../languages/registry.js"></script>
+<script src="../languages/lsd-lang.js"></script>
+<script src="paths.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,124 @@
+/* Shared look for the Desk learners (vocabulary, grammar, language).
+   Same dark palette as the Character Learner. */
+:root {
+  --bg: #0f0f12;
+  --card: #1a1a20;
+  --card2: #22222a;
+  --line: #33333d;
+  --accent: #5c6bc0;
+  --accent2: #7e57c2;
+  --gold: #ffd54f;
+  --text: #e8e8e8;
+  --muted: #9e9e9e;
+  --correct: #4caf50;
+  --wrong: #ef5350;
+  --hard: #ffa726;
+  --cjk: "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+a { color: #9fa8da; }
+header.top {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-bottom: 3px solid var(--accent);
+  padding: 0.9rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+header.top h1 { margin: 0; font-size: 1.45rem; }
+header.top h1 small { color: var(--muted); font-weight: 400; font-size: 0.9rem; margin-left: 0.4rem; }
+header.top .grow { flex: 1; }
+header.top p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+select, input, textarea, button { font: inherit; }
+select, input[type=text], input[type=number], input[type=search], textarea {
+  background: #15151b;
+  color: var(--text);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+}
+button {
+  background: #2a2a34;
+  color: var(--text);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); }
+button.primary:hover { background: #6f7dd0; }
+button:disabled { opacity: 0.45; cursor: default; }
+button.link { background: none; border: none; color: #9fa8da; padding: 0; text-decoration: underline; }
+nav.tabs {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.6rem 1.2rem 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+  background: #131318;
+}
+nav.tabs button {
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: none;
+  color: var(--muted);
+  padding: 0.5rem 1rem;
+}
+nav.tabs button.active { background: var(--bg); color: var(--gold); border-color: var(--line); margin-bottom: -1px; }
+nav.tabs .badge { background: var(--accent2); color: #fff; border-radius: 10px; padding: 0 0.45rem; font-size: 0.75rem; margin-left: 0.3rem; }
+main { padding: 1.2rem; max-width: 1100px; margin: 0 auto; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1rem; }
+.card h2, .card h3 { margin-top: 0; }
+h2 { color: var(--gold); font-size: 1.25rem; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.grid { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.tile {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+}
+.tile:hover { border-color: var(--accent); background: #1e1e26; }
+.tile .big { font-size: 1.6rem; display: block; }
+.tile .sub { color: var(--muted); font-size: 0.85rem; }
+.pill { display: inline-block; border: 1px solid #444; border-radius: 12px; padding: 0 0.55rem; font-size: 0.8rem; color: var(--muted); }
+.pill.good { border-color: var(--correct); color: var(--correct); }
+.pill.due { border-color: var(--gold); color: var(--gold); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 0.85rem; }
+.target { font-family: var(--cjk); }
+.piqad { font-family: "pIqaD", sans-serif; }
+[dir=rtl] { text-align: right; }
+.empty { text-align: center; color: var(--muted); padding: 2rem 1rem; }
+.notice { border-left: 3px solid var(--gold); background: #1d1b14; padding: 0.6rem 0.9rem; border-radius: 4px; }
+kbd { background: #2a2a34; border: 1px solid #555; border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; font-size: 0.8rem; }
+.progress { height: 6px; background: #2a2a34; border-radius: 3px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+footer.foot { color: var(--muted); font-size: 0.8rem; text-align: center; padding: 1.5rem; }
+@media (max-width: 640px) {
+  main { padding: 0.8rem; }
+  header.top { padding: 0.7rem 0.8rem; }
+  nav.tabs { padding: 0.4rem 0.6rem 0; }
+}
+/* Klingon romanization: a serif face so capital I (tlhIngan) never reads as l. */
+.lang-klingon .target, .lang-klingon .ex .t, .lang-klingon .drill-q, .lang-klingon .opts button, .lang-klingon .gridtable td {
+  font-family: Georgia, "DejaVu Serif", "Times New Roman", serif;
+}

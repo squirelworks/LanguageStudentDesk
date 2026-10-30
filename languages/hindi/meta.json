@@ -1,0 +1,9 @@
+{
+  "id": "hindi",
+  "name": "Hindi",
+  "nativeName": "हिन्दी",
+  "writingSystems": ["devanagari"],
+  "characterKeys": ["devanagari"],
+  "speech": "hi-IN",
+  "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi."
+}
