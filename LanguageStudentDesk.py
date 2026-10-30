@@ -238,8 +238,9 @@ def run_gui(tools, server):
     family = _ui_font_family()
     body_font = tkfont.Font(family=family, size=11)
     # Hard-coded rowheight=28 crushed descenders once Segoe UI fell back to a
-    # taller Linux font (Noto Sans / Ubuntu). Size rows from the real metrics.
-    tree_row_h = max(36, body_font.metrics("linespace") + 14)
+    # taller Linux font (Noto Sans / Ubuntu) or HiDPI bumped tk scaling.
+    # Size every Treeview row from the live font metrics.
+    tree_row_h = max(40, body_font.metrics("linespace") + 16)
 
     style = ttk.Style()
     if "clam" in style.theme_names():
