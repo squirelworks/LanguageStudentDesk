@@ -45,4 +45,4 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 ## Install the APK
 
-The GitHub Actions workflow `SquirrelGo Orthodox Bible APK` builds a debug APK on every push that touches this folder and commits it here as `SquirrelGoOrthodoxBible-debug.apk`. Sideload that file, or download `SquirrelGoOrthodoxBible-debug-apk` from the run's artifacts.
+Download [`SquirrelGoOrthodoxBible-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-orthodox-bible-latest/SquirrelGoOrthodoxBible-debug.apk) from the **SquirrelGo Orthodox Bible (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-orthodox-bible-latest)) and sideload it. The `SquirrelGo Orthodox Bible APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
