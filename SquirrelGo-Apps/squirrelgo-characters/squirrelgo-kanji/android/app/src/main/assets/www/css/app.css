@@ -355,3 +355,26 @@ main {
   font-size: .78rem;
   text-align: center;
 }
+
+/* Stroke order */
+.so-wrap { text-align: center; }
+.so-main {
+  width: min(260px, 70vw);
+  aspect-ratio: 1;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.so-grid { stroke: #e1dacd; stroke-width: .5; stroke-dasharray: 2 2; fill: none; }
+.so-main path, .so-step path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.so-ghost path { stroke: #e6e1d8; stroke-width: 3; }
+.so-ink path { stroke: var(--ink, #1a1a1a); stroke-width: 3.2; }
+.so-nums text { font: 7px system-ui, sans-serif; fill: var(--accent); }
+.so-actions { justify-content: center; }
+.so-count { margin: .3rem 0 .8rem; font-family: system-ui, sans-serif; font-size: .85rem; }
+.so-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: .35rem; }
+.so-step { width: 100%; aspect-ratio: 1; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
+.so-step .so-done path { stroke: #9a948a; stroke-width: 4; }
+.so-step .so-new { stroke: var(--accent); stroke-width: 5; }
+.so-credit { font-family: system-ui, sans-serif; font-size: .78rem; margin-top: .8rem; }
+.so-nums.hidden { display: none; }

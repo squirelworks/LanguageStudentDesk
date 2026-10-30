@@ -421,6 +421,7 @@
             <button type="button" class="${tab === "details" ? "active" : ""}" data-tab="details">Kanji Details</button>
             <button type="button" class="${tab === "readings" ? "active" : ""}" data-tab="readings">Readings</button>
             <button type="button" class="${tab === "meta" ? "active" : ""}" data-tab="meta">Meta</button>
+            <button type="button" class="${tab === "strokes" ? "active" : ""}" data-tab="strokes">Strokes</button>
           </div>
           <div id="detailBody"></div>
           <div class="actions">
@@ -434,6 +435,7 @@
   }
 
   function detailBody(item) {
+    if (state.detailTab === "strokes") return StrokeOrder.html(item.char);
     if (state.detailTab === "readings") {
       return `
         <div class="reading-cols">
@@ -612,6 +614,7 @@
       default:
         html = renderHome();
     }
+    StrokeOrder.stop();
     app.innerHTML = html;
 
     if (state.view === "lessons") {
@@ -623,7 +626,10 @@
       const body = document.createElement("div");
       // inject detail body
       const host = app.querySelector("#detailBody");
-      if (host && item) host.innerHTML = detailBody(item);
+      if (host && item) {
+        host.innerHTML = detailBody(item);
+        if (state.detailTab === "strokes") StrokeOrder.mount(host);
+      }
       if (state.view === "review") {
         const label = document.createElement("div");
         label.className = "quiz-progress";

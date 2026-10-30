@@ -20,7 +20,14 @@ On your phone: enable install from unknown sources / “Install unknown apps” 
 - Quizzes by JLPT level (N5–N1) and by topic
 - Review flashcards (details / readings / meta)
 - On-yomi reading groups
+- Stroke-order animation and step-by-step stroke charts for all 2,136 Jōyō kanji (Strokes tab)
 - Offline dictionary search over ~2,136 Jōyō entries
+
+## Stroke data
+
+`www/data/strokes.js` is generated from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0): the stroke paths and number positions for each kanji, with coordinates rounded to one decimal. That file stays under CC BY-SA 3.0.
+
+The `SquirrelGo Kanji APK` workflow rebuilds `SquirrelGoKanji-debug.apk` on every push that touches this folder.
 
 ## Web / desktop
 
