@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Four letter tiles on a purple tile. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#5A3D8A"
+        android:pathData="M10,2h28a8,8 0 0 1 8,8v28a8,8 0 0 1 -8,8h-28a8,8 0 0 1 -8,-8v-28a8,8 0 0 1 8,-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M9,9h13v13h-13zM26,9h13v13h-13zM9,26h13v13h-13zM26,26h13v13h-13z" />
+    <path
+        android:strokeColor="#5A3D8A"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M12,13h7v6M30,12v7h6M11,30h9M15.5,30v6M30,35c3,0 6,-2 6,-5M31,29l1,1" />
+</vector>
