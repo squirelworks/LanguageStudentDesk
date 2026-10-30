@@ -12,6 +12,14 @@ window.SG_APP = {
 };
 
 window.SG_KLINGON = {
+  // IPA for each letter, used for display and to generate the audio in www/audio
+  // (see tools/clips.js). Values follow the usual description of Klingon phonology.
+  ipa: {
+    a: "ɑ", e: "ɛ", I: "ɪ", o: "o", u: "u",
+    b: "b", ch: "t͡ʃ", D: "ɖ", gh: "ɣ", H: "x", j: "d͡ʒ", l: "l", m: "m", n: "n", ng: "ŋ",
+    p: "pʰ", q: "qʰ", Q: "q͡χ", r: "r", S: "ʂ", t: "tʰ", tlh: "t͡ɬ", v: "v", w: "w", y: "j", "'": "ʔ",
+  },
+
   lessons: [
     {
       title: "Vowels",
@@ -132,7 +140,7 @@ window.SG_KLINGON = {
     },
     {
       title: "Pronunciation guide",
-      body: `<p>Klingon sounds are steady: each letter always makes the same sound.</p>
+      body: `<p>Klingon sounds are steady: each letter always makes the same sound. Every letter's page shows its IPA symbol and plays the sound: tap ▶ to hear it, ½ to hear it slowly. There is no Klingon text-to-speech voice, so the audio is synthesized from IPA with eSpeak NG. It sounds robotic, but each sound is the right one.</p>
 <table>
 <tr><th>Letter</th><th>Say it like</th></tr>
 <tr><td>a e I o u</td><td>f<b>a</b>ther, b<b>e</b>t, b<b>i</b>t, g<b>o</b>, f<b>oo</b>d</td></tr>
