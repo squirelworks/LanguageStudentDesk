@@ -243,6 +243,27 @@ h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color:
 }
 .pad-tools { display: flex; justify-content: center; align-items: center; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; }
 
+.ipa { font-size: 1rem; font-weight: 400; color: var(--muted); font-family: "Noto Sans", "Segoe UI", system-ui, sans-serif; }
+.stroke-panels { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin: .8rem 0 .4rem; }
+.stroke-panel { display: flex; flex-direction: column; align-items: center; gap: .2rem; font-size: .85rem; }
+.btn.small { padding: .35rem .7rem; font-size: .9rem; }
+svg.strokes { width: 8.5rem; height: 8.5rem; background: #fbfaf7; border: 1px solid var(--line); border-radius: 10px; }
+svg.strokes.mini { width: 5.5rem; height: 5.5rem; flex: none; }
+svg.strokes path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg.strokes .ghost path { stroke: #ebe6dc; stroke-width: 7; }
+svg.strokes .ink path { stroke: var(--ink); stroke-width: 6.5; }
+svg.strokes .ink path.now { stroke: var(--accent); }
+svg.strokes .num { opacity: 0; transition: opacity .2s; }
+svg.strokes .num.shown { opacity: 1; }
+svg.strokes .num circle { fill: var(--accent); }
+svg.strokes .num text { fill: #fff; font: 700 6px system-ui, sans-serif; text-anchor: middle; }
+.part-chips { justify-content: center; margin-bottom: .6rem; }
+.pad-msg { text-align: center; min-height: 1.4em; margin-top: .5rem; }
+.pad-msg.good { color: var(--good); font-weight: 600; }
+.pad-msg.bad { color: var(--bad); font-weight: 600; }
+.toggle { display: inline-flex; align-items: center; gap: .35rem; font-size: .95rem; }
+.toggle input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+
 .chips { display: flex; flex-wrap: wrap; gap: .35rem; }
 .chip {
   border: 1px solid var(--line);
