@@ -1,0 +1,37 @@
+name: SquirrelGo Phrasebook APK
+
+on:
+  push:
+    paths:
+      - "squirrelgo-phrasebook/**"
+      - ".github/workflows/squirrelgo-phrasebook-apk.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: squirrelgo-phrasebook
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - name: Sync web assets into the APK
+        run: |
+          rm -rf android/app/src/main/assets/www
+          mkdir -p android/app/src/main/assets
+          cp -a www android/app/src/main/assets/www
+      - name: Build debug APK
+        working-directory: squirrelgo-phrasebook/android
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SquirrelGoPhrasebook-debug-apk
+          path: squirrelgo-phrasebook/android/app/build/outputs/apk/debug/app-debug.apk
