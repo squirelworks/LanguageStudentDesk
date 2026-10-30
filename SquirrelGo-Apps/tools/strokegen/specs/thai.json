@@ -1,1 +1,0 @@
-{"id": "thai", "title": "Thai", "fontName": "Noto Sans Thai Looped", "fontPackages": "noto-sans-thai-looped", "data": "../../squirrelgo-characters/squirrelgo-alphabets/www/data/thai.js", "fonts": ["noto-sans-thai-looped-thai-400-normal.ttf"], "head": 90, "corner": 150, "base_first": true, "spur": 2.5, "graphOrder": true}

@@ -18,9 +18,8 @@ rerun only records what changed.
 A script with audio: "ipa" is recorded from IPA instead, through
 tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
 the example's IPA, for the word. Use it where eSpeak reads the script badly
-(pointed Hebrew); a script eSpeak has no voice for (Lao, Khmer,
-Tibetan) is recorded this way too, with the "hi" voice. Tone marks are
-dropped. For either, set "voice" to pick the eSpeak voice.
+(pointed Hebrew) or has no voice for it; set "voice" to pick the eSpeak voice,
+and bareVowel: "before" to say a lone consonant as "ab" rather than "ba".
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -119,12 +118,6 @@ def letter_text(s, ch, ipa, lang, voice):
     return first
 
 
-def plain_ipa(ipa):
-    """IPA without tone marks or alternatives, for ipa_audio."""
-    ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
-    return unicodedata.normalize("NFC", "".join(c for c in ipa if unicodedata.category(c) != "Mn"))
-
-
 def render(text, voice, path, speed=140):
     with tempfile.NamedTemporaryFile(suffix=".wav") as wav:
         if text.startswith("ipa:"):
@@ -141,9 +134,7 @@ def render(text, voice, path, speed=140):
 def run(script):
     s = load(script)
     base_voice = s.get("voice") or voice_for(s["lang"])
-    by_ipa = s.get("audio") == "ipa" or not base_voice
-    if not base_voice:
-        base_voice = "hi"  # ipa_audio's phoneme table
+    by_ipa = s.get("audio") == "ipa"
     out_dir = os.path.join(WWW, "audio", script)
     os.makedirs(out_dir, exist_ok=True)
     clips = {}  # text the app passes -> (voice, text eSpeak reads)
@@ -156,13 +147,15 @@ def run(script):
             key = speak or g
             voice = voice_for(ex_lang) or base_voice
             if by_ipa:
-                sound = plain_ipa(ipa)
+                sound = ipa.split("~")[0].strip()
                 if sound and not any(ch in IPA_VOWELS for ch in sound):
-                    sound += "a"
+                    # a lone consonant: said as "ba", or as "ab" where the
+                    # script's syllable "ba" has its own character
+                    sound = "a" + sound if s.get("bareVowel") == "before" else sound + "a"
                 if sound and key not in clips:
                     clips[key] = (voice, "ipa:" + sound)
                 if ex and ex_ipa and ex not in clips:
-                    clips[ex] = (voice, "ipa:" + plain_ipa(ex_ipa))
+                    clips[ex] = (voice, "ipa:" + ex_ipa)
                 continue
             if voice and key not in clips:
                 # A speak text that is not one of the letters themselves is a
