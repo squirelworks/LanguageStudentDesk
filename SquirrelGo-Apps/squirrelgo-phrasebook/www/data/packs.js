@@ -1211,5 +1211,242 @@ window.PHRASEBOOK_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: "smalltalk",
+    code: "st",
+    title: "Small Talk",
+    jaTitle: "会話",
+    desc: "Getting to know people, hobbies, weather, feelings and keeping in touch.",
+    categories: [
+      {
+        title: "Getting to know someone",
+        phrases: [
+          ["How are you?", "お元気ですか。", "おげんき です か。", "Mostly for people you haven't seen in a while, not a daily greeting."],
+          ["I'm fine, thanks.", "はい、元気です。", "はい、 げんき です。"],
+          ["It's been a long time.", "お久しぶりです。", "おひさしぶり です。"],
+          ["Where do you live?", "どこに住んでいますか。", "どこ に すんで います か。"],
+          ["I live in Osaka.", "大阪に住んでいます。", "おおさか に すんで います。"],
+          ["What do you do for work?", "お仕事は何ですか。", "おしごと は なん です か。"],
+          ["How long have you been in Japan?", "日本に来てどのくらいですか。", "にほん に きて どの くらい です か。"],
+          ["About six months.", "半年くらいです。", "はんとし くらい です。"],
+          ["Do you have any brothers or sisters?", "兄弟はいますか。", "きょうだい は います か。"],
+          ["Your Japanese is good.", "日本語が上手ですね。", "にほんご が じょうず です ね。", "A common compliment; a modest reply is いえいえ、まだまだです."],
+          ["No, I still have a long way to go.", "いえいえ、まだまだです。", "いえいえ、 まだまだ です。"]
+        ]
+      },
+      {
+        title: "Hobbies & free time",
+        phrases: [
+          ["What are your hobbies?", "趣味は何ですか。", "しゅみ は なん です か。"],
+          ["My hobby is reading.", "趣味は読書です。", "しゅみ は どくしょ です。"],
+          ["I like music.", "音楽が好きです。", "おんがく が すき です。"],
+          ["What kind of music do you like?", "どんな音楽が好きですか。", "どんな おんがく が すき です か。"],
+          ["What do you do on weekends?", "週末は何をしますか。", "しゅうまつ は なに を します か。"],
+          ["I often go hiking.", "よくハイキングに行きます。", "よく ハイキング に いきます。"],
+          ["I've been learning Japanese for a year.", "日本語を一年勉強しています。", "にほんご を いちねん べんきょう して います。"],
+          ["Have you seen this anime?", "このアニメを見たことがありますか。", "この アニメ を みた こと が あります か。"],
+          ["Do you play any sports?", "何かスポーツをしますか。", "なにか スポーツ を します か。"]
+        ]
+      },
+      {
+        title: "Weather & seasons",
+        phrases: [
+          ["It's hot today, isn't it?", "今日は暑いですね。", "きょう は あつい です ね。", "Talking about the weather with ね is the classic way to start a chat."],
+          ["It's cold, isn't it?", "寒いですね。", "さむい です ね。"],
+          ["It's humid.", "蒸し暑いですね。", "むしあつい です ね。"],
+          ["It looks like rain.", "雨が降りそうですね。", "あめ が ふりそう です ね。"],
+          ["The cherry blossoms are beautiful.", "桜がきれいですね。", "さくら が きれい です ね。"],
+          ["Which season do you like?", "どの季節が好きですか。", "どの きせつ が すき です か。"],
+          ["The rainy season has started.", "梅雨に入りましたね。", "つゆ に はいりました ね。", "Most of Japan has a rainy season in June and July."]
+        ]
+      },
+      {
+        title: "Feelings & reactions",
+        phrases: [
+          ["Really?", "本当ですか。", "ほんとう です か。"],
+          ["That's great!", "すごいですね！", "すごい です ね！"],
+          ["That's too bad.", "それは残念ですね。", "それ は ざんねん です ね。"],
+          ["I see.", "なるほど。", "なるほど。"],
+          ["That sounds fun.", "楽しそうですね。", "たのしそう です ね。"],
+          ["I'm happy.", "うれしいです。", "うれしい です。"],
+          ["I'm tired.", "疲れました。", "つかれました。"],
+          ["I'm a little nervous.", "少し緊張しています。", "すこし きんちょう して います。"],
+          ["Congratulations!", "おめでとうございます！", "おめでとう ございます！"]
+        ]
+      },
+      {
+        title: "Invitations & plans",
+        phrases: [
+          ["Would you like to get a meal together?", "一緒にご飯を食べませんか。", "いっしょ に ごはん を たべません か。"],
+          ["Sounds good, let's go.", "いいですね、行きましょう。", "いい です ね、 いきましょう。"],
+          ["Sorry, I have plans that day.", "すみません、その日は用事があります。", "すみません、 その ひ は ようじ が あります。", "A polite way to decline without giving details."],
+          ["When are you free?", "いつが空いていますか。", "いつ が あいて います か。"],
+          ["Where shall we meet?", "どこで待ち合わせしましょうか。", "どこ で まちあわせ しましょう か。"],
+          ["Let's meet in front of the station.", "駅の前で会いましょう。", "えき の まえ で あいましょう。"],
+          ["I'll be about five minutes late.", "五分くらい遅れます。", "ごふん くらい おくれます。"]
+        ]
+      },
+      {
+        title: "Keeping in touch",
+        phrases: [
+          ["Can I have your contact details?", "連絡先を教えてもらえますか。", "れんらくさき を おしえて もらえます か。"],
+          ["Do you use LINE?", "LINEをやっていますか。", "ライン を やって います か。", "LINE is the most common messaging app in Japan."],
+          ["I'll message you later.", "後で連絡します。", "あと で れんらく します。"],
+          ["It was nice talking with you.", "お話しできて楽しかったです。", "おはなし できて たのしかった です。"],
+          ["Let's meet again.", "また会いましょう。", "また あいましょう。"],
+          ["Take care.", "気をつけてね。", "き を つけて ね。"],
+          ["See you.", "またね。", "また ね。", "Casual; with people you don't know well, say ではまた (dewa mata)."]
+        ]
+      }
+    ]
+  },
+  {
+    id: "dailylife",
+    code: "dl",
+    title: "Daily Life",
+    jaTitle: "生活",
+    desc: "City hall, the bank and post office, phones, housing, trash and neighbors.",
+    categories: [
+      {
+        title: "City hall",
+        phrases: [
+          ["I'd like to register my address.", "住所の届け出をしたいです。", "じゅうしょ の とどけで を したい です。", "New residents register at the city or ward office within 14 days of moving in."],
+          ["Which counter should I go to?", "どの窓口に行けばいいですか。", "どの まどぐち に いけば いい です か。"],
+          ["Here is my residence card.", "在留カードです。", "ざいりゅう カード です。"],
+          ["What documents do I need?", "どんな書類が必要ですか。", "どんな しょるい が ひつよう です か。"],
+          ["I'd like to join the health insurance.", "健康保険に入りたいです。", "けんこう ほけん に はいりたい です。"],
+          ["Where do I write my name?", "名前はどこに書きますか。", "なまえ は どこ に かきます か。"],
+          ["Please take a number and wait.", "番号札を取ってお待ちください。", "ばんごうふだ を とって おまち ください。"]
+        ]
+      },
+      {
+        title: "Bank & post office",
+        phrases: [
+          ["I'd like to open an account.", "口座を開きたいです。", "こうざ を ひらきたい です。"],
+          ["I'd like to send money abroad.", "海外に送金したいです。", "かいがい に そうきん したい です。"],
+          ["Where can I exchange money?", "どこで両替できますか。", "どこ で りょうがえ できます か。"],
+          ["I'd like to send this to America.", "これをアメリカに送りたいです。", "これ を アメリカ に おくりたい です。"],
+          ["By airmail, please.", "航空便でお願いします。", "こうくうびん で おねがい します。"],
+          ["How many days will it take?", "何日くらいかかりますか。", "なんにち くらい かかります か。"],
+          ["One stamp, please.", "切手を一枚ください。", "きって を いちまい ください。"],
+          ["I got a missed-delivery notice.", "不在票が入っていました。", "ふざいひょう が はいって いました。", "Use the slip's phone number or QR code to schedule redelivery."]
+        ]
+      },
+      {
+        title: "Phones & internet",
+        phrases: [
+          ["I'd like to buy a SIM card.", "SIMカードを買いたいです。", "シム カード を かいたい です。"],
+          ["How much is it per month?", "月にいくらですか。", "つき に いくら です か。"],
+          ["My phone won't connect.", "スマホがつながりません。", "スマホ が つながりません。"],
+          ["Is there free Wi-Fi here?", "ここに無料のWi-Fiはありますか。", "ここ に むりょう の ワイファイ は あります か。"],
+          ["Can I charge my phone?", "スマホを充電してもいいですか。", "スマホ を じゅうでん して も いい です か。"],
+          ["The battery is almost dead.", "電池がもうすぐ切れます。", "でんち が もうすぐ きれます。"]
+        ]
+      },
+      {
+        title: "Housing",
+        phrases: [
+          ["I'm looking for an apartment.", "アパートを探しています。", "アパート を さがして います。"],
+          ["How much is the rent?", "家賃はいくらですか。", "やちん は いくら です か。"],
+          ["Is it close to the station?", "駅から近いですか。", "えき から ちかい です か。"],
+          ["Can I see the room?", "部屋を見せてもらえますか。", "へや を みせて もらえます か。"],
+          ["Are pets allowed?", "ペットは大丈夫ですか。", "ペット は だいじょうぶ です か。"],
+          ["The toilet is blocked.", "トイレが詰まりました。", "トイレ が つまりました。"],
+          ["The water is leaking.", "水が漏れています。", "みず が もれて います。"],
+          ["When will the electricity be turned on?", "電気はいつ使えるようになりますか。", "でんき は いつ つかえる よう に なります か。"]
+        ]
+      },
+      {
+        title: "Trash & recycling",
+        phrases: [
+          ["What day is trash collection?", "ゴミの日は何曜日ですか。", "ゴミ の ひ は なんようび です か。", "Each neighborhood has a schedule; ask the city office or your landlord for the chart."],
+          ["Is this burnable?", "これは燃えるゴミですか。", "これ は もえる ゴミ です か。"],
+          ["Where do plastic bottles go?", "ペットボトルはどこに捨てますか。", "ペットボトル は どこ に すてます か。", "Remove the cap and label, and rinse the bottle."],
+          ["Where is the collection point?", "ゴミ置き場はどこですか。", "ゴミおきば は どこ です か。"],
+          ["How do I throw away large items?", "粗大ゴミはどうやって捨てますか。", "そだい ゴミ は どう やって すてます か。", "Large items need a paid sticker and a booked pickup."]
+        ]
+      },
+      {
+        title: "Neighbors",
+        phrases: [
+          ["I just moved in next door.", "隣に引っ越してきました。", "となり に ひっこして きました。"],
+          ["This is a small gift.", "つまらないものですが、どうぞ。", "つまらない もの です が、 どうぞ。", "A traditional modest phrase when giving a moving-in gift."],
+          ["I'm sorry about the noise.", "うるさくてすみません。", "うるさくて すみません。"],
+          ["Could you keep it down a little?", "少し静かにしてもらえますか。", "すこし しずか に して もらえます か。"],
+          ["A package came for you.", "荷物が届いていましたよ。", "にもつ が とどいて いました よ。"],
+          ["Thanks for everything.", "いろいろありがとうございました。", "いろいろ ありがとう ございました。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "classroom",
+    code: "cl",
+    title: "Classroom",
+    jaTitle: "教室",
+    desc: "Language-school phrases: asking questions, instructions, homework and tests.",
+    categories: [
+      {
+        title: "Asking the teacher",
+        phrases: [
+          ["Teacher, I have a question.", "先生、質問があります。", "せんせい、 しつもん が あります。"],
+          ["How do you read this kanji?", "この漢字は何と読みますか。", "この かんじ は なん と よみます か。"],
+          ["What is the difference between these?", "これとこれはどう違いますか。", "これ と これ は どう ちがいます か。"],
+          ["Is this sentence correct?", "この文は正しいですか。", "この ぶん は ただしい です か。"],
+          ["Could you give an example?", "例を挙げていただけますか。", "れい を あげて いただけます か。"],
+          ["Is this polite or casual?", "これは丁寧な言い方ですか。", "これ は ていねい な いいかた です か。"],
+          ["Which page is it?", "何ページですか。", "なん ページ です か。"],
+          ["Could you write it on the board?", "黒板に書いていただけますか。", "こくばん に かいて いただけます か。"]
+        ]
+      },
+      {
+        title: "Teacher's instructions",
+        phrases: [
+          ["Open your textbook.", "教科書を開いてください。", "きょうかしょ を ひらいて ください。"],
+          ["Please repeat after me.", "後について言ってください。", "あと に ついて いって ください。"],
+          ["Read it aloud.", "声に出して読んでください。", "こえ に だして よんで ください。"],
+          ["Work in pairs.", "ペアで練習してください。", "ペア で れんしゅう して ください。"],
+          ["Listen carefully.", "よく聞いてください。", "よく きいて ください。"],
+          ["Fill in the blanks.", "空欄を埋めてください。", "くうらん を うめて ください。"],
+          ["That's it for today.", "今日はここまでです。", "きょう は ここ まで です。"]
+        ]
+      },
+      {
+        title: "Homework & tests",
+        phrases: [
+          ["When is the homework due?", "宿題はいつまでですか。", "しゅくだい は いつ まで です か。"],
+          ["I forgot my homework.", "宿題を忘れました。", "しゅくだい を わすれました。"],
+          ["When is the test?", "テストはいつですか。", "テスト は いつ です か。"],
+          ["What is on the test?", "テストの範囲はどこですか。", "テスト の はんい は どこ です か。"],
+          ["I'm studying for the JLPT.", "日本語能力試験の勉強をしています。", "にほんご のうりょく しけん の べんきょう を して います。", "The Japanese-Language Proficiency Test runs from N5 (easiest) to N1."],
+          ["I passed!", "合格しました！", "ごうかく しました！"]
+        ]
+      },
+      {
+        title: "Class logistics",
+        phrases: [
+          ["Sorry I'm late.", "遅れてすみません。", "おくれて すみません。"],
+          ["I'll be absent tomorrow.", "明日は休みます。", "あした は やすみます。"],
+          ["May I go to the restroom?", "トイレに行ってもいいですか。", "トイレ に いって も いい です か。"],
+          ["Could I borrow a pen?", "ペンを借りてもいいですか。", "ペン を かりて も いい です か。"],
+          ["What did we do last class?", "前の授業で何をしましたか。", "まえ の じゅぎょう で なに を しました か。"],
+          ["Thank you for today's lesson.", "今日もありがとうございました。", "きょう も ありがとう ございました。"]
+        ]
+      },
+      {
+        title: "Grammar words",
+        phrases: [
+          ["Noun", "名詞", "めいし"],
+          ["Verb", "動詞", "どうし"],
+          ["Adjective", "形容詞", "けいようし"],
+          ["Particle", "助詞", "じょし"],
+          ["Polite form", "丁寧形", "ていねいけい", "The です/ます form."],
+          ["Dictionary form", "辞書形", "じしょけい"],
+          ["Past tense", "過去形", "かこけい"],
+          ["Pronunciation", "発音", "はつおん"]
+        ]
+      }
+    ]
   }
 ];
