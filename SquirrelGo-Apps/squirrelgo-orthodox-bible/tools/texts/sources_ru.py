@@ -3,8 +3,8 @@
 Each is a pre-revolutionary Russian translation (public domain): the Kazan
 Theological Academy's Theophylact (Благовестник, 1855-1888), the Moscow
 Theological Academy's Theodoret (Творения святых отцев, 1855-1861), the Kiev
-Euthymius Zigabenus (1882-1887) and Archpriest Michael Bogoslovsky's Andrew of
-Caesarea (1884). fetch_azbyka.py downloads them; build_commentary_ru.py checks
+Euthymius Zigabenus (1882-1887), Archpriest Michael Bogoslovsky's Andrew of
+Caesarea (1884) and the St Petersburg Theological Academy's Chrysostom (1895-1906). fetch_azbyka.py downloads them; build_commentary_ru.py checks
 each book's edition year on its azbyka.ru page (MAX_YEAR) before using it.
 """
 
@@ -17,6 +17,7 @@ COMMENTARIES = {
     "euthymius-ru": ("Евфимий Зигабен (Euthymius Zigabenus)", "east"),
     "theodoret-ru": ("Блаженный Феодорит Кирский (Blessed Theodoret of Cyrus)", "east"),
     "andrew-caesarea-ru": ("Святитель Андрей Кесарийский (St Andrew of Caesarea)", "east"),
+    "chrysostom-ru": ("Святитель Иоанн Златоуст (St John Chrysostom)", "east"),
 }
 
 AZBYKA_BOOKS = {
@@ -109,6 +110,31 @@ AZBYKA_BOOKS = {
     ],
     "andrew-caesarea-ru": [
         {"url": "https://azbyka.ru/otechnik/Andrej_Kesarijskij/tolkovanie-na-apokalipsis-sv-ioanna-bogoslova/"},
+    ],    "chrysostom-ru": [
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-knigu-bytija/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy_na_psalmy/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanija-na-pritchi-solomona/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-proroka-isajju/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-proroka-ieremiyu/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-knigu-proroka-daniila/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-evangelie-ot-matfeja/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-evangelie-ot-ioanna/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-dejanija-apostolskie/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-poslanie-k-rimljanam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-1-e-poslanie-k-korinfjanam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-2-e-poslanie-k-korinfjanam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-poslanie-k-galatam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-poslanie-k-efesjanam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/besedy-na-poslanie-k-filippijtsam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-poslanie-k-kolossjanam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-pervoe-poslanie-k-fessalonikijtsam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-vtoroe-poslanie-k-fessalonikijtsam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-pervoe-poslanie-k-timofeju/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-vtoroe-poslanie-k-timofeju/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-poslanie-k-titu/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-poslanie-k-filimonu/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/tolkovanie-na-poslanie-k-evrejam/"},
+        {"url": "https://azbyka.ru/otechnik/Ioann_Zlatoust/otryvki-tolkovanij-na-sobornye-poslanija/"},
     ],
 }
 
