@@ -16,6 +16,7 @@ Needs Python 3 with `numpy scipy scikit-image freetype-py uharfbuzz pillow`, plu
 2. The glyph is thinned to a one-pixel centre line and turned into a graph of ends, junctions and branches. Short spurs from thinning are pruned.
 3. The graph is walked into pen strokes: at a junction the pen carries straight on, and lifts at a sharp corner where both sides are straight (the corners of E, the point of V; a hook or tight curve stays whole).
 4. Each stroke starts at the end a hand would start from: top first, then left (right for `"dir": "rtl"`). Closed loops start at the top and run anticlockwise. Dots and accents (small separate pieces) come last; pieces stacked over each other go top to bottom. With `"headline_last"` the flat pieces along the top join into one headline drawn last, as in Devanagari.
+   - With `"head"` (a loop length in box units, Thai and Lao) the pen starts at the letter's head, the small loop, goes round it and carries on through every junction, so most letters come out as one stroke. The head nearest the top left is used, or the lowest with `"head_low"` (Lao ກ). `"base_first"` draws a letter before the vowel and tone marks above and below it, and `"headline_first"` draws the headline first (Tibetan).
 5. The contact sheet (`--sheet`) shows every character with numbered, coloured strokes for review.
 
 ## Hand-drawn strokes
