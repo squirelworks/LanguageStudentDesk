@@ -40,28 +40,13 @@ jobs:
         run: python3 translation-learner/tools/fetch_corpora.py tatoeba || echo "::warning::Tatoeba could not be downloaded; keeping the links already committed"
       - name: Wiktionary entries
         run: python3 translation-learner/tools/fetch_corpora.py wiktionary || echo "::warning::Wiktionary could not be downloaded; keeping the entries already committed"
+      # The link files are committed before retraining, so a retrain that
+      # fails its checks can still be tuned from them on any machine.
+      - name: Commit the link files
+        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: Tatoeba and Wiktionary links" translation-learner/tools/tatoeba translation-learner/tools/wiktionary
       - name: Retrain the meaning network
         run: python3 translation-learner/tools/build_network.py
       - name: Check
         run: node translation-learner/check.js
-      - name: Commit the small outputs
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add translation-learner/tools/tatoeba translation-learner/tools/wiktionary translation-learner/data
-          if git diff --cached --quiet; then
-            echo "Nothing changed."
-            exit 0
-          fi
-          du -ch translation-learner/tools/tatoeba translation-learner/tools/wiktionary translation-learner/data/network.js | tail -1
-          git commit -q -m "Translation Learner: retrain on Tatoeba and Wiktionary (${GITHUB_SHA::7})"
-          branch="${GITHUB_REF_NAME}"
-          if [ "$branch" = "main" ]; then
-            branch=translation-learner-corpora
-            git push -f origin "HEAD:refs/heads/$branch"
-          else
-            git fetch -q origin "$branch"
-            git rebase -q "origin/$branch"
-            git push origin "HEAD:refs/heads/$branch"
-          fi
-          echo "Committed to $branch."
+      - name: Commit the retrained network
+        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: retrain on Tatoeba and Wiktionary" translation-learner/data

@@ -38,8 +38,12 @@ WIKTIONARY = os.path.join(HERE, "wiktionary")
 TATOEBA_CREDIT = "Tatoeba sentence pairs via OPUS, CC BY 2.0 FR, https://tatoeba.org"
 WIKTIONARY_CREDIT = "Wiktionary via kaikki.org, CC BY-SA 4.0, https://kaikki.org"
 
-OPUS_API = "https://opus.nlpl.eu/opusapi/?source=en&target={code}&corpora=Tatoeba&preprocessing=moses&version=latest"
-OPUS_DIRECT = "https://object.pouta.csc.fi/OPUS-Tatoeba/v2023-04-12/moses/en-{code}.txt.zip"
+OPUS_API = "https://opus.nlpl.eu/opusapi/?source=en&target={code}&corpus=Tatoeba&preprocessing=moses&version=latest"
+# OPUS names a pair in alphabetical order (ar-en, en-ja) and uses its own
+# codes for some languages, so these are tried when the API gives no link.
+OPUS_DIRECT = "https://object.pouta.csc.fi/OPUS-Tatoeba/{version}/moses/{pair}.txt.zip"
+OPUS_VERSIONS = ("v2023-04-12", "v2022-03-03", "v2021-07-22")
+OPUS_CODES = {"zh": ("zh", "zh_CN", "zh_cn", "cmn"), "ar": ("ar", "ara")}
 KAIKKI = "https://kaikki.org/dictionary/{name}/kaikki.org-dictionary-{file}.jsonl"
 KAIKKI_NAMES = {"japanese": "Japanese", "hangul": "Korean", "chinese": "Chinese", "cyrillic": "Russian", "hindi": "Hindi", "arabic": "Arabic"}
 # Languages written without spaces are matched against the Desk's words,
@@ -68,16 +72,20 @@ def vocabulary():
 
 def opus_pairs(code):
     """(English, other) sentence pairs for one language, from OPUS."""
+    codes = OPUS_CODES.get(code, (code,))
     urls = []
-    try:
-        with get(OPUS_API.format(code=code)) as r:
-            for c in json.load(r).get("corpora", []):
-                if c.get("url", "").endswith(".zip"):
-                    urls.append(c["url"])
-    except Exception as e:
-        print("  OPUS API:", e)
-    urls.append(OPUS_DIRECT.format(code=code))
-    for url in urls:
+    for c in codes:
+        try:
+            with get(OPUS_API.format(code=c)) as r:
+                for corpus in json.load(r).get("corpora", []):
+                    if isinstance(corpus, dict) and corpus.get("url", "").endswith(".zip"):
+                        urls.append(corpus["url"])
+        except Exception as e:
+            print("  OPUS API:", e)
+    for version in OPUS_VERSIONS:
+        for c in codes:
+            urls.append(OPUS_DIRECT.format(version=version, pair="-".join(sorted(("en", c)))))
+    for url in dict.fromkeys(urls):
         try:
             print("  fetching", url)
             with get(url) as r:
@@ -87,7 +95,7 @@ def opus_pairs(code):
             continue
         names = z.namelist()
         en = [n for n in names if n.endswith(".en")]
-        xx = [n for n in names if n.endswith("." + code)]
+        xx = [n for n in names if not n.endswith((".en", ".xml", ".ids")) and "." in n and not n.endswith("README") and not n.endswith("LICENSE")]
         if en and xx:
             a = z.read(en[0]).decode("utf-8").splitlines()
             b = z.read(xx[0]).decode("utf-8").splitlines()
