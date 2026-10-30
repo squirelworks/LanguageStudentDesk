@@ -35,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     @SuppressWarnings("deprecation")
     public void onBackPressed() {
-        // Prefer in-app back navigation over WebView history.
+        // Prefer in-app back navigation (close the sidebar, then go back a
+        // screen) over WebView history.
         if (webView != null) {
             webView.evaluateJavascript(
-                "(function(){var b=document.getElementById('backBtn'); if(b && !b.classList.contains('hidden')){b.click(); return true;} return false;})()",
+                "(function(){return window.handleBack ? window.handleBack() : false;})()",
                 value -> {
                     if ("false".equals(value)) {
                         MainActivity.super.onBackPressed();

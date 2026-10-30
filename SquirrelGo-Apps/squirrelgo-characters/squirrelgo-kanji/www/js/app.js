@@ -138,10 +138,68 @@
     render();
   }
 
+  // Sidebar sections. Each entry is [view, label, kanji shown as its icon].
+  const SIDEBAR = [
+    ["home", "Home", "家"],
+    ["lessons", "Lessons", "学"],
+    ["onyomi", "On-yomi Groups", "音"],
+    ["quizzes_level", "Quiz by JLPT level", "級"],
+    ["quizzes_topic", "Quiz by topic", "題"],
+    ["dictionary", "Dictionary", "辞"],
+  ];
+  // Views reached from a sidebar entry, so the entry stays highlighted.
+  const SECTION_OF = {
+    lesson: "lessons",
+    theme: "lessons",
+    group: "onyomi",
+    quizzes: "quizzes_level",
+  };
+
+  function sidebar() {
+    const current = SECTION_OF[state.view] || state.view;
+    const items = SIDEBAR.map(
+      ([view, label, icon]) =>
+        `<button type="button" class="side-item ${current === view ? "active" : ""}" data-side="${view}">
+          <span class="side-icon" lang="ja">${icon}</span><span>${label}</span>
+        </button>`
+    ).join("");
+    return `
+      <nav class="sidebar ${state.drawerOpen ? "open" : ""}" aria-label="Sections">
+        <div class="side-brand"><span lang="ja">漢字</span> SquirrelGo Kanji</div>
+        ${items}
+        <p class="side-note">${Object.keys(getProgress().seen || {}).length} kanji practiced</p>
+      </nav>
+      <div class="side-backdrop ${state.drawerOpen ? "open" : ""}" id="sideBackdrop"></div>
+    `;
+  }
+
+  function openSection(view) {
+    state.drawerOpen = false;
+    state.stack = view === "home" ? [] : ["home"];
+    state.view = view;
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  // Android's back button: close the drawer first, then go back a screen.
+  window.handleBack = () => {
+    if (state.drawerOpen) {
+      state.drawerOpen = false;
+      render();
+      return true;
+    }
+    if (state.view !== "home") {
+      goBack();
+      return true;
+    }
+    return false;
+  };
+
   function topbar(title, subtitle) {
     const canBack = state.view !== "home";
     return `
       <div class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
         <button class="back-btn ${canBack ? "" : "hidden"}" id="backBtn" type="button">← Back</button>
         <h1>${title}${subtitle ? `<span class="sub">${subtitle}</span>` : ""}</h1>
       </div>
@@ -415,7 +473,9 @@
       ${topbar("Flashcards", item.info)}
       <main>
         <div class="panel">
-          <div class="detail-glyph">${item.char}</div>
+          ${StrokeOrder.has(item.char)
+            ? `<button type="button" class="detail-anim" id="heroStrokes" aria-label="Replay writing animation">${StrokeOrder.hero(item.char)}<span class="detail-anim-hint">Tap to replay</span></button>`
+            : `<div class="detail-glyph">${item.char}</div>`}
           <div class="detail-meaning">${item.info}</div>
           <div class="tabs">
             <button type="button" class="${tab === "details" ? "active" : ""}" data-tab="details">Kanji Details</button>
@@ -615,7 +675,7 @@
         html = renderHome();
     }
     StrokeOrder.stop();
-    app.innerHTML = html;
+    app.innerHTML = `${sidebar()}<div class="shell-main">${html}</div>`;
 
     if (state.view === "lessons") {
       const el = $("#beginThemes");
@@ -630,6 +690,7 @@
         host.innerHTML = detailBody(item);
         if (state.detailTab === "strokes") StrokeOrder.mount(host);
       }
+      StrokeOrder.mountHero(app.querySelector("#heroStrokes"));
       if (state.view === "review") {
         const label = document.createElement("div");
         label.className = "quiz-progress";
@@ -644,6 +705,17 @@
 
   function wire() {
     $("#backBtn")?.addEventListener("click", goBack);
+    $("#menuBtn")?.addEventListener("click", () => {
+      state.drawerOpen = !state.drawerOpen;
+      render();
+    });
+    $("#sideBackdrop")?.addEventListener("click", () => {
+      state.drawerOpen = false;
+      render();
+    });
+    app.querySelectorAll("[data-side]").forEach((btn) => {
+      btn.addEventListener("click", () => openSection(btn.getAttribute("data-side")));
+    });
     $("#backHome")?.addEventListener("click", () => {
       state.stack = [];
       navigate("home", { replace: true });

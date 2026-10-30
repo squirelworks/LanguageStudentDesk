@@ -19,7 +19,8 @@ On your phone: enable install from unknown sources / “Install unknown apps” 
 - Quizzes by JLPT level (N5–N1) and by topic
 - Review flashcards (details / readings / meta)
 - On-yomi reading groups
-- Stroke-order animation and step-by-step stroke charts for all 2,136 Jōyō kanji (Strokes tab)
+- Sidebar menu for every section (a slide-out drawer on phones)
+- Writing animation at the top of every kanji (tap to replay), plus step-by-step stroke charts in the Strokes tab, for all 2,136 Jōyō kanji
 - Offline dictionary search over ~2,136 Jōyō entries
 
 ## Stroke data

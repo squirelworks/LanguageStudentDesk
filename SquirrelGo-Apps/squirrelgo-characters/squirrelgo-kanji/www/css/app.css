@@ -378,3 +378,94 @@ main {
 .so-step .so-new { stroke: var(--accent); stroke-width: 5; }
 .so-credit { font-family: system-ui, sans-serif; font-size: .78rem; margin-top: .8rem; }
 .so-nums.hidden { display: none; }
+
+/* Sidebar: always visible on wide screens, a slide-out drawer on phones */
+#app { display: block; }
+.shell-main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  width: 240px;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  padding: calc(var(--safe-top) + .8rem) .6rem 1rem;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform .2s ease;
+}
+.sidebar.open { transform: none; box-shadow: 4px 0 18px rgba(0,0,0,.18); }
+.side-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: rgba(0,0,0,.32);
+  display: none;
+}
+.side-backdrop.open { display: block; }
+.side-brand {
+  font-weight: 700;
+  padding: .3rem .6rem 1rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: .6rem;
+}
+.side-brand span { color: var(--accent); margin-right: .2rem; }
+.side-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  border: 0;
+  background: transparent;
+  border-radius: 8px;
+  padding: .6rem .6rem;
+  margin-bottom: .15rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: system-ui, sans-serif;
+  font-size: .95rem;
+  color: var(--ink);
+}
+.side-item:hover { background: var(--accent-soft); }
+.side-item.active { background: var(--accent); color: #fff; }
+.side-icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 1.05rem;
+  flex: none;
+}
+.side-item.active .side-icon { background: rgba(255,255,255,.18); color: #fff; }
+.side-note { font-family: system-ui, sans-serif; font-size: .8rem; color: var(--muted); padding: .8rem .6rem 0; }
+.menu-btn { font-size: 1.1rem; line-height: 1; }
+@media (min-width: 900px) {
+  .sidebar { transform: none; box-shadow: none; }
+  .shell-main { margin-left: 240px; }
+  .menu-btn, .side-backdrop { display: none !important; }
+}
+
+/* Writing animation at the top of the kanji detail */
+.detail-anim {
+  display: block;
+  margin: 0 auto .3rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.so-hero { width: 8.5rem; height: 8.5rem; display: block; margin: 0 auto; }
+.so-hero path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.so-hero .so-ghost path { stroke: #ebe6dd; stroke-width: 3.5; }
+.so-hero .so-ink path { stroke: var(--ink, #1a1a1a); stroke-width: 3.8; }
+.detail-anim-hint { display: block; font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted); }
