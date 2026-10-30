@@ -4,309 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Programming Learner — Language Student Desk</title>
+<link rel="stylesheet" href="../languages/learners.css">
 <style>
-  :root {
-    --bg: #0f0f12;
-    --card: #1a1a20;
-    --accent: #26a69a;
-    --text: #e8e8e8;
-    --muted: #9e9e9e;
-    --sidebar: #141418;
+  :root { --mono: ui-monospace, "Cascadia Mono", "DejaVu Sans Mono", Consolas, Menlo, monospace; }
+  header.top { background: linear-gradient(135deg, #1a1a2e, #0d3b36); border-bottom-color: #26a69a; }
+  .grid .tile { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+  .grid .tile .big { font-size: 1.35rem; }
+  .tile .era { display: block; color: #80cbc4; font-size: 0.8rem; margin: 0.1rem 0 0.4rem; }
+  .tile .pill { margin-top: 0.5rem; }
+  .layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.2rem; align-items: start; }
+  .layout > * { min-width: 0; }
+  .lessons { position: sticky; top: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem; }
+  .lessons button { display: flex; width: 100%; text-align: left; gap: 0.5rem; align-items: center; background: none; border: 1px solid transparent; margin-bottom: 2px; padding: 0.5rem 0.6rem; }
+  .lessons button:hover { background: #22222a; border-color: transparent; }
+  .lessons button.active { background: var(--accent); }
+  .lessons .tick { width: 1.2rem; flex-shrink: 0; color: var(--correct); }
+  .lessons .lt { flex: 1; }
+  .lessons .score { font-size: 0.75rem; color: var(--muted); }
+  .lessons hr { border: none; border-top: 1px solid var(--line); margin: 0.4rem 0; }
+  .lesson h2 { margin-bottom: 0.2rem; }
+  .lesson .sum { color: var(--muted); margin-top: 0; }
+  .lesson h3 { color: #c5cae9; margin: 1.2rem 0 0.3rem; font-size: 1.05rem; }
+  .lesson ol li { margin: 0.25rem 0; }
+  code, pre { font-family: var(--mono); }
+  p code, li code { background: #24242c; border-radius: 4px; padding: 0 0.3rem; font-size: 0.9em; color: #ffe082; }
+  .code { position: relative; margin: 0.6rem 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #111116; }
+  .code pre { margin: 0; padding: 0.75rem 0.9rem; overflow-x: auto; font-size: 0.9rem; line-height: 1.45; tab-size: 4; }
+  .code .copy { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.15rem 0.55rem; font-size: 0.75rem; opacity: 0.7; }
+  .code .copy:hover { opacity: 1; }
+  .code .out { border-top: 1px dashed var(--line); background: #0b0b0e; }
+  .code .out .lbl { display: block; padding: 0.35rem 0.9rem 0; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .code .out pre { color: #a5d6a7; padding-top: 0.2rem; }
+  .code .k { color: #ce93d8; font-weight: 600; }
+  .code .b { color: #81d4fa; }
+  .code .s { color: #ffcc80; }
+  .code .n { color: #f48fb1; }
+  .code .c { color: #78909c; font-style: italic; }
+  .practice { border-top: 2px solid #26a69a; }
+  .practice .q { font-size: 1.1rem; margin: 0.3rem 0 0.5rem; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; margin-top: 0.7rem; }
+  .opts button { text-align: left; padding: 0.6rem 0.75rem; }
+  .opts button pre { margin: 0; white-space: pre-wrap; font-size: 0.95rem; }
+  .opts button.right { border-color: var(--correct); background: #1d2e1f; }
+  .opts button.wrongpick { border-color: var(--wrong); background: #321c1c; }
+  .why { margin-top: 0.8rem; padding: 0.6rem 0.8rem; border-radius: 6px; background: #17171d; }
+  .why.ok { border-left: 3px solid var(--correct); }
+  .why.bad { border-left: 3px solid var(--wrong); }
+  .scorebar { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .row.nav .grow { flex: 1; }
+  table.ops td, table.ops th { text-align: center; }
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .lessons { position: static; }
   }
-  * { box-sizing: border-box; }
-  body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  header {
-    background: linear-gradient(135deg, #1a1a2e, #0d3b36);
-    padding: 1.2rem 1.5rem;
-    text-align: center;
-    border-bottom: 3px solid var(--accent);
-  }
-  header h1 { margin: 0; font-size: 1.6rem; }
-  header p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
-  .layout { display: flex; flex: 1; overflow: hidden; }
-  .sidebar {
-    width: 240px;
-    background: var(--sidebar);
-    border-right: 1px solid #2a2a32;
-    padding: 1rem 0.6rem;
-    overflow-y: auto;
-  }
-  .sidebar h2 {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-    margin: 0.4rem 0.6rem 0.6rem;
-  }
-  .lang-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    color: var(--text);
-    padding: 0.55rem 0.8rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.95rem;
-  }
-  .lang-btn:hover, .lang-btn.active {
-    background: #2a2a32;
-  }
-  .lang-btn.active { color: var(--accent); font-weight: 600; }
-  .content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.2rem 1.5rem;
-  }
-  .card {
-    background: var(--card);
-    border-radius: 10px;
-    padding: 1.1rem 1.2rem;
-    margin-bottom: 1rem;
-    border: 1px solid #2a2a32;
-  }
-  .card h2 { margin: 0 0 0.6rem; font-size: 1.15rem; }
-  .card h3 { margin: 1rem 0 0.4rem; font-size: 1rem; color: var(--accent); }
-  pre {
-    background: #111;
-    padding: 0.8rem;
-    border-radius: 6px;
-    overflow-x: auto;
-    font-size: 0.85rem;
-    line-height: 1.4;
-  }
-  code { font-family: ui-monospace, monospace; }
-  .muted { color: var(--muted); }
-  footer {
-    text-align: center;
-    padding: 1rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    border-top: 1px solid #2a2a32;
-  }
-  .hidden { display: none; }
 </style>
 </head>
 <body>
-<header>
-  <h1>Programming Learner</h1>
-  <p>Historical and fun languages — QuickBASIC, brainFOOD, Delphi, INTERCAL, LOLCODE, Malbolge, Piet, Whitespace, Win16, Z80</p>
+<header class="top">
+  <div class="grow">
+    <h1 id="title">Programming Learner</h1>
+    <p id="subtitle">Short lessons with worked examples, then practice that explains every answer.</p>
+  </div>
+  <label class="small muted">Language <select id="langSelect"></select></label>
 </header>
-<div class="layout">
-  <aside class="sidebar">
-    <h2>Languages</h2>
-    <button class="lang-btn active" data-lang="overview">Overview</button>
-    <button class="lang-btn" data-lang="quickbasic">QuickBASIC</button>
-    <button class="lang-btn" data-lang="brainfood">brainFOOD</button>
-    <button class="lang-btn" data-lang="delphi">Delphi 5/6/7</button>
-    <button class="lang-btn" data-lang="intercal">INTERCAL</button>
-    <button class="lang-btn" data-lang="lolcode">LOLCODE</button>
-    <button class="lang-btn" data-lang="malbolge">Malbolge</button>
-    <button class="lang-btn" data-lang="piet">Piet</button>
-    <button class="lang-btn" data-lang="whitespace">Whitespace</button>
-    <button class="lang-btn" data-lang="win16">Win16</button>
-    <button class="lang-btn" data-lang="z80">Z80 Assembly</button>
-  </aside>
-  <main class="content">
-    <div class="card" id="panel-overview">
-      <h2>Overview</h2>
-      <p>A focused learner for historical BASIC-era tools, classic Windows programming, assembly, and fun programming languages that are great for exploring how computers think.</p>
-      <p>Each panel gives a short description, core concepts, and a minimal example where practical. Expand with quizzes or interactive interpreters later.</p>
-      <p class="muted">Select a language in the sidebar.</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-quickbasic">
-      <h2>QuickBASIC</h2>
-      <p>Microsoft’s structured BASIC for DOS (late 1980s–early 1990s). Line numbers optional, procedures with <code>SUB</code>/<code>FUNCTION</code>, and a full IDE.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Variables, <code>INPUT</code>, <code>PRINT</code></li>
-        <li>Control flow: <code>IF</code>…<code>THEN</code>, <code>FOR</code>…<code>NEXT</code>, <code>WHILE</code></li>
-        <li>Subs and functions</li>
-      </ul>
-      <h3>Hello + loop</h3>
-      <pre><code>PRINT "Hello from QuickBASIC"
-FOR i = 1 TO 5
-  PRINT i
-NEXT i</code></pre>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-brainfood">
-      <h2>brainFOOD</h2>
-      <p>A tiny programming language with only eight commands. It is great for learning how computers move data around and follow simple instructions. (This is the kid-friendly name for a classic minimalist language.)</p>
-      <h3>The eight commands</h3>
-      <ul>
-        <li><code>></code> move right to the next box</li>
-        <li><code><</code> move left to the previous box</li>
-        <li><code>+</code> add 1 to the number in the box</li>
-        <li><code>-</code> subtract 1 from the number in the box</li>
-        <li><code>.</code> show the character for the number in the box</li>
-        <li><code>,</code> wait for the user to type a character</li>
-        <li><code>[</code> start a loop (repeat while the box is not zero)</li>
-        <li><code>]</code> end the loop</li>
-      </ul>
-      <h3>Hello World</h3>
-      <pre><code>++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.</code></pre>
-      <p class="muted">Try changing numbers or adding commands to see what happens!</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-delphi">
-      <h2>Delphi 5 / 6 / 7</h2>
-      <p>Object Pascal RAD environment for Windows. Delphi 5–7 were the peak of classic VCL (Visual Component Library) development.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Units, forms, events (<code>OnClick</code> etc.)</li>
-        <li>VCL components (TButton, TEdit, TLabel…)</li>
-        <li>Strong typing, <code>class</code>, properties</li>
-      </ul>
-      <h3>Minimal form event</h3>
-      <pre><code>procedure TForm1.Button1Click(Sender: TObject);
-begin
-  ShowMessage('Hello from Delphi');
-end;</code></pre>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-intercal">
-      <h2>INTERCAL</h2>
-      <p>The original esoteric language (1972). Deliberately obtuse syntax and operators. Famous for the <code>COME FROM</code> statement.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Variables like <code>.1</code>, <code>:1</code>, <code>,1</code></li>
-        <li>Operators: <code>mingle</code>, <code>select</code>, unary <code>~</code></li>
-        <li><code>PLEASE</code> politeness (too many or too few can be errors)</li>
-      </ul>
-      <h3>Notes</h3>
-      <p class="muted">Full programs are verbose. Start by reading the INTERCAL Reference Manual and a short “Hello World” example from the C-INTERCAL distribution.</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-lolcode">
-      <h2>LOLCODE</h2>
-      <p>Esolang based on lolcat-speak. Keywords are English phrases.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li><code>HAI</code> / <code>KTHXBYE</code> program bounds</li>
-        <li><code>I HAS A</code> variable, <code>VISIBLE</code> print</li>
-        <li><code>IM IN YR</code> loops, <code>O RLY?</code> conditionals</li>
-      </ul>
-      <h3>Hello</h3>
-      <pre><code>HAI 1.2
-VISIBLE "Hello from LOLCODE"
-KTHXBYE</code></pre>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-malbolge">
-      <h2>Malbolge</h2>
-      <p>Named after the eighth circle of Hell. Designed to be nearly impossible to program. Instructions are encrypted and the code mutates as it runs.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Ternary (base-3) arithmetic</li>
-        <li>Self-modifying code</li>
-        <li>Almost no hand-written programs exist; most were generated</li>
-      </ul>
-      <h3>Notes</h3>
-      <p class="muted">Practical learning focuses on reading the specification and examining known generated programs rather than writing new ones by hand.</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-piet">
-      <h2>Piet</h2>
-      <p>Programs are images. Execution follows colored blocks (codels). Direction and stack operations are determined by color changes.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Hue and lightness encode operations</li>
-        <li>Direction pointer and codel chooser</li>
-        <li>Stack-based</li>
-      </ul>
-      <h3>Notes</h3>
-      <p class="muted">Best studied with a visual editor or interpreter (e.g. npiet) and small example images. Text representation is not practical.</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-whitespace">
-      <h2>Whitespace</h2>
-      <p>Only spaces, tabs, and newlines are significant. Everything else is ignored (comments).</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Commands are sequences of whitespace</li>
-        <li>Stack and heap operations, I/O, flow control</li>
-        <li>Imperative, stack-based</li>
-      </ul>
-      <h3>Notes</h3>
-      <p class="muted">Programs are invisible in normal editors. Use a dedicated Whitespace IDE or carefully constructed files. A common first exercise is a simple number printer.</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-win16">
-      <h2>Win16 programming</h2>
-      <p>16-bit Windows (Windows 3.x era) programming. Classic API with <code>WinMain</code>, message loops, and resource files.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li><code>WinMain</code> entry point</li>
-        <li>Window class registration, <code>CreateWindow</code>, message loop (<code>GetMessage</code> / <code>DispatchMessage</code>)</li>
-        <li>Window procedures (<code>WndProc</code>) handling <code>WM_*</code> messages</li>
-        <li>Often written in C with the Windows SDK or early Visual C++</li>
-      </ul>
-      <h3>Minimal skeleton (conceptual)</h3>
-      <pre><code>int PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR cmd, int show) {
-  // register class, create window, message loop
-  return 0;
-}</code></pre>
-      <p class="muted">Modern compilers no longer target Win16. Study with old SDKs, books, or emulators (e.g. Windows 3.1 in DOSBox / 86Box).</p>
-    </div>
-
-    <div class="card lang-panel hidden" id="panel-z80">
-      <h2>Z80 Assembly</h2>
-      <p>Assembly language for the Zilog Z80 CPU. Widely used in 1980s home computers (ZX Spectrum, MSX, TRS-80, CP/M machines) and still popular for retro and embedded work.</p>
-      <h3>Key ideas</h3>
-      <ul>
-        <li>Registers: A, B, C, D, E, H, L, and pairs (BC, DE, HL)</li>
-        <li>Flags, stack, and memory addressing modes</li>
-        <li>Common instructions: <code>LD</code>, <code>ADD</code>, <code>INC</code>, <code>DJNZ</code>, <code>CALL</code>, <code>RET</code></li>
-        <li>Interrupt modes and I/O ports</li>
-      </ul>
-      <h3>Minimal example (load and increment)</h3>
-      <pre><code>    LD   A, 5      ; load 5 into accumulator
-    INC  A         ; A = 6
-    LD   (HL), A   ; store A at address in HL
-    RET</code></pre>
-      <p class="muted">Great next step after learning how a CPU actually moves data. Pair with a Z80 emulator or assembler (e.g. z80asm, SjASMPlus).</p>
-    </div>
-  </main>
-</div>
-<footer>
-  LanguageStudentDesk · Programming Learner<br>
-  QuickBASIC · brainFOOD · Delphi 5/6/7 · INTERCAL · LOLCODE · Malbolge · Piet · Whitespace · Win16 · Z80
-</footer>
-
-<script>
-const buttons = document.querySelectorAll('.lang-btn');
-const overview = document.getElementById('panel-overview');
-const panels = document.querySelectorAll('.lang-panel');
-
-function showLang(lang) {
-  buttons.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-  if (lang === 'overview') {
-    overview.classList.remove('hidden');
-    panels.forEach(p => p.classList.add('hidden'));
-  } else {
-    overview.classList.add('hidden');
-    panels.forEach(p => p.classList.toggle('hidden', p.id !== 'panel-' + lang));
-  }
-}
-
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => showLang(btn.dataset.lang));
-});
-
-const params = new URLSearchParams(location.search);
-const start = params.get('lang');
-if (start) showLang(start);
-</script>
+<main>
+  <section id="home" hidden>
+    <h2>Pick a language</h2>
+    <div class="grid" id="langGrid"></div>
+  </section>
+  <section id="course" class="layout" hidden>
+    <nav class="lessons" id="lessonList"></nav>
+    <div id="lesson"></div>
+  </section>
+</main>
+<footer class="foot">Part of Language Student Desk · lessons written for the Desk.</footer>
+<script src="../languages/lsd-lang.js"></script>
+<script src="data/catalog.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
