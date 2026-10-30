@@ -24,6 +24,7 @@ PREFERRED_ORDER = [
     "grammar-learner",
     "vocabulary-learner",
     "character-learner",
+    "squirrelgo-kanji",
 ]
 
 class LanguageStudentDesk:

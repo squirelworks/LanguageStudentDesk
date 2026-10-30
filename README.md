@@ -56,8 +56,8 @@ Examples:
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
 - [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
-- [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`. Includes on-yomi groups.
-- [SquirrelGo Kanji](squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `SquirrelGoKanji-debug.apk`.
+- [Character Learner](character-learner/) — Modular trainer (hiragana→kanji etc.). Kanji = full Jōyō 2,136 (same as SquirrelGo). Click kanji for stroke animation; Lessons/Topics from SquirrelGo. Use `?lang=` to scope.
+- [SquirrelGo Kanji](squirrelgo-kanji/) — Focused TenguGo-style kanji app + Android APK (`SquirrelGoKanji-debug.apk`). Shares the Character Learner Jōyō dataset.
 
 ## Core language engine
 

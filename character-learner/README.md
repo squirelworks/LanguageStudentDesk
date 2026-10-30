@@ -1,6 +1,6 @@
 # Character Learner
 
-Modular, TenguGo-style character learning tool for multiple scripts.
+Modular, TenguGo / SquirrelGo-style character learning tool for multiple scripts.
 
 ## Supported scripts
 
@@ -10,19 +10,21 @@ Modular, TenguGo-style character learning tool for multiple scripts.
 - Cyrillic
 - Hangul
 - Devanagari (Hindi)
-- Kanji (stub — JLPT N5 sample + on-yomi groupings)
+- Kanji — full Jōyō set (**2,136** characters), same dataset as [SquirrelGo Kanji](../squirrelgo-kanji/)
 
 ## Features
 
-- Learn mode: grid of characters with details and Web Speech API pronunciation
-- Recognition quiz
+- Learn mode: click a character for details; **kanji show stroke-order animation** (Hanzi Writer; stroke JSON via jsDelivr when online)
+- Recognition / meaning quiz
 - Flashcards
+- Beginning Kanji **Lessons** and **Topics** quizzes (ported from SquirrelGo)
 - On-yomi groups view (for kanji)
 
 ## Architecture
 
 - `index.html` — core learning application UI and logic
-- `data.js` — modular script data. Add a new script by extending the `SCRIPTS` object.
+- `scripts/*.js` — modular script data (`kanji.js`, `catalog.js`, `lessons.js`, …)
+- `vendor/hanzi-writer.min.js` — stroke animation engine
 
 Open `index.html` in a browser. No build step required.
 
