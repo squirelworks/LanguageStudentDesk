@@ -120,8 +120,10 @@ BIBLES = [
 # catalog.js with their "url" and "size" so the app can download them.
 
 PACK_BRANCH = "orthodox-bible-texts"
-PACK_URL = ("https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/"
-            + PACK_BRANCH + "/bibles/")
+PACK_BASE = ("https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/"
+             + PACK_BRANCH + "/")
+PACK_URL = PACK_BASE + "bibles/"
+COMMENTARY_PACK_URL = PACK_BASE + "commentary/"
 
 SM_SOURCE = "https://github.com/scrollmapper/bible_databases (formats/json/%s.json, from the CrossWire SWORD module)"
 

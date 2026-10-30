@@ -13,6 +13,9 @@ CACHE = os.environ.get("SGO_TEXTS_CACHE", os.path.join(HERE, ".cache"))
 # Downloadable packs are built here (not committed) and listed in packs.json.
 PACKS_DIR = os.environ.get("SGO_PACKS_DIR", os.path.join(HERE, "packs"))
 PACKS_JSON = os.path.join(HERE, "packs.json")
+# Commentary packs: build_commentary.py --packs writes PACKS_DIR/commentary/<id>.js
+# and lists their catalog entries (with "size", without "url") here.
+COMMENTARY_PACKS_JSON = os.path.join(HERE, "commentary_packs.json")
 
 # English book names (scrollmapper / SWORD style) -> USFM ids.
 NAME_TO_USFM = {

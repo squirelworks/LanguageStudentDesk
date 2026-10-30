@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Rebuild www/data/catalog.js from the Bible and commentary files present.
 
-Downloadable Bible packs are listed from packs.json, with their url and size.
+Downloadable Bible packs are listed from packs.json, and commentary packs from
+commentary_packs.json, with their url and size.
 """
 import glob
 import json
 import os
 
-from common import DATA, PACKS_JSON, book_ids, testaments
-from sources import BIBLES, PACKS
+from common import COMMENTARY_PACKS_JSON, DATA, PACKS_JSON, book_ids, testaments
+from sources import BIBLES, COMMENTARY_PACK_URL, PACKS
 
 
 def load(path):
@@ -38,6 +39,14 @@ def main():
         entry = {k: c[k] for k in ("id", "author", "work", "lang", "license", "source", "tradition")}
         entry["books"] = sorted({k.split(".")[0] for k in c["notes"]}, key=books.get)
         commentary.append(entry)
+    bundled = {e["id"] for e in commentary}
+    if os.path.exists(COMMENTARY_PACKS_JSON):
+        with open(COMMENTARY_PACKS_JSON, encoding="utf-8") as f:
+            for e in json.load(f):
+                if e["id"] not in bundled:
+                    e = {k: v for k, v in e.items() if k != "pack"}
+                    e["url"] = COMMENTARY_PACK_URL + e["id"] + ".js"
+                    commentary.append(e)
     tradition = {"east": 0, "early": 1, "west": 2}
     commentary.sort(key=lambda e: (tradition[e["tradition"]], e["id"]))
 
@@ -49,8 +58,9 @@ def main():
                 "window.SGO_CATALOG = ")
         json.dump({"bibles": bibles, "commentary": commentary}, f, ensure_ascii=False, indent=2)
         f.write(";\n")
-    print("catalog: %d Bibles (%d downloadable), %d commentary files"
-          % (len(bibles), sum(1 for b in bibles if "url" in b), len(commentary)))
+    print("catalog: %d Bibles (%d downloadable), %d commentary files (%d downloadable)"
+          % (len(bibles), sum(1 for b in bibles if "url" in b), len(commentary),
+             sum(1 for c in commentary if "url" in c)))
 
 
 if __name__ == "__main__":
