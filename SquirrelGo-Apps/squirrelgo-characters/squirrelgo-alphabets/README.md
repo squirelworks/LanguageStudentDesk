@@ -16,6 +16,8 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Hangul 한글 | Korean (Revised Romanization) | basic and compound vowels; basic, aspirated and tense consonants | syllable block builder; articles on block shapes, batchim and sound changes |
 | Devanagari देवनागरी | Hindi (simplified IAST) | vowels, vowel signs on क, the five consonant rows, semivowels and sibilants, special letters | articles on matras, conjuncts, aspiration/retroflex and the silent a |
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
+| Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
+| Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
 | Thai ไทย | Thai (RTGS, doubled long vowels) | middle-, high- and low-class consonants, vowels on ก, tone marks | each consonant with its traditional name word; articles on consonant classes, vowel positions and word breaks |
 | Lao ລາວ | Vientiane Lao | middle-, high- and low-class consonants (with ໜ and ໝ), vowels on ກ | articles on Lao and Thai, classes and tones, and the silent ຫ |
 | Khmer ខ្មែរ | Khmer (letter names; simplified UNGEGN) | the chart in rows of five, vowels on ក | articles on the two consonant series, subscript letters and independent vowels |
@@ -30,7 +32,7 @@ Every character has:
 
 ## Sounds
 
-Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). eSpeak NG has no voice for Lao, Khmer or Tibetan, so their clips are made from IPA with `SquirrelGo-Apps/tools/ipa_audio.py` (through the Hindi phoneme table, without tones): the letter from its IPA and the example word from the example IPA given with the character. Clips are mono MP3 at 32 to 40 kbps, about 2 to 3 KB each; the twelve scripts come to about 2.5 MB.
+Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Hebrew is recorded from IPA through `tools/ipa_audio.py` (`audio: "ipa"` in its data), because eSpeak spells pointed Hebrew out letter by letter. eSpeak NG has no voice for Lao, Khmer or Tibetan, so those are recorded from IPA the same way, through the Hindi phoneme table and without tones. Clips are mono MP3 at 32 kbps, about 2 KB each.
 
 ## Stroke order
 
