@@ -1,177 +1,417 @@
 #!/usr/bin/env python3
 """
 LanguageStudentDesk — Main environment launcher
-Scans the current directory for micro-apps (folders with index.html)
-and provides a desktop GUI to launch them in the system browser.
-The desk GUI stays open while browser apps run separately.
+Scans the repository for micro-apps (folders with index.html) and provides a
+desktop GUI to launch them in the system browser.
+
+Apps are served from a small local web server (127.0.0.1 only) rather than
+opened as file:// pages: browsers drop ?lang= from file:// links on some
+systems and block fonts and data files loaded from file://. The desk GUI stays
+open while browser apps run separately, and the server stops when it closes.
+
+    python3 LanguageStudentDesk.py            # desktop GUI
+    python3 LanguageStudentDesk.py --browser  # no GUI: open the Desk home page in the browser
+    python3 LanguageStudentDesk.py --list     # print the tools found and exit
+    python3 LanguageStudentDesk.py --file     # GUI, but open apps as file:// pages
 """
 
+import html
+import json
 import os
+import subprocess
 import sys
+import threading
 import webbrowser
-import tkinter as tk
-from tkinter import ttk, messagebox
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import quote, urlsplit
 
-# Preferred order: Klingon flagship, then the core learners
-PREFERRED_ORDER = [
-    "klingon",
-    "resource-learner",
-    "reference-learner",
-    "translation-learner",
-    "programming-learner",
-    "language-learner",
-    "grammar-learner",
-    "vocabulary-learner",
-    "character-learner",
+BASE = Path(__file__).resolve().parent
+RELEASES = "https://github.com/squirelworks/LanguageStudentDesk/releases"
+
+# Known tools, in display order. Folders with an index.html that are not listed
+# here still show up, under "Other", named after the folder.
+#   folder: (title, description, group, takes ?lang=, APK release tag and file)
+TOOLS = {
+    "klingon": ("Klingon (tlhIngan Hol)",
+                "pIqaD alphabet, type in pIqaD, handwriting, numbers, vocabulary, grammar, reader and quizzes.",
+                "Desk tools", False, None),
+    "character-learner": ("Character Learner",
+                          "Multi-script trainer: kana, kanji, Hangul, Cyrillic, Devanagari, Arabic and pIqaD.",
+                          "Desk tools", True, None),
+    "resource-learner": ("Resource Learner",
+                         "Curated learning resources, general and per language.",
+                         "Desk tools", True, None),
+    "reference-learner": ("Reference Learner",
+                          "Quick lookup for language facts and notes.",
+                          "Desk tools", True, None),
+    "translation-learner": ("Translation Learner",
+                            "Translation practice in the Desk UI.",
+                            "Desk tools", True, None),
+    "programming-learner": ("Programming Learner",
+                            "Syntax, concepts and practice for programming languages, from Python to Malbolge.",
+                            "Desk tools", True, None),
+    "language-learner": ("Language Learner", "Placeholder for structured language courses.",
+                         "Desk tools", False, None),
+    "grammar-learner": ("Grammar Learner", "Placeholder for grammar lessons and drills.",
+                        "Desk tools", False, None),
+    "vocabulary-learner": ("Vocabulary Learner", "Placeholder for vocabulary drills.",
+                           "Desk tools", False, None),
+    "squirrelgo-kana": ("SquirrelGo Kana",
+                        "Hiragana and katakana: lessons, charts, quizzes, flashcards, writing pad, audio.",
+                        "SquirrelGo apps", False, ("squirrelgo-kana-latest", "SquirrelGoKana-debug.apk")),
+    "squirrelgo-alphabets": ("SquirrelGo Alphabets",
+                             "Hangul, Cyrillic, Devanagari and Arabic, with a syllable builder and letter forms.",
+                             "SquirrelGo apps", False, ("squirrelgo-alphabets-latest", "SquirrelGoAlphabets-debug.apk")),
+    "squirrelgo-kanji": ("SquirrelGo Kanji",
+                         "Kanji lessons, JLPT quizzes, dictionary, on-yomi groups and stroke order (KanjiVG).",
+                         "SquirrelGo apps", False, ("squirrelgo-kanji-latest", "SquirrelGoKanji-debug.apk")),
+    "squirrelgo-klingon": ("SquirrelGo Klingon",
+                           "pIqaD trainer for phone and browser.",
+                           "SquirrelGo apps", False, ("squirrelgo-klingon-latest", "SquirrelGoKlingon-debug.apk")),
+    "squirrelgo-dictionary": ("SquirrelGo Japanese-English Dictionary",
+                              "Offline JMdict and KANJIDIC2 dictionary with radicals and example sentences.",
+                              "SquirrelGo apps", False, ("squirrelgo-dictionary-latest", "SquirrelGoDictionary.apk")),
+    "squirrelgo-phrasebook": ("SquirrelGo Phrasebook",
+                              "Japanese phrase packs with audio, search, favorites and flashcards.",
+                              "SquirrelGo apps", False, ("squirrelgo-phrasebook-latest", "SquirrelGoPhrasebook-debug.apk")),
+    "squirrelgo-orthodox-bible": ("SquirrelGo Orthodox Bible",
+                                  "Septuagint canon, verses side by side in many languages, patristic commentary.",
+                                  "SquirrelGo apps", False, ("squirrelgo-orthodox-bible-latest", "SquirrelGoOrthodoxBible-debug.apk")),
+}
+GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
+
+# ?lang= values the scoped tools understand beyond languages/*/meta.json.
+EXTRA_LANGS = [
+    "cyrillic", "hangul", "hindi", "latin", "english", "python",
+    "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80",
 ]
 
-class LanguageStudentDesk:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Language Student Desk")
-        self.root.geometry("1200x1000")
-        self.root.minsize(1000, 800)
 
-        # Style
-        style = ttk.Style()
-        style.theme_use("clam")
-        style.configure("Treeview", rowheight=32, font=("Segoe UI", 11))
-        style.configure("Treeview.Heading", font=("Segoe UI", 12, "bold"))
-        style.configure("TLabel", font=("Segoe UI", 11))
-        style.configure("TButton", font=("Segoe UI", 11), padding=6)
+class Tool:
+    def __init__(self, folder, index):
+        self.folder = folder
+        self.index = index
+        title, desc, group, scoped, apk = TOOLS.get(
+            folder.name, (folder.name, "Found next to the Desk.", "Other", False, None))
+        self.title, self.desc, self.group, self.scoped, self.apk = title, desc, group, scoped, apk
 
-        # Header
-        header = ttk.Frame(root)
-        header.pack(fill="x", padx=20, pady=20)
-        ttk.Label(header, text="Language Student Desk", font=("Segoe UI", 28, "bold")).pack()
-        ttk.Label(header, text="Scan and launch language tools", font=("Segoe UI", 14), foreground="gray").pack()
+    @property
+    def rel(self):
+        return self.index.relative_to(BASE).as_posix()
 
-        # Tools list
-        list_frame = ttk.LabelFrame(root, text="Available Tools", padding=15)
-        list_frame.pack(fill="both", expand=True, padx=20, pady=10)
+    @property
+    def apk_url(self):
+        return f"{RELEASES}/download/{self.apk[0]}/{self.apk[1]}" if self.apk else None
 
-        self.tree = ttk.Treeview(list_frame, columns=("path",), show="tree headings", height=20)
-        self.tree.heading("#0", text="Tool")
-        self.tree.heading("path", text="Location")
-        self.tree.column("#0", width=400, minwidth=200)
-        self.tree.column("path", width=700, minwidth=300)
-        self.tree.pack(fill="both", expand=True)
 
-        scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
-        self.tree.configure(yscrollcommand=scrollbar.set)
-        scrollbar.pack(side="right", fill="y")
+def scan_tools():
+    """Folders containing index.html: top level, SquirrelGo-Apps/, and the
+    character trainers under SquirrelGo-Apps/squirrelgo-characters/."""
+    dirs = [BASE, BASE / "SquirrelGo-Apps", BASE / "SquirrelGo-Apps" / "squirrelgo-characters"]
+    tools = []
+    for d in dirs:
+        if not d.is_dir():
+            continue
+        for item in sorted(d.iterdir()):
+            if item.is_dir() and not item.name.startswith(".") and (item / "index.html").is_file():
+                tools.append(Tool(item, item / "index.html"))
+    order = list(TOOLS)
+    tools.sort(key=lambda t: (GROUPS.index(t.group),
+                              order.index(t.folder.name) if t.folder.name in order else len(order),
+                              t.title.lower()))
+    return tools
 
-        # Language scope (optional)
-        lang_frame = ttk.Frame(root)
-        lang_frame.pack(fill="x", padx=20, pady=5)
-        ttk.Label(lang_frame, text="Scope to language (optional):").pack(side="left")
-        self.lang_var = tk.StringVar()
-        self.lang_combo = ttk.Combobox(lang_frame, textvariable=self.lang_var, width=22, state="readonly")
-        self.lang_combo['values'] = (
-            "", "klingon", "japanese", "arabic", "chinese", "cyrillic", "hangul", "hindi",
-            "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80",
-            "latin", "english", "python"
-        )
-        self.lang_combo.pack(side="left", padx=8)
-        ttk.Label(lang_frame, text="(adds ?lang= to supported tools)", foreground="gray").pack(side="left")
 
-        # Buttons
-        btn_frame = ttk.Frame(root)
-        btn_frame.pack(fill="x", padx=20, pady=15)
+def load_languages():
+    """Language ids for ?lang=: languages/*/meta.json first, then the extras."""
+    langs = []
+    for meta in sorted((BASE / "languages").glob("*/meta.json")):
+        try:
+            langs.append(json.loads(meta.read_text(encoding="utf-8"))["id"])
+        except (OSError, ValueError, KeyError):
+            continue
+    return langs + [x for x in EXTRA_LANGS if x not in langs]
 
-        ttk.Button(btn_frame, text="Refresh", command=self.scan_tools).pack(side="left", padx=8)
-        ttk.Button(btn_frame, text="Open in Browser", command=self.open_selected).pack(side="left", padx=8)
-        ttk.Button(btn_frame, text="Open Folder", command=self.open_folder).pack(side="left", padx=8)
 
-        # Status
-        self.status = ttk.Label(root, text="Ready", relief="sunken", anchor="w", font=("Segoe UI", 10))
-        self.status.pack(fill="x", side="bottom")
+def home_page(tools):
+    """The Desk home page served at / for --browser mode."""
+    rows = []
+    for group in GROUPS:
+        items = [t for t in tools if t.group == group]
+        if not items:
+            continue
+        rows.append(f"<h2>{html.escape(group)}</h2><ul>")
+        for t in items:
+            apk = f' · <a href="{t.apk_url}">Android APK</a>' if t.apk else ""
+            rows.append(f'<li><a href="/{quote(t.rel)}"><strong>{html.escape(t.title)}</strong></a>'
+                        f'<br><span>{html.escape(t.desc)}{apk}</span></li>')
+        rows.append("</ul>")
+    return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Language Student Desk</title>
+<style>body{{font-family:system-ui,sans-serif;background:#0f0f12;color:#e8e8e8;margin:0 auto;max-width:760px;padding:1.5rem}}
+h1{{color:#ffd54f}}h2{{color:#aaa;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}}
+ul{{list-style:none;padding:0}}li{{background:#1a1a20;border-radius:8px;padding:.8rem 1rem;margin:.5rem 0}}
+a{{color:#ffd54f}}span{{color:#aaa;font-size:.9rem}}</style></head><body>
+<h1>Language Student Desk</h1>{''.join(rows)}</body></html>"""
 
-        # Initial scan
-        self.scan_tools()
 
-        # Double-click to open
-        self.tree.bind("<Double-1>", lambda e: self.open_selected())
+class DeskServer:
+    """Serves the repository on 127.0.0.1 from a background thread."""
 
-    def scan_tools(self):
-        """Scan the directory for folders containing index.html and order by preference"""
-        self.tree.delete(*self.tree.get_children())
-        base = Path(__file__).parent if "__file__" in globals() else Path.cwd()
-        tools = []
+    def __init__(self, tools):
+        tools_ref = tools
 
-        # SquirrelGo apps live one level down, under SquirrelGo-Apps/, and the
-        # character trainers one more level down, under squirrelgo-characters/
-        apps_dir = base / "SquirrelGo-Apps"
-        chars_dir = apps_dir / "squirrelgo-characters"
-        candidates = list(base.iterdir())
-        if apps_dir.is_dir():
-            candidates += list(apps_dir.iterdir())
-        if chars_dir.is_dir():
-            candidates += list(chars_dir.iterdir())
+        class Handler(SimpleHTTPRequestHandler):
+            def do_GET(self):
+                if urlsplit(self.path).path in ("/", "/index.html"):
+                    body = home_page(tools_ref).encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                    return
+                # Keep .git and other dotfiles private.
+                if "/." in urlsplit(self.path).path:
+                    self.send_error(404)
+                    return
+                super().do_GET()
 
-        for item in candidates:
-            if item.is_dir() and (item / "index.html").exists():
-                tools.append((item.name, str(item / "index.html")))
+            def end_headers(self):
+                # Always serve the files on disk, so edits show up on reload.
+                self.send_header("Cache-Control", "no-store")
+                super().end_headers()
 
-        if not tools:
-            self.tree.insert("", "end", text="(No tools found)", values=("Place folders with index.html nearby",))
-            self.status.config(text="No micro-apps detected. Add folders containing index.html.")
-            return
+            def log_message(self, *args):
+                pass
 
-        def sort_key(item):
-            name = item[0].lower()
-            try:
-                return PREFERRED_ORDER.index(name)
-            except ValueError:
-                return len(PREFERRED_ORDER) + 1
+        self.httpd = ThreadingHTTPServer(("127.0.0.1", 0), partial(Handler, directory=str(BASE)))
+        self.port = self.httpd.server_address[1]
+        threading.Thread(target=self.httpd.serve_forever, daemon=True).start()
 
-        tools.sort(key=sort_key)
+    def url(self, rel=""):
+        return f"http://127.0.0.1:{self.port}/{quote(rel)}"
 
-        for name, path in tools:
-            self.tree.insert("", "end", text=name, values=(path,))
-        self.status.config(text=f"Found {len(tools)} tool(s). Double-click or select + Open in Browser.")
+    def stop(self):
+        self.httpd.shutdown()
 
-    def open_selected(self):
-        selection = self.tree.selection()
-        if not selection:
-            messagebox.showinfo("Select a tool", "Please select a tool from the list.")
-            return
-        item = selection[0]
-        path = self.tree.item(item, "values")[0]
-        if path and Path(path).exists():
-            url = f"file://{Path(path).resolve()}"
-            lang = self.lang_var.get().strip()
-            if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner", "reference-learner"]):
-                url += f"?lang={lang}"
-            webbrowser.open(url)
-            scope = f" (lang={lang})" if lang and any(x in path for x in ["character-learner", "programming-learner", "resource-learner", "translation-learner", "reference-learner"]) else ""
-            self.status.config(text=f"Opened {Path(path).parent.name} in browser{scope}")
-        else:
-            messagebox.showwarning("Not found", "The selected tool path does not exist.")
 
-    def open_folder(self):
-        selection = self.tree.selection()
-        if not selection:
-            return
-        item = selection[0]
-        path = self.tree.item(item, "values")[0]
-        if path:
-            folder = str(Path(path).parent)
-            if sys.platform == "win32":
-                os.startfile(folder)
-            elif sys.platform == "darwin":
-                os.system(f'open "{folder}"')
-            else:
-                os.system(f'xdg-open "{folder}"')
+def tool_url(tool, server, lang=""):
+    url = server.url(tool.rel) if server else tool.index.as_uri()
+    if lang and tool.scoped:
+        url += f"?lang={quote(lang)}"
+    return url
 
-def main():
-    if "--browser" in sys.argv:
-        print("LanguageStudentDesk: browser launch mode active")
+
+def open_folder(path):
+    if sys.platform == "win32":
+        os.startfile(path)
+    else:
+        subprocess.Popen(["open" if sys.platform == "darwin" else "xdg-open", str(path)])
+
+
+def run_gui(tools, server):
+    import tkinter as tk
+    from tkinter import ttk, messagebox
 
     root = tk.Tk()
-    app = LanguageStudentDesk(root)
+    root.title("Language Student Desk")
+    root.geometry("1100x720")
+    root.minsize(820, 540)
+
+    style = ttk.Style()
+    if "clam" in style.theme_names():
+        style.theme_use("clam")
+    style.configure("Treeview", rowheight=28, font=("Segoe UI", 11))
+    style.configure("Treeview.Heading", font=("Segoe UI", 11, "bold"))
+    style.configure("TLabel", font=("Segoe UI", 11))
+    style.configure("TButton", font=("Segoe UI", 11), padding=6)
+    style.configure("Title.TLabel", font=("Segoe UI", 22, "bold"))
+    style.configure("Name.TLabel", font=("Segoe UI", 16, "bold"))
+    style.configure("Muted.TLabel", foreground="gray")
+
+    # Header
+    header = ttk.Frame(root)
+    header.pack(fill="x", padx=16, pady=(14, 6))
+    ttk.Label(header, text="Language Student Desk", style="Title.TLabel").pack(side="left")
+    search_var = tk.StringVar()
+    search = ttk.Entry(header, textvariable=search_var, width=28)
+    search.pack(side="right")
+    ttk.Label(header, text="Search:").pack(side="right", padx=6)
+
+    body = ttk.PanedWindow(root, orient="horizontal")
+    body.pack(fill="both", expand=True, padx=16, pady=6)
+
+    # Left: grouped tool list
+    list_frame = ttk.Frame(body)
+    tree = ttk.Treeview(list_frame, show="tree", selectmode="browse")
+    tree.column("#0", width=340, minwidth=200)
+    scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=tree.yview)
+    tree.configure(yscrollcommand=scrollbar.set)
+    scrollbar.pack(side="right", fill="y")
+    tree.pack(fill="both", expand=True)
+    body.add(list_frame, weight=1)
+
+    # Right: details of the selected tool
+    detail = ttk.Frame(body, padding=(16, 4))
+    body.add(detail, weight=2)
+    name_lbl = ttk.Label(detail, text="", style="Name.TLabel", wraplength=560, justify="left")
+    name_lbl.pack(anchor="w")
+    desc_lbl = ttk.Label(detail, text="", wraplength=560, justify="left")
+    desc_lbl.pack(anchor="w", pady=(6, 2))
+    path_lbl = ttk.Label(detail, text="", style="Muted.TLabel", wraplength=560, justify="left")
+    path_lbl.pack(anchor="w", pady=(0, 12))
+
+    lang_frame = ttk.Frame(detail)
+    lang_frame.pack(anchor="w", pady=4)
+    ttk.Label(lang_frame, text="Language:").pack(side="left")
+    lang_var = tk.StringVar()
+    lang_combo = ttk.Combobox(lang_frame, textvariable=lang_var, width=18, state="readonly",
+                              values=[""] + load_languages())
+    lang_combo.pack(side="left", padx=8)
+    lang_note = ttk.Label(lang_frame, text="", style="Muted.TLabel")
+    lang_note.pack(side="left")
+
+    btns = ttk.Frame(detail)
+    btns.pack(anchor="w", pady=12)
+    open_btn = ttk.Button(btns, text="Open in Browser")
+    folder_btn = ttk.Button(btns, text="Open Folder")
+    apk_btn = ttk.Button(btns, text="Android APK")
+    copy_btn = ttk.Button(btns, text="Copy Link")
+    for b in (open_btn, folder_btn, apk_btn, copy_btn):
+        b.pack(side="left", padx=(0, 8))
+
+    status = ttk.Label(root, text="", relief="sunken", anchor="w", font=("Segoe UI", 10))
+    status.pack(fill="x", side="bottom")
+
+    by_iid = {}
+
+    def selected():
+        sel = tree.selection()
+        return by_iid.get(sel[0]) if sel else None
+
+    def fill(*_):
+        query = search_var.get().strip().lower()
+        tree.delete(*tree.get_children())
+        by_iid.clear()
+        shown = 0
+        for group in GROUPS:
+            items = [t for t in tools if t.group == group
+                     and (not query or query in f"{t.title} {t.desc} {t.folder.name}".lower())]
+            if not items:
+                continue
+            gid = tree.insert("", "end", text=group, open=True)
+            for t in items:
+                by_iid[tree.insert(gid, "end", text=t.title)] = t
+                shown += 1
+        if not tools:
+            tree.insert("", "end", text="(No tools found)")
+            status.config(text="No micro-apps detected. Add folders containing index.html.")
+            return
+        first = next(iter(by_iid), None)
+        if first:
+            tree.selection_set(first)
+            tree.see(first)
+        where = f"served at {server.url()}" if server else "opened as local files"
+        status.config(text=f"{shown} of {len(tools)} tools shown · {where}")
+
+    def show(*_):
+        t = selected()
+        for w in (open_btn, folder_btn, copy_btn):
+            w.state(["!disabled"] if t else ["disabled"])
+        if not t:
+            name_lbl.config(text="")
+            desc_lbl.config(text="Select a tool on the left.")
+            path_lbl.config(text="")
+            apk_btn.state(["disabled"])
+            return
+        name_lbl.config(text=t.title)
+        desc_lbl.config(text=t.desc)
+        path_lbl.config(text=t.rel)
+        lang_combo.state(["!disabled", "readonly"] if t.scoped else ["disabled"])
+        lang_note.config(text="opens scoped to this language" if t.scoped else "not used by this tool")
+        apk_btn.state(["!disabled"] if t.apk else ["disabled"])
+
+    def open_selected(*_):
+        t = selected()
+        if not t:
+            return
+        if not t.index.exists():
+            messagebox.showwarning("Not found", "The selected tool's files are missing. Try searching again.")
+            return
+        lang = lang_var.get().strip()
+        webbrowser.open(tool_url(t, server, lang))
+        scope = f" (lang={lang})" if lang and t.scoped else ""
+        status.config(text=f"Opened {t.title} in browser{scope}")
+
+    def open_apk():
+        t = selected()
+        if t and t.apk:
+            webbrowser.open(t.apk_url)
+            status.config(text=f"Opened the {t.title} APK download")
+
+    def copy_link():
+        t = selected()
+        if t:
+            root.clipboard_clear()
+            root.clipboard_append(tool_url(t, server, lang_var.get().strip()))
+            status.config(text="Link copied. It works while the Desk is open.")
+
+    open_btn.config(command=open_selected)
+    folder_btn.config(command=lambda: selected() and open_folder(selected().folder))
+    apk_btn.config(command=open_apk)
+    copy_btn.config(command=copy_link)
+    tree.bind("<<TreeviewSelect>>", show)
+    tree.bind("<Double-1>", open_selected)
+    tree.bind("<Return>", open_selected)
+    search_var.trace_add("write", fill)
+    root.bind("<Control-f>", lambda e: search.focus_set())
+
+    fill()
+    show()
+    tree.focus_set()
     root.mainloop()
+
+
+def main():
+    tools = scan_tools()
+    if "--list" in sys.argv:
+        for t in tools:
+            print(f"{t.group:16} {t.title:40} {t.rel}")
+        return
+
+    server = None
+    if "--file" not in sys.argv:
+        try:
+            server = DeskServer(tools)
+        except OSError as e:
+            print(f"LanguageStudentDesk: could not start the local server ({e}); opening apps as files.")
+
+    gui = "--browser" not in sys.argv
+    if gui:
+        try:
+            import tkinter  # noqa: F401
+        except ImportError:
+            print("LanguageStudentDesk: tkinter is not installed, opening the Desk in your browser instead.")
+            gui = False
+
+    if gui:
+        run_gui(tools, server)
+    elif server:
+        print(f"LanguageStudentDesk: serving at {server.url()} — press Ctrl+C to stop.")
+        webbrowser.open(server.url())
+        try:
+            threading.Event().wait()
+        except KeyboardInterrupt:
+            pass
+    else:
+        print("LanguageStudentDesk: no GUI and no server; open the tools' index.html files directly.")
+
+    if server:
+        server.stop()
+
 
 if __name__ == "__main__":
     main()

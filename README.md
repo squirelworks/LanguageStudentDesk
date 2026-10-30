@@ -8,10 +8,7 @@ A collection of language learning tools and a desktop environment launcher.
 cd ~/FU
 git clone https://github.com/squirelworks/LanguageStudentDesk
 cd LanguageStudentDesk
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .  # if/when a package is defined; currently just the launcher
-python3 LanguageStudentDesk.py
+python3 LanguageStudentDesk.py   # standard library only, nothing to install
 ```
 
 ## Update existing install
@@ -19,34 +16,38 @@ python3 LanguageStudentDesk.py
 ```bash
 cd ~/FU/LanguageStudentDesk
 git pull
-source .venv/bin/activate
 python3 LanguageStudentDesk.py
 ```
 
 ## Main Desk Launcher
 
-Run the desktop GUI to scan for and launch available tools:
+Run the desktop GUI to browse and launch every tool and SquirrelGo app:
 
 ```bash
 python3 LanguageStudentDesk.py
 ```
 
-Or with the browser flag (informational):
+The Desk groups the tools (Desk tools, SquirrelGo apps), shows what each one does, has a search box (Ctrl+F), and opens tools in your browser from a small local web server on `127.0.0.1`, so `?lang=` links, fonts and data files work the same on every system. SquirrelGo apps also get an **Android APK** button that opens the latest download. The server stops when you close the Desk.
+
+Other modes:
 
 ```bash
-python3 LanguageStudentDesk.py --browser
+python3 LanguageStudentDesk.py --browser  # no GUI: open a Desk home page in the browser
+python3 LanguageStudentDesk.py --list     # print the tools found and exit
+python3 LanguageStudentDesk.py --file     # GUI, but open tools as file:// pages
 ```
 
-The GUI stays open and launches micro-apps in your system browser.
+If `tkinter` is missing (some Linux installs: `sudo apt install python3-tk`), the Desk falls back to `--browser` mode.
 
 ### Language-scoped launch
 
-In the Desk, select a tool and optionally choose a language from the dropdown. This opens the tool with `?lang=<id>` where supported.
+Select a tool that supports it and choose a language from the dropdown. This opens the tool with `?lang=<id>`. The list comes from `languages/*/meta.json` plus a few extra ids.
 
 Examples:
 - `character-learner/index.html?lang=japanese` → only hiragana, katakana, kanji
 - `character-learner/index.html?lang=klingon` → only pIqaD
 - `programming-learner/index.html?lang=python` → Python panel
+- `resource-learner/index.html?lang=arabic` → Arabic resources
 - Open without `?lang=` → full multi-language / overview mode
 
 ## Tools
