@@ -52,12 +52,12 @@ Examples:
 
 ## Tools
 
-- [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section.
+- [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section. Stroke order and the checked writing pad are shared with SquirrelGo Klingon.
 - [Resource Learner](resource-learner/) — General resources always visible; specialized lists under each language. Klingon always shown.
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
 - [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
-- [Character Learner](character-learner/) — Modular multi-script trainer (hiragana through pIqaD). Full Jōyō kanji (2,136) with stroke-order animation, Lessons, and Topics shared from SquirrelGo Kanji. Language-scoped via `?lang=`. Includes on-yomi groups.
+- [Character Learner](character-learner/) — Modular multi-script trainer (hiragana through pIqaD). Full Jōyō kanji (2,136) with stroke-order animation, Lessons, and Topics shared from SquirrelGo Kanji; pIqaD stroke order and checked writing pad shared from SquirrelGo Klingon. Language-scoped via `?lang=`. Includes on-yomi groups.
 - [SquirrelGo Kana](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/) — Hiragana and katakana trainer: lessons by sound row, charts, quizzes, flashcards, writing pad, audio. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kana-latest/SquirrelGoKana-debug.apk)).
 - [SquirrelGo Alphabets](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/) — Hangul, Cyrillic, Devanagari and Arabic in one trainer, with a Hangul syllable builder and an Arabic letter-forms table. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk)).
 - [SquirrelGo Klingon](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/) — Learn to read and write pIqaD, the Klingon alphabet: animated stroke order for every letter and numeral, a writing pad that checks each stroke, quizzes including whole-word reading, flashcards, a romanization-to-pIqaD converter and a pronunciation guide. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-klingon-latest/SquirrelGoKlingon-debug.apk)).
