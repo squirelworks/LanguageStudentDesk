@@ -119,10 +119,10 @@
     japanese: [kanaDecks, phrasebookDecks, kanjiDecks],
     klingon: [deskLoader("klingon", false)],
     chinese: [deskLoader("chinese", true)],
-    arabic: [alphabetLoader("arabic.js", "arabic")],
-    hangul: [alphabetLoader("hangul.js", "hangul")],
-    cyrillic: [alphabetLoader("cyrillic.js", "cyrillic")],
-    hindi: [alphabetLoader("devanagari.js", "devanagari")],
+    arabic: [deskLoader("arabic", true), alphabetLoader("arabic.js", "arabic")],
+    hangul: [deskLoader("hangul", true), alphabetLoader("hangul.js", "hangul")],
+    cyrillic: [deskLoader("cyrillic", true), alphabetLoader("cyrillic.js", "cyrillic")],
+    hindi: [deskLoader("hindi", true), alphabetLoader("devanagari.js", "devanagari")],
   };
 
   // Every deck for a language. A source that fails to load (a missing folder,
