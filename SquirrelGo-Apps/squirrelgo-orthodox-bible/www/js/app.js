@@ -114,9 +114,14 @@
     return bible.books?.[book]?.[chapter - 1]?.[verse - 1] ?? null;
   }
   // Text of the verse in `bible` matching `ref` from `fromBible`.
+  // `ref` (numbered for fromBible) as numbered in `bible`. Texts sharing a
+  // scheme need no mapping, which also keeps psalm titles side by side.
+  function sameRefIn(bible, fromBible, ref) {
+    if (bible.id === fromBible.id || bible.versification === fromBible.versification) return ref;
+    return fromKjv(bible.versification, toKjv(fromBible.versification, ref));
+  }
   function parallelText(bible, fromBible, ref) {
-    const kref = toKjv(fromBible.versification, ref);
-    return verseText(bible, fromKjv(bible.versification, kref));
+    return verseText(bible, sameRefIn(bible, fromBible, ref));
   }
   function refLabel(ref, bible) {
     const { book, chapter, verse } = parseRef(ref);
@@ -283,7 +288,9 @@
         .map((text, i) => {
           if (text == null) return "";
           const ref = `${book}.${chapter}.${i + 1}`;
-          const kref = kjvKey(primary, ref) || ref;
+          // Verses with no KJV equivalent (psalm titles) get no marks: their KJV-numbered
+          // ref would point at a different verse.
+          const kref = kjvKey(primary, ref) || "";
           const pars = shown
             .map((p) => {
               const t = parallelText(p, primary, ref);
@@ -325,6 +332,7 @@
     else window.scrollTo(0, 0);
   }
   function marks(kref) {
+    if (!kref) return "";
     return (store.bookmarks.includes(kref) ? "★" : "") + (store.notes[kref] ? "✎" : "") + (commentaryFor(kref).length ? "☩" : "");
   }
   function markCommentary() {
@@ -402,7 +410,7 @@
       const versions = loaded
         .map((c) => {
           const bible = BIBLES.get(c.id);
-          const own = c.id === primary.id ? ref : fromKjv(bible.versification, kref);
+          const own = sameRefIn(bible, primary, ref);
           const t = verseText(bible, own);
           const renum = !own || own === ref ? "" : ` · ${esc(parseRef(own).book === book ? refLabel(own).replace(/^.* /, "") : refLabel(own))}`;
           return `<li class="card">
@@ -445,7 +453,7 @@
       main.querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(el.dataset.go)));
       main.querySelectorAll("[data-say]").forEach((el) => (el.onclick = () => {
         const bible = BIBLES.get(el.dataset.say);
-        const own = bible.id === primary.id ? ref : fromKjv(bible.versification, kref);
+        const own = sameRefIn(bible, primary, ref);
         if (!Speech.speak(verseText(bible, own), bible.lang)) toast(`No ${langName(bible.lang)} voice on this device`);
       }));
       main.querySelectorAll("[data-load]").forEach((el) => (el.onclick = async () => {
@@ -476,7 +484,7 @@
         const lines = loaded
           .map((c) => {
             const bible = BIBLES.get(c.id);
-            const t = verseText(bible, c.id === primary.id ? ref : fromKjv(bible.versification, kref));
+            const t = verseText(bible, sameRefIn(bible, primary, ref));
             return t ? `${t} (${c.name})` : null;
           })
           .filter(Boolean);
