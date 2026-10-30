@@ -1,5 +1,7 @@
-// SquirrelGo script trainer: lessons, chart, quizzes, flashcards and a
-// writing pad for one or more writing systems described in data/*.js.
+// SquirrelGo script trainer: lessons, chart, quizzes, flashcards, stroke-order
+// animations and a writing pad for one or more writing systems described in
+// data/*.js. Stroke data (data/strokes/*.js) and recorded sounds
+// (data/audio/*.js) are optional per script.
 (() => {
   const APP = window.SG_APP;
   const SCRIPTS = window.SG_SCRIPTS;
@@ -14,7 +16,7 @@
       l.script = s;
       l.cells = l.chars.map((a) => {
         if (!a) return null;
-        const [g, r, hint, ex, exR, exM, speak] = a;
+        const [g, r, hint, ex, exR, exM, speak, ipa, exLang] = a;
         const item = {
           key: `${s.id}|${g}`,
           g,
@@ -24,6 +26,8 @@
           exR: exR || "",
           exM: exM || "",
           speak: speak || g,
+          ipa: ipa || "",
+          exLang: exLang || "",
           lesson: l,
           script: s,
         };
@@ -37,7 +41,7 @@
   const itemByKey = new Map(SCRIPTS.flatMap((s) => s.all.map((it) => [it.key, it])));
 
   // ---- persistence ----
-  const defaults = { voice: true, rate: 1, showRoman: true, flashDir: "glyph", guide: true, stats: {} };
+  const defaults = { voice: true, rate: 1, showRoman: true, flashDir: "glyph", guide: true, check: true, speed: 70, stats: {} };
   function load() {
     try {
       return Object.assign({}, defaults, JSON.parse(localStorage.getItem(APP.store) || "{}"));
@@ -107,11 +111,46 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
   }
-  function say(s, text, slow) {
+  // Recorded clips (data/audio/<script>.js maps text to an mp3) play first;
+  // anything without a clip goes to the device's text-to-speech voice.
+  const clipOf = (s, text) => ((window.SG_AUDIO || {})[s.id] || {})[text];
+  const hasClips = (s) => !!(window.SG_AUDIO || {})[s.id];
+  let player = null;
+  function say(s, text, slow, lang) {
     if (!store.voice) return;
-    const ok = Speech.speak(text, (slow ? 0.6 : 1) * store.rate, s.lang);
-    if (!ok) toast(`No ${s.langName} voice found. Install a ${s.langName} text-to-speech voice in your system settings.`);
+    const clip = clipOf(s, text);
+    if (clip) {
+      Speech.stop();
+      player?.pause();
+      player = new Audio(`audio/${s.id}/${clip}`);
+      player.playbackRate = (slow ? 0.6 : 1) * store.rate;
+      player.preservesPitch = true;
+      player.play().catch(() => {});
+      return;
+    }
+    const ok = Speech.speak(text, (slow ? 0.6 : 1) * store.rate, lang || s.lang);
+    if (!ok && lang) toast("No text-to-speech voice is installed for this word's language.");
+    else if (!ok) toast(`No ${s.langName} voice found. Install a ${s.langName} text-to-speech voice in your system settings.`);
   }
+  const canListen = (s) => store.voice && (hasClips(s) || Speech.available(s.lang));
+
+  // The single characters an item teaches that have stroke data: "A a" is
+  // two characters to write, "का" is one.
+  const strokeParts = (it) =>
+    window.Strokes ? it.g.split(" ").filter((ch) => ch && Strokes.has(`${it.script.id}|${ch}`)) : [];
+  function strokePanels(it, cls = "anim") {
+    const parts = strokeParts(it);
+    if (!parts.length) return "";
+    return `<div class="stroke-panels">${parts
+      .map((ch) => {
+        const key = `${it.script.id}|${ch}`;
+        const n = Strokes.count(key);
+        return `<div class="stroke-panel">${Strokes.svg(key, { numbers: true, cls })}<span class="muted">${n} stroke${n === 1 ? "" : "s"}</span></div>`;
+      })
+      .join("")}</div>
+      <button class="btn small" data-act="replay">▶ Watch the strokes</button>`;
+  }
+  const ipaTag = (it) => (it.ipa ? `<span class="ipa">/${esc(it.ipa)}/</span>` : "");
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -233,7 +272,7 @@
           <div class="ex-word">${g(s, it.ex)}</div>
           <div class="muted">${esc(it.exR)}${it.exM ? ` · ${esc(it.exM)}` : ""}</div>
         </div>
-        <button class="round play" data-act="say" data-text="${esc(it.ex)}" aria-label="Play example">▶</button>
+        <button class="round play" data-act="say" data-text="${esc(it.ex)}" data-lang="${esc(it.exLang)}" aria-label="Play example">▶</button>
       </div>
       ${s.lang === "ja-JP" ? `<button class="btn" data-suite="lookup" data-app="dictionary" data-q="${esc(it.ex)}">Look up ${esc(it.ex)} in the Dictionary</button>` : ""}
     </div>`;
@@ -256,8 +295,9 @@
       <main>
         <div class="card detail">
           <div class="big-glyph">${g(s, it.g)}</div>
-          <div class="detail-r">${esc(it.r)}</div>
+          <div class="detail-r">${esc(it.r)} ${ipaTag(it)}</div>
           ${it.hint ? `<p class="hint">${esc(it.hint)}</p>` : ""}
+          ${strokePanels(it)}
           <div class="card-tools">
             <button class="round play" data-act="say" data-text="${esc(it.speak)}" aria-label="Play">▶</button>
             <button class="round slow" data-act="say-slow" data-text="${esc(it.speak)}" aria-label="Play slowly">½</button>
@@ -321,7 +361,7 @@
         </label>`
       )
       .join("");
-    const voiceOk = store.voice && Speech.available(s.lang);
+    const voiceOk = canListen(s);
     const quizOpts =
       mode === "quiz"
         ? `<h2>Question type</h2>
@@ -376,7 +416,7 @@
     let kind = qz.kind;
     if (kind === "mix") {
       const kinds = ["read", "pick"];
-      if (store.voice && Speech.available(qz.s.lang)) kinds.push("listen");
+      if (canListen(qz.s)) kinds.push("listen");
       kind = kinds[Math.floor(Math.random() * kinds.length)];
     }
     // Distractors come from the same lesson group when possible and never
@@ -433,7 +473,7 @@
       .join("");
     const feedback = ans
       ? `<div class="feedback ${ans === it ? "ok" : "no"}">
-          <div>${ans === it ? "Correct." : "Not quite."} ${g(s, it.g)} is <b>${esc(it.r)}</b>${it.hint ? `: ${esc(it.hint)}` : ""}</div>
+          <div>${ans === it ? "Correct." : "Not quite."} ${g(s, it.g)} is <b>${esc(it.r)}</b> ${ipaTag(it)}${it.hint ? `: ${esc(it.hint)}` : ""}</div>
           <button class="btn primary block" data-act="next-q">${qz.i + 1 < qz.qs.length ? "Next" : "See results"}</button>
         </div>`
       : "";
@@ -465,7 +505,7 @@
     const front = glyphFront ? `<div class="big-glyph">${g(s, it.g)}</div>` : `<div class="q-sound">${esc(it.r)}</div>`;
     const back = f.shown
       ? `<hr>
-        ${glyphFront ? `<div class="detail-r">${esc(it.r)}</div>` : `<div class="big-glyph">${g(s, it.g)}</div>`}
+        ${glyphFront ? `<div class="detail-r">${esc(it.r)} ${ipaTag(it)}</div>` : `<div class="big-glyph">${g(s, it.g)}</div>${strokePanels(it)}`}
         ${it.hint ? `<p class="hint">${esc(it.hint)}</p>` : ""}
         ${exampleBlock(it)}`
       : "";
@@ -491,12 +531,18 @@
   }
 
   // ---- writing ----
+  // Characters with stroke data get the checked pad (WritePad): each stroke is
+  // compared to the model and snaps into place. Others get the free pad.
   let pad = null;
+  let stopAnim = null;
   function viewWrite() {
     const w = state.write;
     const it = w.items[w.i];
     const s = it.script;
-    return `${topbar(`Write ${it.r}`, `${s.title} · ${w.i + 1} of ${w.items.length}`)}
+    const parts = strokeParts(it);
+    w.p = Math.min(w.p || 0, Math.max(0, parts.length - 1));
+    if (!parts.length) {
+      return `${topbar(`Write ${it.r}`, `${s.title} · ${w.i + 1} of ${w.items.length}`)}
       <main>
         <div class="write-head">
           <span class="write-model">${g(s, it.g)}</span>
@@ -515,13 +561,90 @@
         </div>
         ${s.writeTip ? `<p class="muted">${esc(s.writeTip)}</p>` : ""}
       </main>`;
+    }
+    const ch = parts[w.p];
+    const key = `${s.id}|${ch}`;
+    const n = Strokes.count(key);
+    const chooser =
+      parts.length > 1
+        ? `<div class="chips part-chips">${parts
+            .map((c, i) => `<button class="chip ${i === w.p ? "on" : ""}" data-act="write-part" data-i="${i}">${g(s, c)}</button>`)
+            .join("")}</div>`
+        : "";
+    return `${topbar(`Write ${it.r}`, `${s.title} · ${w.i + 1} of ${w.items.length}`)}
+      <main>
+        <div class="write-head">
+          ${Strokes.svg(key, { numbers: true, cls: "anim mini" })}
+          <span><b>${esc(it.r)}</b> ${ipaTag(it)} · ${n} stroke${n === 1 ? "" : "s"}<br><span class="muted">${esc(it.hint)}</span></span>
+        </div>
+        ${chooser}
+        <canvas id="pad" class="pad"></canvas>
+        <div id="padMsg" class="pad-msg muted">${store.check ? `Stroke 1 of ${n}` : "Free drawing: strokes are not checked"}</div>
+        <div class="pad-tools">
+          <button class="btn" data-act="replay">▶ Watch</button>
+          <button class="btn" data-act="pad-hint">Hint</button>
+          <button class="btn" data-act="pad-undo">Undo</button>
+          <button class="btn" data-act="pad-clear">Clear</button>
+          <button class="round play" data-act="say" data-text="${esc(it.speak)}" aria-label="Play">▶</button>
+        </div>
+        <div class="pad-tools">
+          <label class="toggle"><input type="checkbox" data-act="pad-guide-box" ${store.guide ? "checked" : ""}> Guide</label>
+          <label class="toggle"><input type="checkbox" data-act="pad-check" ${store.check ? "checked" : ""}> Check my strokes</label>
+        </div>
+        <div class="pager">
+          <button class="btn" data-act="write-step" data-d="-1" ${w.i <= 0 && w.p <= 0 ? "disabled" : ""}>‹ Prev</button>
+          <button class="btn" data-act="write-step" data-d="1" ${w.i >= w.items.length - 1 && w.p >= parts.length - 1 ? "disabled" : ""}>Next ›</button>
+        </div>
+        ${s.writeTip ? `<p class="muted">${esc(s.writeTip)}</p>` : ""}
+      </main>`;
   }
   function mountPad() {
     const el = document.getElementById("pad");
     if (!el) return;
-    const it = state.write.items[state.write.i];
+    const w = state.write;
+    const it = w.items[w.i];
     const s = it.script;
-    pad = Pad.mount(el, { glyph: it.g, font: s.font, rtl: s.dir === "rtl", guide: store.guide });
+    const parts = strokeParts(it);
+    if (!parts.length) {
+      pad = Pad.mount(el, { glyph: it.g, font: s.font, rtl: s.dir === "rtl", guide: store.guide });
+      return;
+    }
+    const msg = document.getElementById("padMsg");
+    const at = [w.i, w.p];
+    pad = WritePad.mount(el, {
+      key: `${s.id}|${parts[w.p]}`,
+      guide: store.guide,
+      check: store.check,
+      onStroke(result, i, total) {
+        if (result === "ok") msg.textContent = i + 1 < total ? `Good. Stroke ${i + 2} of ${total}` : "";
+        else if (result === "reversed") msg.textContent = `Right shape, wrong direction. Start stroke ${i + 1} from the numbered end.`;
+        else msg.textContent = `That doesn't match stroke ${i + 1}. Tap Hint to see where it goes.`;
+        msg.className = `pad-msg ${result === "ok" ? "good" : "bad"}`;
+      },
+      onDone() {
+        const last = w.i + 1 >= w.items.length && w.p + 1 >= parts.length;
+        msg.textContent = last ? "Well written! That's the whole set." : "Well written! On to the next one.";
+        msg.className = "pad-msg good";
+        if (!last) setTimeout(() => state.view === "write" && state.write === w && w.i === at[0] && w.p === at[1] && writeStep(1), 1100);
+      },
+    });
+  }
+  function writeStep(d) {
+    const w = state.write;
+    const parts = strokeParts(w.items[w.i]).length;
+    w.p = (w.p || 0) + d;
+    if (w.p < 0 || w.p >= Math.max(1, parts)) {
+      w.i = Math.max(0, Math.min(w.items.length - 1, w.i + d));
+      w.p = d < 0 ? Math.max(0, strokeParts(w.items[w.i]).length - 1) : 0;
+    }
+    render();
+  }
+
+  // Start the stroke animation in every animated panel on the page.
+  function playAll() {
+    stopAnim?.();
+    const stops = [...app.querySelectorAll("svg.anim")].map((el) => Strokes.animate(el, store.speed));
+    stopAnim = () => stops.forEach((f) => f());
   }
 
   // ---- reference ----
@@ -595,6 +718,14 @@
           <select data-act="set-rate">${opt(0.7, store.rate, "Slower")}${opt(1, store.rate, "Normal")}${opt(1.2, store.rate, "Faster")}</select>
         </label>
         <label class="setting"><span>Show romanization on tiles</span><input type="checkbox" data-act="set-roman" ${store.showRoman ? "checked" : ""}></label>
+        ${
+          window.Strokes
+            ? `<label class="setting"><span>Stroke animation speed</span>
+          <select data-act="set-speed">${opt(40, store.speed, "Slow")}${opt(70, store.speed, "Normal")}${opt(110, store.speed, "Fast")}</select>
+        </label>
+        <label class="setting"><span>Check strokes when writing</span><input type="checkbox" data-act="set-check" ${store.check ? "checked" : ""}></label>`
+            : ""
+        }
         <label class="setting"><span>Flashcard front</span>
           <select data-act="set-flash">${opt("glyph", store.flashDir, "Character")}${opt("sound", store.flashDir, "Sound")}</select>
         </label>
@@ -608,6 +739,8 @@
 
   function render() {
     pad = null;
+    stopAnim?.();
+    stopAnim = null;
     const s = state.script;
     let html;
     switch (state.view) {
@@ -655,6 +788,7 @@
     }
     app.innerHTML = html;
     if (state.view === "write") mountPad();
+    if (window.Strokes && app.querySelector("svg.anim")) playAll();
   }
 
   function begin(mode, items, extra = {}) {
@@ -666,7 +800,7 @@
       startFlash(items);
       navigate("flash");
     } else {
-      navigate("write", { write: { items, i: 0 } });
+      navigate("write", { write: { items, i: 0, p: 0 } });
     }
   }
 
@@ -703,7 +837,7 @@
         break;
       }
       case "say":
-        say(s || state.quiz.s, el.dataset.text);
+        say(s || state.quiz.s, el.dataset.text, false, el.dataset.lang);
         break;
       case "say-slow":
         say(s, el.dataset.text, true);
@@ -748,7 +882,7 @@
         begin(el.dataset.mode, state.lesson.items, { kind: "mix", count: 0 });
         break;
       case "write-one":
-        navigate("write", { write: { items: state.list, i: state.list.indexOf(state.item) } });
+        navigate("write", { write: { items: state.list, i: state.list.indexOf(state.item), p: 0 } });
         break;
       case "answer": {
         const qz = state.quiz;
@@ -811,8 +945,17 @@
         el.textContent = `${store.guide ? "Hide" : "Show"} guide`;
         break;
       case "write-step":
-        state.write.i += Number(el.dataset.d);
+        writeStep(Number(el.dataset.d));
+        break;
+      case "write-part":
+        state.write.p = Number(el.dataset.i);
         render();
+        break;
+      case "replay":
+        playAll();
+        break;
+      case "pad-hint":
+        pad?.hint?.();
         break;
       case "reset": {
         const rs = scriptById.get(el.dataset.id);
@@ -850,6 +993,21 @@
       case "set-flash":
         store.flashDir = el.value;
         save();
+        break;
+      case "set-speed":
+        store.speed = Number(el.value);
+        save();
+        break;
+      case "set-check":
+      case "pad-check":
+        store.check = el.checked;
+        save();
+        if (state.view === "write") render();
+        break;
+      case "pad-guide-box":
+        store.guide = el.checked;
+        save();
+        pad?.setGuide(store.guide);
         break;
     }
   });

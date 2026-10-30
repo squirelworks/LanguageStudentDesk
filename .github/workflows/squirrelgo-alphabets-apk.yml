@@ -59,4 +59,4 @@ jobs:
           gh release delete "$TAG" --yes --cleanup-tag || true
           gh release create "$TAG" SquirrelGoAlphabets-debug.apk --prerelease --target "$GITHUB_SHA" \
             --title "SquirrelGo Alphabets (latest build)" \
-            --notes "Hangul, Cyrillic, Devanagari and Arabic alphabet trainer. Debug build, sideload on Android 7.0+. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
+            --notes "Trainer for the world's alphabets, with stroke order and recorded sounds. Debug build, sideload on Android 7.0+. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
