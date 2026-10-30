@@ -97,4 +97,8 @@ result = translate("print hello", from_lang="english", to_lang="python")
 
 See [languages/](languages/) for the emerging data layer (`meta.json` per language). Future grammar, vocabulary, and full language learners will read from here.
 
+## Expanding LSD
+
+See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo.
+
 More languages and tools coming soon.
