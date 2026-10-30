@@ -18,6 +18,9 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
 | Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
 | Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
+| Cherokee ᏣᎳᎩ | Cherokee | all 85 syllables, a lesson per consonant row | articles on Sequoyah's syllabary, reading the chart and consonant clusters |
+| Syllabics ᖃᓂᐅᔮᖅᐸᐃᑦ | Inuktitut | the i, u, a series and finals for each consonant | articles on syllabics, how the shapes turn, and long vowels |
+| Mongolian ᠮᠣᠩᠭᠣᠯ | Mongolian (Inner Mongolia) | vowels, native consonants, letters for borrowed words; shown vertically | articles on the script, letter shapes in words, spelling and speech |
 
 Every character has:
 

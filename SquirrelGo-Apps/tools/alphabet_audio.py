@@ -18,7 +18,8 @@ rerun only records what changed.
 A script with audio: "ipa" is recorded from IPA instead, through
 tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
 the example's IPA, for the word. Use it where eSpeak reads the script badly
-(pointed Hebrew) or has no voice for it; set "voice" to pick the eSpeak voice.
+(pointed Hebrew) or has no voice for it; set "voice" to pick the eSpeak voice,
+and bareVowel: "before" to say a lone consonant as "ab" rather than "ba".
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -148,7 +149,9 @@ def run(script):
             if by_ipa:
                 sound = ipa.split("~")[0].strip()
                 if sound and not any(ch in IPA_VOWELS for ch in sound):
-                    sound += "a"
+                    # a lone consonant: said as "ba", or as "ab" where the
+                    # script's syllable "ba" has its own character
+                    sound = "a" + sound if s.get("bareVowel") == "before" else sound + "a"
                 if sound and key not in clips:
                     clips[key] = (voice, "ipa:" + sound)
                 if ex and ex_ipa and ex not in clips:
