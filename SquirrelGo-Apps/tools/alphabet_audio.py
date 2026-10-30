@@ -13,7 +13,10 @@ For each character in www/data/<script>.js:
 Clips go to www/audio/<script>/ and a map from spoken text to file goes to
 www/data/audio/<script>.js, which the app checks before falling back to
 text-to-speech. Each clip is named after a hash of its voice and text, so a
-rerun only records what changed.
+rerun only records what changed. For a script eSpeak has no voice for (Lao,
+Khmer, Tibetan), the clips are rendered from IPA with tools/ipa_audio.py: the
+letter from its IPA and the example from the example IPA (the tenth field),
+both without tones.
 
 A script with audio: "ipa" is recorded from IPA instead, through
 tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
@@ -118,7 +121,16 @@ def letter_text(s, ch, ipa, lang, voice):
     return first
 
 
+def plain_ipa(ipa):
+    """IPA without tone marks or alternatives, for ipa_audio."""
+    ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
+    return unicodedata.normalize("NFC", "".join(c for c in ipa if unicodedata.category(c) != "Mn"))
+
+
 def render(text, voice, path, speed=140):
+    if voice == "ipa":
+        ipa_audio.render(text, path)
+        return
     with tempfile.NamedTemporaryFile(suffix=".wav") as wav:
         if text.startswith("ipa:"):
             text = f"[[{ipa_audio.to_espeak(text[4:])}]]"
@@ -156,6 +168,14 @@ def run(script):
                     clips[key] = (voice, "ipa:" + sound)
                 if ex and ex_ipa and ex not in clips:
                     clips[ex] = (voice, "ipa:" + ex_ipa)
+                continue
+            if not voice and ipa:
+                sound = plain_ipa(ipa)
+                if not any(ch in IPA_VOWELS for ch in sound):
+                    sound += "a"
+                clips.setdefault(key, ("ipa", sound))
+                if ex and ex_ipa:
+                    clips.setdefault(ex, ("ipa", plain_ipa(ex_ipa)))
                 continue
             if voice and key not in clips:
                 # A speak text that is not one of the letters themselves is a
