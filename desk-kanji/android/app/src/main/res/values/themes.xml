@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DeskKanji" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#1F4F8A</item>
+        <item name="colorPrimaryVariant">#163A66</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:statusBarColor">#1F4F8A</item>
+        <item name="android:navigationBarColor">#F7F5F1</item>
+        <item name="android:windowBackground">#F7F5F1</item>
+    </style>
+</resources>
