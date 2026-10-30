@@ -694,7 +694,7 @@ window.SGO_CATALOG = {
       "name": "La Sainte Bible (French, Louis Segond, 1910)",
       "lang": "fr",
       "dir": "ltr",
-      "versification": "kjv",
+      "versification": "org",
       "license": "Public Domain",
       "source": "https://ebible.org/details.php?id=fraLSG",
       "testaments": "OT,NT",
