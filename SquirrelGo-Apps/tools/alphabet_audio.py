@@ -13,8 +13,12 @@ For each character in www/data/<script>.js:
 Clips go to www/audio/<script>/ and a map from spoken text to file goes to
 www/data/audio/<script>.js, which the app checks before falling back to
 text-to-speech. Each clip is named after a hash of its voice and text, so a
-rerun only records what changed. Scripts eSpeak has no voice for are
-skipped here; tools/ipa_audio.py renders those from IPA.
+rerun only records what changed.
+
+A script with audio: "ipa" is recorded from IPA instead, through
+tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
+the example's IPA, for the word. Use it where eSpeak reads the script badly
+(pointed Hebrew) or has no voice for it; set "voice" to pick the eSpeak voice.
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -27,6 +31,8 @@ import subprocess
 import sys
 import tempfile
 import unicodedata
+
+import ipa_audio
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WWW = os.path.join(HERE, "..", "squirrelgo-characters", "squirrelgo-alphabets", "www")
@@ -113,6 +119,8 @@ def letter_text(s, ch, ipa, lang, voice):
 
 def render(text, voice, path, speed=140):
     with tempfile.NamedTemporaryFile(suffix=".wav") as wav:
+        if text.startswith("ipa:"):
+            text = f"[[{ipa_audio.to_espeak(text[4:])}]]"
         subprocess.run(["espeak-ng", "-v", voice, "-s", str(speed), "-w", wav.name, text], check=True)
         subprocess.run(
             ["ffmpeg", "-loglevel", "error", "-y", "-i", wav.name,
@@ -124,7 +132,8 @@ def render(text, voice, path, speed=140):
 
 def run(script):
     s = load(script)
-    base_voice = voice_for(s["lang"])
+    base_voice = s.get("voice") or voice_for(s["lang"])
+    by_ipa = s.get("audio") == "ipa"
     out_dir = os.path.join(WWW, "audio", script)
     os.makedirs(out_dir, exist_ok=True)
     clips = {}  # text the app passes -> (voice, text eSpeak reads)
@@ -132,10 +141,19 @@ def run(script):
         for c in lesson["chars"]:
             if not c:
                 continue
-            c = c + [""] * (9 - len(c))
-            g, _, _, ex, _, _, speak, ipa, ex_lang = c[:9]
+            c = c + [""] * (10 - len(c))
+            g, _, _, ex, _, _, speak, ipa, ex_lang, ex_ipa = c[:10]
             key = speak or g
             voice = voice_for(ex_lang) or base_voice
+            if by_ipa:
+                sound = ipa.split("~")[0].strip()
+                if sound and not any(ch in IPA_VOWELS for ch in sound):
+                    sound += "a"
+                if sound and key not in clips:
+                    clips[key] = (voice, "ipa:" + sound)
+                if ex and ex_ipa and ex not in clips:
+                    clips[ex] = (voice, "ipa:" + ex_ipa)
+                continue
             if voice and key not in clips:
                 # A speak text that is not one of the letters themselves is a
                 # syllable or word chosen by hand (가 for ㄱ, мать for ь).
