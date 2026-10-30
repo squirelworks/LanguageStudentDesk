@@ -76,7 +76,7 @@
       .map(word)
       .join(" ")
       .replace(/\s+([,.?!])/g, "$1");
-    return s.charAt(0).toUpperCase() + s.slice(1);
+    return s.replace(/(^|[.?!] )([a-z])/g, (m, pre, c) => pre + c.toUpperCase());
   }
 
   window.Romaji = { romanize, toHiragana };

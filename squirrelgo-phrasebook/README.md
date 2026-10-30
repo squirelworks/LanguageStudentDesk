@@ -2,7 +2,7 @@
 
 Offline Japanese phrasebook for modern Android (and desktop browsers), part of LanguageStudentDesk.
 
-This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with six packs. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
+This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
 
 ## Packs
 
@@ -14,6 +14,10 @@ This is a **new open implementation** meant to replace the aging Japanese phrase
 | Medical 医療 | `md` | Registration, symptoms, exam commands, medication, procedures, body parts, children & pregnancy, discharge |
 | Naval 海事 | `nv` | Port entry & mooring, ship visits, deck commands, supplies, emergencies, rescue at sea |
 | Public Affairs 広報 | `pa` | Phone queries, media escort, interviews, press conferences, crisis statements |
+| Force Protection 警備 | new | Gate and checkpoint control, vehicle inspection, bag screening, security alerts |
+| Military Police 憲兵 | new | Traffic stops, statements and reports, detention, working with Japanese police |
+| Cordon & Search 捜索 | new | Instructions to residents, entry and search, property and wrap-up |
+| Weapons 武器 | new | Weapon safety, range commands, permits and storage, basic terms |
 
 ## Features
 
@@ -32,7 +36,7 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 ## Install the APK
 
-The GitHub Actions workflow `SquirrelGo Phrasebook APK` builds a debug APK on every push that touches this folder. Download `SquirrelGoPhrasebook-debug-apk` from the run's artifacts and sideload it.
+Sideload `SquirrelGoPhrasebook-debug.apk` from this folder. The GitHub Actions workflow `SquirrelGo Phrasebook APK` builds a debug APK on every push that touches this folder. Download `SquirrelGoPhrasebook-debug-apk` from the run's artifacts and sideload it.
 
 - Package id: `com.squirelworks.squirrelgophrasebook.debug`
 - Min Android: 7.0 (API 24)

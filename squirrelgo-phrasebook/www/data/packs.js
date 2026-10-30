@@ -539,5 +539,217 @@ window.PHRASEBOOK_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: "forceprotection",
+    code: "fp",
+    title: "Force Protection",
+    jaTitle: "警備",
+    desc: "Gate and checkpoint control, vehicle and bag inspection, security alerts.",
+    categories: [
+      {
+        title: "Gate & checkpoint",
+        phrases: [
+          ["Please stop here.", "ここで止まってください。", "ここ で とまって ください。"],
+          ["Please show your ID.", "身分証明書を見せてください。", "みぶん しょうめいしょ を みせて ください。"],
+          ["What is the purpose of your visit?", "訪問の目的は何ですか。", "ほうもん の もくてき は なん です か。"],
+          ["Who are you here to see?", "どなたに会いに来ましたか。", "どなた に あい に きました か。"],
+          ["Please wait here until your escort arrives.", "案内の者が来るまでここで待ってください。", "あんない の もの が くる まで ここ で まって ください。"],
+          ["Please write your name here.", "ここに記名してください。", "ここ に きめい して ください。"],
+          ["This is a restricted area.", "ここは制限区域です。", "ここ は せいげん くいき です。"],
+          ["You may enter.", "入ってもいいです。", "はいって も いい です。"],
+          ["You cannot enter.", "入れません。", "はいれません。"]
+        ]
+      },
+      {
+        title: "Vehicle inspection",
+        phrases: [
+          ["Please turn off the engine.", "エンジンを止めてください。", "エンジン を とめて ください。"],
+          ["Please open the trunk.", "トランクを開けてください。", "トランク を あけて ください。"],
+          ["Please open the hood.", "ボンネットを開けてください。", "ボンネット を あけて ください。"],
+          ["Please step out of the vehicle.", "車から降りてください。", "くるま から おりて ください。"],
+          ["Is this your vehicle?", "これはあなたの車ですか。", "これ は あなた の くるま です か。"],
+          ["Please show your vehicle inspection certificate.", "車検証を見せてください。", "しゃけんしょう を みせて ください。", "Japanese cars carry a 車検証 (shakenshou), the registration and inspection certificate."],
+          ["We are going to inspect the vehicle.", "車両を検査します。", "しゃりょう を けんさ します。"],
+          ["Thank you. You may go.", "ありがとうございます。行っていいです。", "ありがとう ございます。 いって いい です。"]
+        ]
+      },
+      {
+        title: "Bag & personal screening",
+        phrases: [
+          ["Please put your bag here.", "かばんをここに置いてください。", "かばん を ここ に おいて ください。"],
+          ["Please open your bag.", "かばんを開けてください。", "かばん を あけて ください。"],
+          ["Do you have anything sharp?", "何か鋭い物を持っていますか。", "なにか するどい もの を もって います か。"],
+          ["Please empty your pockets.", "ポケットの中の物を出してください。", "ポケット の なか の もの を だして ください。"],
+          ["Please raise your arms.", "両腕を上げてください。", "りょううで を あげて ください。"],
+          ["Please walk through here.", "ここを通ってください。", "ここ を とおって ください。"]
+        ]
+      },
+      {
+        title: "Security alerts",
+        phrases: [
+          ["Suspicious object! Keep away!", "不審物です。近づかないでください！", "ふしんぶつ です。 ちかづかないで ください！"],
+          ["Please evacuate the building.", "建物から避難してください。", "たてもの から ひなん して ください。"],
+          ["Move back!", "下がってください！", "さがって ください！"],
+          ["Did you see anyone suspicious?", "不審な人を見ましたか。", "ふしん な ひと を みました か。"],
+          ["Please tell us if you notice anything unusual.", "何か変わったことがあれば知らせてください。", "なにか かわった こと が あれば しらせて ください。"],
+          ["The gate is closed.", "ゲートは閉鎖中です。", "ゲート は へいさちゅう です。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "militarypolice",
+    code: "mp",
+    title: "Military Police",
+    jaTitle: "憲兵",
+    desc: "Traffic stops, taking statements, detention and working with Japanese police.",
+    categories: [
+      {
+        title: "Traffic",
+        phrases: [
+          ["Please pull over here.", "ここに車を止めてください。", "ここ に くるま を とめて ください。"],
+          ["Please show your driver's license.", "運転免許証を見せてください。", "うんてん めんきょしょう を みせて ください。"],
+          ["You were speeding.", "スピード違反です。", "スピード いはん です。"],
+          ["Have you been drinking?", "お酒を飲みましたか。", "おさけ を のみました か。"],
+          ["Please blow into this.", "これに息を吹きかけてください。", "これ に いき を ふきかけて ください。"],
+          ["Was anyone hurt in the accident?", "事故でけがをした人はいますか。", "じこ で けが を した ひと は います か。"],
+          ["Please move your car.", "車を移動してください。", "くるま を いどう して ください。"]
+        ]
+      },
+      {
+        title: "Statements & reports",
+        phrases: [
+          ["What happened?", "何がありましたか。", "なに が ありました か。"],
+          ["When did it happen?", "いつ起きましたか。", "いつ おきました か。"],
+          ["Where did it happen?", "どこで起きましたか。", "どこ で おきました か。"],
+          ["Can you describe the person?", "その人の特徴を教えてください。", "その ひと の とくちょう を おしえて ください。"],
+          ["Did anyone see it happen?", "誰か見ていましたか。", "だれか みて いました か。"],
+          ["Please tell me your address.", "住所を教えてください。", "じゅうしょ を おしえて ください。"],
+          ["I will write a report.", "報告書を作成します。", "ほうこくしょ を さくせい します。"]
+        ]
+      },
+      {
+        title: "Detention",
+        phrases: [
+          ["Stop! Don't move!", "止まれ！動くな！", "とまれ！ うごくな！"],
+          ["Show me your hands.", "手を見えるところに出してください。", "て を みえる ところ に だして ください。"],
+          ["Turn around.", "後ろを向いてください。", "うしろ を むいて ください。"],
+          ["You are being detained.", "あなたを拘束します。", "あなた を こうそく します。"],
+          ["Please come with me.", "一緒に来てください。", "いっしょ に きて ください。"],
+          ["Do you need a doctor?", "医者が必要ですか。", "いしゃ が ひつよう です か。"],
+          ["An interpreter is on the way.", "通訳が来ます。", "つうやく が きます。"],
+          ["You may call someone.", "連絡したい人に電話できます。", "れんらく したい ひと に でんわ できます。"]
+        ]
+      },
+      {
+        title: "Working with Japanese police",
+        phrases: [
+          ["Please contact the Japanese police.", "日本の警察に連絡してください。", "にほん の けいさつ に れんらく して ください。"],
+          ["We will cooperate with the police.", "警察に協力します。", "けいさつ に きょうりょく します。"],
+          ["This person is affiliated with the U.S. military.", "この人は米軍の関係者です。", "この ひと は べいぐん の かんけいしゃ です。"],
+          ["Which police station?", "どの警察署ですか。", "どの けいさつしょ です か。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "cordonsearch",
+    code: "cs",
+    title: "Cordon & Search",
+    jaTitle: "捜索",
+    desc: "Instructions to residents, entering and searching buildings, property and wrap-up.",
+    categories: [
+      {
+        title: "Instructions to residents",
+        phrases: [
+          ["We are going to search this building.", "この建物を捜索します。", "この たてもの を そうさく します。"],
+          ["Please stay calm.", "落ち着いてください。", "おちついて ください。"],
+          ["Everyone, please come outside.", "皆さん、外に出てください。", "みなさん、 そと に でて ください。"],
+          ["Please gather here.", "ここに集まってください。", "ここ に あつまって ください。"],
+          ["Please do not leave this area.", "この区域から出ないでください。", "この くいき から でないで ください。"],
+          ["Is anyone else inside?", "中にほかに誰かいますか。", "なか に ほか に だれか います か。"],
+          ["It will be over soon.", "すぐに終わります。", "すぐ に おわります。"]
+        ]
+      },
+      {
+        title: "Entry & search",
+        phrases: [
+          ["Open the door, please!", "ドアを開けてください！", "ドア を あけて ください！"],
+          ["Who lives here?", "ここには誰が住んでいますか。", "ここ に は だれ が すんで います か。"],
+          ["Who owns this house?", "この家の持ち主は誰ですか。", "この いえ の もちぬし は だれ です か。"],
+          ["Please open this room.", "この部屋を開けてください。", "この へや を あけて ください。"],
+          ["Please be present during the search.", "捜索に立ち会ってください。", "そうさく に たちあって ください。"],
+          ["Is there anything dangerous here?", "ここに危険な物はありますか。", "ここ に きけん な もの は あります か。"],
+          ["Please don't touch that.", "それに触らないでください。", "それ に さわらないで ください。"]
+        ]
+      },
+      {
+        title: "Property & wrap-up",
+        phrases: [
+          ["We will return this to you.", "これはお返しします。", "これ は おかえし します。"],
+          ["Please check that nothing is missing.", "なくなった物がないか確認してください。", "なくなった もの が ない か かくにん して ください。"],
+          ["Was anything damaged?", "何か壊れた物はありますか。", "なにか こわれた もの は あります か。"],
+          ["Here is a receipt.", "これは受領証です。", "これ は じゅりょうしょう です。"],
+          ["The search is finished.", "捜索は終わりました。", "そうさく は おわりました。"],
+          ["You may go back inside.", "中に戻ってもいいです。", "なか に もどって も いい です。"],
+          ["Thank you for your cooperation.", "ご協力ありがとうございました。", "ごきょうりょく ありがとう ございました。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "weapons",
+    code: "wp",
+    title: "Weapons",
+    jaTitle: "武器",
+    desc: "Weapon safety, range commands, permits, storage and basic terms.",
+    categories: [
+      {
+        title: "Safety",
+        phrases: [
+          ["Is it loaded?", "弾は入っていますか。", "たま は はいって います か。"],
+          ["Please unload the weapon.", "弾を抜いてください。", "たま を ぬいて ください。"],
+          ["Point it in a safe direction.", "安全な方向に向けてください。", "あんぜん な ほうこう に むけて ください。"],
+          ["Keep your finger off the trigger.", "引き金から指を離してください。", "ひきがね から ゆび を はなして ください。"],
+          ["Put it on safe.", "安全装置をかけてください。", "あんぜん そうち を かけて ください。"],
+          ["Show me the chamber is empty.", "薬室が空なのを見せてください。", "やくしつ が から な の を みせて ください。"],
+          ["Put the weapon down.", "武器を置いてください。", "ぶき を おいて ください。"],
+          ["Drop it!", "捨てろ！", "すてろ！"]
+        ]
+      },
+      {
+        title: "Range commands",
+        phrases: [
+          ["Wear eye and ear protection.", "保護眼鏡と耳栓を着けてください。", "ほご めがね と みみせん を つけて ください。"],
+          ["Is the firing line ready?", "射撃準備はいいですか。", "しゃげき じゅんび は いい です か。"],
+          ["Commence firing.", "撃ち方始め。", "うちかた はじめ。", "Standard Japan Self-Defense Forces range command."],
+          ["Cease fire!", "撃ち方やめ！", "うちかた やめ！"],
+          ["Check your target.", "標的を確認してください。", "ひょうてき を かくにん して ください。"],
+          ["Please leave the range.", "射場から出てください。", "しゃじょう から でて ください。"]
+        ]
+      },
+      {
+        title: "Permits & storage",
+        phrases: [
+          ["Is this weapon yours?", "この武器はあなたのですか。", "この ぶき は あなた の です か。"],
+          ["Do you have a permit for it?", "所持許可はありますか。", "しょじ きょか は あります か。"],
+          ["What is the serial number?", "製造番号は何番ですか。", "せいぞう ばんごう は なんばん です か。"],
+          ["Where is the ammunition stored?", "弾薬はどこに保管していますか。", "だんやく は どこ に ほかん して います か。"],
+          ["Weapons are not allowed here.", "ここに武器は持ち込めません。", "ここ に ぶき は もちこめません。"],
+          ["Please check your weapon in here.", "武器はここで預けてください。", "ぶき は ここ で あずけて ください。"]
+        ]
+      },
+      {
+        title: "Terms",
+        phrases: [
+          ["Rifle", "小銃", "しょうじゅう"],
+          ["Pistol", "拳銃", "けんじゅう"],
+          ["Ammunition", "弾薬", "だんやく"],
+          ["Magazine", "弾倉", "だんそう"],
+          ["Knife", "ナイフ", "ナイフ"]
+        ]
+      }
+    ]
   }
 ];
