@@ -1,0 +1,1 @@
+{"id": "lao", "title": "Lao", "fontName": "Noto Sans Lao Looped", "fontPackages": "noto-sans-lao-looped", "data": "../../squirrelgo-characters/squirrelgo-alphabets/www/data/lao.js", "fonts": ["noto-sans-lao-looped-lao-400-normal.ttf"], "head": 90, "corner": 150, "base_first": true, "spur": 2.5, "graphOrder": true, "head_low": true}

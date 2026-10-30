@@ -31,7 +31,7 @@
     { id: "phrasebook", name: "SquirrelGo Phrasebook", icon: "話", blurb: "Japanese phrases with audio, favorites and flashcards.",
       pkg: "com.squirelworks.squirrelgophrasebook", tag: "squirrelgo-phrasebook-latest", apk: "SquirrelGoPhrasebook-debug.apk",
       web: "squirrelgo-phrasebook/www/index.html", langs: ["japanese"] },
-    { id: "alphabets", name: "SquirrelGo Alphabets", icon: "한", blurb: "The world's alphabets: Latin, Greek, Cyrillic, Armenian, Georgian, Hangul, Devanagari, Arabic, Hebrew, Ethiopic.",
+    { id: "alphabets", name: "SquirrelGo Alphabets", icon: "한", blurb: "The world's alphabets: Latin, Greek, Cyrillic, Armenian, Georgian, Hangul, Devanagari, Arabic.",
       pkg: "com.squirelworks.squirrelgoalphabets", tag: "squirrelgo-alphabets-latest", apk: "SquirrelGoAlphabets-debug.apk",
       web: "squirrelgo-characters/squirrelgo-alphabets/www/index.html", langs: ["korean", "russian", "hindi", "arabic"] },
     { id: "klingon", name: "SquirrelGo Klingon", icon: "tlh", blurb: "The pIqaD script: letters, writing practice, quizzes.",
