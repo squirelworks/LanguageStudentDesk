@@ -173,13 +173,48 @@ Christian Commentary on Scripture and the Fathers of the Church series), so
   ccel.org or tertullian.org/fathers;
 - Fathers the Orthodox Church receives: the Greek and Syriac Fathers, the
   pre-Nicene martyrs and apologists, and the Western pre-schism saints. Origen,
-  Tertullian, Eusebius, Theodore of Mopsuestia, Didymus, Pseudo-writings and
-  medieval Western authors are excluded. Theophylact, Bede and a few others
-  appear only through their quotations in the Catena Aurea, because the
-  modern English translations of their own commentaries are copyrighted.
+  Tertullian, Eusebius, Theodore of Mopsuestia, Didymus, non-Chalcedonian
+  writers (Philoxenus, Dionysius bar Salibi), Pseudo-writings and medieval
+  Western authors are excluded.
 
 Every note ends with a line naming its work and section. Each Father is one
 file; the largest are split by book range so no file is over about 4 MB.
+
+### Downloadable "more" packs
+
+The database's links to historicalchristian.faith point into the
+[Writings Database](https://github.com/HistoricalChristianFaith/Writings-Database),
+which is dedicated to the public domain as a whole. Beyond the ANF/NPNF texts
+it holds the maintainer's own new translations: from Migne's Greek and Latin
+(Jerome's commentaries on the prophets and Matthew, Bede's commentaries,
+Gregory the Dialogist on Ezekiel, 1 Kings and the Gospels, Ambrose on Luke and
+the Psalms, Augustine's sermons, Cyril on Isaiah and the Minor Prophets), many
+marked as made with ChatGPT, and from the 19th-century Russian Kazan
+translation of Blessed Theophylact's commentary on the Gospels, Acts and
+Epistles. These are public domain but newer and partly machine-made, so they
+are kept apart from the bundled set: each Father's extra notes go into
+`<id>-more` packs, written to `packs/commentary/` and listed in
+`commentary_packs.json`, which the app downloads on request (see the packs
+workflow). A Father's extras under about 100 KB are bundled instead.
+
+Left out of the packs because they are modern translations still in copyright:
+
+| Work in the database | Translation |
+| --- | --- |
+| Theophylact, Commentary on Matthew | Chrysostom Press (Fr Christopher Stade), 1992 |
+| Oecumenius, all commentaries (Acts, Catholic and Pastoral Epistles, Galatians, Hebrews catena, Revelation) | John Litteral, sold in print |
+| Jerome, Commentary on Ecclesiastes (first version) | Robin McGregor, no license stated |
+| Andrew of Caesarea, Ephrem, Theodoret, Severian, Chrysostom on Genesis/Job/Psalms, Isaac the Syrian and others | only short excerpts of modern copyrighted editions (ACCS, FOTC and similar) |
+
+Notes whose text is a failed machine translation ("I cannot provide...") are dropped.
+
+### Not yet available
+
+Euthymius Zigabenus, Andrew of Caesarea and Oecumenius on Revelation, Ephrem's
+commentaries and the Philokalia have no public-domain English text keyed to
+verses that could be found. Their 19th-century Russian translations
+(azbyka.ru, Kazan and Moscow Theological Academy editions) and the Greek of
+Migne's Patrologia Graeca are public domain and would be the next sources.
 
 ## Daily readings
 
@@ -209,7 +244,7 @@ included yet.
 cd SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts
 ./fetch_sources.sh            # GitHub-hosted sources into .cache/ (about 450 MB)
 python3 build_bibles.py       # every Bible whose source was fetched (packs go to packs/)
-python3 build_commentary.py
+python3 build_commentary.py     # bundled files, plus packs/commentary/ and commentary_packs.json
 python3 build_versification.py --check
 python3 build_catalog.py
 python3 build_lectionary.py
