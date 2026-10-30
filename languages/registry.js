@@ -40,6 +40,17 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ru-RU",
     "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic."
   },
+  "english": {
+    "id": "english",
+    "name": "English",
+    "nativeName": "English",
+    "writingSystems": [
+      "latin"
+    ],
+    "characterKeys": [],
+    "notes": "English in the Latin alphabet, for learners of English as a second language.",
+    "speech": "en-US"
+  },
   "hangul": {
     "id": "hangul",
     "name": "Korean",
@@ -95,5 +106,16 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "pIqaD script.",
     "font": "pIqaD"
+  },
+  "latin": {
+    "id": "latin",
+    "name": "Latin",
+    "nativeName": "Lingua Latina",
+    "writingSystems": [
+      "latin"
+    ],
+    "characterKeys": [],
+    "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
+    "speech": "la"
   }
 };
