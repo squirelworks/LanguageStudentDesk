@@ -1,0 +1,47 @@
+name: SquirrelGo Orthodox Bible texts (eBible.org)
+
+# Builds the Bibles that are only available from eBible.org (Brenton's Greek
+# and English Septuagint, the Arabic Van Dyck) and commits them to the branch.
+# Run it by hand from the Actions tab, or push a change to this file. The
+# other texts are built locally with tools/texts (see its README).
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/squirrelgo-orthodox-texts.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download eBible.org USFM and versification files
+        run: |
+          ./fetch_sources.sh ebible
+          mkdir -p .cache/vrs
+          for f in org lxx rso eng; do
+            curl -fsSL -o .cache/vrs/$f.vrs https://raw.githubusercontent.com/BibleNLP/ebible/main/metadata/$f.vrs
+          done
+      - name: Build Bibles, verse check and catalog
+        run: |
+          python3 build_bibles.py grc-brenton eng-brenton arb-vandyck
+          python3 build_versification.py --check
+          python3 build_catalog.py
+      - name: Commit to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cd "$GITHUB_WORKSPACE"
+          git add SquirrelGo-Apps/squirrelgo-orthodox-bible/www/data
+          git commit -m "Build eBible.org texts for SquirrelGo Orthodox Bible" || exit 0
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
