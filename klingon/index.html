@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>tlhIngan Hol - Klingon Teacher</title>
+<link rel="stylesheet" href="fonts/piqad.css">
 <style>
   :root {
     --bg: #0d0d0d;
@@ -12,6 +13,7 @@
     --gold: #d4a017;
     --text: #e8e8e8;
     --muted: #888;
+    --piqad: 'pIqaD qolqoS', sans-serif;
   }
   * { box-sizing: border-box; }
   body {
@@ -28,6 +30,7 @@
     border-bottom: 3px solid var(--accent);
   }
   header h1 { margin: 0; color: var(--gold); font-size: 1.8rem; }
+  header h1 .pq { font-size: 1.6rem; margin-left: 0.6rem; }
   header p { margin: 0.3rem 0 0; color: var(--muted); }
   nav {
     display: flex;
@@ -58,9 +61,11 @@
     margin-bottom: 1rem;
     border: 1px solid #333;
   }
+  .pq { font-family: var(--piqad); color: var(--gold); }
+  .muted { color: var(--muted); font-size: 0.9rem; }
   .letter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 0.8rem;
   }
   .letter-card {
@@ -71,19 +76,16 @@
     cursor: pointer;
     border: 2px solid transparent;
     transition: border-color 0.2s;
+    color: var(--text);
+    font: inherit;
   }
-  .letter-card:hover { border-color: var(--gold); }
-  .letter-card .piqaD {
-    font-size: 2.2rem;
-    color: var(--gold);
-    display: block;
-  }
-  .letter-card .roman { font-size: 0.9rem; color: var(--muted); }
-  .letter-card .example { font-size: 0.8rem; margin-top: 0.3rem; }
+  .letter-card:hover, .letter-card.on { border-color: var(--gold); }
+  .letter-card .pq { font-size: 2.4rem; display: block; line-height: 1.2; }
+  .letter-card .roman { font-size: 0.95rem; color: var(--muted); }
   #detail { display: none; }
   #detail.show { display: block; }
-  .big-letter { font-size: 5rem; color: var(--gold); text-align: center; }
-  button.primary {
+  .big-letter { font-size: 6rem; text-align: center; line-height: 1.2; }
+  button.primary, button.ghost {
     background: var(--accent);
     color: white;
     border: none;
@@ -92,7 +94,9 @@
     cursor: pointer;
     font-size: 1rem;
   }
-  button.primary:hover { opacity: 0.9; }
+  button.ghost { background: #2a2a2a; border: 1px solid #444; }
+  button.primary:hover, button.ghost:hover { opacity: 0.9; }
+  .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.8rem 0; }
   .quiz-option {
     display: block;
     width: 100%;
@@ -104,31 +108,102 @@
     margin: 0.4rem 0;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 1.1rem;
   }
+  .quiz-option.pq { font-size: 2rem; text-align: center; color: var(--gold); }
   .quiz-option:hover { border-color: var(--gold); }
   .quiz-option.correct { background: #1a4a1a; border-color: #4caf50; }
   .quiz-option.wrong { background: #4a1a1a; border-color: #f44336; }
+  .quiz-prompt { font-size: 1.2rem; }
+  .quiz-prompt .pq { font-size: 4rem; display: block; text-align: center; }
   .progress { height: 6px; background: #333; border-radius: 3px; margin: 1rem 0; }
   .progress-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+  textarea {
+    width: 100%;
+    min-height: 5rem;
+    background: #111;
+    color: var(--text);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.7rem;
+    font-size: 1.1rem;
+    font-family: inherit;
+  }
+  .output {
+    font-family: var(--piqad);
+    color: var(--gold);
+    font-size: 2.2rem;
+    line-height: 1.6;
+    min-height: 3.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #111;
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+  }
+  .keyboard { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 0.4rem; }
+  .keyboard button {
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.3rem 0;
+    font: inherit;
+  }
+  .keyboard button:hover { border-color: var(--gold); }
+  .keyboard .pq { display: block; font-size: 1.6rem; line-height: 1.2; }
+  .keyboard small { color: var(--muted); }
+  .pad-wrap { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+  #pad {
+    width: min(320px, 100%);
+    aspect-ratio: 1;
+    background: #f5f1e8;
+    border-radius: 10px;
+    display: block;
+  }
+  .pad-side { flex: 1; min-width: 200px; }
+  .pad-side .pq { font-size: 4rem; line-height: 1.2; }
+  select {
+    background: #222;
+    color: var(--text);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  table.nums { border-collapse: collapse; width: 100%; }
+  table.nums td { padding: 0.4rem 0.6rem; border-bottom: 1px solid #333; }
+  table.nums td.pq { font-size: 1.8rem; width: 4rem; text-align: center; }
+  .vocab-row { padding: 0.6rem 0; border-bottom: 1px solid #333; }
+  .vocab-row .pq { font-size: 1.6rem; }
+  .vocab-row .roman { color: var(--muted); margin-left: 0.5rem; }
   .reader-text {
-    font-size: 1.4rem;
+    font-family: var(--piqad);
+    font-size: 1.8rem;
     line-height: 1.8;
     color: var(--gold);
-    white-space: pre-wrap;
-    margin: 1rem 0;
+    margin: 0.4rem 0 0;
   }
+  .reader-gloss { color: var(--muted); margin: 0 0 1rem; }
+  .reader-gloss .rom { color: var(--text); font-style: italic; }
   .reader-title { color: var(--gold); margin-top: 1.5rem; }
+  .hide-gloss .reader-gloss { visibility: hidden; }
   footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; }
+  footer a { color: var(--muted); }
 </style>
 </head>
 <body>
 <header>
-  <h1>tlhIngan Hol</h1>
+  <h1>tlhIngan Hol <span class="pq" id="titlePq"></span></h1>
   <p>Klingon Language Teacher — Focus on the pIqaD Script</p>
 </header>
 <nav>
   <button class="active" data-section="intro">Intro</button>
   <button data-section="alphabet">pIqaD Alphabet</button>
+  <button data-section="write">Type in pIqaD</button>
+  <button data-section="handwrite">Handwriting</button>
+  <button data-section="numbers">Numbers</button>
   <button data-section="vocab">Vocabulary</button>
   <button data-section="grammar">Grammar</button>
   <button data-section="reader">Reader</button>
@@ -139,36 +214,95 @@
     <div class="card">
       <h2>Qapla'! Welcome, warrior.</h2>
       <p>This app teaches <strong>tlhIngan Hol</strong> (the Klingon language) with a special emphasis on the <strong>pIqaD</strong> script — the proper writing system, not just the Latin romanization used by most resources.</p>
-      <p>Most apps stop at the Latin transcription. Here you learn to recognize and read the real characters.</p>
+      <p>Most apps stop at the Latin transcription. Here you learn to recognize, read, type and hand-write the real characters.</p>
       <h3>Why pIqaD matters</h3>
       <ul>
         <li>Authentic representation of the language</li>
-        <li>One-to-one sound-to-symbol mapping</li>
+        <li>One-to-one sound-to-symbol mapping: 26 letters, one per sound</li>
         <li>The form used by the Klingon Language Institute (KLI)</li>
       </ul>
-      <p>Start with the alphabet, then move to vocabulary and basic grammar (note the OVS word order).</p>
+      <h3>How pIqaD works on computers</h3>
+      <p>pIqaD is not in the official Unicode standard. Everyone uses the ConScript Unicode Registry assignment in the Private Use Area (U+F8D0–U+F8FF), so pIqaD text only displays when a pIqaD font is installed. This app ships the open-licensed <em>pIqaD qolqoS</em> font, so everything here displays without installing anything. Text you copy from the <strong>Type in pIqaD</strong> tab needs a pIqaD font wherever you paste it.</p>
+      <p>Start with the alphabet, then practise typing and handwriting, then move to vocabulary and basic grammar (note the OVS word order).</p>
     </div>
   </section>
 
   <section id="alphabet" class="section" style="display:none">
     <div class="card">
       <h2>pIqaD Alphabet</h2>
-      <p>Click any letter to see details. Each symbol represents one sound.</p>
+      <p>Click any letter to see details. Each symbol represents one sound. Capitals in the romanization are part of the spelling: <strong>q</strong> and <strong>Q</strong> are different letters.</p>
       <div class="letter-grid" id="letterGrid"></div>
     </div>
     <div class="card" id="detail">
-      <div class="big-letter" id="detailLetter"></div>
+      <div class="big-letter pq" id="detailLetter"></div>
       <h3 id="detailRoman" style="text-align:center"></h3>
       <p id="detailInfo"></p>
-      <p><strong>Example:</strong> <span id="detailExample"></span></p>
-      <button class="primary" onclick="document.getElementById('detail').classList.remove('show')">Close</button>
+      <p><strong>Example:</strong> <span class="pq" id="detailExamplePq" style="font-size:1.6rem"></span> <span id="detailExample"></span></p>
+      <div class="row">
+        <button class="primary" id="detailWrite">Practise writing it</button>
+        <button class="ghost" onclick="document.getElementById('detail').classList.remove('show')">Close</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="write" class="section" style="display:none">
+    <div class="card">
+      <h2>Type in pIqaD</h2>
+      <p>Type Klingon in the standard romanization and it appears in pIqaD as you type. Mind the capitals: <strong>D H I Q S</strong> are always capitals, <strong>q</strong> is lower case. Digits and <strong>, .</strong> become pIqaD numerals and punctuation.</p>
+      <textarea id="latinIn" spellcheck="false" placeholder="Heghlu'meH QaQ jajvam">Heghlu'meH QaQ jajvam</textarea>
+      <div class="output" id="pqOut"></div>
+      <p class="muted" id="unknownNote"></p>
+      <div class="row">
+        <button class="primary" id="copyPq">Copy pIqaD</button>
+        <button class="ghost" id="clearPq">Clear</button>
+        <label class="muted"><input type="checkbox" id="lenient" checked> Accept lower-case d h i s</label>
+      </div>
+      <h3>On-screen keyboard</h3>
+      <p class="muted">Click a letter to add it to the text above.</p>
+      <div class="keyboard" id="keyboard"></div>
+    </div>
+  </section>
+
+  <section id="handwrite" class="section" style="display:none">
+    <div class="card">
+      <h2>Handwriting</h2>
+      <p>Trace the faint letter with your mouse, finger or pen, then turn the guide off and write it from memory. pIqaD has no official stroke order; a common approach is the long outer strokes first, then the short inner ones, top to bottom.</p>
+      <div class="pad-wrap">
+        <canvas id="pad"></canvas>
+        <div class="pad-side">
+          <div class="pq" id="padLetter"></div>
+          <h3 id="padRoman" style="margin:0"></h3>
+          <p class="muted" id="padInfo"></p>
+          <div class="row">
+            <select id="padSelect" aria-label="Letter"></select>
+          </div>
+          <div class="row">
+            <button class="ghost" id="padPrev">‹ Prev</button>
+            <button class="ghost" id="padNext">Next ›</button>
+            <button class="ghost" id="padRandom">Random</button>
+          </div>
+          <div class="row">
+            <button class="ghost" id="padUndo">Undo</button>
+            <button class="primary" id="padClear">Clear</button>
+            <label class="muted"><input type="checkbox" id="padGuide" checked> Show guide</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="numbers" class="section" style="display:none">
+    <div class="card">
+      <h2>Numbers</h2>
+      <p>pIqaD has its own digits, written in base ten like ours. Spoken numbers add <strong>maH</strong> (ten), <strong>vatlh</strong> (hundred) and <strong>SaD</strong> or <strong>SanID</strong> (thousand) after the digit: <em>wejmaH loS</em> is 34.</p>
+      <table class="nums" id="numTable"></table>
     </div>
   </section>
 
   <section id="vocab" class="section" style="display:none">
     <div class="card">
       <h2>Core Vocabulary</h2>
-      <p>Essential words with pIqaD and romanization.</p>
+      <p>Essential words in pIqaD with romanization.</p>
       <div id="vocabList"></div>
     </div>
   </section>
@@ -179,51 +313,53 @@
       <h3>Word Order: OVS</h3>
       <p>Klingon is Object-Verb-Subject. The object comes first, then the verb, then the subject.</p>
       <p><strong>Example:</strong> <em>Duj legh HoD</em> = "The captain sees the ship" (literally: ship sees captain)</p>
+      <p class="pq" style="font-size:1.6rem" data-pq="Duj legh HoD"></p>
       <p>This is a clean OVS sentence: object (<em>Duj</em> "ship"), verb (<em>legh</em> "sees"), subject (<em>HoD</em> "captain").</p>
       <p>Equative sentences ("to be") are a special case. In <em>tlhIngan jIH</em> = "I am a Klingon", the subject pronoun is fused with the verb, so it is glossed "Klingon I-am".</p>
       <h3>Verb Prefixes</h3>
       <p>Verbs take prefixes that indicate the subject and object. For simple sentences:</p>
       <ul>
-        <li><strong>jI-</strong> = I (no object)</li>
-        <li><strong>bI-</strong> = you (no object)</li>
-        <li><strong>vI-</strong> = I (object is him/her/it)</li>
+        <li><strong>jI-</strong> = I (no object): <em>jIyaj</em> "I understand"</li>
+        <li><strong>bI-</strong> = you (no object): <em>bIyaj</em> "you understand"</li>
+        <li><strong>vI-</strong> = I (object is him/her/it): <em>vIlegh</em> "I see it"</li>
       </ul>
       <h3>Useful Phrases</h3>
       <ul>
-        <li><strong>nuqneH</strong> — What do you want?</li>
+        <li><strong>nuqneH</strong> — What do you want? (the Klingon greeting)</li>
         <li><strong>Qapla'</strong> — Success!</li>
         <li><strong>maj</strong> — Good.</li>
         <li><strong>ghobe'</strong> — No.</li>
         <li><strong>HIja'</strong> — Yes.</li>
+        <li><strong>jIyajbe'</strong> — I don't understand.</li>
       </ul>
     </div>
   </section>
 
   <section id="reader" class="section" style="display:none">
-    <div class="card">
+    <div class="card" id="readerCard">
       <h2>Reader</h2>
-      <p>Practice reading continuous pIqaD text. More texts can be added later.</p>
-
-      <h3 class="reader-title">The Star-Spangled Banner (first verse)</h3>
-      <div class="reader-text">ⱋⱘ ⱝⱏⱜ ⱟⱒⱋⱏ ⱛⱋⱋⱏⱝ ⱞⱋⱜⱝⱋⱋⱏⱝ
-ⱟⱒⱋⱏ ⱛⱋⱊ ⱛⱊⱏ ⱞⱊⱜⱝⱊⱊⱏⱝ
-ⱟⱒⱋⱏ ⱛⱊ ⱛⱊⱏ ⱞⱊⱜⱝⱊⱊⱏⱝ</div>
-      <p style="color:var(--muted); font-size:0.9rem">Practice text in pIqaD (simplified/community-style rendering of the anthem for reading practice). Expandable.</p>
-
-      <h3 class="reader-title">The Pledge of Allegiance to the United States of America</h3>
-      <div class="reader-text">ⱋⱝⱏⱜⱒⱋⱛⱋ ⱝⱏⱛⱓⱒⱛⱋ ⱓⱘⱛⱤⱒⱋⱝ ⱓⱒⱝⱋⱞⱟ ⱏ ⱜⱒⱋⱛ
-ⱞⱊⱜⱝ ⱋⱞⱟ ⱞⱊⱜⱝ ⱊⱏ ⱞⱊⱜⱝⱊⱊⱏⱝ</div>
-      <p style="color:var(--muted); font-size:0.9rem">Community-inspired rendering in pure pIqaD for reading practice. Future versions can add more accurate or expanded texts.</p>
+      <p>Practise reading continuous pIqaD. Try each line before revealing the romanization and meaning.</p>
+      <label class="muted"><input type="checkbox" id="showGloss" checked> Show romanization and meaning</label>
+      <div id="readerList"></div>
     </div>
   </section>
 
   <section id="quiz" class="section" style="display:none">
     <div class="card">
       <h2>Script Recognition Quiz</h2>
-      <p>Identify the correct pIqaD symbol.</p>
+      <div class="row">
+        <label>Question type
+          <select id="quizKind">
+            <option value="pick">See the sound, pick the pIqaD letter</option>
+            <option value="read">See the pIqaD letter, pick the sound</option>
+            <option value="word">Read a pIqaD word, pick the meaning</option>
+          </select>
+        </label>
+        <button class="ghost" onclick="startQuiz()">Restart</button>
+      </div>
       <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
       <div id="quizArea">
-        <p id="quizQuestion">Loading...</p>
+        <div class="quiz-prompt" id="quizQuestion">Loading...</div>
         <div id="quizOptions"></div>
       </div>
       <p id="quizFeedback"></p>
@@ -233,115 +369,294 @@
 </main>
 <footer>
   LanguageStudentDesk · tlhIngan Hol Teacher<br>
-  Based on standard KLI pIqaD. Qapla'!
+  pIqaD in the ConScript Unicode Registry layout (U+F8D0–U+F8FF), shown with the
+  <em>pIqaD qolqoS</em> font by Daniel Dadap (<a href="fonts/OFL.txt">SIL Open Font License</a>). Qapla'!
 </footer>
 
+<script src="js/pad.js"></script>
 <script>
+// The 26 pIqaD letters in alphabetical order. Each letter's ConScript code
+// point is U+F8D0 plus its index, so the glyph is derived from the position.
 const alphabet = [
-  { piqaD: "ⱋ", roman: "a", info: "Like 'a' in father", example: "tlhIngan" },
-  { piqaD: "ⱌ", roman: "b", info: "Like English 'b'", example: "baH" },
-  { piqaD: "ⱍ", roman: "ch", info: "Like 'ch' in church", example: "choH" },
-  { piqaD: "ⱎ", roman: "D", info: "Like 'd' but more forceful", example: "Duj" },
-  { piqaD: "ⱏ", roman: "e", info: "Like 'e' in get", example: "legh" },
-  { piqaD: "ⱐ", roman: "gh", info: "Voiced version of H", example: "ghob" },
-  { piqaD: "ⱑ", roman: "H", info: "Harsh 'h' sound", example: "Hol" },
-  { piqaD: "ⱒ", roman: "I", info: "Like 'i' in machine", example: "jIH" },
-  { piqaD: "ⱓ", roman: "j", info: "Like 'j' in job", example: "jatlh" },
-  { piqaD: "ⱔ", roman: "l", info: "Like English 'l'", example: "legh" },
-  { piqaD: "ⱕ", roman: "m", info: "Like English 'm'", example: "maj" },
-  { piqaD: "ⱖ", roman: "n", info: "Like English 'n'", example: "nuq" },
-  { piqaD: "ⱗ", roman: "ng", info: "Like 'ng' in sing", example: "ngan" },
-  { piqaD: "ⱘ", roman: "o", info: "Like 'o' in go", example: "HoD" },
-  { piqaD: "ⱙ", roman: "p", info: "Like English 'p'", example: "puq" },
-  { piqaD: "ⱚ", roman: "q", info: "Like 'k' but further back", example: "qet" },
-  { piqaD: "ⱛ", roman: "Q", info: "Even further back than q", example: "Qapla'" },
-  { piqaD: "ⱜ", roman: "r", info: "Trilled or tapped", example: "ram" },
-  { piqaD: "ⱝ", roman: "S", info: "Like 'sh'", example: "SoH" },
-  { piqaD: "ⱞ", roman: "t", info: "Like English 't'", example: "tlhIngan" },
-  { piqaD: "ⱟ", roman: "tlh", info: "Like 'tl' in atlas", example: "tlhIngan" },
-  { piqaD: "Ⱡ", roman: "u", info: "Like 'oo' in boot", example: "Duj" },
-  { piqaD: "ⱡ", roman: "v", info: "Like English 'v'", example: "vav" },
-  { piqaD: "Ɫ", roman: "w", info: "Like English 'w'", example: "wa'" },
-  { piqaD: "Ᵽ", roman: "y", info: "Like English 'y'", example: "yIH" },
-  { piqaD: "Ɽ", roman: "'", info: "Glottal stop", example: "Qapla'" }
+  { roman: "a", info: "Like 'a' in father", example: "tlhIngan", meaning: "Klingon" },
+  { roman: "b", info: "Like English 'b'", example: "baH", meaning: "fire (a torpedo)" },
+  { roman: "ch", info: "Like 'ch' in church", example: "choH", meaning: "change" },
+  { roman: "D", info: "Like 'd' with the tongue tip further back, on the roof of the mouth", example: "Duj", meaning: "ship" },
+  { roman: "e", info: "Like 'e' in get", example: "legh", meaning: "see" },
+  { roman: "gh", info: "Voiced version of H, a gargled sound", example: "ghob", meaning: "virtue" },
+  { roman: "H", info: "Harsh 'h', like 'ch' in Scottish loch", example: "Hol", meaning: "language" },
+  { roman: "I", info: "Like 'i' in bit", example: "jIH", meaning: "I, me" },
+  { roman: "j", info: "Like 'j' in job", example: "jatlh", meaning: "speak" },
+  { roman: "l", info: "Like English 'l'", example: "legh", meaning: "see" },
+  { roman: "m", info: "Like English 'm'", example: "maj", meaning: "good" },
+  { roman: "n", info: "Like English 'n'", example: "nuq", meaning: "what" },
+  { roman: "ng", info: "Like 'ng' in sing, even at the start of a word", example: "ngan", meaning: "inhabitant" },
+  { roman: "o", info: "Like 'o' in go", example: "HoD", meaning: "captain" },
+  { roman: "p", info: "Like English 'p', with a strong puff of air", example: "puq", meaning: "child" },
+  { roman: "q", info: "Like 'k' but further back, at the uvula", example: "qet", meaning: "run" },
+  { roman: "Q", info: "q followed by the harsh H, all in one sound", example: "Qapla'", meaning: "success" },
+  { roman: "r", info: "Trilled or tapped", example: "ram", meaning: "night" },
+  { roman: "S", info: "Like 'sh', with the tongue further back", example: "SoH", meaning: "you" },
+  { roman: "t", info: "Like English 't', with a strong puff of air", example: "tera'", meaning: "Earth" },
+  { roman: "tlh", info: "'t' released through the sides of the tongue, like 'tl' in atlas said as one sound", example: "tlhIngan", meaning: "Klingon" },
+  { roman: "u", info: "Like 'oo' in boot", example: "Duj", meaning: "ship" },
+  { roman: "v", info: "Like English 'v'", example: "vav", meaning: "father" },
+  { roman: "w", info: "Like English 'w'", example: "wa'", meaning: "one" },
+  { roman: "y", info: "Like English 'y'", example: "yIH", meaning: "tribble" },
+  { roman: "'", info: "Glottal stop, the catch in 'uh-oh'. It is a full letter (qaghwI')", example: "Qapla'", meaning: "success" }
 ];
+alphabet.forEach((l, i) => (l.piqaD = String.fromCharCode(0xF8D0 + i)));
+
+const DIGITS = "0123456789";
+const NUM_WORDS = ["pagh", "wa'", "cha'", "wej", "loS", "vagh", "jav", "Soch", "chorgh", "Hut"];
+const PUNCT = { ",": "", ".": "" };
+
+// Romanization -> pIqaD. Longest match first so "tlh", "ch", "gh" and "ng"
+// are taken as single letters.
+const byRoman = new Map(alphabet.map(l => [l.roman, l.piqaD]));
+const TOKENS = alphabet.map(l => l.roman).sort((a, b) => b.length - a.length);
+const LENIENT = { d: "D", h: "H", i: "I", s: "S" };
+function toPiqad(text, lenient) {
+  let out = "";
+  const unknown = new Set();
+  for (let i = 0; i < text.length;) {
+    const tok = TOKENS.find(t => text.startsWith(t, i));
+    if (tok) { out += byRoman.get(tok); i += tok.length; continue; }
+    const c = text[i];
+    // Treat the typographic apostrophe as the glottal stop too.
+    if (c === "’" || c === "`") out += byRoman.get("'");
+    else if (lenient && LENIENT[c]) out += byRoman.get(LENIENT[c]);
+    else if (DIGITS.includes(c)) out += String.fromCharCode(0xF8F0 + Number(c));
+    else if (PUNCT[c]) out += PUNCT[c];
+    else if (/\s/.test(c) || "!?;:-\"()".includes(c)) out += c;
+    else { out += c; unknown.add(c); }
+    i++;
+  }
+  return { out, unknown: [...unknown] };
+}
+const pq = text => toPiqad(text, false).out;
 
 const vocab = [
-  { piqaD: "tlhIngan", roman: "tlhIngan", meaning: "Klingon" },
-  { piqaD: "Hol", roman: "Hol", meaning: "language" },
-  { piqaD: "jIH", roman: "jIH", meaning: "I" },
-  { piqaD: "SoH", roman: "SoH", meaning: "you" },
-  { piqaD: "nuqneH", roman: "nuqneH", meaning: "What do you want?" },
-  { piqaD: "Qapla'", roman: "Qapla'", meaning: "Success!" },
-  { piqaD: "maj", roman: "maj", meaning: "Good." },
-  { piqaD: "HIja'", roman: "HIja'", meaning: "Yes." },
-  { piqaD: "ghobe'", roman: "ghobe'", meaning: "No." },
-  { piqaD: "Duj", roman: "Duj", meaning: "ship" },
-  { piqaD: "HoD", roman: "HoD", meaning: "captain" },
-  { piqaD: "puq", roman: "puq", meaning: "child" },
-  { piqaD: "legh", roman: "legh", meaning: "see" },
-  { piqaD: "jatlh", roman: "jatlh", meaning: "speak" }
+  { roman: "tlhIngan", meaning: "Klingon" },
+  { roman: "Hol", meaning: "language" },
+  { roman: "jIH", meaning: "I, me" },
+  { roman: "SoH", meaning: "you" },
+  { roman: "nuqneH", meaning: "What do you want? (greeting)" },
+  { roman: "Qapla'", meaning: "Success!" },
+  { roman: "maj", meaning: "Good." },
+  { roman: "HIja'", meaning: "Yes." },
+  { roman: "ghobe'", meaning: "No." },
+  { roman: "Duj", meaning: "ship" },
+  { roman: "HoD", meaning: "captain" },
+  { roman: "puq", meaning: "child" },
+  { roman: "vav", meaning: "father" },
+  { roman: "SoS", meaning: "mother" },
+  { roman: "legh", meaning: "see" },
+  { roman: "jatlh", meaning: "speak" },
+  { roman: "yaj", meaning: "understand" },
+  { roman: "Qong", meaning: "sleep" },
+  { roman: "Soj", meaning: "food" },
+  { roman: "ram", meaning: "night" },
+  { roman: "jaj", meaning: "day" },
+  { roman: "tera'", meaning: "Earth" },
+  { roman: "Qo'noS", meaning: "Kronos, the Klingon homeworld" },
+  { roman: "yIH", meaning: "tribble" }
+];
+
+// Well-known sentences from the Klingon canon and common usage.
+const readings = [
+  { roman: "nuqneH", meaning: "What do you want? (the usual greeting)" },
+  { roman: "tlhIngan maH!", meaning: "We are Klingons!" },
+  { roman: "Heghlu'meH QaQ jajvam.", meaning: "Today is a good day to die." },
+  { roman: "tlhIngan Hol Dajatlh'a'?", meaning: "Do you speak Klingon?" },
+  { roman: "jIyajbe'.", meaning: "I don't understand." },
+  { roman: "Duj legh HoD.", meaning: "The captain sees the ship." },
+  { roman: "qaStaH nuq?", meaning: "What's happening?" },
+  { roman: "bortaS bIr jablu'DI' reH QaQqu' nay'.", meaning: "Revenge is a dish that is best served cold." },
+  { roman: "batlh Daqawlu'taH.", meaning: "You will be remembered with honor." },
+  { roman: "Qapla'!", meaning: "Success!" }
 ];
 
 // Navigation
-document.querySelectorAll('nav button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-    document.getElementById(btn.dataset.section).style.display = 'block';
-    if (btn.dataset.section === 'quiz') startQuiz();
-  });
-});
+function showSection(id) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.section === id));
+  document.querySelectorAll('.section').forEach(s => s.style.display = s.id === id ? 'block' : 'none');
+  if (id === 'quiz') startQuiz();
+  if (id === 'handwrite') mountPad();
+}
+document.querySelectorAll('nav button').forEach(btn => btn.addEventListener('click', () => showSection(btn.dataset.section)));
 
 // Alphabet grid
 function renderAlphabet() {
   const grid = document.getElementById('letterGrid');
-  grid.innerHTML = alphabet.map(l => `
-    <div class="letter-card" onclick="showDetail('${l.roman}')">
-      <span class="piqaD">${l.piqaD}</span>
+  grid.innerHTML = alphabet.map((l, i) => `
+    <button class="letter-card" data-i="${i}">
+      <span class="pq">${l.piqaD}</span>
       <span class="roman">${l.roman}</span>
-    </div>
+    </button>
   `).join('');
+  grid.addEventListener('click', e => {
+    const card = e.target.closest('.letter-card');
+    if (card) showDetail(Number(card.dataset.i));
+  });
 }
 
-function showDetail(roman) {
-  const l = alphabet.find(x => x.roman === roman);
-  if (!l) return;
+function showDetail(i) {
+  const l = alphabet[i];
   document.getElementById('detailLetter').textContent = l.piqaD;
   document.getElementById('detailRoman').textContent = l.roman;
   document.getElementById('detailInfo').textContent = l.info;
-  document.getElementById('detailExample').textContent = l.example + ' (' + l.roman + ')';
+  document.getElementById('detailExamplePq').textContent = pq(l.example);
+  document.getElementById('detailExample').textContent = `${l.example} — ${l.meaning}`;
+  document.getElementById('detailWrite').onclick = () => { padIndex = i; showSection('handwrite'); };
   document.getElementById('detail').classList.add('show');
+  document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Typing
+const latinIn = document.getElementById('latinIn');
+const lenientBox = document.getElementById('lenient');
+function renderTyping() {
+  const { out, unknown } = toPiqad(latinIn.value, lenientBox.checked);
+  document.getElementById('pqOut').textContent = out;
+  document.getElementById('unknownNote').textContent = unknown.length
+    ? `Not Klingon letters (left as typed): ${unknown.join(' ')}`
+    : '';
+}
+latinIn.addEventListener('input', renderTyping);
+lenientBox.addEventListener('change', renderTyping);
+document.getElementById('clearPq').onclick = () => { latinIn.value = ''; renderTyping(); latinIn.focus(); };
+document.getElementById('copyPq').onclick = async () => {
+  const text = document.getElementById('pqOut').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('unknownNote').textContent = 'Copied. Paste it where a pIqaD font is installed.';
+  } catch {
+    const r = document.createRange();
+    r.selectNodeContents(document.getElementById('pqOut'));
+    getSelection().removeAllRanges();
+    getSelection().addRange(r);
+    document.getElementById('unknownNote').textContent = 'Press Ctrl+C to copy the selected pIqaD.';
+  }
+};
+function renderKeyboard() {
+  const keys = alphabet.map(l => [l.piqaD, l.roman])
+    .concat([..."0123456789"].map(d => [String.fromCharCode(0xF8F0 + Number(d)), d]))
+    .concat([["", ","], ["", "."], [" ", "space"]]);
+  const kb = document.getElementById('keyboard');
+  kb.innerHTML = keys.map(([g, r]) =>
+    `<button data-r="${r === 'space' ? ' ' : r}" title="${r}"><span class="pq">${g === ' ' ? '&nbsp;' : g}</span><small>${r}</small></button>`
+  ).join('');
+  kb.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const { selectionStart: s, selectionEnd: en, value } = latinIn;
+    latinIn.value = value.slice(0, s) + b.dataset.r + value.slice(en);
+    latinIn.selectionStart = latinIn.selectionEnd = s + b.dataset.r.length;
+    latinIn.focus();
+    renderTyping();
+  });
+}
+
+// Handwriting pad
+let pad = null;
+let padIndex = 0;
+const padCanvas = document.getElementById('pad');
+async function mountPad() {
+  // The canvas only draws the guide in the pIqaD font once the font is ready.
+  try { await document.fonts.load("40px 'pIqaD qolqoS'"); } catch {}
+  const l = alphabet[padIndex];
+  document.getElementById('padLetter').textContent = l.piqaD;
+  document.getElementById('padRoman').textContent = l.roman;
+  document.getElementById('padInfo').textContent = l.info;
+  document.getElementById('padSelect').value = String(padIndex);
+  // Pad.mount sizes the canvas from its layout width, so replace it to remount.
+  const fresh = padCanvas.cloneNode(false);
+  document.getElementById('pad').replaceWith(fresh);
+  pad = Pad.mount(fresh, { glyph: l.piqaD, font: "'pIqaD qolqoS'", guide: document.getElementById('padGuide').checked });
+}
+function padGo(i) {
+  padIndex = (i + alphabet.length) % alphabet.length;
+  mountPad();
+}
+document.getElementById('padSelect').innerHTML = alphabet.map((l, i) => `<option value="${i}">${l.roman}</option>`).join('');
+document.getElementById('padSelect').onchange = e => padGo(Number(e.target.value));
+document.getElementById('padPrev').onclick = () => padGo(padIndex - 1);
+document.getElementById('padNext').onclick = () => padGo(padIndex + 1);
+document.getElementById('padRandom').onclick = () => padGo(Math.floor(Math.random() * alphabet.length));
+document.getElementById('padUndo').onclick = () => pad && pad.undo();
+document.getElementById('padClear').onclick = () => pad && pad.clear();
+document.getElementById('padGuide').onchange = e => pad && pad.setGuide(e.target.checked);
+
+// Numbers
+function renderNumbers() {
+  const rows = NUM_WORDS.map((w, d) => `<tr><td class="pq">${String.fromCharCode(0xF8F0 + d)}</td><td>${d}</td><td><em>${w}</em></td></tr>`);
+  const examples = [[10, "wa'maH"], [34, "wejmaH loS"], [100, "wa'vatlh"], [1000, "wa'SaD"]];
+  rows.push(...examples.map(([n, w]) => `<tr><td class="pq">${pq(String(n))}</td><td>${n}</td><td><em>${w}</em></td></tr>`));
+  document.getElementById('numTable').innerHTML = rows.join('');
 }
 
 // Vocab
 function renderVocab() {
-  const el = document.getElementById('vocabList');
-  el.innerHTML = vocab.map(v => `
-    <div style="padding:0.6rem 0; border-bottom:1px solid #333">
-      <strong style="color:var(--gold); font-size:1.3rem">${v.piqaD}</strong>
-      <span style="color:var(--muted); margin-left:0.5rem">${v.roman}</span>
+  document.getElementById('vocabList').innerHTML = vocab.map(v => `
+    <div class="vocab-row">
+      <span class="pq">${pq(v.roman)}</span>
+      <span class="roman">${v.roman}</span>
       <div>${v.meaning}</div>
     </div>
   `).join('');
 }
 
+// Reader
+function renderReader() {
+  document.getElementById('readerList').innerHTML = readings.map(r => `
+    <div class="reader-text">${pq(r.roman)}</div>
+    <p class="reader-gloss"><span class="rom">${r.roman}</span> — ${r.meaning}</p>
+  `).join('');
+  document.getElementById('showGloss').onchange = e =>
+    document.getElementById('readerCard').classList.toggle('hide-gloss', !e.target.checked);
+}
+
 // Quiz
 let quizIndex = 0;
 let quizScore = 0;
-let currentAnswer = '';
-const quizQuestions = alphabet.slice(0, 10).map(l => ({
-  question: `Which symbol is "${l.roman}"?`,
-  answer: l.piqaD,
-  options: [l.piqaD, ...alphabet.filter(x => x.roman !== l.roman).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.piqaD)].sort(() => 0.5 - Math.random())
-}));
+let quizQuestions = [];
+const shuffle = arr => {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+function buildQuiz(kind) {
+  if (kind === 'word') {
+    return shuffle(vocab).slice(0, 10).map(v => ({
+      prompt: `<span class="pq">${pq(v.roman)}</span>What does this word mean?`,
+      answer: v.meaning,
+      options: shuffle([v.meaning, ...shuffle(vocab.filter(x => x !== v)).slice(0, 3).map(x => x.meaning)]),
+      glyphOptions: false,
+      reveal: v.roman
+    }));
+  }
+  return shuffle(alphabet).slice(0, 10).map(l => {
+    const others = shuffle(alphabet.filter(x => x !== l)).slice(0, 3);
+    return kind === 'read'
+      ? { prompt: `<span class="pq">${l.piqaD}</span>Which sound is this?`, answer: l.roman,
+          options: shuffle([l, ...others]).map(x => x.roman), glyphOptions: false, reveal: l.roman }
+      : { prompt: `Which pIqaD letter is <strong>${l.roman}</strong>?`, answer: l.piqaD,
+          options: shuffle([l, ...others]).map(x => x.piqaD), glyphOptions: true, reveal: l.roman };
+  });
+}
 
 function startQuiz() {
   quizIndex = 0;
   quizScore = 0;
+  quizQuestions = buildQuiz(document.getElementById('quizKind').value);
+  document.getElementById('quizArea').innerHTML = '<div class="quiz-prompt" id="quizQuestion"></div><div id="quizOptions"></div>';
   showQuestion();
 }
+document.getElementById('quizKind').onchange = startQuiz;
 
 function showQuestion() {
   if (quizIndex >= quizQuestions.length) {
@@ -351,29 +666,31 @@ function showQuestion() {
     return;
   }
   const q = quizQuestions[quizIndex];
-  currentAnswer = q.answer;
-  document.getElementById('quizQuestion').textContent = q.question;
-  document.getElementById('quizOptions').innerHTML = q.options.map(opt =>
-    `<button class="quiz-option" onclick="checkAnswer(this, '${opt}')">${opt}</button>`
+  document.getElementById('quizQuestion').innerHTML = q.prompt;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = q.options.map((opt, i) =>
+    `<button class="quiz-option${q.glyphOptions ? ' pq' : ''}" data-i="${i}"></button>`
   ).join('');
+  opts.querySelectorAll('.quiz-option').forEach(b => {
+    b.textContent = q.options[Number(b.dataset.i)];
+    b.onclick = () => checkAnswer(b, q);
+  });
   document.getElementById('quizFeedback').textContent = '';
   document.getElementById('nextBtn').style.display = 'none';
   document.getElementById('progressBar').style.width = `${(quizIndex / quizQuestions.length) * 100}%`;
 }
 
-function checkAnswer(btn, chosen) {
+function checkAnswer(btn, q) {
   const buttons = document.querySelectorAll('.quiz-option');
   buttons.forEach(b => b.disabled = true);
-  if (chosen === currentAnswer) {
+  if (btn.textContent === q.answer) {
     btn.classList.add('correct');
-    document.getElementById('quizFeedback').textContent = 'maj! Correct.';
+    document.getElementById('quizFeedback').textContent = `maj! Correct (${q.reveal}).`;
     quizScore++;
   } else {
     btn.classList.add('wrong');
-    buttons.forEach(b => {
-      if (b.textContent === currentAnswer) b.classList.add('correct');
-    });
-    document.getElementById('quizFeedback').textContent = 'ghobe\'! The correct symbol is highlighted.';
+    buttons.forEach(b => { if (b.textContent === q.answer) b.classList.add('correct'); });
+    document.getElementById('quizFeedback').textContent = `ghobe'! The right answer is highlighted (${q.reveal}).`;
   }
   document.getElementById('nextBtn').style.display = 'inline-block';
 }
@@ -384,8 +701,14 @@ function nextQuestion() {
 }
 
 // Init
+document.getElementById('titlePq').textContent = pq("tlhIngan Hol");
+document.querySelectorAll('[data-pq]').forEach(el => (el.textContent = pq(el.dataset.pq)));
 renderAlphabet();
+renderKeyboard();
+renderTyping();
+renderNumbers();
 renderVocab();
+renderReader();
 </script>
 </body>
 </html>
