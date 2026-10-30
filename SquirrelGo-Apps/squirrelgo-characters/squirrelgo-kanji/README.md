@@ -8,7 +8,7 @@ This is a **new open implementation** inspired by the discontinued TenguGo Kanji
 
 Debug build (sideload):
 
-- `SquirrelGo-Apps/squirrelgo-kanji/SquirrelGoKanji-debug.apk`
+- `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/SquirrelGoKanji-debug.apk`
 - Package id: `com.squirelworks.squirrelgokanji.debug`
 - Min Android: 7.0 (API 24)
 

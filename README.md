@@ -57,9 +57,13 @@ Examples:
 - [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`. Includes on-yomi groups.
-- [SquirrelGo Kanji](SquirrelGo-Apps/squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `SquirrelGoKanji-debug.apk`.
+- [SquirrelGo Kana](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/) — Hiragana and katakana trainer: lessons by sound row, charts, quizzes, flashcards, writing pad, audio. Web + Android (`SquirrelGoKana-debug.apk`).
+- [SquirrelGo Alphabets](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/) — Hangul, Cyrillic, Devanagari and Arabic in one trainer, with a Hangul syllable builder and an Arabic letter-forms table. Web + Android (`SquirrelGoAlphabets-debug.apk`).
+- [SquirrelGo Kanji](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `SquirrelGoKanji-debug.apk`.
 - [SquirrelGo Dictionary](SquirrelGo-Apps/squirrelgo-dictionary/) — Offline Japanese–English dictionary (JMdict, KANJIDIC2, radicals, example sentences); replacement for the discontinued JED app. APK built by GitHub Actions.
 - [SquirrelGo Phrasebook](SquirrelGo-Apps/squirrelgo-phrasebook/) — Offline Japanese phrasebook with ten packs (Basic, Air Crew, Civil Affairs, Medical, Naval, Public Affairs, Force Protection, Military Police, Cordon & Search, Weapons): audio, search, favorites, flashcards. Web + Android.
+
+The TenguGo-style character trainers (Kana, Alphabets, Kanji) live under `SquirrelGo-Apps/squirrelgo-characters/`.
 
 ## Core language engine
 
