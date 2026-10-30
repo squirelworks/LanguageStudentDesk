@@ -21,7 +21,9 @@ jobs:
           java-version: "17"
       # The runner image ships the Android SDK; just make sure API 34 is there.
       - name: Install Android SDK packages
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0" > /dev/null
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0" > /dev/null
       - name: Sync web assets into the APK
         run: |
           rm -rf android/app/src/main/assets/www
