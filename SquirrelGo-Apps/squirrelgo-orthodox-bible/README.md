@@ -17,17 +17,7 @@ It is a **new open implementation** meant to fill the gap left by the Orthodox S
 
 ## Texts
 
-The first build ships **sample chapters only** (Genesis 1, Psalm 50/51, Tobit 1, Matthew 5, John 1) from these public-domain texts, via [scrollmapper/bible_databases](https://github.com/scrollmapper/bible_databases):
-
-| id | Text | Language | Numbering |
-| --- | --- | --- | --- |
-| `kjva` | King James Version with Apocrypha (1769) | English | kjv |
-| `rus-synodal` | Russian Synodal (1876) | Russian | rso |
-| `csl-elizabeth` | Elizabeth Bible (1757) | Church Slavonic | rso |
-| `grc-byz` | Byzantine Textform Greek NT (2013) | Koine Greek | kjv |
-| `ell-vamvas` | Vamvas Bible (1850) | Modern Greek | kjv |
-
-Full texts, more languages and the patristic commentary are gathered separately and dropped into `www/data/` in the format below.
+Bibles in English, Greek (Koine and modern), Russian, Church Slavonic, Serbian, French and more, plus commentary from about 40 Church Fathers (Eastern, early and Western Fathers from before the schism), all public domain or openly licensed. The full list of sources and licenses, and the scripts that build the data files, are in [`tools/texts/`](tools/texts/README.md).
 
 ## Data format
 
