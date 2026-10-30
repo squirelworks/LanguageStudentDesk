@@ -16,6 +16,8 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Hangul 한글 | Korean (Revised Romanization) | basic and compound vowels; basic, aspirated and tense consonants | syllable block builder; articles on block shapes, batchim and sound changes |
 | Devanagari देवनागरी | Hindi (simplified IAST) | vowels, vowel signs on क, the five consonant rows, semivowels and sibilants, special letters | articles on matras, conjuncts, aspiration/retroflex and the silent a |
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
+| Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
+| Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
 
 Every character has:
 
@@ -26,7 +28,7 @@ Every character has:
 
 ## Sounds
 
-Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Clips are mono MP3 at 32 kbps, about 2 KB each; the eight scripts come to about 1.5 MB.
+Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Hebrew is recorded from IPA through `tools/ipa_audio.py` (`audio: "ipa"` in its data), because eSpeak spells pointed Hebrew out letter by letter. Clips are mono MP3 at 32 kbps, about 2 KB each.
 
 ## Stroke order
 
