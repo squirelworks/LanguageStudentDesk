@@ -278,7 +278,8 @@ a { color: var(--accent); }
 .card .label b { color: var(--accent); font-weight: 700; }
 .card .body { font-family: var(--serif); font-size: var(--text-size); line-height: 1.6; overflow-wrap: anywhere; }
 .card .src { font-size: .72rem; color: var(--muted); margin-top: .35rem; }
-.card.father .body { font-size: calc(var(--text-size) * .95); }
+.card.father .body { font-size: calc(var(--text-size) * .95); white-space: pre-line; }
+.trad { font-size: .8rem; color: var(--accent); margin: .9rem 0 .4rem; }
 .mini {
   border: 1px solid var(--line);
   background: transparent;

@@ -14,6 +14,7 @@
   };
   const langName = (code) => LANG_NAMES[code] || LANG_NAMES[String(code).split("-")[0]] || code;
   const HL_COLORS = ["gold", "green", "blue", "rose"];
+  const TRADITIONS = [["east", "Eastern Fathers"], ["early", "Early Church"], ["west", "Western Fathers (before the schism)"]];
 
   // ---- persistence ----
   const firstBible = CATALOG.bibles[0]?.id || "";
@@ -76,8 +77,11 @@
     await loadScript(`data/bibles/${id}.js`);
     return BIBLES.get(id);
   }
-  async function ensureCommentary() {
-    await Promise.all(CATALOG.commentary.map((c) => loadScript(`data/commentary/${c.id}.js`).catch(() => {})));
+  // Commentary files are large, so load only those covering the given books
+  // (KJV book ids). An entry without a books list is loaded for every book.
+  async function ensureCommentary(books) {
+    const want = CATALOG.commentary.filter((c) => !c.books || c.books.some((b) => books.includes(b)));
+    await Promise.all(want.map((c) => loadScript(`data/commentary/${c.id}.js`).catch(() => {})));
   }
 
   // ---- references and versification ----
@@ -238,7 +242,13 @@
     const main = shell("…", { back: false, actions: readerActions, wide: store.layout === "columns" });
     main.innerHTML = `<p class="empty">Loading…</p>`;
     const [primary, ...parallels] = await Promise.all(ids.map((id) => ensureBible(id).catch(() => null)));
-    ensureCommentary().then(() => {
+    // A chapter can map into other KJV books (Synodal Daniel 3 holds the Song of the Three).
+    const kjvBooks = new Set([book]);
+    (primary?.books?.[book]?.[chapter - 1] || []).forEach((_, i) => {
+      const k = primary && toKjv(primary.versification, `${book}.${chapter}.${i + 1}`);
+      if (k) kjvBooks.add(parseRef(k).book);
+    });
+    ensureCommentary([...kjvBooks]).then(() => {
       if (route().view === "read") markCommentary();
     });
     const shown = parallels.filter(Boolean);
@@ -394,7 +404,7 @@
           const bible = BIBLES.get(c.id);
           const own = c.id === primary.id ? ref : fromKjv(bible.versification, kref);
           const t = verseText(bible, own);
-          const renum = own && own !== ref ? ` · ${esc(refLabel(own).replace(/^.* /, ""))}` : "";
+          const renum = !own || own === ref ? "" : ` · ${esc(parseRef(own).book === book ? refLabel(own).replace(/^.* /, "") : refLabel(own))}`;
           return `<li class="card">
             <div class="label"><span><b>${esc(langName(c.lang))}</b> · ${esc(c.name)}${renum}</span>
               ${t && Speech.supported() ? `<button class="mini" data-say="${c.id}" aria-label="Read aloud">▶</button>` : ""}</div>
@@ -403,13 +413,15 @@
         })
         .join("");
       const fathers = kref ? commentaryFor(kref) : [];
-      const fatherCards = fathers
-        .map(({ source, key, texts }) => `<li class="card father">
+      const fatherCard = ({ source, key, texts }) => `<li class="card father">
             <div class="label"><span><b>${esc(source.author)}</b>${source.work ? ` · ${esc(source.work)}` : ""}</span><span>${esc(key.replace(/^[0-9A-Z]{3}\./, "").replace(".", ":"))}</span></div>
             ${texts.map((t) => `<div class="body">${esc(t)}</div>`).join("")}
             <div class="src">${esc([source.translator && `Tr. ${source.translator}`, source.license].filter(Boolean).join(" · "))}</div>
-          </li>`)
-        .join("");
+          </li>`;
+      const fatherCards = TRADITIONS.map(([t, label]) => {
+        const list = fathers.filter((f) => (f.source.tradition || "east") === t);
+        return list.length ? `<h3 class="trad">${label}</h3><ul class="cards">${list.map(fatherCard).join("")}</ul>` : "";
+      }).join("");
       const hl = store.highlights[kref];
       const marked = store.bookmarks.includes(kref);
       main.innerHTML = `
@@ -427,7 +439,7 @@
         ${unloaded.length ? `<div class="row-actions">${unloaded.map((c) => `<button class="btn small" data-load="${c.id}">＋ ${esc(langName(c.lang))}: ${esc(c.name)}</button>`).join("")}
           ${unloaded.length > 1 ? `<button class="btn small primary" id="loadAll">Show all</button>` : ""}</div>` : ""}
         <h2>The Fathers on this verse</h2>
-        ${fatherCards ? `<ul class="cards">${fatherCards}</ul>` : `<p class="muted">${CATALOG.commentary.length ? "No patristic commentary on this verse in the installed sources." : "No patristic commentary is installed yet."}</p>`}
+        ${fatherCards ? fatherCards : `<p class="muted">${CATALOG.commentary.length ? "No patristic commentary on this verse in the installed sources." : "No patristic commentary is installed yet."}</p>`}
         <h2>My note</h2>
         <textarea id="note" placeholder="Write a note on this verse…">${esc(store.notes[kref] || "")}</textarea>`;
       main.querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(el.dataset.go)));
@@ -481,7 +493,7 @@
       };
     };
     main.innerHTML = `<p class="empty">Loading…</p>`;
-    await Promise.all([...store.parallel.map((id) => ensureBible(id).catch(() => null)), ensureCommentary()]);
+    await Promise.all([...store.parallel.map((id) => ensureBible(id).catch(() => null)), ensureCommentary([book, kref && parseRef(kref).book].filter(Boolean))]);
     draw();
   }
 
@@ -629,10 +641,19 @@
             </span>
           </div>`).join(""))
       .join("");
-    const comm = CATALOG.commentary
-      .map((c) => `<label class="setting"><span class="what">${esc(c.author)}<small>${esc([c.work, c.license].filter(Boolean).join(" · "))}</small></span>
-        <input type="checkbox" data-comm="${c.id}" ${store.hiddenCommentary.includes(c.id) ? "" : "checked"}></label>`)
-      .join("");
+    // One switch per Father, even when his commentary is split over several files.
+    const authors = new Map();
+    CATALOG.commentary.forEach((c) => {
+      if (!authors.has(c.author)) authors.set(c.author, []);
+      authors.get(c.author).push(c);
+    });
+    const comm = TRADITIONS.map(([t, label]) => {
+      const list = [...authors.values()].filter((cs) => (cs[0].tradition || "east") === t);
+      return list.length ? `<h3 class="trad">${label}</h3>` + list
+        .map((cs) => `<label class="setting"><span class="what">${esc(cs[0].author)}<small>${esc([...new Set(cs.map((c) => c.license).filter(Boolean))].join(" · "))}</small></span>
+          <input type="checkbox" data-comm="${cs.map((c) => c.id).join(" ")}" ${cs.every((c) => store.hiddenCommentary.includes(c.id)) ? "" : "checked"}></label>`)
+        .join("") : "";
+    }).join("");
     main.innerHTML = `
       <p class="muted">Pick the main text, then tick any others to read beside it, verse by verse.</p>
       ${rows}
@@ -658,8 +679,9 @@
       save();
     }));
     main.querySelectorAll("[data-comm]").forEach((el) => (el.onchange = () => {
-      const id = el.dataset.comm;
-      store.hiddenCommentary = el.checked ? store.hiddenCommentary.filter((c) => c !== id) : [...store.hiddenCommentary, id];
+      const ids = el.dataset.comm.split(" ");
+      store.hiddenCommentary = store.hiddenCommentary.filter((c) => !ids.includes(c));
+      if (!el.checked) store.hiddenCommentary.push(...ids);
       save();
     }));
     main.querySelector("#layout").onchange = (e) => {
