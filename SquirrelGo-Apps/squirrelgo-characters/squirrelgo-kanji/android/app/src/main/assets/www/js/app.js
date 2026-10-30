@@ -63,10 +63,55 @@
       .filter(Boolean);
   }
 
+  const wordsOf = (ch) => (window.KANJI_WORDS || {})[ch] || [];
+  const sentenceOf = (ch) => (window.KANJI_SENTENCES || {})[ch];
+
+  // Word quiz: read a common word that uses a kanji from the set and pick its
+  // reading. Wrong answers are readings of other words from the same set.
+  function wordQuestions(pool) {
+    const words = [];
+    const seen = new Set();
+    pool.forEach((item) => {
+      // A compound from the kanji's two most common words, else its top word.
+      const top = wordsOf(item.char).filter((x) => !seen.has(x[0])).slice(0, 2);
+      const w = top.find((x) => x[0].length > 1) || top[0];
+      if (w && !seen.has(w[0])) {
+        seen.add(w[0]);
+        words.push({ item, w });
+      }
+    });
+    const readings = unique(pool.flatMap((p) => wordsOf(p.char).map((w) => w[1])));
+    return shuffle(words)
+      .slice(0, 10)
+      .map(({ item, w }) => {
+        const distractors = shuffle(readings.filter((r) => r !== w[1])).slice(0, 3);
+        return {
+          char: item.char,
+          shown: w[0],
+          item,
+          prompt: "Choose the reading of this word:",
+          answer: w[1],
+          options: shuffle([w[1], ...distractors]),
+          note: `${w[0]} 【${w[1]}】 ${w[2]}`,
+          mode: "words",
+        };
+      });
+  }
+
   function buildQuiz(title, chars, mode) {
     const pool = resolveChars(chars);
     if (pool.length < 4) {
       alert("Need at least 4 kanji in this set to quiz.");
+      return;
+    }
+    if (mode === "words") {
+      const questions = wordQuestions(pool);
+      if (questions.length < 4) {
+        alert("Not enough example words in this set for a word quiz.");
+        return;
+      }
+      state.quiz = { title, mode, chars: pool.map((c) => c.char), questions, index: 0, score: 0, answered: false, finished: false };
+      navigate("quiz");
       return;
     }
     const questions = shuffle(pool).slice(0, Math.min(10, pool.length)).map((item) => {
@@ -202,6 +247,7 @@
         <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
         <button class="back-btn ${canBack ? "" : "hidden"}" id="backBtn" type="button">← Back</button>
         <h1>${title}${subtitle ? `<span class="sub">${subtitle}</span>` : ""}</h1>
+        <button class="icon-btn" data-suite="open" type="button" aria-label="SquirrelGo apps">▦</button>
       </div>
     `;
   }
@@ -216,7 +262,7 @@
           <p>Lessons, packet quizzes, flashcard review, on-yomi groups, and a dictionary — built for modern Android. ${seen} characters practiced on this device.</p>
         </div>
         <div class="menu-grid">
-          <button class="menu-card" data-nav="lessons"><strong>Lessons</strong><span>Beginning kanji + how-to guide</span></button>
+          <button class="menu-card" data-nav="lessons"><strong>Lessons</strong><span>Beginning kanji, radicals, reading skills, N4 path</span></button>
           <button class="menu-card" data-nav="onyomi"><strong>On-yomi Groups</strong><span>Shared readings &amp; phonetic clusters</span></button>
           <button class="menu-card" data-nav="quizzes"><strong>Quizzes</strong><span>By topic or JLPT level</span></button>
           <button class="menu-card" data-nav="dictionary"><strong>Dictionary</strong><span>Search ${state.byChar.size} Jōyō entries</span></button>
@@ -226,24 +272,44 @@
     `;
   }
 
+  // A blurb under each lesson track's heading.
+  const SECTION_INTROS = {
+    "Radicals at work": "The building blocks that recur inside thousands of kanji, each with the characters that use it.",
+    "Reading skills": "Okurigana, compounds, sound changes, special readings, counters and dates.",
+    "Look-alike kanji": "Characters that are easy to confuse, side by side.",
+    "JLPT N4 path": "All 170 N4 kanji in ten lessons, most frequent first.",
+  };
+
   function renderLessons() {
-    const items = window.DESK_LESSONS.beginning
-      .map(
-        (l) =>
-          `<button type="button" data-lesson="${l.id}"><span>${l.title}</span><span class="chev">›</span></button>`
-      )
-      .join("");
+    const lessonButton = (l) =>
+      `<button type="button" data-lesson="${l.id}"><span>${l.title}</span><span class="chev">›</span></button>`;
+    const sections = [];
+    window.DESK_LESSONS.beginning.forEach((l) => {
+      const name = l.section || "Beginning Kanji";
+      let sec = sections.find((x) => x.name === name);
+      if (!sec) sections.push((sec = { name, lessons: [] }));
+      sec.lessons.push(l);
+    });
+    const [first, ...rest] = sections;
     return `
       ${topbar("Lessons")}
       <main>
         <div class="panel">
-          <h2>Beginning Kanji</h2>
+          <h2>${first.name}</h2>
           <div class="list">
             <button type="button" data-lesson="how_to_use"><span>How to use SquirrelGo Kanji</span><span class="chev">›</span></button>
-            ${items}
+            ${first.lessons.map(lessonButton).join("")}
           </div>
           <h3>N5 themed packets</h3>
           <div class="list" id="beginThemes"></div>
+          ${rest
+            .map(
+              (sec) => `
+            <h2 class="lesson-section">${sec.name}</h2>
+            ${SECTION_INTROS[sec.name] ? `<p class="muted lesson-intro">${SECTION_INTROS[sec.name]}</p>` : ""}
+            <div class="list">${sec.lessons.map(lessonButton).join("")}</div>`
+            )
+            .join("")}
         </div>
       </main>
     `;
@@ -259,6 +325,8 @@
       adjectives: "JLPT 5 · Adjectives",
       verbs: "JLPT 5 · Verbs",
       nature: "JLPT 5 · Nature",
+      school: "JLPT 5 · School and language",
+      money: "JLPT 5 · Money and counting",
     };
     return Object.keys(themes)
       .map((k) => {
@@ -289,6 +357,7 @@
             <button class="primary" type="button" data-quiz-mode="meaning">Quiz: Meaning</button>
             <button class="secondary" type="button" data-quiz-mode="kun">Quiz: Kun-yomi</button>
             <button class="secondary" type="button" data-quiz-mode="on">Quiz: On-yomi</button>
+            <button class="secondary" type="button" data-quiz-mode="words">Quiz: Words</button>
           </div>`
         : "";
     return `
@@ -313,6 +382,8 @@
       adjectives: "JLPT 5 · Adjectives",
       verbs: "JLPT 5 · Verbs",
       nature: "JLPT 5 · Nature",
+      school: "JLPT 5 · School and language",
+      money: "JLPT 5 · Money and counting",
     };
     const items = resolveChars(chars);
     return `
@@ -330,6 +401,7 @@
             <button class="primary" type="button" data-packet-quiz="meaning">Meaning quiz</button>
             <button class="secondary" type="button" data-packet-quiz="kun">Kun quiz</button>
             <button class="secondary" type="button" data-packet-quiz="on">Complete / On quiz</button>
+            <button class="secondary" type="button" data-packet-quiz="words">Word reading quiz</button>
             <button class="secondary" type="button" data-packet-review="1">Review flashcards</button>
           </div>
         </div>
@@ -407,6 +479,7 @@
             <button class="primary" type="button" data-set-quiz="meaning">Start meaning quiz</button>
             <button class="secondary" type="button" data-set-quiz="kun">Start kun quiz</button>
             <button class="secondary" type="button" data-set-quiz="on">Start on quiz</button>
+            <button class="secondary" type="button" data-set-quiz="words">Start word reading quiz</button>
             <button class="secondary" type="button" data-set-review="1">Review flashcards</button>
           </div>
         </div>
@@ -442,7 +515,8 @@
         <div class="panel">
           <div class="quiz-progress">${n} of ${total}</div>
           <p class="quiz-prompt">${item.prompt}</p>
-          <div class="quiz-char">${item.char}</div>
+          <div class="quiz-char ${item.shown && item.shown.length > 1 ? "quiz-word" : ""}" lang="ja">${item.shown || item.char}</div>
+          ${q.answered && item.note ? `<p class="quiz-note" lang="ja">${item.note}</p>` : ""}
           <div>
             ${item.options
               .map((opt) => {
@@ -478,14 +552,16 @@
             : `<div class="detail-glyph">${item.char}</div>`}
           <div class="detail-meaning">${item.info}</div>
           <div class="tabs">
-            <button type="button" class="${tab === "details" ? "active" : ""}" data-tab="details">Kanji Details</button>
+            <button type="button" class="${tab === "details" ? "active" : ""}" data-tab="details">Details</button>
             <button type="button" class="${tab === "readings" ? "active" : ""}" data-tab="readings">Readings</button>
+            <button type="button" class="${tab === "words" ? "active" : ""}" data-tab="words">Words</button>
             <button type="button" class="${tab === "meta" ? "active" : ""}" data-tab="meta">Meta</button>
             <button type="button" class="${tab === "strokes" ? "active" : ""}" data-tab="strokes">Strokes</button>
           </div>
           <div id="detailBody"></div>
           <div class="actions">
             <button class="secondary" type="button" data-speak="${item.char}">Speak</button>
+            <button class="secondary" type="button" data-suite="lookup" data-app="dictionary" data-q="${item.char}">Words in Dictionary</button>
             ${fromQuiz ? "" : `<button class="secondary" type="button" id="prevCard">Previous</button>
             <button class="secondary" type="button" id="nextCard">Next</button>`}
           </div>
@@ -494,8 +570,42 @@
     `;
   }
 
+  const playBtn = (text) =>
+    `<button class="play" type="button" data-speak="${text}" aria-label="Play ${text}">▶</button>`;
+
+  function wordList(item, limit) {
+    const words = wordsOf(item.char).slice(0, limit);
+    if (!words.length) return "";
+    return `<ul class="word-list" lang="ja">${words
+      .map(
+        ([w, r, m]) =>
+          `<li><span class="word-w">${w}</span><span class="word-r">${r}</span><span class="word-m" lang="en">${m}</span>${playBtn(r)}</li>`
+      )
+      .join("")}</ul>`;
+  }
+
+  function sentenceBlock(item) {
+    const s = sentenceOf(item.char);
+    if (!s) return "";
+    const [jp, en, id] = s;
+    const marked = jp.split(item.char).join(`<mark>${item.char}</mark>`);
+    return `<div class="sentence">
+        <div class="sentence-jp" lang="ja"><span>${marked}</span>${playBtn(jp)}</div>
+        <div class="sentence-en">${en}</div>
+        <div class="sentence-src">Tatoeba sentence #${id} (CC BY 2.0 FR)</div>
+      </div>`;
+  }
+
   function detailBody(item) {
     if (state.detailTab === "strokes") return StrokeOrder.html(item.char);
+    if (state.detailTab === "words") {
+      const list = wordList(item, 8);
+      return `
+        <h4 class="sub-h">Words</h4>
+        ${list || `<p class="muted">No common example words for this kanji.</p>`}
+        ${sentenceOf(item.char) ? `<h4 class="sub-h">Example sentence</h4>${sentenceBlock(item)}` : ""}
+      `;
+    }
     if (state.detailTab === "readings") {
       return `
         <div class="reading-cols">
@@ -526,6 +636,7 @@
         <dt>Strokes</dt><dd>${item.strokes}</dd>
         <dt>JLPT</dt><dd>${item.level}</dd>
       </dl>
+      ${wordsOf(item.char).length ? `<h4 class="sub-h">Words</h4>${wordList(item, 2)}` : ""}
     `;
   }
 
@@ -577,6 +688,7 @@
           <div class="char-grid">${tiles}</div>
           <div class="actions">
             <button class="primary" type="button" data-group-quiz="on">Quiz this group</button>
+            <button class="secondary" type="button" data-group-quiz="words">Word reading quiz</button>
             <button class="secondary" type="button" data-group-review="1">Review</button>
           </div>
         </div>
@@ -838,11 +950,9 @@
 
     app.querySelectorAll("[data-speak]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const text = btn.getAttribute("data-speak");
-        if (!window.speechSynthesis) return;
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = "ja-JP";
-        speechSynthesis.speak(u);
+        if (!Speech.speak(btn.getAttribute("data-speak"), 1, "ja-JP") && !window.AndroidTTS) {
+          alert("No Japanese text-to-speech voice found. Install one in your system settings.");
+        }
       });
     });
 
@@ -886,7 +996,7 @@
         const groups = window.SCRIPTS?.kanji?.groups || [];
         const sorted = groups.slice().sort((a, b) => (b.chars?.length || 0) - (a.chars?.length || 0));
         const g = sorted[state._groupIndex || 0];
-        buildQuiz(g.reading, g.chars.map((c) => c.char), "on");
+        buildQuiz(g.reading, g.chars.map((c) => c.char), btn.getAttribute("data-group-quiz"));
       });
     });
     app.querySelectorAll("[data-group-review]").forEach((btn) => {
@@ -928,6 +1038,15 @@
     const chars = window.SCRIPTS?.kanji?.chars || [];
     chars.forEach((c) => state.byChar.set(c.char, c));
     render();
+    // Another SquirrelGo app sent a kanji (e.g. the Dictionary's kanji page).
+    SquirrelGoSuite.onQuery((q) => {
+      const ch = [...q.trim()].find((c) => state.byChar.has(c));
+      if (!ch) return;
+      state.drawerOpen = false;
+      state.detailChar = ch;
+      state.detailTab = StrokeOrder.has(ch) ? "strokes" : "details";
+      navigate("detail");
+    });
   }
 
   boot();
