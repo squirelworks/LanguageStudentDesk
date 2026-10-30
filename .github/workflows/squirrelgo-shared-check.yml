@@ -1,0 +1,21 @@
+name: SquirrelGo shared files
+
+on:
+  push:
+    paths:
+      - "SquirrelGo-Apps/**"
+      - ".github/workflows/squirrelgo-shared-check.yml"
+  pull_request:
+    paths:
+      - "SquirrelGo-Apps/**"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Every app ships its own copy of shared/suite.js; make sure none drifted.
+      - name: Shared copies are in sync
+        run: SquirrelGo-Apps/tools/sync-shared.sh --check
+      - name: Shared script parses
+        run: node --check SquirrelGo-Apps/shared/suite.js

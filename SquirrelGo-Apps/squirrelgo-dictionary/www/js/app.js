@@ -391,6 +391,8 @@
         ${item("kanjiList", "All Kanji", `Search in all kanji (${num(m.kanjiCount || 0)})`)}
         ${item("radicals", "Kanji by radicals", "Search kanji by its radical(s)")}
         ${item("kana", "Hiragana and Katakana", "Simple kana table")}
+        ${sep("SquirrelGo")}
+        <li class="row menu-item" data-suite="open"><div class="mi-title">SquirrelGo apps</div><div class="mi-desc">Kana, Kanji, Phrasebook and more · notes and resources</div></li>
         ${sep("Application")}
         ${item("settings", "Settings", "Text size and display")}
         ${item("about", "About", "Version, data and acknowledgements")}
@@ -459,6 +461,7 @@
         ${alts.length ? sep("Alternatives") + alts.join("") : ""}
         ${chars.length ? sep("Kanji") + chars.map((ch) => kanjiRow(ch, kanjiAll[ch])).join("") : ""}
         ${examples ? sep("Sentences") + examples : ""}
+        <li class="row more" data-suite="lookup" data-app="phrasebook" data-q="${esc(hw)}">Find <span lang="ja">${esc(hw)}</span> in the Phrasebook</li>
         <li class="foot">JMdict ${esc(e.id)}${examples ? " · sentences from Tatoeba" : ""}</li>
       </ul>`;
       wireKanjiRows($("#content"));
@@ -512,6 +515,7 @@
         ${sep("Words")}
         ${words.map((p) => resultRow(p)).join("")}
         <li class="row more" id="allWords">Search all words with ${esc(ch)}</li>
+        <li class="row more" data-suite="lookup" data-app="kanji" data-q="${esc(ch)}">Stroke order and quizzes in SquirrelGo Kanji</li>
       </ul>`;
       wireResults($("#content"));
       $$(".part").forEach((p) => p.onclick = () => go("radicals", p.dataset.part));
@@ -571,7 +575,8 @@
             <tr class="kana-sec"><td colspan="6">Dakuon</td></tr>${rows(daku)}
             <tr class="kana-sec"><td colspan="6">HanDakuon</td></tr>${rows(handaku)}
             <tr class="kana-sec"><td colspan="6">Yoon</td></tr>${yrows}
-          </tbody></table>`);
+          </tbody></table>
+        <ul class="list"><li class="row more" data-suite="lookup" data-app="kana">Lessons, quizzes and writing in SquirrelGo Kana</li></ul>`);
       $$("[data-speak]").forEach((el) => el.onclick = () => speak(el.dataset.speak));
     },
 
@@ -773,6 +778,9 @@
     spin(false);
     if (cur().refresh) cur().refresh();
   });
+
+  // Another SquirrelGo app sent a word to look up.
+  SquirrelGoSuite.onQuery((q) => searchAll(q));
 
   window.SquirrelDict = { back };
 })();
