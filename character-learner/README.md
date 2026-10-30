@@ -1,29 +1,29 @@
 # Character Learner
 
-Modular, TenguGo-style character learning tool for multiple scripts.
+Modular character learning tool for Language Student Desk.
 
 ## Supported scripts
 
-- Hiragana
-- Katakana
-- Arabic
-- Cyrillic
-- Hangul
-- Devanagari (Hindi)
-- Kanji (stub — JLPT N5 sample + on-yomi groupings)
+- Hiragana, Katakana
+- Arabic, Cyrillic, Hangul, Devanagari
+- Klingon pIqaD
+- Kanji — full **Jōyō set (2,136)**, identical to [SquirrelGo Kanji](../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/)
 
 ## Features
 
-- Learn mode: grid of characters with details and Web Speech API pronunciation
-- Recognition quiz
-- Flashcards
-- On-yomi groups view (for kanji)
+- Learn / Quiz / Flashcards
+- Click a character for details
+- **Kanji stroke-order animation** (shared KanjiVG data from SquirrelGo — works offline)
+- Kanji **Lessons** and **Topics** (shared SquirrelGo curriculum)
+- On-yomi groups
 
-## Architecture
+## Shared SquirrelGo content
 
-- `index.html` — core learning application UI and logic
-- `data.js` — modular script data. Add a new script by extending the `SCRIPTS` object.
+Character Learner loads these from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/`:
 
-Open `index.html` in a browser. No build step required.
+- `data/strokes.js` + `js/strokes.js` — writing animations for all 2,136 Jōyō kanji
+- `data/catalog.js` + `js/lessons.js` — topics & beginning lessons
+
+Open `index.html` in a browser (from the repo tree so relative paths resolve).
 
 Part of LanguageStudentDesk.
