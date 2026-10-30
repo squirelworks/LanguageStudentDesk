@@ -251,6 +251,8 @@ h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color:
 }
 .pad-tools { display: flex; justify-content: center; align-items: center; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; }
 
+/* Scripts written in columns (Mongolian) stand upright. */
+.glyph.vert { writing-mode: vertical-lr; text-orientation: mixed; }
 .ipa { font-size: 1rem; font-weight: 400; color: var(--muted); font-family: "Noto Sans", "Segoe UI", system-ui, sans-serif; }
 .stroke-panels { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin: .8rem 0 .4rem; }
 .stroke-panel { display: flex; flex-direction: column; align-items: center; gap: .2rem; font-size: .85rem; }

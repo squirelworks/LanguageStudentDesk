@@ -21,9 +21,8 @@
     reference: ["Reference Learner", "reference-learner/index.html"],
   };
 
-  // A script, its example words, first grammar, your own words, then the wider Desk.
-  // grammar is a list of { id, title, text, lessons } steps checked in the Grammar Learner.
-  function alphabetPath(script, appName, grammar) {
+  // A script, its example words, your own words, then the wider Desk.
+  function alphabetPath(script, appName) {
     return [
       {
         title: "Learn the script",
@@ -33,15 +32,11 @@
         ],
       },
       {
-        title: "First sentences",
-        steps: grammar.map((g) => ({ id: g.id, title: g.title, text: g.text, tools: tools(T.grammar), check: { grammar: g.lessons } })),
-      },
-      {
         title: "Grow your vocabulary",
         steps: [
           { id: "more-words", title: "Thirty example words", text: "Keep a few new words coming each day until thirty are in your review.", tools: tools(T.vocab), check: { vocab: "sg-" + script + "-words", min: 30 } },
           { id: "mine", title: "Collect ten words of your own", text: "Add words you meet in songs, signs or lessons to My words.", tools: tools(T.vocab), check: { mine: 10 } },
-          { id: "explore", title: "Find a course or a book", text: "Pick a textbook, course or reader to take you further than the Desk's grammar lessons.", tools: tools(T.resources, T.reference) },
+          { id: "explore", title: "Find a course or a book", text: "Pick a grammar resource to go with your vocabulary. The Desk's grammar lessons for this language are still to come.", tools: tools(T.resources, T.reference) },
         ],
       },
     ];
@@ -132,21 +127,9 @@
         ],
       },
     ],
-    arabic: alphabetPath("arabic", "SquirrelGo Alphabets", [
-      { id: "gr-basics", title: "“The”, gender and sentences without “is”", text: "ال and the sun letters, feminine ة, and how البيت كبير differs from البيت الكبير.", lessons: ["al", "gender", "nominal"] },
-      { id: "gr-this-my", title: "This, my, in and from", text: "هذا and هذه, possessive endings like كتابي, and the prepositions في, على, من, إلى.", lessons: ["demonstratives", "possessive", "prepositions"] },
-    ]),
-    hangul: alphabetPath("hangul", "SquirrelGo Alphabets", [
-      { id: "gr-particles", title: "Topic, subject and object", text: "은/는, 이/가 and 을/를: which shape to use after a consonant or a vowel, and what each one does.", lessons: ["eun-neun", "i-ga", "eul-reul"] },
-      { id: "gr-endings", title: "Places and polite verbs", text: "에 and 에서, the polite -아요/-어요 ending, and 이에요/예요 for “to be”.", lessons: ["e-eseo", "ayo-eoyo", "copula"] },
-    ]),
-    cyrillic: alphabetPath("cyrillic", "SquirrelGo Alphabets", [
-      { id: "gr-basics", title: "Это, gender and verbs", text: "Sentences without “is”, he/she/it by the noun's ending, and the present tense of читать.", lessons: ["eto", "gender", "present"] },
-      { id: "gr-cases", title: "First case endings and plurals", text: "The object ending -у, в and на with -е, and plurals in -ы and -и.", lessons: ["accusative", "prepositional", "plural"] },
-    ]),
-    hindi: alphabetPath("devanagari", "SquirrelGo Alphabets", [
-      { id: "gr-basics", title: "“To be”, word order and gender", text: "हूँ, है, हो, हैं; verb-last sentences and questions with क्या; masculine and feminine adjectives.", lessons: ["hona", "word-order", "gender"] },
-      { id: "gr-phrases", title: "Postpositions, “of” and the present", text: "में, पर, से, को; का, की, के; and everyday verbs like मैं हिंदी बोलता हूँ.", lessons: ["postpositions", "ka-ki-ke", "present"] },
-    ]),
+    arabic: alphabetPath("arabic", "SquirrelGo Alphabets"),
+    hangul: alphabetPath("hangul", "SquirrelGo Alphabets"),
+    cyrillic: alphabetPath("cyrillic", "SquirrelGo Alphabets"),
+    hindi: alphabetPath("devanagari", "SquirrelGo Alphabets"),
   };
 })();

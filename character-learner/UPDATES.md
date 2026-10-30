@@ -13,7 +13,3 @@
 - Kanji writing animations via shared SquirrelGo KanjiVG stroke data (2,136/2,136)
 - Lessons + Topics modes wired to SquirrelGo curriculum
 - Confirmed kanji dataset parity with SquirrelGo Kanji (same Jōyō file)
-
-## 2026-10-30
-
-- pIqaD detail: stroke-order animation and a writing pad that checks each stroke, loaded from SquirrelGo Klingon (same data and pad as the Android app)

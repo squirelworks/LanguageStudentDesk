@@ -26,6 +26,9 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
 | Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
 | Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
+| Cherokee ᏣᎳᎩ | Cherokee | all 85 syllables, a lesson per consonant row | articles on Sequoyah's syllabary, reading the chart and consonant clusters |
+| Syllabics ᖃᓂᐅᔮᖅᐸᐃᑦ | Inuktitut | the i, u, a series and finals for each consonant | articles on syllabics, how the shapes turn, and long vowels |
+| Mongolian ᠮᠣᠩᠭᠣᠯ | Mongolian (Inner Mongolia) | vowels, native consonants, letters for borrowed words; shown vertically | articles on the script, letter shapes in words, spelling and speech |
 | Thai ไทย | Thai (RTGS, doubled long vowels) | middle-, high- and low-class consonants, vowels on ก, tone marks | each consonant with its traditional name word; articles on consonant classes, vowel positions and word breaks |
 | Lao ລາວ | Vientiane Lao | middle-, high- and low-class consonants (with ໜ and ໝ), vowels on ກ | articles on Lao and Thai, classes and tones, and the silent ຫ |
 | Khmer ខ្មែរ | Khmer (letter names; simplified UNGEGN) | the chart in rows of five, vowels on ក | articles on the two consonant series, subscript letters and independent vowels |

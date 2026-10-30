@@ -6,25 +6,14 @@ A simple, self-contained web app for learning the Klingon language with a focus 
 
 - The 26 pIqaD letters with sound descriptions and example words
 - Type in pIqaD: type the standard romanization and see it in pIqaD as you type, with an on-screen pIqaD keyboard and a copy button
-- Stroke order: every letter and numeral animates stroke by stroke, with numbered starting points
-- Handwriting pad that checks each stroke: a good stroke snaps to the clean shape, a wrong or backwards one is wiped with a hint. Trace over a guide or write from memory; checking can be turned off for free drawing
+- Handwriting pad: trace each letter over a faint guide, then write it from memory
 - pIqaD digits and Klingon number words
 - Core vocabulary and reader sentences shown in pIqaD with romanization and meaning
 - Quizzes: sound to letter, letter to sound, and pIqaD word to meaning
 
 ## How to use
 
-Open it from the Desk (`python3 LanguageStudentDesk.py`), which serves the repository on `127.0.0.1`. No build step or dependencies required.
-
-## Shared with SquirrelGo Klingon
-
-The stroke orders and the checked writing pad are loaded from [SquirrelGo Klingon](../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/) rather than copied, so the Desk and the Android app teach the same strokes:
-
-- `www/data/strokes.js`: stroke paths for every letter and numeral
-- `www/js/strokes.js`: SVG drawing, animation and stroke matching
-- `www/js/writepad.js`: the checked writing pad
-
-These load by relative path, so open the app from the repository tree. `js/pad.js` (the old freehand pad) is no longer loaded.
+Open `index.html` in any modern browser. No build step or dependencies required.
 
 ## pIqaD on computers
 

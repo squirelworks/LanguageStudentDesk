@@ -18,9 +18,9 @@ rerun only records what changed.
 A script with audio: "ipa" is recorded from IPA instead, through
 tools/ipa_audio.py: the character's IPA for the letter, and a tenth field,
 the example's IPA, for the word. Use it where eSpeak reads the script badly
-(pointed Hebrew); a script eSpeak has no voice for (Lao, Khmer,
-Tibetan) is recorded this way too, with the "hi" voice. Tone marks are
-dropped. For either, set "voice" to pick the eSpeak voice.
+(pointed Hebrew) or has no voice for it (Lao, Khmer, Tibetan, which use the
+"hi" voice); tone marks are dropped. Set "voice" to pick the eSpeak voice,
+and bareVowel: "before" to say a lone consonant as "ab" rather than "ba".
 
 Needs espeak-ng, ffmpeg and node. Clips are committed; CI does not run this.
 
@@ -177,7 +177,8 @@ def letter_text(s, ch, ipa, lang, voice):
 def plain_ipa(ipa):
     """IPA without tone marks or alternatives, for ipa_audio."""
     ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
-    return unicodedata.normalize("NFC", "".join(c for c in ipa if unicodedata.category(c) != "Mn"))
+    tones = {"\u0300", "\u0301", "\u0302", "\u0304", "\u030c"}  # à á â ā ǎ
+    return unicodedata.normalize("NFC", "".join(c for c in ipa if c not in tones and c not in "˥˦˧˨˩"))
 
 
 def render(text, voice, path, speed=140):
@@ -213,7 +214,9 @@ def run(script):
             if by_ipa:
                 sound = plain_ipa(ipa)
                 if sound and not any(ch in IPA_VOWELS for ch in sound):
-                    sound += "a"
+                    # a lone consonant: said as "ba", or as "ab" where the
+                    # script's syllable "ba" has its own character
+                    sound = "a" + sound if s.get("bareVowel") == "before" else sound + "a"
                 if sound and key not in clips:
                     clips[key] = (voice, "ipa:" + sound)
                 if ex and ex_ipa and ex not in clips:

@@ -294,22 +294,6 @@
   .so-hero .so-ink path { stroke: var(--gold); stroke-width: 3.8; }
   .detail-anim-hint { display: block; font-size: .72rem; color: var(--muted); margin-top: .25rem; }
 
-  /* pIqaD stroke order + checked writing pad (shared with SquirrelGo Klingon) */
-  svg.strokes { width: 8rem; height: 8rem; display: block; margin: 0 auto; background: #101014; border: 1px solid #444; border-radius: 8px; }
-  svg.strokes path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  svg.strokes .ghost path { stroke: #2a2a32; stroke-width: 7; }
-  svg.strokes .ink path { stroke: var(--gold); stroke-width: 6.5; }
-  svg.strokes .ink path.now { stroke: var(--accent); }
-  svg.strokes .num { opacity: 0; transition: opacity .2s; }
-  svg.strokes .num.shown { opacity: 1; }
-  svg.strokes .num circle { fill: var(--accent); }
-  svg.strokes .num text { fill: #fff; font: 700 6px system-ui, sans-serif; text-anchor: middle; }
-  .write-pad { width: min(260px, 100%); aspect-ratio: 1; display: block; margin: .5rem auto; background: #f5f1e8; border-radius: 8px; }
-  .pad-msg { text-align: center; min-height: 1.4em; font-size: .9rem; color: var(--muted); margin: .2rem 0; }
-  .pad-msg.good { color: var(--correct); }
-  .pad-msg.bad { color: var(--wrong); }
-  .pad-toggles { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; font-size: .9rem; color: var(--muted); margin-top: .4rem; }
-
 </style>
 </head>
 <body>
@@ -451,10 +435,6 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/js/strokes.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/catalog.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/js/lessons.js"></script>
-<!-- Shared SquirrelGo Klingon pIqaD stroke orders + checked writing pad -->
-<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"></script>
-<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/strokes.js"></script>
-<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/writepad.js"></script>
 <script src="scripts/hiragana.js"></script>
 <script src="scripts/katakana.js"></script>
 <script src="scripts/arabic.js"></script>
@@ -539,7 +519,6 @@ function getAllowedScripts() {
 function isKana() { return currentScript === 'hiragana' || currentScript === 'katakana'; }
 function isHangul() { return currentScript === 'hangul'; }
 function isKanji() { return currentScript === 'kanji'; }
-function isPiqad() { return currentScript === 'klingon'; }
 
 function getFilteredData() {
   if (!isKanji()) return currentData;
@@ -735,15 +714,11 @@ function renderGrid() {
 function showDetail(c) {
   currentDetailChar = c;
   if (typeof StrokeOrder !== 'undefined') StrokeOrder.stop();
-  stopPiqad();
 
   const hero = document.getElementById('detailHero');
   const canStroke = isKanji() && typeof StrokeOrder !== 'undefined' && StrokeOrder.has(c.char);
-  const canPiqad = isPiqad() && typeof Strokes !== 'undefined' && Strokes.has(c.roman);
   if (canStroke) {
     hero.innerHTML = `<button class="detail-anim" type="button" id="heroStrokes" aria-label="Replay writing animation">${StrokeOrder.hero(c.char)}<span class="detail-anim-hint">Tap character to replay strokes</span></button>`;
-  } else if (canPiqad) {
-    hero.innerHTML = `<button class="detail-anim" type="button" id="heroStrokes" aria-label="Replay writing animation">${Strokes.svg(c.roman, { numbers: true, cls: 'anim' })}<span class="detail-anim-hint">Tap character to replay strokes</span></button>`;
   } else {
     hero.innerHTML = `<h3 style="font-size:3rem;text-align:center;margin:0;">${c.char}</h3>`;
   }
@@ -778,21 +753,6 @@ function showDetail(c) {
   const strokePanel = document.getElementById('strokePanel');
   if (canStroke) {
     strokePanel.innerHTML = `<h4 style="margin:.8rem 0 .4rem;">Stroke order</h4>${StrokeOrder.html(c.char)}`;
-  } else if (canPiqad) {
-    const n = Strokes.count(c.roman);
-    strokePanel.innerHTML = `<h4 style="margin:.8rem 0 .4rem;">Write it</h4>
-      <p class="coverage-note" style="text-align:center">${n} stroke${n === 1 ? '' : 's'}. Follow the numbered order; each stroke is checked as you draw.</p>
-      <canvas id="piqadPad" class="write-pad"></canvas>
-      <div id="piqadMsg" class="pad-msg">Stroke 1 of ${n}</div>
-      <div class="so-actions">
-        <button class="primary" type="button" onclick="piqadPad && piqadPad.hint()">Hint</button>
-        <button class="primary" type="button" onclick="piqadPad && piqadPad.undo()">Undo</button>
-        <button class="primary" type="button" onclick="mountPiqadPad()">Clear</button>
-      </div>
-      <div class="pad-toggles">
-        <label><input type="checkbox" id="piqadGuide" checked onchange="piqadPad && piqadPad.setGuide(this.checked)"> Guide</label>
-        <label><input type="checkbox" id="piqadCheck" checked onchange="mountPiqadPad()"> Check my strokes</label>
-      </div>`;
   } else if (isKanji()) {
     strokePanel.innerHTML = `<p class="coverage-note">No stroke-order data for this character.</p>`;
   } else {
@@ -804,58 +764,10 @@ function showDetail(c) {
     StrokeOrder.mountHero(document.getElementById('heroStrokes'));
     StrokeOrder.mount(strokePanel);
   }
-  if (canPiqad) {
-    const heroBtn = document.getElementById('heroStrokes');
-    heroBtn.onclick = () => playPiqad(heroBtn.querySelector('svg'));
-    playPiqad(heroBtn.querySelector('svg'));
-    mountPiqadPad();
-  }
-}
-
-// pIqaD: animation and checked pad from the shared SquirrelGo Klingon files.
-let piqadPad = null;
-let piqadStop = null;
-function playPiqad(svg) {
-  stopPiqad();
-  piqadStop = Strokes.animate(svg);
-}
-function stopPiqad() {
-  if (piqadStop) piqadStop();
-  piqadStop = null;
-}
-function mountPiqadPad() {
-  const c = currentDetailChar;
-  const old = document.getElementById('piqadPad');
-  if (!c || !old) return;
-  // WritePad.mount sizes the canvas from its layout width, so replace it to remount.
-  const canvas = old.cloneNode(false);
-  old.replaceWith(canvas);
-  const msg = document.getElementById('piqadMsg');
-  const check = document.getElementById('piqadCheck').checked;
-  const n = Strokes.count(c.roman);
-  msg.textContent = check ? `Stroke 1 of ${n}` : 'Free drawing: strokes are not checked';
-  msg.className = 'pad-msg';
-  piqadPad = WritePad.mount(canvas, {
-    key: c.roman,
-    guide: document.getElementById('piqadGuide').checked,
-    check,
-    onStroke(result, i, total) {
-      if (result === 'ok') msg.textContent = i + 1 < total ? `Good. Stroke ${i + 2} of ${total}` : '';
-      else if (result === 'reversed') msg.textContent = `Right shape, wrong direction. Start stroke ${i + 1} from the numbered end.`;
-      else msg.textContent = `That doesn't match stroke ${i + 1}. Press Hint to see where it goes.`;
-      msg.className = `pad-msg ${result === 'ok' ? 'good' : 'bad'}`;
-    },
-    onDone() {
-      msg.textContent = 'Well written!';
-      msg.className = 'pad-msg good';
-    },
-  });
 }
 
 function closeDetail() {
   if (typeof StrokeOrder !== 'undefined') StrokeOrder.stop();
-  stopPiqad();
-  piqadPad = null;
   document.getElementById('detailOverlay').classList.add('hidden');
   document.getElementById('detailHero').innerHTML = '';
   document.getElementById('strokePanel').innerHTML = '';
