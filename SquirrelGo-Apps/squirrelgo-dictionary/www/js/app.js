@@ -1,4 +1,4 @@
-// SquirrelGo Dictionary UI, laid out after the original JED app: grey
+// SquirrelGo Japanese-English Dictionary UI, laid out after the original JED app: grey
 // gradient title bar with a search field, black list screens, a sectioned
 // menu, search options popup, long-press context menus, tag lists and a
 // notepad drawer. Plain DOM, no framework.
@@ -650,7 +650,7 @@
     about() {
       const m = Data.meta || {};
       shell({ hint: "About" }, `<div class="about">
-        <h3>SquirrelGo Dictionary</h3>
+        <h3>SquirrelGo Japanese-English Dictionary</h3>
         <p>Offline Japanese–English dictionary, laid out after JED. Everything is on the device; no download or server is needed.</p>
         <p>Search with kanji, hiragana, katakana, rōmaji or English. Conjugated verbs and adjectives (食べた, 高くない) are traced back to their dictionary form. Use <b>*</b> and <b>?</b> as wildcards. Long-press any entry for copy and tag options.</p>
         <p class="dim">JMdict ${esc(m.jmdictDate || "?")} · ${num(m.words || 0)} entries<br>KANJIDIC2 ${esc(m.kanjidicDate || "?")} · ${num(m.kanjiCount || 0)} kanji<br>jmdict-simplified ${esc(m.version || "")}</p>

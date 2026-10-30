@@ -1,4 +1,4 @@
-name: SquirrelGo Dictionary APK
+name: SquirrelGo Japanese-English Dictionary APK
 
 on:
   push:
@@ -60,5 +60,5 @@ jobs:
           DATE=$(grep -o '"jmdictDate":"[^"]*"' www/data/meta.js | cut -d'"' -f4)
           gh release delete "$TAG" --yes --cleanup-tag || true
           gh release create "$TAG" SquirrelGoDictionary.apk --prerelease --target "$GITHUB_SHA" \
-            --title "SquirrelGo Dictionary (latest build)" \
+            --title "SquirrelGo Japanese-English Dictionary (latest build)" \
             --notes "Offline Japanese–English dictionary. Data: JMdict $DATE. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
