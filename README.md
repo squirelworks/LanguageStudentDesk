@@ -58,6 +58,7 @@ Examples:
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`. Includes on-yomi groups.
 - [SquirrelGo Kanji](squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `SquirrelGoKanji-debug.apk`.
+- [SquirrelGo Dictionary](squirrelgo-dictionary/) — Offline Japanese–English dictionary (JMdict, KANJIDIC2, radicals, example sentences); replacement for the discontinued JED app. APK built by GitHub Actions.
 
 ## Core language engine
 
