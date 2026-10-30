@@ -100,7 +100,13 @@ class LanguageStudentDesk:
         base = Path(__file__).parent if "__file__" in globals() else Path.cwd()
         tools = []
 
-        for item in base.iterdir():
+        # SquirrelGo apps live one level down, under SquirrelGo-Apps/
+        apps_dir = base / "SquirrelGo-Apps"
+        candidates = list(base.iterdir())
+        if apps_dir.is_dir():
+            candidates += list(apps_dir.iterdir())
+
+        for item in candidates:
             if item.is_dir() and (item / "index.html").exists():
                 tools.append((item.name, str(item / "index.html")))
 

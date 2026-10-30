@@ -28,7 +28,7 @@ Download `SquirrelGoDictionary.apk` from the **SquirrelGo Dictionary (latest bui
 `www/data/` is generated, not committed (~45 MB). Fetch the latest [jmdict-simplified](https://github.com/scriptin/jmdict-simplified) release and convert it:
 
 ```bash
-cd squirrelgo-dictionary
+cd SquirrelGo-Apps/squirrelgo-dictionary
 tools/fetch_data.sh            # or: tools/fetch_data.sh <release-tag>
 ```
 
