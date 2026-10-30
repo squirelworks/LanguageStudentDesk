@@ -607,6 +607,85 @@ window.LSD_REFERENCE = {
         "tags": [
           "greetings"
         ]
+      },
+      {
+        "id": "plurals",
+        "topic": "grammar",
+        "title": "Sound and broken plurals",
+        "body": [
+          "Some nouns take a regular {sound plural}: -ūn (or -īn) for male people, -āt for most feminine nouns. Many more have a {broken plural}, where the vowels inside the root change. Broken plurals must be learned with each noun.",
+          "Arabic also has a dual for exactly two: -ān (or -ayn)."
+        ],
+        "table": {
+          "head": [
+            "Singular",
+            "Plural",
+            "Type"
+          ],
+          "rows": [
+            [
+              "مهندس muhandis · engineer",
+              "مهندسون muhandisūn",
+              "sound masculine"
+            ],
+            [
+              "معلمة muʿallima · teacher (f)",
+              "معلمات muʿallimāt",
+              "sound feminine"
+            ],
+            [
+              "كتاب kitāb · book",
+              "كتب kutub",
+              "broken"
+            ],
+            [
+              "ولد walad · boy",
+              "أولاد awlād",
+              "broken"
+            ],
+            [
+              "بيت bayt · house",
+              "بيوت buyūt",
+              "broken"
+            ],
+            [
+              "كتاب kitāb · book",
+              "كتابان kitābān · two books",
+              "dual"
+            ]
+          ]
+        },
+        "tags": [
+          "plurals",
+          "dual"
+        ]
+      },
+      {
+        "id": "idafa",
+        "topic": "grammar",
+        "title": "Iḍāfa: X of Y",
+        "body": "To say the student's book or the door of the house, put the two nouns side by side: the thing owned first, without al-, then the owner. Only the last noun takes al-, but the whole phrase is definite.",
+        "examples": [
+          {
+            "t": "كتاب الطالب",
+            "r": "kitāb aṭ-ṭālib",
+            "e": "the student's book"
+          },
+          {
+            "t": "باب البيت",
+            "r": "bāb al-bayt",
+            "e": "the door of the house"
+          },
+          {
+            "t": "مدينة نيويورك",
+            "r": "madīnat nyū yūrk",
+            "e": "New York City (ة is said -at here)"
+          }
+        ],
+        "tags": [
+          "possession",
+          "idafa"
+        ]
       }
     ]
   },
@@ -1224,6 +1303,120 @@ window.LSD_REFERENCE = {
           "characters",
           "kanji",
           "hanja"
+        ]
+      },
+      {
+        "id": "bi",
+        "topic": "grammar",
+        "title": "Comparisons with 比",
+        "body": "A 比 B + adjective: A is more … than B. Don't add 很 before the adjective. Add 一点儿 (a bit) or 得多 (much) after it to say how much.",
+        "examples": [
+          {
+            "t": "他{比}我高。",
+            "r": "Tā bǐ wǒ gāo.",
+            "e": "He is taller than me."
+          },
+          {
+            "t": "今天{比}昨天冷{一点儿}。",
+            "r": "Jīntiān bǐ zuótiān lěng yìdiǎnr.",
+            "e": "Today is a bit colder than yesterday."
+          },
+          {
+            "t": "我{没有}他{那么}高。",
+            "r": "Wǒ méiyǒu tā nàme gāo.",
+            "e": "I'm not as tall as him."
+          }
+        ],
+        "tags": [
+          "comparison"
+        ]
+      },
+      {
+        "id": "ba",
+        "topic": "grammar",
+        "title": "The 把 construction",
+        "body": "把 moves the object in front of the verb, to say what is done to a specific thing and where it ends up. The verb must be followed by something: a result, a place or 了.",
+        "examples": [
+          {
+            "t": "我{把}书放在桌子上。",
+            "r": "Wǒ bǎ shū fàng zài zhuōzi shang.",
+            "e": "I put the book on the table."
+          },
+          {
+            "t": "请{把}门关上。",
+            "r": "Qǐng bǎ mén guānshang.",
+            "e": "Please close the door."
+          },
+          {
+            "t": "他{把}饭吃完了。",
+            "r": "Tā bǎ fàn chīwán le.",
+            "e": "He finished (eating) the meal."
+          }
+        ],
+        "tags": [
+          "word order",
+          "ba"
+        ]
+      },
+      {
+        "id": "shi-de",
+        "topic": "grammar",
+        "title": "是…的: when, where, how it happened",
+        "body": "To ask or tell when, where, how or with whom a known past event happened, wrap the detail in 是 … 的. 是 is often dropped in speech.",
+        "examples": [
+          {
+            "t": "你{是}什么时候来{的}？",
+            "r": "Nǐ shì shénme shíhou lái de?",
+            "e": "When did you come?"
+          },
+          {
+            "t": "我{是}坐飞机来{的}。",
+            "r": "Wǒ shì zuò fēijī lái de.",
+            "e": "I came by plane."
+          }
+        ],
+        "tags": [
+          "past",
+          "focus"
+        ]
+      },
+      {
+        "id": "resultatives",
+        "topic": "verbs",
+        "title": "Result complements",
+        "body": "A second verb or adjective right after the main verb says what the action achieved. Put 不 between them for can't, 得 for can.",
+        "table": {
+          "head": [
+            "Compound",
+            "Meaning",
+            "Can't"
+          ],
+          "rows": [
+            [
+              "看懂 kàndǒng",
+              "read and understand",
+              "看不懂 · can't make sense of it"
+            ],
+            [
+              "听见 tīngjiàn",
+              "hear (succeed in hearing)",
+              "听不见 · can't hear"
+            ],
+            [
+              "做完 zuòwán",
+              "finish doing",
+              "做不完 · can't finish"
+            ],
+            [
+              "找到 zhǎodào",
+              "find",
+              "找不到 · can't find"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "complements"
         ]
       }
     ]
@@ -1861,6 +2054,102 @@ window.LSD_REFERENCE = {
         "tags": [
           "greetings"
         ]
+      },
+      {
+        "id": "adjectives",
+        "topic": "grammar",
+        "title": "Adjective endings",
+        "body": "Adjectives agree with the noun in gender, number and case, and come before it. The dictionary form is masculine nominative. Soft-stem adjectives like синий (dark blue) use the soft vowels.",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Neuter",
+            "Plural"
+          ],
+          "rows": [
+            [
+              "новый · new",
+              "новый дом",
+              "новая книга",
+              "новое окно",
+              "новые дома"
+            ],
+            [
+              "синий · blue",
+              "синий дом",
+              "синяя книга",
+              "синее окно",
+              "синие дома"
+            ],
+            [
+              "большой · big",
+              "большой дом",
+              "большая книга",
+              "большое окно",
+              "большие дома"
+            ]
+          ]
+        },
+        "tags": [
+          "adjectives",
+          "agreement"
+        ]
+      },
+      {
+        "id": "where-whither",
+        "topic": "grammar",
+        "title": "в / на: where vs where to",
+        "body": "в and на take the {prepositional} for location (where?) and the {accusative} for direction (where to?). Some places use на rather than в: work, the post office, concerts, the street.",
+        "examples": [
+          {
+            "t": "Я {в школе}.",
+            "r": "Ya v shkole.",
+            "e": "I'm at school. (где? prepositional)"
+          },
+          {
+            "t": "Я иду {в школу}.",
+            "r": "Ya idu v shkolu.",
+            "e": "I'm going to school. (куда? accusative)"
+          },
+          {
+            "t": "Она {на работе}.",
+            "r": "Ona na rabote.",
+            "e": "She's at work."
+          }
+        ],
+        "tags": [
+          "prepositions",
+          "cases"
+        ]
+      },
+      {
+        "id": "like",
+        "topic": "grammar",
+        "title": "I like: мне нравится",
+        "body": "Russian says it pleases me. The liked thing is the subject, and the person who likes it is in the dative. The verb agrees with the thing.",
+        "examples": [
+          {
+            "t": "{Мне} нравится музыка.",
+            "r": "Mne nravitsya muzyka.",
+            "e": "I like music."
+          },
+          {
+            "t": "{Ему} нравятся кошки.",
+            "r": "Yemu nravyatsya koshki.",
+            "e": "He likes cats. (plural verb for plural cats)"
+          },
+          {
+            "t": "{Мне} нравилось там.",
+            "r": "Mne nravilos' tam.",
+            "e": "I liked it there."
+          }
+        ],
+        "tags": [
+          "dative",
+          "verbs"
+        ]
       }
     ]
   },
@@ -2420,6 +2709,89 @@ window.LSD_REFERENCE = {
         "tags": [
           "politeness",
           "requests"
+        ]
+      },
+      {
+        "id": "conditionals",
+        "topic": "grammar",
+        "title": "If sentences",
+        "body": "English conditionals follow four common patterns. The tense in the if-clause is one step back from the meaning: if I had (now), if I had had (then).",
+        "table": {
+          "head": [
+            "Type",
+            "Pattern",
+            "Example"
+          ],
+          "rows": [
+            [
+              "zero: always true",
+              "if + present, present",
+              "If you heat ice, it melts."
+            ],
+            [
+              "first: real future",
+              "if + present, will",
+              "If it rains, I'll stay home."
+            ],
+            [
+              "second: unreal now",
+              "if + past, would",
+              "If I had a car, I would drive."
+            ],
+            [
+              "third: unreal past",
+              "if + past perfect, would have",
+              "If I had known, I would have come."
+            ]
+          ]
+        },
+        "tags": [
+          "conditionals",
+          "grammar"
+        ]
+      },
+      {
+        "id": "for-since",
+        "topic": "verbs",
+        "title": "for and since",
+        "body": "With the present perfect, {for} gives a length of time and {since} gives the starting point. Many languages use the present tense here; English doesn't.",
+        "examples": [
+          {
+            "t": "I've lived here {for} three years.",
+            "e": "a length of time"
+          },
+          {
+            "t": "I've lived here {since} 2023.",
+            "e": "a starting point"
+          },
+          {
+            "t": "not: I live here since 2023.",
+            "e": "a common learner mistake"
+          }
+        ],
+        "tags": [
+          "present perfect",
+          "prepositions"
+        ]
+      },
+      {
+        "id": "used-to",
+        "topic": "verbs",
+        "title": "used to",
+        "body": "used to + base verb describes past habits or states that are no longer true. The question and negative are did you use to / didn't use to. Don't confuse it with be used to + -ing, which means be accustomed to.",
+        "examples": [
+          {
+            "t": "I {used to} play the piano.",
+            "e": "I don't any more."
+          },
+          {
+            "t": "I'm {used to} getting up early.",
+            "e": "It isn't hard for me."
+          }
+        ],
+        "tags": [
+          "past",
+          "habits"
         ]
       }
     ]
@@ -2991,6 +3363,84 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "greetings"
+        ]
+      },
+      {
+        "id": "want",
+        "topic": "verbs",
+        "title": "Want to: -고 싶어요",
+        "body": "Add -고 싶어요 to a verb stem to say what you want to do. For other people, use -고 싶어해요.",
+        "examples": [
+          {
+            "t": "비빔밥을 먹{고 싶어요}.",
+            "r": "bibimbabeul meokgo sipeoyo",
+            "e": "I want to eat bibimbap."
+          },
+          {
+            "t": "한국에 가{고 싶어요}.",
+            "r": "hanguge gago sipeoyo",
+            "e": "I want to go to Korea."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "desire"
+        ]
+      },
+      {
+        "id": "future",
+        "topic": "verbs",
+        "title": "Future: -(으)ㄹ 거예요",
+        "body": "Add -ㄹ 거예요 to a stem ending in a vowel and -을 거예요 to one ending in a consonant. It means will or am going to.",
+        "examples": [
+          {
+            "t": "내일 {갈 거예요}.",
+            "r": "naeil gal geoyeyo",
+            "e": "I'll go tomorrow."
+          },
+          {
+            "t": "점심에 김밥을 {먹을 거예요}.",
+            "r": "jeomsime gimbabeul meogeul geoyeyo",
+            "e": "I'm going to eat gimbap for lunch."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "future"
+        ]
+      },
+      {
+        "id": "connectors",
+        "topic": "grammar",
+        "title": "Joining clauses: -고, -지만, -아서/어서",
+        "body": "Korean links clauses with endings on the first verb, not separate words. The tense usually goes only on the last verb.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-고",
+              "and (then)",
+              "밥을 먹고 공부했어요 · I ate and studied"
+            ],
+            [
+              "-지만",
+              "but",
+              "비싸지만 좋아요 · it's expensive but good"
+            ],
+            [
+              "-아서 / -어서",
+              "so, because; and then (sequence)",
+              "배가 고파서 먹었어요 · I was hungry, so I ate"
+            ]
+          ]
+        },
+        "tags": [
+          "connectors",
+          "clauses"
         ]
       }
     ]
@@ -3598,6 +4048,111 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "greetings"
+        ]
+      },
+      {
+        "id": "future",
+        "topic": "verbs",
+        "title": "Future tense",
+        "body": "The future adds -ūngā / -egā / -enge (and -ī forms for feminine) straight to the stem.",
+        "table": {
+          "head": [
+            "Subject",
+            "Masculine",
+            "Feminine"
+          ],
+          "rows": [
+            [
+              "मैं",
+              "जाऊँगा",
+              "जाऊँगी"
+            ],
+            [
+              "तुम",
+              "जाओगे",
+              "जाओगी"
+            ],
+            [
+              "आप",
+              "जाएँगे",
+              "जाएँगी"
+            ],
+            [
+              "वह",
+              "जाएगा",
+              "जाएगी"
+            ],
+            [
+              "हम",
+              "जाएँगे",
+              "जाएँगी"
+            ],
+            [
+              "वे",
+              "जाएँगे",
+              "जाएँगी"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "मैं कल दिल्ली {जाऊँगा}।",
+            "r": "main kal dillī jāūngā",
+            "e": "I will go to Delhi tomorrow. (कल means both yesterday and tomorrow)"
+          }
+        ],
+        "tags": [
+          "verbs",
+          "future"
+        ]
+      },
+      {
+        "id": "dative-subject",
+        "topic": "grammar",
+        "title": "Experiences take को: मुझे",
+        "body": "Feelings, needs, likes and knowing a language are said as to me: the person takes को (मुझे, तुम्हें, उसे…) and the thing is the grammatical subject.",
+        "examples": [
+          {
+            "t": "{मुझे} पानी चाहिए।",
+            "r": "mujhe pānī cāhie",
+            "e": "I need water."
+          },
+          {
+            "t": "{मुझे} हिंदी आती है।",
+            "r": "mujhe hindī ātī hai",
+            "e": "I know Hindi. (Hindi comes to me)"
+          },
+          {
+            "t": "{उसे} चाय पसंद है।",
+            "r": "use cāy pasand hai",
+            "e": "He / she likes tea."
+          }
+        ],
+        "tags": [
+          "dative",
+          "experiencer"
+        ]
+      },
+      {
+        "id": "sakna",
+        "topic": "verbs",
+        "title": "Can: सकना",
+        "body": "Put सकना after the bare verb stem, and conjugate सकना. For a learned skill, सकना or आना both work.",
+        "examples": [
+          {
+            "t": "मैं हिंदी बोल {सकता} हूँ।",
+            "r": "main hindī bol saktā hūn",
+            "e": "I can speak Hindi. (man)"
+          },
+          {
+            "t": "क्या आप मेरी मदद कर {सकते} हैं?",
+            "r": "kyā āp merī madad kar sakte hain?",
+            "e": "Can you help me?"
+          }
+        ],
+        "tags": [
+          "verbs",
+          "modal"
         ]
       }
     ]
@@ -4286,6 +4841,92 @@ window.LSD_REFERENCE = {
           "politeness",
           "keigo"
         ]
+      },
+      {
+        "id": "aru-iru",
+        "topic": "grammar",
+        "title": "There is: ある and いる",
+        "body": "Use {いる} for people and animals (things that move by themselves) and {ある} for objects, plants and events. Place に first, then the thing with が.",
+        "examples": [
+          {
+            "t": "机の上に本が{あります}。",
+            "r": "tsukue no ue ni hon ga arimasu",
+            "e": "There is a book on the desk."
+          },
+          {
+            "t": "公園に犬が{います}。",
+            "r": "kōen ni inu ga imasu",
+            "e": "There is a dog in the park."
+          },
+          {
+            "t": "明日テストが{あります}。",
+            "r": "ashita tesuto ga arimasu",
+            "e": "There is a test tomorrow. (events use ある)"
+          }
+        ],
+        "tags": [
+          "existence",
+          "verbs"
+        ]
+      },
+      {
+        "id": "tai-hoshii",
+        "topic": "verbs",
+        "title": "Wanting: -たい and ほしい",
+        "body": "Add {-たい} to the ます stem to say you want to do something; it then conjugates like an い-adjective. Use {ほしい} for wanting a thing. Both describe your own feelings; for other people, add -がっている or say it indirectly.",
+        "examples": [
+          {
+            "t": "寿司が食べ{たい}です。",
+            "r": "sushi ga tabetai desu",
+            "e": "I want to eat sushi."
+          },
+          {
+            "t": "行き{たくない}。",
+            "r": "ikitakunai",
+            "e": "I don't want to go."
+          },
+          {
+            "t": "新しい靴が{ほしい}です。",
+            "r": "atarashii kutsu ga hoshii desu",
+            "e": "I want new shoes."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "desire"
+        ]
+      },
+      {
+        "id": "giving",
+        "topic": "verbs",
+        "title": "Giving and receiving",
+        "body": "Japanese has three verbs for giving and receiving, chosen by direction. {あげる}: I (or my side) give outward. {くれる}: someone gives to me or my side. {もらう}: I receive, with the giver marked by に or から. They also attach to て-forms for doing favours.",
+        "examples": [
+          {
+            "t": "友達に花を{あげました}。",
+            "r": "tomodachi ni hana o agemashita",
+            "e": "I gave my friend flowers."
+          },
+          {
+            "t": "友達が花を{くれました}。",
+            "r": "tomodachi ga hana o kuremashita",
+            "e": "My friend gave me flowers."
+          },
+          {
+            "t": "友達に花を{もらいました}。",
+            "r": "tomodachi ni hana o moraimashita",
+            "e": "I got flowers from my friend."
+          },
+          {
+            "t": "手伝って{くれて}ありがとう。",
+            "r": "tetsudatte kurete arigatō",
+            "e": "Thanks for helping me."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "giving"
+        ]
       }
     ]
   },
@@ -4827,6 +5468,108 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "greetings"
+        ]
+      },
+      {
+        "id": "adjectives",
+        "topic": "grammar",
+        "title": "Adjectives are verbs",
+        "body": "Klingon has no separate adjectives. Verbs of quality like tIn (be big) follow the noun to describe it, and -qu' (emphatic) makes them stronger. Used on their own, they are verbs: be big.",
+        "examples": [
+          {
+            "t": "Duj {tIn}",
+            "e": "a big ship"
+          },
+          {
+            "t": "Duj {tInqu'}",
+            "e": "a very big ship"
+          },
+          {
+            "t": "tIn Duj",
+            "e": "The ship is big."
+          }
+        ],
+        "tags": [
+          "adjectives",
+          "verbs"
+        ]
+      },
+      {
+        "id": "noun-noun",
+        "topic": "grammar",
+        "title": "Noun-noun: the possessor comes first",
+        "body": "Put two nouns side by side to say of: the first noun owns or describes the second. It is the same order as English enemy's ship, just without the 's.",
+        "examples": [
+          {
+            "t": "jagh Duj",
+            "e": "the enemy's ship"
+          },
+          {
+            "t": "tlhIngan Hol",
+            "e": "the Klingon language (Klingon language)"
+          }
+        ],
+        "tags": [
+          "nouns",
+          "possession"
+        ]
+      },
+      {
+        "id": "imperatives",
+        "topic": "verbs",
+        "title": "Commands",
+        "body": "Commands use their own prefixes. Klingon commands are blunt; there is no please.",
+        "table": {
+          "head": [
+            "Prefix",
+            "Command to",
+            "Object"
+          ],
+          "rows": [
+            [
+              "yI-",
+              "you",
+              "none, or him / her / it"
+            ],
+            [
+              "tI-",
+              "you",
+              "them"
+            ],
+            [
+              "HI-",
+              "you",
+              "me"
+            ],
+            [
+              "gho-",
+              "you",
+              "us"
+            ],
+            [
+              "pe-",
+              "you all",
+              "none"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "{yI}jatlh!",
+            "e": "Speak!"
+          },
+          {
+            "t": "{pe}jatlh!",
+            "e": "Speak, all of you!"
+          },
+          {
+            "t": "{yI}Qong!",
+            "e": "Sleep!"
+          }
+        ],
+        "tags": [
+          "verbs",
+          "imperative"
         ]
       }
     ]
@@ -5503,6 +6246,152 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "abbreviations"
+        ]
+      },
+      {
+        "id": "imperfect",
+        "topic": "verbs",
+        "title": "Imperfect tense: amābam",
+        "body": "The imperfect describes ongoing, repeated or habitual action in the past: was doing, used to do. Add -bā- and the personal endings (-m for I).",
+        "table": {
+          "head": [
+            "Person",
+            "amāre",
+            "monēre",
+            "regere",
+            "audīre"
+          ],
+          "rows": [
+            [
+              "I",
+              "amābam",
+              "monēbam",
+              "regēbam",
+              "audiēbam"
+            ],
+            [
+              "you",
+              "amābās",
+              "monēbās",
+              "regēbās",
+              "audiēbās"
+            ],
+            [
+              "he / she / it",
+              "amābat",
+              "monēbat",
+              "regēbat",
+              "audiēbat"
+            ],
+            [
+              "we",
+              "amābāmus",
+              "monēbāmus",
+              "regēbāmus",
+              "audiēbāmus"
+            ],
+            [
+              "you all",
+              "amābātis",
+              "monēbātis",
+              "regēbātis",
+              "audiēbātis"
+            ],
+            [
+              "they",
+              "amābant",
+              "monēbant",
+              "regēbant",
+              "audiēbant"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "past"
+        ]
+      },
+      {
+        "id": "perfect",
+        "topic": "verbs",
+        "title": "Perfect tense: amāvī",
+        "body": "The perfect is a single completed action: I loved, I have loved. Take the third principal part and use the special perfect endings, which are the same for every verb.",
+        "table": {
+          "head": [
+            "Person",
+            "Ending",
+            "amō",
+            "sum"
+          ],
+          "rows": [
+            [
+              "I",
+              "-ī",
+              "amāvī",
+              "fuī"
+            ],
+            [
+              "you",
+              "-istī",
+              "amāvistī",
+              "fuistī"
+            ],
+            [
+              "he / she / it",
+              "-it",
+              "amāvit",
+              "fuit"
+            ],
+            [
+              "we",
+              "-imus",
+              "amāvimus",
+              "fuimus"
+            ],
+            [
+              "you all",
+              "-istis",
+              "amāvistis",
+              "fuistis"
+            ],
+            [
+              "they",
+              "-ērunt",
+              "amāvērunt",
+              "fuērunt"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "Vēnī, vīdī, {vīcī}.",
+            "e": "I came, I saw, I conquered. (Julius Caesar)"
+          }
+        ],
+        "tags": [
+          "verbs",
+          "perfect"
+        ]
+      },
+      {
+        "id": "ablative-absolute",
+        "topic": "grammar",
+        "title": "The ablative absolute",
+        "body": "A noun and a participle (or a second noun) in the ablative, standing apart from the rest of the sentence, set the scene: when, since or although something was the case. Translate with with, when, after or since.",
+        "examples": [
+          {
+            "t": "{Urbe captā}, mīlitēs discessērunt.",
+            "e": "With the city captured (after the city was taken), the soldiers left."
+          },
+          {
+            "t": "{Caesare duce}, Rōmānī vīcērunt.",
+            "e": "With Caesar as leader, the Romans won."
+          }
+        ],
+        "tags": [
+          "grammar",
+          "ablative",
+          "participles"
         ]
       }
     ]
