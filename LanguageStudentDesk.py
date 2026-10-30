@@ -215,8 +215,19 @@ def open_folder(path):
         subprocess.Popen(["open" if sys.platform == "darwin" else "xdg-open", str(path)])
 
 
+def _ui_font_family():
+    """Pick a UI font that exists on this machine (Segoe UI is Windows-only)."""
+    from tkinter import font as tkfont
+    available = {name.lower(): name for name in tkfont.families()}
+    for want in ("Segoe UI", "Ubuntu", "Noto Sans", "DejaVu Sans", "Cantarell", "Helvetica"):
+        if want.lower() in available:
+            return available[want.lower()]
+    return "TkDefaultFont"
+
+
 def run_gui(tools, server):
     import tkinter as tk
+    from tkinter import font as tkfont
     from tkinter import ttk, messagebox
 
     root = tk.Tk()
@@ -224,15 +235,21 @@ def run_gui(tools, server):
     root.geometry("1100x720")
     root.minsize(820, 540)
 
+    family = _ui_font_family()
+    body_font = tkfont.Font(family=family, size=11)
+    # Hard-coded rowheight=28 crushed descenders once Segoe UI fell back to a
+    # taller Linux font (Noto Sans / Ubuntu). Size rows from the real metrics.
+    tree_row_h = max(36, body_font.metrics("linespace") + 14)
+
     style = ttk.Style()
     if "clam" in style.theme_names():
         style.theme_use("clam")
-    style.configure("Treeview", rowheight=28, font=("Segoe UI", 11))
-    style.configure("Treeview.Heading", font=("Segoe UI", 11, "bold"))
-    style.configure("TLabel", font=("Segoe UI", 11))
-    style.configure("TButton", font=("Segoe UI", 11), padding=6)
-    style.configure("Title.TLabel", font=("Segoe UI", 22, "bold"))
-    style.configure("Name.TLabel", font=("Segoe UI", 16, "bold"))
+    style.configure("Treeview", rowheight=tree_row_h, font=(family, 11))
+    style.configure("Treeview.Heading", font=(family, 11, "bold"))
+    style.configure("TLabel", font=(family, 11))
+    style.configure("TButton", font=(family, 11), padding=6)
+    style.configure("Title.TLabel", font=(family, 22, "bold"))
+    style.configure("Name.TLabel", font=(family, 16, "bold"))
     style.configure("Muted.TLabel", foreground="gray")
 
     # Header
@@ -286,7 +303,7 @@ def run_gui(tools, server):
     for b in (open_btn, folder_btn, apk_btn, copy_btn):
         b.pack(side="left", padx=(0, 8))
 
-    status = ttk.Label(root, text="", relief="sunken", anchor="w", font=("Segoe UI", 10))
+    status = ttk.Label(root, text="", relief="sunken", anchor="w", font=(family, 10))
     status.pack(fill="x", side="bottom")
 
     by_iid = {}
