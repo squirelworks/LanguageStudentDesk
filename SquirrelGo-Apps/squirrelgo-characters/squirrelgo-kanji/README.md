@@ -6,8 +6,9 @@ This is a **new open implementation** inspired by the discontinued TenguGo Kanji
 
 ## Install the APK
 
-Download [`SquirrelGoKanji-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kanji-latest/SquirrelGoKanji-debug.apk) from the **SquirrelGo Kanji (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-kanji-latest)) and sideload it. The `SquirrelGo Kanji APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Debug build (sideload):
 
+- `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/SquirrelGoKanji-debug.apk`
 - Package id: `com.squirelworks.squirrelgokanji.debug`
 - Min Android: 7.0 (API 24)
 
@@ -25,6 +26,8 @@ On your phone: enable install from unknown sources / “Install unknown apps” 
 ## Stroke data
 
 `www/data/strokes.js` is generated from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0): the stroke paths and number positions for each kanji, with coordinates rounded to one decimal. That file stays under CC BY-SA 3.0.
+
+The `SquirrelGo Kanji APK` workflow rebuilds `SquirrelGoKanji-debug.apk` on every push that touches this folder.
 
 ## Web / desktop
 

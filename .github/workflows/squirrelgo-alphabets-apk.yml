@@ -10,11 +10,6 @@ on:
 permissions:
   contents: write
 
-# Two runs replacing the same release at once would race; let the newest win.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,16 +42,15 @@ jobs:
         with:
           name: SquirrelGoAlphabets-debug-apk
           path: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/android/app/build/outputs/apk/debug/app-debug.apk
-      # A rolling pre-release per app, so the APK can be downloaded straight to a phone.
-      # Only builds from main are published; other branches just keep the run artifact.
-      - name: Publish pre-release
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # Keep a downloadable copy in the repo next to the app.
+      # Pushes made with GITHUB_TOKEN do not trigger another run.
+      - name: Commit APK to the branch
+        if: github.event_name == 'push'
         run: |
-          TAG=squirrelgo-alphabets-latest
           cp android/app/build/outputs/apk/debug/app-debug.apk SquirrelGoAlphabets-debug.apk
-          gh release delete "$TAG" --yes --cleanup-tag || true
-          gh release create "$TAG" SquirrelGoAlphabets-debug.apk --prerelease --target "$GITHUB_SHA" \
-            --title "SquirrelGo Alphabets (latest build)" \
-            --notes "Hangul, Cyrillic, Devanagari and Arabic alphabet trainer. Debug build, sideload on Android 7.0+. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SquirrelGoAlphabets-debug.apk
+          git commit -m "Update SquirrelGo Alphabets debug APK" || exit 0
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

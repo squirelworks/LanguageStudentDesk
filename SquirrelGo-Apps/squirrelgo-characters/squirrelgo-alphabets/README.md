@@ -17,7 +17,7 @@ Audio uses the device's text-to-speech voice for each language (Korean, Russian,
 
 ## Install the APK
 
-Download [`SquirrelGoAlphabets-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk) from the **SquirrelGo Alphabets (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-alphabets-latest)) and sideload it. The `SquirrelGo Alphabets APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Sideload `SquirrelGoAlphabets-debug.apk` from this folder. The `SquirrelGo Alphabets APK` GitHub Actions workflow rebuilds it on every push that touches this folder and also uploads it as a run artifact.
 
 - Package id: `com.squirelworks.squirrelgoalphabets.debug`
 - Min Android: 7.0 (API 24)

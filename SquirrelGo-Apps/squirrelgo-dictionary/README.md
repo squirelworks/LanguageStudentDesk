@@ -6,7 +6,7 @@ JED was closed-source freeware that downloaded its dictionary from `www.umibouzu
 
 ## Install
 
-Download [`SquirrelGoDictionary.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-dictionary-latest/SquirrelGoDictionary.apk) from the **SquirrelGo Japanese-English Dictionary (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-dictionary-latest)). GitHub Actions rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download `SquirrelGoDictionary.apk` from the **SquirrelGo Japanese-English Dictionary (latest build)** pre-release on the repo's Releases page (rebuilt by GitHub Actions on every change), or from the workflow run's artifacts.
 
 - Package id: `com.squirelworks.squirrelgodictionary`
 - Min Android: 7.0 (API 24)

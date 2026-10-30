@@ -10,11 +10,6 @@ on:
 permissions:
   contents: write
 
-# Two runs replacing the same release at once would race; let the newest win.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,16 +42,14 @@ jobs:
         with:
           name: SquirrelGoOrthodoxBible-debug-apk
           path: SquirrelGo-Apps/squirrelgo-orthodox-bible/android/app/build/outputs/apk/debug/app-debug.apk
-      # A rolling pre-release per app, so the APK can be downloaded straight to a phone.
-      # Only builds from main are published; other branches just keep the run artifact.
-      - name: Publish pre-release
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # Keep a downloadable copy in the repo, like the other SquirrelGo apps.
+      # Pushes made with GITHUB_TOKEN do not trigger another run.
+      - name: Commit APK to the branch
+        if: github.event_name == 'push'
         run: |
-          TAG=squirrelgo-orthodox-bible-latest
           cp android/app/build/outputs/apk/debug/app-debug.apk SquirrelGoOrthodoxBible-debug.apk
-          gh release delete "$TAG" --yes --cleanup-tag || true
-          gh release create "$TAG" SquirrelGoOrthodoxBible-debug.apk --prerelease --target "$GITHUB_SHA" \
-            --title "SquirrelGo Orthodox Bible (latest build)" \
-            --notes "Offline Orthodox study Bible. Debug build, sideload on Android 7.0+. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SquirrelGoOrthodoxBible-debug.apk
+          git commit -m "Update SquirrelGo Orthodox Bible debug APK" || exit 0
+          git push origin "HEAD:${GITHUB_REF_NAME}"
