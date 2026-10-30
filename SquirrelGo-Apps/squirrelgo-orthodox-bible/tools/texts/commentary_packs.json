@@ -509,7 +509,7 @@
    "JUD"
   ],
   "tradition": "east",
-  "size": 2932435,
+  "size": 2924585,
   "pack": true
  },
  {
@@ -523,7 +523,7 @@
    "PSA"
   ],
   "tradition": "east",
-  "size": 5299741,
+  "size": 5302962,
   "pack": true
  },
  {
@@ -540,7 +540,7 @@
    "HEB"
   ],
   "tradition": "east",
-  "size": 2812342,
+  "size": 2803589,
   "pack": true
  },
  {
@@ -560,6 +560,7 @@
    "OBA",
    "JON",
    "NAM",
+   "HAB",
    "ZEP",
    "HAG",
    "ZEC",
@@ -570,7 +571,7 @@
    "EZK"
   ],
   "tradition": "east",
-  "size": 3902064,
+  "size": 3953942,
   "pack": true
  },
  {
@@ -598,7 +599,7 @@
    "HEB"
   ],
   "tradition": "east",
-  "size": 2228207,
+  "size": 2226881,
   "pack": true
  },
  {
@@ -625,12 +626,25 @@
   "books": [
    "PSA",
    "PRO",
-   "ISA",
    "JER",
    "DAN"
   ],
   "tradition": "east",
-  "size": 3364775,
+  "size": 3331423,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-mat",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
+   "MAT"
+  ],
+  "tradition": "east",
+  "size": 3720489,
   "pack": true
  },
  {
@@ -644,7 +658,7 @@
    "JHN"
   ],
   "tradition": "east",
-  "size": 2561276,
+  "size": 2561794,
   "pack": true
  },
  {
@@ -659,39 +673,55 @@
    "ROM"
   ],
   "tradition": "east",
-  "size": 3714227,
+  "size": 3713327,
   "pack": true
  },
  {
-  "id": "chrysostom-ru-2co-col",
+  "id": "chrysostom-ru-1co-gal",
   "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
   "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
   "lang": "ru",
   "license": "Public Domain",
   "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
   "books": [
+   "1CO",
    "2CO",
-   "GAL",
-   "EPH",
-   "PHP",
-   "COL"
+   "GAL"
   ],
   "tradition": "east",
-  "size": 3715952,
+  "size": 3712047,
   "pack": true
  },
  {
-  "id": "chrysostom-ru-1ti-1jn",
+  "id": "chrysostom-ru-eph-phm",
   "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
   "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
   "lang": "ru",
   "license": "Public Domain",
   "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
   "books": [
+   "EPH",
+   "PHP",
+   "COL",
+   "1TH",
+   "2TH",
    "1TI",
    "2TI",
    "TIT",
-   "PHM",
+   "PHM"
+  ],
+  "tradition": "east",
+  "size": 3806172,
+  "pack": true
+ },
+ {
+  "id": "chrysostom-ru-heb-1jn",
+  "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+  "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+  "lang": "ru",
+  "license": "Public Domain",
+  "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+  "books": [
    "HEB",
    "JAS",
    "1PE",
@@ -699,7 +729,7 @@
    "1JN"
   ],
   "tradition": "east",
-  "size": 2461163,
+  "size": 1242035,
   "pack": true
  }
 ]
