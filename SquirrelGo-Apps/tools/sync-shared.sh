@@ -9,8 +9,10 @@ APPS=(
   squirrelgo-characters/squirrelgo-kana
   squirrelgo-characters/squirrelgo-alphabets
   squirrelgo-characters/squirrelgo-kanji
+  squirrelgo-characters/squirrelgo-klingon
   squirrelgo-dictionary
   squirrelgo-phrasebook
+  squirrelgo-orthodox-bible
 )
 
 stale=0

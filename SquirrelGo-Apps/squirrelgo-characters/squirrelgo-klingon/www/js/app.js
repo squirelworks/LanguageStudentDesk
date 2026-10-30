@@ -154,6 +154,7 @@
     return `<header class="topbar">
       <button id="backBtn" class="back-btn ${state.stack.length ? "" : "hidden"}" aria-label="Back">‹</button>
       <h1>${esc(title)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</h1>
+      <button class="icon-btn" data-suite="open" aria-label="SquirrelGo apps">▦</button>
       <button class="icon-btn" data-act="settings" aria-label="Settings">⚙</button>
     </header>`;
   }
