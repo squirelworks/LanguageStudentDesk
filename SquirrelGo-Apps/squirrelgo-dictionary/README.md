@@ -1,4 +1,4 @@
-# SquirrelGo Dictionary
+# SquirrelGo Japanese-English Dictionary
 
 Offline Japanese–English dictionary for Android (and desktop browsers), built as a modern replacement for **JED** (umibouzu.com), whose data server is gone.
 
@@ -6,7 +6,7 @@ JED was closed-source freeware that downloaded its dictionary from `www.umibouzu
 
 ## Install
 
-Download `SquirrelGoDictionary.apk` from the **SquirrelGo Dictionary (latest build)** pre-release on the repo's Releases page (rebuilt by GitHub Actions on every change), or from the workflow run's artifacts.
+Download `SquirrelGoDictionary.apk` from the **SquirrelGo Japanese-English Dictionary (latest build)** pre-release on the repo's Releases page (rebuilt by GitHub Actions on every change), or from the workflow run's artifacts.
 
 - Package id: `com.squirelworks.squirrelgodictionary`
 - Min Android: 7.0 (API 24)
