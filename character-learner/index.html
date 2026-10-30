@@ -294,7 +294,12 @@
   .so-hero .so-ink path { stroke: var(--gold); stroke-width: 3.8; }
   .detail-anim-hint { display: block; font-size: .72rem; color: var(--muted); margin-top: .25rem; }
 
-  /* pIqaD stroke order + checked writing pad (shared with SquirrelGo Klingon) */
+  /* Stroke order + checked writing pad (shared with SquirrelGo Alphabets and Klingon) */
+  .glyph-row { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+  .glyph-row svg.strokes { margin: 0; }
+  .pad-tabs { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; margin-bottom: .3rem; }
+  .pad-tabs button { min-width: 2.6rem; font-size: 1.3rem; padding: .2rem .6rem; background: #252530; color: var(--text); border: 1px solid #444; border-radius: 6px; cursor: pointer; }
+  .pad-tabs button.active { border-color: var(--gold); color: var(--gold); }
   svg.strokes { width: 8rem; height: 8rem; display: block; margin: 0 auto; background: #101014; border: 1px solid #444; border-radius: 8px; }
   svg.strokes path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
   svg.strokes .ghost path { stroke: #2a2a32; stroke-width: 7; }
@@ -433,7 +438,7 @@
     <div id="formsContainer"></div>
     <div id="strokePanel" style="margin-top:1rem;"></div>
     <div class="detail-actions">
-      <button class="primary" type="button" onclick="speak(currentDetailChar && currentDetailChar.char)">Speak</button>
+      <button class="primary" type="button" onclick="speak(currentDetailChar && (currentDetailChar.say || currentDetailChar.char))">Speak</button>
       <button class="primary" type="button" onclick="markLearned()">Mark learned</button>
       <button class="primary" type="button" onclick="closeDetail()">Close</button>
     </div>
@@ -451,10 +456,91 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/js/strokes.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/catalog.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/js/lessons.js"></script>
-<!-- Shared SquirrelGo Klingon pIqaD stroke orders + checked writing pad -->
+<!-- Shared SquirrelGo Klingon pIqaD stroke orders. Klingon's file sets SG_STROKES to
+     one flat table; file it under "klingon" so it sits beside the Alphabets scripts. -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"></script>
-<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/strokes.js"></script>
-<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/js/writepad.js"></script>
+<script>window.SG_STROKES = { klingon: window.SG_STROKES };</script>
+<!-- Shared SquirrelGo Alphabets: 25 scripts, their stroke orders and recorded sounds,
+     plus the stroke player and checked writing pad (keys are "<script>|<char>") -->
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/app.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/latin.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/latin.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/latin.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/greek.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/greek.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/greek.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/cyrillic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/cyrillic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/cyrillic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/armenian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/armenian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/armenian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/georgian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/georgian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/georgian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/hangul.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/hangul.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/hangul.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/devanagari.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/devanagari.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/devanagari.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/bengali.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/bengali.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/bengali.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/gurmukhi.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/gurmukhi.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/gurmukhi.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/gujarati.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/gujarati.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/gujarati.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tamil.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tamil.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tamil.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/telugu.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/telugu.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/telugu.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/kannada.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/kannada.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/kannada.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/malayalam.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/malayalam.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/malayalam.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/sinhala.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/sinhala.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/sinhala.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/arabic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/arabic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/arabic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/hebrew.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/hebrew.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/hebrew.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/ethiopic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/ethiopic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/ethiopic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/cherokee.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/cherokee.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/cherokee.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/syllabics.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/syllabics.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/syllabics.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/mongolian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/mongolian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/mongolian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/thai.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/thai.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/thai.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/lao.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/lao.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/lao.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/khmer.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/khmer.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/khmer.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tibetan.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tibetan.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tibetan.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/js/strokes.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/js/writepad.js"></script>
+<script src="../languages/registry.js"></script>
 <script src="scripts/hiragana.js"></script>
 <script src="scripts/katakana.js"></script>
 <script src="scripts/arabic.js"></script>
@@ -463,6 +549,7 @@
 <script src="scripts/devanagari.js"></script>
 <script src="scripts/klingon.js"></script>
 <script src="scripts/kanji.js"></script>
+<script src="scripts/sg-alphabets.js"></script>
 <script>
 let currentScript = null;
 let currentData = [];
@@ -474,15 +561,17 @@ let currentDetailChar = null;
 let scopedLang = null;
 let kanaLayout = 'gojuon';
 
-const LANG_SCRIPTS = {
-  japanese: ["hiragana", "katakana", "kanji"],
-  klingon: ["klingon"],
-  arabic: ["arabic"],
-  chinese: ["kanji"],
-  cyrillic: ["cyrillic"],
-  hangul: ["hangul"],
-  hindi: ["devanagari"]
-};
+// ?lang= scopes come from the shared languages/ registry: a language's
+// characterKeys, else any of its writingSystems this tool has (English and
+// Latin list "latin"), else a script id given directly (?lang=greek).
+function langScripts(id) {
+  const meta = (window.LSD_LANGUAGE_REGISTRY || {})[id];
+  if (meta) {
+    const keys = (meta.characterKeys || []).filter(k => SCRIPTS[k]);
+    return keys.length ? keys : (meta.writingSystems || []).filter(k => SCRIPTS[k]);
+  }
+  return SCRIPTS[id] ? [id] : [];
+}
 
 const GOJUON_ROWS = [
   ["a", "i", "u", "e", "o"],
@@ -534,12 +623,18 @@ function updateBestQuiz(script, score, total) {
 }
 function getAllowedScripts() {
   if (!scopedLang) return Object.keys(SCRIPTS);
-  return (LANG_SCRIPTS[scopedLang] || []).filter(k => SCRIPTS[k]);
+  return langScripts(scopedLang);
 }
 function isKana() { return currentScript === 'hiragana' || currentScript === 'katakana'; }
 function isHangul() { return currentScript === 'hangul'; }
 function isKanji() { return currentScript === 'kanji'; }
-function isPiqad() { return currentScript === 'klingon'; }
+// Stroke keys for a character in the shared SquirrelGo tables ("<script>|<glyph>").
+// pIqaD is keyed by its romanization; a card such as "Α α" gives one key per letter.
+function strokeKeys(c) {
+  if (!c || isKanji() || typeof Strokes === 'undefined') return [];
+  if (currentScript === 'klingon') return Strokes.has('klingon|' + c.roman) ? ['klingon|' + c.roman] : [];
+  return String(c.char).split(' ').filter(Boolean).map(g => currentScript + '|' + g).filter(k => Strokes.has(k));
+}
 
 function getFilteredData() {
   if (!isKanji()) return currentData;
@@ -556,7 +651,7 @@ function toggleKanaLayout() {
 
 function init() {
   const params = new URLSearchParams(window.location.search);
-  scopedLang = params.get('lang');
+  scopedLang = (params.get('lang') || '').trim().toLowerCase() || null;
   const select = document.getElementById('scriptSelect');
   const allowed = getAllowedScripts();
   if (scopedLang && allowed.length === 0) {
@@ -564,8 +659,10 @@ function init() {
     scopedLang = null;
   }
   if (scopedLang) {
-    document.getElementById('appTitle').textContent = 'Character Learner — ' + (scopedLang.charAt(0).toUpperCase() + scopedLang.slice(1));
-    document.getElementById('appSubtitle').textContent = 'Scoped to ' + scopedLang;
+    const meta = (window.LSD_LANGUAGE_REGISTRY || {})[scopedLang];
+    const label = meta ? meta.name : (SCRIPTS[scopedLang] ? SCRIPTS[scopedLang].name : scopedLang.charAt(0).toUpperCase() + scopedLang.slice(1));
+    document.getElementById('appTitle').textContent = 'Character Learner — ' + label;
+    document.getElementById('appSubtitle').textContent = 'Scoped to ' + label;
     document.getElementById('sidebarTitle').textContent = 'Writing systems';
     if (allowed.length <= 1) document.getElementById('sidebar').classList.add('hidden');
   }
@@ -649,7 +746,8 @@ function cardHTML(c, learnedSet, idx) {
   const payload = encodeURIComponent(JSON.stringify({
     char: c.char, roman: c.roman || '', info: c.info || '', level: c.level || '',
     on: c.on || '', kun: c.kun || '', radical: c.radical || '', strokes: c.strokes || '',
-    grade: c.grade || '', frequency: c.frequency || '', example: c.example || '', forms: c.forms || null
+    grade: c.grade || '', frequency: c.frequency || '', example: c.example || '', forms: c.forms || null,
+    say: c.say || ''
   }));
   return `<div class="char-card${isKanji() ? ' kanji-card' : ''} ${learnedSet.has(c.char) ? 'learned' : ''}" data-char="${payload}" onclick="onCardClick(this)">
     <span class="big">${c.char}</span>
@@ -702,6 +800,15 @@ function renderGrid() {
       html += `<div class="section-title">Other</div>`;
       rest.forEach(c => { html += cardHTML(c, learnedSet, window._cardIdx++); });
     }
+  } else if (data.some(c => c.section)) {
+    let section = null;
+    data.forEach(c => {
+      if (c.section && c.section !== section) {
+        section = c.section;
+        html += `<div class="section-title">${section}</div>`;
+      }
+      html += cardHTML(c, learnedSet, window._cardIdx++);
+    });
   } else if (isKanji()) {
     const level = document.getElementById('kanjiLevel')?.value || 'all';
     if (level === 'all') {
@@ -735,15 +842,16 @@ function renderGrid() {
 function showDetail(c) {
   currentDetailChar = c;
   if (typeof StrokeOrder !== 'undefined') StrokeOrder.stop();
-  stopPiqad();
+  stopStrokes();
 
   const hero = document.getElementById('detailHero');
   const canStroke = isKanji() && typeof StrokeOrder !== 'undefined' && StrokeOrder.has(c.char);
-  const canPiqad = isPiqad() && typeof Strokes !== 'undefined' && Strokes.has(c.roman);
+  const keys = strokeKeys(c);
+  const canWrite = keys.length > 0;
   if (canStroke) {
     hero.innerHTML = `<button class="detail-anim" type="button" id="heroStrokes" aria-label="Replay writing animation">${StrokeOrder.hero(c.char)}<span class="detail-anim-hint">Tap character to replay strokes</span></button>`;
-  } else if (canPiqad) {
-    hero.innerHTML = `<button class="detail-anim" type="button" id="heroStrokes" aria-label="Replay writing animation">${Strokes.svg(c.roman, { numbers: true, cls: 'anim' })}<span class="detail-anim-hint">Tap character to replay strokes</span></button>`;
+  } else if (canWrite) {
+    hero.innerHTML = `<button class="detail-anim" type="button" id="heroStrokes" aria-label="Replay writing animation"><span class="glyph-row">${keys.map(k => Strokes.svg(k, { numbers: true, cls: 'anim' })).join('')}</span><span class="detail-anim-hint">Tap character to replay strokes</span></button>`;
   } else {
     hero.innerHTML = `<h3 style="font-size:3rem;text-align:center;margin:0;">${c.char}</h3>`;
   }
@@ -778,20 +886,23 @@ function showDetail(c) {
   const strokePanel = document.getElementById('strokePanel');
   if (canStroke) {
     strokePanel.innerHTML = `<h4 style="margin:.8rem 0 .4rem;">Stroke order</h4>${StrokeOrder.html(c.char)}`;
-  } else if (canPiqad) {
-    const n = Strokes.count(c.roman);
-    strokePanel.innerHTML = `<h4 style="margin:.8rem 0 .4rem;">Write it</h4>
-      <p class="coverage-note" style="text-align:center">${n} stroke${n === 1 ? '' : 's'}. Follow the numbered order; each stroke is checked as you draw.</p>
-      <canvas id="piqadPad" class="write-pad"></canvas>
-      <div id="piqadMsg" class="pad-msg">Stroke 1 of ${n}</div>
+  } else if (canWrite) {
+    padKey = keys[0];
+    const tabs = keys.length > 1
+      ? `<div class="pad-tabs">${keys.map((k, i) => `<button type="button" class="${i ? '' : 'active'}" onclick="pickPadKey(${i})">${k.slice(k.indexOf('|') + 1)}</button>`).join('')}</div>`
+      : '';
+    strokePanel.innerHTML = `<h4 style="margin:.8rem 0 .4rem;">Write it</h4>${tabs}
+      <p id="padNote" class="coverage-note" style="text-align:center"></p>
+      <canvas id="writePad" class="write-pad"></canvas>
+      <div id="padMsg" class="pad-msg"></div>
       <div class="so-actions">
-        <button class="primary" type="button" onclick="piqadPad && piqadPad.hint()">Hint</button>
-        <button class="primary" type="button" onclick="piqadPad && piqadPad.undo()">Undo</button>
-        <button class="primary" type="button" onclick="mountPiqadPad()">Clear</button>
+        <button class="primary" type="button" onclick="writePad && writePad.hint()">Hint</button>
+        <button class="primary" type="button" onclick="writePad && writePad.undo()">Undo</button>
+        <button class="primary" type="button" onclick="mountWritePad()">Clear</button>
       </div>
       <div class="pad-toggles">
-        <label><input type="checkbox" id="piqadGuide" checked onchange="piqadPad && piqadPad.setGuide(this.checked)"> Guide</label>
-        <label><input type="checkbox" id="piqadCheck" checked onchange="mountPiqadPad()"> Check my strokes</label>
+        <label><input type="checkbox" id="padGuide" checked onchange="writePad && writePad.setGuide(this.checked)"> Guide</label>
+        <label><input type="checkbox" id="padCheck" checked onchange="mountWritePad()"> Check my strokes</label>
       </div>`;
   } else if (isKanji()) {
     strokePanel.innerHTML = `<p class="coverage-note">No stroke-order data for this character.</p>`;
@@ -804,40 +915,57 @@ function showDetail(c) {
     StrokeOrder.mountHero(document.getElementById('heroStrokes'));
     StrokeOrder.mount(strokePanel);
   }
-  if (canPiqad) {
+  if (canWrite) {
     const heroBtn = document.getElementById('heroStrokes');
-    heroBtn.onclick = () => playPiqad(heroBtn.querySelector('svg'));
-    playPiqad(heroBtn.querySelector('svg'));
-    mountPiqadPad();
+    heroBtn.onclick = () => playStrokes([...heroBtn.querySelectorAll('svg')]);
+    playStrokes([...heroBtn.querySelectorAll('svg')]);
+    mountWritePad();
   }
 }
 
-// pIqaD: animation and checked pad from the shared SquirrelGo Klingon files.
-let piqadPad = null;
-let piqadStop = null;
-function playPiqad(svg) {
-  stopPiqad();
-  piqadStop = Strokes.animate(svg);
+// Stroke animation and checked writing pad from the shared SquirrelGo files
+// (Alphabets' js/strokes.js and js/writepad.js; pIqaD data from SquirrelGo Klingon).
+let writePad = null;
+let padKey = null;
+let strokesStop = null;
+// Animate each glyph in turn, like the Alphabets app's lesson cards.
+function playStrokes(svgs) {
+  stopStrokes();
+  let stopped = false;
+  let stopOne = null;
+  const run = (i) => {
+    if (stopped || i >= svgs.length) return;
+    stopOne = Strokes.animate(svgs[i], 90, () => run(i + 1));
+  };
+  run(0);
+  strokesStop = () => { stopped = true; if (stopOne) stopOne(); };
 }
-function stopPiqad() {
-  if (piqadStop) piqadStop();
-  piqadStop = null;
+function stopStrokes() {
+  if (strokesStop) strokesStop();
+  strokesStop = null;
 }
-function mountPiqadPad() {
-  const c = currentDetailChar;
-  const old = document.getElementById('piqadPad');
-  if (!c || !old) return;
+function pickPadKey(i) {
+  const keys = strokeKeys(currentDetailChar);
+  if (!keys[i]) return;
+  padKey = keys[i];
+  document.querySelectorAll('.pad-tabs button').forEach((b, n) => b.classList.toggle('active', n === i));
+  mountWritePad();
+}
+function mountWritePad() {
+  const old = document.getElementById('writePad');
+  if (!padKey || !old) return;
   // WritePad.mount sizes the canvas from its layout width, so replace it to remount.
   const canvas = old.cloneNode(false);
   old.replaceWith(canvas);
-  const msg = document.getElementById('piqadMsg');
-  const check = document.getElementById('piqadCheck').checked;
-  const n = Strokes.count(c.roman);
+  const msg = document.getElementById('padMsg');
+  const check = document.getElementById('padCheck').checked;
+  const n = Strokes.count(padKey);
+  document.getElementById('padNote').textContent = `${n} stroke${n === 1 ? '' : 's'}. Follow the numbered order; each stroke is checked as you draw.`;
   msg.textContent = check ? `Stroke 1 of ${n}` : 'Free drawing: strokes are not checked';
   msg.className = 'pad-msg';
-  piqadPad = WritePad.mount(canvas, {
-    key: c.roman,
-    guide: document.getElementById('piqadGuide').checked,
+  writePad = WritePad.mount(canvas, {
+    key: padKey,
+    guide: document.getElementById('padGuide').checked,
     check,
     onStroke(result, i, total) {
       if (result === 'ok') msg.textContent = i + 1 < total ? `Good. Stroke ${i + 2} of ${total}` : '';
@@ -854,8 +982,9 @@ function mountPiqadPad() {
 
 function closeDetail() {
   if (typeof StrokeOrder !== 'undefined') StrokeOrder.stop();
-  stopPiqad();
-  piqadPad = null;
+  stopStrokes();
+  writePad = null;
+  padKey = null;
   document.getElementById('detailOverlay').classList.add('hidden');
   document.getElementById('detailHero').innerHTML = '';
   document.getElementById('strokePanel').innerHTML = '';
@@ -1036,10 +1165,22 @@ function startTopicQuiz(topicName) {
   showQuestion();
 }
 
+// Plays the SquirrelGo Alphabets recording when there is one (Cherokee, Inuktitut
+// and others rarely have a system voice), otherwise the browser's speech.
+let speakAudio = null;
 function speak(text) {
-  if (!text || !window.speechSynthesis) return;
+  if (!text) return;
+  const sg = (window.SG_SCRIPT_INFO || {})[currentScript];
+  const clip = sg && ((window.SG_AUDIO || {})[currentScript] || {})[text];
+  if (clip) {
+    if (speakAudio) speakAudio.pause();
+    speakAudio = new Audio(sg.audio + clip);
+    speakAudio.play().catch(() => {});
+    return;
+  }
+  if (!window.speechSynthesis) return;
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
+  u.lang = sg ? sg.lang : currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
   speechSynthesis.speak(u);
 }
 
