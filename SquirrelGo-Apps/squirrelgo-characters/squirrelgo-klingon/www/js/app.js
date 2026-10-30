@@ -3,6 +3,7 @@
 (() => {
   const APP = window.SG_APP;
   const K = window.SG_KLINGON;
+  const KA = window.KlingonAudio;
 
   // Flatten lessons into items once.
   const ALL = [];
@@ -10,6 +11,9 @@
     l.id = String(li);
     l.items = l.chars.map(([r, cp, hint, like, ex, exM]) => {
       const it = { key: r, r, ch: String.fromCharCode(cp), hint, like, ex, exM, lesson: l, numeral: !!l.numerals };
+      // A letter has its own clip; a numeral is heard as its number word.
+      it.ipa = l.numerals ? KA.ipa(ex) : K.ipa[r];
+      it.audio = l.numerals ? KA.wordFile(ex) : KA.letterFile(cp);
       ALL.push(it);
       return it;
     });
@@ -49,7 +53,7 @@
   const piqad = (roman) => transliterate(roman).text;
 
   // ---- persistence ----
-  const defaults = { showRoman: true, flashDir: "glyph", guide: true, check: true, font: "hand", speed: 90, stats: {}, written: {} };
+  const defaults = { voice: true, showRoman: true, flashDir: "glyph", guide: true, check: true, font: "hand", speed: 90, stats: {}, written: {} };
   function load() {
     try {
       return Object.assign({}, defaults, JSON.parse(localStorage.getItem(APP.store) || "{}"));
@@ -122,6 +126,16 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
   }
+  function sayFile(file, slow) {
+    if (store.voice) KA.play(file, slow ? 0.7 : 1);
+  }
+  const sayWord = (w, slow) => sayFile(KA.wordFile(w), slow);
+  // Every example and list word has a clip; typed text only when it is one of them.
+  const hasClip = (w) => K.words.some(([x]) => x === w) || K.lessons.some((l) => l.chars.some((a) => a[4] === w));
+  const playBtn = (file, label = "Play", cls = "") =>
+    `<button class="round play ${cls}" data-act="say" data-file="${esc(file)}" aria-label="${label}">▶</button>`;
+  const ipaOf = (it) => `/${it.ipa}/`;
+
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -210,8 +224,13 @@
     if (!it.ex || it.numeral) return "";
     return `<div class="example">
       <div class="ex-label">Example</div>
-      <div class="ex-word">${g(piqad(it.ex))}</div>
-      <div class="muted">${esc(it.ex)}${it.exM ? ` · ${esc(it.exM)}` : ""}</div>
+      <div class="ex-row">
+        <div>
+          <div class="ex-word">${g(piqad(it.ex))}</div>
+          <div class="muted">${esc(it.ex)} <span class="ipa">/${esc(KA.ipa(it.ex))}/</span>${it.exM ? ` · ${esc(it.exM)}` : ""}</div>
+        </div>
+        ${playBtn(KA.wordFile(it.ex), "Play example")}
+      </div>
     </div>`;
   }
 
@@ -239,7 +258,11 @@
             <div class="big-glyph">${g(it.ch)}</div>
             ${strokePanel(it)}
           </div>
-          <div class="detail-r">${esc(it.r)}</div>
+          <div class="detail-r">${esc(it.r)} <span class="ipa">${esc(ipaOf(it))}</span></div>
+          <div class="card-tools">
+            ${playBtn(it.audio)}
+            <button class="round slow" data-act="say-slow" data-file="${esc(it.audio)}" aria-label="Play slowly">½</button>
+          </div>
           ${it.numeral ? `<p class="hint">Said <b>${esc(it.hint)}</b></p>` : `<p class="hint">${esc(it.hint)}</p><p class="muted">Sounds like: <b>${esc(it.like)}</b></p>`}
           ${exampleBlock(it)}
           <p class="muted record">Quiz record: ${st.c} right, ${st.w} wrong${mastered(it) ? " · mastered" : ""} · written ${written(it)} time${written(it) === 1 ? "" : "s"}</p>
@@ -294,6 +317,7 @@
           <select data-act="qkind">
             <option value="read">See the letter, pick the sound</option>
             <option value="pick">See the sound, pick the letter</option>
+            <option value="listen">Hear it, pick the letter</option>
             <option value="word">Read a whole word</option>
             <option value="mix">Mixed</option>
           </select>
@@ -349,7 +373,7 @@
     }
     const it = qz.qs[qz.i];
     let kind = qz.kind;
-    if (kind === "mix") kind = ["read", "pick", "word"][Math.floor(Math.random() * 3)];
+    if (kind === "mix") kind = (store.voice ? ["read", "pick", "listen", "word"] : ["read", "pick", "word"])[Math.floor(Math.random() * (store.voice ? 4 : 3))];
     if (kind === "word" && it.numeral) kind = "read";
     if (kind === "word") {
       const w = wordFor(it, qz.items);
@@ -362,6 +386,7 @@
       qz.q = { it, kind, opts: shuffle(opts) };
     }
     qz.answered = null;
+    if (kind === "listen") setTimeout(() => sayFile(it.audio), 150);
   }
 
   function viewQuiz() {
@@ -401,10 +426,14 @@
           .map((p) => p.r)
           .join(" · ");
         feedback = `<div class="feedback ${ans === word ? "ok" : "no"}">
-          <div>${ans === word ? "Correct." : "Not quite."} It is <b>${esc(word[0])}</b> (${esc(word[1])}).<br>Letters: ${esc(spelled)}</div>`;
+          <div>${ans === word ? "Correct." : "Not quite."} It is <b>${esc(word[0])}</b> <span class="ipa">/${esc(KA.ipa(word[0]))}/</span> (${esc(word[1])}).<br>Letters: ${esc(spelled)}</div>
+          <div class="card-tools">${playBtn(KA.wordFile(word[0]), "Play word")}</div>`;
       }
     } else {
       if (kind === "read") prompt = `<div class="q-glyph">${g(it.ch)}</div><div class="muted">${it.numeral ? "Which number is this?" : "What sound is this?"}</div>`;
+      else if (kind === "listen")
+        prompt = `<button class="round play huge" data-act="say" data-file="${esc(it.audio)}" aria-label="Play again">▶</button>
+          <div class="muted">Which ${it.numeral ? "numeral" : "letter"} did you hear?</div>`;
       else prompt = `<div class="q-sound">${esc(label(it))}</div><div class="muted">Which ${it.numeral ? "numeral" : "letter"} is this?</div>`;
       buttons = opts
         .map((o) => {
@@ -415,14 +444,14 @@
         .join("");
       if (ans)
         feedback = `<div class="feedback ${ans === it ? "ok" : "no"}">
-          <div>${ans === it ? "Correct." : "Not quite."} ${g(it.ch)} is <b>${esc(label(it))}</b>${it.numeral ? "" : `: ${esc(it.hint)}`}</div>`;
+          <div>${ans === it ? "Correct." : "Not quite."} ${g(it.ch)} is <b>${esc(label(it))}</b> <span class="ipa">${esc(ipaOf(it))}</span>${it.numeral ? "" : `: ${esc(it.hint)}`}</div>`;
     }
     if (ans) feedback += `<button class="btn primary block" data-act="next-q">${qz.i + 1 < qz.qs.length ? "Next" : "See results"}</button></div>`;
     return `${topbar(`Question ${qz.i + 1} of ${qz.qs.length}`, `${qz.right} right`)}
       <main>
         ${bar(qz.i, qz.qs.length, "wide")}
         <div class="card q-card">${prompt}</div>
-        <div class="opts ${kind === "pick" ? "glyph-opts" : ""}">${buttons}</div>
+        <div class="opts ${kind === "pick" || kind === "listen" ? "glyph-opts" : ""}">${buttons}</div>
         ${feedback}
       </main>`;
   }
@@ -445,7 +474,7 @@
     const front = glyphFront ? `<div class="big-glyph">${g(it.ch)}</div>` : `<div class="q-sound">${esc(label(it))}</div>`;
     const back = f.shown
       ? `<hr>
-        ${glyphFront ? `<div class="detail-r">${esc(label(it))}</div>` : `<div class="detail-pair"><div class="big-glyph">${g(it.ch)}</div>${strokePanel(it)}</div>`}
+        ${glyphFront ? `<div class="detail-r">${esc(label(it))} <span class="ipa">${esc(ipaOf(it))}</span></div>` : `<div class="detail-pair"><div class="big-glyph">${g(it.ch)}</div>${strokePanel(it)}</div>`}
         ${it.numeral ? "" : `<p class="hint">${esc(it.hint)}</p>`}
         ${exampleBlock(it)}`
       : "";
@@ -455,6 +484,7 @@
         <div class="card flash" data-act="${f.shown ? "" : "flip"}">
           ${front}
           ${back}
+          <div class="card-tools">${playBtn(it.audio)}</div>
         </div>
         ${
           f.shown
@@ -491,6 +521,7 @@
         <div id="padMsg" class="pad-msg muted">${store.check ? `Stroke 1 of ${n}` : "Free drawing: strokes are not checked"}</div>
         <div class="pad-tools">
           ${memory ? `<button class="btn" data-act="reveal">Show me</button>` : `<button class="btn" data-act="replay">▶ Watch</button>`}
+          ${playBtn(it.audio)}
           <button class="btn" data-act="pad-hint">Hint</button>
           <button class="btn" data-act="pad-undo">Undo</button>
           <button class="btn" data-act="pad-clear">Clear</button>
@@ -546,7 +577,10 @@
   function viewWords() {
     const text = state.wordsText ?? "Qapla'";
     const list = K.words
-      .map(([w, m]) => `<button class="word-row" data-act="use-word" data-w="${esc(w)}">${g(piqad(w))}<span><b>${esc(w)}</b> <span class="muted">${esc(m)}</span></span></button>`)
+      .map(
+        ([w, m]) =>
+          `<div class="word-row" data-act="use-word" data-w="${esc(w)}">${g(piqad(w))}<span class="grow"><b>${esc(w)}</b> <span class="muted">${esc(m)}</span><br><span class="ipa">/${esc(KA.ipa(w))}/</span></span>${playBtn(KA.wordFile(w), "Play")}</div>`
+      )
       .join("");
     return `${topbar("Write words", "Romanization to pIqaD")}
       <main>
@@ -555,6 +589,7 @@
         <div class="card out-card">
           <div id="piqadOut" class="piqad-out">${g(piqad(text))}</div>
           <div id="spellOut" class="muted spell">${spellOut(text)}</div>
+          <button id="wordPlay" class="round play ${hasClip(normalize(text).trim()) ? "" : "hidden"}" data-act="say-typed" aria-label="Play">▶</button>
         </div>
         <div class="row-actions">
           <button class="btn" data-act="copy-piqad">Copy pIqaD text</button>
@@ -569,7 +604,9 @@
     const parts = transliterate(text).parts;
     const bad = [...new Set(parts.filter((p) => !p.ok).map((p) => p.r))];
     const letters = parts.filter((p) => itemByKey.has(p.r) || PUNCT[p.r]).map((p) => esc(p.r));
+    const ipa = KA.ipa(normalize(text)).trim();
     let s = letters.length ? `${letters.length} character${letters.length === 1 ? "" : "s"}: ${letters.join(" · ")}` : "";
+    if (ipa) s += `<br><span class="ipa">/${esc(ipa)}/</span>`;
     if (bad.length) s += `<br><span class="warn">Not Klingon letters: ${bad.map(esc).join(" ")}</span>`;
     return s;
   }
@@ -587,6 +624,7 @@
     const opt = (v, cur, text) => `<option value="${v}" ${String(cur) === String(v) ? "selected" : ""}>${text}</option>`;
     return `${topbar("Settings", APP.name)}
       <main>
+        <label class="setting"><span>Audio</span><input type="checkbox" data-act="set-voice" ${store.voice ? "checked" : ""}></label>
         <label class="setting"><span>pIqaD style</span>
           <select data-act="set-font">${opt("hand", store.font, "Handwriting")}${opt("classic", store.font, "Classic (blade)")}</select>
         </label>
@@ -678,6 +716,15 @@
       }
       case "replay":
         playAll();
+        break;
+      case "say":
+        sayFile(el.dataset.file);
+        break;
+      case "say-slow":
+        sayFile(el.dataset.file, true);
+        break;
+      case "say-typed":
+        sayWord(normalize(state.wordsText ?? "Qapla'").trim());
         break;
       case "chart":
         navigate("chart");
@@ -828,6 +875,7 @@
     state.wordsText = e.target.value;
     document.getElementById("piqadOut").innerHTML = g(piqad(state.wordsText));
     document.getElementById("spellOut").innerHTML = spellOut(state.wordsText);
+    document.getElementById("wordPlay").classList.toggle("hidden", !hasClip(normalize(state.wordsText).trim()));
   });
 
   app.addEventListener("change", (e) => {
@@ -851,6 +899,10 @@
         store.font = el.value;
         save();
         applyFont();
+        break;
+      case "set-voice":
+        store.voice = el.checked;
+        save();
         break;
       case "set-speed":
         store.speed = Number(el.value);

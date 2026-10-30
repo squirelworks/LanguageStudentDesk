@@ -326,6 +326,10 @@ svg.strokes .num text { fill: #fff; font: 700 6px system-ui, sans-serif; text-an
 .word-row { display: flex; align-items: center; gap: 1rem; text-align: left; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: .5rem .9rem; cursor: pointer; }
 .word-row .pq { font-size: 1.7rem; min-width: 7rem; color: var(--accent); }
 .detail .big-glyph { font-size: 7.5rem; }
+.ipa { font-family: "Charis SIL", "Doulos SIL", "Noto Sans", "DejaVu Sans", "Segoe UI", sans-serif; color: var(--muted); font-weight: 400; font-size: .9em; }
+.detail-r .ipa { font-size: .7em; }
+.word-row .grow { flex: 1; }
+.word-row .round { flex: none; }
 .font-demo { text-align: center; font-size: 2.6rem; margin: -.2rem 0 .8rem; }
 
 @media (max-width: 480px) {
