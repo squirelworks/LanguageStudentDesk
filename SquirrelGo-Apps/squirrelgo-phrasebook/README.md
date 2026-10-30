@@ -2,7 +2,7 @@
 
 Offline Japanese phrasebook for modern Android (and desktop browsers), part of LanguageStudentDesk.
 
-This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
+This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from. Six everyday packs for travelers, residents and office workers (Travel, Restaurant, Shopping, Directions, Emergencies, Workplace) round it out. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
 
 ## Packs
 
@@ -18,6 +18,12 @@ This is a **new open implementation** meant to replace the aging Japanese phrase
 | Military Police 憲兵 | new | Traffic stops, statements and reports, detention, working with Japanese police |
 | Cordon & Search 捜索 | new | Instructions to residents, entry and search, property and wrap-up |
 | Weapons 武器 | new | Weapon safety, range commands, permits and storage, basic terms |
+| Travel 旅行 | new | Airports, trains and subways, buses and taxis, hotels, sightseeing |
+| Restaurant 食事 | new | Getting a table, ordering, dietary needs, table manners, paying, cafés |
+| Shopping 買い物 | new | Looking around, prices, clothes and sizes, paying and tax-free, returns, convenience stores |
+| Directions 道案内 | new | Asking the way, understanding the answer, landmarks, getting lost |
+| Emergencies 緊急 | new | Calling for help, police, lost items, getting sick, earthquakes and tsunami |
+| Workplace 職場 | new | Office greetings, introductions, meetings, phone and email, deadlines, asking for help |
 
 ## Features
 
