@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.squirelworks.deskkanji'
+    namespace 'com.squirelworks.squirrelgokanji'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.squirelworks.deskkanji"
+        applicationId "com.squirelworks.squirrelgokanji"
         minSdk 24
         targetSdk 34
         versionCode 1

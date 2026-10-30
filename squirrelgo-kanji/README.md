@@ -1,4 +1,4 @@
-# Desk Kanji
+# SquirrelGo Kanji
 
 TenguGo-style kanji trainer for modern Android (and desktop browsers).
 
@@ -8,8 +8,8 @@ This is a **new open implementation** inspired by the discontinued TenguGo Kanji
 
 Debug build (sideload):
 
-- `desk-kanji/DeskKanji-debug.apk`
-- Package id: `com.squirelworks.deskkanji.debug`
+- `squirrelgo-kanji/SquirrelGoKanji-debug.apk`
+- Package id: `com.squirelworks.squirrelgokanji.debug`
 - Min Android: 7.0 (API 24)
 
 On your phone: enable install from unknown sources / “Install unknown apps” for your file manager, then open the APK.

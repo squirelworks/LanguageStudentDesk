@@ -29,13 +29,13 @@
 
   function getProgress() {
     try {
-      return JSON.parse(localStorage.getItem("desk-kanji-progress") || "{}");
+      return JSON.parse(localStorage.getItem("squirrelgo-kanji-progress") || "{}");
     } catch {
       return {};
     }
   }
   function saveProgress(p) {
-    localStorage.setItem("desk-kanji-progress", JSON.stringify(p));
+    localStorage.setItem("squirrelgo-kanji-progress", JSON.stringify(p));
   }
   function markSeen(ch) {
     const p = getProgress();
@@ -151,7 +151,7 @@
   function renderHome() {
     const seen = Object.keys(getProgress().seen || {}).length;
     return `
-      ${topbar("Desk Kanji", "TenguGo-style trainer · offline")}
+      ${topbar("SquirrelGo Kanji", "TenguGo-style trainer · offline")}
       <main>
         <div class="hero">
           <h2>Learn kanji at your own pace</h2>
@@ -181,7 +181,7 @@
         <div class="panel">
           <h2>Beginning Kanji</h2>
           <div class="list">
-            <button type="button" data-lesson="how_to_use"><span>How to use Desk Kanji</span><span class="chev">›</span></button>
+            <button type="button" data-lesson="how_to_use"><span>How to use SquirrelGo Kanji</span><span class="chev">›</span></button>
             ${items}
           </div>
           <h3>N5 themed packets</h3>

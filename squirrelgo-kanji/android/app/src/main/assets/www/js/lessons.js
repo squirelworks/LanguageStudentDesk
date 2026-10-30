@@ -3,9 +3,9 @@
 window.DESK_LESSONS = {
   howToUse: {
     id: "how_to_use",
-    title: "How to use Desk Kanji",
+    title: "How to use SquirrelGo Kanji",
     body: [
-      "Desk Kanji follows a TenguGo-style path: short lessons, packet quizzes, review flashcards, on-yomi groups, and a dictionary.",
+      "SquirrelGo Kanji follows a TenguGo-style path: short lessons, packet quizzes, review flashcards, on-yomi groups, and a dictionary.",
       "If you are new to kanji, start with Beginning Kanji. It covers how characters work and the JLPT N5 set (~80 characters).",
       "After that, use Quizzes by JLPT level or by topic. When you have a base vocabulary, open On-yomi Groups to learn shared Chinese-origin readings in clusters.",
       "Every quiz has a Review mode: meaning, on/kun readings, radical, strokes, frequency, grade, and JLPT tag.",
@@ -21,7 +21,7 @@ window.DESK_LESSONS = {
         "Authoritative dictionaries list tens of thousands of characters. Practical targets are the Jōyō list (~2,136) taught through Japanese schooling, or roughly 2,000 characters for JLPT N1.",
         "“Knowing” a character usually means: a core meaning, common kun readings (native Japanese), common on readings (Sino-Japanese), and words that use it.",
         "Do not grind every rare reading on day one. Learn meaning + one useful reading, then add readings when you meet them in words.",
-        "Desk Kanji’s method: use radicals to parse meaning, follow JLPT order for coverage, and learn on readings through real words or on-yomi groups."
+        "SquirrelGo Kanji’s method: use radicals to parse meaning, follow JLPT order for coverage, and learn on readings through real words or on-yomi groups."
       ]
     },
     {
@@ -85,7 +85,7 @@ window.DESK_LESSONS = {
       title: "Lesson 8: Writing basics",
       body: [
         "General stroke tendencies: left → right, top → bottom, horizontal before vertical when they cross, outer frame before contents, close the frame last.",
-        "Desk Kanji does not include stroke-order animation yet; pair this app with a stroke-order reference when handwriting matters.",
+        "SquirrelGo Kanji does not include stroke-order animation yet; pair this app with a stroke-order reference when handwriting matters.",
         "For recognition and reading, correct stroke order helps memory but meaning + readings carry most of the workload."
       ]
     },
@@ -94,7 +94,7 @@ window.DESK_LESSONS = {
       title: "Lesson 9: Using dictionaries",
       body: [
         "Classic paper dictionaries index by radical + stroke count. Digital search also allows reading, meaning, and handwriting input.",
-        "Desk Kanji’s dictionary lets you filter by JLPT level and search by character, meaning, or reading.",
+        "SquirrelGo Kanji’s dictionary lets you filter by JLPT level and search by character, meaning, or reading.",
         "Entry pages show on/kun, radical, strokes, school grade, frequency rank, and JLPT level when known."
       ]
     },

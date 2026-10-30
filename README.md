@@ -57,7 +57,7 @@ Examples:
 - [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
 - [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
 - [Character Learner](character-learner/) — Modular TenguGo-style trainer. Supports standalone multi-script mode or language-scoped mode via `?lang=`. Includes on-yomi groups.
-- [Desk Kanji](desk-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `DeskKanji-debug.apk`.
+- [SquirrelGo Kanji](squirrelgo-kanji/) — TenguGo-style kanji trainer for modern Android (lessons, topic/JLPT quizzes, dictionary, on-yomi groups). Sideload `SquirrelGoKanji-debug.apk`.
 
 ## Core language engine
 

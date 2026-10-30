@@ -6,7 +6,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DeskKanji"
+        android:theme="@style/Theme.SquirrelGoKanji"
         android:usesCleartextTraffic="false">
         <activity
             android:name=".MainActivity"

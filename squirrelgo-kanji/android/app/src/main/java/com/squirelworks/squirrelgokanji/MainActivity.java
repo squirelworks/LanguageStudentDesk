@@ -1,4 +1,4 @@
-package com.squirelworks.deskkanji;
+package com.squirelworks.squirrelgokanji;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
