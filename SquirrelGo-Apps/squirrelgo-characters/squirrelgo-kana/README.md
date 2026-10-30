@@ -18,7 +18,7 @@ Audio uses the device's Japanese text-to-speech voice. On Android: Settings › 
 
 ## Install the APK
 
-Sideload `SquirrelGoKana-debug.apk` from this folder. The `SquirrelGo Kana APK` GitHub Actions workflow rebuilds it on every push that touches this folder and also uploads it as a run artifact.
+Download [`SquirrelGoKana-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kana-latest/SquirrelGoKana-debug.apk) from the **SquirrelGo Kana (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-kana-latest)) and sideload it. The `SquirrelGo Kana APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
 
 - Package id: `com.squirelworks.squirrelgokana.debug`
 - Min Android: 7.0 (API 24)
