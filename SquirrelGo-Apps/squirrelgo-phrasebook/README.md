@@ -2,7 +2,7 @@
 
 Offline Japanese phrasebook for modern Android (and desktop browsers), part of LanguageStudentDesk.
 
-This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from. Six everyday packs for travelers and office workers (Travel, Restaurant, Shopping, Directions, Emergencies, Workplace) and three for living and studying in Japan (Small Talk, Daily Life, Classroom) round it out. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
+This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from. Six everyday packs for travelers and office workers (Travel, Restaurant, Shopping, Directions, Emergencies, Workplace) and five for living and studying in Japan (Small Talk, Daily Life, Classroom, Culture & Etiquette, Health & Pharmacy) round it out. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
 
 ## Packs
 
@@ -27,6 +27,8 @@ This is a **new open implementation** meant to replace the aging Japanese phrase
 | Small Talk 会話 | new | Getting to know people, hobbies, weather and seasons, reactions, invitations, keeping in touch |
 | Daily Life 生活 | new | City hall, bank and post office, phones, housing, trash and recycling, neighbors |
 | Classroom 教室 | new | Asking the teacher, classroom instructions, homework and tests, grammar words |
+| Culture & Etiquette 文化 | new | Shrines and temples, hot springs, visiting a home, gifts, festivals, manners |
+| Health & Pharmacy 健康 | new | Pharmacies, everyday ailments, clinics, dentists, staying fit |
 
 ## Features
 
