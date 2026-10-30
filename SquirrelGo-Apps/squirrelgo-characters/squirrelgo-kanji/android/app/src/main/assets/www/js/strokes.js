@@ -1,11 +1,20 @@
 // Stroke-order animation and step diagram for the kanji detail view.
 // Stroke data comes from data/strokes.js (KanjiVG, CC BY-SA 3.0).
 (() => {
-  let timers = [];
+  // Pending animation timers, per SVG, so the header animation and the
+  // Strokes tab can run side by side.
+  const timers = new Map();
 
-  function clearTimers() {
-    timers.forEach(clearTimeout);
-    timers = [];
+  function clearTimers(svg) {
+    for (const [key, list] of timers) {
+      if (svg && key !== svg) continue;
+      list.forEach(clearTimeout);
+      timers.delete(key);
+    }
+  }
+  function later(svg, fn, ms) {
+    if (!timers.has(svg)) timers.set(svg, []);
+    timers.get(svg).push(setTimeout(fn, ms));
   }
 
   function has(ch) {
@@ -73,25 +82,27 @@
   }
 
   function play(svg) {
-    clearTimers();
+    clearTimers(svg);
     hideAll(svg);
     svg.dataset.next = "0";
     let t = 250;
     strokes(svg).forEach((p, i) => {
       // Longer strokes take a little longer, as they would with a brush.
       const ms = Math.min(900, 280 + p.getTotalLength() * 6);
-      timers.push(
-        setTimeout(() => {
+      later(
+        svg,
+        () => {
           draw(p, ms);
           svg.dataset.next = String(i + 1);
-        }, t)
+        },
+        t
       );
       t += ms + 180;
     });
   }
 
   function step(svg) {
-    clearTimers();
+    clearTimers(svg);
     const list = strokes(svg);
     let next = Number(svg.dataset.next || list.length);
     if (next >= list.length) {
@@ -104,7 +115,6 @@
 
   // Called after the detail body is in the DOM.
   function mount(root) {
-    clearTimers();
     const svg = root.querySelector("#soMain");
     if (!svg) return;
     root.querySelectorAll("[data-so]").forEach((btn) => {
@@ -118,5 +128,21 @@
     play(svg);
   }
 
-  window.StrokeOrder = { has, html, mount, stop: clearTimers };
+  // Compact animated character for the top of the detail view.
+  function hero(ch) {
+    const [paths] = window.KANJI_STROKES[ch];
+    return `<svg class="so-hero" viewBox="0 0 109 109" aria-hidden="true">
+      <g class="so-ghost">${paths.map((d) => `<path d="${d}"/>`).join("")}</g>
+      <g class="so-ink">${paths.map((d) => `<path d="${d}"/>`).join("")}</g>
+    </svg>`;
+  }
+
+  function mountHero(btn) {
+    if (!btn) return;
+    const svg = btn.querySelector("svg");
+    btn.addEventListener("click", () => play(svg));
+    play(svg);
+  }
+
+  window.StrokeOrder = { has, html, mount, hero, mountHero, stop: () => clearTimers() };
 })();
