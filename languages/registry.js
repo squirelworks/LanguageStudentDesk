@@ -267,6 +267,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ja-JP",
     "data": {
       "characters": "characters.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
