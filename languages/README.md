@@ -69,6 +69,44 @@ const cards = await LSD.load("klingon", "reference");     // parsed reference.js
 `LSD.dataUrls(meta, kind)` gives the full file URLs for a tool that adds its own
 `<script>` tags.
 
+## Hanzi, kanji and hanja
+
+Chinese characters are shared by three traditions, so they live once, in
+`cjk/characters.js`, keyed by character. `cjk/` is not a language and has no
+`meta.json`.
+
+```js
+window.LSD_CJK = {
+  "日": { "uses": ["hanzi", "kanji", "hanja"], "radical": "日", "strokes": 4 },
+  ...
+};
+```
+
+`uses` lists every tradition the character belongs to: `hanzi` (Chinese),
+`kanji` (Japanese), `hanja` (Korean). `radical` and `strokes` are shared.
+Readings and meanings belong to each language:
+
+| Tradition | File | Fields besides `roman` (main reading) and `info` (meaning) |
+|-----------|------|---------------------------------|
+| `kanji` | `japanese/kanji.js` | `on`, `kun`, `level` (JLPT), `grade`, `frequency`; plus on'yomi `groups` |
+| `hanzi` | `chinese/hanzi.js` | `pinyin`, `hsk`, `simplified`, `traditional` |
+| `hanja` | `hangul/hanja.js` | `hangul` (reading) |
+
+Each file is one assignment of a JSON object, in the order the characters
+should be taught:
+
+```js
+window.LSD_CJK_READINGS = window.LSD_CJK_READINGS || {};
+window.LSD_CJK_READINGS.kanji = { "name": "Kanji", "chars": { "日": { "roman": "ニチ", "info": "day", ... } } };
+```
+
+`LSD.cjkScript(tradition)` puts a tradition's readings and the shared table
+together into a Character Learner script, and `LSD.load(id, "characters")` does
+this for any `characterKeys` entry named `hanzi`, `kanji` or `hanja`.
+`LSD.cjk(char)` returns the shared entry with every loaded tradition's reading.
+`build_registry.py` fails when a tradition has an entry the table doesn't tag
+with it, or the table tags a character a tradition has no entry for.
+
 ## meta.json schema (initial)
 
 ```json
