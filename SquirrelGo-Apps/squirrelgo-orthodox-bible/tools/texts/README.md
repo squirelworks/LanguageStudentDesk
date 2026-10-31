@@ -226,6 +226,7 @@ is Psalm 51 in the KJV.
 | `euthymius-ru-*` | Euthymius Zigabenus on the Psalter, Matthew, John, Titus and Hebrews | Kiev 1886-87 and 1907, Tula 1894 and 1897 |
 | `theodoret-ru-*` | Blessed Theodoret on the Psalms, Song of Songs, the Prophets and St Paul | Moscow Theological Academy, Творения, 1855-1861 (and its 2003 reprint) |
 | `andrew-caesarea-ru` | St Andrew of Caesarea on Revelation | Archpriest Michael Bogoslovsky, Moscow 1884 |
+| `chrysostom-ru-*` | St John Chrysostom's homilies and commentaries on the Psalms, Proverbs, Jeremiah, Daniel, Matthew, John, Acts and all of St Paul, and fragments on the Catholic Epistles | Творения, St Petersburg Theological Academy, 1895-1906 |
 
 `build_commentary_ru.py` reads each book's edition line and leaves out any
 book whose edition is later than 1925, unless it is a known reprint of the
@@ -233,15 +234,18 @@ book whose edition is later than 1925, unless it is a known reprint of the
 (`REJECT_SOURCE`). Left out this way: Euthymius on Luke (a modern translation
 by Hieromonk Theodore Yulaev, exeget.ru) and Euthymius on 1-2 Timothy (no
 edition given). Theodoret's question-and-answer works on the Octateuch and
-Kings are not laid out verse by verse, so they give no notes.
+Kings and Chrysostom's homilies on Genesis and Isaiah are not laid out verse
+by verse, so they give no notes. Where azbyka.ru prints no edition for a
+Chrysostom book (Matthew, 1 Corinthians, 1-2 Thessalonians), `sources_ru.py`
+names the St Petersburg volume it comes from. Chrysostom's notes are whole
+homilies, keyed to the passage each one opens with.
 
 ### Not yet available
 
 Oecumenius on Revelation and Ephrem's commentaries have no public-domain text
 keyed to verses that could be found. The Philokalia (Theophan the Recluse's
 Russian, 1877-1890, public domain) is not a commentary on verses, so it would
-only appear through the verses it quotes. The Russian Chrysostom (St
-Petersburg Theological Academy, 1895-1906) is the next large source.
+only appear through the verses it quotes.
 
 ## Daily readings
 
