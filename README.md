@@ -19,6 +19,10 @@ git pull
 python3 LanguageStudentDesk.py
 ```
 
+## Desktop builds (no Python needed)
+
+Each tagged release on the [Releases page](https://github.com/squirelworks/LanguageStudentDesk/releases) carries a standalone Desk for Linux (`LanguageStudentDesk-linux.tar.gz`), Windows (`LanguageStudentDesk-windows.zip`) and macOS on Apple silicon (`LanguageStudentDesk-macos.zip`). Python, Tk and every web app are inside. Unpack it and run `LanguageStudentDesk` (`LanguageStudentDesk.exe` on Windows); the `--browser`, `--list` and `--file` options below work the same. The builds are unsigned: on Windows choose "More info" → "Run anyway"; on macOS run `xattr -dr com.apple.quarantine LanguageStudentDesk` on the unpacked folder first. The `Desk desktop builds` workflow makes them when a release is published, or by hand for an existing tag.
+
 ## Main Desk Launcher
 
 Run the desktop GUI to browse and launch every tool and SquirrelGo app:
