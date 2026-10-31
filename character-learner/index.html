@@ -1197,10 +1197,10 @@ function speak(text) {
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
 
-// Character data lives in languages/<id>/characters.js (data.characters in each
-// meta.json). Load it one language at a time so the script buttons keep their
-// order, then the kanji table, then the SquirrelGo Alphabets scripts, which
-// skip any script a language already defined.
+// Character data lives in languages/<id>/ (data.characters in each meta.json;
+// kanji come from the shared CJK table). Load it one language at a time so the
+// script buttons keep their order, with kanji after the Desk's alphabets, then
+// the SquirrelGo Alphabets scripts, which skip any script a language defined.
 const CHARACTER_ORDER = ['japanese', 'arabic', 'cyrillic', 'hangul', 'hindi', 'klingon'];
 async function loadCharacters() {
   window.SCRIPTS = window.SCRIPTS || {};
@@ -1210,9 +1210,8 @@ async function loadCharacters() {
   for (const m of metas) {
     try { await LSD.load(m.id, 'characters'); } catch (e) { console.warn(e); }
   }
-  for (const src of ['scripts/kanji.js', 'scripts/sg-alphabets.js']) {
-    try { await LSD.loadScript(src); } catch (e) { console.warn(e); }
-  }
+  if (SCRIPTS.kanji) { const k = SCRIPTS.kanji; delete SCRIPTS.kanji; SCRIPTS.kanji = k; }
+  try { await LSD.loadScript('scripts/sg-alphabets.js'); } catch (e) { console.warn(e); }
 }
 loadCharacters().then(init);
 </script></body>
