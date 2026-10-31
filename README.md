@@ -55,12 +55,9 @@ Examples:
 - [Klingon (tlhIngan Hol)](klingon/) — Focuses on the pIqaD script with interactive lessons, quizzes, and a Reader section. Stroke order and the checked writing pad are shared with SquirrelGo Klingon.
 - [Resource Learner](resource-learner/) — General study resources plus specialized lists for each language, including Klingon.
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
-- [Translation Learner](translation-learner/) — Sentence translation checked by meaning, not spelling: into English, into the language, sentence breakdowns, a meaning matrix across the Desk languages, and top-1,000 word practice.
-- [Programming Learner](programming-learner/) — Syntax, concepts and practice for programming languages, from Python to the esolangs.
-- [Language Learner](language-learner/) — A guided path per language: script, first words, grammar, then practice, with progress ticks.
-- [Grammar Learner](grammar-learner/) — Short grammar lessons with explained drills, per language.
-- [Vocabulary Learner](vocabulary-learner/) — Flashcards, spaced review and Anki export, with decks drawn from the SquirrelGo apps.
-- [Character Learner](character-learner/) — Multi-script trainer: kana, the full Jōyō kanji (2,136), pIqaD and every SquirrelGo Alphabets script, each with stroke-order animation and a writing pad that checks each stroke. Kanji Lessons and Topics come from SquirrelGo Kanji, pIqaD strokes from SquirrelGo Klingon, and the Alphabets scripts, strokes and sounds from SquirrelGo Alphabets. Language-scoped via `?lang=`. Includes on-yomi groups.
+- [Translation Learner](translation-learner/) — Squirrelator-style translation practice in Desk UI.
+- [Programming Learner](programming-learner/) — Scaffold for programming-language learning (syntax, concepts, practice).
+- [Character Learner](character-learner/) — Modular multi-script trainer (hiragana through pIqaD). Full Jōyō kanji (2,136) with stroke-order animation, Lessons, and Topics shared from SquirrelGo Kanji; pIqaD stroke order and checked writing pad shared from SquirrelGo Klingon. Language-scoped via `?lang=`. Includes on-yomi groups.
 - [SquirrelGo Kana](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/) — Hiragana and katakana trainer: lessons by sound row, charts, quizzes, flashcards, writing pad, audio. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kana-latest/SquirrelGoKana-debug.apk)).
 - [SquirrelGo Alphabets](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/) — Latin, Greek, Cyrillic, Armenian, Georgian, Hebrew, Arabic, Devanagari, Bengali, Gurmukhi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Sinhala, Thai, Lao, Khmer, Tibetan, Hangul, Ethiopic, Cherokee, Inuktitut syllabics and Mongolian in one trainer: animated stroke order, a writing pad that checks each stroke, IPA and recorded sounds for every letter, a Hangul syllable builder and an Arabic letter-forms table. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk)).
 - [SquirrelGo Klingon](SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/) — Learn to read and write pIqaD, the Klingon alphabet: animated stroke order for every letter and numeral, a writing pad that checks each stroke, IPA and recorded sounds for every letter and word, quizzes including whole-word reading, flashcards, a romanization-to-pIqaD converter and a pronunciation guide. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-klingon-latest/SquirrelGoKlingon-debug.apk)).
@@ -70,17 +67,6 @@ Examples:
 - [SquirrelGo Orthodox Bible](SquirrelGo-Apps/squirrelgo-orthodox-bible/) — Offline Orthodox study Bible: Septuagint canon and book order, any verse side by side in other languages (English, Greek, Russian, Church Slavonic and more), patristic commentary per verse, bookmarks, highlights and notes. Public-domain texts only. Web + Android ([download APK](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-orthodox-bible-latest/SquirrelGoOrthodoxBible-debug.apk)).
 
 The character trainers (Kana, Alphabets, Kanji, Klingon) live under `SquirrelGo-Apps/squirrelgo-characters/`.
-
-### Desk and SquirrelGo in step
-
-The Desk tools and the SquirrelGo apps share one copy of their data and code. Code every app ships (the suite sheet, the stroke player, the writing pad) lives in [`SquirrelGo-Apps/shared/`](SquirrelGo-Apps/shared/). After changing it, or after adding a script to SquirrelGo Alphabets, run:
-
-```bash
-SquirrelGo-Apps/tools/sync-shared.sh          # copy shared files into the apps, update Character Learner's script list
-SquirrelGo-Apps/tools/sync-shared.sh --check  # what CI runs
-```
-
-The check also fails when an app in `shared/suite.js` is missing from the Desk launcher, sits in the wrong group, or points at an APK no workflow publishes.
 
 ## Android apps (APK downloads)
 
@@ -113,4 +99,6 @@ See [languages/](languages/) for the emerging data layer (`meta.json` per langua
 
 ## Expanding LSD
 
-See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo, and [LSD-EXPANSION-NEXT.md](LSD-EXPANSION-NEXT.md) for the next round.
+See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo.
+
+More languages and tools coming soon.

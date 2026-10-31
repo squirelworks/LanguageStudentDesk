@@ -123,38 +123,21 @@ def build():
     return all_counts
 
 
-def mismatches(books, counts):
-    """Chapters of books whose verse count differs from counts, as 'BOOK c (n, scheme m)'."""
-    bad = []
-    for b, chapters in books.items():
-        for i, verses in enumerate(chapters, 1):
-            want = counts.get((b, i))
-            if want is not None and len(verses) != want:
-                bad.append("%s %d (%d, scheme %d)" % (b, i, len(verses), want))
-    return bad
-
-
 def check(all_counts):
-    """Report chapters whose verse count disagrees with the declared scheme, and name a
-    scheme that fits clearly better when there is one (a sign the declared one is wrong)."""
-    wrong = []
+    """Report chapters whose verse count disagrees with the declared scheme."""
     for path in sorted(glob.glob(os.path.join(DATA, "bibles", "*.js"))
                        + glob.glob(os.path.join(PACKS_DIR, "bibles", "*.js"))):
         text = open(path, encoding="utf-8").read()
         obj = json.loads(text[text.index(".push(") + 6:text.rindex(");")])
-        declared = obj["versification"]
-        fit = {s: len(mismatches(obj["books"], c)) for s, c in all_counts.items()}
-        bad = mismatches(obj["books"], all_counts.get(declared, {}))
-        best = min(fit, key=fit.get)
-        note = ""
-        if fit[best] + 5 < len(bad) and fit[best] < 0.5 * len(bad):
-            note = "  << fits %s better (%d chapters differ)" % (best, fit[best])
-            wrong.append(obj["id"])
-        print("%-22s %-4s %4d chapters differ from the scheme's verse counts%s%s" % (
-            obj["id"], declared, len(bad), (": " + ", ".join(bad[:6])) if bad else "", note))
-    if wrong:
-        print("declared numbering looks wrong for:", " ".join(wrong))
-    return wrong
+        counts = all_counts.get(obj["versification"], {})
+        bad = []
+        for b, chapters in obj["books"].items():
+            for i, verses in enumerate(chapters, 1):
+                want = counts.get((b, i))
+                if want is not None and len(verses) != want:
+                    bad.append("%s %d (%d, scheme %d)" % (b, i, len(verses), want))
+        print("%-22s %-4s %4d chapters differ from the scheme's verse counts%s" % (
+            obj["id"], obj["versification"], len(bad), (": " + ", ".join(bad[:6])) if bad else ""))
 
 
 if __name__ == "__main__":

@@ -1,9 +1,0 @@
-{
-  "id": "mongolian",
-  "name": "Mongolian",
-  "nativeName": "ᠮᠣᠩᠭᠣᠯ",
-  "writingSystems": ["mongolian"],
-  "characterKeys": ["mongolian"],
-  "notes": "Mongolian in the traditional vertical script used in Inner Mongolia.",
-  "speech": "mn"
-}

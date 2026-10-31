@@ -1,13 +1,7 @@
-// Stroke geometry for the characters in data/strokes*.js: sampling, drawing
+// Stroke geometry for the pIqaD letters in data/strokes.js: sampling, drawing
 // as SVG, stroke-order animation and matching a hand-drawn stroke to a model one.
-// A key is "<script id>|<character>", e.g. "greek|λ". An app with one script
-// (SquirrelGo Klingon) keeps a flat table and uses the bare letter as its key.
 (() => {
-  const lookup = (key) => {
-    const all = window.SG_STROKES || {};
-    const i = key.indexOf("|");
-    return i < 0 ? all[key] : (all[key.slice(0, i)] || {})[key.slice(i + 1)];
-  };
+  const STROKES = window.SG_STROKES;
 
   // Sample an M/L/Q path into points, 12 per curve.
   function points(d) {
@@ -92,7 +86,7 @@
   // The letter as an SVG: a faint full shape underneath and one path per stroke.
   // With numbers on, each stroke's start is marked with its place in the order.
   function svg(key, opts = {}) {
-    const list = lookup(key) || [];
+    const list = STROKES[key] || [];
     const paths = list.map((d, i) => `<path class="stroke s${i}" d="${d}" data-i="${i}"/>`).join("");
     const nums = opts.numbers
       ? list
@@ -161,5 +155,5 @@
     el.querySelectorAll(".num").forEach((n) => n.classList.add("shown"));
   }
 
-  window.Strokes = { points, resample, judge, svg, animate, reveal, has: (k) => !!lookup(k), count: (k) => (lookup(k) || []).length, of: (k) => lookup(k) || [] };
+  window.Strokes = { points, resample, judge, svg, animate, reveal, has: (k) => !!STROKES[k], count: (k) => (STROKES[k] || []).length, of: (k) => STROKES[k] || [] };
 })();

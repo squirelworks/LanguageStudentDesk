@@ -9,13 +9,10 @@ Open with `?lang=<id>` (for example `?lang=japanese`) or pick a language on the 
 |---|---|
 | Japanese | SquirrelGo Kana example words (hiragana, katakana), the ten SquirrelGo Phrasebook packs, SquirrelGo Kanji by JLPT level, and dictionary lookups from the SquirrelGo Dictionary |
 | Korean, Russian, Hindi, Arabic | Starter decks written for the Desk (`decks/*.js`, about 300 words each) and SquirrelGo Alphabets example words |
-| Greek | A starter deck written for the Desk (`decks/greek.js`, about 230 words) and SquirrelGo Alphabets example words |
 | Klingon, Chinese | Starter decks written for the Desk (`decks/*.js`, about 250 words each) |
-| Latin | A starter deck written for the Desk (`decks/latin.js`, about 190 words, with genitives, genders and principal parts) |
-| Armenian, Georgian, Hebrew, Amharic, Cherokee, Inuktitut, Mongolian, Thai, Lao, Khmer, Tibetan, Bengali, Punjabi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Sinhala | SquirrelGo Alphabets example words, one for each letter |
 | Any language | My words: add your own |
 
-Desk decks are lists of `[word, reading, English, note]` (Klingon and Latin leave out the reading; pIqaD is drawn from the romanization).
+Desk decks are lists of `[word, reading, English, note]` (Klingon leaves out the reading; pIqaD is drawn from the romanization).
 They are written for this project, not copied from published dictionaries. Many notes carry a short example sentence. To add words, append to a deck or add a new one:
 cards keep their review progress as long as the word and its English stay the same.
 

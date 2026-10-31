@@ -39,7 +39,6 @@
     showKana: true,
     showRomaji: true,
     rate: 1,
-    recorded: true,
     flashDir: "en-ja",
     flashAutoplay: true,
     favorites: [],
@@ -98,23 +97,9 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
   }
-  // Recorded clips (data/audio.js maps a kana reading to an mp3) play first;
-  // the device's text-to-speech voice covers anything without one.
-  const CLIPS = window.PHRASEBOOK_AUDIO || {};
-  let player = null;
-  function speakWithDevice(item, rate) {
-    const ok = Speech.speak(item.spoken, rate);
-    if (!ok) toast("No Japanese voice found. Install a Japanese text-to-speech voice in your system settings.");
-  }
   function play(item, slow) {
-    const rate = (slow ? 0.6 : 1) * store.rate;
-    const clip = store.recorded && CLIPS[item.spoken];
-    if (player) player.pause();
-    Speech.stop();
-    if (!clip) return speakWithDevice(item, rate);
-    player = new Audio(`audio/${clip}`);
-    player.playbackRate = rate;
-    player.play().catch(() => speakWithDevice(item, rate));
+    const ok = Speech.speak(item.spoken, (slow ? 0.6 : 1) * store.rate);
+    if (!ok) toast("No Japanese voice found. Install a Japanese text-to-speech voice in your system settings.");
   }
   function shuffle(arr) {
     const a = arr.slice();
@@ -291,12 +276,11 @@
         ${toggle("showKana", "Kana reading")}
         ${toggle("showRomaji", "Romaji")}
         <h2>Audio</h2>
-        ${toggle("recorded", "Recorded voice")}
         <label class="setting"><span>Speech speed</span>
           <select data-set="rate">
             ${[0.7, 0.85, 1, 1.15].map((r) => `<option value="${r}" ${store.rate == r ? "selected" : ""}>${r}×</option>`).join("")}
           </select></label>
-        <p class="muted">Device voice: ${Speech.available() ? "Japanese voice ready" : "no Japanese voice detected yet — install one in your system's text-to-speech settings"}</p>
+        <p class="muted">Voice: ${Speech.available() ? "Japanese voice ready" : "no Japanese voice detected yet — install one in your system's text-to-speech settings"}</p>
         <button class="btn" data-act="test-voice">Test voice</button>
         <h2>Flashcards</h2>
         <label class="setting"><span>Direction</span>
@@ -309,7 +293,7 @@
         <button class="btn" data-act="export">Export all phrases (Anki CSV)</button>
         <button class="btn" data-act="reset">Reset learned progress</button>
         <h2>About</h2>
-        <p class="muted">SquirrelGo Phrasebook is part of LanguageStudentDesk. ${ALL.length} original phrases in ${PACKS.length} packs: ${PACKS.map((p) => esc(p.title)).join(", ")}. Works offline. Recorded voice: Open JTalk with the HTS voice Mei by Nagoya Institute of Technology (CC BY 3.0). With it turned off, your device's Japanese voice speaks instead.</p>
+        <p class="muted">SquirrelGo Phrasebook is part of LanguageStudentDesk. ${ALL.length} original phrases in ${PACKS.length} packs: ${PACKS.map((p) => esc(p.title)).join(", ")}. Works offline. Audio uses your device's Japanese text-to-speech voice.</p>
       </main>`;
   }
 
@@ -413,7 +397,7 @@
         goBack();
         break;
       case "test-voice":
-        play(ALL[0]);
+        play({ spoken: "こんにちは。 にほんご の れんしゅう を しましょう。" });
         break;
       case "export":
         exportCsv();

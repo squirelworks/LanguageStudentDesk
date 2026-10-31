@@ -1,9 +1,0 @@
-{
-  "id": "kannada",
-  "name": "Kannada",
-  "nativeName": "ಕನ್ನಡ",
-  "writingSystems": ["kannada"],
-  "characterKeys": ["kannada"],
-  "notes": "Kannada in the Kannada script, spoken in Karnataka.",
-  "speech": "kn-IN"
-}

@@ -1,9 +1,0 @@
-{
-  "id": "thai",
-  "name": "Thai",
-  "nativeName": "ไทย",
-  "writingSystems": ["thai"],
-  "characterKeys": ["thai"],
-  "notes": "Thai, with 44 consonants in three classes and five tones; words are written without spaces.",
-  "speech": "th-TH"
-}

@@ -88,7 +88,7 @@ def parse_book(book_dir, title):
                     notes.setdefault(key, []).append(text + "\n— " + title)
 
         for attrs, body in PARA_RE.findall(read(path)):
-            m = LINK_RE.search(body) if ("bibText1" in body or "h5" in attrs) else None
+            m = LINK_RE.search(body) if "bibText1" in body else None
             if m:
                 flush()
                 book = CODES.get(m[1])
@@ -126,19 +126,13 @@ def build(order):
                 print("    missing", rel)
                 continue
             ih = read(index)
-            src = source_line(ih) or book.get("edition", "")
+            src = source_line(ih)
             m = re.search(r"<h1[^>]*>(.*?)</h1>", ih, re.S)
             title = text_of(m[1]) if m else rel
             if not public_domain(src):
                 print("    left out (edition not public domain): %s [%s]" % (rel, src[:120]))
                 continue
             got = parse_book(book_dir, title)
-            # A heading that cites another book (in a preface, say) is not this work's text.
-            per_book = {}
-            for k, v in got.items():
-                per_book[k.split(".")[0]] = per_book.get(k.split(".")[0], 0) + len(v)
-            main = {b for b, n in per_book.items() if n >= max(3, 0.05 * sum(per_book.values()))}
-            got = {k: v for k, v in got.items() if k.split(".")[0] in main}
             if not got:
                 print("    no verse-keyed notes:", rel)
                 continue

@@ -447,7 +447,7 @@
 
 <footer>
   LanguageStudentDesk · Character Learner<br>
-  Your progress is saved in this browser.
+  Modular core — add new scripts by dropping in a data file. Progress saved locally.
   <span id="kanjiCoverageNote"></span>
 </footer>
 
@@ -460,9 +460,8 @@
      one flat table; file it under "klingon" so it sits beside the Alphabets scripts. -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"></script>
 <script>window.SG_STROKES = { klingon: window.SG_STROKES };</script>
-<!-- sg-alphabets: written by SquirrelGo-Apps/tools/sync-shared.sh from the Alphabets app's index.html -->
 <!-- Shared SquirrelGo Alphabets: 25 scripts, their stroke orders and recorded sounds,
-     plus the stroke player and checked writing pad below (keys are "<script>|<char>") -->
+     plus the stroke player and checked writing pad (keys are "<script>|<char>") -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/app.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/latin.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/latin.js"></script>
@@ -539,7 +538,6 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tibetan.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tibetan.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tibetan.js"></script>
-<!-- /sg-alphabets -->
 <!-- Shared SquirrelGo Kana: hiragana and katakana stroke orders (KanjiVG) and recorded sounds -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes/hiragana.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes/katakana.js"></script>
@@ -739,7 +737,7 @@ function updateCoverageNote() {
   const n = SCRIPTS.kanji?.chars?.length || 0;
   const strokes = (typeof StrokeOrder !== 'undefined' && window.KANJI_STROKES)
     ? Object.keys(window.KANJI_STROKES).length : 0;
-  el.textContent = strokes >= n ? ` · ${n} Jōyō kanji, each with stroke order` : ` · ${n} Jōyō kanji`;
+  el.textContent = ` · Kanji: ${n} Jōyō (same as SquirrelGo) · stroke data: ${strokes}`;
 }
 
 function cardHTML(c, learnedSet, idx) {

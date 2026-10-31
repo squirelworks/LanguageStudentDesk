@@ -22,8 +22,6 @@
     arabic: "data/arabic.js",
     cyrillic: "data/cyrillic.js",
     hindi: "data/hindi.js",
-    chinese: "data/chinese.js",
-    latin: "data/latin.js",
   };
   const PASS = 0.8;
 
@@ -37,12 +35,13 @@
   let lessonId = null;
 
   async function init() {
-    const metas = (await LSD.all()).filter((m) => FILES[m.id]);
+    const metas = await LSD.all();
     LSD.picker($("langSelect"), metas, null, open, "Choose…");
     $("langGrid").innerHTML = metas
       .map((m) => {
+        const has = FILES[m.id];
         const big = m.font === "pIqaD" ? '<span class="piqad">' + LSD.piqad("tlhIngan Hol") + "</span>" : esc(m.nativeName || m.name);
-        return '<button class="tile" data-lang="' + esc(m.id) + '"><span class="big target">' + big + "</span><b>" + esc(m.name) + '</b><br><span class="sub">' + lessonCount(m.id) + "</span></button>";
+        return '<button class="tile" data-lang="' + esc(m.id) + '"' + (has ? "" : " disabled") + '><span class="big target">' + big + "</span><b>" + esc(m.name) + '</b><br><span class="sub">' + (has ? lessonCount(m.id) : "Lessons coming later") + "</span></button>";
       })
       .join("");
     $("langGrid").querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => {
@@ -82,7 +81,7 @@
     $("vocabLink").href = LSD.toolUrl("vocabulary-learner/index.html", meta && meta.id);
     if (!course) {
       $("title").textContent = "Grammar Learner";
-      $("subtitle").textContent = meta ? "There are no grammar lessons for " + meta.name + "." : id ? "No language called “" + id + "” in languages/." : "Short lessons with examples, then a drill that explains every answer.";
+      $("subtitle").textContent = meta ? "No grammar lessons for " + meta.name + " yet." : id ? "No language called “" + id + "” in languages/." : "Short lessons with examples, then a drill that explains every answer.";
       document.title = "Grammar Learner — Language Student Desk";
       return;
     }

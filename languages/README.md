@@ -38,11 +38,6 @@ and `hindi` match the Character Learner's existing `?lang=` values. Latin and
 English have an empty `characterKeys`, since they have no Character Learner
 script.
 
-Every SquirrelGo Alphabets script has a language here. Most share the script's
-id (`greek`, `thai`, `tamil`…); three are named for the language instead, with
-the script in `characterKeys`: `amharic` (ethiopic), `inuktitut` (syllabics)
-and `punjabi` (gurmukhi). The Character Learner accepts either id.
-
 ## reference.json schema
 
 Cards for the Reference Learner, one file per language:

@@ -1,9 +1,0 @@
-{
-  "id": "greek",
-  "name": "Greek",
-  "nativeName": "Ελληνικά",
-  "writingSystems": ["greek"],
-  "characterKeys": ["greek"],
-  "notes": "Modern Greek in the Greek alphabet, 24 letters with a stress mark.",
-  "speech": "el-GR"
-}

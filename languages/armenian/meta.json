@@ -1,9 +1,0 @@
-{
-  "id": "armenian",
-  "name": "Armenian",
-  "nativeName": "Հայերեն",
-  "writingSystems": ["armenian"],
-  "characterKeys": ["armenian"],
-  "notes": "Eastern Armenian in the Armenian alphabet.",
-  "speech": "hy-AM"
-}

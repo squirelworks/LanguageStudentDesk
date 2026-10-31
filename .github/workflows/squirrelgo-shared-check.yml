@@ -4,30 +4,18 @@ on:
   push:
     paths:
       - "SquirrelGo-Apps/**"
-      - "character-learner/**"
-      - "klingon/**"
-      - "LanguageStudentDesk.py"
-      - ".github/workflows/*-apk.yml"
       - ".github/workflows/squirrelgo-shared-check.yml"
   pull_request:
     paths:
       - "SquirrelGo-Apps/**"
-      - "character-learner/**"
-      - "klingon/**"
-      - "LanguageStudentDesk.py"
-      - ".github/workflows/*-apk.yml"
 
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Every app ships its own copy of the shared/ files, and the desk twins
-      # (Character Learner, Klingon, the launcher) follow the apps; make sure
-      # none drifted.
-      - name: Shared copies and desk twins are in sync
+      # Every app ships its own copy of shared/suite.js; make sure none drifted.
+      - name: Shared copies are in sync
         run: SquirrelGo-Apps/tools/sync-shared.sh --check
-      - name: Shared scripts parse
-        run: for f in SquirrelGo-Apps/shared/*.js; do node --check "$f"; done
-      - name: Desk launcher lists every app
-        run: python3 LanguageStudentDesk.py --list
+      - name: Shared script parses
+        run: node --check SquirrelGo-Apps/shared/suite.js

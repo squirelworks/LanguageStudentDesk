@@ -1,9 +1,0 @@
-{
-  "id": "punjabi",
-  "name": "Punjabi",
-  "nativeName": "ਪੰਜਾਬੀ",
-  "writingSystems": ["gurmukhi"],
-  "characterKeys": ["gurmukhi"],
-  "notes": "Punjabi in Gurmukhi, the script used in India.",
-  "speech": "pa-IN"
-}

@@ -1,12 +1,10 @@
-// Stroke geometry for the characters in data/strokes*.js: sampling, drawing
+// Stroke geometry for the characters in data/strokes/*.js: sampling, drawing
 // as SVG, stroke-order animation and matching a hand-drawn stroke to a model one.
-// A key is "<script id>|<character>", e.g. "greek|λ". An app with one script
-// (SquirrelGo Klingon) keeps a flat table and uses the bare letter as its key.
+// A key is "<script id>|<character>", e.g. "greek|λ".
 (() => {
   const lookup = (key) => {
-    const all = window.SG_STROKES || {};
     const i = key.indexOf("|");
-    return i < 0 ? all[key] : (all[key.slice(0, i)] || {})[key.slice(i + 1)];
+    return ((window.SG_STROKES || {})[key.slice(0, i)] || {})[key.slice(i + 1)];
   };
 
   // Sample an M/L/Q path into points, 12 per curve.

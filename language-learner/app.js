@@ -71,15 +71,16 @@
   }
 
   async function init() {
-    const metas = (await LSD.all()).filter((m) => LANGUAGE_PATHS[m.id]);
+    const metas = await LSD.all();
     reload();
     LSD.picker($("langSelect"), metas, null, open, "Choose…");
     $("langGrid").innerHTML = metas
       .map((m) => {
-        const steps = LANGUAGE_PATHS[m.id].flatMap((s) => s.steps);
+        const path = LANGUAGE_PATHS[m.id];
+        const steps = path ? path.flatMap((s) => s.steps) : [];
         const done = steps.filter((s) => status(m.id, s).done).length;
         const big = m.font === "pIqaD" ? '<span class="piqad">' + LSD.piqad("tlhIngan Hol") + "</span>" : esc(m.nativeName || m.name);
-        return '<button class="tile" data-lang="' + esc(m.id) + '"><span class="big">' + big + "</span><b>" + esc(m.name) + '</b><br><span class="sub">' + done + " of " + steps.length + ' steps done</span><div class="progress" style="margin-top:0.4rem"><span style="width:' + (100 * done) / steps.length + '%"></span></div></button>';
+        return '<button class="tile" data-lang="' + esc(m.id) + '"' + (path ? "" : " disabled") + '><span class="big">' + big + "</span><b>" + esc(m.name) + '</b><br><span class="sub">' + (path ? done + " of " + steps.length + " steps done" : "No path yet") + '</span>' + (path ? '<div class="progress" style="margin-top:0.4rem"><span style="width:' + (100 * done) / steps.length + '%"></span></div>' : "") + "</button>";
       })
       .join("");
     $("langGrid").querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => {
@@ -103,7 +104,7 @@
     document.body.className = meta ? "lang-" + meta.id : "";
     if (!path) {
       $("title").textContent = "Language Learner";
-      $("subtitle").textContent = meta ? "There is no guided path for " + meta.name + "." : id ? "No language called “" + id + "” in languages/." : "A guided path through the Desk: script, words, grammar, then real use.";
+      $("subtitle").textContent = meta ? "No guided path for " + meta.name + " yet." : id ? "No language called “" + id + "” in languages/." : "A guided path through the Desk: script, words, grammar, then real use.";
       document.title = "Language Learner — Language Student Desk";
       return;
     }

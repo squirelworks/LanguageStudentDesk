@@ -23,9 +23,6 @@ jobs:
         working-directory: SquirrelGo-Apps/squirrelgo-phrasebook
     steps:
       - uses: actions/checkout@v4
-      # Every phrase ships with a recorded clip (tools/phrasebook_audio.py).
-      - name: Check audio coverage
-        run: python3 tools/phrasebook_audio.py --check
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

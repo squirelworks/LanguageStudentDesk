@@ -2,8 +2,8 @@
 
 Short lessons with worked examples, then a practice round that explains every
 answer. Python has the full beginner course (12 lessons, from `print` to
-classes). Z80 assembly has a full course too (10 lessons, from registers to a
-FizzBuzz for CP/M). QuickBASIC, Delphi, Win16, brainFOOD, LOLCODE, INTERCAL,
+classes). LOLCODE has a full course too (9 lessons, from `VISIBLE` to
+functions and FizzBuzz). QuickBASIC, Delphi, Win16, Z80, brainFOOD, INTERCAL,
 Whitespace, Piet and Malbolge each have a shorter course. Progress is saved in
 the browser.
 
@@ -26,7 +26,7 @@ programming-learner/index.html?lang=python#loops
 - `data/catalog.js` — the languages, in menu order, with the blurb shown on the home grid
 - `data/<id>.js` — one course per language, loaded on demand
 - `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
-- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls
+- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_lolcode.py` is a small LOLCODE 1.2 interpreter
 
 ## Course schema
 

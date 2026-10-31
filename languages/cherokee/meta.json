@@ -1,9 +1,0 @@
-{
-  "id": "cherokee",
-  "name": "Cherokee",
-  "nativeName": "ᏣᎳᎩ",
-  "writingSystems": ["cherokee"],
-  "characterKeys": ["cherokee"],
-  "notes": "Cherokee in Sequoyah's syllabary of 85 characters.",
-  "speech": "chr"
-}

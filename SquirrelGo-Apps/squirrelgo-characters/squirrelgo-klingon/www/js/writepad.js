@@ -1,4 +1,4 @@
-// Finger/mouse writing pad for one character with stroke data. With checking on, each stroke
+// Finger/mouse writing pad for one pIqaD letter. With checking on, each stroke
 // is compared to the next model stroke: a good one snaps to the clean shape,
 // a wrong one is wiped and reported through onStroke.
 (() => {
@@ -45,11 +45,9 @@
         model.forEach(path);
       }
       if (hintIdx >= 0 && model[hintIdx]) {
-        ctx.strokeStyle = accent;
-        ctx.globalAlpha = 0.28;
+        ctx.strokeStyle = "rgba(138,28,28,.28)";
         ctx.lineWidth = 9 * u;
         path(model[hintIdx]);
-        ctx.globalAlpha = 1;
       }
       ctx.strokeStyle = "#1a1a1a";
       ctx.lineWidth = Math.max(4, 6.5 * u);

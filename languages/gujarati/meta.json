@@ -1,9 +1,0 @@
-{
-  "id": "gujarati",
-  "name": "Gujarati",
-  "nativeName": "ગુજરાતી",
-  "writingSystems": ["gujarati"],
-  "characterKeys": ["gujarati"],
-  "notes": "Gujarati in its own script, a cousin of Devanagari without the headline.",
-  "speech": "gu-IN"
-}

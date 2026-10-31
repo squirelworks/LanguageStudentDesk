@@ -1,4 +1,4 @@
-// Klingon verbs and nouns for the Grammar Learner. Written for this project.
+// Klingon verb prefixes for the Grammar Learner. Written for this project.
 // Examples are [Klingon, gloss, English]; {braces} mark the prefix.
 // Lessons with `generate` get drills built from the prefix grid below.
 window.GRAMMAR = window.GRAMMAR || {};
@@ -39,8 +39,8 @@ const KLINGON_VERBS_INTRANSITIVE = [
 window.KLINGON_GRID = { SUBJECTS: KLINGON_SUBJECTS, OBJECTS: KLINGON_OBJECTS, PREFIXES: KLINGON_PREFIXES, IMPERATIVES: KLINGON_IMPERATIVES, TRANSITIVE: KLINGON_VERBS_TRANSITIVE, INTRANSITIVE: KLINGON_VERBS_INTRANSITIVE };
 
 window.GRAMMAR.klingon = {
-  title: "Klingon verbs and nouns",
-  intro: "A Klingon verb starts with a prefix that says who does the action and, at the same time, who it is done to. One syllable carries what English splits across a subject and an object. Learn the grid once and every verb opens up. Later lessons add the everyday verb suffixes, plural and possessive nouns, places, and “to be”. Romanization is the standard Latin spelling; tick “Show pIqaD” to see each example in Klingon script.",
+  title: "Klingon verb prefixes",
+  intro: "A Klingon verb starts with a prefix that says who does the action and, at the same time, who it is done to. One syllable carries what English splits across a subject and an object. Learn the grid once and every verb opens up. Romanization is the standard Latin spelling; tick “Show pIqaD” to see each example in Klingon script.",
   lessons: [
     {
       id: "shape",
@@ -161,157 +161,6 @@ window.GRAMMAR.klingon = {
         },
       ],
       generate: { kind: "imperative", count: 8 },
-    },
-    {
-      id: "verb-suffixes",
-      title: "Not, can, and questions",
-      particle: "-be' -laH -'a'",
-      summary: "Three verb suffixes you will use every day.",
-      sections: [
-        {
-          p: "Suffixes go after the verb in a fixed order. <b>-laH</b> means “can”, <b>-be'</b> means “not” and follows whatever it negates, and <b>-'a'</b> makes a yes/no question. -'a' always comes last.",
-          examples: [
-            ["jIyaj{be'}", "jI- + yaj (understand) + -be'", "I don't understand."],
-            ["jIjatlh{laH}", "jI- + jatlh (speak) + -laH", "I can speak."],
-            ["bIyaj{'a'}?", "bI- + yaj + -'a'", "Do you understand?"],
-          ],
-        },
-        {
-          h: "Stacking them",
-          p: "-laH comes before -be': jIQong<b>laHbe'</b> “I can't sleep”. Put -'a' on the end of the whole verb: tlhIngan Hol Dajatlh<b>laH'a'</b>? “Can you speak Klingon?”",
-          examples: [
-            ["jIQong{laHbe'}", "jI- + Qong + -laH + -be'", "I can't sleep."],
-            ["tlhIngan Hol Dajatlh{'a'}?", "Klingon language · you speak it?", "Do you speak Klingon?"],
-          ],
-        },
-      ],
-      drills: [
-        { q: "jIyaj＿", en: "I don't understand.", options: ["be'", "'a'", "laH", "pu'"], answer: "be'", why: "-be' means “not”." },
-        { q: "bIQong＿?", en: "Are you sleeping?", options: ["'a'", "be'", "laH", "Daq"], answer: "'a'", why: "-'a' makes a yes/no question." },
-        { q: "What does jISuvlaH mean?", en: "Suv = fight", options: ["I can fight.", "I can't fight.", "Can I fight?", "I fought."], answer: "I can fight.", why: "jI- (I) + Suv + -laH (can)." },
-        { q: "How do you say “I can't speak”?", en: "jatlh = speak", options: ["jIjatlhlaHbe'", "jIjatlhbe'laH", "jIjatlh'a'laH", "jIjatlhlaH'a'"], answer: "jIjatlhlaHbe'", why: "-laH comes first, then -be' negates it." },
-        { q: "Which one is a question?", en: "", options: ["bIyaj'a'?", "bIyajbe'", "bIyajlaH", "jIyaj"], answer: "bIyaj'a'?", why: "Only -'a' asks a question." },
-      ],
-    },
-    {
-      id: "noun-plural",
-      title: "Plural nouns",
-      particle: "-pu' -Du' -mey",
-      summary: "Three plural endings, chosen by what the noun is.",
-      sections: [
-        {
-          p: "Klingon has three plural suffixes. <b>-pu'</b> is for beings that can speak a language, <b>-Du'</b> for body parts, and <b>-mey</b> for everything else. A noun without one can be singular or plural: the verb prefix often tells you which.",
-          examples: [
-            ["tlhIngan{pu'}", "Klingon + -pu'", "Klingons"],
-            ["mIn{Du'}", "eye + -Du'", "eyes"],
-            ["Duj{mey}", "ship + -mey", "ships"],
-          ],
-        },
-        {
-          h: "Scattered all over",
-          p: "Putting -mey on a word for a speaking being means “scattered all over”: puq<b>mey</b> “children all over the place”.",
-          examples: [
-            ["puq{pu'}", "child + -pu'", "children"],
-            ["Hov{mey}", "star + -mey", "stars"],
-          ],
-        },
-      ],
-      drills: [
-        { q: "yaS＿", en: "officers", options: ["pu'", "Du'", "mey"], answer: "pu'", why: "Officers speak a language: -pu'." },
-        { q: "qam＿", en: "feet", options: ["Du'", "pu'", "mey"], answer: "Du'", why: "A body part: -Du'." },
-        { q: "nuH＿", en: "weapons", options: ["mey", "pu'", "Du'"], answer: "mey", why: "Weapons are things: -mey." },
-        { q: "What does jupmey mean?", en: "jup = friend", options: ["friends scattered all over", "friends", "my friend", "a friend"], answer: "friends scattered all over", why: "-mey on a speaking being means “all over the place”; plain “friends” is juppu'." },
-        { q: "The plural of Duj (ship) is…", en: "", options: ["Dujmey", "Dujpu'", "DujDu'"], answer: "Dujmey", why: "Ships take the general plural -mey." },
-      ],
-    },
-    {
-      id: "possession",
-      title: "My, your, his",
-      particle: "-wIj -lIj -Daj",
-      summary: "Possession is a suffix on the noun.",
-      sections: [
-        {
-          p: "“My ship” is Duj<b>wIj</b>. The suffixes are <b>-wIj</b> my, <b>-lIj</b> your, <b>-Daj</b> his or her, <b>-maj</b> our, <b>-raj</b> your (several), <b>-chaj</b> their.",
-          examples: [
-            ["Duj{wIj}", "ship + my", "my ship"],
-            ["juH{lIj}", "home + your", "your home"],
-            ["nuH{chaj}", "weapon + their", "their weapon"],
-          ],
-        },
-        {
-          h: "People take -wI' and -lI'",
-          p: "For beings that can speak, “my” and “your” are <b>-wI'</b> and <b>-lI'</b>. A plural comes before the possessive: puq<b>pu'wI'</b> “my children”.",
-          examples: [
-            ["jup{wI'}", "friend + my", "my friend"],
-            ["puq{lI'}", "child + your", "your child"],
-            ["puqpu'{wI'}", "child + plural + my", "my children"],
-          ],
-        },
-      ],
-      drills: [
-        { q: "Duj＿", en: "your ship", options: ["lIj", "wIj", "Daj", "lI'"], answer: "lIj", why: "“Your” on a thing is -lIj." },
-        { q: "jup＿", en: "my friend", options: ["wI'", "wIj", "lI'", "maj"], answer: "wI'", why: "A friend can speak, so “my” is -wI'." },
-        { q: "What does juHmaj mean?", en: "juH = home", options: ["our home", "my home", "their home", "your home"], answer: "our home", why: "-maj = our." },
-        { q: "How do you say “my children”?", en: "puq = child", options: ["puqpu'wI'", "puqwI'pu'", "puqmeywIj", "puqwIjpu'"], answer: "puqpu'wI'", why: "The plural comes first, then the possessive; people take -pu' and -wI'." },
-        { q: "nuH＿", en: "his weapon", options: ["Daj", "chaj", "lIj", "wIj"], answer: "Daj", why: "-Daj = his or her." },
-      ],
-    },
-    {
-      id: "locative",
-      title: "In, at and from",
-      particle: "-Daq -vo' -vaD",
-      summary: "Place and purpose are noun suffixes too.",
-      sections: [
-        {
-          p: "<b>-Daq</b> marks where: “in, at, on”, and also “to” with verbs of motion. <b>-vo'</b> means “from”. They go after any plural or possessive, and the place usually comes at the start of the sentence.",
-          examples: [
-            ["pa'{Daq} jIQong.", "room + in · I sleep", "I sleep in the room."],
-            ["DujwIj{Daq}", "ship + my + on", "on my ship"],
-            ["juH{vo'} jIleng.", "home + from · I travel", "I travel from home."],
-          ],
-        },
-        {
-          h: "For someone",
-          p: "<b>-vaD</b> means “for” or “to” a person you give or say something to.",
-          examples: [["jupwI'{vaD}", "friend + my + for", "for my friend"]],
-        },
-      ],
-      drills: [
-        { q: "Duj＿ jIQong.", en: "I sleep on the ship.", options: ["Daq", "vo'", "vaD", "mey"], answer: "Daq", why: "Where something happens: -Daq." },
-        { q: "yuQ＿ jIleng.", en: "I travel from the planet.", options: ["vo'", "Daq", "vaD", "wIj"], answer: "vo'", why: "“From” is -vo'." },
-        { q: "How do you say “in my room”?", en: "pa' = room", options: ["pa'wIjDaq", "pa'DaqwIj", "Daqpa'wIj", "pa'vo'wIj"], answer: "pa'wIjDaq", why: "The possessive comes before -Daq." },
-        { q: "What does puqvaD mean?", en: "puq = child", options: ["for the child", "from the child", "at the child's", "the children"], answer: "for the child", why: "-vaD = for." },
-      ],
-    },
-    {
-      id: "to-be",
-      title: "“I am a Klingon”",
-      particle: "jIH SoH ghaH",
-      summary: "No verb “to be”: the pronoun does the job.",
-      sections: [
-        {
-          p: "Klingon has no verb “to be”. Instead the pronoun works as the verb, after the noun: tlhIngan <b>jIH</b> “I am a Klingon”, yaS <b>SoH</b> “you are an officer”, Duj <b>'oH</b> “it is a ship”.",
-          examples: [
-            ["tlhIngan {jIH}.", "Klingon · I-am", "I am a Klingon."],
-            ["SuvwI' {ghaH}.", "warrior · he/she-is", "He is a warrior."],
-            ["Duj {'oH}.", "ship · it-is", "It's a ship."],
-          ],
-        },
-        {
-          h: "Questions",
-          p: "Add -'a' to the pronoun to ask: tlhIngan <b>SoH'a'</b>? “Are you a Klingon?” For several people, use <b>chaH</b> “they are”.",
-          examples: [
-            ["tlhIngan {SoH'a'}?", "Klingon · you-are?", "Are you a Klingon?"],
-            ["SuvwI' {chaH}.", "warrior · they-are", "They are warriors."],
-          ],
-        },
-      ],
-      drills: [
-        { q: "tlhIngan ＿.", en: "I am a Klingon.", options: ["jIH", "SoH", "ghaH", "jI"], answer: "jIH", why: "The pronoun jIH works as “I am”." },
-        { q: "yaS ＿?", en: "Are you an officer?", options: ["SoH'a'", "SoH", "jIH'a'", "bI'a'"], answer: "SoH'a'", why: "SoH (you) + -'a' (question)." },
-        { q: "What does «HoD ghaH» mean?", en: "HoD = captain", options: ["He is the captain.", "I am the captain.", "Captain!", "His captain."], answer: "He is the captain.", why: "ghaH = he/she, used as “is”." },
-        { q: "nuH ＿.", en: "It's a weapon.", options: ["'oH", "ghaH", "chaH", "jIH"], answer: "'oH", why: "For a thing, “it is” is 'oH." },
-      ],
     },
   ],
 };

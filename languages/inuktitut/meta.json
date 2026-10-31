@@ -1,9 +1,0 @@
-{
-  "id": "inuktitut",
-  "name": "Inuktitut",
-  "nativeName": "ᐃᓄᒃᑎᑐᑦ",
-  "writingSystems": ["syllabics"],
-  "characterKeys": ["syllabics"],
-  "notes": "Inuktitut in Canadian syllabics, where turning a shape changes its vowel.",
-  "speech": "iu"
-}

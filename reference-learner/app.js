@@ -1,8 +1,7 @@
 // Reference Learner: short reference cards per language. Cards live in
 // languages/<id>/reference.json (bundled into languages/reference.js for
-// file://), for programming in programming.js, and sources.js adds sets built
-// from the SquirrelGo apps' data. ?lang= scopes the view; #<lang>/<entry>
-// links to one card.
+// file://) and, for programming, in programming.js. ?lang= scopes the view;
+// #<lang>/<entry> links to one card.
 (() => {
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -28,7 +27,6 @@
   const pref = prefs.load();
 
   let metas = [];      // languages with reference cards, registry order
-  let scripts = [];    // writing systems no language owns yet, Alphabets order
   const refs = {};     // id -> { meta, entries }
   let scope = null;    // language id, "programming", or null for all
   let topic = null;
@@ -62,19 +60,10 @@
     loaded.forEach(([m, r]) => {
       if (r && r.entries && r.entries.length) refs[m.id] = { meta: m, entries: r.entries };
     });
-    const sets = window.LSD_REFERENCE_SOURCES ? await window.LSD_REFERENCE_SOURCES(all) : [];
-    sets.forEach((x) => {
-      const m = x.meta || all.find((l) => l.id === x.key);
-      if (!m) return;
-      if (!refs[x.key]) refs[x.key] = { meta: m, entries: [] };
-      refs[x.key].entries.push(...x.entries);
-      if (x.meta && !scripts.includes(m)) scripts.push(m);
-    });
     metas = all.filter((m) => refs[m.id]);
     if (PROG) refs.programming = { meta: { id: "programming", name: PROG.name }, entries: PROG.entries };
 
     LSD.picker($("langSelect"), metas, null, (id) => go(id), "All languages");
-    scripts.forEach((m) => $("langSelect").add(new Option(m.name + " script" + (m.nativeName ? " · " + m.nativeName : ""), m.id)));
     if (PROG) $("langSelect").add(new Option(PROG.name, "programming"));
     $("search").oninput = () => {
       query = $("search").value.trim().toLowerCase();
@@ -119,7 +108,6 @@
     $("side").innerHTML =
       btn("", "All", "", total) + "<hr>" +
       metas.map((m) => btn(m.id, m.name, m.font === "pIqaD" ? "" : m.nativeName !== m.name ? m.nativeName : "", refs[m.id].entries.length)).join("") +
-      (scripts.length ? '<hr><div class="sec">Scripts</div>' + scripts.map((m) => btn(m.id, m.name, m.nativeName !== m.name ? m.nativeName : "", refs[m.id].entries.length)).join("") : "") +
       (PROG ? "<hr>" + btn("programming", PROG.name, "", PROG.entries.length) : "");
     $("side").querySelectorAll("button").forEach((b) => (b.onclick = () => {
       history.replaceState(null, "", location.pathname + location.search);
@@ -130,7 +118,7 @@
   function matches(e) {
     if (topic && e.topic !== topic) return false;
     if (!query) return true;
-    const hay = [e.title, ...paras(e.body), ...(e.tags || []), e.code || "", e.lang || "", e.text || ""]
+    const hay = [e.title, ...paras(e.body), ...(e.tags || []), e.code || "", e.lang || ""]
       .concat((e.examples || []).flatMap((x) => [x.t, x.r, x.e]))
       .concat(e.table ? e.table.head.concat(e.table.rows.flat()) : [])
       .map(plain).join("\n").toLowerCase();
@@ -138,7 +126,7 @@
   }
 
   function render() {
-    const ids = scope ? [scope] : metas.concat(scripts).map((m) => m.id).concat(PROG ? ["programming"] : []);
+    const ids = scope ? [scope] : metas.map((m) => m.id).concat(PROG ? ["programming"] : []);
     const meta = scope && scope !== "programming" ? refs[scope].meta : null;
     document.body.className = meta ? "lang-" + meta.id : "";
     $("piqadOpt").hidden = !ids.some((id) => refs[id].meta.font === "pIqaD");
@@ -182,7 +170,7 @@
       }
     });
     $("results").innerHTML = shown ? html : '<p class="empty">No cards match' + (query ? " “" + esc(query) + "”" : "") + (topic ? " in " + TOPIC_NAME[topic] : "") + ".</p>";
-    if (!scope) $("subtitle").textContent = notice + shown + " cards across " + metas.length + " languages and " + scripts.length + " more scripts. Pick one on the left, or search them all.";
+    if (!scope) $("subtitle").textContent = notice + shown + " cards across " + ids.length + " languages. Pick one on the left, or search them all.";
     else $("subtitle").textContent = shown + " card" + (shown === 1 ? "" : "s") + (query || topic ? " match" : "") + ".";
 
     $("results").querySelectorAll("[data-tag]").forEach((t) => (t.onclick = () => {
@@ -194,12 +182,6 @@
   }
 
   function intro(m) {
-    if (m.script) {
-      return '<div class="card intro"><h2>' + esc(m.name) + (m.nativeName && m.nativeName !== m.name ? '<span class="nat" lang="' + esc(m.speech || "") + '">' + esc(m.nativeName) + "</span>" : "") + "</h2>" +
-        '<div class="muted small">' + "Writing system" + (m.language ? " · examples in " + esc(m.language) : "") + "</div>" +
-        '<div class="links"><a href="' + esc(LSD.toolUrl("character-learner/index.html", m.script)) + '">Characters →</a>' +
-        '<a href="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/index.html">SquirrelGo Alphabets →</a></div></div>';
-    }
     const links = [["Language Learner path", "language-learner/index.html"]];
     if (m.characterKeys && m.characterKeys.length) links.push(["Characters", "character-learner/index.html"]);
     links.push(["Vocabulary", "vocabulary-learner/index.html"], ["Grammar", "grammar-learner/index.html"], ["Resources", "resource-learner/index.html"]);
@@ -228,10 +210,8 @@
         (x.e ? '<div class="e">' + esc(x.e) + "</div>" : "") + "</div>" +
         (speak ? '<button class="say" title="Listen" data-lang="' + esc(m.id) + '" data-say="' + esc(plain(x.t)) + '">🔊</button>' : "") + "</div>";
     });
-    if (e.html) h += '<div class="html">' + e.html + "</div>";
     if (e.code) h += "<pre><code>" + esc(e.code) + "</code></pre>";
     if (isProg && e.lang) h += '<p class="small"><a href="' + esc(LSD.toolUrl("programming-learner/index.html", e.lang)) + '">Open in the Programming Learner →</a></p>';
-    if (e.link) h += '<p class="small"><a href="' + esc(e.link.href) + '">' + esc(e.link.label) + " →</a></p>";
     if (e.tags && e.tags.length) h += '<div class="tags">' + e.tags.map((t) => '<span class="pill" data-tag="' + esc(t) + '">' + esc(t) + "</span>").join("") + "</div>";
     return h + "</article>";
   }
