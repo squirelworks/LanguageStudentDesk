@@ -113,7 +113,7 @@ result = translate("print hello", from_lang="english", to_lang="python")
 
 ## Shared language data
 
-See [languages/](languages/) for the Desk data layer: **33** languages with `meta.json`, loaded by the learners through `lsd-lang.js`. Most ship grammar (6 lessons / ~30 drills; Japanese 17/71, Klingon 10/26), vocab decks and reference cards; Cherokee, Inuktitut and Manipuri still lack grammar packs, and English is the base language (reference only). Shared CJK characters live in `languages/cjk/`. Run `python3 languages/build_registry.py` after changing anything under `languages/`.
+See [languages/](languages/) for the Desk data layer: 33 languages with `meta.json`, loaded by the learners through `lsd-lang.js`. Most ship grammar (6 lessons / ~30 drills; Japanese 17/71, Klingon 10/26), vocab decks and reference cards; Cherokee, Inuktitut and Manipuri still lack grammar packs, and English is the base language (reference only). Shared CJK characters live in `languages/cjk/`. Run `python3 languages/build_registry.py` after changing anything under `languages/`.
 
 ## Expanding LSD
 
