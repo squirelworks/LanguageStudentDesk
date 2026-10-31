@@ -1590,6 +1590,369 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "burmese": {
+    "id": "burmese",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Burmese at a glance",
+        "body": [
+          "Burmese is the official language of Myanmar, spoken by about 33 million people as a first language and by many more as a second. It belongs to the Sino-Tibetan family, together with Tibetan and the Chinese languages.",
+          "The verb comes last, and small particles after nouns and verbs do the work of grammar: a sentence ends with တယ် for the present or past, မယ် for the future, and ဘူး after a verb marked with မ for “not”. Words never change form.",
+          "Burmese is tonal, and the written language (used in books and news) differs from the spoken language in many common particles."
+        ],
+        "examples": [
+          {
+            "t": "ကျွန်တော် မြန်မာစကား သင်နေ{တယ်}။",
+            "r": "Kyanaw Myanma zaga thin ne de.",
+            "e": "I am learning Burmese."
+          }
+        ],
+        "tags": [
+          "Sino-Tibetan",
+          "tonal",
+          "verb-final"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Burmese script works",
+        "body": [
+          "Burmese script comes from the Brahmi family of India, by way of the Mon script. Its letters are built mostly from circles and parts of circles. Each consonant carries an inherent a sound, and vowel marks above, below, before or after the consonant change it.",
+          "Words are not separated by spaces; spaces fall between phrases. The ၊ mark works like a comma and ။ ends a sentence."
+        ],
+        "table": {
+          "head": [
+            "Written",
+            "Sound",
+            "Example"
+          ],
+          "rows": [
+            [
+              "က",
+              "ka (short)",
+              "က, from (particle)"
+            ],
+            [
+              "ကာ / ဂါ",
+              "a (long); ါ after round letters",
+              "ငါး, five"
+            ],
+            [
+              "ကိ / ကီ",
+              "i",
+              "မီး, fire; light"
+            ],
+            [
+              "ကု / ကူ",
+              "u",
+              "ကူ, to help"
+            ],
+            [
+              "ကေ",
+              "e (mark written first)",
+              "လေး, four"
+            ],
+            [
+              "ကဲ",
+              "e (open)",
+              "ဟုတ်ကဲ့, yes"
+            ],
+            [
+              "ကော်",
+              "aw",
+              "ကော်ဖီ, coffee"
+            ],
+            [
+              "ကို",
+              "o",
+              "ကိုး, nine"
+            ],
+            [
+              "က်",
+              "(no vowel)",
+              "the ် mark silences the inherent vowel"
+            ]
+          ]
+        },
+        "tags": [
+          "abugida",
+          "Brahmi family"
+        ]
+      },
+      {
+        "id": "tones",
+        "topic": "sounds",
+        "title": "Tones",
+        "body": [
+          "Burmese has three main tones, plus a short syllable that ends in a stop. The tone is shown in writing with marks such as း (high) and ့ (creaky)."
+        ],
+        "table": {
+          "head": [
+            "Tone",
+            "Mark",
+            "Example"
+          ],
+          "rows": [
+            [
+              "low",
+              "none",
+              "ငါ, I (casual)"
+            ],
+            [
+              "high",
+              "း",
+              "ငါး, five; fish"
+            ],
+            [
+              "creaky",
+              "့",
+              "ငါ့, my (casual)"
+            ],
+            [
+              "checked (short, stopped)",
+              "a final ် consonant",
+              "စစ်, war"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "endings",
+        "topic": "verbs",
+        "title": "Sentence endings",
+        "body": "Verbs do not change; endings after the verb show time, negation and questions.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "verb + တယ်",
+              "statement, present or past",
+              "သွားတယ်, I go / I went"
+            ],
+            [
+              "verb + မယ်",
+              "future, intention",
+              "သွားမယ်, I will go"
+            ],
+            [
+              "verb + နေတယ်",
+              "in progress",
+              "သွားနေတယ်, I am going"
+            ],
+            [
+              "verb + ပြီ",
+              "now done, changed",
+              "သွားပြီ, I'm off now"
+            ],
+            [
+              "မ + verb + ဘူး",
+              "not",
+              "မသွားဘူး, I don't go"
+            ],
+            [
+              "verb + လား",
+              "yes/no question",
+              "သွားမလား, will you go?"
+            ],
+            [
+              "verb + ပါ",
+              "polite request",
+              "ထိုင်ပါ, please sit"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "particles"
+        ]
+      },
+      {
+        "id": "classifiers",
+        "topic": "grammar",
+        "title": "Classifiers",
+        "body": "Counting uses noun, then number, then classifier: ကော်ဖီ နှစ်ခွက်, two (cups of) coffee.",
+        "table": {
+          "head": [
+            "Classifier",
+            "Used for",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ယောက်",
+              "people",
+              "လူ သုံးယောက်, three people"
+            ],
+            [
+              "ကောင်",
+              "animals",
+              "ခွေး တစ်ကောင်, one dog"
+            ],
+            [
+              "အုပ်",
+              "books",
+              "စာအုပ် နှစ်အုပ်, two books"
+            ],
+            [
+              "ခွက်",
+              "cups, glasses",
+              "ရေ တစ်ခွက်, a glass of water"
+            ],
+            [
+              "ခု",
+              "things in general",
+              "နှစ်ခု, two things"
+            ],
+            [
+              "စီး",
+              "vehicles",
+              "ကား တစ်စီး, one car"
+            ]
+          ]
+        },
+        "tags": [
+          "counting"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Burmese digits",
+        "body": "Burmese has its own digits, used on signs, prices and bus numbers alongside the ones used in English. Before ဆယ် (ten), ရာ (hundred) and ထောင် (thousand), တစ် is said ta and နှစ် is said hna.",
+        "table": {
+          "head": [
+            "Digit",
+            "Word",
+            "Said"
+          ],
+          "rows": [
+            [
+              "၀",
+              "သုည",
+              "thon nya"
+            ],
+            [
+              "၁",
+              "တစ်",
+              "tit"
+            ],
+            [
+              "၂",
+              "နှစ်",
+              "hnit"
+            ],
+            [
+              "၃",
+              "သုံး",
+              "thon"
+            ],
+            [
+              "၄",
+              "လေး",
+              "lay"
+            ],
+            [
+              "၅",
+              "ငါး",
+              "nga"
+            ],
+            [
+              "၆",
+              "ခြောက်",
+              "chauk"
+            ],
+            [
+              "၇",
+              "ခုနစ်",
+              "khun nit"
+            ],
+            [
+              "၈",
+              "ရှစ်",
+              "shit"
+            ],
+            [
+              "၉",
+              "ကိုး",
+              "ko"
+            ],
+            [
+              "၁၀",
+              "တစ်ဆယ်",
+              "ta se"
+            ]
+          ]
+        },
+        "tags": [
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "မင်္ဂလာပါ",
+            "r": "Mingalaba.",
+            "e": "Hello."
+          },
+          {
+            "t": "ကျေးဇူးတင်ပါတယ်",
+            "r": "Kyay zu tin ba de.",
+            "e": "Thank you."
+          },
+          {
+            "t": "နေကောင်းလား",
+            "r": "Ne kaung la?",
+            "e": "How are you?"
+          },
+          {
+            "t": "ဒါ ဘယ်လောက်လဲ",
+            "r": "Da be lauk le?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "နားမလည်ဘူး",
+            "r": "Na ma le bu.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ထမင်းစားပြီးပြီလား",
+            "r": "Htamin sa pi bi la?",
+            "e": "Have you eaten? (a friendly greeting)"
+          }
+        ],
+        "tags": [
+          "greetings",
+          "travel"
+        ]
+      },
+      {
+        "id": "names",
+        "topic": "culture",
+        "title": "Names and titles",
+        "body": [
+          "Most people in Myanmar have no family name. A name is one to four syllables chosen for the person, often linked to the day of the week they were born on.",
+          "A title goes before the name and shows age and respect: ဦး (U) for an older man, ဒေါ် (Daw) for an older woman, ကို (Ko) for a young man, and မ (Ma) for a young woman. Aung San Suu Kyi is Daw Aung San Suu Kyi."
+        ],
+        "tags": [
+          "names",
+          "politeness"
+        ]
+      }
+    ]
+  },
   "chinese": {
     "id": "chinese",
     "entries": [
@@ -8129,6 +8492,325 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "khmer": {
+    "id": "khmer",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Khmer at a glance",
+        "body": [
+          "Khmer is the official language of Cambodia, with about 17 million speakers. It is an Austroasiatic language, related to Mon and Vietnamese rather than to Thai or Lao, though centuries of contact mean they share many words.",
+          "Unlike its neighbours, Khmer is not tonal. It has a large set of vowel sounds and many two-consonant clusters at the start of words. Words never change form."
+        ],
+        "examples": [
+          {
+            "t": "ខ្ញុំ{កំពុង}រៀនភាសាខ្មែរ",
+            "r": "Khnhom kampung rien pheasa khmae.",
+            "e": "I am learning Khmer."
+          }
+        ],
+        "tags": [
+          "Austroasiatic",
+          "non-tonal",
+          "analytic"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Khmer script works",
+        "body": [
+          "Khmer script has 33 consonant letters and is written without spaces between words. Each consonant belongs to one of two series, and the series changes how the vowel after it is said: the same vowel mark gives aa after a first-series consonant and ea after a second-series one.",
+          "When two consonants meet with no vowel between them, the second is written below the first as a subscript (ជើង, “foot”), as in ខ្ញុំ (khnhom)."
+        ],
+        "table": {
+          "head": [
+            "Mark",
+            "After 1st series (ក)",
+            "After 2nd series (គ)"
+          ],
+          "rows": [
+            [
+              "(none)",
+              "ក kâ",
+              "គ kô"
+            ],
+            [
+              "ា",
+              "កា kaa",
+              "គា kea"
+            ],
+            [
+              "ិ",
+              "កិ kĕ",
+              "គិ kĭ"
+            ],
+            [
+              "ី",
+              "កី kei",
+              "គី kii"
+            ],
+            [
+              "ុ",
+              "កុ kŏ",
+              "គុ kŭ"
+            ],
+            [
+              "ូ",
+              "កូ kou",
+              "គូ kuu"
+            ],
+            [
+              "េ",
+              "កេ kae",
+              "គេ ke"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "two series",
+          "subscripts"
+        ]
+      },
+      {
+        "id": "markers",
+        "topic": "verbs",
+        "title": "Time and aspect words",
+        "table": {
+          "head": [
+            "Word",
+            "Place",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "នឹង nung",
+              "before the verb",
+              "will"
+            ],
+            [
+              "កំពុង kampung",
+              "before the verb",
+              "is doing now"
+            ],
+            [
+              "បាន baan",
+              "before the verb",
+              "did (past)"
+            ],
+            [
+              "ហើយ haey",
+              "at the end",
+              "already"
+            ],
+            [
+              "ធ្លាប់ thloap",
+              "before the verb",
+              "have ever"
+            ],
+            [
+              "មិន / អត់ … ទេ",
+              "around the verb",
+              "not"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "tense",
+          "negation"
+        ]
+      },
+      {
+        "id": "classifiers",
+        "topic": "grammar",
+        "title": "Classifiers",
+        "table": {
+          "head": [
+            "Classifier",
+            "Used for",
+            "Example"
+          ],
+          "rows": [
+            [
+              "នាក់ neak",
+              "people",
+              "មិត្តពីរនាក់, two friends"
+            ],
+            [
+              "ក្បាល kbal",
+              "animals, books",
+              "ឆ្មាបីក្បាល, three cats"
+            ],
+            [
+              "គ្រឿង kreung",
+              "machines, vehicles",
+              "ឡានមួយគ្រឿង, one car"
+            ],
+            [
+              "កែវ kaev",
+              "glasses",
+              "កាហ្វេពីរកែវ, two coffees"
+            ],
+            [
+              "ដប dop",
+              "bottles",
+              "ទឹកមួយដប, a bottle of water"
+            ]
+          ]
+        },
+        "tags": [
+          "classifiers",
+          "counting"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Khmer digits",
+        "body": "Six to nine are built on five: ប្រាំមួយ (5 + 1) is six. Khmer digits are used everywhere, alongside 0–9.",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Romanization"
+          ],
+          "rows": [
+            [
+              "1",
+              "១",
+              "មួយ",
+              "muoy"
+            ],
+            [
+              "2",
+              "២",
+              "ពីរ",
+              "pii"
+            ],
+            [
+              "3",
+              "៣",
+              "បី",
+              "bei"
+            ],
+            [
+              "4",
+              "៤",
+              "បួន",
+              "buon"
+            ],
+            [
+              "5",
+              "៥",
+              "ប្រាំ",
+              "pram"
+            ],
+            [
+              "6",
+              "៦",
+              "ប្រាំមួយ",
+              "pram muoy"
+            ],
+            [
+              "7",
+              "៧",
+              "ប្រាំពីរ",
+              "pram pii"
+            ],
+            [
+              "8",
+              "៨",
+              "ប្រាំបី",
+              "pram bei"
+            ],
+            [
+              "9",
+              "៩",
+              "ប្រាំបួន",
+              "pram buon"
+            ],
+            [
+              "10",
+              "១០",
+              "ដប់",
+              "dop"
+            ],
+            [
+              "20",
+              "២០",
+              "ម្ភៃ",
+              "mphey"
+            ],
+            [
+              "100",
+              "១០០",
+              "មួយរយ",
+              "muoy roy"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ជំរាបសួរ! សុខសប្បាយទេ?",
+            "r": "Chumreap suor! Sok sabay te?",
+            "e": "Hello! How are you?"
+          },
+          {
+            "t": "អរគុណច្រើន",
+            "r": "Arkun chraen.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ខ្ញុំមិនយល់ទេ",
+            "r": "Khnhom min yol te.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "នេះថ្លៃប៉ុន្មាន?",
+            "r": "Nih thlay ponman?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "កុំដាក់ហឹរ",
+            "r": "Kom dak huer.",
+            "e": "Don't make it spicy."
+          },
+          {
+            "t": "សូមនិយាយយឺតៗ",
+            "r": "Som niyeay yeut yeut.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "sampeah",
+        "topic": "culture",
+        "title": "The sampeah",
+        "body": "The sampeah (សំពះ) is the Cambodian greeting: palms pressed together with a slight bow. The higher the hands, the more respect, from chest height for friends to the forehead for monks and the king. Cambodian New Year, Choul Chnam Thmey, falls in mid-April.",
+        "tags": [
+          "culture",
+          "greetings"
+        ]
+      }
+    ]
+  },
   "klingon": {
     "id": "klingon",
     "entries": [
@@ -8769,6 +9451,335 @@ window.LSD_REFERENCE = {
         "tags": [
           "verbs",
           "imperative"
+        ]
+      }
+    ]
+  },
+  "lao": {
+    "id": "lao",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Lao at a glance",
+        "body": [
+          "Lao is the official language of Laos and a Tai–Kadai language, spoken by about 7 million people in Laos and by many more in northeast Thailand, where the Isan dialects are very close to it. Lao and Thai speakers can understand each other to a large degree.",
+          "Lao is tonal, with six tones in the Vientiane dialect. Words never change form: word order and helper words do the grammar."
+        ],
+        "examples": [
+          {
+            "t": "ຂ້ອຍ{ກຳລັງ}ຮຽນພາສາລາວ",
+            "r": "Khoy kamlang hian phasa lao.",
+            "e": "I am learning Lao."
+          }
+        ],
+        "tags": [
+          "Tai–Kadai",
+          "tonal",
+          "analytic"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Lao script works",
+        "body": [
+          "Lao script is a sister of Thai script, simplified in the 20th century so that spelling follows pronunciation more closely. It has 27 consonant letters and vowel marks that sit before, after, above or below the consonant.",
+          "Words are written without spaces; a space marks the end of a phrase. Like Thai, consonants fall into high, middle and low classes, which together with the tone marks and the syllable type set each syllable's tone."
+        ],
+        "examples": [
+          {
+            "t": "ກ + າ = ກາ · ກ + ິ = ກິ · ເ + ກ = ເກ · ກ + ຸ = ກຸ",
+            "e": "the vowel can sit after, above, before or below"
+          }
+        ],
+        "tags": [
+          "script",
+          "abugida",
+          "tones"
+        ]
+      },
+      {
+        "id": "lao-thai",
+        "topic": "script",
+        "title": "Lao and Thai side by side",
+        "body": "Many letters are recognisably the same, and much basic vocabulary is shared, though some everyday words differ.",
+        "table": {
+          "head": [
+            "Meaning",
+            "Lao",
+            "Thai"
+          ],
+          "rows": [
+            [
+              "hello",
+              "ສະບາຍດີ sabaidi",
+              "สวัสดี sawatdi"
+            ],
+            [
+              "thank you",
+              "ຂອບໃຈ khop chai",
+              "ขอบคุณ khop khun"
+            ],
+            [
+              "I",
+              "ຂ້ອຍ khoy",
+              "ผม / ฉัน phom / chan"
+            ],
+            [
+              "delicious",
+              "ແຊບ saep",
+              "อร่อย aroi"
+            ],
+            [
+              "house",
+              "ເຮືອນ huean",
+              "บ้าน ban"
+            ],
+            [
+              "not",
+              "ບໍ່ bo",
+              "ไม่ mai"
+            ]
+          ]
+        },
+        "tags": [
+          "Thai",
+          "comparison"
+        ]
+      },
+      {
+        "id": "markers",
+        "topic": "verbs",
+        "title": "Time and aspect words",
+        "table": {
+          "head": [
+            "Word",
+            "Place",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "ຈະ cha / ຊິ si",
+              "before the verb",
+              "will"
+            ],
+            [
+              "ກຳລັງ kamlang",
+              "before the verb",
+              "is doing now"
+            ],
+            [
+              "ແລ້ວ laeo",
+              "at the end",
+              "already, done"
+            ],
+            [
+              "ເຄີຍ khoei",
+              "before the verb",
+              "have ever"
+            ],
+            [
+              "ຍັງ nyang",
+              "before the verb",
+              "still; not yet (with ບໍ່)"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "tense",
+          "aspect"
+        ]
+      },
+      {
+        "id": "classifiers",
+        "topic": "grammar",
+        "title": "Classifiers",
+        "table": {
+          "head": [
+            "Classifier",
+            "Used for",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ຄົນ khon",
+              "people",
+              "ໝູ່ສອງຄົນ, two friends"
+            ],
+            [
+              "ໂຕ to",
+              "animals, clothes",
+              "ແມວສາມໂຕ, three cats"
+            ],
+            [
+              "ຫົວ hua",
+              "books",
+              "ປຶ້ມໜຶ່ງຫົວ, one book"
+            ],
+            [
+              "ຄັນ khan",
+              "vehicles",
+              "ລົດສອງຄັນ, two cars"
+            ],
+            [
+              "ອັນ an",
+              "small things",
+              "ອັນນີ້, this one"
+            ],
+            [
+              "ຈອກ chok",
+              "glasses, cups",
+              "ກາເຟສອງຈອກ, two coffees"
+            ]
+          ]
+        },
+        "tags": [
+          "classifiers",
+          "counting"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Lao digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Romanization"
+          ],
+          "rows": [
+            [
+              "1",
+              "໑",
+              "ໜຶ່ງ",
+              "nueng"
+            ],
+            [
+              "2",
+              "໒",
+              "ສອງ",
+              "song"
+            ],
+            [
+              "3",
+              "໓",
+              "ສາມ",
+              "sam"
+            ],
+            [
+              "4",
+              "໔",
+              "ສີ່",
+              "si"
+            ],
+            [
+              "5",
+              "໕",
+              "ຫ້າ",
+              "ha"
+            ],
+            [
+              "6",
+              "໖",
+              "ຫົກ",
+              "hok"
+            ],
+            [
+              "7",
+              "໗",
+              "ເຈັດ",
+              "chet"
+            ],
+            [
+              "8",
+              "໘",
+              "ແປດ",
+              "paet"
+            ],
+            [
+              "9",
+              "໙",
+              "ເກົ້າ",
+              "kao"
+            ],
+            [
+              "10",
+              "໑໐",
+              "ສິບ",
+              "sip"
+            ],
+            [
+              "20",
+              "໒໐",
+              "ຊາວ",
+              "sao"
+            ],
+            [
+              "100",
+              "໑໐໐",
+              "ຮ້ອຍ",
+              "hoy"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ສະບາຍດີ, ສະບາຍດີບໍ",
+            "r": "Sabaidi, sabaidi bo?",
+            "e": "Hello, how are you?"
+          },
+          {
+            "t": "ຂອບໃຈຫຼາຍໆ",
+            "r": "Khop chai lai lai.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ຂ້ອຍບໍ່ເຂົ້າໃຈ",
+            "r": "Khoy bo khao chai.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ອັນນີ້ເທົ່າໃດ",
+            "r": "An ni thao dai?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ບໍ່ເຜັດ",
+            "r": "Bo phet.",
+            "e": "Not spicy."
+          },
+          {
+            "t": "ເວົ້າຊ້າໆແດ່",
+            "r": "Vao sa sa dae.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "baci",
+        "topic": "culture",
+        "title": "The baci ceremony",
+        "body": "A baci (ບາສີ) marks weddings, births, departures and the New Year. Guests tie white cotton strings around each other's wrists while wishing health and luck, calling back the 32 souls (ຂວັນ) believed to keep a person whole. The strings are left on for at least three days.",
+        "tags": [
+          "culture",
+          "ceremony"
         ]
       }
     ]
@@ -12104,6 +13115,300 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "greetings"
+        ]
+      }
+    ]
+  },
+  "tibetan": {
+    "id": "tibetan",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Tibetan at a glance",
+        "body": [
+          "Tibetan is spoken by about six million people across the Tibetan Plateau and in exile communities in India, Nepal and beyond. It belongs to the Sino-Tibetan family. The main spoken varieties (Central or Lhasa, Amdo and Kham) differ a lot, but share one written language.",
+          "The verb comes last. The ending of a sentence shows whether you speak about yourself (ཡིན, ཡོད) or about others (རེད, ཡོད་རེད), and whether you saw something yourself (འདུག). Lhasa Tibetan is tonal, with a high and a low tone."
+        ],
+        "examples": [
+          {
+            "t": "ང་བོད་སྐད་སློབ་སྦྱོང་བྱེད་{ཀྱི་ཡོད}།",
+            "r": "Nga pöke lopjong che kyi yö.",
+            "e": "I am learning Tibetan."
+          }
+        ],
+        "tags": [
+          "Sino-Tibetan",
+          "tonal",
+          "verb-final"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Tibetan script works",
+        "body": [
+          "The Tibetan script was created in the 7th century from an Indian Brahmi script. It has 30 consonant letters, each with an inherent a, and four vowel marks: ི (i), ུ (u), ེ (e) and ོ (o). The everyday printed style is called Uchen (དབུ་ཅན, “with a head”).",
+          "Words are not separated by spaces. Instead a small dot, the tsheg (་), follows every syllable, and a vertical stroke, the shad (།), ends a phrase or sentence.",
+          "Spelling is old and pronunciation has moved on. Letters can be stacked above and below the main letter, and many of them are silent: བཀྲ་ཤིས is said tashi, and བསྒྲུབས is said druk."
+        ],
+        "table": {
+          "head": [
+            "Mark",
+            "Name",
+            "Use"
+          ],
+          "rows": [
+            [
+              "་",
+              "tsheg",
+              "after every syllable"
+            ],
+            [
+              "།",
+              "shad",
+              "end of a phrase or sentence"
+            ],
+            [
+              "ི ུ ེ ོ",
+              "vowel marks",
+              "i, u, e, o; with no mark the vowel is a"
+            ],
+            [
+              "ཀྲ, སྒ",
+              "stacks",
+              "letters written under or over the main one"
+            ]
+          ]
+        },
+        "tags": [
+          "abugida",
+          "Brahmi family",
+          "tsheg"
+        ]
+      },
+      {
+        "id": "copulas",
+        "topic": "verbs",
+        "title": "Is, has, and their negatives",
+        "body": "Which word you use depends on who you are talking about, and how you know.",
+        "table": {
+          "head": [
+            "Word",
+            "Use",
+            "Negative",
+            "Question"
+          ],
+          "rows": [
+            [
+              "ཡིན (yin)",
+              "“is”, about yourself",
+              "མིན (min)",
+              "ཡིན་པས (yinpe)"
+            ],
+            [
+              "རེད (re)",
+              "“is”, about others",
+              "མ་རེད (mare)",
+              "རེད་པས (repe)"
+            ],
+            [
+              "ཡོད (yö)",
+              "“there is”, “have”, about yourself",
+              "མེད (me)",
+              "ཡོད་པས (yöpe)"
+            ],
+            [
+              "ཡོད་རེད (yöre)",
+              "“there is”, as a known fact",
+              "ཡོད་མ་རེད (yö mare)",
+              "ཡོད་རེད་པས (yöre pe)"
+            ],
+            [
+              "འདུག (du)",
+              "“there is”, seen right now",
+              "མི་འདུག (mindu)",
+              "འདུག་གས (duka)"
+            ]
+          ]
+        },
+        "tags": [
+          "copula",
+          "evidentials"
+        ]
+      },
+      {
+        "id": "honorifics",
+        "topic": "grammar",
+        "title": "Honorific words",
+        "body": "Tibetan has a set of respectful words used when speaking to or about others, especially elders and monks. Using them is a large part of being polite.",
+        "table": {
+          "head": [
+            "Meaning",
+            "Plain",
+            "Honorific"
+          ],
+          "rows": [
+            [
+              "you",
+              "ཁྱོད (khyö)",
+              "ཁྱེད་རང (khyerang)"
+            ],
+            [
+              "he, she",
+              "ཁོ, མོ (kho, mo)",
+              "ཁོང (khong)"
+            ],
+            [
+              "go, come",
+              "འགྲོ, ཡོང (dro, yong)",
+              "ཕེབས (phe)"
+            ],
+            [
+              "eat, drink",
+              "ཟ, འཐུང (sa, thung)",
+              "མཆོད (chö)"
+            ],
+            [
+              "name",
+              "མིང (ming)",
+              "མཚན (tsen)"
+            ],
+            [
+              "body, health",
+              "གཟུགས་པོ (suk po)",
+              "སྐུ་གཟུགས (kusuk)"
+            ]
+          ]
+        },
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Tibetan digits",
+        "body": "Tibetan has its own digits. In counting from 21 upwards, a short linking syllable goes between tens and units: ཉི་ཤུ་རྩ་གཅིག (nyishu tsa chik) is 21.",
+        "table": {
+          "head": [
+            "Digit",
+            "Word",
+            "Said"
+          ],
+          "rows": [
+            [
+              "༠",
+              "ཀླད་ཀོར",
+              "lekor"
+            ],
+            [
+              "༡",
+              "གཅིག",
+              "chik"
+            ],
+            [
+              "༢",
+              "གཉིས",
+              "nyi"
+            ],
+            [
+              "༣",
+              "གསུམ",
+              "sum"
+            ],
+            [
+              "༤",
+              "བཞི",
+              "shi"
+            ],
+            [
+              "༥",
+              "ལྔ",
+              "nga"
+            ],
+            [
+              "༦",
+              "དྲུག",
+              "druk"
+            ],
+            [
+              "༧",
+              "བདུན",
+              "dün"
+            ],
+            [
+              "༨",
+              "བརྒྱད",
+              "gyé"
+            ],
+            [
+              "༩",
+              "དགུ",
+              "gu"
+            ],
+            [
+              "༡༠",
+              "བཅུ",
+              "chu"
+            ]
+          ]
+        },
+        "tags": [
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "བཀྲ་ཤིས་བདེ་ལེགས།",
+            "r": "Tashi delek.",
+            "e": "Hello."
+          },
+          {
+            "t": "ཐུགས་རྗེ་ཆེ།",
+            "r": "Thukje che.",
+            "e": "Thank you."
+          },
+          {
+            "t": "ཁྱེད་རང་སྐུ་གཟུགས་བདེ་པོ་ཡིན་པས།",
+            "r": "Khyerang kusuk depo yinpe?",
+            "e": "How are you?"
+          },
+          {
+            "t": "གོང་ག་ཚོད་རེད།",
+            "r": "Gong katsö re?",
+            "e": "How much is it?"
+          },
+          {
+            "t": "ཧ་མ་གོ།",
+            "r": "Ha ma go.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ག་ལེ་ཕེབས།",
+            "r": "Kale phe.",
+            "e": "Goodbye (to someone leaving)."
+          }
+        ],
+        "tags": [
+          "greetings",
+          "travel"
+        ]
+      },
+      {
+        "id": "khata",
+        "topic": "culture",
+        "title": "The khata",
+        "body": [
+          "A khata (ཁ་བཏགས) is a white scarf, usually silk, offered as a sign of respect and good wishes: to welcome or say goodbye to a guest, at weddings and New Year, and when visiting a monastery or meeting a lama.",
+          "It is held out with both hands. When it is offered to a lama, people bow slightly, and the lama often places it back around their neck as a blessing."
+        ],
+        "tags": [
+          "customs"
         ]
       }
     ]
