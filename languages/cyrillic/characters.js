@@ -1,5 +1,8 @@
+// Cyrillic characters for the Character Learner (window.SCRIPTS).
+// Listed under data.characters in meta.json; see languages/README.md.
+window.SCRIPTS = window.SCRIPTS || {};
+
 // cyrillic data
-if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
 SCRIPTS.cyrillic = {
   name: "Cyrillic",
   chars: [

@@ -689,6 +689,512 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "armenian": {
+    "id": "armenian",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Armenian at a glance",
+        "body": [
+          "Armenian forms its own branch of the Indo-European family. It has two standard forms: Eastern Armenian, spoken in Armenia and Iran, which these cards follow, and Western Armenian, spoken mostly in the diaspora.",
+          "There is no grammatical gender. “The” is an ending (-ը or -ն), nouns take case endings instead of prepositions, and most verb tenses are a participle plus a helper verb: գրում եմ, “I write”."
+        ],
+        "examples": [
+          {
+            "t": "Ես հայերեն եմ {սովորում}։",
+            "r": "Yes hayeren em sovorum.",
+            "e": "I am learning Armenian."
+          }
+        ],
+        "tags": [
+          "Indo-European",
+          "Eastern Armenian",
+          "no gender"
+        ]
+      },
+      {
+        "id": "alphabet",
+        "topic": "script",
+        "title": "The alphabet",
+        "body": [
+          "The Armenian alphabet was created by Mesrop Mashtots around 405 AD with 36 letters; two more, Օ and Ֆ, were added later. Each letter has a capital and a small form.",
+          "The sound ու (u) is written with two letters, and և (yev, “and”) is a ligature of ե and ւ."
+        ],
+        "table": {
+          "head": [
+            "Letter",
+            "Sound",
+            "Letter",
+            "Sound"
+          ],
+          "rows": [
+            [
+              "Ա ա",
+              "a",
+              "Բ բ",
+              "b"
+            ],
+            [
+              "Գ գ",
+              "g",
+              "Դ դ",
+              "d"
+            ],
+            [
+              "Ե ե",
+              "ye / e",
+              "Զ զ",
+              "z"
+            ],
+            [
+              "Է է",
+              "e",
+              "Ը ը",
+              "ë (uh)"
+            ],
+            [
+              "Թ թ",
+              "t'",
+              "Ժ ժ",
+              "zh"
+            ],
+            [
+              "Ի ի",
+              "i",
+              "Լ լ",
+              "l"
+            ],
+            [
+              "Խ խ",
+              "kh",
+              "Ծ ծ",
+              "ts"
+            ],
+            [
+              "Կ կ",
+              "k",
+              "Հ հ",
+              "h"
+            ],
+            [
+              "Ձ ձ",
+              "dz",
+              "Ղ ղ",
+              "gh"
+            ],
+            [
+              "Ճ ճ",
+              "ch",
+              "Մ մ",
+              "m"
+            ],
+            [
+              "Յ յ",
+              "y",
+              "Ն ն",
+              "n"
+            ],
+            [
+              "Շ շ",
+              "sh",
+              "Ո ո",
+              "vo / o"
+            ],
+            [
+              "Չ չ",
+              "ch'",
+              "Պ պ",
+              "p"
+            ],
+            [
+              "Ջ ջ",
+              "j",
+              "Ռ ռ",
+              "r (rolled)"
+            ],
+            [
+              "Ս ս",
+              "s",
+              "Վ վ",
+              "v"
+            ],
+            [
+              "Տ տ",
+              "t",
+              "Ր ր",
+              "r"
+            ],
+            [
+              "Ց ց",
+              "ts'",
+              "Ւ ւ",
+              "v (in ու)"
+            ],
+            [
+              "Փ փ",
+              "p'",
+              "Ք ք",
+              "k'"
+            ],
+            [
+              "Օ օ",
+              "o",
+              "Ֆ ֆ",
+              "f"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "letters",
+          "Mashtots"
+        ]
+      },
+      {
+        "id": "consonants",
+        "topic": "sounds",
+        "title": "Three kinds of consonant",
+        "body": "Like Georgian, Armenian has three versions of many stops. Plain ones (կ, պ, տ) have no puff of air and can sound almost like g, b, d to English ears. Aspirated ones (ք, փ, թ, marked with an apostrophe here) have a strong puff. Voiced ones are like English b, d, g.",
+        "table": {
+          "head": [
+            "Voiced",
+            "Plain",
+            "Aspirated"
+          ],
+          "rows": [
+            [
+              "բ b",
+              "պ p",
+              "փ p'"
+            ],
+            [
+              "դ d",
+              "տ t",
+              "թ t'"
+            ],
+            [
+              "գ g",
+              "կ k",
+              "ք k'"
+            ],
+            [
+              "ձ dz",
+              "ծ ts",
+              "ց ts'"
+            ],
+            [
+              "ջ j",
+              "ճ ch",
+              "չ ch'"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation",
+          "consonants"
+        ]
+      },
+      {
+        "id": "punctuation",
+        "topic": "script",
+        "title": "Punctuation",
+        "body": "Armenian marks are placed inside the word. The question mark ՞ and the exclamation mark ՜ sit over the stressed vowel of the word being asked or exclaimed. The full stop is ։ (verjaket), the comma is the same as in English, and ՝ (called but) marks a short pause.",
+        "examples": [
+          {
+            "t": "Որտե՞ղ ես։",
+            "r": "Vortegh es?",
+            "e": "Where are you?"
+          },
+          {
+            "t": "Ի՜նչ գեղեցիկ է։",
+            "r": "Inch geghets'ik e!",
+            "e": "How beautiful it is!"
+          }
+        ],
+        "tags": [
+          "punctuation"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "The helper verb “to be”",
+        "body": "These forms mean “am, is, are” on their own, and they also build the present and other tenses. The negative adds չ-; for “is not” the form is չի.",
+        "table": {
+          "head": [
+            "",
+            "Positive",
+            "Negative"
+          ],
+          "rows": [
+            [
+              "I",
+              "եմ em",
+              "չեմ chem"
+            ],
+            [
+              "you",
+              "ես es",
+              "չես ches"
+            ],
+            [
+              "he, she",
+              "է e",
+              "չի chi"
+            ],
+            [
+              "we",
+              "ենք enk'",
+              "չենք chenk'"
+            ],
+            [
+              "you (pl.)",
+              "եք ek'",
+              "չեք chek'"
+            ],
+            [
+              "they",
+              "են en",
+              "չեն chen"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "to be",
+          "negation"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "Replace the infinitive's -ել or -ալ with -ում and add the helper. In a negative sentence the negative helper comes first: չեմ գրում, “I don't write”.",
+        "table": {
+          "head": [
+            "Infinitive",
+            "Present (I)",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "գրել",
+              "գրում եմ",
+              "I write"
+            ],
+            [
+              "խոսել",
+              "խոսում եմ",
+              "I speak"
+            ],
+            [
+              "կարդալ",
+              "կարդում եմ",
+              "I read"
+            ],
+            [
+              "ապրել",
+              "ապրում եմ",
+              "I live"
+            ],
+            [
+              "գալ",
+              "գալիս եմ",
+              "I come (irregular)"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Main cases",
+        "body": "Nouns take endings for their role. These are the forms of քաղաք (city).",
+        "table": {
+          "head": [
+            "Case",
+            "Ending",
+            "Example",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Nominative",
+              "–",
+              "քաղաք",
+              "a city"
+            ],
+            [
+              "Genitive / dative",
+              "-ի",
+              "քաղաքի",
+              "of / to a city"
+            ],
+            [
+              "Ablative",
+              "-ից",
+              "քաղաքից",
+              "from a city"
+            ],
+            [
+              "Instrumental",
+              "-ով",
+              "քաղաքով",
+              "by, through a city"
+            ],
+            [
+              "Locative",
+              "-ում",
+              "քաղաքում",
+              "in a city"
+            ]
+          ]
+        },
+        "tags": [
+          "cases"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "table": {
+          "head": [
+            "",
+            "Armenian",
+            "Romanization"
+          ],
+          "rows": [
+            [
+              "1",
+              "մեկ",
+              "mek"
+            ],
+            [
+              "2",
+              "երկու",
+              "yerku"
+            ],
+            [
+              "3",
+              "երեք",
+              "yerek'"
+            ],
+            [
+              "4",
+              "չորս",
+              "ch'ors"
+            ],
+            [
+              "5",
+              "հինգ",
+              "hing"
+            ],
+            [
+              "6",
+              "վեց",
+              "vets'"
+            ],
+            [
+              "7",
+              "յոթ",
+              "yot'"
+            ],
+            [
+              "8",
+              "ութ",
+              "ut'"
+            ],
+            [
+              "9",
+              "ինը",
+              "inë"
+            ],
+            [
+              "10",
+              "տասը",
+              "tasë"
+            ],
+            [
+              "20",
+              "քսան",
+              "k'san"
+            ],
+            [
+              "100",
+              "հարյուր",
+              "haryur"
+            ],
+            [
+              "1000",
+              "հազար",
+              "hazar"
+            ]
+          ]
+        },
+        "body": "Eleven to nineteen are ten plus the unit: տասնմեկ (11), տասներկու (12). A noun after a number usually stays singular.",
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "Բարև Ձեզ։",
+            "r": "Barev dzez.",
+            "e": "Hello. (polite)"
+          },
+          {
+            "t": "Շնորհակալություն։",
+            "r": "Shnorhakalut'yun.",
+            "e": "Thank you."
+          },
+          {
+            "t": "Ներեցեք, չեմ հասկանում։",
+            "r": "Neretsek', chem haskanum.",
+            "e": "Excuse me, I don't understand."
+          },
+          {
+            "t": "Անգլերեն խոսու՞մ եք։",
+            "r": "Angleren khosum ek'?",
+            "e": "Do you speak English?"
+          },
+          {
+            "t": "Ինչքա՞ն արժե։",
+            "r": "Inchk'an arzhe?",
+            "e": "How much does it cost?"
+          },
+          {
+            "t": "Կենացդ։",
+            "r": "Kenats'd!",
+            "e": "Cheers! (to your life)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ararat",
+        "topic": "culture",
+        "title": "Ararat and the apricot",
+        "body": "Mount Ararat, visible from Yerevan across the Turkish border, is the national symbol of Armenia and appears on its coat of arms. The apricot (ծիրան) is thought of as the national fruit, and its colour is in the flag: red, blue and apricot-orange.",
+        "tags": [
+          "culture",
+          "symbols"
+        ]
+      }
+    ]
+  },
   "bengali": {
     "id": "bengali",
     "entries": [
@@ -3191,6 +3697,1106 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "georgian": {
+    "id": "georgian",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Georgian at a glance",
+        "body": [
+          "Georgian is the language of Georgia, spoken by about four million people. It belongs to the Kartvelian family, which is related to no other language family; its close relatives are Mingrelian, Laz and Svan.",
+          "There are no articles and no grammatical gender. Nouns take case endings and postpositions, and the verb carries prefixes and suffixes for both subject and object. Words can start with long clusters of consonants: გვფრცქვნი (gvprtskvni), “you peel us”."
+        ],
+        "examples": [
+          {
+            "t": "{მიყვარს} საქართველო.",
+            "r": "Miq'vars Sakartvelo.",
+            "e": "I love Georgia."
+          }
+        ],
+        "tags": [
+          "Kartvelian",
+          "no gender",
+          "agglutinative"
+        ]
+      },
+      {
+        "id": "mkhedruli",
+        "topic": "script",
+        "title": "Mkhedruli",
+        "body": [
+          "Modern Georgian is written in Mkhedruli, an alphabet of 33 letters with no capitals. Each letter has one sound, and each sound one letter, so spelling is regular.",
+          "Two older Georgian scripts, Asomtavruli and Nuskhuri, are still used in the church. Asomtavruli letters (Mtavruli) are sometimes used in titles as if they were capitals."
+        ],
+        "table": {
+          "head": [
+            "Letter",
+            "Sound",
+            "Letter",
+            "Sound"
+          ],
+          "rows": [
+            [
+              "ა",
+              "a",
+              "ბ",
+              "b"
+            ],
+            [
+              "გ",
+              "g",
+              "დ",
+              "d"
+            ],
+            [
+              "ე",
+              "e",
+              "ვ",
+              "v"
+            ],
+            [
+              "ზ",
+              "z",
+              "თ",
+              "t"
+            ],
+            [
+              "ი",
+              "i",
+              "კ",
+              "k'"
+            ],
+            [
+              "ლ",
+              "l",
+              "მ",
+              "m"
+            ],
+            [
+              "ნ",
+              "n",
+              "ო",
+              "o"
+            ],
+            [
+              "პ",
+              "p'",
+              "ჟ",
+              "zh"
+            ],
+            [
+              "რ",
+              "r",
+              "ს",
+              "s"
+            ],
+            [
+              "ტ",
+              "t'",
+              "უ",
+              "u"
+            ],
+            [
+              "ფ",
+              "p",
+              "ქ",
+              "k"
+            ],
+            [
+              "ღ",
+              "gh",
+              "ყ",
+              "q'"
+            ],
+            [
+              "შ",
+              "sh",
+              "ჩ",
+              "ch"
+            ],
+            [
+              "ც",
+              "ts",
+              "ძ",
+              "dz"
+            ],
+            [
+              "წ",
+              "ts'",
+              "ჭ",
+              "ch'"
+            ],
+            [
+              "ხ",
+              "kh",
+              "ჯ",
+              "j"
+            ],
+            [
+              "ჰ",
+              "h",
+              "",
+              ""
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "letters"
+        ]
+      },
+      {
+        "id": "ejectives",
+        "topic": "sounds",
+        "title": "Three kinds of consonant",
+        "body": "Georgian has three versions of many stops: voiced (b, d, g), breathy (p, t, k, said with a puff of air as in English) and ejective (p', t', k', said with a closed throat and a pop, with no puff). The apostrophe in the romanization marks the ejective one, and mixing them up changes the word.",
+        "table": {
+          "head": [
+            "Voiced",
+            "Breathy",
+            "Ejective"
+          ],
+          "rows": [
+            [
+              "ბ b",
+              "ფ p",
+              "პ p'"
+            ],
+            [
+              "დ d",
+              "თ t",
+              "ტ t'"
+            ],
+            [
+              "გ g",
+              "ქ k",
+              "კ k'"
+            ],
+            [
+              "ძ dz",
+              "ც ts",
+              "წ ts'"
+            ],
+            [
+              "ჯ j",
+              "ჩ ch",
+              "ჭ ch'"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation",
+          "ejectives"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Main cases",
+        "body": "Georgian has seven cases. Here are the forms of კაცი (man) and ქალაქი (city). Which case the subject takes depends on the verb's tense: the ergative -მა is used for the subject of most past-tense verbs.",
+        "table": {
+          "head": [
+            "Case",
+            "Ending",
+            "კაცი",
+            "Use"
+          ],
+          "rows": [
+            [
+              "Nominative",
+              "-ი",
+              "კაცი",
+              "subject (present)"
+            ],
+            [
+              "Ergative",
+              "-მა",
+              "კაცმა",
+              "subject (past)"
+            ],
+            [
+              "Dative",
+              "-ს",
+              "კაცს",
+              "object; to"
+            ],
+            [
+              "Genitive",
+              "-ის",
+              "კაცის",
+              "of"
+            ],
+            [
+              "Instrumental",
+              "-ით",
+              "კაცით",
+              "with, by means of"
+            ],
+            [
+              "Adverbial",
+              "-ად",
+              "კაცად",
+              "as; in the role of"
+            ],
+            [
+              "Vocative",
+              "-ო",
+              "კაცო",
+              "calling someone"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "ergative"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Postpositions",
+        "body": "Where English has prepositions, Georgian adds an ending to the noun. Most attach to the dative (-ს), which then drops its ს.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ში",
+              "in, into",
+              "თბილისში, in Tbilisi"
+            ],
+            [
+              "-ზე",
+              "on, about",
+              "მაგიდაზე, on the table"
+            ],
+            [
+              "-თან",
+              "at, near, with (a person)",
+              "მეგობართან, at a friend's"
+            ],
+            [
+              "-დან",
+              "from",
+              "თბილისიდან, from Tbilisi"
+            ],
+            [
+              "-ისთვის",
+              "for",
+              "შენთვის, for you"
+            ],
+            [
+              "-ივით",
+              "like",
+              "ბავშვივით, like a child"
+            ]
+          ]
+        },
+        "tags": [
+          "postpositions",
+          "cases"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "“To be”",
+        "body": "In the present, “to be” is very regular. In speech არის (is) often shrinks to -ა on the end of the word before it.",
+        "table": {
+          "head": [
+            "",
+            "Singular",
+            "Plural"
+          ],
+          "rows": [
+            [
+              "1st",
+              "ვარ var",
+              "ვართ vart"
+            ],
+            [
+              "2nd",
+              "ხარ khar",
+              "ხართ khart"
+            ],
+            [
+              "3rd",
+              "არის aris",
+              "არიან arian"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "ეს ჩემი სახლი{ა}.",
+            "r": "Es chemi sakhlia.",
+            "e": "This is my house."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "to be"
+        ]
+      },
+      {
+        "id": "inverted",
+        "topic": "verbs",
+        "title": "Feelings take the dative",
+        "body": "Verbs of feeling, wanting and having treat the person as the object: მიყვარს is literally “(it) is loved to me”. The prefix shows who: მ- me, გ- you, ∅/ს- him or her.",
+        "table": {
+          "head": [
+            "",
+            "I",
+            "you",
+            "he / she"
+          ],
+          "rows": [
+            [
+              "want",
+              "მინდა minda",
+              "გინდა ginda",
+              "უნდა unda"
+            ],
+            [
+              "love",
+              "მიყვარს miq'vars",
+              "გიყვარს giq'vars",
+              "უყვარს uq'vars"
+            ],
+            [
+              "have (a thing)",
+              "მაქვს makvs",
+              "გაქვს gakvs",
+              "აქვს akvs"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "inversion"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Counting in twenties",
+        "body": "Above twenty, Georgian counts in twenties, like French quatre-vingts: 30 is “twenty and ten”, 40 is “two twenties”, 50 is “two twenties and ten”. A noun after a number stays singular.",
+        "table": {
+          "head": [
+            "",
+            "Georgian",
+            "Literally"
+          ],
+          "rows": [
+            [
+              "1",
+              "ერთი erti",
+              ""
+            ],
+            [
+              "2",
+              "ორი ori",
+              ""
+            ],
+            [
+              "3",
+              "სამი sami",
+              ""
+            ],
+            [
+              "4",
+              "ოთხი otkhi",
+              ""
+            ],
+            [
+              "5",
+              "ხუთი khuti",
+              ""
+            ],
+            [
+              "10",
+              "ათი ati",
+              ""
+            ],
+            [
+              "20",
+              "ოცი otsi",
+              ""
+            ],
+            [
+              "30",
+              "ოცდაათი otsdaati",
+              "twenty and ten"
+            ],
+            [
+              "40",
+              "ორმოცი ormotsi",
+              "two twenties"
+            ],
+            [
+              "60",
+              "სამოცი samotsi",
+              "three twenties"
+            ],
+            [
+              "80",
+              "ოთხმოცი otkhmotsi",
+              "four twenties"
+            ],
+            [
+              "100",
+              "ასი asi",
+              ""
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "vigesimal"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "გამარჯობა!",
+            "r": "Gamarjoba!",
+            "e": "Hello!"
+          },
+          {
+            "t": "დიდი მადლობა.",
+            "r": "Didi madloba.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ბოდიში, არ მესმის.",
+            "r": "Bodishi, ar mesmis.",
+            "e": "Sorry, I don't understand."
+          },
+          {
+            "t": "ინგლისურად ლაპარაკობთ?",
+            "r": "Inglisurad lap'arak'obt?",
+            "e": "Do you speak English?"
+          },
+          {
+            "t": "რა ღირს?",
+            "r": "Ra ghirs?",
+            "e": "How much is it?"
+          },
+          {
+            "t": "გაუმარჯოს!",
+            "r": "Gaumarjos!",
+            "e": "Cheers!"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "supra",
+        "topic": "culture",
+        "title": "The supra",
+        "body": "A supra is a Georgian feast. A tamada (თამადა, toastmaster) leads a long series of toasts: to peace, to the hosts, to parents, to those who have died, to friendship. Guests drink when the tamada finishes a toast, and wine is the usual drink; beer is traditionally reserved for toasting enemies.",
+        "tags": [
+          "culture",
+          "food",
+          "wine"
+        ]
+      }
+    ]
+  },
+  "greek": {
+    "id": "greek",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Greek at a glance",
+        "body": [
+          "Modern Greek is the official language of Greece and Cyprus, spoken by about 13 million people. It is its own branch of the Indo-European family, and it has been written in the Greek alphabet for nearly three thousand years.",
+          "Nouns have three genders and change their ending for case; the article in front shows both. Verbs mark the person with an ending, so pronouns are usually left out. Word order is flexible, though subject–verb–object is the most common."
+        ],
+        "examples": [
+          {
+            "t": "{Μιλάω} λίγα ελληνικά.",
+            "r": "Miláo líga elliniká.",
+            "e": "I speak a little Greek."
+          }
+        ],
+        "tags": [
+          "Indo-European",
+          "gender",
+          "cases"
+        ]
+      },
+      {
+        "id": "alphabet",
+        "topic": "script",
+        "title": "The alphabet",
+        "body": [
+          "Greek has 24 letters, each with a capital and a small form. Sigma has two small forms: σ inside a word and ς at the end.",
+          "Several letters look like Latin ones but sound different: Η η is i, Ρ ρ is r, Ν ν is n, Υ υ is i, Χ χ is the ch in Bach, and Β β is v."
+        ],
+        "table": {
+          "head": [
+            "Letter",
+            "Name",
+            "Sound"
+          ],
+          "rows": [
+            [
+              "Α α",
+              "άλφα",
+              "a"
+            ],
+            [
+              "Β β",
+              "βήτα",
+              "v"
+            ],
+            [
+              "Γ γ",
+              "γάμμα",
+              "gh, or y before e/i"
+            ],
+            [
+              "Δ δ",
+              "δέλτα",
+              "th as in this"
+            ],
+            [
+              "Ε ε",
+              "έψιλον",
+              "e"
+            ],
+            [
+              "Ζ ζ",
+              "ζήτα",
+              "z"
+            ],
+            [
+              "Η η",
+              "ήτα",
+              "i"
+            ],
+            [
+              "Θ θ",
+              "θήτα",
+              "th as in thin"
+            ],
+            [
+              "Ι ι",
+              "γιώτα",
+              "i"
+            ],
+            [
+              "Κ κ",
+              "κάππα",
+              "k"
+            ],
+            [
+              "Λ λ",
+              "λάμδα",
+              "l"
+            ],
+            [
+              "Μ μ",
+              "μι",
+              "m"
+            ],
+            [
+              "Ν ν",
+              "νι",
+              "n"
+            ],
+            [
+              "Ξ ξ",
+              "ξι",
+              "ks"
+            ],
+            [
+              "Ο ο",
+              "όμικρον",
+              "o"
+            ],
+            [
+              "Π π",
+              "πι",
+              "p"
+            ],
+            [
+              "Ρ ρ",
+              "ρο",
+              "r (tapped)"
+            ],
+            [
+              "Σ σ ς",
+              "σίγμα",
+              "s"
+            ],
+            [
+              "Τ τ",
+              "ταυ",
+              "t"
+            ],
+            [
+              "Υ υ",
+              "ύψιλον",
+              "i"
+            ],
+            [
+              "Φ φ",
+              "φι",
+              "f"
+            ],
+            [
+              "Χ χ",
+              "χι",
+              "ch as in Bach"
+            ],
+            [
+              "Ψ ψ",
+              "ψι",
+              "ps"
+            ],
+            [
+              "Ω ω",
+              "ωμέγα",
+              "o"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "letters"
+        ]
+      },
+      {
+        "id": "digraphs",
+        "topic": "sounds",
+        "title": "Letter pairs",
+        "body": "Some pairs of letters make one sound. Several spellings share the sound i, so spelling has to be learned word by word.",
+        "table": {
+          "head": [
+            "Pair",
+            "Sound",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ει, οι, υι",
+              "i",
+              "{ει}μαι, “I am”"
+            ],
+            [
+              "αι",
+              "e",
+              "κ{αι}, “and”"
+            ],
+            [
+              "ου",
+              "u",
+              "π{ου}, “where”"
+            ],
+            [
+              "αυ, ευ",
+              "av / ev, or af / ef",
+              "{αυ}τός, “he”"
+            ],
+            [
+              "μπ",
+              "b (mb inside a word)",
+              "{μπ}ύρα, “beer”"
+            ],
+            [
+              "ντ",
+              "d (nd inside a word)",
+              "{ντ}ομάτα, “tomato”"
+            ],
+            [
+              "γκ, γγ",
+              "g (ng inside a word)",
+              "{γκ}αράζ, “garage”"
+            ],
+            [
+              "τσ, τζ",
+              "ts, dz",
+              "{τσ}άι, “tea”"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation",
+          "digraphs"
+        ]
+      },
+      {
+        "id": "stress",
+        "topic": "sounds",
+        "title": "The stress mark",
+        "body": "Every word of more than one syllable carries an accent (τόνος) on its stressed vowel. It matters: πότε means “when?” but ποτέ means “never”. Capitals written in full (ΑΘΗΝΑ) drop the accent.",
+        "examples": [
+          {
+            "t": "π{ό}τε · ποτ{έ}",
+            "r": "póte · poté",
+            "e": "when? · never"
+          },
+          {
+            "t": "ν{ό}μος · νομ{ό}ς",
+            "r": "nómos · nomós",
+            "e": "law · prefecture"
+          }
+        ],
+        "tags": [
+          "stress",
+          "accent"
+        ]
+      },
+      {
+        "id": "punctuation",
+        "topic": "script",
+        "title": "Punctuation",
+        "body": "Greek writes the question mark as ; and the raised dot · as a semicolon. Commas and full stops are the same as in English.",
+        "examples": [
+          {
+            "t": "Τι κάνεις{;}",
+            "r": "Ti kánis?",
+            "e": "How are you?"
+          }
+        ],
+        "tags": [
+          "punctuation"
+        ]
+      },
+      {
+        "id": "articles",
+        "topic": "grammar",
+        "title": "The article",
+        "body": "“The” agrees with its noun in gender, number and case. The forms below are the ones a beginner meets most: subject (nominative) and object (accusative).",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Neuter"
+          ],
+          "rows": [
+            [
+              "Subject, singular",
+              "ο",
+              "η",
+              "το"
+            ],
+            [
+              "Object, singular",
+              "τον",
+              "την",
+              "το"
+            ],
+            [
+              "Subject, plural",
+              "οι",
+              "οι",
+              "τα"
+            ],
+            [
+              "Object, plural",
+              "τους",
+              "τις",
+              "τα"
+            ],
+            [
+              "“a, one”",
+              "ένας",
+              "μία / μια",
+              "ένα"
+            ]
+          ]
+        },
+        "tags": [
+          "articles",
+          "gender",
+          "cases"
+        ]
+      },
+      {
+        "id": "noun-endings",
+        "topic": "grammar",
+        "title": "Common noun endings",
+        "body": "The ending of a noun usually gives away its gender, and tells you how it makes its plural.",
+        "table": {
+          "head": [
+            "Gender",
+            "Singular",
+            "Plural",
+            "Example"
+          ],
+          "rows": [
+            [
+              "Masculine",
+              "-ος",
+              "-οι",
+              "ο φίλος → οι φίλοι"
+            ],
+            [
+              "Masculine",
+              "-ας",
+              "-ες",
+              "ο άντρας → οι άντρες"
+            ],
+            [
+              "Masculine",
+              "-ης",
+              "-ες",
+              "ο μαθητής → οι μαθητές"
+            ],
+            [
+              "Feminine",
+              "-α",
+              "-ες",
+              "η ώρα → οι ώρες"
+            ],
+            [
+              "Feminine",
+              "-η",
+              "-ες",
+              "η φωνή → οι φωνές"
+            ],
+            [
+              "Neuter",
+              "-ο",
+              "-α",
+              "το βιβλίο → τα βιβλία"
+            ],
+            [
+              "Neuter",
+              "-ι",
+              "-ια",
+              "το σπίτι → τα σπίτια"
+            ],
+            [
+              "Neuter",
+              "-μα",
+              "-ματα",
+              "το όνομα → τα ονόματα"
+            ]
+          ]
+        },
+        "tags": [
+          "nouns",
+          "plural"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "Two main patterns. Verbs stressed before the ending (group A) and verbs stressed on the ending (group B). Είμαι, “to be”, is irregular.",
+        "table": {
+          "head": [
+            "",
+            "γράφω, write",
+            "μιλάω, speak",
+            "είμαι, be"
+          ],
+          "rows": [
+            [
+              "I",
+              "γράφω",
+              "μιλάω",
+              "είμαι"
+            ],
+            [
+              "you",
+              "γράφεις",
+              "μιλάς",
+              "είσαι"
+            ],
+            [
+              "he, she, it",
+              "γράφει",
+              "μιλάει",
+              "είναι"
+            ],
+            [
+              "we",
+              "γράφουμε",
+              "μιλάμε",
+              "είμαστε"
+            ],
+            [
+              "you (pl.)",
+              "γράφετε",
+              "μιλάτε",
+              "είστε"
+            ],
+            [
+              "they",
+              "γράφουν",
+              "μιλάνε",
+              "είναι"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "body": "One, three and four change with the gender of the noun (ένας / μία / ένα, τρεις / τρία, τέσσερις / τέσσερα). The rest do not.",
+        "table": {
+          "head": [
+            "",
+            "Greek",
+            "Romanization"
+          ],
+          "rows": [
+            [
+              "1",
+              "ένα",
+              "éna"
+            ],
+            [
+              "2",
+              "δύο",
+              "dío"
+            ],
+            [
+              "3",
+              "τρία",
+              "tría"
+            ],
+            [
+              "4",
+              "τέσσερα",
+              "téssera"
+            ],
+            [
+              "5",
+              "πέντε",
+              "pénde"
+            ],
+            [
+              "6",
+              "έξι",
+              "éxi"
+            ],
+            [
+              "7",
+              "επτά / εφτά",
+              "eptá / eftá"
+            ],
+            [
+              "8",
+              "οκτώ / οχτώ",
+              "októ / ochtó"
+            ],
+            [
+              "9",
+              "εννέα / εννιά",
+              "ennéa / enniá"
+            ],
+            [
+              "10",
+              "δέκα",
+              "déka"
+            ],
+            [
+              "20",
+              "είκοσι",
+              "íkosi"
+            ],
+            [
+              "100",
+              "εκατό",
+              "ekató"
+            ],
+            [
+              "1000",
+              "χίλια",
+              "chília"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "Γεια σας.",
+            "r": "Giá sas.",
+            "e": "Hello. (polite or to several people)"
+          },
+          {
+            "t": "Καλημέρα.",
+            "r": "Kaliméra.",
+            "e": "Good morning."
+          },
+          {
+            "t": "Ευχαριστώ πολύ.",
+            "r": "Efcharistó polí.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "Παρακαλώ.",
+            "r": "Parakaló.",
+            "e": "Please. / You're welcome."
+          },
+          {
+            "t": "Συγγνώμη, δεν καταλαβαίνω.",
+            "r": "Signómi, den katalavéno.",
+            "e": "Sorry, I don't understand."
+          },
+          {
+            "t": "Πόσο κάνει;",
+            "r": "Póso káni?",
+            "e": "How much is it?"
+          },
+          {
+            "t": "Τον λογαριασμό, παρακαλώ.",
+            "r": "Ton logariasmó, parakaló.",
+            "e": "The bill, please."
+          },
+          {
+            "t": "Στην υγειά μας!",
+            "r": "Stin igiá mas!",
+            "e": "Cheers! (to our health)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "nai-ochi",
+        "topic": "culture",
+        "title": "Ναι means yes",
+        "body": "Ναι (ne) is “yes” and όχι (óchi) is “no”, the reverse of what English ears expect. In conversation a small upward nod with raised eyebrows, often with a click of the tongue, also means no.",
+        "tags": [
+          "culture",
+          "gestures"
+        ]
+      }
+    ]
+  },
   "gujarati": {
     "id": "gujarati",
     "entries": [
@@ -4232,6 +5838,456 @@ window.LSD_REFERENCE = {
         "tags": [
           "connectors",
           "clauses"
+        ]
+      }
+    ]
+  },
+  "hebrew": {
+    "id": "hebrew",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Hebrew at a glance",
+        "body": [
+          "Modern Hebrew is a Semitic language, related to Arabic and Aramaic, and the main language of Israel. It was revived as an everyday spoken language in the late 19th and early 20th centuries after centuries of use mainly in prayer and writing.",
+          "Words are built from roots of three consonants: כ־ת־ב (k-t-v) gives כותב “writes”, מכתב “letter” and כתובת “address”. Nouns, adjectives and verbs mark masculine or feminine, and the present tense has no verb “to be”."
+        ],
+        "examples": [
+          {
+            "t": "אני {לומד} עברית.",
+            "r": "Ani lomed ivrit.",
+            "e": "I am learning Hebrew. (a man)"
+          }
+        ],
+        "tags": [
+          "Semitic",
+          "roots",
+          "gender"
+        ]
+      },
+      {
+        "id": "alephbet",
+        "topic": "script",
+        "title": "The alef-bet",
+        "body": [
+          "Hebrew has 22 letters, all consonants, written right to left. There are no capitals. Five letters take a different shape at the end of a word: כ ך, מ ם, נ ן, פ ף, צ ץ.",
+          "A few letters also stand for vowels: ו for o or u, י for i or e. The letters ב, כ and פ have two sounds each (b/v, k/ch, p/f)."
+        ],
+        "table": {
+          "head": [
+            "Letter",
+            "Name",
+            "Sound"
+          ],
+          "rows": [
+            [
+              "א",
+              "alef",
+              "silent, or a glottal stop"
+            ],
+            [
+              "ב",
+              "bet / vet",
+              "b or v"
+            ],
+            [
+              "ג",
+              "gimel",
+              "g"
+            ],
+            [
+              "ד",
+              "dalet",
+              "d"
+            ],
+            [
+              "ה",
+              "he",
+              "h (often silent at the end)"
+            ],
+            [
+              "ו",
+              "vav",
+              "v, or the vowel o / u"
+            ],
+            [
+              "ז",
+              "zayin",
+              "z"
+            ],
+            [
+              "ח",
+              "chet",
+              "ch as in Bach"
+            ],
+            [
+              "ט",
+              "tet",
+              "t"
+            ],
+            [
+              "י",
+              "yod",
+              "y, or the vowel i / e"
+            ],
+            [
+              "כ ך",
+              "kaf / chaf",
+              "k or ch"
+            ],
+            [
+              "ל",
+              "lamed",
+              "l"
+            ],
+            [
+              "מ ם",
+              "mem",
+              "m"
+            ],
+            [
+              "נ ן",
+              "nun",
+              "n"
+            ],
+            [
+              "ס",
+              "samech",
+              "s"
+            ],
+            [
+              "ע",
+              "ayin",
+              "silent, or a glottal stop"
+            ],
+            [
+              "פ ף",
+              "pe / fe",
+              "p or f"
+            ],
+            [
+              "צ ץ",
+              "tsadi",
+              "ts"
+            ],
+            [
+              "ק",
+              "kuf",
+              "k"
+            ],
+            [
+              "ר",
+              "resh",
+              "r (in the throat)"
+            ],
+            [
+              "ש",
+              "shin / sin",
+              "sh or s"
+            ],
+            [
+              "ת",
+              "tav",
+              "t"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "letters",
+          "final forms"
+        ]
+      },
+      {
+        "id": "niqqud",
+        "topic": "script",
+        "title": "Vowel points",
+        "body": "Vowels can be shown with dots and dashes under, over or inside the letters (ניקוד, niqqud). Children's books, poetry, prayer books and dictionaries use them; newspapers, signs and everyday writing leave them out, and readers fill in the vowels from context.",
+        "examples": [
+          {
+            "t": "שָׁלוֹם · שלום",
+            "r": "shalom",
+            "e": "the same word with and without vowel points"
+          },
+          {
+            "t": "סֵפֶר · סַפָּר · סְפָר",
+            "r": "sefer · sapar · sfar",
+            "e": "book · barber · frontier: all written ספר without points"
+          }
+        ],
+        "tags": [
+          "vowels",
+          "niqqud"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "Modern Israeli Hebrew has five vowels: a, e, i, o, u. The stress usually falls on the last syllable. Two pairs of letters now sound the same for most speakers: ח and כ (ch), and א and ע (silent or a light catch). ר is said in the throat, like French r.",
+        "examples": [
+          {
+            "t": "חם · כמה",
+            "r": "cham · kama",
+            "e": "hot · how much (ח and כ both ch / k)"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "stress"
+        ]
+      },
+      {
+        "id": "pronouns",
+        "topic": "grammar",
+        "title": "Personal pronouns",
+        "body": "“You” and “they” have separate masculine and feminine forms. A mixed group takes the masculine.",
+        "table": {
+          "head": [
+            "",
+            "Singular",
+            "Plural"
+          ],
+          "rows": [
+            [
+              "1st",
+              "אני ani",
+              "אנחנו anachnu"
+            ],
+            [
+              "2nd masc.",
+              "אתה ata",
+              "אתם atem"
+            ],
+            [
+              "2nd fem.",
+              "את at",
+              "אתן aten"
+            ],
+            [
+              "3rd masc.",
+              "הוא hu",
+              "הם hem"
+            ],
+            [
+              "3rd fem.",
+              "היא hi",
+              "הן hen"
+            ]
+          ]
+        },
+        "tags": [
+          "pronouns",
+          "gender"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "The present tense has four forms, chosen by the gender and number of the subject, not by the person. Past and future, which come later, change for person too.",
+        "table": {
+          "head": [
+            "",
+            "to write (כ־ת־ב)",
+            "to speak (ד־ב־ר)"
+          ],
+          "rows": [
+            [
+              "masc. sing.",
+              "כותב kotev",
+              "מדבר medaber"
+            ],
+            [
+              "fem. sing.",
+              "כותבת kotevet",
+              "מדברת medaberet"
+            ],
+            [
+              "masc. plural",
+              "כותבים kotvim",
+              "מדברים medabrim"
+            ],
+            [
+              "fem. plural",
+              "כותבות kotvot",
+              "מדברות medabrot"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "binyanim"
+        ]
+      },
+      {
+        "id": "et",
+        "topic": "grammar",
+        "title": "את before a definite object",
+        "body": "When the object of a verb is definite (it has ה־, or it is a name), Hebrew puts the little word את (et) in front of it. With an indefinite object there is no את. It has no English translation.",
+        "examples": [
+          {
+            "t": "אני רואה {את} הים.",
+            "r": "Ani ro'e et ha-yam.",
+            "e": "I see the sea."
+          },
+          {
+            "t": "אני רואה ים.",
+            "r": "Ani ro'e yam.",
+            "e": "I see a sea."
+          },
+          {
+            "t": "אתה מכיר {את} דנה?",
+            "r": "Ata makir et Dana?",
+            "e": "Do you know Dana?"
+          }
+        ],
+        "tags": [
+          "objects",
+          "et"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "body": "Numbers have masculine and feminine forms. Counting aloud, telling the time and saying prices use the feminine forms shown here.",
+        "table": {
+          "head": [
+            "",
+            "Hebrew",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "אחת",
+              "achat"
+            ],
+            [
+              "2",
+              "שתיים",
+              "shtayim"
+            ],
+            [
+              "3",
+              "שלוש",
+              "shalosh"
+            ],
+            [
+              "4",
+              "ארבע",
+              "arba"
+            ],
+            [
+              "5",
+              "חמש",
+              "chamesh"
+            ],
+            [
+              "6",
+              "שש",
+              "shesh"
+            ],
+            [
+              "7",
+              "שבע",
+              "sheva"
+            ],
+            [
+              "8",
+              "שמונה",
+              "shmone"
+            ],
+            [
+              "9",
+              "תשע",
+              "tesha"
+            ],
+            [
+              "10",
+              "עשר",
+              "eser"
+            ],
+            [
+              "20",
+              "עשרים",
+              "esrim"
+            ],
+            [
+              "100",
+              "מאה",
+              "me'a"
+            ],
+            [
+              "1000",
+              "אלף",
+              "elef"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "gender"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "שלום, מה נשמע?",
+            "r": "Shalom, ma nishma?",
+            "e": "Hi, how's it going?"
+          },
+          {
+            "t": "תודה רבה.",
+            "r": "Toda raba.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "סליחה, איפה התחנה?",
+            "r": "Slicha, eifo ha-tachana?",
+            "e": "Excuse me, where is the station?"
+          },
+          {
+            "t": "כמה זה עולה?",
+            "r": "Kama ze ole?",
+            "e": "How much does this cost?"
+          },
+          {
+            "t": "אני לא מבין / מבינה.",
+            "r": "Ani lo mevin / mevina.",
+            "e": "I don't understand. (man / woman)"
+          },
+          {
+            "t": "אפשר את החשבון?",
+            "r": "Efshar et ha-cheshbon?",
+            "e": "Could I have the bill?"
+          },
+          {
+            "t": "שבת שלום!",
+            "r": "Shabat shalom!",
+            "e": "Have a peaceful Sabbath! (Friday and Saturday)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "week",
+        "topic": "culture",
+        "title": "The Israeli week",
+        "body": "The working week runs Sunday to Thursday, and Friday is a short day. Shabbat runs from sunset on Friday to nightfall on Saturday; many shops and most public transport stop. The days are numbered: יום ראשון “first day” is Sunday, יום שני Monday, and so on to יום שישי, Friday.",
+        "tags": [
+          "culture",
+          "Shabbat",
+          "days"
         ]
       }
     ]
@@ -7870,6 +9926,463 @@ window.LSD_REFERENCE = {
           "culture",
           "politeness",
           "Sikhism"
+        ]
+      }
+    ]
+  },
+  "thai": {
+    "id": "thai",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Thai at a glance",
+        "body": [
+          "Thai is the national language of Thailand, a Tai–Kadai language closely related to Lao. It is tonal: each syllable has one of five tones, and the tone changes the meaning.",
+          "Words never change form. There are no endings for tense, plural or gender; word order and small helper words do that work. Polite speech ends with ครับ (men) or ค่ะ (women)."
+        ],
+        "examples": [
+          {
+            "t": "ผม{กิน}ข้าว{แล้ว}ครับ",
+            "r": "Phom kin khao laeo khrap.",
+            "e": "I have already eaten. (a man)"
+          }
+        ],
+        "tags": [
+          "Tai–Kadai",
+          "tonal",
+          "analytic"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Thai script works",
+        "body": [
+          "Thai has 44 consonant letters and about 30 vowel forms. Vowels are written before, after, above or below the consonant they follow in speech: in เก (ke), the vowel เ is written first but said second.",
+          "Words are written without spaces between them; a space marks the end of a phrase or sentence. There are no capital letters."
+        ],
+        "examples": [
+          {
+            "t": "ก + า = กา · ก + ิ = กิ · เ + ก = เก · ก + ุ = กุ",
+            "e": "the vowel can sit after, above, before or below"
+          },
+          {
+            "t": "ผมชอบกินข้าวผัด",
+            "r": "phom chop kin khao phat",
+            "e": "I like to eat fried rice. (no spaces between words)"
+          }
+        ],
+        "tags": [
+          "script",
+          "abugida",
+          "spacing"
+        ]
+      },
+      {
+        "id": "tones",
+        "topic": "sounds",
+        "title": "The five tones",
+        "body": "Each syllable has one of five tones. The classic example is the syllable maa (or mai), which is a different word in each tone.",
+        "table": {
+          "head": [
+            "Tone",
+            "Shape",
+            "Example",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Mid",
+              "level, middle of the voice",
+              "มา ma",
+              "come"
+            ],
+            [
+              "Low",
+              "level, low",
+              "ใหม่ mai",
+              "new"
+            ],
+            [
+              "Falling",
+              "high, then falling",
+              "ไม่ mai",
+              "not"
+            ],
+            [
+              "High",
+              "high, rising slightly",
+              "ม้า ma",
+              "horse"
+            ],
+            [
+              "Rising",
+              "low, then rising",
+              "หมา ma",
+              "dog"
+            ]
+          ]
+        },
+        "tags": [
+          "tones",
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "classes",
+        "topic": "script",
+        "title": "Consonant classes and tone marks",
+        "body": [
+          "Every consonant belongs to one of three classes: middle, high or low. The tone of a syllable comes from the class of its first consonant, whether the syllable ends in a stop (live or dead syllable), the vowel length, and any tone mark.",
+          "There are four tone marks: ่ (mai ek), ้ (mai tho), ๊ (mai tri) and ๋ (mai chattawa). The same mark gives different tones on different classes, so learn the class with each letter."
+        ],
+        "table": {
+          "head": [
+            "Class",
+            "Some letters",
+            "Unmarked live syllable"
+          ],
+          "rows": [
+            [
+              "Middle",
+              "ก จ ด ต บ ป อ",
+              "mid tone: กา ka"
+            ],
+            [
+              "High",
+              "ข ฉ ถ ผ ฝ ส ห",
+              "rising tone: ขา kha"
+            ],
+            [
+              "Low",
+              "ค ง ช น ม ร ล ว",
+              "mid tone: คา kha"
+            ]
+          ]
+        },
+        "tags": [
+          "tones",
+          "consonant classes"
+        ]
+      },
+      {
+        "id": "pronouns",
+        "topic": "grammar",
+        "title": "Pronouns and polite endings",
+        "body": "The word for “I” depends on who is speaking and to whom. Pronouns are often dropped when the meaning is clear, and people are often addressed by their name or a kin word like พี่ (older sibling) instead of “you”.",
+        "table": {
+          "head": [
+            "Word",
+            "Romanization",
+            "Use"
+          ],
+          "rows": [
+            [
+              "ผม",
+              "phom",
+              "I (man, polite)"
+            ],
+            [
+              "ฉัน / ดิฉัน",
+              "chan / dichan",
+              "I (woman; ดิฉัน is formal)"
+            ],
+            [
+              "คุณ",
+              "khun",
+              "you (polite)"
+            ],
+            [
+              "เขา",
+              "khao",
+              "he, she, they"
+            ],
+            [
+              "เรา",
+              "rao",
+              "we"
+            ],
+            [
+              "ครับ",
+              "khrap",
+              "polite ending, man"
+            ],
+            [
+              "ค่ะ / คะ",
+              "kha",
+              "polite ending, woman (คะ in questions)"
+            ]
+          ]
+        },
+        "tags": [
+          "pronouns",
+          "politeness"
+        ]
+      },
+      {
+        "id": "markers",
+        "topic": "verbs",
+        "title": "Time and aspect words",
+        "body": "Verbs never change. These words, placed around the verb, show when something happens.",
+        "table": {
+          "head": [
+            "Word",
+            "Place",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "จะ ja",
+              "before the verb",
+              "will",
+              "ฉันจะไป, I will go"
+            ],
+            [
+              "กำลัง kamlang",
+              "before the verb",
+              "is doing now",
+              "เขากำลังกิน, he is eating"
+            ],
+            [
+              "แล้ว laeo",
+              "after the verb phrase",
+              "already, done",
+              "กินแล้ว, I've eaten"
+            ],
+            [
+              "เคย khoei",
+              "before the verb",
+              "have ever",
+              "เคยไป, have been"
+            ],
+            [
+              "ยัง yang",
+              "before the verb",
+              "still; not yet (with ไม่)",
+              "ยังไม่ไป, haven't gone yet"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "tense",
+          "aspect"
+        ]
+      },
+      {
+        "id": "classifiers",
+        "topic": "grammar",
+        "title": "Classifiers",
+        "body": "When counting, the order is noun, number, classifier. Each kind of thing has its own classifier.",
+        "table": {
+          "head": [
+            "Classifier",
+            "Used for",
+            "Example"
+          ],
+          "rows": [
+            [
+              "คน khon",
+              "people",
+              "เพื่อนสองคน, two friends"
+            ],
+            [
+              "ตัว tua",
+              "animals, clothes, chairs",
+              "แมวสามตัว, three cats"
+            ],
+            [
+              "เล่ม lem",
+              "books, knives",
+              "หนังสือหนึ่งเล่ม, one book"
+            ],
+            [
+              "คัน khan",
+              "cars, umbrellas",
+              "รถสองคัน, two cars"
+            ],
+            [
+              "อัน an",
+              "small things in general",
+              "อันนี้, this one"
+            ],
+            [
+              "แก้ว kaeo",
+              "glasses, cups of a drink",
+              "กาแฟสองแก้ว, two coffees"
+            ],
+            [
+              "ขวด khuat",
+              "bottles",
+              "น้ำสามขวด, three bottles of water"
+            ]
+          ]
+        },
+        "tags": [
+          "classifiers",
+          "counting"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Thai digits",
+        "body": "Thailand uses both Arabic digits and its own digits; prices and dates are usually in Arabic digits, but Thai digits appear on official documents and some price signs.",
+        "table": {
+          "head": [
+            "",
+            "Thai digit",
+            "Word",
+            "Romanization"
+          ],
+          "rows": [
+            [
+              "0",
+              "๐",
+              "ศูนย์",
+              "sun"
+            ],
+            [
+              "1",
+              "๑",
+              "หนึ่ง",
+              "nueng"
+            ],
+            [
+              "2",
+              "๒",
+              "สอง",
+              "song"
+            ],
+            [
+              "3",
+              "๓",
+              "สาม",
+              "sam"
+            ],
+            [
+              "4",
+              "๔",
+              "สี่",
+              "si"
+            ],
+            [
+              "5",
+              "๕",
+              "ห้า",
+              "ha"
+            ],
+            [
+              "6",
+              "๖",
+              "หก",
+              "hok"
+            ],
+            [
+              "7",
+              "๗",
+              "เจ็ด",
+              "chet"
+            ],
+            [
+              "8",
+              "๘",
+              "แปด",
+              "paet"
+            ],
+            [
+              "9",
+              "๙",
+              "เก้า",
+              "kao"
+            ],
+            [
+              "10",
+              "๑๐",
+              "สิบ",
+              "sip"
+            ],
+            [
+              "11",
+              "๑๑",
+              "สิบเอ็ด",
+              "sip et"
+            ],
+            [
+              "20",
+              "๒๐",
+              "ยี่สิบ",
+              "yi sip"
+            ],
+            [
+              "100",
+              "๑๐๐",
+              "ร้อย",
+              "roi"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "สวัสดีครับ / ค่ะ",
+            "r": "Sawatdi khrap / kha.",
+            "e": "Hello. (man / woman)"
+          },
+          {
+            "t": "ขอบคุณมากครับ",
+            "r": "Khop khun mak khrap.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ไม่เป็นไร",
+            "r": "Mai pen rai.",
+            "e": "Never mind. / No problem."
+          },
+          {
+            "t": "อันนี้เท่าไร",
+            "r": "An ni thao rai?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ไม่เผ็ดนะครับ",
+            "r": "Mai phet na khrap.",
+            "e": "Not spicy, please."
+          },
+          {
+            "t": "ห้องน้ำอยู่ที่ไหนคะ",
+            "r": "Hong nam yu thi nai kha?",
+            "e": "Where is the toilet? (a woman)"
+          },
+          {
+            "t": "พูดช้าๆ ได้ไหม",
+            "r": "Phut cha cha dai mai?",
+            "e": "Could you speak slowly?"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "wai",
+        "topic": "culture",
+        "title": "The wai",
+        "body": "The wai (ไหว้) is the Thai greeting: palms pressed together at the chest, with a slight bow. The younger or junior person wais first, and the higher the hands, the more respect. Monks are not expected to return a wai, and a shop worker's wai is usually answered with a smile or a nod.",
+        "tags": [
+          "culture",
+          "greetings"
         ]
       }
     ]

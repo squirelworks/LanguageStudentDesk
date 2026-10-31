@@ -1,5 +1,8 @@
+// Arabic characters for the Character Learner (window.SCRIPTS).
+// Listed under data.characters in meta.json; see languages/README.md.
+window.SCRIPTS = window.SCRIPTS || {};
+
 // arabic data
-if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
 SCRIPTS.arabic = {
 
     name: "Arabic",
@@ -33,4 +36,4 @@ SCRIPTS.arabic = {
       { char: "و", roman: "wāw", info: "Does not connect left", example: "ورد", forms: { isolated: "و", initial: "—", medial: "—", final: "و" } },
       { char: "ي", roman: "yāʾ", info: "Connects both sides", example: "يد", forms: { isolated: "ي", initial: "يـ", medial: "ـيـ", final: "ـي" } }
     ]
-  }
+  };
