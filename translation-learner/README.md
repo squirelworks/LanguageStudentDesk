@@ -85,7 +85,7 @@ window.TL_LANGS.hangul = {
 - A leading `-` glues a token to the one before (suffixes, particles written solid); a trailing `-` glues it to the one after (prefixes).
 - One token carrying two meanings joins them with `+` (`not+know`).
 - A meaning the language leaves to context (Japanese and Korean often drop "I") goes in `implied`. Learners may leave it out of their English.
-- `reading` is the romanization, or kana for Japanese (romaji is generated from it). Leave it `""` when the text is already romanized, as for Klingon.
+- `reading` is the romanization, or kana for Japanese (romaji is generated from it). Leave it `""` when the text is already romanized, as for Klingon. Hebrew is written without vowel points; its article ה- and one-letter prepositions glue like Arabic ال.
 - Each column must carry exactly its row's `m`: `check.js` reports any meaning a rendering drops or adds, and checks that the row's own English passes the translation checker.
 
 ## The meaning network
