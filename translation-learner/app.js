@@ -508,18 +508,18 @@
     if (state.bank) return state.bank;
     await LSD.loadScript("data/wordbank/" + state.lang + ".js");
     const bank = window.TL_WORDBANK[state.lang];
-    state.bank = bank.words.map((w, i) => ({ rank: i + 1, word: w[0], english: w[1], base: w[2] }));
+    state.bank = bank.words.map((w, i) => ({ rank: i + 1, word: w[0], english: w[1], base: w[2], guess: !!w[3] }));
     state.bankCredit = bank.credit;
     return state.bank;
   }
 
   async function showWords() {
     const bank = await loadBank();
-    const known = bank.filter((w) => w.english && !w.base).length;
-    const forms = bank.filter((w) => w.base).length;
+    const known = bank.filter((w) => w.english && !w.guess).length;
+    const forms = bank.filter((w) => w.guess).length;
     $("wbTitle").textContent = "The " + bank.length.toLocaleString("en") + " most used words in " + langName(state.lang);
     $("wbIntro").textContent =
-      "Ranked by how often they appear in film and TV subtitles. The Desk has a meaning for " + known +
+      "Ranked by how often they appear across subtitles, Wikipedia, news, books and the web. The Desk has a meaning for " + known +
       (forms ? ", and reads " + forms + " more as forms of a word it knows" : "") +
       ".";
     $("wbCredit").textContent = "Word list: " + state.bankCredit + ".";
@@ -550,7 +550,7 @@
     const key = state.lang + ":" + (state.net && state.net.has(state.lang + ":" + w.word) ? w.word : w.base || w.word);
     let html = '<div class="row"><span class="say target">' + esc(w.word) + '</span><span class="muted">No. ' + w.rank + "</span>";
     html += '<button class="link small" id="wbSpeak" hidden>Listen</button></div>';
-    if (w.base) html += "<p>Probably a form of <b class=\"target\">" + esc(w.base) + "</b>: " + esc(w.english) + "</p>";
+    if (w.base) html += "<p>" + (w.guess ? "Probably a form of" : "A form of") + " <b class=\"target\">" + esc(w.base) + "</b>: " + esc(w.english) + "</p>";
     else if (w.english) html += "<p>" + esc(w.english) + "</p>";
     else html += '<p class="muted">No meaning for this word in the Desk yet.</p>';
     html += neighbours(key);
