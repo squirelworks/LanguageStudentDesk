@@ -1,0 +1,9 @@
+{
+  "id": "manipuri",
+  "name": "Manipuri",
+  "nativeName": "ꯃꯤꯇꯩꯂꯣꯟ",
+  "writingSystems": ["meetei"],
+  "characterKeys": ["meetei"],
+  "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
+  "speech": "mni"
+}

@@ -25,7 +25,7 @@
   // grammar is a list of { id, title, text, lessons } steps checked in the Grammar Learner;
   // leave it empty for a language with no lessons yet and the stage is left out.
   // words is how many example words the script has, when that is fewer than thirty.
-  const COUNT = { 7: "seven", 10: "ten", 12: "twelve", 15: "fifteen", 20: "twenty", 25: "twenty-five", 30: "thirty" };
+  const COUNT = { 7: "seven", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve", 15: "fifteen", 18: "eighteen", 20: "twenty", 23: "twenty-three", 25: "twenty-five", 30: "thirty" };
   function alphabetPath(script, appName, grammar, words = 30) {
     const most = Math.min(30, words);
     const first = Math.min(15, Math.floor(most / 2));
@@ -235,9 +235,10 @@
     armenian: "armenian", georgian: "georgian", hebrew: "hebrew", amharic: "ethiopic", cherokee: "cherokee",
     inuktitut: "syllabics", mongolian: "mongolian", thai: "thai", lao: "lao", khmer: "khmer", tibetan: "tibetan",
     bengali: "bengali", punjabi: "gurmukhi", gujarati: "gujarati", tamil: "tamil", telugu: "telugu",
-    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala",
+    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala", burmese: "burmese", odia: "odia",
+    tamazight: "tifinagh", manipuri: "meetei",
   };
   // Scripts with fewer than thirty example words.
-  const WORDS = { mongolian: 15, syllabics: 20, cherokee: 25 };
+  const WORDS = { mongolian: 15, meetei: 18, syllabics: 20, tifinagh: 23, cherokee: 25 };
   for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.LANGUAGE_PATHS[lang] = alphabetPath(script, "SquirrelGo Alphabets", [], WORDS[script]);
 })();

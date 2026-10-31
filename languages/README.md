@@ -39,9 +39,10 @@ English have an empty `characterKeys`, since they have no Character Learner
 script.
 
 Every SquirrelGo Alphabets script has a language here. Most share the script's
-id (`greek`, `thai`, `tamil`…); three are named for the language instead, with
-the script in `characterKeys`: `amharic` (ethiopic), `inuktitut` (syllabics)
-and `punjabi` (gurmukhi). The Character Learner accepts either id.
+id (`greek`, `thai`, `tamil`…); five are named for the language instead, with
+the script in `characterKeys`: `amharic` (ethiopic), `inuktitut` (syllabics),
+`punjabi` (gurmukhi), `tamazight` (tifinagh) and `manipuri` (meetei). The
+Character Learner accepts either id.
 
 ## reference.json schema
 
