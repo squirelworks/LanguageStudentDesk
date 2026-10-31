@@ -12,6 +12,11 @@ Modular character learning tool for Language Student Desk.
   Mongolian, Burmese, Thai, Lao, Khmer, Tibetan — the SquirrelGo Alphabets scripts, loaded
   from that app's data files
 - Kanji — full **Jōyō set (2,136)**, identical to [SquirrelGo Kanji](../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/)
+- Hanzi — the 1,799 characters of HSK 3.0 levels 1–6, by level, with pinyin and traditional forms (`?lang=chinese`)
+- Hanja — the 1,800 basic hanja for education, with hangul readings, next to Hangul (`?lang=hangul`)
+
+Kanji, hanzi and hanja come from one shared table, so a character used by more than one
+tradition shows each tradition's reading on its detail card.
 
 ## Features
 
@@ -37,9 +42,10 @@ through `languages/lsd-lang.js`:
 - `languages/arabic/characters.js`, `languages/cyrillic/characters.js`,
   `languages/hangul/characters.js`, `languages/hindi/characters.js` (Devanagari)
 - `languages/klingon/characters.js` — pIqaD
-- Kanji — `languages/cjk/characters.js` (the shared CJK table: radical, strokes)
-  plus `languages/japanese/kanji.js` (readings, meanings, JLPT level, grade,
-  on'yomi groups), put together by `LSD.load`
+- Kanji, hanzi and hanja — `languages/cjk/characters.js` (the shared CJK table:
+  radical, strokes, and which traditions use each character) plus each
+  tradition's readings: `languages/japanese/kanji.js`, `languages/chinese/hanzi.js`,
+  `languages/hangul/hanja.js`, put together by `LSD.load`
 
 `scripts/sg-alphabets.js` is logic only: it turns SquirrelGo Alphabets' data
 files into Character Learner scripts.
