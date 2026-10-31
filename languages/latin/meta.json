@@ -6,5 +6,5 @@
   "characterKeys": [],
   "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
   "speech": "la",
-  "data": { "grammar": "grammar.js", "reference": "reference.json" }
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

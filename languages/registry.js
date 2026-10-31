@@ -29,6 +29,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -113,6 +114,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "zh-CN",
     "data": {
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -131,6 +133,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -180,6 +183,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "el-GR",
     "data": {
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -216,6 +220,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -253,6 +258,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -343,6 +349,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
@@ -376,6 +383,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "la",
     "data": {
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
