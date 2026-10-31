@@ -25,8 +25,8 @@ programming-learner/index.html?lang=python#loops
 - `index.html`, `app.js` — the page and its logic (uses `../languages/learners.css` and `LSD.store` / `LSD.loadScript` from `../languages/lsd-lang.js`)
 - `data/catalog.js` — the languages, in menu order, with the blurb shown on the home grid
 - `data/<id>.js` — one course per language, loaded on demand
-- `tools/check_packs.py` — checks every course; runs the Python, brainFOOD and Z80 examples
-- `tools/z80run.py` — a small Z80 interpreter with the CP/M print calls, used to run the Z80 examples
+- `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
+- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls
 
 ## Course schema
 

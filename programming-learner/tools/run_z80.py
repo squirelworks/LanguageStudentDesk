@@ -13,7 +13,7 @@ bytes; data from DB/DW/DS lives in a real 64 KB memory. Covered: the documented
 calls, the stack, exchanges, block moves (LDI/LDIR/LDD/LDDR/CPI/CPIR) and
 (IX+d)/(IY+d). Not covered: interrupts, I/O ports, DAA and undocumented opcodes.
 
-    python3 z80run.py program.asm      prints what the program prints
+    python3 run_z80.py program.asm      prints what the program prints
 """
 import re
 import sys
