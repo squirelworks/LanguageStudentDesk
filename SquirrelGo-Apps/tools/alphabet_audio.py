@@ -86,6 +86,13 @@ FIXES = {
     ("gujarati", "ણ"): "[[n.@]]",
     ("gujarati", "ળ"): "[[l.@]]",
     ("tamil", "ஃ"): "[[ah]]",
+    # The Odia voice reads these by their letter names (ଣ as murddhanya no).
+    ("odia", "ଙ"): "[[NO]]",
+    ("odia", "ଞ"): "[[n^O]]",
+    ("odia", "ଣ"): "[[n.O]]",
+    ("odia", "ୟ"): "[[jO]]",
+    ("odia", "ଳ"): "[[l.O]]",
+    ("odia", "ୱ"): "[[wO]]",
     ("sinhala", "ඇ"): "[[&]]",
     ("sinhala", "ඈ"): "[[&:]]",
     # The Malayalam voice voices k, t and p at the start of a word (ക as ga).
@@ -177,7 +184,7 @@ def letter_text(s, ch, ipa, lang, voice):
 def plain_ipa(ipa):
     """IPA without tone marks or alternatives, for ipa_audio."""
     ipa = unicodedata.normalize("NFD", (ipa or "").split("~")[0].strip())
-    tones = {"\u0300", "\u0301", "\u0302", "\u0304", "\u030c"}  # à á â ā ǎ
+    tones = {"\u0300", "\u0301", "\u0302", "\u0304", "\u030c", "\u0330"}  # à á â ā ǎ, creaky a̰
     return unicodedata.normalize("NFC", "".join(c for c in ipa if c not in tones and c not in "˥˦˧˨˩"))
 
 

@@ -40,6 +40,8 @@ IPA = {
     "x": "x", "ɣ": "Q", "χ": "X", "ʁ": "R", "h": "h", "ɬ": "l#",
     "m": "m", "n": "n", "ɲ": "n^", "ŋ": "N", "l": "l", "r": "r", "ɾ": "r", "w": "w", "j": "j",
     "ə̃": "@~", "ʰ": "#",
+    # Burmese and Tamazight sounds the "hi" table has no letter for.
+    "θ": "T", "ð": "D", "ɴ": "N", "m̥": "hm", "n̥": "hn", "l̥": "hl", "ħ": "h", "ʕ": "?", "ʷ": "w", "ˤ": "",
     "ˈ": "'", "ˌ": ",", "ː": ":", " ": " ",
 }
 KEYS = sorted(IPA, key=len, reverse=True)
