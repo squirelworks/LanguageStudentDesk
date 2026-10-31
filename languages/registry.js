@@ -42,7 +42,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "armenian"
     ],
     "notes": "Eastern Armenian in the Armenian alphabet.",
-    "speech": "hy-AM"
+    "speech": "hy-AM",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "bengali": {
     "id": "bengali",
@@ -141,7 +146,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "georgian"
     ],
     "notes": "Georgian in Mkhedruli, which has no capital letters.",
-    "speech": "ka-GE"
+    "speech": "ka-GE",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "greek": {
     "id": "greek",
@@ -154,7 +164,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "greek"
     ],
     "notes": "Modern Greek in the Greek alphabet, 24 letters with a stress mark.",
-    "speech": "el-GR"
+    "speech": "el-GR",
+    "data": {
+      "grammar": "grammar.js",
+      "reference": "reference.json"
+    }
   },
   "gujarati": {
     "id": "gujarati",
@@ -198,7 +212,12 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Modern Hebrew, written right to left; vowel points are usually left out.",
     "speech": "he-IL",
-    "direction": "rtl"
+    "direction": "rtl",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "hindi": {
     "id": "hindi",
@@ -449,7 +468,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "thai"
     ],
     "notes": "Thai, with 44 consonants in three classes and five tones; words are written without spaces.",
-    "speech": "th-TH"
+    "speech": "th-TH",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "tibetan": {
     "id": "tibetan",
