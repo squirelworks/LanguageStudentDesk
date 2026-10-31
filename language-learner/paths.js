@@ -262,6 +262,10 @@
       gr("gr-basics", "“To be”, “my” and “have”", "ነኝ, ነህ, ነው; the endings for “my” and “your”; and አለ and የለም.", ["to-be", "possessives", "have-not"]),
       gr("gr-more", "Questions, places and verbs", "Question words, ከ-, በ-, ለ- and plurals, and verbs in the present and past.", ["questions", "place-plural", "verbs"]),
     ],
+    inuktitut: [
+      gr("gr-basics", "Nouns, possession and places", "Singular, dual and plural; my/your/his endings; and ‑mi, ‑mut, ‑mit for in, to and from.", ["nouns", "possession", "places"]),
+      gr("gr-more", "Verbs, questions and saying no", "Present endings ‑junga/‑jutit/‑juq; questions with ‑vit; and negation with ‑nngit‑.", ["verbs", "questions", "negation"]),
+    ],
     mongolian: [
       gr("gr-basics", "Pronouns, questions and cases", "Pronouns and биш, questions with уу and үү, and the endings for my, in and from.", ["pronouns", "questions", "cases"]),
       gr("gr-more", "“Have” and verbs", "байна and байхгүй, and verbs in the present and the past.", ["have", "present", "past"]),
