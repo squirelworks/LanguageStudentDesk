@@ -22,11 +22,13 @@ The TenguGo series had a separate app for each alphabet. SquirrelGo Alphabets pu
 | Telugu తెలుగు | Telugu | vowels, vowel signs on క, the five consonant rows, semivowels and sibilants, ళ క్ష ఱ | articles on the talakattu tick, second forms (vattulu) and vowel endings |
 | Kannada ಕನ್ನಡ | Kannada | vowels, vowel signs on ಕ, the five consonant rows, semivowels and sibilants, ಳ ಕ್ಷ | articles on Kannada and Telugu, second forms (ottakshara) and Kannada digits |
 | Odia ଓଡ଼ିଆ | Odia | vowels, vowel signs on କ, the five consonant rows, semivowels and sibilants (with ଯ and ୟ), ଡ଼ ଢ଼ କ୍ଷ and signs | articles on the round caps, the kept final o, letters that sound the same and conjuncts |
+| Meetei Mayek ꯃꯤꯇꯩ ꯃꯌꯦꯛ | Manipuri | the 18 Iyek Ipee letters with their body-part names, the 9 borrowed letters, vowel signs on ꯀ, final letters (lonsum) | articles on the letter names, the script's revival and lonsum |
 | Malayalam മലയാളം | Malayalam | vowels, vowel signs on ക, the five consonant rows, other consonants (ള ഴ റ), chillu letters | articles on the chandrakkala and half-u, and the old and new spelling |
 | Sinhala සිංහල | Sinhala (Sri Lanka) | vowels (with ඇ ඈ), vowel signs on ක, stops, nasals and half-nasals, other consonants, letters for Sanskrit and Pali words | articles on pure and mixed alphabets and the half-nasal letters |
 | Arabic العربية | Modern Standard Arabic | letters in shape families, extra letters, short vowel marks | letter forms table (isolated, initial, medial, final); articles on joining and sun/moon letters |
 | Hebrew עברית | Modern Hebrew | the letters in four runs, end-of-word forms, the dots that change a sound (בּ כּ פּ שׁ שׂ), vowel points | articles on reading without vowels and letters that look alike |
 | Ethiopic ፊደል | Amharic | base letters with ä, ejectives, letters that share a sound, the vowel orders on ለ, በ and ሰ | articles on the fidel, reading the orders, the sixth order and doubled consonants |
+| Tifinagh ⵜⵉⴼⵉⵏⴰⵖ | Standard Moroccan Amazigh (IRCAM) | vowels, familiar sounds, hushing and throat sounds, emphatic letters, rounded k and g | articles on the script's history, its geometric shapes and writing without vowels |
 | Cherokee ᏣᎳᎩ | Cherokee | all 85 syllables, a lesson per consonant row | articles on Sequoyah's syllabary, reading the chart and consonant clusters |
 | Syllabics ᖃᓂᐅᔮᖅᐸᐃᑦ | Inuktitut | the i, u, a series and finals for each consonant | articles on syllabics, how the shapes turn, and long vowels |
 | Mongolian ᠮᠣᠩᠭᠣᠯ | Mongolian (Inner Mongolia) | vowels, native consonants, letters for borrowed words; shown vertically | articles on the script, letter shapes in words, spelling and speech |
@@ -45,7 +47,7 @@ Every character has:
 
 ## Sounds
 
-Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Hebrew is recorded from IPA through `tools/ipa_audio.py` (`audio: "ipa"` in its data), because eSpeak spells pointed Hebrew out letter by letter. eSpeak NG has no voice for Lao, Khmer or Tibetan and reads Burmese letters badly, so those are recorded from IPA the same way, through the Hindi phoneme table and without tones. Clips are mono MP3 at 32 kbps, about 2 KB each.
+Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` and committed under `www/audio/<script>/`, with a map from spoken text to clip in `www/data/audio/<script>.js`. Each letter clip says the letter's sound: a consonant is said with the vowel a after it (б as ба), a vowel from its IPA. Example words are read in their own language (Latin examples carry a language tag). Hebrew is recorded from IPA through `tools/ipa_audio.py` (`audio: "ipa"` in its data), because eSpeak spells pointed Hebrew out letter by letter. eSpeak NG has no voice for Lao, Khmer, Tibetan, Amazigh or Meitei and reads Burmese letters badly, so those are recorded from IPA the same way, through the Hindi phoneme table and without tones. Clips are mono MP3 at 32 kbps, about 2 KB each.
 
 ## Stroke order
 
