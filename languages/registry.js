@@ -257,7 +257,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "kannada"
     ],
     "notes": "Kannada in the Kannada script, spoken in Karnataka.",
-    "speech": "kn-IN"
+    "speech": "kn-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "khmer": {
     "id": "khmer",
@@ -326,7 +331,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "malayalam"
     ],
     "notes": "Malayalam in the Malayalam script, spoken in Kerala.",
-    "speech": "ml-IN"
+    "speech": "ml-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "manipuri": {
     "id": "manipuri",
@@ -391,7 +401,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "sinhala"
     ],
     "notes": "Sinhala in the Sinhala script, spoken in Sri Lanka.",
-    "speech": "si-LK"
+    "speech": "si-LK",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "tamazight": {
     "id": "tamazight",
@@ -417,7 +432,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "tamil"
     ],
     "notes": "Tamil in the Tamil script, spoken in Tamil Nadu and Sri Lanka.",
-    "speech": "ta-IN"
+    "speech": "ta-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "telugu": {
     "id": "telugu",
@@ -430,7 +450,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "telugu"
     ],
     "notes": "Telugu in the Telugu script, spoken in Andhra Pradesh and Telangana.",
-    "speech": "te-IN"
+    "speech": "te-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "thai": {
     "id": "thai",
