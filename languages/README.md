@@ -107,6 +107,28 @@ this for any `characterKeys` entry named `hanzi`, `kanji` or `hanja`.
 `build_registry.py` fails when a tradition has an entry the table doesn't tag
 with it, or the table tags a character a tradition has no entry for.
 
+### Sources
+
+- **Kanji** (`japanese/kanji.js`): the full Jōyō set, shared with SquirrelGo Kanji.
+- **Hanzi** (`chinese/hanzi.js`): every character of HSK 3.0 levels 1–6 (1,799;
+  `hsk` is the lowest level a word with the character appears at), from the
+  word lists in [complete-hsk-vocabulary](https://github.com/drkameleon/complete-hsk-vocabulary)
+  (MIT). Pinyin (`kMandarin`), meaning (`kDefinition`) and traditional form
+  (`kTraditionalVariant`) come from the [Unihan database](https://www.unicode.org/reports/tr38/)
+  (Unicode 17.0, [Unicode license](https://www.unicode.org/license.txt)).
+- **Hanja** (`hangul/hanja.js`): the 1,800 basic hanja for education, the
+  `kHangul` readings Unihan marks `E`, with Unihan meanings, in hangul order.
+- Radicals and stroke counts of characters that are not kanji come from Unihan
+  `kRSUnicode` and `kTotalStrokes`; kanji keep the SquirrelGo Kanji values.
+
+`cjk/build_cjk.py` rebuilds the hanzi and hanja files and their tags in the
+table from those sources:
+
+```
+python3 languages/cjk/build_cjk.py --unihan <folder with Unihan_*.txt> --hsk complete.json
+python3 languages/build_registry.py --check
+```
+
 ## meta.json schema (initial)
 
 ```json
