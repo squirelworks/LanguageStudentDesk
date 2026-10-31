@@ -22,6 +22,8 @@
     arabic: "data/arabic.js",
     cyrillic: "data/cyrillic.js",
     hindi: "data/hindi.js",
+    chinese: "data/chinese.js",
+    latin: "data/latin.js",
   };
   const PASS = 0.8;
 
