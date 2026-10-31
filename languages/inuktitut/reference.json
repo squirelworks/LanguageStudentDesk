@@ -1,0 +1,69 @@
+{
+  "id": "inuktitut",
+  "entries": [
+    {
+      "id": "at-a-glance", "topic": "overview", "title": "Inuktitut at a glance",
+      "body": [
+        "Inuktitut is the language of the Inuit of the eastern Canadian Arctic, spoken by about 40,000 people. It is an official language of Nunavut and of the Northwest Territories, and is used in schools, government and media there.",
+        "Inuktitut is polysynthetic: a word is built from a root followed by a chain of endings, so one word can carry the meaning of a whole English sentence. ᑐᒃᑐᓯᐅᕆᐊᖃᖅᑐᖓ (tuktusiuriaqaqtunga) means “I have to go caribou hunting”."
+      ],
+      "tags": ["Eskimo-Aleut", "polysynthetic"]
+    },
+    {
+      "id": "syllabics", "topic": "script", "title": "How syllabics work",
+      "body": [
+        "Inuktitut in Nunavut is written in Canadian Aboriginal syllabics, first made for Cree in the 1840s and adapted for Inuktitut later in the century. Each consonant has one shape, and the way it is turned shows the vowel: pointing up for i, right for u, left for a.",
+        "A dot above a character makes the vowel long (ᐱ pi, ᐲ pii). A small raised character, written after a syllable, is a consonant with no vowel (ᑉ p). Inuktitut in Nunavik (Quebec) uses the same script; in Labrador and the western Arctic it is written in the Latin alphabet."
+      ],
+      "table": {
+        "head": ["", "i", "u", "a", "final"],
+        "rows": [
+          ["(vowel)", "ᐃ", "ᐅ", "ᐊ", ""],
+          ["p", "ᐱ", "ᐳ", "ᐸ", "ᑉ"],
+          ["t", "ᑎ", "ᑐ", "ᑕ", "ᑦ"],
+          ["k", "ᑭ", "ᑯ", "ᑲ", "ᒃ"],
+          ["m", "ᒥ", "ᒧ", "ᒪ", "ᒻ"],
+          ["n", "ᓂ", "ᓄ", "ᓇ", "ᓐ"],
+          ["s", "ᓯ", "ᓱ", "ᓴ", "ᔅ"],
+          ["q", "ᕿ", "ᖁ", "ᖃ", "ᖅ"]
+        ]
+      },
+      "tags": ["syllabics"]
+    },
+    {
+      "id": "numbers", "topic": "numbers", "title": "Numbers",
+      "body": "Traditional numbers are based on fives and twenties. Today many speakers use English numbers above five.",
+      "table": {
+        "head": ["Number", "Inuktitut", "Said"],
+        "rows": [
+          ["1", "ᐊᑕᐅᓯᖅ", "atausiq"],
+          ["2", "ᒪᕐᕉᒃ", "marruuk"],
+          ["3", "ᐱᖓᓱᑦ", "pingasut"],
+          ["4", "ᓯᑕᒪᑦ", "sitamat"],
+          ["5", "ᑕᓪᓕᒪᑦ", "tallimat"],
+          ["10", "ᖁᓕᑦ", "qulit"]
+        ]
+      },
+      "tags": ["counting"]
+    },
+    {
+      "id": "phrases", "topic": "phrases", "title": "Everyday phrases",
+      "examples": [
+        { "t": "ᐊᐃ", "r": "Ai.", "e": "Hello." },
+        { "t": "ᐅᓪᓛᒃᑯᑦ", "r": "Ullaakkut.", "e": "Good morning." },
+        { "t": "ᖃᓄᐃᑉᐱᑦ?", "r": "Qanuippit?", "e": "How are you?" },
+        { "t": "ᖃᓄᐃᙱᑦᑐᖓ", "r": "Qanuinngittunga.", "e": "I'm fine." },
+        { "t": "ᖁᔭᓐᓇᒦᒃ", "r": "Qujannamiik.", "e": "Thank you." }
+      ],
+      "tags": ["greetings"]
+    },
+    {
+      "id": "place-names", "topic": "culture", "title": "Place names",
+      "body": [
+        "Many places in Nunavut carry their Inuktitut names, which describe the land: Iqaluit (ᐃᖃᓗᐃᑦ) means “many fish”, Nunavut (ᓄᓇᕗᑦ) “our land”, and Kangiqtugaapik (ᑲᖏᖅᑐᒑᐱᒃ, Clyde River) “nice little inlet”.",
+        "Inuit Qaujimajatuqangit (ᐃᓄᐃᑦ ᖃᐅᔨᒪᔭᑐᖃᖏᑦ), traditional Inuit knowledge, is one of the guiding principles of the Nunavut government."
+      ],
+      "tags": ["places", "Nunavut"]
+    }
+  ]
+}

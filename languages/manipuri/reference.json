@@ -1,0 +1,72 @@
+{
+  "id": "manipuri",
+  "entries": [
+    {
+      "id": "at-a-glance", "topic": "overview", "title": "Manipuri at a glance",
+      "body": [
+        "Manipuri, also called Meeteilon or Meitei, is the official language of the state of Manipur in north-east India and one of India's 22 scheduled languages. It has about 1.8 million first-language speakers and is a common language among many communities in Manipur.",
+        "It is a Sino-Tibetan language. The verb comes last, small endings mark the subject, object and place, and it is tonal, with two tones."
+      ],
+      "examples": [
+        { "t": "ꯑꯩꯒꯤ ꯃꯤꯡ … ꯅꯤ", "r": "Eigi ming … ni.", "e": "My name is …" }
+      ],
+      "tags": ["Sino-Tibetan", "verb-final", "tonal"]
+    },
+    {
+      "id": "meetei-mayek", "topic": "script", "title": "Meetei Mayek",
+      "body": [
+        "Meetei Mayek is the traditional script of Manipuri. It was replaced by the Bengali script for about two centuries and was brought back in the 1970s and 1980s; it is now taught in schools and used on signs alongside Bengali script.",
+        "Its first 18 letters are named after parts of the human body: ꯀ (kok) is the head, ꯁ (sam) the hair, ꯂ (lai) the forehead, ꯃ (mit) the eye, ꯄ (pa) the eyelash, ꯅ (na) the ear. Like other Brahmi-family scripts each consonant carries a vowel, and vowel signs change it. Special final letters (lonsum) write a consonant at the end of a syllable, as in ꯆꯥꯛ, chak."
+      ],
+      "table": {
+        "head": ["Letter", "Name", "Sound", "Body part"],
+        "rows": [
+          ["ꯀ", "kok", "k", "head"],
+          ["ꯁ", "sam", "s", "hair"],
+          ["ꯂ", "lai", "l", "forehead"],
+          ["ꯃ", "mit", "m", "eye"],
+          ["ꯄ", "pa", "p", "eyelash"],
+          ["ꯅ", "na", "n", "ear"]
+        ]
+      },
+      "tags": ["abugida", "Brahmi family"]
+    },
+    {
+      "id": "numbers", "topic": "numbers", "title": "Numbers and Meetei Mayek digits",
+      "table": {
+        "head": ["Digit", "Word", "Said"],
+        "rows": [
+          ["꯱", "ꯑꯃꯥ", "ama"],
+          ["꯲", "ꯑꯅꯤ", "ani"],
+          ["꯳", "ꯑꯍꯨꯝ", "ahum"],
+          ["꯴", "ꯃꯔꯤ", "mari"],
+          ["꯵", "ꯃꯉꯥ", "manga"],
+          ["꯶", "ꯇꯔꯨꯛ", "taruk"],
+          ["꯷", "ꯇꯔꯦꯠ", "taret"],
+          ["꯸", "ꯅꯤꯄꯥꯟ", "nipan"],
+          ["꯹", "ꯃꯥꯄꯜ", "mapal"],
+          ["꯱꯰", "ꯇꯔꯥ", "tara"]
+        ]
+      },
+      "tags": ["digits"]
+    },
+    {
+      "id": "phrases", "topic": "phrases", "title": "Everyday phrases",
+      "examples": [
+        { "t": "ꯈꯨꯔꯨꯝꯖꯔꯤ", "r": "Khurumjari.", "e": "Hello. (respectful)" },
+        { "t": "ꯊꯥꯒꯠꯆꯔꯤ", "r": "Thagatchari.", "e": "Thank you." },
+        { "t": "ꯅꯪꯒꯤ ꯃꯤꯡ ꯀꯔꯤꯅꯣ?", "r": "Nanggi ming karino?", "e": "What is your name?" },
+        { "t": "ꯍꯣꯏ / ꯅꯠꯇꯦ", "r": "Hoi. / Natte.", "e": "Yes. / No." }
+      ],
+      "tags": ["greetings"]
+    },
+    {
+      "id": "ima-keithel", "topic": "culture", "title": "Ima Keithel",
+      "body": [
+        "Ima Keithel (ꯏꯃꯥ ꯀꯩꯊꯦꯜ), “mothers' market”, in Imphal is a market run entirely by women, with several thousand stall holders. It has existed for centuries and is often called the largest market of its kind.",
+        "Manipur is also known as a home of modern polo, played there as sagol kangjei, and of the Manipuri classical dance, one of India's classical dance forms."
+      ],
+      "tags": ["Imphal", "customs"]
+    }
+  ]
+}
