@@ -324,6 +324,99 @@ window.LSD_REFERENCE = {
           "customs",
           "coffee"
         ]
+      },
+      {
+        "id": "pronouns",
+        "topic": "grammar",
+        "title": "You, he, and she",
+        "body": "Amharic “you” and “he / she” mark gender (and a polite form). The verb ending follows the same choice.",
+        "table": {
+          "head": [
+            "English",
+            "Amharic",
+            "Said"
+          ],
+          "rows": [
+            [
+              "I",
+              "እኔ",
+              "əne"
+            ],
+            [
+              "you (man)",
+              "አንተ",
+              "antä"
+            ],
+            [
+              "you (woman)",
+              "አንቺ",
+              "anči"
+            ],
+            [
+              "you (polite)",
+              "እርስዎ",
+              "ərswo"
+            ],
+            [
+              "he",
+              "እሱ",
+              "əssu"
+            ],
+            [
+              "she",
+              "እሷ",
+              "əsswa"
+            ],
+            [
+              "we",
+              "እኛ",
+              "əñña"
+            ],
+            [
+              "they",
+              "እነሱ",
+              "ənnässu"
+            ]
+          ]
+        },
+        "tags": [
+          "pronouns",
+          "gender"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation with አል‑ … ‑ም",
+        "body": "Many present and past verbs are negated by wrapping the stem in አል‑ … ‑ም (al- … -m). The polite “I don’t understand” አልገባኝም (algebagnim) follows this pattern.",
+        "examples": [
+          {
+            "t": "{አልገባኝም}.",
+            "r": "Algebagnim.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "አማርኛ {አልናገርም}.",
+            "r": "Amarigna alnaggärm.",
+            "e": "I don't speak Amharic."
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
+      },
+      {
+        "id": "calendar",
+        "topic": "culture",
+        "title": "The Ethiopian calendar",
+        "body": [
+          "Ethiopia uses a calendar of twelve 30-day months plus a short thirteenth month, ጳጉሜን (Pagumēn). The year begins around 11 September in the Gregorian calendar, so Ethiopian New Year (እንቁጣጣሽ, Enkutatash) falls then.",
+          "Ethiopian dates are often written with Ethiopic numerals, and the year number is seven or eight years behind the Gregorian count."
+        ],
+        "tags": [
+          "calendar",
+          "new year"
+        ]
       }
     ]
   },
@@ -1914,6 +2007,32 @@ window.LSD_REFERENCE = {
           "culture",
           "history"
         ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation with না",
+        "body": "Put না (na) after the verb to negate it. In the past, নি (ni) often replaces না after a conjugated form. There is no change to the verb stem itself.",
+        "examples": [
+          {
+            "t": "আমি বুঝি {না}।",
+            "r": "Ami bujhi na.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "সে যায় {না}।",
+            "r": "Se jay na.",
+            "e": "He / she doesn't go."
+          },
+          {
+            "t": "আমি যাই {নি}।",
+            "r": "Ami jai ni.",
+            "e": "I didn't go."
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
       }
     ]
   },
@@ -2277,6 +2396,37 @@ window.LSD_REFERENCE = {
           "names",
           "politeness"
         ]
+      },
+      {
+        "id": "particles",
+        "topic": "grammar",
+        "title": "Subject က and object ကို",
+        "body": "Burmese marks roles with small particles after the noun. က (ga) often marks the subject; ကို (go) marks a definite object. They are dropped when context is clear.",
+        "examples": [
+          {
+            "t": "ကျွန်တော်{က} မြန်မာစကား သင်တယ်။",
+            "r": "Kya-naw ga myanma zaga thin de.",
+            "e": "I (man speaking) am learning Burmese."
+          },
+          {
+            "t": "စာအုပ်{ကို} ဖတ်တယ်။",
+            "r": "Sa-ouq go phat de.",
+            "e": "(I) read the book."
+          }
+        ],
+        "tags": [
+          "particles"
+        ]
+      },
+      {
+        "id": "thingyan",
+        "topic": "culture",
+        "title": "Thingyan",
+        "body": "Thingyan (သင်္ကြန်) is the Burmese new year water festival in mid-April. People pour and splash water in the streets to wash away the old year, and many also make offerings at monasteries.",
+        "tags": [
+          "festivals",
+          "new year"
+        ]
       }
     ]
   },
@@ -2514,6 +2664,159 @@ window.LSD_REFERENCE = {
         "tags": [
           "clans",
           "society"
+        ]
+      },
+      {
+        "id": "set-a-prefixes",
+        "topic": "grammar",
+        "title": "Set A prefixes on “is speaking”",
+        "body": "Most Cherokee verbs need a bound pronoun on the front. Set A prefixes mark who is doing the action on verbs like ᎦᏬᏂᎭ (gawoniha) “is speaking”. The independent pronouns ᎠᏴ (ayv) “I” and ᏂᎯ (nihi) “you” are only added for emphasis.",
+        "table": {
+          "head": [
+            "Person",
+            "Prefix",
+            "Form",
+            "Said"
+          ],
+          "rows": [
+            [
+              "I",
+              "Ꮵ-",
+              "ᏥᏬᏂᎭ",
+              "tsiwoniha"
+            ],
+            [
+              "you (one)",
+              "Ꭿ-",
+              "ᎯᏬᏂᎭ",
+              "hiwoniha"
+            ],
+            [
+              "he / she",
+              "Ꭶ-",
+              "ᎦᏬᏂᎭ",
+              "gawoniha"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "Ꮎ ᎠᏍᎦᏯ {ᎦᏬᏂᎭ}.",
+            "r": "Na asgaya gawoniha.",
+            "e": "That man is speaking."
+          },
+          {
+            "t": "{Ꮵ} ᏣᎳᎩ.",
+            "r": "Tsi tsalagi.",
+            "e": "I am Cherokee."
+          }
+        ],
+        "tags": [
+          "Set A",
+          "prefixes"
+        ]
+      },
+      {
+        "id": "set-b-want",
+        "topic": "verbs",
+        "title": "Set B “want”, and “go”",
+        "body": "Some verbs take Set B prefixes instead. “Want” is one of them: ᎠᏆᏚᎵᎭ (agwaduliha) “I want it”, ᏣᏚᎵᎭ (tsaduliha) “you want it”, ᎤᏚᎵᎭ (uduliha) “he / she wants it”. “Go” is a short stem: ᎨᎦ (gega) “I am going”, ᎮᎦ (hega) “you are going”.",
+        "examples": [
+          {
+            "t": "ᎧᏫ {ᎠᏆᏚᎵᎭ}.",
+            "r": "Kahwi agwaduliha.",
+            "e": "I want coffee."
+          },
+          {
+            "t": "ᎦᏚ {ᏣᏚᎵᎭ}.",
+            "r": "Gadu tsaduliha.",
+            "e": "You want bread."
+          },
+          {
+            "t": "{ᎨᎦ}.",
+            "r": "Gega.",
+            "e": "I am going."
+          },
+          {
+            "t": "ᎭᏢ {ᎮᎦ}?",
+            "r": "Hadlv hega?",
+            "e": "Where are you going?"
+          }
+        ],
+        "tags": [
+          "Set B",
+          "want",
+          "go"
+        ]
+      },
+      {
+        "id": "questions",
+        "topic": "grammar",
+        "title": "Questions: ‑Ꮝ and question words",
+        "body": "A yes/no question often adds ‑Ꮝ (-s) or ‑Ꮷ (-tsu) to the first word. Content questions start with a question word: ᎦᏙ (gado) “what”, ᎦᎪ (gago) “who”, ᎭᏢ (hadlv) “where”.",
+        "examples": [
+          {
+            "t": "ᎧᏫ{Ꮝ} ᏣᏚᎵᎭ?",
+            "r": "Kahwis tsaduliha?",
+            "e": "Do you want coffee?"
+          },
+          {
+            "t": "ᎦᏚ{Ꮝ} ᏣᏚᎵᎭ?",
+            "r": "Gadus tsaduliha?",
+            "e": "Do you want bread?"
+          },
+          {
+            "t": "{ᎦᏙ} ᏕᏣᏙᎠ?",
+            "r": "Gado detsado'a?",
+            "e": "What is your name?"
+          },
+          {
+            "t": "{ᎦᎪ} ᎦᏬᏂᎭ?",
+            "r": "Gago gawoniha?",
+            "e": "Who is speaking?"
+          }
+        ],
+        "tags": [
+          "questions"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation with Ꮭ",
+        "body": "Western Cherokee puts Ꮭ (tla) “not” before the verb and adds a negation prefix on the verb: yi- before a consonant, y- before a vowel. Eastern materials often write ᎨᏍᏗ (gesdi) for the same “not”.",
+        "examples": [
+          {
+            "t": "{Ꮭ} {Ᏹ}ᏥᏬᏂᎭ.",
+            "r": "Tla yitsiwoniha.",
+            "e": "I am not speaking."
+          },
+          {
+            "t": "{Ꮭ} {Ꮿ}ᏆᏚᎵᎭ.",
+            "r": "Tla yagwaduliha.",
+            "e": "I do not want it."
+          },
+          {
+            "t": "{Ꮭ ᏣᎳᎩ ᏱᏥᏬᏂ}.",
+            "r": "Tla tsalagi yitsiwoni.",
+            "e": "I don’t speak Cherokee."
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
+      },
+      {
+        "id": "phoenix",
+        "topic": "culture",
+        "title": "Cherokee Phoenix",
+        "body": [
+          "The Cherokee Phoenix (ᏣᎳᎩ ᏧᎴᎯᏌᏅᎯ, Tsalagi Tsulehisanvhi) began printing in New Echota in 1828, in Sequoyah’s syllabary and in English. It was the first newspaper published by a Native American nation.",
+          "The press helped spread literacy in the syllabary across the Cherokee Nation before Removal. A modern Cherokee Phoenix still publishes from Tahlequah, Oklahoma."
+        ],
+        "tags": [
+          "history",
+          "press"
         ]
       }
     ]
@@ -6118,6 +6421,45 @@ window.LSD_REFERENCE = {
           "festivals",
           "food"
         ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "Gujarati keeps the Indo-Aryan contrast between plain and breathy consonants (ક / ખ, ત / થ) and between dental and retroflex ones (ત / ટ). The vowel અ is a short “uh”, and આ is a long “aa”.",
+        "examples": [
+          {
+            "t": "કર · ખર",
+            "r": "kar · khar",
+            "e": "do · truly: the puff of air changes the word"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "aspiration"
+        ]
+      },
+      {
+        "id": "past",
+        "topic": "verbs",
+        "title": "The past participle",
+        "body": "In the simple past, the verb often agrees with the object when one is present (ergative pattern): the subject takes ‑એ, and the participle shows gender and number of what was done.",
+        "examples": [
+          {
+            "t": "મેં કામ {કર્યું}.",
+            "r": "Mẽ kam karyũ.",
+            "e": "I did the work."
+          },
+          {
+            "t": "તેણે ચા {પીધી}.",
+            "r": "Teṇe cha pidhi.",
+            "e": "He / she drank tea."
+          }
+        ],
+        "tags": [
+          "past",
+          "ergative"
+        ]
       }
     ]
   },
@@ -8122,6 +8464,190 @@ window.LSD_REFERENCE = {
           "places",
           "Nunavut"
         ]
+      },
+      {
+        "id": "noun-number",
+        "topic": "grammar",
+        "title": "One, two, and many",
+        "body": "Nouns mark number on the ending. The basic form is one thing as subject; a dual ending (often ‑uk / ‑ak) is for two; a plural ending (often ‑t / ‑it) is for three or more. An indefinite singular object often takes ‑mik.",
+        "table": {
+          "head": [
+            "Meaning",
+            "One",
+            "Two",
+            "Many"
+          ],
+          "rows": [
+            [
+              "house",
+              "ᐃᒡᓗ iglu",
+              "ᐃᒡᓘᒃ igluuk",
+              "ᐃᒡᓗᑦ iglut"
+            ],
+            [
+              "person",
+              "ᐃᓄᒃ inuk",
+              "ᐃᓅᒃ inuuk",
+              "ᐃᓄᐃᑦ inuit"
+            ],
+            [
+              "woman",
+              "ᐊᕐᓇᖅ arnaq",
+              "ᐊᕐᓈᒃ arnaak",
+              "ᐊᕐᓇᐃᑦ arnait"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "{ᐃᒡᓗᒥᒃ}",
+            "r": "iglumik",
+            "e": "a house (as object)"
+          }
+        ],
+        "tags": [
+          "number",
+          "nouns"
+        ]
+      },
+      {
+        "id": "possession",
+        "topic": "grammar",
+        "title": "Possession: my, your, their",
+        "body": "Possessive endings attach to the noun. On ᐊᓈᓇ (anaana) “mother”: ᐊᓈᓇᒐ (anaanaga) “my mother”, ᐊᓈᓇᐃᑦ (anaanait) “your mother”, ᐊᓈᓇᖓ (anaananga) “his / her mother”. ᓄᓇᕗᑦ (nunavut) is “our land”.",
+        "examples": [
+          {
+            "t": "{ᐊᓈᓇᒐ}",
+            "r": "anaanaga",
+            "e": "my mother"
+          },
+          {
+            "t": "{ᐊᑖᑕᒐ}",
+            "r": "ataataga",
+            "e": "my father"
+          },
+          {
+            "t": "{ᓄᓇᕗᑦ}",
+            "r": "nunavut",
+            "e": "our land"
+          },
+          {
+            "t": "{ᐃᒡᓘᑉ} ᐹᖓ",
+            "r": "igluup paanga",
+            "e": "the door of the house"
+          }
+        ],
+        "tags": [
+          "possession"
+        ]
+      },
+      {
+        "id": "place-endings",
+        "topic": "grammar",
+        "title": "In, to, and from: ‑mi, ‑mut, ‑mit",
+        "body": "Place endings attach to the noun: ‑mi “in / at / on”, ‑mut “to”, ‑mit “from”. Matching question words are ᓇᓂ? (nani?) “where?”, ᓇᒧᑦ? (namut?) “to where?”, ᓇᑭᑦ? (nakit?) “from where?”.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "On ᐃᒡᓗ",
+            "Said"
+          ],
+          "rows": [
+            [
+              "‑mi",
+              "in / at / on",
+              "ᐃᒡᓗᒥ",
+              "iglumi"
+            ],
+            [
+              "‑mut",
+              "to",
+              "ᐃᒡᓗᒧᑦ",
+              "iglumut"
+            ],
+            [
+              "‑mit",
+              "from",
+              "ᐃᒡᓗᒥᑦ",
+              "iglumit"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "{ᓇᓂ}?",
+            "r": "nani?",
+            "e": "Where?"
+          }
+        ],
+        "tags": [
+          "cases",
+          "location"
+        ]
+      },
+      {
+        "id": "verb-endings",
+        "topic": "verbs",
+        "title": "Present verbs: who does it",
+        "body": "A verb needs a root and a person ending. After a vowel the statement endings begin with j (‑junga “I”, ‑jutit “you”, ‑juq “he / she”). After a consonant they begin with t (‑tunga, ‑tutit, ‑tuq).",
+        "examples": [
+          {
+            "t": "{ᐊᓂᔪᖓ}",
+            "r": "anijunga",
+            "e": "I go / have just gone out"
+          },
+          {
+            "t": "{ᓂᕆᔪᑎᑦ}",
+            "r": "nirijutit",
+            "e": "you are eating"
+          },
+          {
+            "t": "{ᐱᓱᒃᑐᖅ}",
+            "r": "pisuktuq",
+            "e": "he / she walks"
+          },
+          {
+            "t": "{ᐱᓱᒃᑐᖓ}",
+            "r": "pisuktunga",
+            "e": "I walk"
+          }
+        ],
+        "tags": [
+          "verbs",
+          "person"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Saying no: ‑nngit‑",
+        "body": "Put ‑nngit‑ in the verb before the person ending. It deletes a preceding consonant, and the statement ending then begins with t. On their own, ᐄ (ii) is “yes” and ᐋᒃᑲ (aakka) is “no”. The everyday reply ᖃᓄᐃᙱᑦᑐᖓ (qanuinngittunga) “I’m fine” is built with ‑nngit‑.",
+        "examples": [
+          {
+            "t": "{ᖁᕕᐊᓱᙱᑦᑐᖓ}",
+            "r": "quviasunngittunga",
+            "e": "I am not happy"
+          },
+          {
+            "t": "{ᓴᓇᙱᑦᑐᖅ}",
+            "r": "sananngittuq",
+            "e": "he / she does not work"
+          },
+          {
+            "t": "{ᐊᓂᙱᑦᑐᖓ}",
+            "r": "aninngittunga",
+            "e": "I am not going out"
+          },
+          {
+            "t": "{ᖃᓄᐃᙱᑦᑐᖓ}",
+            "r": "qanuinngittunga",
+            "e": "I'm fine (lit. I am not somehow)"
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
       }
     ]
   },
@@ -9247,6 +9773,72 @@ window.LSD_REFERENCE = {
           "culture",
           "festivals"
         ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "Kannada distinguishes short and long vowels in writing and speech (ಅ a / ಆ ā, ಇ i / ಈ ī). Retroflex consonants (ಟ, ಡ, ಣ, ಳ) are made with the tongue curled back, and they contrast with dental ones (ತ, ದ, ನ, ಲ).",
+        "examples": [
+          {
+            "t": "ಕಾಡು · ಕಡು",
+            "r": "kaaḍu · kaḍu",
+            "e": "forest · intense: vowel length matters"
+          }
+        ],
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "ನೀನು and ನೀವು",
+        "body": "ನೀನು (nīnu) is familiar “you”; ನೀವು (nīvu) is polite or plural “you”, and the verb ending follows. Third-person polite forms also use ‑ರು endings.",
+        "table": {
+          "head": [
+            "",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "ನೀನು nīnu",
+              "ನೀವು nīvu"
+            ],
+            [
+              "go (non-past)",
+              "ಹೋಗುತ್ತೀಯ hōguttīya",
+              "ಹೋಗುತ್ತೀರಿ hōguttīri"
+            ]
+          ]
+        },
+        "tags": [
+          "politeness",
+          "pronouns"
+        ]
+      },
+      {
+        "id": "past",
+        "topic": "verbs",
+        "title": "The past tense",
+        "body": "Past forms add a past marker to the stem, then a person ending. For ಹೋಗು (hōgu) “go”: ಹೋದೆ (hōde) “I went”, ಹೋದೆ (hōde) / ಹೋದಿ (hōdi) “you went”, ಹೋದ (hōda) “he went”, ಹೋದಳು (hōdaḷu) “she went”.",
+        "examples": [
+          {
+            "t": "ನಾನು ಮನೆಗೆ {ಹೋದೆ}.",
+            "r": "Nānu manege hōde.",
+            "e": "I went home."
+          },
+          {
+            "t": "ಅವಳು ಕಾಲೇಜಿಗೆ {ಹೋದಳು}.",
+            "r": "Avaḷu kālejige hōdaḷu.",
+            "e": "She went to college."
+          }
+        ],
+        "tags": [
+          "past"
+        ]
       }
     ]
   },
@@ -9565,6 +10157,54 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "greetings"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Two series of consonants",
+        "body": "Khmer is not a tonal language. Consonants fall into two series; the series changes how the written vowel is said, so the same vowel sign can sound different after different letters.",
+        "examples": [
+          {
+            "t": "កា · គា",
+            "r": "kaa · kie",
+            "e": "same vowel sign, different series → different sound"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "registers"
+        ]
+      },
+      {
+        "id": "word-order",
+        "topic": "grammar",
+        "title": "Word order",
+        "body": "Everyday Khmer is subject–verb–object. Negation wraps the verb with មិន … ទេ (mɨn … tei), and questions often keep the same order with a rising tone or a final particle such as ទេ.",
+        "examples": [
+          {
+            "t": "ខ្ញុំ {រៀន} ភាសាខ្មែរ។",
+            "r": "Knyom rien phisaa khmae.",
+            "e": "I learn Khmer."
+          },
+          {
+            "t": "ខ្ញុំ {មិន} យល់ {ទេ}។",
+            "r": "Knyom mɨn yɨl tei.",
+            "e": "I don't understand."
+          }
+        ],
+        "tags": [
+          "word order",
+          "negation"
+        ]
+      },
+      {
+        "id": "bon-om-touk",
+        "topic": "culture",
+        "title": "Bon Om Touk",
+        "body": "Bon Om Touk (បុណ្យអុំទូក), the water festival, is held at the full moon in late October or early November, when the Tonlé Sap river reverses its flow. Boat races, lighted floats and thanksgiving fill Phnom Penh and other towns for three days.",
+        "tags": [
+          "festivals"
         ]
       }
     ]
@@ -10538,6 +11178,43 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "ceremony"
+        ]
+      },
+      {
+        "id": "tones",
+        "topic": "sounds",
+        "title": "Tones",
+        "body": "Lao is tonal. Standard Lao is usually described with six tones. Tone is not written with separate marks the way Thai uses tone marks; it comes from the consonant class, the vowel length and any tone mark that is present.",
+        "examples": [
+          {
+            "t": "ມາ · ມ້າ",
+            "r": "maa · máa",
+            "e": "come · horse: tone (and spelling) change the word"
+          }
+        ],
+        "tags": [
+          "tones"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation with ບໍ່",
+        "body": "Put ບໍ່ (bɔ̀ɔ) before the verb to negate it. A final particle such as ດອກ or ທີ can soften or stress the denial.",
+        "examples": [
+          {
+            "t": "ຂ້ອຍ {ບໍ່} ເຂົ້າໃຈ.",
+            "r": "Khói bɔ̀ɔ khào jai.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ຂ້ອຍ {ບໍ່} ໄປ.",
+            "r": "Khói bɔ̀ɔ paj.",
+            "e": "I'm not going."
+          }
+        ],
+        "tags": [
+          "negation"
         ]
       }
     ]
@@ -11701,6 +12378,87 @@ window.LSD_REFERENCE = {
           "culture",
           "festivals"
         ]
+      },
+      {
+        "id": "chillu",
+        "topic": "script",
+        "title": "Chillu letters",
+        "body": "Malayalam has special final-consonant letters called ചില്ല് (chillu): ൻ ൺ ർ ൽ ൾ ൾ / ൿ. They write a consonant with no built-in vowel at the end of a syllable, as in അവൻ (avan) “he”.",
+        "table": {
+          "head": [
+            "Chillu",
+            "Sound",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ൻ",
+              "n",
+              "അവൻ avan, he"
+            ],
+            [
+              "ർ",
+              "r",
+              "നഗർ nagar, town"
+            ],
+            [
+              "ൽ",
+              "l",
+              "പാൽ paal, milk"
+            ],
+            [
+              "ൾ",
+              "ḷ",
+              "അവൾ avaḷ, she"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "chillu"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "നീ and അങ്ങ്",
+        "body": "നീ (nī) is intimate “you”; താങ്കൾ (tāṅkaḷ) or അങ്ങ് (aṅṅə) is respectful “you”, and the verb ending follows. Everyday speech also uses അവൻ / അവൾ / അവർ for he / she / they.",
+        "examples": [
+          {
+            "t": "{നീ} എവിടെ പോകുന്നു?",
+            "r": "Nī eviṭe pōkunnu?",
+            "e": "Where are you going? (intimate)"
+          },
+          {
+            "t": "{താങ്കൾ} എവിടെ പോകുന്നു?",
+            "r": "Tāṅkaḷ eviṭe pōkunnu?",
+            "e": "Where are you going? (polite)"
+          }
+        ],
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "past",
+        "topic": "verbs",
+        "title": "The past tense",
+        "body": "Past forms add a past marker, then a person ending. For പോകുക (pōkuka) “to go”: പോയി (pōyi) is a common past (“went”), used with different subjects in everyday speech.",
+        "examples": [
+          {
+            "t": "ഞാൻ വീട്ടിൽ {പോയി}.",
+            "r": "Ñān vīṭṭil pōyi.",
+            "e": "I went home."
+          },
+          {
+            "t": "അവൾ സ്കൂളിൽ {പോയി}.",
+            "r": "Avaḷ skūḷil pōyi.",
+            "e": "She went to school."
+          }
+        ],
+        "tags": [
+          "past"
+        ]
       }
     ]
   },
@@ -11895,6 +12653,157 @@ window.LSD_REFERENCE = {
         "tags": [
           "Imphal",
           "customs"
+        ]
+      },
+      {
+        "id": "sov",
+        "topic": "grammar",
+        "title": "The verb comes last",
+        "body": "Manipuri is verb-final: who, then what, then the action. Everyday pronouns include ꯑꯩ (ei) “I”, ꯅꯪ (nang) “you”, ꯃꯍꯥꯛ (mahak) “he / she”, ꯑꯩꯈꯣꯏ (eikhoi) “we”, ꯃꯈꯣꯏ (makhoi) “they”. Dictionary verbs end in ‑ba / ‑pa: ꯆꯥꯕꯥ (chaba) “to eat”, ꯆꯠꯄꯥ (chatpa) “to go”.",
+        "examples": [
+          {
+            "t": "{ꯑꯩ} ꯆꯥꯛ ꯆꯥꯏ.",
+            "r": "Ei chak chai.",
+            "e": "I eat rice (a meal)."
+          },
+          {
+            "t": "{ꯅꯪ} ꯏꯁꯤꯡ ꯊꯛꯂꯤ.",
+            "r": "Nang ising thakli.",
+            "e": "You are drinking water."
+          },
+          {
+            "t": "{ꯃꯍꯥꯛ} ꯀꯩꯊꯦꯜ ꯆꯠꯂꯤ.",
+            "r": "Mahak keithel chatli.",
+            "e": "He or she is going to the market."
+          }
+        ],
+        "tags": [
+          "SOV",
+          "pronouns"
+        ]
+      },
+      {
+        "id": "copula-ni",
+        "topic": "verbs",
+        "title": "‑ni — “is” and naming",
+        "body": "The copula ‑ni links a name or a description: ꯑꯩꯒꯤ ꯃꯤꯡ … ꯅꯤ (eigi ming … ni) “my name is …”, ꯃꯁꯤ ꯌꯨꯝ ꯅꯤ (masi yum ni) “this is a house”.",
+        "examples": [
+          {
+            "t": "ꯑꯩꯒꯤ ꯃꯤꯡ ꯇꯣꯝꯕꯥ {ꯅꯤ}.",
+            "r": "Eigi ming Tomba ni.",
+            "e": "My name is Tomba."
+          },
+          {
+            "t": "ꯃꯁꯤ ꯌꯨꯝ {ꯅꯤ}.",
+            "r": "Masi yum ni.",
+            "e": "This is a house."
+          },
+          {
+            "t": "ꯃꯍꯥꯛ ꯃꯔꯨꯞ {ꯅꯤ}.",
+            "r": "Mahak marup ni.",
+            "e": "He or she is a friend."
+          }
+        ],
+        "tags": [
+          "copula"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "‑na, ‑da, ‑bu — who, where, whom",
+        "body": "Noun endings mark role: ‑na for the one who does it, ‑gi for “of”, ‑da for “to / in / at”, ‑bu for the object. On ꯃꯤ (mi) “person”: mi-na, mi-gi, mi-bu. Places take ‑da: ꯀꯩꯊꯦꯜꯗꯥ (keithelda) “at / to the market”.",
+        "table": {
+          "head": [
+            "Ending",
+            "Role",
+            "Example"
+          ],
+          "rows": [
+            [
+              "‑na",
+              "subject (doer)",
+              "ꯑꯩꯅꯥ eina, I (as subject)"
+            ],
+            [
+              "‑gi",
+              "of, 's",
+              "ꯑꯩꯒꯤ eigi, my"
+            ],
+            [
+              "‑da",
+              "to / in / at",
+              "ꯀꯩꯊꯦꯜꯗꯥ keithelda"
+            ],
+            [
+              "‑bu",
+              "object",
+              "ꯅꯪꯕꯨ nangbu, you (object)"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "{ꯑꯩꯅꯥ} ꯆꯥꯛ ꯆꯥꯏ.",
+            "r": "Eina chak chai.",
+            "e": "I (as subject) eat rice."
+          }
+        ],
+        "tags": [
+          "cases"
+        ]
+      },
+      {
+        "id": "aspect",
+        "topic": "verbs",
+        "title": "‑i, ‑le, ‑gani — how the action stands",
+        "body": "Manipuri marks aspect more than tense. Non-future / assertive ‑i (ꯆꯥꯏ chai “eats”), progressive ‑li / ‑ri (ꯆꯠꯂꯤ chatli “is going”), perfect ‑le / ‑re (ꯆꯠꯂꯦ chatle “has gone”), future ‑gani / ‑kani (ꯆꯠꯀꯅꯤ chatkani “will go”).",
+        "examples": [
+          {
+            "t": "ꯑꯩ {ꯉꯔꯥꯡ} ꯀꯩꯊꯦꯜ ꯆꯠꯂꯦ.",
+            "r": "Ei ngarang keithel chatle.",
+            "e": "Yesterday I went to the market."
+          },
+          {
+            "t": "ꯑꯩ {ꯍꯌꯦꯡ} ꯀꯩꯊꯦꯜ ꯆꯠꯀꯅꯤ.",
+            "r": "Ei hayeng keithel chatkani.",
+            "e": "Tomorrow I will go to the market."
+          },
+          {
+            "t": "ꯑꯩ ꯍꯌꯦꯡ ꯆꯥꯛ {ꯆꯥꯒꯅꯤ}.",
+            "r": "Ei hayeng chak chagani.",
+            "e": "Tomorrow I will eat rice."
+          }
+        ],
+        "tags": [
+          "aspect"
+        ]
+      },
+      {
+        "id": "ask-and-negate",
+        "topic": "grammar",
+        "title": "‑bra questions, ‑de / ‑loi negation",
+        "body": "Yes/no questions can take ‑bra / ‑pra (or ‑bara on a ‑ba verb). Negatives include ‑de / ‑te on many present stems and ‑loi on “go”: ꯆꯠꯂꯣꯏ (chatloi) “do not go”, ꯉꯝꯗꯦ (ngamde) “cannot”. ꯍꯣꯏ (hoi) is “yes”; ꯅꯠꯇꯦ (natte) is “no / it isn’t”.",
+        "examples": [
+          {
+            "t": "ꯅꯪ ꯏꯪꯂꯤꯁ ꯉꯥꯡ{ꯕꯔꯥ}?",
+            "r": "Nang inglis ngangbara?",
+            "e": "Do you speak English?"
+          },
+          {
+            "t": "ꯑꯩ ꯆꯠ{ꯂꯣꯏ}.",
+            "r": "Ei chatloi.",
+            "e": "I do not go / am not going."
+          },
+          {
+            "t": "ꯑꯩ ꯉꯥꯡꯕꯥ ꯉꯝ{ꯗꯦ}.",
+            "r": "Ei ngangba ngamde.",
+            "e": "I cannot speak (it)."
+          }
+        ],
+        "tags": [
+          "questions",
+          "negation"
         ]
       }
     ]
@@ -12177,6 +13086,66 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "festivals"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "Байна — “to be”",
+        "body": "Байна (baina) sits at the end of many present statements: сайн байна “is well”. Questions often add уу / үү: Сайн байна уу? The past uses байсан (baisan).",
+        "examples": [
+          {
+            "t": "Би оюутан {байна}.",
+            "r": "Bi oyutan baina.",
+            "e": "I am a student."
+          },
+          {
+            "t": "Тэр гэрт {байна}.",
+            "r": "Ter gert baina.",
+            "e": "He / she is at home."
+          },
+          {
+            "t": "Сайн {байна} уу?",
+            "r": "Sain baina uu?",
+            "e": "Hello. / Are you well?"
+          }
+        ],
+        "tags": [
+          "copula"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation: биш and ‑гүй",
+        "body": "Биш (bish) negates nouns and adjectives (“is not”). Verb forms often take ‑гүй (-güi): ойлгохгүй “don’t understand”. биш follows the word it negates; ‑гүй attaches to the verb.",
+        "examples": [
+          {
+            "t": "Энэ ном {биш}.",
+            "r": "Ene nom bish.",
+            "e": "This is not a book."
+          },
+          {
+            "t": "Ойлгох{гүй} байна.",
+            "r": "Oilgokhgüi baina.",
+            "e": "I don't understand."
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
+      },
+      {
+        "id": "ger",
+        "topic": "culture",
+        "title": "The ger",
+        "body": [
+          "A гэр (ger) is the round felt tent of the Mongolian steppe — the same dwelling often called a yurt in English. Its wooden lattice walls and roof poles pack onto a camel or truck, so a family can move with the herds.",
+          "The door faces south, and seats and sacred objects have fixed places inside. Many city families in Ulaanbaatar still keep a ger in a ger district."
+        ],
+        "tags": [
+          "home",
+          "steppe"
         ]
       }
     ]
@@ -12505,6 +13474,74 @@ window.LSD_REFERENCE = {
           "culture",
           "festivals",
           "Puri"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "Odia keeps short and long vowels and the dental / retroflex contrast (ତ / ଟ, ଦ / ଡ). The inherent vowel is a rounded “ô”, closer to “o” than to Hindi’s “a”, so କ is read kô.",
+        "examples": [
+          {
+            "t": "ତା · ଟା",
+            "r": "tā · ṭā",
+            "e": "dental t vs retroflex ṭ"
+          }
+        ],
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "ତୁ and ଆପଣ",
+        "body": "ତୁ (tu) is intimate “you”; ତୁମେ (tume) is familiar; ଆପଣ (āpaṇa) is polite. Verb endings follow the level, as in other eastern Indo-Aryan languages.",
+        "table": {
+          "head": [
+            "",
+            "Intimate",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "ତୁ tu",
+              "ତୁମେ tume",
+              "ଆପଣ āpaṇa"
+            ],
+            [
+              "go (present)",
+              "ଯାଉଛୁ jāuchu",
+              "ଯାଉଛ jāucha",
+              "ଯାଉଛନ୍ତି jāuchanti"
+            ]
+          ]
+        },
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "past",
+        "topic": "verbs",
+        "title": "The past tense",
+        "body": "Past forms add a past marker to the stem. For ଯିବା (jibā) “to go”, a common past is ଗଲି (gali) “I went” / ଗଲା (galā) “he went”, with endings that show the subject.",
+        "examples": [
+          {
+            "t": "ମୁଁ ଘରକୁ {ଗଲି}.",
+            "r": "Mũ gharaku gali.",
+            "e": "I went home."
+          },
+          {
+            "t": "ସେ ବଜାରକୁ {ଗଲା}.",
+            "r": "Se bajāraku galā.",
+            "e": "He went to the market."
+          }
+        ],
+        "tags": [
+          "past"
         ]
       }
     ]
@@ -12865,6 +13902,37 @@ window.LSD_REFERENCE = {
           "politeness",
           "Sikhism"
         ]
+      },
+      {
+        "id": "genders",
+        "topic": "grammar",
+        "title": "Two genders",
+        "body": "Punjabi nouns are masculine or feminine, and adjectives and past participles agree with them. Many feminine nouns end in ‑ਈ or ‑ਣ; many masculine ones end in ‑ਆ.",
+        "examples": [
+          {
+            "t": "{ਚੰਗਾ} ਮੁੰਡਾ",
+            "r": "changā muṇḍā",
+            "e": "a good boy"
+          },
+          {
+            "t": "{ਚੰਗੀ} ਕੁੜੀ",
+            "r": "changī kuṛī",
+            "e": "a good girl"
+          }
+        ],
+        "tags": [
+          "gender"
+        ]
+      },
+      {
+        "id": "vaisakhi",
+        "topic": "culture",
+        "title": "Vaisakhi",
+        "body": "Vaisakhi (ਵੈਸਾਖੀ), around 13 April, is the Punjabi harvest festival and the Sikh new year. It also marks the founding of the Khalsa in 1699. Nagar kirtan processions, bhangra and visits to the gurdwara fill the day.",
+        "tags": [
+          "festivals",
+          "Sikh"
+        ]
       }
     ]
   },
@@ -13174,6 +14242,82 @@ window.LSD_REFERENCE = {
           "culture",
           "festivals"
         ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Prenasalized consonants",
+        "body": "Sinhala has a set of prenasalized stops written as single letters: ඟ ṅga, ඤ ña-type clusters in older spelling, ඦ ṅda, ඬ ṇḍa, ඳ nda, ඹ mba. They are short nasal+stop sounds inside a word, as in ගඟ (gaṅga) “river”.",
+        "examples": [
+          {
+            "t": "ගඟ",
+            "r": "gaṅga",
+            "e": "river"
+          },
+          {
+            "t": "අඹ",
+            "r": "amba",
+            "e": "mango"
+          }
+        ],
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Case-like endings",
+        "body": "Sinhala marks roles with endings on the noun. Common ones include ‑ට (-ṭa) “to / for”, ‑ෙන් (-en) “from / with”, and ‑ෙහි / ‑ේ (-ē) “in / of” in formal style; spoken forms often shorten them.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "‑ට",
+              "to, for",
+              "ගෙදරට gedaraṭa, to home"
+            ],
+            [
+              "‑ෙන්",
+              "from, with",
+              "කොළඹෙන් koḷam̆ben, from Colombo"
+            ],
+            [
+              "‑ේ / ‑ෙහි",
+              "in, of (formal)",
+              "ගෙදරේ gedarē, at home"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "postpositions"
+        ]
+      },
+      {
+        "id": "diglossia",
+        "topic": "grammar",
+        "title": "Spoken and written Sinhala",
+        "body": "Everyday spoken Sinhala (කථන භාෂාව) differs sharply from the formal written language (ලේඛන භාෂාව) in pronouns, verb endings and vocabulary. Learners usually start with spoken forms for conversation and meet literary forms in news and school texts.",
+        "examples": [
+          {
+            "t": "මම යනවා. (spoken)",
+            "r": "Mama yanavā.",
+            "e": "I am going."
+          },
+          {
+            "t": "මම යමි. (literary)",
+            "r": "Mama yami.",
+            "e": "I go. (written style)"
+          }
+        ],
+        "tags": [
+          "diglossia"
+        ]
       }
     ]
   },
@@ -13471,6 +14615,90 @@ window.LSD_REFERENCE = {
         "tags": [
           "festivals",
           "calendar"
+        ]
+      },
+      {
+        "id": "copula-d",
+        "topic": "verbs",
+        "title": "ⴷ — “is”",
+        "body": "To say “I am a …”, put ⴷ (d) between the pronoun and the noun: ⵏⴽⴽ ⴷ ⴰⵏⵍⵎⴰⴷ “I am a student”. The same ⴷ links other persons to what they are.",
+        "examples": [
+          {
+            "t": "{ⵏⴽⴽ} ⴷ ⴰⵏⵍⵎⴰⴷ.",
+            "r": "Nkk d anlmad.",
+            "e": "I am a student."
+          },
+          {
+            "t": "ⵏⵜⵜⴰⵜ {ⴷ} ⵜⴰⵙⵍⵎⴰⴷⵜ.",
+            "r": "Nttat d taslmadt.",
+            "e": "She is a teacher."
+          },
+          {
+            "t": "{ⵏⴽⵏⵉ} ⴷ ⵉⵎⴰⵣⵉⵖⵏ.",
+            "r": "Nkni d imaziɣn.",
+            "e": "We are Amazigh."
+          }
+        ],
+        "tags": [
+          "copula"
+        ]
+      },
+      {
+        "id": "prepositions",
+        "topic": "grammar",
+        "title": "In, from, to",
+        "body": "Short prepositions sit before the place word: ⴳ (g) “in / at”, ⵣⴳ (zg) “from”, ⵙ (s) “to / toward”.",
+        "examples": [
+          {
+            "t": "ⵏⴽⴽ {ⵣⴳ} ⵎⵔⵔⴰⴽⵛ.",
+            "r": "Nkk zg Mrrakc.",
+            "e": "I'm from Marrakech."
+          },
+          {
+            "t": "ⵜⵣⴷⵖ {ⴳ} ⵕⴱⴰⵟ.",
+            "r": "Tzdɣ g Rbaṭ.",
+            "e": "She lives in Rabat."
+          },
+          {
+            "t": "ⴷⴷⵉⵖ {ⵙ} ⵜⵉⵣⵏⵉⵜ.",
+            "r": "Ddiɣ s Tiznit.",
+            "e": "I went to Tiznit."
+          },
+          {
+            "t": "ⵏⴽⴽ {ⴳ} ⵜⴷⴷⴰⵔⵜ.",
+            "r": "Nkk g tddart.",
+            "e": "I'm at home."
+          }
+        ],
+        "tags": [
+          "prepositions"
+        ]
+      },
+      {
+        "id": "verbs-negation",
+        "topic": "verbs",
+        "title": "Did, want, and ⵓⵔ “not”",
+        "body": "A past form already shows the person: ⴷⴷⵉⵖ (ddiɣ) “I went”, ⵔⵉⵖ (riɣ) “I want”. Negation puts ⵓⵔ (ur) before the verb: ⵓⵔ ⵙⵙⵉⵏⵖ (ur ssinɣ) “I don’t know”.",
+        "examples": [
+          {
+            "t": "ⵉⴹⵍⵍⵉ {ⴷⴷⵉⵖ} ⵙ ⵎⵔⵔⴰⴽⵛ.",
+            "r": "Iḍlli ddiɣ s Mrrakc.",
+            "e": "Yesterday I went to Marrakech."
+          },
+          {
+            "t": "{ⵔⵉⵖ} ⴰⵎⴰⵏ.",
+            "r": "Riɣ aman.",
+            "e": "I want water."
+          },
+          {
+            "t": "{ⵓⵔ} ⵙⵙⵉⵏⵖ.",
+            "r": "Ur ssinɣ.",
+            "e": "I don't know."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "negation"
         ]
       }
     ]
@@ -13853,6 +15081,55 @@ window.LSD_REFERENCE = {
           "culture",
           "festivals"
         ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "நீ and நீங்கள்",
+        "body": "நீ (nī) is familiar “you”; நீங்கள் (nīngal) is polite or plural “you”, and the verb ending follows. Third-person polite speech often uses அவர் (avar).",
+        "table": {
+          "head": [
+            "",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "நீ nī",
+              "நீங்கள் nīngal"
+            ],
+            [
+              "are / exist",
+              "இருக்கிறாய் irukkiraay",
+              "இருக்கிறீர்கள் irukkireergal"
+            ]
+          ]
+        },
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "negation",
+        "topic": "grammar",
+        "title": "Negation with இல்லை",
+        "body": "இல்லை (illai) negates existence and many statements (“is not / does not”). Verb-based negatives also use forms like ‑வில்லை on a verbal noun: புரியவில்லை “do not understand”.",
+        "examples": [
+          {
+            "t": "எனக்குப் புரிய{வில்லை}.",
+            "r": "Enakkup puriyavillai.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "அது பிரச்சினை {இல்லை}.",
+            "r": "Adhu pirachchinai illai.",
+            "e": "That is not a problem."
+          }
+        ],
+        "tags": [
+          "negation"
+        ]
       }
     ]
   },
@@ -14191,6 +15468,71 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "festivals"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "Telugu distinguishes short and long vowels and dental vs retroflex consonants (త / ట, ద / డ). Aspirated consonants exist mainly in loanwords; native words rely more on length and retroflexion.",
+        "examples": [
+          {
+            "t": "తా · టా",
+            "r": "tā · ṭā",
+            "e": "dental t vs retroflex ṭ"
+          }
+        ],
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "నువ్వు and మీరు",
+        "body": "నువ్వు (nuvvu) is familiar “you”; మీరు (mīru) is polite or plural “you”. Verb endings change with the level: వెళ్తున్నావు vs వెళ్తున్నారు “you are going”.",
+        "table": {
+          "head": [
+            "",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "నువ్వు nuvvu",
+              "మీరు mīru"
+            ],
+            [
+              "are going",
+              "వెళ్తున్నావు veḷtunnāvu",
+              "వెళ్తున్నారు veḷtunnāru"
+            ]
+          ]
+        },
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "past",
+        "topic": "verbs",
+        "title": "The past tense",
+        "body": "Past forms add a past marker, then a person ending. For వెళ్లు (veḷḷu) “go”: వెళ్లాను (veḷḷānu) “I went”, వెళ్లావు (veḷḷāvu) “you went”, వెళ్లాడు (veḷḷāḍu) “he went”, వెళ్లింది (veḷḷindi) “she / it went”.",
+        "examples": [
+          {
+            "t": "నేను ఇంటికి {వెళ్లాను}.",
+            "r": "Nēnu iṇṭiki veḷḷānu.",
+            "e": "I went home."
+          },
+          {
+            "t": "ఆమె స్కూలుకు {వెళ్లింది}.",
+            "r": "Āme skūluku veḷḷindi.",
+            "e": "She went to school."
+          }
+        ],
+        "tags": [
+          "past"
         ]
       }
     ]
@@ -14942,6 +16284,59 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "customs"
+        ]
+      },
+      {
+        "id": "stacks",
+        "topic": "script",
+        "title": "Stacked letters",
+        "body": "Tibetan writes consonant clusters as vertical stacks. Prefixes and superscripts are often silent in Lhasa speech but still required in spelling, so a short spoken syllable can be a tall written stack.",
+        "examples": [
+          {
+            "t": "{བཀྲ་ཤིས་}",
+            "r": "tashi",
+            "e": "good fortune (in bkris / bkra-shis spelling)"
+          },
+          {
+            "t": "{སྤྱི་}",
+            "r": "chi",
+            "e": "general / public (spyi)"
+          }
+        ],
+        "tags": [
+          "script",
+          "stacks"
+        ]
+      },
+      {
+        "id": "evidential",
+        "topic": "grammar",
+        "title": "Self and other",
+        "body": "Lhasa Tibetan often chooses different final verbs for what you know about yourself and what you say about others. ཡིན (yin) / ཡོད (yö) are common for the speaker’s own situation; རེད (re) / ཡོད་རེད (yöre) for others. འདུག (du) can mark something just observed.",
+        "examples": [
+          {
+            "t": "ང་སློབ་ཕྲུག {ཡིན}.",
+            "r": "Nga loptruk yin.",
+            "e": "I am a student."
+          },
+          {
+            "t": "ཁོང་སློབ་ཕྲུག {རེད}.",
+            "r": "Khong loptruk re.",
+            "e": "He / she is a student."
+          }
+        ],
+        "tags": [
+          "evidentiality"
+        ]
+      },
+      {
+        "id": "losar",
+        "topic": "culture",
+        "title": "Losar",
+        "body": "Losar (ལོ་གསར་) is the Tibetan new year, usually in February or early March on the lunar calendar. Families clean the house, prepare གཏོར་མ་ and other foods, exchange ཁ་བཏགས་ (khata) scarves, and greet one another with བཀྲ་ཤིས་བདེ་ལེགས (tashi delek).",
+        "tags": [
+          "festivals",
+          "new year"
         ]
       }
     ]
