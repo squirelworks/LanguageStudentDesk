@@ -37,8 +37,10 @@ through `languages/lsd-lang.js`:
 - `languages/arabic/characters.js`, `languages/cyrillic/characters.js`,
   `languages/hangul/characters.js`, `languages/hindi/characters.js` (Devanagari)
 - `languages/klingon/characters.js` — pIqaD
+- Kanji — `languages/cjk/characters.js` (the shared CJK table: radical, strokes)
+  plus `languages/japanese/kanji.js` (readings, meanings, JLPT level, grade,
+  on'yomi groups), put together by `LSD.load`
 
-`scripts/kanji.js` moves to `languages/` with the shared CJK table.
 `scripts/sg-alphabets.js` is logic only: it turns SquirrelGo Alphabets' data
 files into Character Learner scripts.
 

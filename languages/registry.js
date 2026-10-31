@@ -305,7 +305,11 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Hiragana, Katakana, and Kanji. Kanji can also be viewed in Hanzi or Hanja context.",
     "speech": "ja-JP",
     "data": {
-      "characters": "characters.js",
+      "characters": [
+        "characters.js",
+        "../cjk/characters.js",
+        "kanji.js"
+      ],
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
