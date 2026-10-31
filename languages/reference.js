@@ -1195,6 +1195,401 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "bengali": {
+    "id": "bengali",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Bengali at a glance",
+        "body": [
+          "Bengali (Bangla) is an Indo-Aryan language with around 270 million speakers, the national language of Bangladesh and the language of West Bengal, Tripura and parts of Assam in India. It has a long literary tradition; Rabindranath Tagore wrote in Bengali, including the national anthems of both Bangladesh and India.",
+          "The verb comes last, there is no grammatical gender, and verbs change for person and for three levels of politeness. Postpositions and case endings follow the noun."
+        ],
+        "examples": [
+          {
+            "t": "আমি বাংলা {শিখছি}।",
+            "r": "Ami bangla shikhchhi.",
+            "e": "I am learning Bengali."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "SOV",
+          "no gender"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How the script works",
+        "body": [
+          "Bengali is written in the Bengali–Assamese script, an abugida like Devanagari: each consonant carries a built-in short vowel, said o (ক = ko), and other vowels are marks around the consonant. A full vowel letter is used at the start of a word.",
+          "Most letters hang from a line along the top. The hasanta ্ removes the built-in vowel, and consonant clusters are often written as joined letters (যুক্তাক্ষর)."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Letter",
+            "With ক"
+          ],
+          "rows": [
+            [
+              "o (built in)",
+              "অ",
+              "ক ko"
+            ],
+            [
+              "a",
+              "আ",
+              "কা ka"
+            ],
+            [
+              "i",
+              "ই",
+              "কি ki"
+            ],
+            [
+              "i (long)",
+              "ঈ",
+              "কী ki"
+            ],
+            [
+              "u",
+              "উ",
+              "কু ku"
+            ],
+            [
+              "u (long)",
+              "ঊ",
+              "কূ ku"
+            ],
+            [
+              "ri",
+              "ঋ",
+              "কৃ kri"
+            ],
+            [
+              "e",
+              "এ",
+              "কে ke"
+            ],
+            [
+              "oi",
+              "ঐ",
+              "কৈ koi"
+            ],
+            [
+              "o",
+              "ও",
+              "কো ko"
+            ],
+            [
+              "ou",
+              "ঔ",
+              "কৌ kou"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "vowel signs"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "The built-in vowel অ is said like the o in “hot”, not like Hindi's a. Long and short vowels are written differently but usually sound the same. Bengali has breathy consonants (kh, gh, ch, jh, th, dh, ph, bh) and retroflex ones made with the tongue curled back (ট, ড). শ, ষ and স are usually all said sh.",
+        "examples": [
+          {
+            "t": "কল · খল",
+            "r": "kol · khol",
+            "e": "tap · villain: the puff of air changes the word"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "aspiration"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "Pronouns and politeness",
+        "body": "“You” and “he / she” come in levels of respect, and the verb ending follows the level. There is no he / she difference.",
+        "table": {
+          "head": [
+            "",
+            "Intimate",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "তুই tui",
+              "তুমি tumi",
+              "আপনি apni"
+            ],
+            [
+              "he, she",
+              "",
+              "সে she / ও o",
+              "তিনি tini / উনি uni"
+            ],
+            [
+              "verb (করা)",
+              "করিস koris",
+              "করো koro",
+              "করেন koren"
+            ]
+          ]
+        },
+        "tags": [
+          "pronouns",
+          "politeness"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The simple present",
+        "body": "Verbs are listed by their verbal noun (করা, to do). Take off -া and add the ending. The verb does not change for plural subjects.",
+        "table": {
+          "head": [
+            "Subject",
+            "করা, do",
+            "বলা, say",
+            "খাওয়া, eat"
+          ],
+          "rows": [
+            [
+              "আমি, আমরা",
+              "করি",
+              "বলি",
+              "খাই"
+            ],
+            [
+              "তুমি, তোমরা",
+              "করো",
+              "বলো",
+              "খাও"
+            ],
+            [
+              "আপনি, আপনারা",
+              "করেন",
+              "বলেন",
+              "খান"
+            ],
+            [
+              "সে, তারা",
+              "করে",
+              "বলে",
+              "খায়"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "endings",
+        "topic": "grammar",
+        "title": "Noun endings",
+        "body": "Endings attach directly to the noun. -টা / -টি make it definite, and the case endings follow.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-টা / -টি",
+              "the (one thing)",
+              "বইটা, the book"
+            ],
+            [
+              "-রা / -এরা",
+              "plural (people)",
+              "ছেলেরা, the boys"
+            ],
+            [
+              "-গুলো",
+              "plural (things)",
+              "বইগুলো, the books"
+            ],
+            [
+              "-র / -এর",
+              "of, 's",
+              "রামের, Ram's"
+            ],
+            [
+              "-কে",
+              "to (a person); object",
+              "রামকে, to Ram"
+            ],
+            [
+              "-তে / -এ",
+              "in, at, to",
+              "বাড়িতে, at home"
+            ],
+            [
+              "থেকে",
+              "from (after the noun)",
+              "ঢাকা থেকে, from Dhaka"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "classifiers",
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Bengali digits",
+        "body": "Bengali has its own digits, used on signs, prices and dates alongside 0–9. Numbers up to a hundred each have their own word and are best learned one by one.",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "১",
+              "এক",
+              "ek"
+            ],
+            [
+              "2",
+              "২",
+              "দুই",
+              "dui"
+            ],
+            [
+              "3",
+              "৩",
+              "তিন",
+              "tin"
+            ],
+            [
+              "4",
+              "৪",
+              "চার",
+              "char"
+            ],
+            [
+              "5",
+              "৫",
+              "পাঁচ",
+              "panch"
+            ],
+            [
+              "6",
+              "৬",
+              "ছয়",
+              "chhoy"
+            ],
+            [
+              "7",
+              "৭",
+              "সাত",
+              "sat"
+            ],
+            [
+              "8",
+              "৮",
+              "আট",
+              "at"
+            ],
+            [
+              "9",
+              "৯",
+              "নয়",
+              "noy"
+            ],
+            [
+              "10",
+              "১০",
+              "দশ",
+              "dosh"
+            ],
+            [
+              "100",
+              "১০০",
+              "একশো",
+              "eksho"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "নমস্কার, কেমন আছেন?",
+            "r": "Nomoshkar, kemon achhen?",
+            "e": "Hello, how are you?"
+          },
+          {
+            "t": "ভালো আছি, ধন্যবাদ।",
+            "r": "Bhalo achhi, dhonnobad.",
+            "e": "I'm fine, thank you."
+          },
+          {
+            "t": "আমি বুঝি না।",
+            "r": "Ami bujhi na.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "এটার দাম কত?",
+            "r": "Etar dam koto?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "আস্তে বলুন, প্লিজ।",
+            "r": "Aste bolun, pliz.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "বাথরুম কোথায়?",
+            "r": "Bathrum kothay?",
+            "e": "Where is the bathroom?"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ekushey",
+        "topic": "culture",
+        "title": "Language Movement Day",
+        "body": "On 21 February 1952 students in Dhaka were killed while demonstrating for Bengali to be an official language of Pakistan. The day, Ekushey February, is remembered in Bangladesh at the Shaheed Minar, and UNESCO made 21 February International Mother Language Day.",
+        "tags": [
+          "culture",
+          "history"
+        ]
+      }
+    ]
+  },
   "chinese": {
     "id": "chinese",
     "entries": [
@@ -4402,6 +4797,402 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "gujarati": {
+    "id": "gujarati",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Gujarati at a glance",
+        "body": [
+          "Gujarati is the Indo-Aryan language of Gujarat in western India, with about 55 million speakers and large communities in East Africa, Britain and North America. Mahatma Gandhi's first language was Gujarati.",
+          "The verb comes last, nouns are masculine, feminine or neuter, and postpositions are joined to the end of the noun."
+        ],
+        "examples": [
+          {
+            "t": "હું ગુજરાતી {શીખું છું}.",
+            "r": "Hun gujaraatii shiikhun chhun.",
+            "e": "I am learning Gujarati."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "SOV",
+          "three genders"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How the script works",
+        "body": [
+          "The Gujarati script grew out of Devanagari and is easy to compare with it: most letters have the same structure, but Gujarati drops the line along the top. Each consonant carries a short a, other vowels are marks around it, and full vowel letters start a word.",
+          "Unlike Hindi, Gujarati uses the ordinary full stop and comma rather than the danda।"
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ક"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "ક ka"
+            ],
+            [
+              "aa",
+              "ા",
+              "કા kaa"
+            ],
+            [
+              "i",
+              "િ",
+              "કિ ki"
+            ],
+            [
+              "ii",
+              "ી",
+              "કી kii"
+            ],
+            [
+              "u",
+              "ુ",
+              "કુ ku"
+            ],
+            [
+              "uu",
+              "ૂ",
+              "કૂ kuu"
+            ],
+            [
+              "e",
+              "ે",
+              "કે ke"
+            ],
+            [
+              "ai",
+              "ૈ",
+              "કૈ kai"
+            ],
+            [
+              "o",
+              "ો",
+              "કો ko"
+            ],
+            [
+              "au",
+              "ૌ",
+              "કૌ kau"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "क · ક   म · મ   ग · ગ",
+            "e": "Devanagari and Gujarati side by side"
+          }
+        ],
+        "tags": [
+          "script",
+          "abugida"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "“To be” and the present",
+        "body": "The present tense is the stem with a person ending, followed by the matching form of છે. The negative uses -તો / -તી / -તું and નથી.",
+        "table": {
+          "head": [
+            "Subject",
+            "to be",
+            "speak",
+            "not speak (man)"
+          ],
+          "rows": [
+            [
+              "હું I",
+              "છું",
+              "બોલું છું",
+              "બોલતો નથી"
+            ],
+            [
+              "તું you",
+              "છે",
+              "બોલે છે",
+              "બોલતો નથી"
+            ],
+            [
+              "તે he, she",
+              "છે",
+              "બોલે છે",
+              "બોલતો નથી"
+            ],
+            [
+              "અમે / આપણે we",
+              "છીએ",
+              "બોલીએ છીએ",
+              "બોલતા નથી"
+            ],
+            [
+              "તમે you",
+              "છો",
+              "બોલો છો",
+              "બોલતા નથી"
+            ],
+            [
+              "તેઓ they",
+              "છે",
+              "બોલે છે",
+              "બોલતા નથી"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "negation"
+        ]
+      },
+      {
+        "id": "genders",
+        "topic": "grammar",
+        "title": "Three genders",
+        "body": "Gujarati keeps the neuter gender that Hindi lost. Adjectives and possessives ending in a vowel follow the noun.",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Neuter"
+          ],
+          "rows": [
+            [
+              "noun ending",
+              "-ો છોકરો",
+              "-ી છોકરી",
+              "-ું છોકરું"
+            ],
+            [
+              "good",
+              "સારો",
+              "સારી",
+              "સારું"
+            ],
+            [
+              "my",
+              "મારો",
+              "મારી",
+              "મારું"
+            ],
+            [
+              "of (Ram's)",
+              "રામનો",
+              "રામની",
+              "રામનું"
+            ],
+            [
+              "plural",
+              "-ા સારા",
+              "-ી સારી",
+              "-ાં સારાં"
+            ]
+          ]
+        },
+        "tags": [
+          "gender",
+          "adjectives"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Postpositions",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-માં",
+              "in",
+              "ઘરમાં, in the house"
+            ],
+            [
+              "પર / ઉપર",
+              "on",
+              "ટેબલ પર, on the table"
+            ],
+            [
+              "-થી",
+              "from; by",
+              "મુંબઈથી, from Mumbai"
+            ],
+            [
+              "-ને",
+              "to; object marker",
+              "મને, to me"
+            ],
+            [
+              "-ની સાથે",
+              "with",
+              "મિત્રની સાથે, with a friend"
+            ],
+            [
+              "-માટે",
+              "for",
+              "તમારા માટે, for you"
+            ]
+          ]
+        },
+        "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
+        "tags": [
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Gujarati digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "૧",
+              "એક",
+              "ek"
+            ],
+            [
+              "2",
+              "૨",
+              "બે",
+              "be"
+            ],
+            [
+              "3",
+              "૩",
+              "ત્રણ",
+              "tran"
+            ],
+            [
+              "4",
+              "૪",
+              "ચાર",
+              "chaar"
+            ],
+            [
+              "5",
+              "૫",
+              "પાંચ",
+              "paanch"
+            ],
+            [
+              "6",
+              "૬",
+              "છ",
+              "chha"
+            ],
+            [
+              "7",
+              "૭",
+              "સાત",
+              "saat"
+            ],
+            [
+              "8",
+              "૮",
+              "આઠ",
+              "aath"
+            ],
+            [
+              "9",
+              "૯",
+              "નવ",
+              "nav"
+            ],
+            [
+              "10",
+              "૧૦",
+              "દસ",
+              "das"
+            ],
+            [
+              "100",
+              "૧૦૦",
+              "સો",
+              "so"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "કેમ છો? — મજામાં!",
+            "r": "Kem chho? — Majaamaan!",
+            "e": "How are you? — Fine!"
+          },
+          {
+            "t": "તમારો આભાર.",
+            "r": "Tamaaro aabhaar.",
+            "e": "Thank you."
+          },
+          {
+            "t": "મને સમજાયું નહીં.",
+            "r": "Mane samjaayun nahiin.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "આ કેટલાનું છે?",
+            "r": "Aa ketlaanun chhe?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ધીમે બોલો, મહેરબાની કરીને.",
+            "r": "Dhiime bolo, maherbaanii kariine.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "આવજો!",
+            "r": "Aavjo!",
+            "e": "Goodbye! (come again)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "navratri",
+        "topic": "culture",
+        "title": "Navratri and garba",
+        "body": "Navratri, the nine nights in honour of the goddess Durga in autumn, is Gujarat's biggest festival. Every evening people dance garba and dandiya raas in circles, often until dawn. Gujarati food is largely vegetarian and is served as a thali with a little of many dishes.",
+        "tags": [
+          "culture",
+          "festivals",
+          "food"
+        ]
+      }
+    ]
+  },
   "hangul": {
     "id": "hangul",
     "entries": [
@@ -6986,6 +7777,358 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "kannada": {
+    "id": "kannada",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Kannada at a glance",
+        "body": [
+          "Kannada is the Dravidian language of Karnataka, with about 45 million native speakers and many more who speak it as a second language. It has inscriptions from the 5th century and a literature that has won more of India's top literary award, the Jnanpith, than most other languages.",
+          "The verb comes last and agrees with the subject in person, number and gender. Case endings join the noun."
+        ],
+        "examples": [
+          {
+            "t": "ನಾನು ಕನ್ನಡ {ಕಲಿಯುತ್ತಿದ್ದೇನೆ}.",
+            "r": "Naanu kannada kaliyuttiddene.",
+            "e": "I am learning Kannada."
+          }
+        ],
+        "tags": [
+          "Dravidian",
+          "agglutinative",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Kannada script works",
+        "body": [
+          "Kannada script is a rounded abugida, a close sister of Telugu script. Each consonant carries a short a; other vowels are marks, and many replace the tick on top of the letter. In a cluster, the second consonant is written underneath as a small subscript.",
+          "Kannada words in careful speech end in a vowel, often -u: ಬಸ್ (bus) is said basu by many speakers."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ಕ"
+          ],
+          "rows": [
+            [
+              "a",
+              "",
+              "ಕ ka"
+            ],
+            [
+              "aa",
+              "ಾ",
+              "ಕಾ kaa"
+            ],
+            [
+              "i",
+              "ಿ",
+              "ಕಿ ki"
+            ],
+            [
+              "ii",
+              "ೀ",
+              "ಕೀ kii"
+            ],
+            [
+              "u",
+              "ು",
+              "ಕು ku"
+            ],
+            [
+              "uu",
+              "ೂ",
+              "ಕೂ kuu"
+            ],
+            [
+              "e",
+              "ೆ",
+              "ಕೆ ke"
+            ],
+            [
+              "ee",
+              "ೇ",
+              "ಕೇ kee"
+            ],
+            [
+              "ai",
+              "ೈ",
+              "ಕೈ kai"
+            ],
+            [
+              "o",
+              "ೊ",
+              "ಕೊ ko"
+            ],
+            [
+              "oo",
+              "ೋ",
+              "ಕೋ koo"
+            ],
+            [
+              "au",
+              "ೌ",
+              "ಕೌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The non-past tense",
+        "body": "Stem + -ತ್ತ- + a person ending covers both “I do” and “I will do”. Add ಇದ್ದ- for “I am doing now”.",
+        "table": {
+          "head": [
+            "Subject",
+            "Ending",
+            "ಮಾಡು, do"
+          ],
+          "rows": [
+            [
+              "ನಾನು I",
+              "-ಏನೆ",
+              "ಮಾಡುತ್ತೇನೆ"
+            ],
+            [
+              "ನೀನು you",
+              "-ಈಯ",
+              "ಮಾಡುತ್ತೀಯ"
+            ],
+            [
+              "ನೀವು you (polite)",
+              "-ಈರಿ",
+              "ಮಾಡುತ್ತೀರಿ"
+            ],
+            [
+              "ಅವನು he",
+              "-ಆನೆ",
+              "ಮಾಡುತ್ತಾನೆ"
+            ],
+            [
+              "ಅವಳು she",
+              "-ಆಳೆ",
+              "ಮಾಡುತ್ತಾಳೆ"
+            ],
+            [
+              "ಅದು it",
+              "-ಅದೆ",
+              "ಮಾಡುತ್ತದೆ"
+            ],
+            [
+              "ನಾವು we",
+              "-ಏವೆ",
+              "ಮಾಡುತ್ತೇವೆ"
+            ],
+            [
+              "ಅವರು they",
+              "-ಆರೆ",
+              "ಮಾಡುತ್ತಾರೆ"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "future"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ಅನ್ನು",
+              "object",
+              "ಪುಸ್ತಕವನ್ನು, the book"
+            ],
+            [
+              "-ಗೆ / -ಕ್ಕೆ",
+              "to, for",
+              "ಅಂಗಡಿಗೆ, to the shop"
+            ],
+            [
+              "-ಅಲ್ಲಿ",
+              "in, at",
+              "ಮನೆಯಲ್ಲಿ, at home"
+            ],
+            [
+              "-ಇಂದ",
+              "from; by",
+              "ಊರಿನಿಂದ, from the town"
+            ],
+            [
+              "-ಅ",
+              "of, 's",
+              "ರಾಮನ, Ram's"
+            ],
+            [
+              "-ಗಳು / -ರು",
+              "plural",
+              "ಪುಸ್ತಕಗಳು, books"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "plural"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Kannada digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "೧",
+              "ಒಂದು",
+              "ondu"
+            ],
+            [
+              "2",
+              "೨",
+              "ಎರಡು",
+              "eradu"
+            ],
+            [
+              "3",
+              "೩",
+              "ಮೂರು",
+              "muuru"
+            ],
+            [
+              "4",
+              "೪",
+              "ನಾಲ್ಕು",
+              "naalku"
+            ],
+            [
+              "5",
+              "೫",
+              "ಐದು",
+              "aidu"
+            ],
+            [
+              "6",
+              "೬",
+              "ಆರು",
+              "aaru"
+            ],
+            [
+              "7",
+              "೭",
+              "ಏಳು",
+              "elu"
+            ],
+            [
+              "8",
+              "೮",
+              "ಎಂಟು",
+              "entu"
+            ],
+            [
+              "9",
+              "೯",
+              "ಒಂಬತ್ತು",
+              "ombattu"
+            ],
+            [
+              "10",
+              "೧೦",
+              "ಹತ್ತು",
+              "hattu"
+            ],
+            [
+              "100",
+              "೧೦೦",
+              "ನೂರು",
+              "nuuru"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ನಮಸ್ಕಾರ! ಹೇಗಿದ್ದೀರಿ?",
+            "r": "Namaskaara! Hegiddiiri?",
+            "e": "Hello! How are you?"
+          },
+          {
+            "t": "ತುಂಬಾ ಧನ್ಯವಾದ.",
+            "r": "Tumbaa dhanyavaada.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ.",
+            "r": "Nanage arthavaagalilla.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "ಇದು ಎಷ್ಟು?",
+            "r": "Idu eshtu?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ನಿಧಾನವಾಗಿ ಮಾತಾಡಿ.",
+            "r": "Nidhaanavaagi maataadi.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "ಊಟ ಆಯ್ತಾ?",
+            "r": "Uuta aaytaa?",
+            "e": "Have you eaten? (a common greeting)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "dasara",
+        "topic": "culture",
+        "title": "Mysuru Dasara",
+        "body": "Dasara, in September or October, is Karnataka's state festival. In Mysuru the palace is lit with nearly a hundred thousand bulbs, and on the last day a procession of decorated elephants carries the goddess Chamundeshwari through the city in a golden howdah.",
+        "tags": [
+          "culture",
+          "festivals"
+        ]
+      }
+    ]
+  },
   "klingon": {
     "id": "klingon",
     "entries": [
@@ -8448,6 +9591,2062 @@ window.LSD_REFERENCE = {
           "grammar",
           "ablative",
           "participles"
+        ]
+      }
+    ]
+  },
+  "malayalam": {
+    "id": "malayalam",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Malayalam at a glance",
+        "body": [
+          "Malayalam is the Dravidian language of Kerala and Lakshadweep, with about 35 million speakers. It split from early Tamil around the 9th century and took in many words from Sanskrit; it became a classical language of India in 2013.",
+          "The verb comes last and, unlike its neighbours, does not change for the person: ഞാൻ പോകുന്നു, അവൾ പോകുന്നു. Case endings join the noun."
+        ],
+        "examples": [
+          {
+            "t": "ഞാൻ മലയാളം {പഠിക്കുന്നു}.",
+            "r": "Njaan malayaalam padikkunnu.",
+            "e": "I am learning Malayalam."
+          }
+        ],
+        "tags": [
+          "Dravidian",
+          "agglutinative",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Malayalam script works",
+        "body": [
+          "Malayalam script is a rounded abugida. Each consonant carries a short a; other vowels are marks around it. The candrakkala ് removes the vowel, and in speech a word-final ് is often said as a short u: വീട് is viidu.",
+          "Malayalam also has chillu letters, special forms of ന, ര, ല, ള and ണ with no vowel at all: ൻ, ർ, ൽ, ൾ, ൺ, as in അവൻ (he) and അവൾ (she)."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ക"
+          ],
+          "rows": [
+            [
+              "a",
+              "",
+              "ക ka"
+            ],
+            [
+              "aa",
+              "ാ",
+              "കാ kaa"
+            ],
+            [
+              "i",
+              "ി",
+              "കി ki"
+            ],
+            [
+              "ii",
+              "ീ",
+              "കീ kii"
+            ],
+            [
+              "u",
+              "ു",
+              "കു ku"
+            ],
+            [
+              "uu",
+              "ൂ",
+              "കൂ kuu"
+            ],
+            [
+              "e",
+              "െ",
+              "കെ ke"
+            ],
+            [
+              "ee",
+              "േ",
+              "കേ kee"
+            ],
+            [
+              "ai",
+              "ൈ",
+              "കൈ kai"
+            ],
+            [
+              "o",
+              "ൊ",
+              "കൊ ko"
+            ],
+            [
+              "oo",
+              "ോ",
+              "കോ koo"
+            ],
+            [
+              "(none)",
+              "്",
+              "ക് k(u)"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "chillu"
+        ]
+      },
+      {
+        "id": "verbs",
+        "topic": "verbs",
+        "title": "Tenses",
+        "body": "One ending per tense, the same for every person. The past tense is the hardest part: it has several patterns that are best learned verb by verb.",
+        "table": {
+          "head": [
+            "Tense",
+            "Ending",
+            "പോകുക, go",
+            "വരിക, come"
+          ],
+          "rows": [
+            [
+              "Present",
+              "-ഉന്നു",
+              "പോകുന്നു",
+              "വരുന്നു"
+            ],
+            [
+              "Past",
+              "various",
+              "പോയി",
+              "വന്നു"
+            ],
+            [
+              "Future",
+              "-ഉം",
+              "പോകും",
+              "വരും"
+            ],
+            [
+              "Negative present",
+              "-ഉന്നില്ല",
+              "പോകുന്നില്ല",
+              "വരുന്നില്ല"
+            ],
+            [
+              "Must",
+              "-അണം",
+              "പോകണം",
+              "വരണം"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "tense"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-എ",
+              "object",
+              "അവനെ, him"
+            ],
+            [
+              "-ക്ക് / -ന്",
+              "to, for",
+              "അമ്മയ്ക്ക്, to Mum"
+            ],
+            [
+              "-ഇൽ",
+              "in, at",
+              "വീട്ടിൽ, at home"
+            ],
+            [
+              "-ഇൽ നിന്ന്",
+              "from",
+              "കൊച്ചിയിൽ നിന്ന്, from Kochi"
+            ],
+            [
+              "-ഓട് / -ഉമായി",
+              "with, to (a person)",
+              "അവളോട്, to her"
+            ],
+            [
+              "-ഉടെ / -ന്റെ",
+              "of, 's",
+              "രാമന്റെ, Raman's"
+            ],
+            [
+              "-കൾ / -മാർ",
+              "plural",
+              "കുട്ടികൾ, children"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "plural"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "table": {
+          "head": [
+            "",
+            "Malayalam",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "ഒന്ന്",
+              "onnu"
+            ],
+            [
+              "2",
+              "രണ്ട്",
+              "randu"
+            ],
+            [
+              "3",
+              "മൂന്ന്",
+              "muunnu"
+            ],
+            [
+              "4",
+              "നാല്",
+              "naalu"
+            ],
+            [
+              "5",
+              "അഞ്ച്",
+              "anchu"
+            ],
+            [
+              "6",
+              "ആറ്",
+              "aaru"
+            ],
+            [
+              "7",
+              "ഏഴ്",
+              "ezhu"
+            ],
+            [
+              "8",
+              "എട്ട്",
+              "ettu"
+            ],
+            [
+              "9",
+              "ഒമ്പത്",
+              "ombathu"
+            ],
+            [
+              "10",
+              "പത്ത്",
+              "pathu"
+            ],
+            [
+              "100",
+              "നൂറ്",
+              "nuuru"
+            ],
+            [
+              "1000",
+              "ആയിരം",
+              "aayiram"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "നമസ്കാരം! സുഖമാണോ?",
+            "r": "Namaskaaram! Sukhamaano?",
+            "e": "Hello! Are you well?"
+          },
+          {
+            "t": "വളരെ നന്ദി.",
+            "r": "Valare nandi.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "എനിക്ക് മനസ്സിലായില്ല.",
+            "r": "Enikku manassilaayilla.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "ഇതിന് എത്ര ആണ്?",
+            "r": "Ithinu ethra aanu?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "പതുക്കെ പറയൂ.",
+            "r": "Pathukke parayuu.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "ഭക്ഷണം കഴിച്ചോ?",
+            "r": "Bhakshanam kazhicho?",
+            "e": "Have you eaten? (a common greeting)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "onam",
+        "topic": "culture",
+        "title": "Onam",
+        "body": "Onam, in August or September, is Kerala's harvest festival, welcoming back the legendary king Mahabali. Homes lay flower carpets (pookkalam) at the door, snake-boat races are held on the backwaters, and the festival meal, the sadya, is served on a banana leaf with more than twenty dishes.",
+        "tags": [
+          "culture",
+          "festivals"
+        ]
+      }
+    ]
+  },
+  "odia": {
+    "id": "odia",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Odia at a glance",
+        "body": [
+          "Odia (formerly spelled Oriya) is the Indo-Aryan language of Odisha on India's east coast, with about 35 million speakers. In 2014 it became one of India's six classical languages, recognized for its long literary history.",
+          "The verb comes last, verbs have no gender, and case endings join the end of the noun. It is close to Bengali and Assamese."
+        ],
+        "examples": [
+          {
+            "t": "ମୁଁ ଓଡ଼ିଆ {ଶିଖୁଛି}।",
+            "r": "Mun odia shikhuchhi.",
+            "e": "I am learning Odia."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "classical language",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "The rounded script",
+        "body": [
+          "Odia letters have a round cap instead of Devanagari's straight top line. One common explanation is that writing was done with a stylus on palm leaves, where a straight line would split the leaf along its grain.",
+          "Like other Indian scripts it is an abugida: each consonant carries a short a, said close to the o in “hot”, and other vowels are marks around it."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With କ"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "କ ka"
+            ],
+            [
+              "aa",
+              "ା",
+              "କା kaa"
+            ],
+            [
+              "i",
+              "ି",
+              "କି ki"
+            ],
+            [
+              "ii",
+              "ୀ",
+              "କୀ kii"
+            ],
+            [
+              "u",
+              "ୁ",
+              "କୁ ku"
+            ],
+            [
+              "uu",
+              "ୂ",
+              "କୂ kuu"
+            ],
+            [
+              "e",
+              "େ",
+              "କେ ke"
+            ],
+            [
+              "ai",
+              "ୈ",
+              "କୈ kai"
+            ],
+            [
+              "o",
+              "ୋ",
+              "କୋ ko"
+            ],
+            [
+              "au",
+              "ୌ",
+              "କୌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "palm leaf"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "Everyday speech uses the continuous present (-ଉଛି) for “I do” and “I am doing”. The ending shows the person and politeness; there is no gender.",
+        "table": {
+          "head": [
+            "Subject",
+            "go",
+            "do"
+          ],
+          "rows": [
+            [
+              "ମୁଁ I",
+              "ଯାଉଛି",
+              "କରୁଛି"
+            ],
+            [
+              "ଆମେ we",
+              "ଯାଉଛୁ",
+              "କରୁଛୁ"
+            ],
+            [
+              "ତୁମେ you (familiar)",
+              "ଯାଉଛ",
+              "କରୁଛ"
+            ],
+            [
+              "ଆପଣ you (polite)",
+              "ଯାଉଛନ୍ତି",
+              "କରୁଛନ୍ତି"
+            ],
+            [
+              "ସେ he, she",
+              "ଯାଉଛି",
+              "କରୁଛି"
+            ],
+            [
+              "ସେମାନେ they",
+              "ଯାଉଛନ୍ତି",
+              "କରୁଛନ୍ତି"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ର",
+              "of, 's",
+              "ରାମର, Ram's"
+            ],
+            [
+              "-କୁ",
+              "to; object",
+              "ବଜାରକୁ, to the market"
+            ],
+            [
+              "-ରେ / -ଏ",
+              "in, at, on",
+              "ଘରେ, at home"
+            ],
+            [
+              "-ରୁ",
+              "from",
+              "ଦିଲ୍ଲୀରୁ, from Delhi"
+            ],
+            [
+              "-ମାନେ",
+              "plural",
+              "ପିଲାମାନେ, children"
+            ],
+            [
+              "-ଟି / -ଟା",
+              "the; counting things",
+              "ବହିଟି, the book"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "plural"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Odia digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "୧",
+              "ଏକ",
+              "eka"
+            ],
+            [
+              "2",
+              "୨",
+              "ଦୁଇ",
+              "dui"
+            ],
+            [
+              "3",
+              "୩",
+              "ତିନି",
+              "tini"
+            ],
+            [
+              "4",
+              "୪",
+              "ଚାରି",
+              "chaari"
+            ],
+            [
+              "5",
+              "୫",
+              "ପାଞ୍ଚ",
+              "paancha"
+            ],
+            [
+              "6",
+              "୬",
+              "ଛଅ",
+              "chhaa"
+            ],
+            [
+              "7",
+              "୭",
+              "ସାତ",
+              "saata"
+            ],
+            [
+              "8",
+              "୮",
+              "ଆଠ",
+              "aatha"
+            ],
+            [
+              "9",
+              "୯",
+              "ନଅ",
+              "naa"
+            ],
+            [
+              "10",
+              "୧୦",
+              "ଦଶ",
+              "dasha"
+            ],
+            [
+              "100",
+              "୧୦୦",
+              "ଶହେ",
+              "shahe"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ନମସ୍କାର, ଆପଣ କେମିତି ଅଛନ୍ତି?",
+            "r": "Namaskaara, apana kemiti achhanti?",
+            "e": "Hello, how are you?"
+          },
+          {
+            "t": "ମୁଁ ଭଲ ଅଛି, ଧନ୍ୟବାଦ।",
+            "r": "Mun bhala achhi, dhanyabaada.",
+            "e": "I'm fine, thank you."
+          },
+          {
+            "t": "ମୁଁ ବୁଝେ ନାହିଁ।",
+            "r": "Mun bujhe naahin.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ଏହାର ଦାମ କେତେ?",
+            "r": "Ehaara daama kete?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ଧୀରେ କହନ୍ତୁ।",
+            "r": "Dhiire kahantu.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "rath-yatra",
+        "topic": "culture",
+        "title": "Rath Yatra",
+        "body": "Every summer in Puri, the images of Jagannath and his siblings are pulled through the streets on huge wooden chariots, rebuilt each year. The festival, Rath Yatra, draws hundreds of thousands of pilgrims; the English word “juggernaut” comes from Jagannath's chariot.",
+        "tags": [
+          "culture",
+          "festivals",
+          "Puri"
+        ]
+      }
+    ]
+  },
+  "punjabi": {
+    "id": "punjabi",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Punjabi at a glance",
+        "body": [
+          "Punjabi is an Indo-Aryan language of the Punjab region, split between India and Pakistan, with over 100 million speakers and large communities in Britain and Canada. In India it is written in Gurmukhi; in Pakistan it is written in Shahmukhi, a Perso-Arabic script.",
+          "The verb comes last, nouns are masculine or feminine, and postpositions follow the noun. Unusually for the region, Punjabi is tonal."
+        ],
+        "examples": [
+          {
+            "t": "ਮੈਂ ਪੰਜਾਬੀ {ਸਿੱਖ ਰਿਹਾ ਹਾਂ}।",
+            "r": "Main panjaabii sikkh rihaa haan.",
+            "e": "I am learning Punjabi. (a man)"
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "tonal",
+          "SOV"
+        ]
+      },
+      {
+        "id": "gurmukhi",
+        "topic": "script",
+        "title": "How Gurmukhi works",
+        "body": [
+          "Gurmukhi was standardized in the 16th century by Guru Angad, the second Sikh Guru; the name means “from the mouth of the Guru”. Like Devanagari it is an abugida: each consonant carries a short a, and other vowels are marks around it. Three letters (ੳ, ਅ, ੲ) carry the vowels at the start of a word.",
+          "The addak ੱ doubles the next consonant, and tippi ੰ or bindi ਂ marks a nasal sound."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ਕ"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "ਕ ka"
+            ],
+            [
+              "aa",
+              "ਾ",
+              "ਕਾ kaa"
+            ],
+            [
+              "i",
+              "ਿ",
+              "ਕਿ ki"
+            ],
+            [
+              "ii",
+              "ੀ",
+              "ਕੀ kii"
+            ],
+            [
+              "u",
+              "ੁ",
+              "ਕੁ ku"
+            ],
+            [
+              "uu",
+              "ੂ",
+              "ਕੂ kuu"
+            ],
+            [
+              "e",
+              "ੇ",
+              "ਕੇ ke"
+            ],
+            [
+              "ai",
+              "ੈ",
+              "ਕੈ kai"
+            ],
+            [
+              "o",
+              "ੋ",
+              "ਕੋ ko"
+            ],
+            [
+              "au",
+              "ੌ",
+              "ਕੌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "Gurmukhi"
+        ]
+      },
+      {
+        "id": "tones",
+        "topic": "sounds",
+        "title": "Tones",
+        "body": "Punjabi lost the breathy sound of ਘ, ਝ, ਢ, ਧ, ਭ (gh, jh, dh, bh) and of ਹ inside a word, and gained tones in their place. At the start of a word, ਘ is said like k with a low, rising tone; after the vowel, ਹ gives a high, falling tone. The spelling stays the old one.",
+        "examples": [
+          {
+            "t": "ਕੋੜਾ · ਘੋੜਾ · ਕੋਹੜਾ",
+            "r": "koraa · kòraa · kóraa",
+            "e": "whip · horse · leper: the same sounds with three tones"
+          }
+        ],
+        "tags": [
+          "tones",
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "“To be” and the present",
+        "body": "The present tense is a participle that agrees in gender and number, followed by the right form of “to be”.",
+        "table": {
+          "head": [
+            "Subject",
+            "to be",
+            "speak (man)",
+            "speak (woman)"
+          ],
+          "rows": [
+            [
+              "ਮੈਂ I",
+              "ਹਾਂ",
+              "ਬੋਲਦਾ ਹਾਂ",
+              "ਬੋਲਦੀ ਹਾਂ"
+            ],
+            [
+              "ਤੂੰ you (intimate)",
+              "ਹੈਂ",
+              "ਬੋਲਦਾ ਹੈਂ",
+              "ਬੋਲਦੀ ਹੈਂ"
+            ],
+            [
+              "ਉਹ he, she",
+              "ਹੈ",
+              "ਬੋਲਦਾ ਹੈ",
+              "ਬੋਲਦੀ ਹੈ"
+            ],
+            [
+              "ਅਸੀਂ we",
+              "ਹਾਂ",
+              "ਬੋਲਦੇ ਹਾਂ",
+              "ਬੋਲਦੀਆਂ ਹਾਂ"
+            ],
+            [
+              "ਤੁਸੀਂ you",
+              "ਹੋ",
+              "ਬੋਲਦੇ ਹੋ",
+              "ਬੋਲਦੀਆਂ ਹੋ"
+            ],
+            [
+              "ਉਹ they",
+              "ਹਨ",
+              "ਬੋਲਦੇ ਹਨ",
+              "ਬੋਲਦੀਆਂ ਹਨ"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "gender"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Postpositions",
+        "body": "These follow the noun. A masculine noun in -ā becomes -e before them: ਕਮਰਾ → ਕਮਰੇ ਵਿੱਚ.",
+        "table": {
+          "head": [
+            "Word",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ਵਿੱਚ",
+              "in",
+              "ਘਰ ਵਿੱਚ, in the house"
+            ],
+            [
+              "ਉੱਤੇ / ਤੇ",
+              "on",
+              "ਮੇਜ਼ ਉੱਤੇ, on the table"
+            ],
+            [
+              "ਤੋਂ",
+              "from",
+              "ਅੰਮ੍ਰਿਤਸਰ ਤੋਂ, from Amritsar"
+            ],
+            [
+              "ਨੂੰ",
+              "to; object marker",
+              "ਮੈਨੂੰ, to me"
+            ],
+            [
+              "ਨਾਲ",
+              "with",
+              "ਦੋਸਤ ਨਾਲ, with a friend"
+            ],
+            [
+              "ਦਾ / ਦੀ / ਦੇ",
+              "of",
+              "ਰਾਮ ਦਾ ਘਰ, Ram's house"
+            ]
+          ]
+        },
+        "tags": [
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Gurmukhi digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "੧",
+              "ਇੱਕ",
+              "ikk"
+            ],
+            [
+              "2",
+              "੨",
+              "ਦੋ",
+              "do"
+            ],
+            [
+              "3",
+              "੩",
+              "ਤਿੰਨ",
+              "tinn"
+            ],
+            [
+              "4",
+              "੪",
+              "ਚਾਰ",
+              "chaar"
+            ],
+            [
+              "5",
+              "੫",
+              "ਪੰਜ",
+              "panj"
+            ],
+            [
+              "6",
+              "੬",
+              "ਛੇ",
+              "chhe"
+            ],
+            [
+              "7",
+              "੭",
+              "ਸੱਤ",
+              "satt"
+            ],
+            [
+              "8",
+              "੮",
+              "ਅੱਠ",
+              "atth"
+            ],
+            [
+              "9",
+              "੯",
+              "ਨੌਂ",
+              "naun"
+            ],
+            [
+              "10",
+              "੧੦",
+              "ਦਸ",
+              "das"
+            ],
+            [
+              "100",
+              "੧੦੦",
+              "ਸੌ",
+              "sau"
+            ]
+          ]
+        },
+        "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ!",
+            "r": "Sat srii akaal jii!",
+            "e": "Hello! (respectful)"
+          },
+          {
+            "t": "ਕੀ ਹਾਲ ਹੈ?",
+            "r": "Kii haal hai?",
+            "e": "How are things?"
+          },
+          {
+            "t": "ਬਹੁਤ ਧੰਨਵਾਦ।",
+            "r": "Bahut dhannvaad.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ਮੈਨੂੰ ਸਮਝ ਨਹੀਂ ਆਈ।",
+            "r": "Mainuun samajh nahiin aaii.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "ਇਹ ਕਿੰਨੇ ਦਾ ਹੈ?",
+            "r": "Ih kinne daa hai?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ਹੌਲੀ ਬੋਲੋ ਜੀ।",
+            "r": "Haulii bolo jii.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ji",
+        "topic": "culture",
+        "title": "ਜੀ, the word of respect",
+        "body": "Adding ਜੀ (jii) after a name, a title, or even “yes” and “no” makes speech respectful: ਹਾਂਜੀ, ਨਹੀਂਜੀ, ਮਾਤਾ ਜੀ. Guests at a gurdwara cover their heads, take off their shoes, and are offered a free meal in the langar, the community kitchen.",
+        "tags": [
+          "culture",
+          "politeness",
+          "Sikhism"
+        ]
+      }
+    ]
+  },
+  "sinhala": {
+    "id": "sinhala",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Sinhala at a glance",
+        "body": [
+          "Sinhala is the language of the Sinhalese people of Sri Lanka, with about 17 million native speakers. It is Indo-Aryan, brought to the island over two thousand years ago, and has been shaped by Pali, Sanskrit, Tamil and later Portuguese, Dutch and English.",
+          "The verb comes last. Written Sinhala has verb endings for each person, but everyday speech drops them, so one form serves everyone."
+        ],
+        "examples": [
+          {
+            "t": "මම සිංහල {ඉගෙන ගන්නවා}.",
+            "r": "Mama sinhala igena gannavaa.",
+            "e": "I am learning Sinhala."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "diglossia",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Sinhala script works",
+        "body": [
+          "Sinhala script is a round abugida; its curves are often said to come from writing on palm leaves. Each consonant carries a short a, other vowels are marks around it, and the al-lakuna ් removes the vowel.",
+          "Sinhala has prenasalized letters, such as ඳ (nda) and ඹ (mba), which are single sounds, as in හොඳ (honda, good)."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ක"
+          ],
+          "rows": [
+            [
+              "a",
+              "",
+              "ක ka"
+            ],
+            [
+              "aa",
+              "ා",
+              "කා kaa"
+            ],
+            [
+              "ae",
+              "ැ",
+              "කැ kae"
+            ],
+            [
+              "i",
+              "ි",
+              "කි ki"
+            ],
+            [
+              "ii",
+              "ී",
+              "කී kii"
+            ],
+            [
+              "u",
+              "ු",
+              "කු ku"
+            ],
+            [
+              "uu",
+              "ූ",
+              "කූ kuu"
+            ],
+            [
+              "e",
+              "ෙ",
+              "කෙ ke"
+            ],
+            [
+              "o",
+              "ො",
+              "කො ko"
+            ],
+            [
+              "(none)",
+              "්",
+              "ක් k"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida"
+        ]
+      },
+      {
+        "id": "spoken-verbs",
+        "topic": "verbs",
+        "title": "Spoken verb forms",
+        "body": "In speech one form serves every person. A question word turns -නවා into -න්නේ.",
+        "table": {
+          "head": [
+            "Meaning",
+            "Form",
+            "යනවා, go"
+          ],
+          "rows": [
+            [
+              "present / near future",
+              "-නවා",
+              "යනවා"
+            ],
+            [
+              "question",
+              "-නවද",
+              "යනවද?"
+            ],
+            [
+              "with a question word",
+              "-න්නේ",
+              "කොහෙද යන්නේ?"
+            ],
+            [
+              "negative",
+              "-න්නේ නෑ",
+              "යන්නේ නෑ"
+            ],
+            [
+              "past",
+              "various",
+              "ගියා"
+            ],
+            [
+              "let's",
+              "-මු",
+              "යමු"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "spoken"
+        ]
+      },
+      {
+        "id": "animate",
+        "topic": "grammar",
+        "title": "Living things and things",
+        "body": "Sinhala separates animate nouns (people, animals) from inanimate ones. The verb for “be there” differs (ඉන්නවා / තියෙනවා), and so does “a”: කෙනෙක් for a person, එකක් for a thing.",
+        "table": {
+          "head": [
+            "",
+            "Animate",
+            "Inanimate"
+          ],
+          "rows": [
+            [
+              "is there",
+              "ඉන්නවා",
+              "තියෙනවා"
+            ],
+            [
+              "a, one",
+              "කෙනෙක් / -එක්",
+              "එකක් / -ක්"
+            ],
+            [
+              "example",
+              "යාළුවෙක් ඉන්නවා",
+              "පොතක් තියෙනවා"
+            ]
+          ]
+        },
+        "tags": [
+          "animacy",
+          "existence"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "table": {
+          "head": [
+            "",
+            "Sinhala",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "එක",
+              "eka"
+            ],
+            [
+              "2",
+              "දෙක",
+              "deka"
+            ],
+            [
+              "3",
+              "තුන",
+              "thuna"
+            ],
+            [
+              "4",
+              "හතර",
+              "hathara"
+            ],
+            [
+              "5",
+              "පහ",
+              "paha"
+            ],
+            [
+              "6",
+              "හය",
+              "haya"
+            ],
+            [
+              "7",
+              "හත",
+              "hatha"
+            ],
+            [
+              "8",
+              "අට",
+              "ata"
+            ],
+            [
+              "9",
+              "නවය",
+              "navaya"
+            ],
+            [
+              "10",
+              "දහය",
+              "dahaya"
+            ],
+            [
+              "100",
+              "සීය",
+              "siiya"
+            ],
+            [
+              "1000",
+              "දාහ",
+              "daaha"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ආයුබෝවන්! කොහොමද?",
+            "r": "Aayubovan! Kohomada?",
+            "e": "Hello! How are you?"
+          },
+          {
+            "t": "බොහොම ස්තූතියි.",
+            "r": "Bohoma stuutiyi.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "මට තේරෙන්නේ නෑ.",
+            "r": "Mata therenne nae.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "මේක කීයද?",
+            "r": "Meka kiiyada?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "හෙමින් කතා කරන්න.",
+            "r": "Hemin kathaa karanna.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "බත් කෑවද?",
+            "r": "Bath kaevada?",
+            "e": "Have you eaten rice? (a common greeting)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "avurudu",
+        "topic": "culture",
+        "title": "Sinhala and Tamil New Year",
+        "body": "Avurudu, in mid-April, is celebrated by Sinhalese and Tamils alike at the moment astrologers set for the sun's move into Aries. Families light the hearth, boil milk until it overflows, eat kiribath (milk rice) and play traditional games.",
+        "tags": [
+          "culture",
+          "festivals"
+        ]
+      }
+    ]
+  },
+  "tamil": {
+    "id": "tamil",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Tamil at a glance",
+        "body": [
+          "Tamil is a Dravidian language with about 85 million speakers, official in Tamil Nadu, Sri Lanka and Singapore. Its literature goes back over two thousand years, to the Sangam poems, and it was the first language to be declared a classical language of India.",
+          "Tamil builds words by adding suffixes in a fixed order. The verb comes last and agrees with the subject, including its gender and politeness. There is a wide gap between the formal written language and everyday speech."
+        ],
+        "examples": [
+          {
+            "t": "நான் தமிழ் {படிக்கிறேன்}.",
+            "r": "Naan thamizh padikkiren.",
+            "e": "I am learning Tamil."
+          }
+        ],
+        "tags": [
+          "Dravidian",
+          "agglutinative",
+          "diglossia"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Tamil script works",
+        "body": [
+          "Tamil script has 12 vowels and 18 consonants, plus the special letter ஃ (aaytham). Each consonant carries a short a, and the other vowels are marks around it, giving 216 combined letters. The dot above (புள்ளி) removes the vowel: க் is k alone.",
+          "Tamil has fewer letters than other Indian scripts because one letter covers several sounds: க is k, g or h depending on where it falls in the word."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With க"
+          ],
+          "rows": [
+            [
+              "a",
+              "",
+              "க ka"
+            ],
+            [
+              "aa",
+              "ா",
+              "கா kaa"
+            ],
+            [
+              "i",
+              "ி",
+              "கி ki"
+            ],
+            [
+              "ii",
+              "ீ",
+              "கீ kii"
+            ],
+            [
+              "u",
+              "ு",
+              "கு ku"
+            ],
+            [
+              "uu",
+              "ூ",
+              "கூ kuu"
+            ],
+            [
+              "e",
+              "ெ",
+              "கெ ke"
+            ],
+            [
+              "ee",
+              "ே",
+              "கே kee"
+            ],
+            [
+              "ai",
+              "ை",
+              "கை kai"
+            ],
+            [
+              "o",
+              "ொ",
+              "கொ ko"
+            ],
+            [
+              "oo",
+              "ோ",
+              "கோ koo"
+            ],
+            [
+              "au",
+              "ௌ",
+              "கௌ kau"
+            ],
+            [
+              "(none)",
+              "்",
+              "க் k"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "pulli"
+        ]
+      },
+      {
+        "id": "zh",
+        "topic": "sounds",
+        "title": "The letter ழ",
+        "body": "ழ is a sound few languages have: an r-like approximant made with the tongue curled far back, written zh in transliteration. It is in the name of the language itself, தமிழ் (thamizh). Tamil also distinguishes three l sounds (ல, ள, ழ), two r sounds (ர, ற) and three n sounds (ந, ன, ண).",
+        "examples": [
+          {
+            "t": "தமி{ழ்} · வா{ழ}ைப்ப{ழ}ம்",
+            "r": "thamizh · vaazhaippazham",
+            "e": "Tamil · banana"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "retroflex"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "Stem + -கிற்- + a person ending. The endings are the same in the past (-த்- / -ன்-) and future (-வ்- / -ப்-) with a different tense marker.",
+        "table": {
+          "head": [
+            "Subject",
+            "Ending",
+            "படி, study",
+            "பேசு, speak"
+          ],
+          "rows": [
+            [
+              "நான் I",
+              "-ஏன்",
+              "படிக்கிறேன்",
+              "பேசுகிறேன்"
+            ],
+            [
+              "நீ you",
+              "-ஆய்",
+              "படிக்கிறாய்",
+              "பேசுகிறாய்"
+            ],
+            [
+              "நீங்கள் you (polite)",
+              "-ஈர்கள்",
+              "படிக்கிறீர்கள்",
+              "பேசுகிறீர்கள்"
+            ],
+            [
+              "அவன் he",
+              "-ஆன்",
+              "படிக்கிறான்",
+              "பேசுகிறான்"
+            ],
+            [
+              "அவள் she",
+              "-ஆள்",
+              "படிக்கிறாள்",
+              "பேசுகிறாள்"
+            ],
+            [
+              "அவர் he / she (polite)",
+              "-ஆர்",
+              "படிக்கிறார்",
+              "பேசுகிறார்"
+            ],
+            [
+              "நாங்கள் we",
+              "-ஓம்",
+              "படிக்கிறோம்",
+              "பேசுகிறோம்"
+            ],
+            [
+              "அவர்கள் they",
+              "-ஆர்கள்",
+              "படிக்கிறார்கள்",
+              "பேசுகிறார்கள்"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "body": "Endings join the noun. Nouns in -ம் change it to -த்து- or -த்- before most of them: மரம் → மரத்தில்.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ஐ",
+              "object",
+              "அவனை, him"
+            ],
+            [
+              "-க்கு",
+              "to, for",
+              "கடைக்கு, to the shop"
+            ],
+            [
+              "-இல்",
+              "in, at",
+              "வீட்டில், at home"
+            ],
+            [
+              "-இலிருந்து",
+              "from",
+              "ஊரிலிருந்து, from the town"
+            ],
+            [
+              "-ஆல்",
+              "by, with (a tool)",
+              "பேனாவால், with a pen"
+            ],
+            [
+              "-ஓடு / -உடன்",
+              "with (a person)",
+              "நண்பனோடு, with a friend"
+            ],
+            [
+              "-உடைய / -இன்",
+              "of, 's",
+              "ராமுடைய, Ram's"
+            ]
+          ]
+        },
+        "tags": [
+          "cases"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "table": {
+          "head": [
+            "",
+            "Tamil",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "ஒன்று",
+              "ondru"
+            ],
+            [
+              "2",
+              "இரண்டு",
+              "irandu"
+            ],
+            [
+              "3",
+              "மூன்று",
+              "moondru"
+            ],
+            [
+              "4",
+              "நான்கு",
+              "naangu"
+            ],
+            [
+              "5",
+              "ஐந்து",
+              "aindhu"
+            ],
+            [
+              "6",
+              "ஆறு",
+              "aaru"
+            ],
+            [
+              "7",
+              "ஏழு",
+              "ezhu"
+            ],
+            [
+              "8",
+              "எட்டு",
+              "ettu"
+            ],
+            [
+              "9",
+              "ஒன்பது",
+              "onbadhu"
+            ],
+            [
+              "10",
+              "பத்து",
+              "paththu"
+            ],
+            [
+              "100",
+              "நூறு",
+              "nooru"
+            ],
+            [
+              "1000",
+              "ஆயிரம்",
+              "aayiram"
+            ]
+          ]
+        },
+        "body": "Tamil has its own numerals (௧ ௨ ௩ …) but they are rarely used today; everyday writing uses 0–9.",
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "வணக்கம்! எப்படி இருக்கிறீர்கள்?",
+            "r": "Vanakkam! Eppadi irukkireergal?",
+            "e": "Hello! How are you?"
+          },
+          {
+            "t": "ரொம்ப நன்றி.",
+            "r": "Romba nandri.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "எனக்குப் புரியவில்லை.",
+            "r": "Enakkup puriyavillai.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "இது எவ்வளவு?",
+            "r": "Idhu evvalavu?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "மெதுவாகப் பேசுங்கள்.",
+            "r": "Medhuvaagap pesungal.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "ஒரு காபி கொடுங்கள்.",
+            "r": "Oru kaapi kodungal.",
+            "e": "A coffee, please."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "pongal",
+        "topic": "culture",
+        "title": "Pongal",
+        "body": "Pongal is the Tamil harvest festival in mid-January. Rice is boiled with milk and jaggery in a new pot until it bubbles over, while people call out “பொங்கலோ பொங்கல்!” The overflowing pot stands for plenty in the coming year, and the third day honours the cattle that work the fields.",
+        "tags": [
+          "culture",
+          "festivals"
+        ]
+      }
+    ]
+  },
+  "telugu": {
+    "id": "telugu",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Telugu at a glance",
+        "body": [
+          "Telugu is the Dravidian language of Andhra Pradesh and Telangana, with over 80 million speakers, the most of any Dravidian language. It is a classical language of India, with literature going back a thousand years.",
+          "Almost every native word ends in a vowel, which led a 15th-century Venetian traveller to call it “the Italian of the East”. The verb comes last, and case endings and postpositions join the noun."
+        ],
+        "examples": [
+          {
+            "t": "నేను తెలుగు {నేర్చుకుంటున్నాను}.",
+            "r": "Nenu telugu nerchukuntunnaanu.",
+            "e": "I am learning Telugu."
+          }
+        ],
+        "tags": [
+          "Dravidian",
+          "agglutinative",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How Telugu script works",
+        "body": [
+          "Telugu script is a rounded abugida, closely related to Kannada script. Each consonant carries a short a, and other vowels are marks, many of which replace the little tick (తలకట్టు) on top of the letter. A consonant with no vowel takes the mark ్, and a following consonant often goes underneath as a small subscript form.",
+          "The ం (sunna) marks an m or n sound before the next consonant, as in పండు (pandu, fruit)."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With క"
+          ],
+          "rows": [
+            [
+              "a",
+              "",
+              "క ka"
+            ],
+            [
+              "aa",
+              "ా",
+              "కా kaa"
+            ],
+            [
+              "i",
+              "ి",
+              "కి ki"
+            ],
+            [
+              "ii",
+              "ీ",
+              "కీ kii"
+            ],
+            [
+              "u",
+              "ు",
+              "కు ku"
+            ],
+            [
+              "uu",
+              "ూ",
+              "కూ kuu"
+            ],
+            [
+              "e",
+              "ె",
+              "కె ke"
+            ],
+            [
+              "ee",
+              "ే",
+              "కే kee"
+            ],
+            [
+              "ai",
+              "ై",
+              "కై kai"
+            ],
+            [
+              "o",
+              "ొ",
+              "కొ ko"
+            ],
+            [
+              "oo",
+              "ో",
+              "కో koo"
+            ],
+            [
+              "au",
+              "ౌ",
+              "కౌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "Present and future",
+        "body": "-తున్న- is for what is happening now; -తా- is for habits and the future. The person endings are the same in both.",
+        "table": {
+          "head": [
+            "Subject",
+            "now (చేయు, do)",
+            "habit / future"
+          ],
+          "rows": [
+            [
+              "నేను I",
+              "చేస్తున్నాను",
+              "చేస్తాను"
+            ],
+            [
+              "నువ్వు you",
+              "చేస్తున్నావు",
+              "చేస్తావు"
+            ],
+            [
+              "మీరు you (polite)",
+              "చేస్తున్నారు",
+              "చేస్తారు"
+            ],
+            [
+              "అతను he",
+              "చేస్తున్నాడు",
+              "చేస్తాడు"
+            ],
+            [
+              "ఆమె she",
+              "చేస్తోంది",
+              "చేస్తుంది"
+            ],
+            [
+              "మేము we",
+              "చేస్తున్నాము",
+              "చేస్తాము"
+            ],
+            [
+              "వాళ్ళు they",
+              "చేస్తున్నారు",
+              "చేస్తారు"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "future"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ని / -ను",
+              "object",
+              "అతన్ని, him"
+            ],
+            [
+              "-కి / -కు",
+              "to, for",
+              "బజారుకి, to the market"
+            ],
+            [
+              "-లో",
+              "in",
+              "ఇంట్లో, at home"
+            ],
+            [
+              "నుండి",
+              "from",
+              "ఊరి నుండి, from the town"
+            ],
+            [
+              "-తో",
+              "with",
+              "స్నేహితుడితో, with a friend"
+            ],
+            [
+              "-లు",
+              "plural",
+              "పుస్తకాలు, books"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "plural"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "table": {
+          "head": [
+            "",
+            "Telugu",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "ఒకటి",
+              "okati"
+            ],
+            [
+              "2",
+              "రెండు",
+              "rendu"
+            ],
+            [
+              "3",
+              "మూడు",
+              "muudu"
+            ],
+            [
+              "4",
+              "నాలుగు",
+              "naalugu"
+            ],
+            [
+              "5",
+              "ఐదు",
+              "aidu"
+            ],
+            [
+              "6",
+              "ఆరు",
+              "aaru"
+            ],
+            [
+              "7",
+              "ఏడు",
+              "edu"
+            ],
+            [
+              "8",
+              "ఎనిమిది",
+              "enimidi"
+            ],
+            [
+              "9",
+              "తొమ్మిది",
+              "tommidi"
+            ],
+            [
+              "10",
+              "పది",
+              "padi"
+            ],
+            [
+              "100",
+              "వంద",
+              "vanda"
+            ],
+            [
+              "1000",
+              "వెయ్యి",
+              "veyyi"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "నమస్కారం! బాగున్నారా?",
+            "r": "Namaskaaram! Baagunnaaraa?",
+            "e": "Hello! Are you well?"
+          },
+          {
+            "t": "చాలా ధన్యవాదాలు.",
+            "r": "Chaalaa dhanyavaadaalu.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "నాకు అర్థం కాలేదు.",
+            "r": "Naaku artham kaaledu.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "ఇది ఎంత?",
+            "r": "Idi enta?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "నెమ్మదిగా మాట్లాడండి.",
+            "r": "Nemmadigaa maatlaadandi.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "భోజనం అయిందా?",
+            "r": "Bhojanam ayindaa?",
+            "e": "Have you eaten? (a common greeting)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ugadi",
+        "topic": "culture",
+        "title": "Ugadi",
+        "body": "Ugadi is the Telugu New Year, in March or April. Families eat Ugadi pachadi, a chutney with six tastes: sweet jaggery, sour tamarind, bitter neem flowers, salt, chilli heat and raw mango. Together they stand for the mix of experiences the new year will bring.",
+        "tags": [
+          "culture",
+          "festivals"
         ]
       }
     ]

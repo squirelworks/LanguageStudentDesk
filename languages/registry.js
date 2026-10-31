@@ -28,6 +28,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "direction": "rtl",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -60,7 +61,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "bengali"
     ],
     "notes": "Bengali (Bangla) in the Bengali–Assamese script.",
-    "speech": "bn-BD"
+    "speech": "bn-BD",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "burmese": {
     "id": "burmese",
@@ -101,6 +107,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
     "speech": "zh-CN",
     "data": {
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -118,6 +125,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -181,7 +189,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gujarati"
     ],
     "notes": "Gujarati in its own script, a cousin of Devanagari without the headline.",
-    "speech": "gu-IN"
+    "speech": "gu-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "hangul": {
     "id": "hangul",
@@ -197,6 +210,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -233,6 +247,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -267,6 +282,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ja-JP",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
     }
@@ -282,7 +298,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "kannada"
     ],
     "notes": "Kannada in the Kannada script, spoken in Karnataka.",
-    "speech": "kn-IN"
+    "speech": "kn-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "khmer": {
     "id": "khmer",
@@ -311,6 +332,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "font": "pIqaD",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -338,6 +360,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
     "speech": "la",
     "data": {
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -352,7 +375,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "malayalam"
     ],
     "notes": "Malayalam in the Malayalam script, spoken in Kerala.",
-    "speech": "ml-IN"
+    "speech": "ml-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "manipuri": {
     "id": "manipuri",
@@ -391,7 +419,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "odia"
     ],
     "notes": "Odia, the language of Odisha, in its round-topped script; consonants carry a built-in o.",
-    "speech": "or-IN"
+    "speech": "or-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "punjabi": {
     "id": "punjabi",
@@ -404,7 +437,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gurmukhi"
     ],
     "notes": "Punjabi in Gurmukhi, the script used in India.",
-    "speech": "pa-IN"
+    "speech": "pa-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "sinhala": {
     "id": "sinhala",
@@ -417,7 +455,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "sinhala"
     ],
     "notes": "Sinhala in the Sinhala script, spoken in Sri Lanka.",
-    "speech": "si-LK"
+    "speech": "si-LK",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "tamazight": {
     "id": "tamazight",
@@ -443,7 +486,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "tamil"
     ],
     "notes": "Tamil in the Tamil script, spoken in Tamil Nadu and Sri Lanka.",
-    "speech": "ta-IN"
+    "speech": "ta-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "telugu": {
     "id": "telugu",
@@ -456,7 +504,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "telugu"
     ],
     "notes": "Telugu in the Telugu script, spoken in Andhra Pradesh and Telangana.",
-    "speech": "te-IN"
+    "speech": "te-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "thai": {
     "id": "thai",

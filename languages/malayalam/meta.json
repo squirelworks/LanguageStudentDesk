@@ -5,5 +5,6 @@
   "writingSystems": ["malayalam"],
   "characterKeys": ["malayalam"],
   "notes": "Malayalam in the Malayalam script, spoken in Kerala.",
-  "speech": "ml-IN"
+  "speech": "ml-IN",
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

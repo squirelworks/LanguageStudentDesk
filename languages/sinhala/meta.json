@@ -5,5 +5,6 @@
   "writingSystems": ["sinhala"],
   "characterKeys": ["sinhala"],
   "notes": "Sinhala in the Sinhala script, spoken in Sri Lanka.",
-  "speech": "si-LK"
+  "speech": "si-LK",
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }
