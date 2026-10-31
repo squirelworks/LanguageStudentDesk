@@ -560,15 +560,7 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/js/strokes.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/js/writepad.js"></script>
 <script src="../languages/registry.js"></script>
-<script src="scripts/hiragana.js"></script>
-<script src="scripts/katakana.js"></script>
-<script src="scripts/arabic.js"></script>
-<script src="scripts/cyrillic.js"></script>
-<script src="scripts/hangul.js"></script>
-<script src="scripts/devanagari.js"></script>
-<script src="scripts/klingon.js"></script>
-<script src="scripts/kanji.js"></script>
-<script src="scripts/sg-alphabets.js"></script>
+<script src="../languages/lsd-lang.js"></script>
 <script>
 let currentScript = null;
 let currentData = [];
@@ -1204,6 +1196,24 @@ function speak(text) {
 }
 
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
-init();
+
+// Character data lives in languages/<id>/characters.js (data.characters in each
+// meta.json). Load it one language at a time so the script buttons keep their
+// order, then the kanji table, then the SquirrelGo Alphabets scripts, which
+// skip any script a language already defined.
+const CHARACTER_ORDER = ['japanese', 'arabic', 'cyrillic', 'hangul', 'hindi', 'klingon'];
+async function loadCharacters() {
+  window.SCRIPTS = window.SCRIPTS || {};
+  const metas = Object.values(window.LSD_LANGUAGE_REGISTRY || {}).filter(m => LSD.has(m, 'characters'));
+  const rank = (m) => { const i = CHARACTER_ORDER.indexOf(m.id); return i < 0 ? CHARACTER_ORDER.length : i; };
+  metas.sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id));
+  for (const m of metas) {
+    try { await LSD.load(m.id, 'characters'); } catch (e) { console.warn(e); }
+  }
+  for (const src of ['scripts/kanji.js', 'scripts/sg-alphabets.js']) {
+    try { await LSD.loadScript(src); } catch (e) { console.warn(e); }
+  }
+}
+loadCharacters().then(init);
 </script></body>
 </html>
