@@ -11,8 +11,10 @@ forms) and Whitespace (6 lessons, from numbers in S, T and L to loops and
 subroutines). Win16 has a 9-lesson reading course, from WinMain to dialogs,
 memory and porting to Win32; its C programs need Windows 3.x, so they show
 no output. INTERCAL has a 5-lesson reading course (manners, mingle and
-select, the unary operators, NEXT and RESUME, ABSTAIN and STASH). Piet and
-Malbolge each have a shorter course. Progress is saved in the browser.
+select, the unary operators, NEXT and RESUME, ABSTAIN and STASH). Piet has
+5 lessons, from the colour table to turning and stopping, with every program
+drawn in colour, and Malbolge has 5 lessons, from the ternary machine to
+printing letters with a searched-for program. Progress is saved in the browser.
 
 ## Launch
 
@@ -33,7 +35,7 @@ programming-learner/index.html?lang=python#loops
 - `data/catalog.js` — the languages, in menu order, with the blurb shown on the home grid
 - `data/<id>.js` — one course per language, loaded on demand
 - `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
-- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode), and `run_whitespace.py` is a Whitespace interpreter that reads the course's S/T/L notation. A runner whose tool is missing is skipped with a note
+- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode), `run_whitespace.py` is a Whitespace interpreter that reads the course's S/T/L notation, `run_piet.py` a Piet interpreter that reads the course's two-letter codel grids, and `run_malbolge.py` a Malbolge interpreter that also accepts normalized programs. A runner whose tool is missing is skipped with a note
 
 ## Course schema
 
