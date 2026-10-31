@@ -28,6 +28,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "direction": "rtl",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -106,6 +107,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
     "speech": "zh-CN",
     "data": {
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -123,6 +125,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -207,6 +210,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -243,6 +247,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -277,6 +282,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ja-JP",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -325,6 +331,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "font": "pIqaD",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },
@@ -352,6 +359,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
     "speech": "la",
     "data": {
+      "grammar": "grammar.js",
       "reference": "reference.json"
     }
   },

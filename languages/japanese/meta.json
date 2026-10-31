@@ -6,5 +6,5 @@
   "characterKeys": ["hiragana", "katakana", "kanji"],
   "notes": "Hiragana, Katakana, and Kanji. Kanji can also be viewed in Hanzi or Hanja context.",
   "speech": "ja-JP",
-  "data": { "characters": "characters.js", "reference": "reference.json" }
+  "data": { "characters": "characters.js", "grammar": "grammar.js", "reference": "reference.json" }
 }

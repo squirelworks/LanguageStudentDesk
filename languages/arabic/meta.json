@@ -7,5 +7,5 @@
   "notes": "Abjad with contextual forms (isolated, initial, medial, final).",
   "speech": "ar-SA",
   "direction": "rtl",
-  "data": { "characters": "characters.js", "reference": "reference.json" }
+  "data": { "characters": "characters.js", "grammar": "grammar.js", "reference": "reference.json" }
 }
