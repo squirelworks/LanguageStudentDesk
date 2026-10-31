@@ -288,6 +288,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "data": {
       "characters": "characters.js",
       "grammar": "grammar.js",
+      "vocab": "vocab.js",
       "reference": "reference.json"
     }
   },
