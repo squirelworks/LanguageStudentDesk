@@ -27,6 +27,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ar-SA",
     "direction": "rtl",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -41,7 +42,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "armenian"
     ],
     "notes": "Eastern Armenian in the Armenian alphabet.",
-    "speech": "hy-AM"
+    "speech": "hy-AM",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "bengali": {
     "id": "bengali",
@@ -54,7 +60,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "bengali"
     ],
     "notes": "Bengali (Bangla) in the Bengali–Assamese script.",
-    "speech": "bn-BD"
+    "speech": "bn-BD",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "burmese": {
     "id": "burmese",
@@ -111,6 +122,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ru-RU",
     "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -139,7 +151,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "georgian"
     ],
     "notes": "Georgian in Mkhedruli, which has no capital letters.",
-    "speech": "ka-GE"
+    "speech": "ka-GE",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "greek": {
     "id": "greek",
@@ -152,7 +169,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "greek"
     ],
     "notes": "Modern Greek in the Greek alphabet, 24 letters with a stress mark.",
-    "speech": "el-GR"
+    "speech": "el-GR",
+    "data": {
+      "grammar": "grammar.js",
+      "reference": "reference.json"
+    }
   },
   "gujarati": {
     "id": "gujarati",
@@ -165,7 +186,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gujarati"
     ],
     "notes": "Gujarati in its own script, a cousin of Devanagari without the headline.",
-    "speech": "gu-IN"
+    "speech": "gu-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "hangul": {
     "id": "hangul",
@@ -180,6 +206,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ko-KR",
     "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -195,7 +222,12 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Modern Hebrew, written right to left; vowel points are usually left out.",
     "speech": "he-IL",
-    "direction": "rtl"
+    "direction": "rtl",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "hindi": {
     "id": "hindi",
@@ -210,6 +242,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "hi-IN",
     "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -243,6 +276,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Hiragana, Katakana, and Kanji. Kanji can also be viewed in Hanzi or Hanja context.",
     "speech": "ja-JP",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -290,6 +324,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "pIqaD script.",
     "font": "pIqaD",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -375,7 +410,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "odia"
     ],
     "notes": "Odia, the language of Odisha, in its round-topped script; consonants carry a built-in o.",
-    "speech": "or-IN"
+    "speech": "or-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "punjabi": {
     "id": "punjabi",
@@ -388,7 +428,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gurmukhi"
     ],
     "notes": "Punjabi in Gurmukhi, the script used in India.",
-    "speech": "pa-IN"
+    "speech": "pa-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "sinhala": {
     "id": "sinhala",
@@ -468,7 +513,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "thai"
     ],
     "notes": "Thai, with 44 consonants in three classes and five tones; words are written without spaces.",
-    "speech": "th-TH"
+    "speech": "th-TH",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "tibetan": {
     "id": "tibetan",

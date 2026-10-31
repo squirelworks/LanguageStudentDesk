@@ -1,5 +1,8 @@
+// Hindi characters for the Character Learner (window.SCRIPTS).
+// Listed under data.characters in meta.json; see languages/README.md.
+window.SCRIPTS = window.SCRIPTS || {};
+
 // devanagari data
-if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
 SCRIPTS.devanagari = {
   name: "Devanagari",
   chars: [

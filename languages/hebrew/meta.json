@@ -6,5 +6,6 @@
   "characterKeys": ["hebrew"],
   "notes": "Modern Hebrew, written right to left; vowel points are usually left out.",
   "speech": "he-IL",
-  "direction": "rtl"
+  "direction": "rtl",
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

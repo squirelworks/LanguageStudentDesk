@@ -27,6 +27,21 @@ Modular character learning tool for Language Student Desk.
 - Kanji **Lessons** and **Topics** (shared SquirrelGo curriculum)
 - On-yomi groups
 
+## Where the data lives
+
+Character Learner holds UI and logic only. The Desk's own scripts are in each
+language's folder, listed under `data.characters` in its `meta.json`, and load
+through `languages/lsd-lang.js`:
+
+- `languages/japanese/characters.js` — Hiragana, Katakana
+- `languages/arabic/characters.js`, `languages/cyrillic/characters.js`,
+  `languages/hangul/characters.js`, `languages/hindi/characters.js` (Devanagari)
+- `languages/klingon/characters.js` — pIqaD
+
+`scripts/kanji.js` moves to `languages/` with the shared CJK table.
+`scripts/sg-alphabets.js` is logic only: it turns SquirrelGo Alphabets' data
+files into Character Learner scripts.
+
 ## Shared SquirrelGo content
 
 Character Learner loads these from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/`:
