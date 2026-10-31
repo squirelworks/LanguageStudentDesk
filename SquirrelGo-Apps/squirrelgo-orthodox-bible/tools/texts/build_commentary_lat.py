@@ -39,6 +39,18 @@ AMBROSE = {
     "psalms": ("stoa0022/stoa048", "Explanatio psalmorum XII (CSEL 64, ed. Petschenig, 1919)"),
     "ps118": ("stoa0022/stoa052", "Expositio psalmi CXVIII (CSEL 62, ed. Petschenig, 1913)"),
 }
+# Commentaries on a run of verses: (CSEL path, footer, unit, {book div n or None: (book, start, end, ahead)})
+END = (999, 999)
+# The treatises on Genesis (Exameron, De paradiso, De Noe...) and Augustine's Genesis and Heptateuch works
+# were tried and left out: they quote the Old Latin, not the Vulgate, so their notes piled up on a few verses.
+AMBROSE_RANGES = [
+    ("stoa0022/stoa015", "Apologia prophetae David (CSEL 32.2, ed. Schenkl, 1897)", "section",
+     {None: ("PSA", (50, 1), (50, 21), None)}),
+]
+JEROME_RANGES = [
+    ("stoa0162/stoa024", "In Hieremiam prophetam libri sex (CSEL 59, ed. Reiter, 1913)", "section",
+     {str(n): ("JER", (1, 1), END, 80) for n in range(1, 7)}),
+]
 # Psalm numbers misprinted in the editions' markup (Hilary's "CLIX" is Psalm 149)
 FIXES = {"159": "149"}
 HILARY = ("stoa0149b/stoa001", "Tractatus super psalmos (CSEL 22, ed. Zingerle, 1891)")
@@ -100,14 +112,19 @@ def ambrose_luke():
     return notes
 
 
-class Psalm:
-    """Keys the sections of a commentary on one Psalm (or verses lo..hi of it) to its verses."""
+class Passage:
+    """Keys the sections of a commentary on a run of verses (book, from (c, v), to (c, v)) to
+    the verses they quote, moving forward through it; ahead limits how far a section may jump."""
 
-    def __init__(self, vul, n, lo=1, hi=None):
-        verses = vul["PSA"][n - 1]
-        hi = hi or len(verses)
-        self.n = n
-        self.verses = [(v, bigrams(words(verses[v - 1] or ""))) for v in range(lo, min(hi, len(verses)) + 1)]
+    def __init__(self, vul, book, start=(1, 1), end=None, ahead=None):
+        chapters = vul.get(book) or []
+        end = end or (len(chapters), len(chapters[-1]) if chapters else 0)
+        self.book = book
+        self.verses = [((c, v), bigrams(words(chapters[c - 1][v - 1] or "")))
+                       for c in range(start[0], min(end[0], len(chapters)) + 1)
+                       for v in range(1, len(chapters[c - 1]) + 1)
+                       if start <= (c, v) <= end]
+        self.ahead = ahead
         self.pos = 0
 
     def key(self, text):
@@ -117,7 +134,8 @@ class Psalm:
         for i, bg in enumerate(zip(ws, ws[1:])):
             first.setdefault(bg, i)
         top = None
-        for i in range(max(0, self.pos - 1), len(self.verses)):
+        hi = len(self.verses) if self.ahead is None else min(len(self.verses), self.pos + self.ahead)
+        for i in range(max(0, self.pos - 1), hi):
             v, bg = self.verses[i]
             hit = [first[x] for x in bg if x in first]
             if len(bg) >= 2 and len(hit) >= 2 and len(hit) >= 0.5 * len(bg):
@@ -126,7 +144,31 @@ class Psalm:
                     top = (where, i)
         if top:
             self.pos = top[1]
-        return "PSA.%d.%d" % (self.n, self.verses[self.pos][0])
+        c, v = self.verses[self.pos][0]
+        return "%s.%d.%d" % (self.book, c, v)
+
+
+def Psalm(vul, n, lo=1, hi=None):
+    return Passage(vul, "PSA", (n, lo), (n, hi or 999))
+
+
+def ranged(path, vul, parts, unit):
+    """A commentary whose <div subtype="book" n=...> parts each cover one passage:
+    parts maps n (or None for the whole work) to (book, start, end, ahead)."""
+    t = read(path)
+    books = divs(t, "book") if None not in parts else [(None, t)]
+    notes, passages = {}, {}
+    for n, part in books:
+        if n not in parts:
+            continue
+        if parts[n] not in passages:  # parts on the same passage carry on where the last one stopped
+            passages[parts[n]] = Passage(vul, *parts[n])
+        ps = passages[parts[n]]
+        for _, sec in divs(part, unit):
+            text = text_of(sec)
+            if len(text) > 20:
+                notes.setdefault(ps.key(text), []).append(text)
+    return notes
 
 
 def psalm_sections(path, vul, letters_from=None):
@@ -180,9 +222,13 @@ def build(order):
             if os.path.exists(path):
                 for k, v in psalm_sections(path, vul, letters).items():
                     notes.setdefault(k, []).extend(n + "\n— " + AMBROSE[work][1] for n in v)
+    if vul:
+        for k, v in from_ranges(AMBROSE_RANGES, vul).items():
+            notes.setdefault(k, []).extend(v)
     if notes:
         entries += write("ambrose-lat", "Sanctus Ambrosius (St Ambrose of Milan)",
-                         "Expositio evangelii secundum Lucan; Explanatio psalmorum XII; Expositio psalmi CXVIII",
+                         "Expositio evangelii secundum Lucan; Explanatio psalmorum XII; Expositio psalmi CXVIII; "
+                         "Apologia prophetae David",
                          "west", "vul", notes, order, **meta)
 
     path = source(HILARY[0])
@@ -191,7 +237,25 @@ def build(order):
         if notes:
             entries += write("hilary-lat", "Sanctus Hilarius Pictaviensis (St Hilary of Poitiers)",
                              "Tractatus super psalmos", "west", "vul", notes, order, **meta)
+
+    notes = from_ranges(JEROME_RANGES, vul) if vul else {}
+    if notes:
+        entries += write("jerome-lat", "Sanctus Hieronymus (St Jerome)", "In Hieremiam prophetam libri sex",
+                         "west", "vul", notes, order, **meta)
     return entries
+
+
+def from_ranges(works, vul):
+    """{key: [note]} for a list of AMBROSE_RANGES-style works, each note ending with its footer."""
+    notes = {}
+    for rel, footer, unit, parts in works:
+        path = source(rel)
+        if not os.path.exists(path):
+            print("    missing", path)
+            continue
+        for k, v in ranged(path, vul, parts, unit).items():
+            notes.setdefault(k, []).extend(n + "\n— " + footer for n in v)
+    return notes
 
 
 if __name__ == "__main__":

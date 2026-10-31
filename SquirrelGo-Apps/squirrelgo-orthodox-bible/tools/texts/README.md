@@ -272,8 +272,9 @@ the same credit and share-alike terms.
 
 | Pack | Text | Edition |
 | --- | --- | --- |
-| `ambrose-lat` | St Ambrose of Milan on St Luke, on twelve Psalms (1, 35-40, 43, 45, 47, 48, 61) and on Psalm 118 | CSEL 32.4 (Schenkl, 1902), CSEL 64 (Petschenig, 1919), CSEL 62 (Petschenig, 1913) |
+| `ambrose-lat` | St Ambrose of Milan on St Luke, on twelve Psalms (1, 35-40, 43, 45, 47, 48, 61), on Psalm 118, and the Apologia prophetae David on Psalm 50 | CSEL 32.4 (Schenkl, 1902), CSEL 64 (Petschenig, 1919), CSEL 62 (Petschenig, 1913), CSEL 32.2 (Schenkl, 1897) |
 | `hilary-lat` | St Hilary of Poitiers, Tractatus super psalmos (58 Psalms, with Psalm 118 by letter) | CSEL 22 (Zingerle, 1891) |
+| `jerome-lat` | St Jerome, In Hieremiam prophetam libri sex (Jeremiah 1-32, where the work breaks off) | CSEL 59 (Reiter, 1913) |
 
 The Luke commentary prints the verse each section discusses in its margin,
 which gives the key. The Psalm commentaries are split by Psalm and numbered
@@ -281,7 +282,13 @@ section, and each section is keyed to the verse of that Psalm it quotes first,
 matched word pair by word pair against the Clementine Vulgate pack (so
 `fetch_sources.sh` and `build_bibles.py --packs` must run first, as the packs
 workflow does). Notes use the Vulgate numbering (`vul`): Psalm 118 there is
-Psalm 119 in the KJV, and Psalm titles are verse 1. Victorinus of Pettau on
+Psalm 119 in the KJV, and Psalm titles are verse 1. Works that run straight
+through a passage (Jerome on Jeremiah, the Apologia David) key each section to
+the earliest verse it quotes, never moving back. Ambrose's treatises on Genesis
+(Exameron, De paradiso, De Noe and the rest) and Augustine's De Genesi ad
+litteram and Quaestiones in Heptateuchum were tried and left out: they quote
+the Old Latin rather than the Vulgate, so the matching piled their notes onto
+a handful of verses. Victorinus of Pettau on
 Revelation is in the same collection but left out for now: the edition prints
 Victorinus's text and St Jerome's revision of it side by side, and they are
 not yet told apart.

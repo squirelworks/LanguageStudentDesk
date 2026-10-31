@@ -66,9 +66,9 @@ fi
 if [ ! -d "$CACHE/csel/.git" ]; then
   git clone -q --depth 1 --filter=blob:none --sparse \
     https://github.com/OpenGreekAndLatin/csel-dev "$CACHE/csel"
-  git -C "$CACHE/csel" sparse-checkout set data/stoa0022/stoa048 data/stoa0022/stoa051 \
-    data/stoa0022/stoa052 data/stoa0149b/stoa001
 fi
+git -C "$CACHE/csel" sparse-checkout set data/stoa0022/stoa048 data/stoa0022/stoa051 \
+  data/stoa0022/stoa052 data/stoa0022/stoa015 data/stoa0149b/stoa001 data/stoa0162/stoa024
 
 # Orthodox lectionary and calendar tables from Orthocal (MIT), pinned so the
 # generated lectionary.js is reproducible. Only reading references, day titles
