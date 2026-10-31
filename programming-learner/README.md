@@ -6,8 +6,9 @@ classes). Full courses also cover QuickBASIC (11 lessons, from `PRINT` to
 SUBs, arrays and a guessing game), Z80 assembly (10 lessons, from registers
 to a FizzBuzz for CP/M), LOLCODE (9 lessons, from `VISIBLE` to functions)
 and brainFOOD (8 lessons, from the eight commands to decisions and words in
-memory). Delphi, Win16, INTERCAL, Whitespace, Piet and Malbolge each have a
-shorter course. Progress is saved in
+memory). INTERCAL has a 5-lesson reading course (manners, mingle and select,
+the unary operators, NEXT and RESUME, ABSTAIN and STASH). Delphi, Win16,
+Whitespace, Piet and Malbolge each have a shorter course. Progress is saved in
 the browser.
 
 ## Launch
