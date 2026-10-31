@@ -2,9 +2,9 @@
   "id": "hangul",
   "name": "Korean",
   "nativeName": "한국어",
-  "writingSystems": ["hangul"],
-  "characterKeys": ["hangul"],
+  "writingSystems": ["hangul", "hanja"],
+  "characterKeys": ["hangul", "hanja"],
   "speech": "ko-KR",
   "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
-  "data": { "characters": "characters.js", "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "data": { "characters": ["characters.js", "../cjk/characters.js", "hanja.js"], "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

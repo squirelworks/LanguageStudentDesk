@@ -3,8 +3,8 @@
   "name": "Chinese",
   "nativeName": "中文",
   "writingSystems": ["hanzi"],
-  "characterKeys": ["kanji"],
-  "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
+  "characterKeys": ["hanzi"],
+  "notes": "Chinese characters (hanzi), with pinyin, HSK level and traditional forms.",
   "speech": "zh-CN",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "data": { "characters": ["../cjk/characters.js", "hanzi.js"], "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

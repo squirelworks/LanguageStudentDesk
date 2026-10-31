@@ -639,10 +639,26 @@ function getAllowedScripts() {
 function isKana() { return currentScript === 'hiragana' || currentScript === 'katakana'; }
 function isHangul() { return currentScript === 'hangul'; }
 function isKanji() { return currentScript === 'kanji'; }
+// Kanji, hanzi and hanja: characters from the shared CJK table (languages/cjk).
+const CJK_SCRIPTS = { kanji: 'Japanese', hanzi: 'Chinese', hanja: 'Korean' };
+function isCjk() { return currentScript in CJK_SCRIPTS; }
+function cjkLevel(c) { return c.level || (c.hsk ? 'HSK ' + c.hsk : ''); }
+// The other traditions that use a character, each with its own reading.
+function otherTraditions(c) {
+  const entry = typeof LSD !== 'undefined' && LSD.cjk ? LSD.cjk(c.char) : null;
+  if (!entry) return [];
+  return Object.entries(entry.readings).filter(([k]) => k !== currentScript).map(([k, r]) => {
+    const reading = k === 'kanji' ? [r.on, r.kun].filter(x => x && x !== '-').join(' · ')
+      : k === 'hanzi' ? r.pinyin || r.roman : r.hangul || r.roman;
+    return `<strong>${CJK_SCRIPTS[k]} (${k}):</strong> ${reading}${r.info ? ' — ' + r.info : ''}`;
+  });
+}
+// Quote a value for an inline onclick='...' handler.
+function jsArg(s) { return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 // Stroke keys for a character in the shared SquirrelGo tables ("<script>|<glyph>").
 // pIqaD is keyed by its romanization; a card such as "Α α" gives one key per letter.
 function strokeKeys(c) {
-  if (!c || isKanji() || typeof Strokes === 'undefined') return [];
+  if (!c || isCjk() || typeof Strokes === 'undefined') return [];
   if (currentScript === 'klingon') return Strokes.has('klingon|' + c.roman) ? ['klingon|' + c.roman] : [];
   return String(c.char).split(' ').filter(Boolean).map(g => currentScript + '|' + g).filter(k => Strokes.has(k));
 }
@@ -693,7 +709,7 @@ function init() {
     });
   });
   document.getElementById('nextBtn').onclick = nextQuestion;
-  if (scopedLang && allowed.length === 1) selectScript(allowed[0]);
+  if (scopedLang && allowed.length) selectScript(allowed[0]);
 }
 
 function selectScript(key) {
@@ -758,11 +774,12 @@ function cardHTML(c, learnedSet, idx) {
     char: c.char, roman: c.roman || '', info: c.info || '', level: c.level || '',
     on: c.on || '', kun: c.kun || '', radical: c.radical || '', strokes: c.strokes || '',
     grade: c.grade || '', frequency: c.frequency || '', example: c.example || '', forms: c.forms || null,
+    pinyin: c.pinyin || '', hsk: c.hsk || '', traditional: c.traditional || '', hangul: c.hangul || '',
     say: c.say || ''
   }));
-  return `<div class="char-card${isKanji() ? ' kanji-card' : ''} ${learnedSet.has(c.char) ? 'learned' : ''}" data-char="${payload}" onclick="onCardClick(this)">
+  return `<div class="char-card${isCjk() ? ' kanji-card' : ''} ${learnedSet.has(c.char) ? 'learned' : ''}" data-char="${payload}" onclick="onCardClick(this)">
     <span class="big">${c.char}</span>
-    <span class="small">${isKanji() ? (c.info || c.roman || '') : (c.roman || '')}</span>
+    <span class="small">${isCjk() ? (c.info || c.roman || '') : (c.roman || '')}</span>
     ${forms}
   </div>`;
 }
@@ -838,6 +855,13 @@ function renderGrid() {
     } else {
       html = data.map((c, i) => cardHTML(c, learnedSet, i)).join('');
     }
+  } else if (currentScript === 'hanzi') {
+    for (let lv = 1; lv <= 6; lv++) {
+      const items = data.filter(c => c.hsk === lv);
+      if (!items.length) continue;
+      html += `<div class="section-title">HSK ${lv}</div>`;
+      items.forEach(c => { html += cardHTML(c, learnedSet, window._cardIdx++); });
+    }
   } else {
     html = data.map((c, i) => cardHTML(c, learnedSet, i)).join('');
   }
@@ -856,7 +880,7 @@ function showDetail(c) {
   stopStrokes();
 
   const hero = document.getElementById('detailHero');
-  const canStroke = isKanji() && typeof StrokeOrder !== 'undefined' && StrokeOrder.has(c.char);
+  const canStroke = isCjk() && typeof StrokeOrder !== 'undefined' && StrokeOrder.has(c.char);
   const keys = strokeKeys(c);
   const canWrite = keys.length > 0;
   if (canStroke) {
@@ -868,8 +892,11 @@ function showDetail(c) {
   }
 
   document.getElementById('detailRoman').textContent = c.roman || '';
-  document.getElementById('detailInfo').textContent = (c.info || '') + (c.level ? ` (${c.level})` : '');
+  document.getElementById('detailInfo').textContent = (c.info || '') + (cjkLevel(c) ? ` (${cjkLevel(c)})` : '');
   const extra = [];
+  if (c.pinyin) extra.push(`<strong>Pinyin:</strong> ${c.pinyin}`);
+  if (c.traditional) extra.push(`<strong>Traditional:</strong> ${c.traditional}`);
+  if (c.hangul) extra.push(`<strong>Hangul:</strong> ${c.hangul}`);
   if (c.on) extra.push(`<strong>On:</strong> ${c.on}`);
   if (c.kun) extra.push(`<strong>Kun:</strong> ${c.kun}`);
   if (c.radical) extra.push(`<strong>Radical:</strong> ${c.radical}`);
@@ -877,6 +904,10 @@ function showDetail(c) {
   if (c.grade) extra.push(`<strong>Grade:</strong> ${c.grade}`);
   if (c.frequency) extra.push(`<strong>Frequency:</strong> #${c.frequency}`);
   if (c.example) extra.push(`<strong>Example:</strong> ${c.example}`);
+  if (isCjk()) {
+    const others = otherTraditions(c);
+    if (others.length) extra.push(`<span class="section-title" style="display:block;margin-top:.6rem">Also used in</span>` + others.join('<br>'));
+  }
   document.getElementById('detailExtra').innerHTML = extra.join('<br>');
 
   const formsEl = document.getElementById('formsContainer');
@@ -915,7 +946,7 @@ function showDetail(c) {
         <label><input type="checkbox" id="padGuide" checked onchange="writePad && writePad.setGuide(this.checked)"> Guide</label>
         <label><input type="checkbox" id="padCheck" checked onchange="mountWritePad()"> Check my strokes</label>
       </div>`;
-  } else if (isKanji()) {
+  } else if (isCjk()) {
     strokePanel.innerHTML = `<p class="coverage-note">No stroke-order data for this character.</p>`;
   } else {
     strokePanel.innerHTML = '';
@@ -1014,9 +1045,9 @@ function startQuiz() {
   const h2 = document.querySelector('#quizView h2');
   if (h2) h2.textContent = 'Recognition Quiz';
   quizQuestions = [...data].sort(() => 0.5 - Math.random()).slice(0, Math.min(12, data.length)).map(c => ({
-    question: isKanji() ? `Choose the meaning of ${c.char}` : `Which character is "${c.roman}"?`,
-    answer: isKanji() ? (c.info || c.roman) : c.char,
-    options: isKanji()
+    question: isCjk() ? `Choose the meaning of ${c.char}` : `Which character is "${c.roman}"?`,
+    answer: isCjk() ? (c.info || c.roman) : c.char,
+    options: isCjk()
       ? [c.info || c.roman, ...data.filter(x => x.char !== c.char).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.info || x.roman)].sort(() => 0.5 - Math.random())
       : [c.char, ...data.filter(x => x.char !== c.char).sort(() => 0.5 - Math.random()).slice(0, 3).map(x => x.char)].sort(() => 0.5 - Math.random())
   }));
@@ -1034,7 +1065,7 @@ function showQuestion() {
   const q = quizQuestions[quizIndex];
   document.getElementById('quizQuestion').textContent = q.question;
   document.getElementById('quizOptions').innerHTML = q.options.map(opt =>
-    `<button class="quiz-option" onclick="checkAnswer(this, '${opt}', '${q.answer}')">${opt}</button>`
+    `<button class="quiz-option" onclick="checkAnswer(this, '${jsArg(opt)}', '${jsArg(q.answer)}')">${opt}</button>`
   ).join('');
   document.getElementById('quizFeedback').textContent = '';
   document.getElementById('nextBtn').classList.add('hidden');
@@ -1061,7 +1092,7 @@ function showFlash() {
   if (!c) return;
   document.getElementById('flashChar').textContent = c.char;
   document.getElementById('flashRoman').textContent = c.roman;
-  document.getElementById('flashInfo').textContent = (c.info || c.example || '') + (c.level ? ` (${c.level})` : '');
+  document.getElementById('flashInfo').textContent = (c.info || c.example || '') + (cjkLevel(c) ? ` (${cjkLevel(c)})` : '');
   document.getElementById('flashAnswer').classList.add('hidden');
 }
 function flipFlash() { document.getElementById('flashAnswer').classList.toggle('hidden'); }
@@ -1191,7 +1222,7 @@ function speak(text) {
   }
   if (!window.speechSynthesis) return;
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = sg ? sg.lang : currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : 'ja';
+  u.lang = sg ? sg.lang : currentScript === 'arabic' ? 'ar' : currentScript === 'cyrillic' ? 'ru' : currentScript === 'hangul' ? 'ko' : currentScript === 'devanagari' ? 'hi' : currentScript === 'hanzi' ? 'zh-CN' : currentScript === 'hanja' ? 'ko' : 'ja';
   speechSynthesis.speak(u);
 }
 
@@ -1210,7 +1241,9 @@ async function loadCharacters() {
   for (const m of metas) {
     try { await LSD.load(m.id, 'characters'); } catch (e) { console.warn(e); }
   }
-  if (SCRIPTS.kanji) { const k = SCRIPTS.kanji; delete SCRIPTS.kanji; SCRIPTS.kanji = k; }
+  for (const key of ['kanji', 'hanzi', 'hanja']) {
+    if (SCRIPTS[key]) { const s = SCRIPTS[key]; delete SCRIPTS[key]; SCRIPTS[key] = s; }
+  }
   try { await LSD.loadScript('scripts/sg-alphabets.js'); } catch (e) { console.warn(e); }
 }
 loadCharacters().then(init);

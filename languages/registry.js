@@ -117,11 +117,15 @@ window.LSD_LANGUAGE_REGISTRY = {
       "hanzi"
     ],
     "characterKeys": [
-      "kanji"
+      "hanzi"
     ],
-    "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
+    "notes": "Chinese characters (hanzi), with pinyin, HSK level and traditional forms.",
     "speech": "zh-CN",
     "data": {
+      "characters": [
+        "../cjk/characters.js",
+        "hanzi.js"
+      ],
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
@@ -219,15 +223,21 @@ window.LSD_LANGUAGE_REGISTRY = {
     "name": "Korean",
     "nativeName": "한국어",
     "writingSystems": [
-      "hangul"
+      "hangul",
+      "hanja"
     ],
     "characterKeys": [
-      "hangul"
+      "hangul",
+      "hanja"
     ],
     "speech": "ko-KR",
     "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
     "data": {
-      "characters": "characters.js",
+      "characters": [
+        "characters.js",
+        "../cjk/characters.js",
+        "hanja.js"
+      ],
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
