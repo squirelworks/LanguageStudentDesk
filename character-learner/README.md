@@ -40,13 +40,17 @@ and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/`:
 
 and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/`:
 
-- `data/<script>.js` — letters, hints and examples for the 21 scripts the Desk does not define itself
+- `data/<script>.js` — letters, hints and examples for the scripts the Desk does not define itself
   (`scripts/sg-alphabets.js` turns them into Character Learner scripts)
-- `data/strokes/<script>.js` — stroke orders for all 25 Alphabets scripts, used by the Desk's own
+- `data/strokes/<script>.js` — stroke orders for every Alphabets script, used by the Desk's own
   Arabic, Cyrillic, Hangul and Devanagari too (Hangul double finals such as ㄳ are drawn from their two parts)
 - `data/audio/<script>.js` + `audio/` — recorded sounds
 - `js/strokes.js` + `js/writepad.js` — the stroke player and the writing pad that checks each stroke,
   for pIqaD as well (its table is filed under the key `klingon`)
+
+The Alphabets `<script>` tags in `index.html` (between the `sg-alphabets` markers) are written by
+`SquirrelGo-Apps/tools/sync-shared.sh` from the Alphabets app's own `index.html`, so a new Alphabets
+script shows up here after one sync. CI runs `sync-shared.sh --check` to catch a missed sync.
 
 and from `SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/`:
 

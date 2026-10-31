@@ -1,2 +1,5 @@
 # APKs are published to GitHub Releases by the workflows, not committed.
 *.apk
+
+# Python bytecode
+__pycache__/

@@ -1,0 +1,9 @@
+{
+  "id": "telugu",
+  "name": "Telugu",
+  "nativeName": "తెలుగు",
+  "writingSystems": ["telugu"],
+  "characterKeys": ["telugu"],
+  "notes": "Telugu in the Telugu script, spoken in Andhra Pradesh and Telangana.",
+  "speech": "te-IN"
+}

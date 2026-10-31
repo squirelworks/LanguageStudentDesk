@@ -1,0 +1,9 @@
+{
+  "id": "khmer",
+  "name": "Khmer",
+  "nativeName": "ខ្មែរ",
+  "writingSystems": ["khmer"],
+  "characterKeys": ["khmer"],
+  "notes": "Khmer, the language of Cambodia, with consonants in two series.",
+  "speech": "km-KH"
+}

@@ -1,10 +1,10 @@
-// Japanese particles for the Grammar Learner. Written for this project.
+// Japanese particles and first verbs for the Grammar Learner. Written for this project.
 // Examples are [Japanese, romaji, English]; {braces} mark the particle.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.japanese = {
-  title: "Japanese particles",
-  intro: "Particles are short words that come after a noun and tell you its job in the sentence: topic, subject, object, place, time, and so on. Japanese word order is flexible because the particles carry that information. Each lesson below has a short explanation, examples and a drill.",
+  title: "Japanese particles and first verbs",
+  intro: "Particles are short words that come after a noun and tell you its job in the sentence: topic, subject, object, place, time, and so on. Japanese word order is flexible because the particles carry that information. After the particles come です, polite verbs with ます in the present and past, the two kinds of adjective, and requests with てください. Each lesson has a short explanation, examples and a drill.",
   lessons: [
     {
       id: "wa",
@@ -342,6 +342,151 @@ window.GRAMMAR.japanese = {
         { q: "トイレはどこです＿。", en: "Where is the toilet?", options: ["か", "よ", "ね", "の"], answer: "か", why: "A question ends with か." },
         { q: "きょうはさむいです＿。(you both feel it)", en: "It's cold today, isn't it?", options: ["か", "よ", "ね", "を"], answer: "ね", why: "Seeking agreement on something you share: ね." },
         { q: "あ、さいふがおちました＿！", en: "Oh, you dropped your wallet!", options: ["か", "よ", "ね", "と"], answer: "よ", why: "Telling the listener news they don't know: よ." },
+      ],
+    },
+    {
+      id: "desu",
+      title: "です — “to be”, politely",
+      particle: "です",
+      summary: "A は B です, and its negative じゃありません.",
+      sections: [
+        {
+          p: "<b>です</b> (desu) ends a polite sentence that says what something is: “A は B です”. It never changes for I, you or he. Japanese has no “a” or “the”, and the topic is often left out when it is obvious.",
+          examples: [
+            ["わたしはがくせい{です}。", "Watashi wa gakusei desu.", "I am a student."],
+            ["これはほん{です}。", "Kore wa hon desu.", "This is a book."],
+            ["にほんじん{です}。", "Nihonjin desu.", "(I'm) Japanese."],
+          ],
+        },
+        {
+          h: "Is not, and was",
+          p: "The negative is <b>じゃありません</b> (ja arimasen), or じゃないです in casual-polite speech. The past is <b>でした</b> (deshita).",
+          examples: [
+            ["わたしはせんせい{じゃありません}。", "Watashi wa sensei ja arimasen.", "I'm not a teacher."],
+            ["きのうはやすみ{でした}。", "Kinō wa yasumi deshita.", "Yesterday was a day off."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "わたしはアメリカじん＿。", en: "I am American.", options: ["です", "ます", "でした", "じゃありません"], answer: "です", why: "A は B です: “A is B”." },
+        { q: "それはわたしのかさ＿。", en: "That isn't my umbrella.", options: ["じゃありません", "です", "でした", "ません"], answer: "じゃありません", why: "The polite negative of です is じゃありません." },
+        { q: "きのうはにちようび＿。", en: "Yesterday was Sunday.", options: ["でした", "です", "ました", "じゃありません"], answer: "でした", why: "The past of です is でした." },
+        { q: "What does 「やまださんはいしゃです」 mean?", en: "いしゃ = doctor", options: ["Mr Yamada is a doctor.", "Mr Yamada was a doctor.", "Is Mr Yamada a doctor?", "Mr Yamada isn't a doctor."], answer: "Mr Yamada is a doctor.", why: "は marks the topic, です says “is”." },
+        { q: "How do you ask “Are you a student?”", en: "", options: ["がくせいですか。", "がくせいですよ。", "がくせいかです。", "がくせいでした。"], answer: "がくせいですか。", why: "Add か to the end of the sentence." },
+      ],
+    },
+    {
+      id: "masu",
+      title: "Verbs with ます",
+      particle: "ます・ません",
+      summary: "The polite present: does, will do, doesn't.",
+      sections: [
+        {
+          p: "Polite verbs end in <b>ます</b> (masu). The same form covers “I do” and “I will do”, and the verb always comes at the end. The negative swaps ます for <b>ません</b> (masen).",
+          examples: [
+            ["まいにちコーヒーをのみ{ます}。", "Mainichi kōhī o nomimasu.", "I drink coffee every day."],
+            ["あしたきょうとへいき{ます}。", "Ashita Kyōto e ikimasu.", "I'll go to Kyoto tomorrow."],
+            ["にくをたべ{ません}。", "Niku o tabemasen.", "I don't eat meat."],
+          ],
+        },
+        {
+          h: "Let's",
+          p: "Change ます to <b>ましょう</b> for “let's”, and to <b>ませんか</b> to invite someone: “won't you…?”.",
+          examples: [
+            ["いき{ましょう}。", "Ikimashō.", "Let's go."],
+            ["いっしょにたべ{ませんか}。", "Issho ni tabemasen ka.", "Would you like to eat together?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "わたしはテレビをみ＿。", en: "I watch TV.", options: ["ます", "ません", "です", "ました"], answer: "ます", why: "The polite present ends in ます." },
+        { q: "おさけはのみ＿。", en: "I don't drink alcohol.", options: ["ません", "ます", "ましょう", "でした"], answer: "ません", why: "The negative of ます is ません." },
+        { q: "What does 「らいしゅうかえります」 mean?", en: "らいしゅう = next week, かえる = return", options: ["I'll go home next week.", "I went home last week.", "Let's go home next week.", "I won't go home next week."], answer: "I'll go home next week.", why: "ます covers the future too; the time word says when." },
+        { q: "ちょっとやすみ＿。", en: "Let's take a short break.", options: ["ましょう", "ません", "ます", "ませんでした"], answer: "ましょう", why: "“Let's” is ましょう." },
+        { q: "えいがをみ＿か。", en: "Would you like to see a film?", options: ["ません", "ます", "ました", "でした"], answer: "ません", why: "ませんか is a polite invitation." },
+      ],
+    },
+    {
+      id: "mashita",
+      title: "The past: ました and ませんでした",
+      particle: "ました",
+      summary: "Did, and didn't.",
+      sections: [
+        {
+          p: "For the polite past, change ます to <b>ました</b> (mashita). For “didn't”, change it to <b>ませんでした</b> (masen deshita).",
+          examples: [
+            ["きのうすしをたべ{ました}。", "Kinō sushi o tabemashita.", "I ate sushi yesterday."],
+            ["しゅくだいをし{ました}。", "Shukudai o shimashita.", "I did my homework."],
+            ["けさはなにもたべ{ませんでした}。", "Kesa wa nani mo tabemasen deshita.", "I didn't eat anything this morning."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "せんしゅうとうきょうへいき＿。", en: "I went to Tokyo last week.", options: ["ました", "ます", "ません", "ましょう"], answer: "ました", why: "Something that happened: ました." },
+        { q: "きのうはべんきょうし＿。", en: "I didn't study yesterday.", options: ["ませんでした", "ました", "ません", "じゃありません"], answer: "ませんでした", why: "“Didn't” is ませんでした." },
+        { q: "What does 「よくねました」 mean?", en: "よく = well, ねる = sleep", options: ["I slept well.", "I sleep well.", "I didn't sleep well.", "Let's sleep well."], answer: "I slept well.", why: "ました is the past." },
+        { q: "Which means “I didn't buy it”?", en: "かう = buy", options: ["かいませんでした", "かいました", "かいません", "かいましょう"], answer: "かいませんでした", why: "ませんでした = didn't." },
+      ],
+    },
+    {
+      id: "adjectives",
+      title: "い and な adjectives",
+      particle: "い・な",
+      summary: "Two kinds of adjectives, and how each says “not”.",
+      sections: [
+        {
+          p: "<b>い adjectives</b> end in い: たかい (expensive), おおきい (big). They go straight before a noun, and their negative changes い to <b>くない</b>: たかくないです.",
+          examples: [
+            ["{たかい}とけい", "takai tokei", "an expensive watch"],
+            ["このへやはひろ{くない}です。", "Kono heya wa hiroku nai desu.", "This room isn't spacious."],
+          ],
+        },
+        {
+          h: "な adjectives",
+          p: "<b>な adjectives</b> such as しずか (quiet) and きれい (pretty) take <b>な</b> before a noun, and behave like nouns at the end: しずかです, しずかじゃありません. いい (good) is irregular: よくないです.",
+          examples: [
+            ["しずか{な}まち", "shizuka na machi", "a quiet town"],
+            ["このこうえんはきれいです。", "Kono kōen wa kirei desu.", "This park is pretty."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "げんき＿こども", en: "a lively child", options: ["な", "い", "の", "を"], answer: "な", why: "げんき is a な adjective, so it takes な before a noun." },
+        { q: "このりんごはあま＿です。", en: "This apple isn't sweet. (あまい = sweet)", options: ["くない", "じゃない", "いない", "なくない"], answer: "くない", why: "An い adjective drops い and adds くない." },
+        { q: "Which is right? “a famous person”", en: "ゆうめい = famous", options: ["ゆうめいなひと", "ゆうめいひと", "ゆうめいいひと", "ゆうめいのひと"], answer: "ゆうめいなひと", why: "ゆうめい is a な adjective." },
+        { q: "The negative of いいです is…", en: "", options: ["よくないです", "いくないです", "いいじゃありません", "いいないです"], answer: "よくないです", why: "いい is irregular: it uses the older form よい." },
+        { q: "きれい is a…", en: "", options: ["な adjective", "い adjective"], answer: "な adjective", why: "It ends in い, but it is a な adjective: きれいなへや. It is one of the few exceptions." },
+      ],
+    },
+    {
+      id: "te-kudasai",
+      title: "てください — please do",
+      particle: "て",
+      summary: "The て form of a verb, for polite requests.",
+      sections: [
+        {
+          p: "To ask someone to do something, use the verb's <b>て form</b> + <b>ください</b>. For most verbs that end in -eru or -iru in the dictionary (たべる, みる), drop る and add て: たべて, みて.",
+          examples: [
+            ["ちょっとまっ{て}ください。", "Chotto matte kudasai.", "Please wait a moment."],
+            ["ここにかい{て}ください。", "Koko ni kaite kudasai.", "Please write here."],
+            ["ゆっくりはなし{て}ください。", "Yukkuri hanashite kudasai.", "Please speak slowly."],
+          ],
+        },
+        {
+          h: "Other verbs",
+          p: "The rest change their last sound: -u, -tsu, -ru → って (まつ → まって); -mu, -bu, -nu → んで (よむ → よんで); -ku → いて (かく → かいて), with いく → いって; -su → して. する → して, くる → きて.",
+          examples: [
+            ["このほんをよん{で}ください。", "Kono hon o yonde kudasai.", "Please read this book."],
+            ["あしたもき{て}ください。", "Ashita mo kite kudasai.", "Please come tomorrow too."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ここで＿ください。", en: "Please wait here. (まつ)", options: ["まって", "まちて", "まつて", "まんで"], answer: "まって", why: "-tsu verbs make って." },
+        { q: "なまえを＿ください。", en: "Please write your name. (かく)", options: ["かいて", "かって", "かくて", "かんで"], answer: "かいて", why: "-ku verbs make いて." },
+        { q: "これを＿ください。", en: "Please eat this. (たべる)", options: ["たべて", "たべって", "たべりて", "たべんで"], answer: "たべて", why: "たべる drops る and adds て." },
+        { q: "てがみを＿ください。", en: "Please read the letter. (よむ)", options: ["よんで", "よみて", "よって", "よいて"], answer: "よんで", why: "-mu verbs make んで." },
+        { q: "The て form of する is…", en: "", options: ["して", "すて", "さて", "しって"], answer: "して", why: "する is irregular: して." },
       ],
     },
   ],
