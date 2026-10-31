@@ -6,7 +6,8 @@ classes). Full courses also cover QuickBASIC (11 lessons, from `PRINT` to
 SUBs, arrays and a guessing game), Z80 assembly (10 lessons, from registers
 to a FizzBuzz for CP/M), LOLCODE (9 lessons, from `VISIBLE` to functions)
 and brainFOOD (8 lessons, from the eight commands to decisions and words in
-memory). Delphi, Win16, INTERCAL, Whitespace, Piet and Malbolge each have a
+memory), and Delphi (11 lessons, from Pascal basics to classes, exceptions
+and forms). Win16, INTERCAL, Whitespace, Piet and Malbolge each have a
 shorter course. Progress is saved in
 the browser.
 
@@ -29,7 +30,7 @@ programming-learner/index.html?lang=python#loops
 - `data/catalog.js` — the languages, in menu order, with the blurb shown on the home grid
 - `data/<id>.js` — one course per language, loaded on demand
 - `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
-- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, and `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does
+- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, and `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode). A runner whose tool is missing is skipped with a note
 
 ## Course schema
 
@@ -60,4 +61,5 @@ literals where backslashes matter.
 2. Add an entry to `data/catalog.js`.
 3. If the Desk should offer it under `?lang=`, the id must be in `EXTRA_LANGS`
    in `LanguageStudentDesk.py`.
-4. Run `python3 programming-learner/tools/check_packs.py` (needs node and python3).
+4. Run `python3 programming-learner/tools/check_packs.py` (needs node and python3;
+   fpc as well to run the Delphi programs).
