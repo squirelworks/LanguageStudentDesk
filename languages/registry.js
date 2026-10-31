@@ -27,6 +27,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ar-SA",
     "direction": "rtl",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -111,6 +112,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ru-RU",
     "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -180,6 +182,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "ko-KR",
     "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -210,6 +213,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "speech": "hi-IN",
     "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -243,6 +247,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Hiragana, Katakana, and Kanji. Kanji can also be viewed in Hanzi or Hanja context.",
     "speech": "ja-JP",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },
@@ -285,6 +290,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "pIqaD script.",
     "font": "pIqaD",
     "data": {
+      "characters": "characters.js",
       "reference": "reference.json"
     }
   },

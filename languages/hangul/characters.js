@@ -1,5 +1,8 @@
+// Hangul characters for the Character Learner (window.SCRIPTS).
+// Listed under data.characters in meta.json; see languages/README.md.
+window.SCRIPTS = window.SCRIPTS || {};
+
 // hangul data
-if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
 SCRIPTS.hangul = {
 
     name: "Hangul",
@@ -61,4 +64,4 @@ SCRIPTS.hangul = {
       { char: "ㅀ", roman: "lh", info: "complex consonant", example: "싫" },
       { char: "ㅄ", roman: "bs", info: "complex consonant", example: "값" }
     ]
-  }
+  };

@@ -1,5 +1,8 @@
+// Klingon characters for the Character Learner (window.SCRIPTS).
+// Listed under data.characters in meta.json; see languages/README.md.
+window.SCRIPTS = window.SCRIPTS || {};
+
 // klingon data — actual pIqaD glyphs (PUA, rendered via embedded font)
-if (typeof SCRIPTS === 'undefined') SCRIPTS = {};
 SCRIPTS.klingon = {
   name: "Klingon (pIqaD)",
   chars: [

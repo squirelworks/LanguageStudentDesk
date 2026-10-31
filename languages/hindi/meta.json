@@ -6,5 +6,5 @@
   "characterKeys": ["devanagari"],
   "speech": "hi-IN",
   "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
-  "data": { "reference": "reference.json" }
+  "data": { "characters": "characters.js", "reference": "reference.json" }
 }
