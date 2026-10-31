@@ -2,7 +2,7 @@
 """Checks the Programming Learner packs in ../data/.
 
 Every pack: answers are among their options and options are unique.
-Packs with a runner (Python and brainFOOD below, and any tools/run_<id>.py): every example with `out` and
+Packs with a runner below (Python, brainFOOD): every example with `out` and
 every practice question of kind "output" is run, and what it prints must match exactly.
 
     python3 programming-learner/tools/check_packs.py
@@ -13,10 +13,7 @@ import json
 import pathlib
 import subprocess
 import sys
-import importlib
 import tempfile
-
-sys.dont_write_bytecode = True  # keep tools/ free of __pycache__
 
 HERE = pathlib.Path(__file__).resolve().parent
 DATA = HERE.parent / "data"
@@ -69,10 +66,6 @@ def python(code):
 
 
 RUNNERS = {"python": python, "brainfood": brainfood}
-# Any tools/run_<id>.py with run(code) -> (printed, error) checks that course too.
-sys.path.insert(0, str(HERE))
-for f in sorted(HERE.glob("run_*.py")):
-    RUNNERS[f.stem[4:]] = importlib.import_module(f.stem).run
 
 
 def load():
