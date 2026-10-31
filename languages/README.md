@@ -90,7 +90,7 @@ Readings and meanings belong to each language:
 |-----------|------|---------------------------------|
 | `kanji` | `japanese/kanji.js` | `on`, `kun`, `level` (JLPT), `grade`, `frequency`; plus on'yomi `groups` |
 | `hanzi` | `chinese/hanzi.js` | `pinyin`, `hsk`, `simplified`, `traditional` |
-| `hanja` | `hangul/hanja.js` | `hangul` (reading), `level` |
+| `hanja` | `hangul/hanja.js` | `hangul` (reading) |
 
 Each file is one assignment of a JSON object, in the order the characters
 should be taught:
