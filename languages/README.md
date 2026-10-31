@@ -197,6 +197,34 @@ wrong number of cells.
 - `learners.css` — the shared dark look of those three tools.
 - `klingon/piqad.css` — the pIqaD qolqoS font (SIL OFL) as a data URL.
 
+## Coverage report
+
+`coverage.py` prints one row per language so gaps stay visible:
+
+```
+python3 languages/coverage.py
+```
+
+Columns: meta present, characterKeys resolvable (Alphabets `SG_SCRIPTS`,
+`languages/*/characters.js`, or CJK traditions), grammar lessons/drills, vocab
+decks/words, reference entries, Resource Learner panel (or `general` fallback),
+Language Learner path (`yes+grammar` when the path has a grammar stage), and
+Translation Learner column.
+
+It also checks every grammar drill: `answer` must be one of `options`, and
+`options` must be unique. Drill problems exit 1. Optional thresholds only warn
+(they do not fail the process yet), for example:
+
+```
+python3 languages/coverage.py \
+  --min-grammar-lessons 6 --min-grammar-drills 30 \
+  --min-vocab-decks 9 --min-vocab-words 110 \
+  --min-reference 10
+```
+
+`--json` prints the same data as JSON. Desk CI runs the plain report as an
+informational step in `.github/workflows/desk-data-check.yml`.
+
 ## Usage
 
 - Character-learner and the grammar, vocabulary, language and reference learners can be launched standalone or with `?lang=<id>`.
