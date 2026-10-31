@@ -1195,6 +1195,401 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "bengali": {
+    "id": "bengali",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Bengali at a glance",
+        "body": [
+          "Bengali (Bangla) is an Indo-Aryan language with around 270 million speakers, the national language of Bangladesh and the language of West Bengal, Tripura and parts of Assam in India. It has a long literary tradition; Rabindranath Tagore wrote in Bengali, including the national anthems of both Bangladesh and India.",
+          "The verb comes last, there is no grammatical gender, and verbs change for person and for three levels of politeness. Postpositions and case endings follow the noun."
+        ],
+        "examples": [
+          {
+            "t": "আমি বাংলা {শিখছি}।",
+            "r": "Ami bangla shikhchhi.",
+            "e": "I am learning Bengali."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "SOV",
+          "no gender"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How the script works",
+        "body": [
+          "Bengali is written in the Bengali–Assamese script, an abugida like Devanagari: each consonant carries a built-in short vowel, said o (ক = ko), and other vowels are marks around the consonant. A full vowel letter is used at the start of a word.",
+          "Most letters hang from a line along the top. The hasanta ্ removes the built-in vowel, and consonant clusters are often written as joined letters (যুক্তাক্ষর)."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Letter",
+            "With ক"
+          ],
+          "rows": [
+            [
+              "o (built in)",
+              "অ",
+              "ক ko"
+            ],
+            [
+              "a",
+              "আ",
+              "কা ka"
+            ],
+            [
+              "i",
+              "ই",
+              "কি ki"
+            ],
+            [
+              "i (long)",
+              "ঈ",
+              "কী ki"
+            ],
+            [
+              "u",
+              "উ",
+              "কু ku"
+            ],
+            [
+              "u (long)",
+              "ঊ",
+              "কূ ku"
+            ],
+            [
+              "ri",
+              "ঋ",
+              "কৃ kri"
+            ],
+            [
+              "e",
+              "এ",
+              "কে ke"
+            ],
+            [
+              "oi",
+              "ঐ",
+              "কৈ koi"
+            ],
+            [
+              "o",
+              "ও",
+              "কো ko"
+            ],
+            [
+              "ou",
+              "ঔ",
+              "কৌ kou"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "vowel signs"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Sounds to watch",
+        "body": "The built-in vowel অ is said like the o in “hot”, not like Hindi's a. Long and short vowels are written differently but usually sound the same. Bengali has breathy consonants (kh, gh, ch, jh, th, dh, ph, bh) and retroflex ones made with the tongue curled back (ট, ড). শ, ষ and স are usually all said sh.",
+        "examples": [
+          {
+            "t": "কল · খল",
+            "r": "kol · khol",
+            "e": "tap · villain: the puff of air changes the word"
+          }
+        ],
+        "tags": [
+          "pronunciation",
+          "aspiration"
+        ]
+      },
+      {
+        "id": "politeness",
+        "topic": "grammar",
+        "title": "Pronouns and politeness",
+        "body": "“You” and “he / she” come in levels of respect, and the verb ending follows the level. There is no he / she difference.",
+        "table": {
+          "head": [
+            "",
+            "Intimate",
+            "Familiar",
+            "Polite"
+          ],
+          "rows": [
+            [
+              "you",
+              "তুই tui",
+              "তুমি tumi",
+              "আপনি apni"
+            ],
+            [
+              "he, she",
+              "",
+              "সে she / ও o",
+              "তিনি tini / উনি uni"
+            ],
+            [
+              "verb (করা)",
+              "করিস koris",
+              "করো koro",
+              "করেন koren"
+            ]
+          ]
+        },
+        "tags": [
+          "pronouns",
+          "politeness"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The simple present",
+        "body": "Verbs are listed by their verbal noun (করা, to do). Take off -া and add the ending. The verb does not change for plural subjects.",
+        "table": {
+          "head": [
+            "Subject",
+            "করা, do",
+            "বলা, say",
+            "খাওয়া, eat"
+          ],
+          "rows": [
+            [
+              "আমি, আমরা",
+              "করি",
+              "বলি",
+              "খাই"
+            ],
+            [
+              "তুমি, তোমরা",
+              "করো",
+              "বলো",
+              "খাও"
+            ],
+            [
+              "আপনি, আপনারা",
+              "করেন",
+              "বলেন",
+              "খান"
+            ],
+            [
+              "সে, তারা",
+              "করে",
+              "বলে",
+              "খায়"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "endings",
+        "topic": "grammar",
+        "title": "Noun endings",
+        "body": "Endings attach directly to the noun. -টা / -টি make it definite, and the case endings follow.",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-টা / -টি",
+              "the (one thing)",
+              "বইটা, the book"
+            ],
+            [
+              "-রা / -এরা",
+              "plural (people)",
+              "ছেলেরা, the boys"
+            ],
+            [
+              "-গুলো",
+              "plural (things)",
+              "বইগুলো, the books"
+            ],
+            [
+              "-র / -এর",
+              "of, 's",
+              "রামের, Ram's"
+            ],
+            [
+              "-কে",
+              "to (a person); object",
+              "রামকে, to Ram"
+            ],
+            [
+              "-তে / -এ",
+              "in, at, to",
+              "বাড়িতে, at home"
+            ],
+            [
+              "থেকে",
+              "from (after the noun)",
+              "ঢাকা থেকে, from Dhaka"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "classifiers",
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Bengali digits",
+        "body": "Bengali has its own digits, used on signs, prices and dates alongside 0–9. Numbers up to a hundred each have their own word and are best learned one by one.",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "১",
+              "এক",
+              "ek"
+            ],
+            [
+              "2",
+              "২",
+              "দুই",
+              "dui"
+            ],
+            [
+              "3",
+              "৩",
+              "তিন",
+              "tin"
+            ],
+            [
+              "4",
+              "৪",
+              "চার",
+              "char"
+            ],
+            [
+              "5",
+              "৫",
+              "পাঁচ",
+              "panch"
+            ],
+            [
+              "6",
+              "৬",
+              "ছয়",
+              "chhoy"
+            ],
+            [
+              "7",
+              "৭",
+              "সাত",
+              "sat"
+            ],
+            [
+              "8",
+              "৮",
+              "আট",
+              "at"
+            ],
+            [
+              "9",
+              "৯",
+              "নয়",
+              "noy"
+            ],
+            [
+              "10",
+              "১০",
+              "দশ",
+              "dosh"
+            ],
+            [
+              "100",
+              "১০০",
+              "একশো",
+              "eksho"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "নমস্কার, কেমন আছেন?",
+            "r": "Nomoshkar, kemon achhen?",
+            "e": "Hello, how are you?"
+          },
+          {
+            "t": "ভালো আছি, ধন্যবাদ।",
+            "r": "Bhalo achhi, dhonnobad.",
+            "e": "I'm fine, thank you."
+          },
+          {
+            "t": "আমি বুঝি না।",
+            "r": "Ami bujhi na.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "এটার দাম কত?",
+            "r": "Etar dam koto?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "আস্তে বলুন, প্লিজ।",
+            "r": "Aste bolun, pliz.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "বাথরুম কোথায়?",
+            "r": "Bathrum kothay?",
+            "e": "Where is the bathroom?"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ekushey",
+        "topic": "culture",
+        "title": "Language Movement Day",
+        "body": "On 21 February 1952 students in Dhaka were killed while demonstrating for Bengali to be an official language of Pakistan. The day, Ekushey February, is remembered in Bangladesh at the Shaheed Minar, and UNESCO made 21 February International Mother Language Day.",
+        "tags": [
+          "culture",
+          "history"
+        ]
+      }
+    ]
+  },
   "chinese": {
     "id": "chinese",
     "entries": [
@@ -4398,6 +4793,402 @@ window.LSD_REFERENCE = {
         "tags": [
           "culture",
           "gestures"
+        ]
+      }
+    ]
+  },
+  "gujarati": {
+    "id": "gujarati",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Gujarati at a glance",
+        "body": [
+          "Gujarati is the Indo-Aryan language of Gujarat in western India, with about 55 million speakers and large communities in East Africa, Britain and North America. Mahatma Gandhi's first language was Gujarati.",
+          "The verb comes last, nouns are masculine, feminine or neuter, and postpositions are joined to the end of the noun."
+        ],
+        "examples": [
+          {
+            "t": "હું ગુજરાતી {શીખું છું}.",
+            "r": "Hun gujaraatii shiikhun chhun.",
+            "e": "I am learning Gujarati."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "SOV",
+          "three genders"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "How the script works",
+        "body": [
+          "The Gujarati script grew out of Devanagari and is easy to compare with it: most letters have the same structure, but Gujarati drops the line along the top. Each consonant carries a short a, other vowels are marks around it, and full vowel letters start a word.",
+          "Unlike Hindi, Gujarati uses the ordinary full stop and comma rather than the danda।"
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ક"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "ક ka"
+            ],
+            [
+              "aa",
+              "ા",
+              "કા kaa"
+            ],
+            [
+              "i",
+              "િ",
+              "કિ ki"
+            ],
+            [
+              "ii",
+              "ી",
+              "કી kii"
+            ],
+            [
+              "u",
+              "ુ",
+              "કુ ku"
+            ],
+            [
+              "uu",
+              "ૂ",
+              "કૂ kuu"
+            ],
+            [
+              "e",
+              "ે",
+              "કે ke"
+            ],
+            [
+              "ai",
+              "ૈ",
+              "કૈ kai"
+            ],
+            [
+              "o",
+              "ો",
+              "કો ko"
+            ],
+            [
+              "au",
+              "ૌ",
+              "કૌ kau"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "क · ક   म · મ   ग · ગ",
+            "e": "Devanagari and Gujarati side by side"
+          }
+        ],
+        "tags": [
+          "script",
+          "abugida"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "“To be” and the present",
+        "body": "The present tense is the stem with a person ending, followed by the matching form of છે. The negative uses -તો / -તી / -તું and નથી.",
+        "table": {
+          "head": [
+            "Subject",
+            "to be",
+            "speak",
+            "not speak (man)"
+          ],
+          "rows": [
+            [
+              "હું I",
+              "છું",
+              "બોલું છું",
+              "બોલતો નથી"
+            ],
+            [
+              "તું you",
+              "છે",
+              "બોલે છે",
+              "બોલતો નથી"
+            ],
+            [
+              "તે he, she",
+              "છે",
+              "બોલે છે",
+              "બોલતો નથી"
+            ],
+            [
+              "અમે / આપણે we",
+              "છીએ",
+              "બોલીએ છીએ",
+              "બોલતા નથી"
+            ],
+            [
+              "તમે you",
+              "છો",
+              "બોલો છો",
+              "બોલતા નથી"
+            ],
+            [
+              "તેઓ they",
+              "છે",
+              "બોલે છે",
+              "બોલતા નથી"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "negation"
+        ]
+      },
+      {
+        "id": "genders",
+        "topic": "grammar",
+        "title": "Three genders",
+        "body": "Gujarati keeps the neuter gender that Hindi lost. Adjectives and possessives ending in a vowel follow the noun.",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Neuter"
+          ],
+          "rows": [
+            [
+              "noun ending",
+              "-ો છોકરો",
+              "-ી છોકરી",
+              "-ું છોકરું"
+            ],
+            [
+              "good",
+              "સારો",
+              "સારી",
+              "સારું"
+            ],
+            [
+              "my",
+              "મારો",
+              "મારી",
+              "મારું"
+            ],
+            [
+              "of (Ram's)",
+              "રામનો",
+              "રામની",
+              "રામનું"
+            ],
+            [
+              "plural",
+              "-ા સારા",
+              "-ી સારી",
+              "-ાં સારાં"
+            ]
+          ]
+        },
+        "tags": [
+          "gender",
+          "adjectives"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Postpositions",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-માં",
+              "in",
+              "ઘરમાં, in the house"
+            ],
+            [
+              "પર / ઉપર",
+              "on",
+              "ટેબલ પર, on the table"
+            ],
+            [
+              "-થી",
+              "from; by",
+              "મુંબઈથી, from Mumbai"
+            ],
+            [
+              "-ને",
+              "to; object marker",
+              "મને, to me"
+            ],
+            [
+              "-ની સાથે",
+              "with",
+              "મિત્રની સાથે, with a friend"
+            ],
+            [
+              "-માટે",
+              "for",
+              "તમારા માટે, for you"
+            ]
+          ]
+        },
+        "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
+        "tags": [
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Gujarati digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "૧",
+              "એક",
+              "ek"
+            ],
+            [
+              "2",
+              "૨",
+              "બે",
+              "be"
+            ],
+            [
+              "3",
+              "૩",
+              "ત્રણ",
+              "tran"
+            ],
+            [
+              "4",
+              "૪",
+              "ચાર",
+              "chaar"
+            ],
+            [
+              "5",
+              "૫",
+              "પાંચ",
+              "paanch"
+            ],
+            [
+              "6",
+              "૬",
+              "છ",
+              "chha"
+            ],
+            [
+              "7",
+              "૭",
+              "સાત",
+              "saat"
+            ],
+            [
+              "8",
+              "૮",
+              "આઠ",
+              "aath"
+            ],
+            [
+              "9",
+              "૯",
+              "નવ",
+              "nav"
+            ],
+            [
+              "10",
+              "૧૦",
+              "દસ",
+              "das"
+            ],
+            [
+              "100",
+              "૧૦૦",
+              "સો",
+              "so"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "કેમ છો? — મજામાં!",
+            "r": "Kem chho? — Majaamaan!",
+            "e": "How are you? — Fine!"
+          },
+          {
+            "t": "તમારો આભાર.",
+            "r": "Tamaaro aabhaar.",
+            "e": "Thank you."
+          },
+          {
+            "t": "મને સમજાયું નહીં.",
+            "r": "Mane samjaayun nahiin.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "આ કેટલાનું છે?",
+            "r": "Aa ketlaanun chhe?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ધીમે બોલો, મહેરબાની કરીને.",
+            "r": "Dhiime bolo, maherbaanii kariine.",
+            "e": "Please speak slowly."
+          },
+          {
+            "t": "આવજો!",
+            "r": "Aavjo!",
+            "e": "Goodbye! (come again)"
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "navratri",
+        "topic": "culture",
+        "title": "Navratri and garba",
+        "body": "Navratri, the nine nights in honour of the goddess Durga in autumn, is Gujarat's biggest festival. Every evening people dance garba and dandiya raas in circles, often until dawn. Gujarati food is largely vegetarian and is served as a thali with a little of many dishes.",
+        "tags": [
+          "culture",
+          "festivals",
+          "food"
         ]
       }
     ]
@@ -8448,6 +9239,693 @@ window.LSD_REFERENCE = {
           "grammar",
           "ablative",
           "participles"
+        ]
+      }
+    ]
+  },
+  "odia": {
+    "id": "odia",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Odia at a glance",
+        "body": [
+          "Odia (formerly spelled Oriya) is the Indo-Aryan language of Odisha on India's east coast, with about 35 million speakers. In 2014 it became one of India's six classical languages, recognized for its long literary history.",
+          "The verb comes last, verbs have no gender, and case endings join the end of the noun. It is close to Bengali and Assamese."
+        ],
+        "examples": [
+          {
+            "t": "ମୁଁ ଓଡ଼ିଆ {ଶିଖୁଛି}।",
+            "r": "Mun odia shikhuchhi.",
+            "e": "I am learning Odia."
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "classical language",
+          "SOV"
+        ]
+      },
+      {
+        "id": "script",
+        "topic": "script",
+        "title": "The rounded script",
+        "body": [
+          "Odia letters have a round cap instead of Devanagari's straight top line. One common explanation is that writing was done with a stylus on palm leaves, where a straight line would split the leaf along its grain.",
+          "Like other Indian scripts it is an abugida: each consonant carries a short a, said close to the o in “hot”, and other vowels are marks around it."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With କ"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "କ ka"
+            ],
+            [
+              "aa",
+              "ା",
+              "କା kaa"
+            ],
+            [
+              "i",
+              "ି",
+              "କି ki"
+            ],
+            [
+              "ii",
+              "ୀ",
+              "କୀ kii"
+            ],
+            [
+              "u",
+              "ୁ",
+              "କୁ ku"
+            ],
+            [
+              "uu",
+              "ୂ",
+              "କୂ kuu"
+            ],
+            [
+              "e",
+              "େ",
+              "କେ ke"
+            ],
+            [
+              "ai",
+              "ୈ",
+              "କୈ kai"
+            ],
+            [
+              "o",
+              "ୋ",
+              "କୋ ko"
+            ],
+            [
+              "au",
+              "ୌ",
+              "କୌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "palm leaf"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "Everyday speech uses the continuous present (-ଉଛି) for “I do” and “I am doing”. The ending shows the person and politeness; there is no gender.",
+        "table": {
+          "head": [
+            "Subject",
+            "go",
+            "do"
+          ],
+          "rows": [
+            [
+              "ମୁଁ I",
+              "ଯାଉଛି",
+              "କରୁଛି"
+            ],
+            [
+              "ଆମେ we",
+              "ଯାଉଛୁ",
+              "କରୁଛୁ"
+            ],
+            [
+              "ତୁମେ you (familiar)",
+              "ଯାଉଛ",
+              "କରୁଛ"
+            ],
+            [
+              "ଆପଣ you (polite)",
+              "ଯାଉଛନ୍ତି",
+              "କରୁଛନ୍ତି"
+            ],
+            [
+              "ସେ he, she",
+              "ଯାଉଛି",
+              "କରୁଛି"
+            ],
+            [
+              "ସେମାନେ they",
+              "ଯାଉଛନ୍ତି",
+              "କରୁଛନ୍ତି"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present"
+        ]
+      },
+      {
+        "id": "cases",
+        "topic": "grammar",
+        "title": "Case endings",
+        "table": {
+          "head": [
+            "Ending",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "-ର",
+              "of, 's",
+              "ରାମର, Ram's"
+            ],
+            [
+              "-କୁ",
+              "to; object",
+              "ବଜାରକୁ, to the market"
+            ],
+            [
+              "-ରେ / -ଏ",
+              "in, at, on",
+              "ଘରେ, at home"
+            ],
+            [
+              "-ରୁ",
+              "from",
+              "ଦିଲ୍ଲୀରୁ, from Delhi"
+            ],
+            [
+              "-ମାନେ",
+              "plural",
+              "ପିଲାମାନେ, children"
+            ],
+            [
+              "-ଟି / -ଟା",
+              "the; counting things",
+              "ବହିଟି, the book"
+            ]
+          ]
+        },
+        "tags": [
+          "cases",
+          "plural"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Odia digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "୧",
+              "ଏକ",
+              "eka"
+            ],
+            [
+              "2",
+              "୨",
+              "ଦୁଇ",
+              "dui"
+            ],
+            [
+              "3",
+              "୩",
+              "ତିନି",
+              "tini"
+            ],
+            [
+              "4",
+              "୪",
+              "ଚାରି",
+              "chaari"
+            ],
+            [
+              "5",
+              "୫",
+              "ପାଞ୍ଚ",
+              "paancha"
+            ],
+            [
+              "6",
+              "୬",
+              "ଛଅ",
+              "chhaa"
+            ],
+            [
+              "7",
+              "୭",
+              "ସାତ",
+              "saata"
+            ],
+            [
+              "8",
+              "୮",
+              "ଆଠ",
+              "aatha"
+            ],
+            [
+              "9",
+              "୯",
+              "ନଅ",
+              "naa"
+            ],
+            [
+              "10",
+              "୧୦",
+              "ଦଶ",
+              "dasha"
+            ],
+            [
+              "100",
+              "୧୦୦",
+              "ଶହେ",
+              "shahe"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ନମସ୍କାର, ଆପଣ କେମିତି ଅଛନ୍ତି?",
+            "r": "Namaskaara, apana kemiti achhanti?",
+            "e": "Hello, how are you?"
+          },
+          {
+            "t": "ମୁଁ ଭଲ ଅଛି, ଧନ୍ୟବାଦ।",
+            "r": "Mun bhala achhi, dhanyabaada.",
+            "e": "I'm fine, thank you."
+          },
+          {
+            "t": "ମୁଁ ବୁଝେ ନାହିଁ।",
+            "r": "Mun bujhe naahin.",
+            "e": "I don't understand."
+          },
+          {
+            "t": "ଏହାର ଦାମ କେତେ?",
+            "r": "Ehaara daama kete?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ଧୀରେ କହନ୍ତୁ।",
+            "r": "Dhiire kahantu.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "rath-yatra",
+        "topic": "culture",
+        "title": "Rath Yatra",
+        "body": "Every summer in Puri, the images of Jagannath and his siblings are pulled through the streets on huge wooden chariots, rebuilt each year. The festival, Rath Yatra, draws hundreds of thousands of pilgrims; the English word “juggernaut” comes from Jagannath's chariot.",
+        "tags": [
+          "culture",
+          "festivals",
+          "Puri"
+        ]
+      }
+    ]
+  },
+  "punjabi": {
+    "id": "punjabi",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Punjabi at a glance",
+        "body": [
+          "Punjabi is an Indo-Aryan language of the Punjab region, split between India and Pakistan, with over 100 million speakers and large communities in Britain and Canada. In India it is written in Gurmukhi; in Pakistan it is written in Shahmukhi, a Perso-Arabic script.",
+          "The verb comes last, nouns are masculine or feminine, and postpositions follow the noun. Unusually for the region, Punjabi is tonal."
+        ],
+        "examples": [
+          {
+            "t": "ਮੈਂ ਪੰਜਾਬੀ {ਸਿੱਖ ਰਿਹਾ ਹਾਂ}।",
+            "r": "Main panjaabii sikkh rihaa haan.",
+            "e": "I am learning Punjabi. (a man)"
+          }
+        ],
+        "tags": [
+          "Indo-Aryan",
+          "tonal",
+          "SOV"
+        ]
+      },
+      {
+        "id": "gurmukhi",
+        "topic": "script",
+        "title": "How Gurmukhi works",
+        "body": [
+          "Gurmukhi was standardized in the 16th century by Guru Angad, the second Sikh Guru; the name means “from the mouth of the Guru”. Like Devanagari it is an abugida: each consonant carries a short a, and other vowels are marks around it. Three letters (ੳ, ਅ, ੲ) carry the vowels at the start of a word.",
+          "The addak ੱ doubles the next consonant, and tippi ੰ or bindi ਂ marks a nasal sound."
+        ],
+        "table": {
+          "head": [
+            "Vowel",
+            "Mark",
+            "With ਕ"
+          ],
+          "rows": [
+            [
+              "a (built in)",
+              "",
+              "ਕ ka"
+            ],
+            [
+              "aa",
+              "ਾ",
+              "ਕਾ kaa"
+            ],
+            [
+              "i",
+              "ਿ",
+              "ਕਿ ki"
+            ],
+            [
+              "ii",
+              "ੀ",
+              "ਕੀ kii"
+            ],
+            [
+              "u",
+              "ੁ",
+              "ਕੁ ku"
+            ],
+            [
+              "uu",
+              "ੂ",
+              "ਕੂ kuu"
+            ],
+            [
+              "e",
+              "ੇ",
+              "ਕੇ ke"
+            ],
+            [
+              "ai",
+              "ੈ",
+              "ਕੈ kai"
+            ],
+            [
+              "o",
+              "ੋ",
+              "ਕੋ ko"
+            ],
+            [
+              "au",
+              "ੌ",
+              "ਕੌ kau"
+            ]
+          ]
+        },
+        "tags": [
+          "script",
+          "abugida",
+          "Gurmukhi"
+        ]
+      },
+      {
+        "id": "tones",
+        "topic": "sounds",
+        "title": "Tones",
+        "body": "Punjabi lost the breathy sound of ਘ, ਝ, ਢ, ਧ, ਭ (gh, jh, dh, bh) and of ਹ inside a word, and gained tones in their place. At the start of a word, ਘ is said like k with a low, rising tone; after the vowel, ਹ gives a high, falling tone. The spelling stays the old one.",
+        "examples": [
+          {
+            "t": "ਕੋੜਾ · ਘੋੜਾ · ਕੋਹੜਾ",
+            "r": "koraa · kòraa · kóraa",
+            "e": "whip · horse · leper: the same sounds with three tones"
+          }
+        ],
+        "tags": [
+          "tones",
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "to-be",
+        "topic": "verbs",
+        "title": "“To be” and the present",
+        "body": "The present tense is a participle that agrees in gender and number, followed by the right form of “to be”.",
+        "table": {
+          "head": [
+            "Subject",
+            "to be",
+            "speak (man)",
+            "speak (woman)"
+          ],
+          "rows": [
+            [
+              "ਮੈਂ I",
+              "ਹਾਂ",
+              "ਬੋਲਦਾ ਹਾਂ",
+              "ਬੋਲਦੀ ਹਾਂ"
+            ],
+            [
+              "ਤੂੰ you (intimate)",
+              "ਹੈਂ",
+              "ਬੋਲਦਾ ਹੈਂ",
+              "ਬੋਲਦੀ ਹੈਂ"
+            ],
+            [
+              "ਉਹ he, she",
+              "ਹੈ",
+              "ਬੋਲਦਾ ਹੈ",
+              "ਬੋਲਦੀ ਹੈ"
+            ],
+            [
+              "ਅਸੀਂ we",
+              "ਹਾਂ",
+              "ਬੋਲਦੇ ਹਾਂ",
+              "ਬੋਲਦੀਆਂ ਹਾਂ"
+            ],
+            [
+              "ਤੁਸੀਂ you",
+              "ਹੋ",
+              "ਬੋਲਦੇ ਹੋ",
+              "ਬੋਲਦੀਆਂ ਹੋ"
+            ],
+            [
+              "ਉਹ they",
+              "ਹਨ",
+              "ਬੋਲਦੇ ਹਨ",
+              "ਬੋਲਦੀਆਂ ਹਨ"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "present",
+          "gender"
+        ]
+      },
+      {
+        "id": "postpositions",
+        "topic": "grammar",
+        "title": "Postpositions",
+        "body": "These follow the noun. A masculine noun in -ā becomes -e before them: ਕਮਰਾ → ਕਮਰੇ ਵਿੱਚ.",
+        "table": {
+          "head": [
+            "Word",
+            "Meaning",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ਵਿੱਚ",
+              "in",
+              "ਘਰ ਵਿੱਚ, in the house"
+            ],
+            [
+              "ਉੱਤੇ / ਤੇ",
+              "on",
+              "ਮੇਜ਼ ਉੱਤੇ, on the table"
+            ],
+            [
+              "ਤੋਂ",
+              "from",
+              "ਅੰਮ੍ਰਿਤਸਰ ਤੋਂ, from Amritsar"
+            ],
+            [
+              "ਨੂੰ",
+              "to; object marker",
+              "ਮੈਨੂੰ, to me"
+            ],
+            [
+              "ਨਾਲ",
+              "with",
+              "ਦੋਸਤ ਨਾਲ, with a friend"
+            ],
+            [
+              "ਦਾ / ਦੀ / ਦੇ",
+              "of",
+              "ਰਾਮ ਦਾ ਘਰ, Ram's house"
+            ]
+          ]
+        },
+        "tags": [
+          "postpositions"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers and Gurmukhi digits",
+        "table": {
+          "head": [
+            "",
+            "Digit",
+            "Word",
+            "Transliteration"
+          ],
+          "rows": [
+            [
+              "1",
+              "੧",
+              "ਇੱਕ",
+              "ikk"
+            ],
+            [
+              "2",
+              "੨",
+              "ਦੋ",
+              "do"
+            ],
+            [
+              "3",
+              "੩",
+              "ਤਿੰਨ",
+              "tinn"
+            ],
+            [
+              "4",
+              "੪",
+              "ਚਾਰ",
+              "chaar"
+            ],
+            [
+              "5",
+              "੫",
+              "ਪੰਜ",
+              "panj"
+            ],
+            [
+              "6",
+              "੬",
+              "ਛੇ",
+              "chhe"
+            ],
+            [
+              "7",
+              "੭",
+              "ਸੱਤ",
+              "satt"
+            ],
+            [
+              "8",
+              "੮",
+              "ਅੱਠ",
+              "atth"
+            ],
+            [
+              "9",
+              "੯",
+              "ਨੌਂ",
+              "naun"
+            ],
+            [
+              "10",
+              "੧੦",
+              "ਦਸ",
+              "das"
+            ],
+            [
+              "100",
+              "੧੦੦",
+              "ਸੌ",
+              "sau"
+            ]
+          ]
+        },
+        "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
+        "tags": [
+          "numbers",
+          "digits"
+        ]
+      },
+      {
+        "id": "phrases",
+        "topic": "phrases",
+        "title": "Everyday phrases",
+        "examples": [
+          {
+            "t": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ!",
+            "r": "Sat srii akaal jii!",
+            "e": "Hello! (respectful)"
+          },
+          {
+            "t": "ਕੀ ਹਾਲ ਹੈ?",
+            "r": "Kii haal hai?",
+            "e": "How are things?"
+          },
+          {
+            "t": "ਬਹੁਤ ਧੰਨਵਾਦ।",
+            "r": "Bahut dhannvaad.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "ਮੈਨੂੰ ਸਮਝ ਨਹੀਂ ਆਈ।",
+            "r": "Mainuun samajh nahiin aaii.",
+            "e": "I didn't understand."
+          },
+          {
+            "t": "ਇਹ ਕਿੰਨੇ ਦਾ ਹੈ?",
+            "r": "Ih kinne daa hai?",
+            "e": "How much is this?"
+          },
+          {
+            "t": "ਹੌਲੀ ਬੋਲੋ ਜੀ।",
+            "r": "Haulii bolo jii.",
+            "e": "Please speak slowly."
+          }
+        ],
+        "tags": [
+          "phrases",
+          "travel"
+        ]
+      },
+      {
+        "id": "ji",
+        "topic": "culture",
+        "title": "ਜੀ, the word of respect",
+        "body": "Adding ਜੀ (jii) after a name, a title, or even “yes” and “no” makes speech respectful: ਹਾਂਜੀ, ਨਹੀਂਜੀ, ਮਾਤਾ ਜੀ. Guests at a gurdwara cover their heads, take off their shoes, and are offered a free meal in the langar, the community kitchen.",
+        "tags": [
+          "culture",
+          "politeness",
+          "Sikhism"
         ]
       }
     ]

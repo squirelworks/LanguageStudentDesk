@@ -60,7 +60,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "bengali"
     ],
     "notes": "Bengali (Bangla) in the Bengali–Assamese script.",
-    "speech": "bn-BD"
+    "speech": "bn-BD",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "burmese": {
     "id": "burmese",
@@ -181,7 +186,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gujarati"
     ],
     "notes": "Gujarati in its own script, a cousin of Devanagari without the headline.",
-    "speech": "gu-IN"
+    "speech": "gu-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "hangul": {
     "id": "hangul",
@@ -390,7 +400,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "odia"
     ],
     "notes": "Odia, the language of Odisha, in its round-topped script; consonants carry a built-in o.",
-    "speech": "or-IN"
+    "speech": "or-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "punjabi": {
     "id": "punjabi",
@@ -403,7 +418,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "gurmukhi"
     ],
     "notes": "Punjabi in Gurmukhi, the script used in India.",
-    "speech": "pa-IN"
+    "speech": "pa-IN",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "sinhala": {
     "id": "sinhala",
