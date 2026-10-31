@@ -7,9 +7,9 @@ Modular character learning tool for Language Student Desk.
 - Hiragana, Katakana
 - Arabic, Cyrillic, Hangul, Devanagari
 - Klingon pIqaD
-- Latin, Greek, Armenian, Georgian, Bengali, Gurmukhi, Gujarati, Tamil, Telugu,
-  Kannada, Malayalam, Sinhala, Hebrew, Ethiopic, Cherokee, Inuktitut syllabics,
-  Mongolian, Thai, Lao, Khmer, Tibetan — the SquirrelGo Alphabets scripts, loaded
+- Latin, Greek, Armenian, Georgian, Bengali, Gurmukhi, Gujarati, Odia, Meetei Mayek, Tamil, Telugu,
+  Kannada, Malayalam, Sinhala, Hebrew, Ethiopic, Tifinagh, Cherokee, Inuktitut syllabics,
+  Mongolian, Burmese, Thai, Lao, Khmer, Tibetan — the SquirrelGo Alphabets scripts, loaded
   from that app's data files
 - Kanji — full **Jōyō set (2,136)**, identical to [SquirrelGo Kanji](../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/)
 
