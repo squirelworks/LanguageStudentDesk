@@ -143,7 +143,7 @@
       {
         title: "Characters and sounds",
         steps: [
-          { id: "hanzi", title: "Meet the characters", text: "Browse the Hanzi view of the shared kanji set: shapes, strokes and radicals.", tools: tools(T.chars) },
+          { id: "hanzi", title: "Meet the characters", text: "Browse hanzi by HSK level, starting with HSK 1: shapes, strokes and radicals.", tools: tools(T.chars) },
           { id: "greetings", title: "Greetings", text: "你好, 谢谢, 再见 — with pinyin and tones.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 7 } },
           { id: "numbers", title: "Numbers", text: "One to ten.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
         ],
