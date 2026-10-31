@@ -18,6 +18,11 @@
   .side button.active .nat { color: #e8eaf6; }
   .side .count { font-size: 0.75rem; color: var(--muted); }
   .side button.active .count { color: #e8eaf6; }
+  .side .sec { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; }
+  .entry .html p, .entry .html ul { margin: 0.35rem 0; }
+  .entry .html table { margin: 0.6rem 0; }
+  .entry .html td:first-child { white-space: nowrap; }
+  .entry .html b { color: var(--gold); }
   .side hr { border: none; border-top: 1px solid var(--line); margin: 0.4rem 0; }
   .search { width: 100%; margin-bottom: 0.7rem; }
   .topics { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
@@ -35,7 +40,8 @@
   .entry h3 a:hover { text-decoration: underline; }
   .entry h3 .pill { font-weight: 400; }
   .entry p { margin: 0.35rem 0; }
-  .entry p mark, .ex .t mark { background: none; color: var(--gold); font-weight: 700; }
+  .entry p mark, .ex .t mark, .tbl td mark { background: none; color: var(--gold); font-weight: 700; }
+  .tbl td:first-child mark { font-size: 1.3rem; }
   .entry.flash { border-color: var(--gold); }
   .ex { border-left: 3px solid var(--accent2); background: #17171d; padding: 0.45rem 0.8rem; margin: 0.5rem 0; border-radius: 0 6px 6px 0; display: flex; gap: 0.6rem; align-items: flex-start; }
   .ex .body { flex: 1; min-width: 0; }
@@ -57,7 +63,7 @@
     .layout { grid-template-columns: 1fr; }
     .side { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 0.25rem; }
     .side button { width: auto; }
-    .side hr, .side .count { display: none; }
+    .side hr, .side .count, .side .sec { display: none; }
   }
 </style>
 </head>
@@ -86,6 +92,7 @@
 <script src="../languages/registry.js"></script>
 <script src="../languages/lsd-lang.js"></script>
 <script src="programming.js"></script>
+<script src="sources.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -57,7 +57,7 @@
   }
 
   function tile(m, due) {
-    const sub = due == null ? "Your own words only, for now" : due ? due + " due for review" : "Nothing due";
+    const sub = due == null ? "Add your own words" : due ? due + " due for review" : "Nothing due";
     const big = m.font === "pIqaD" ? '<span class="piqad">' + LSD.piqad("tlhIngan Hol") + "</span>" : esc(m.nativeName || m.name);
     return '<button class="tile" data-lang="' + esc(m.id) + '"><span class="big">' + big + "</span><b>" + esc(m.name) + '</b><br><span class="sub">' + sub + "</span></button>";
   }
@@ -86,7 +86,7 @@
     lang = meta.id;
     document.body.className = "lang-" + lang;
     $("title").innerHTML = "Vocabulary Learner <small>" + esc(meta.name) + (meta.nativeName ? " · " + esc(meta.nativeName) : "") + "</small>";
-    $("subtitle").textContent = VOCAB_SOURCES[lang] ? "Spaced review, flashcards and Anki export." : "No built-in words for " + meta.name + " yet. Add your own in the Add words tab.";
+    $("subtitle").textContent = VOCAB_SOURCES[lang] ? "Spaced review, flashcards and Anki export." : "Add your own " + meta.name + " words in the Add words tab.";
     document.title = "Vocabulary · " + meta.name + " — Language Student Desk";
     $("loading").hidden = false;
     const { decks: loaded, errors } = await loadVocabDecks(lang);

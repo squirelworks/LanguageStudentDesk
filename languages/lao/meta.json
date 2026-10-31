@@ -1,0 +1,9 @@
+{
+  "id": "lao",
+  "name": "Lao",
+  "nativeName": "ລາວ",
+  "writingSystems": ["lao"],
+  "characterKeys": ["lao"],
+  "notes": "Lao, a close cousin of Thai, with consonants in three tone classes.",
+  "speech": "lo-LA"
+}

@@ -123,7 +123,17 @@
     hangul: [deskLoader("hangul", true), alphabetLoader("hangul.js", "hangul")],
     cyrillic: [deskLoader("cyrillic", true), alphabetLoader("cyrillic.js", "cyrillic")],
     hindi: [deskLoader("hindi", true), alphabetLoader("devanagari.js", "devanagari")],
+    greek: [deskLoader("greek", true), alphabetLoader("greek.js", "greek")],
+    latin: [deskLoader("latin", false)],
   };
+  // Every other SquirrelGo Alphabets language starts with its example words.
+  const ALPHABET_ONLY = {
+    armenian: "armenian", georgian: "georgian", hebrew: "hebrew", amharic: "ethiopic", cherokee: "cherokee",
+    inuktitut: "syllabics", mongolian: "mongolian", thai: "thai", lao: "lao", khmer: "khmer", tibetan: "tibetan",
+    bengali: "bengali", punjabi: "gurmukhi", gujarati: "gujarati", tamil: "tamil", telugu: "telugu",
+    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala",
+  };
+  for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.VOCAB_SOURCES[lang] = [alphabetLoader(script + ".js", script)];
 
   // Every deck for a language. A source that fails to load (a missing folder,
   // say) is reported and skipped, not fatal.
