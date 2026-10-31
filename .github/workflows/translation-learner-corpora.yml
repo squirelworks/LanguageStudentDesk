@@ -43,10 +43,12 @@ jobs:
       # The link files are committed before retraining, so a retrain that
       # fails its checks can still be tuned from them on any machine.
       - name: Commit the link files
-        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: Tatoeba and Wiktionary links" translation-learner/tools/tatoeba translation-learner/tools/wiktionary
+        run: >-
+          bash translation-learner/tools/commit_outputs.sh "Translation Learner: Tatoeba and Wiktionary links" translation-learner/tools/tatoeba translation-learner/tools/wiktionary
       - name: Retrain the meaning network
         run: python3 translation-learner/tools/build_network.py
       - name: Check
         run: node translation-learner/check.js
       - name: Commit the retrained network
-        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: retrain on Tatoeba and Wiktionary" translation-learner/data
+        run: >-
+          bash translation-learner/tools/commit_outputs.sh "Translation Learner: retrain on Tatoeba and Wiktionary" translation-learner/data
