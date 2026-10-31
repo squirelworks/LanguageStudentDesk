@@ -5,5 +5,6 @@
   "writingSystems": ["hangul"],
   "characterKeys": ["hangul"],
   "speech": "ko-KR",
-  "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul."
+  "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
+  "data": { "reference": "reference.json" }
 }

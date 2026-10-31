@@ -1,4 +1,6 @@
 // Shared language layer for the Desk learners (vocabulary, grammar, language).
+// LSD.load(id, kind) loads a language's characters, grammar, vocab or
+// reference data from languages/<id>/, as listed in its meta.json.
 // Load after registry.js:
 //   <script src="../languages/registry.js"></script>
 //   <script src="../languages/lsd-lang.js"></script>
@@ -151,5 +153,65 @@
     return out;
   }
 
-  window.LSD = { BASE, param, get, all, setParam, toolUrl, picker, store, canSpeak, speak, loadScript, loadCss, piqad };
+  // Per-language data files, listed under "data" in meta.json (see
+  // languages/README.md). Each value is a file name or a list of them,
+  // relative to the language's folder.
+  function files(meta, kind) {
+    const v = meta && meta.data && meta.data[kind];
+    return v ? [].concat(v) : [];
+  }
+  function has(meta, kind) {
+    return files(meta, kind).length > 0;
+  }
+  // Full URLs of a language's files of one kind, for tools that add their own
+  // <script> tags.
+  function dataUrls(meta, kind) {
+    return files(meta, kind).map((f) => new URL(meta.id + "/" + f, BASE).href);
+  }
+
+  // reference.json over http://, the generated reference.js otherwise.
+  async function loadReference(meta, url) {
+    if (location.protocol !== "file:") {
+      try {
+        const r = await fetch(url, { cache: "no-cache" });
+        if (r.ok) return await r.json();
+      } catch (e) {}
+    }
+    if (!window.LSD_REFERENCE) {
+      try {
+        await loadScript(new URL("reference.js", BASE).href);
+      } catch (e) {}
+    }
+    return (window.LSD_REFERENCE || {})[meta.id] || null;
+  }
+
+  // Loads one kind of data for a language and returns it, or null when the
+  // language has none:
+  //   characters -> { <characterKey>: script, ... } from window.SCRIPTS
+  //   grammar    -> window.GRAMMAR[id]
+  //   vocab      -> window.LSD_DECKS[id]
+  //   reference  -> the parsed reference.json
+  async function load(id, kind) {
+    const meta = await get(id);
+    const urls = dataUrls(meta, kind);
+    if (!urls.length) return null;
+    if (kind === "reference") return loadReference(meta, urls[0]);
+    for (const u of urls) await loadScript(u);
+    if (kind === "grammar") return (window.GRAMMAR || {})[meta.id] || null;
+    if (kind === "vocab") return (window.LSD_DECKS || {})[meta.id] || null;
+    if (kind === "characters") {
+      const scripts = window.SCRIPTS || {};
+      const out = {};
+      (meta.characterKeys || []).forEach((k) => {
+        if (scripts[k]) out[k] = scripts[k];
+      });
+      return Object.keys(out).length ? out : null;
+    }
+    return null;
+  }
+
+  window.LSD = {
+    BASE, param, get, all, setParam, toolUrl, picker, store, canSpeak, speak, loadScript, loadCss, piqad,
+    files, has, dataUrls, load,
+  };
 })();
