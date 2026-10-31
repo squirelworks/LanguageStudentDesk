@@ -148,10 +148,43 @@
     return null;
   }
 
+  // Letters to change, add or drop to turn a into b, giving up past max.
+  function editDistance(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    let prev2 = [];
+    for (let i = 1; i <= a.length; i++) {
+      const row = [i];
+      let low = i;
+      for (let j = 1; j <= b.length; j++) {
+        row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        // A swap of two neighbours (recieve) counts as one change.
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) row[j] = Math.min(row[j], prev2[j - 2] + 1);
+        low = Math.min(low, row[j]);
+      }
+      if (low > max) return max + 1;
+      prev2 = prev;
+      prev = row;
+    }
+    return prev[b.length];
+  }
+
+  // A misspelling of word: one change in a word of 4 to 7 letters, two from 8.
+  function misspelt(said, word) {
+    if (said.length < 4 || word.length < 4 || said === word) return false;
+    return editDistance(said, word, word.length >= 8 ? 2 : 1) <= (word.length >= 8 ? 2 : 1);
+  }
+
+  // How much a close word earns: half of an exact one at the network's close
+  // line, rising to 0.9 for a word right next to the meaning.
+  function closeCredit(sim, line) {
+    return 0.5 + 0.4 * Math.max(0, Math.min(1, (sim - line) / (1 - line)));
+  }
+
   // Checks an English translation of a built sentence.
   // Returns { units, added: [word], dropped, honest }, one unit per meaning:
   //   { token (index, or -1 when implied), meaning, status, matched: [word] }
-  // status: "kept" (found), "close" (a word the meaning network puts near
+  // status: "kept" (found; typo is set when the word was misspelt), "close" (a word the meaning network puts near
   // it), "dropped" (content meaning missing), "shown" (grammar English showed
   // with a word), "grammar", "implied" (left to context and not written,
   // which is fine).
@@ -180,6 +213,23 @@
     }
     const model = new Set(englishWords(sentence.en).map((w) => w.stem));
     const spare = (k) => !used[k] && !FUNCTION_WORDS.has(words[k].word) && !model.has(words[k].stem);
+    // A missing meaning whose one-word English is misspelt in the answer
+    // ("recieve") is carried over; the spelling is pointed out.
+    for (const x of units) {
+      if (x.status !== "dropped") continue;
+      for (const alt of x.meaning.alts) {
+        if (alt.includes(" ")) continue;
+        // A real English word the network knows ("waiter" for water) is a
+        // different word, not a misspelling.
+        const k = words.findIndex((w, k) => spare(k) && !(net && net.has("en:" + w.word)) && misspelt(w.word, alt.toLowerCase()));
+        if (k < 0) continue;
+        used[k] = true;
+        x.status = "kept";
+        x.matched = [words[k].word];
+        x.typo = alt;
+        break;
+      }
+    }
     if (net) {
       // Best pairs first, so one word is not spent on a weaker match.
       const pairs = [];
@@ -207,12 +257,16 @@
       if (spare(k)) added.push(w.word);
     });
     const dropped = units.filter((x) => x.status === "dropped").length;
-    const close = units.filter((x) => x.status === "close").length;
+    const closeUnits = units.filter((x) => x.status === "close");
+    const close = closeUnits.length;
+    const typos = units.filter((x) => x.typo).length;
     const content = units.filter((x) => !x.meaning.grammar && x.token >= 0).length;
     const kept = units.filter((x) => x.status === "kept" && x.token >= 0).length;
-    // Meaning score: a close word earns half of an exact one; each added word costs as much as a missing meaning.
-    const score = content ? Math.max(0, (kept + close / 2 - added.length) / content) : 1;
-    return { units, added, dropped, close, score, honest: dropped === 0 && close === 0 && added.length === 0 };
+    // Meaning score: a close word earns 0.5 to 0.9 of an exact one, by how
+    // close; each added word costs as much as a missing meaning.
+    const closeScore = closeUnits.filter((x) => x.token >= 0).reduce((sum, x) => sum + closeCredit(x.sim, net.close), 0);
+    const score = content ? Math.max(0, (kept + closeScore - added.length) / content) : 1;
+    return { units, added, dropped, close, typos, score, honest: dropped === 0 && close === 0 && added.length === 0 };
   }
 
   // ---- Target-language side ----
@@ -305,7 +359,7 @@
     return chunks.flatMap((c, i) => segment(c, lex).map((p) => Object.assign(p, { word: i })));
   }
 
-  const api = { meaning, bare, join, joinReading, build, englishWords, stem, checkEnglish, checkTiles, lexicon, segment, breakDown };
+  const api = { meaning, bare, join, joinReading, build, englishWords, stem, checkEnglish, misspelt, closeCredit, checkTiles, lexicon, segment, breakDown };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MeaningTokens = api;
 })(this);

@@ -14,8 +14,20 @@ the language list comes from the shared registry in `languages/`.
 | Top 1,000 words | The language's most frequent words, what the Desk knows of each, the same meaning in the other Desk languages, and rank-weighted practice. |
 
 When an English answer misses a meaning but uses a word the **meaning network** places right next to it
-("The boy sleeps" for *Qong puq*, the child sleeps), that word counts as **close**: half credit in the
-meaning score, never a pass.
+("The boy sleeps" for *Qong puq*, the child sleeps), that word counts as **close**: never a pass, and
+worth 50% of an exact word at the close line, rising to 90% for a word right next to the meaning. The
+result says how much credit each close word earned.
+
+A **misspelt** word ("I am a studnet") still carries its meaning, and the result points out the spelling.
+One wrong, missing, extra or swapped letter is allowed in a word of 4 to 7 letters, two from 8 letters.
+A real English word the network knows is never read as a misspelling of another ("waiter" is not
+"water"). Word practice on the Top 1,000 tab works the same way, and a close answer names the word that
+was close.
+
+The Top 1,000 tab can **download practice sets** as tab-separated files that Anki (File › Import) and
+spreadsheets open: the words the list is showing (after its filter and search), with their English,
+dictionary form, rank and source credit; and the language's sentences with reading, English and the
+meaning of each piece.
 
 Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 
@@ -93,7 +105,7 @@ and words in each language (`hangul:물`). Edges come from:
 
 It then trains a skip-gram network with negative sampling (word2vec's model) on random walks over the
 graph (DeepWalk), giving every node a 24-number vector, stored as int8 in `data/network.js` (about 650 KB,
-loaded only when needed). Training is seeded and takes about five minutes:
+loaded only when needed). Training is seeded and takes about eight minutes:
 
 ```
 python3 translation-learner/tools/build_network.py           # retrain from the cached word lists
@@ -103,10 +115,12 @@ python3 translation-learner/tools/gloss_dictionaries.py --jmdict jamdict.db --ce
 node translation-learner/check.js
 ```
 
-Where "close" starts is set at each training run from a few reference pairs: words that should be close
-(boy and child, large and big) and words that only share a topic (tea and coffee, hot and cold). The line
-sits 60% of the way from the highest unrelated pair to the lowest related one, leaning strict (about 0.79
-now), and the build stops if the two groups are less than 0.05 apart. `check.js` tests the same pairs.
+Where "close" starts is set at each training run from reference pairs (`CLOSE_PAIRS` and `APART_PAIRS`
+in the script). The related pairs are English words near a meaning but not among its own English words,
+which would simply match (boy and child, cottage and house, comrade and friend); the unrelated pairs only
+share a topic (tea and coffee, hot and cold, dog and cat). The line sits just above every unrelated pair,
+and the build stops unless at least three quarters of the related pairs clear it. The pairs are written
+into `data/network.js`, and `check.js` tests the same rule.
 
 What it cannot do: a word the Desk has never glossed has no place in the network, so it is neither close
 nor far; it is simply unknown. Glosses give one sense per word, so homographs (Korean 이 is listed as
@@ -130,11 +144,11 @@ The licences are credited in every generated file and on the page.
 | Language | Words with a meaning | Read as a form of one | Left unknown |
 |---|---|---|---|
 | Japanese | 985 | — | 15 (tokenizer fragments such as っ, ゚) |
-| Korean | 984 | 8 | 8 (loanword syllables such as 스) |
+| Korean | 989 | 3 | 8 (loanword syllables such as 스) |
 | Chinese | 1,000 | — | 0 |
-| Russian | 929 | 66 | 5 (stray letters) |
+| Russian | 941 | 54 | 5 (stray letters) |
 | Hindi | 996 | — | 4 (Latin letters spelled out) |
-| Arabic | 944 | 56 | 0 |
+| Arabic | 952 | 48 | 0 |
 
 A `-` in a gloss file's English column leaves that word unknown on purpose.
 
@@ -149,9 +163,13 @@ the same first step where the servers are reachable.
 - **Tatoeba:** for every Desk word found in a sentence, the English words of its translation are counted. A
   pair is kept when it shares at least 3 sentences and a Dice coefficient of 0.08, so a particle that sits in
   every sentence does not tie itself to every English word. Up to 4 English words per Desk word are kept.
+  Training uses only a word's clear translations: a Dice of at least 0.2 and at least half the word's best,
+  so 茶 (tea) does not also pull in coffee, the other drink in its sentences. These links weigh half a
+  Desk gloss (`TATOEBA_WEIGHT`).
 - **Wiktionary:** the first two senses of each entry whose headword or one of whose inflected forms is a
   Desk word. Its English links only to English words the network already has, and an inflected form links
-  to its headword. It glosses a word bank word only when nothing else does.
+  to its headword. It glosses a word bank word only when nothing else does. Its links also weigh half a
+  Desk gloss (`WIKTIONARY_WEIGHT`).
 
 ### Sources considered
 
