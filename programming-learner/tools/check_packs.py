@@ -70,9 +70,15 @@ def python(code):
 
 RUNNERS = {"python": python, "brainfood": brainfood}
 # Any tools/run_<id>.py with run(code) -> (printed, error) checks that course too.
+# A runner that needs a missing tool sets AVAILABLE = False and is skipped.
+SKIPPED = []
 sys.path.insert(0, str(HERE))
 for f in sorted(HERE.glob("run_*.py")):
-    RUNNERS[f.stem[4:]] = importlib.import_module(f.stem).run
+    mod = importlib.import_module(f.stem)
+    if getattr(mod, "AVAILABLE", True):
+        RUNNERS[f.stem[4:]] = mod.run
+    else:
+        SKIPPED.append(f.stem[4:])
 
 
 def load():
@@ -113,6 +119,8 @@ def main():
                         problems.append(f"{where} question {i + 1}: printed {got!r}, expected {want!r} {err}")
     for p in problems:
         print("FAIL", p)
+    for pid in SKIPPED:
+        print(f"note: {pid} examples not run (see tools/run_{pid}.py for what it needs)")
     print(f"{len(packs)} packs, {checked} snippets run, {len(problems)} problems")
     return 1 if problems else 0
 
