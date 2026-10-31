@@ -366,126 +366,6 @@ window.SGO_CATALOG = {
       "size": 4250983
     },
     {
-      "id": "eng-wycliffe",
-      "name": "Wycliffe Bible (Middle English, c. 1395)",
-      "lang": "enm",
-      "dir": "ltr",
-      "versification": "vul",
-      "license": "CC BY-SA 4.0 (CrossWire Wycliffe module; share alike)",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Wycliffe.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT,DC",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-wycliffe.js",
-      "size": 4905165
-    },
-    {
-      "id": "eng-tyndale",
-      "name": "Tyndale Bible (1525/1530, portions)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Tyndale.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-tyndale.js",
-      "size": 964894
-    },
-    {
-      "id": "eng-darby",
-      "name": "Darby Bible (1889)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Darby.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-darby.js",
-      "size": 4170601
-    },
-    {
-      "id": "eng-webster",
-      "name": "Webster Bible (1833)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Webster.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-webster.js",
-      "size": 4220864
-    },
-    {
-      "id": "eng-rotherham",
-      "name": "The Emphasised Bible (Rotherham, 1902)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Rotherham.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-rotherham.js",
-      "size": 4462637
-    },
-    {
-      "id": "eng-jps-1917",
-      "name": "Jewish Publication Society Old Testament (1917)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "org",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/JPS.json, from the CrossWire SWORD module)",
-      "testaments": "OT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-jps-1917.js",
-      "size": 3247640
-    },
-    {
-      "id": "eng-noyes",
-      "name": "Noyes Translation (1869)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Noyes.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-noyes.js",
-      "size": 2258334
-    },
-    {
-      "id": "eng-twentieth-century-nt",
-      "name": "Twentieth Century New Testament (1904)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Twenty.json, from the CrossWire SWORD module)",
-      "testaments": "NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-twentieth-century-nt.js",
-      "size": 1042496
-    },
-    {
-      "id": "eng-anderson-nt",
-      "name": "Anderson New Testament (1864)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Anderson.json, from the CrossWire SWORD module)",
-      "testaments": "NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-anderson-nt.js",
-      "size": 966560
-    },
-    {
-      "id": "eng-haweis-nt",
-      "name": "Haweis New Testament (1795)",
-      "lang": "en",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/Haweis.json, from the CrossWire SWORD module)",
-      "testaments": "NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-haweis-nt.js",
-      "size": 991311
-    },
-    {
       "id": "fra-crampon",
       "name": "La Sainte Bible (French, Augustin Crampon, 1923)",
       "lang": "fr",
@@ -508,102 +388,6 @@ window.SGO_CATALOG = {
       "testaments": "OT,NT",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-synodale-nt.js",
       "size": 1313731
-    },
-    {
-      "id": "fra-perret-gentil",
-      "name": "Bible Perret-Gentil et Rilliet (French, 1861-1866)",
-      "lang": "fr",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/FrePGR.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-perret-gentil.js",
-      "size": 4371319
-    },
-    {
-      "id": "fra-oltramare-nt",
-      "name": "Le Nouveau Testament (French, Oltramare, 1874)",
-      "lang": "fr",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreOltramare1874.json, from the CrossWire SWORD module)",
-      "testaments": "NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-oltramare-nt.js",
-      "size": 1060577
-    },
-    {
-      "id": "fra-stapfer-nt",
-      "name": "Le Nouveau Testament (French, Stapfer, 1889)",
-      "lang": "fr",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreStapfer1889.json, from the CrossWire SWORD module)",
-      "testaments": "NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-stapfer-nt.js",
-      "size": 1053978
-    },
-    {
-      "id": "deu-elberfelder-1871",
-      "name": "Elberfelder Bibel (German, 1871)",
-      "lang": "de",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/GerElb1871.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/deu-elberfelder-1871.js",
-      "size": 4365382
-    },
-    {
-      "id": "deu-textbibel-1906",
-      "name": "Textbibel (German, Kautzsch and Weizsäcker, 1906)",
-      "lang": "de",
-      "dir": "ltr",
-      "versification": "org",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/GerTextbibel.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/deu-textbibel-1906.js",
-      "size": 4387993
-    },
-    {
-      "id": "spa-rv1865",
-      "name": "Reina-Valera (Spanish, 1865)",
-      "lang": "es",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/SpaRV1865.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/spa-rv1865.js",
-      "size": 3988854
-    },
-    {
-      "id": "swe-karl-xii-1873",
-      "name": "Karl XII:s Bibel (Swedish, 1703, 1873 edition)",
-      "lang": "sv",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/SweKarlXII1873.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/swe-karl-xii-1873.js",
-      "size": 4014547
-    },
-    {
-      "id": "glv-manx",
-      "name": "Yn Vible Casherick (Manx Gaelic, portions)",
-      "lang": "gv",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/ManxGaelic.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/glv-manx.js",
-      "size": 423405
     },
     {
       "id": "deu-menge",
@@ -1290,20 +1074,44 @@ window.SGO_CATALOG = {
       ]
     },
     {
-      "id": "chrysostom-ru-1co-gal",
+      "id": "chrysostom-ru-1ti-1jn",
       "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
       "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
       "lang": "ru",
       "license": "Public Domain",
       "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
       "books": [
-        "1CO",
-        "2CO",
-        "GAL"
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM",
+        "HEB",
+        "JAS",
+        "1PE",
+        "2PE",
+        "1JN"
       ],
       "tradition": "east",
-      "size": 3712047,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-1co-gal.js"
+      "size": 2461163,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-1ti-1jn.js"
+    },
+    {
+      "id": "chrysostom-ru-2co-col",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL"
+      ],
+      "tradition": "east",
+      "size": 3715952,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-2co-col.js"
     },
     {
       "id": "chrysostom-ru-act-rom",
@@ -1317,48 +1125,8 @@ window.SGO_CATALOG = {
         "ROM"
       ],
       "tradition": "east",
-      "size": 3713327,
+      "size": 3714227,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-act-rom.js"
-    },
-    {
-      "id": "chrysostom-ru-eph-phm",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "EPH",
-        "PHP",
-        "COL",
-        "1TH",
-        "2TH",
-        "1TI",
-        "2TI",
-        "TIT",
-        "PHM"
-      ],
-      "tradition": "east",
-      "size": 3806172,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-eph-phm.js"
-    },
-    {
-      "id": "chrysostom-ru-heb-1jn",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "HEB",
-        "JAS",
-        "1PE",
-        "2PE",
-        "1JN"
-      ],
-      "tradition": "east",
-      "size": 1242035,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-heb-1jn.js"
     },
     {
       "id": "chrysostom-ru-jhn",
@@ -1371,22 +1139,8 @@ window.SGO_CATALOG = {
         "JHN"
       ],
       "tradition": "east",
-      "size": 2561794,
+      "size": 2561276,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-jhn.js"
-    },
-    {
-      "id": "chrysostom-ru-mat",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "MAT"
-      ],
-      "tradition": "east",
-      "size": 3720489,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-mat.js"
     },
     {
       "id": "chrysostom-ru-psa-dan",
@@ -1398,11 +1152,12 @@ window.SGO_CATALOG = {
       "books": [
         "PSA",
         "PRO",
+        "ISA",
         "JER",
         "DAN"
       ],
       "tradition": "east",
-      "size": 3331423,
+      "size": 3364775,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-psa-dan.js"
     },
     {
@@ -1593,7 +1348,7 @@ window.SGO_CATALOG = {
         "HEB"
       ],
       "tradition": "east",
-      "size": 2803589,
+      "size": 2812342,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-mat-heb.js"
     },
     {
@@ -1607,7 +1362,7 @@ window.SGO_CATALOG = {
         "PSA"
       ],
       "tradition": "east",
-      "size": 5302962,
+      "size": 5299741,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-psa.js"
     },
     {
@@ -1823,7 +1578,7 @@ window.SGO_CATALOG = {
         "HEB"
       ],
       "tradition": "east",
-      "size": 2226881,
+      "size": 2228207,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-dan-heb.js"
     },
     {
@@ -1843,7 +1598,6 @@ window.SGO_CATALOG = {
         "OBA",
         "JON",
         "NAM",
-        "HAB",
         "ZEP",
         "HAG",
         "ZEC",
@@ -1854,7 +1608,7 @@ window.SGO_CATALOG = {
         "EZK"
       ],
       "tradition": "east",
-      "size": 3953942,
+      "size": 3902064,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-psa-ezk.js"
     },
     {
@@ -1958,7 +1712,7 @@ window.SGO_CATALOG = {
         "JUD"
       ],
       "tradition": "east",
-      "size": 2924585,
+      "size": 2932435,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theophylact-ru-1co-jud.js"
     },
     {
