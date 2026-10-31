@@ -185,9 +185,47 @@
     return (window.LSD_REFERENCE || {})[meta.id] || null;
   }
 
+  // Shared CJK characters: languages/cjk/characters.js (window.LSD_CJK, keyed
+  // by character, with the traditions each belongs to under uses) plus each
+  // tradition's readings (window.LSD_CJK_READINGS.kanji / .hanzi / .hanja),
+  // from japanese/kanji.js, chinese/hanzi.js and hangul/hanja.js.
+  const CJK_TRADITIONS = ["hanzi", "kanji", "hanja"];
+
+  // A Character Learner script for one tradition, in its readings' order:
+  // { name, chars: [{ char, roman, info, ...tradition fields, radical, strokes }], groups? }
+  function cjkScript(tradition) {
+    const r = (window.LSD_CJK_READINGS || {})[tradition];
+    if (!r) return null;
+    const table = window.LSD_CJK || {};
+    const chars = Object.keys(r.chars).map((ch) => {
+      const t = table[ch] || {};
+      const c = Object.assign({ char: ch }, r.chars[ch]);
+      if (t.radical) c.radical = t.radical;
+      if (t.strokes != null) c.strokes = String(t.strokes);
+      return c;
+    });
+    const script = { name: r.name, chars };
+    if (r.groups) script.groups = r.groups;
+    return script;
+  }
+
+  // Everything known about one character: { char, uses, radical, strokes,
+  // readings: { <tradition>: entry } } for the traditions that are loaded.
+  function cjk(ch) {
+    const t = (window.LSD_CJK || {})[ch];
+    if (!t) return null;
+    const readings = {};
+    CJK_TRADITIONS.forEach((k) => {
+      const r = (window.LSD_CJK_READINGS || {})[k];
+      if (r && r.chars[ch]) readings[k] = r.chars[ch];
+    });
+    return Object.assign({ char: ch }, t, { readings });
+  }
+
   // Loads one kind of data for a language and returns it, or null when the
   // language has none:
-  //   characters -> { <characterKey>: script, ... } from window.SCRIPTS
+  //   characters -> { <characterKey>: script, ... } from window.SCRIPTS (CJK
+  //                 traditions built with cjkScript)
   //   grammar    -> window.GRAMMAR[id]
   //   vocab      -> window.LSD_DECKS[id]
   //   reference  -> the parsed reference.json
@@ -200,7 +238,14 @@
     if (kind === "grammar") return (window.GRAMMAR || {})[meta.id] || null;
     if (kind === "vocab") return (window.LSD_DECKS || {})[meta.id] || null;
     if (kind === "characters") {
-      const scripts = window.SCRIPTS || {};
+      const scripts = (window.SCRIPTS = window.SCRIPTS || {});
+      // CJK traditions are put together from the shared table and readings.
+      (meta.characterKeys || []).forEach((k) => {
+        if (!scripts[k] && CJK_TRADITIONS.includes(k)) {
+          const s = cjkScript(k);
+          if (s) scripts[k] = s;
+        }
+      });
       const out = {};
       (meta.characterKeys || []).forEach((k) => {
         if (scripts[k]) out[k] = scripts[k];
@@ -212,6 +257,6 @@
 
   window.LSD = {
     BASE, param, get, all, setParam, toolUrl, picker, store, canSpeak, speak, loadScript, loadCss, piqad,
-    files, has, dataUrls, load,
+    files, has, dataUrls, load, cjkScript, cjk,
   };
 })();
