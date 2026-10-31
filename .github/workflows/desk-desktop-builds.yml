@@ -1,0 +1,76 @@
+name: Desk desktop builds
+
+# Standalone Linux, Windows and macOS builds of the Desk (LanguageStudentDesk.py
+# with Python, Tk and every web app inside), attached to a tagged release.
+# Runs when a release is published; the rolling SquirrelGo *-latest
+# pre-releases are skipped. Run it by hand to attach builds to a release that
+# already exists.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to attach the builds to, e.g. v0.0.3"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desk-desktop-builds-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 22.04 keeps the Linux build working on older glibc.
+          - os: ubuntu-22.04
+            target: linux
+            archive: LanguageStudentDesk-linux.tar.gz
+          - os: windows-latest
+            target: windows
+            archive: LanguageStudentDesk-windows.zip
+          - os: macos-latest
+            target: macos
+            archive: LanguageStudentDesk-macos.zip
+    runs-on: ${{ matrix.os }}
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # The release's own files, and this commit's build script, which an
+      # older tag may not have.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: actions/checkout@v4
+        with:
+          path: .desk-build
+          sparse-checkout: .github/scripts
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller
+
+      - name: Build
+        run: python .desk-build/.github/scripts/build_desk.py ${{ matrix.target }} .
+
+      # The Windows build has no console, so only Linux and macOS are run here.
+      - name: Smoke test
+        if: matrix.target != 'windows'
+        shell: bash
+        run: |
+          ./build/desk/dist/LanguageStudentDesk/LanguageStudentDesk --list | tee tools.txt
+          test "$(wc -l < tools.txt)" -ge 16
+
+      - name: Attach to the release
+        shell: bash
+        run: gh release upload "$TAG" "dist/${{ matrix.archive }}" --clobber --repo "$GITHUB_REPOSITORY"
