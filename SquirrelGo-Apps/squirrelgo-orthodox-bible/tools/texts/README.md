@@ -101,13 +101,35 @@ does not), and the app parses the file as JSON rather than running it.
 | `pes-opv` | کتاب مقدس (Persian, Old Persian Version) | fa | OT, NT | kjv | [eBible.org pesOPV](https://ebible.org/details.php?id=pesOPV) | Public Domain |
 | `swh-krapf-nt` | Agano Jipya (Swahili, Krapf, 1850) | sw | NT | kjv | [eBible.org swh1850](https://ebible.org/details.php?id=swh1850) | Public Domain |
 | `hin-irv` | पवित्र बाइबिल (Hindi, Indian Revised Version, 2017) | hi | OT, NT | kjv | [eBible.org hin2017](https://ebible.org/details.php?id=hin2017) | CC BY-SA 4.0 (Bridge Connectivity Solutions) |
+| `eng-wycliffe` | Wycliffe Bible (Middle English, c. 1395) | enm | OT, NT, deuterocanon | vul | scrollmapper `Wycliffe` (CrossWire) | CC BY-SA 4.0 (CrossWire Wycliffe module; share alike) |
+| `eng-tyndale` | Tyndale Bible (1525/1530, portions) | en | OT, NT | kjv | scrollmapper `Tyndale` (CrossWire) | Public Domain |
+| `eng-darby` | Darby Bible (1889) | en | OT, NT | kjv | scrollmapper `Darby` (CrossWire) | Public Domain |
+| `eng-webster` | Webster Bible (1833) | en | OT, NT | kjv | scrollmapper `Webster` (CrossWire) | Public Domain |
+| `eng-rotherham` | The Emphasised Bible (Rotherham, 1902) | en | OT, NT | kjv | scrollmapper `Rotherham` (CrossWire) | Public Domain |
+| `eng-jps-1917` | Jewish Publication Society Old Testament (1917) | en | OT | org | scrollmapper `JPS` (CrossWire) | Public Domain |
+| `eng-noyes` | Noyes Translation (1869) | en | OT, NT | kjv | scrollmapper `Noyes` (CrossWire) | Public Domain |
+| `eng-twentieth-century-nt` | Twentieth Century New Testament (1904) | en | NT | kjv | scrollmapper `Twenty` (CrossWire) | Public Domain |
+| `eng-anderson-nt` | Anderson New Testament (1864) | en | NT | kjv | scrollmapper `Anderson` (CrossWire) | Public Domain |
+| `eng-haweis-nt` | Haweis New Testament (1795) | en | NT | kjv | scrollmapper `Haweis` (CrossWire) | Public Domain |
+| `fra-perret-gentil` | Bible Perret-Gentil et Rilliet (French, 1861-1866) | fr | OT, NT | kjv | scrollmapper `FrePGR` (CrossWire) | Public Domain |
+| `fra-oltramare-nt` | Le Nouveau Testament (French, Oltramare, 1874) | fr | NT | kjv | scrollmapper `FreOltramare1874` (CrossWire) | Public Domain |
+| `fra-stapfer-nt` | Le Nouveau Testament (French, Stapfer, 1889) | fr | NT | kjv | scrollmapper `FreStapfer1889` (CrossWire) | Public Domain |
+| `deu-elberfelder-1871` | Elberfelder Bibel (German, 1871) | de | OT, NT | kjv | scrollmapper `GerElb1871` (CrossWire) | Public Domain |
+| `deu-textbibel-1906` | Textbibel (German, Kautzsch and Weizsäcker, 1906) | de | OT, NT | org | scrollmapper `GerTextbibel` (CrossWire) | Public Domain |
+| `spa-rv1865` | Reina-Valera (Spanish, 1865) | es | OT, NT | kjv | scrollmapper `SpaRV1865` (CrossWire) | Public Domain |
+| `swe-karl-xii-1873` | Karl XII:s Bibel (Swedish, 1703, 1873 edition) | sv | OT, NT | kjv | scrollmapper `SweKarlXII1873` (CrossWire) | Public Domain |
+| `glv-manx` | Yn Vible Casherick (Manx Gaelic, portions) | gv | OT, NT | kjv | scrollmapper `ManxGaelic` (CrossWire) | Public Domain |
 
 Numbering `org` is the Hebrew one (psalm titles counted as verses, Malachi in
 three chapters) and `vul` the Vulgate's. Partial texts: the Peshitta, Cherokee,
 French Synodale and Albrecht are New Testament only, the Armenian has Genesis,
 Exodus and the Gospels, Makarius's Russian is the Pentateuch, Stritar's
-Slovene is the New Testament and Psalms, and the Gothic is what survives of
-Wulfila's Bible. The Coptic Sahidic text is CC BY-SA: anything derived from
+Slovene is the New Testament and Psalms, the Gothic is what survives of
+Wulfila's Bible, the Tyndale module has Genesis, the Gospels, Acts, Romans,
+1 Corinthians, Hebrews and Revelation, Noyes has the poetic and prophetic books
+and the New Testament, the Manx has Esther, Jonah, Matthew, Luke and John, and
+the Twentieth Century, Anderson, Haweis, Oltramare and Stapfer texts are New
+Testament only. Wycliffe's Middle English Bible is CC BY-SA, like the Coptic. The Coptic Sahidic text is CC BY-SA: anything derived from
 that file must keep the same license and credit the CrossWire module.
 
 ### Considered and left out
@@ -140,6 +162,9 @@ that file must keep the same license and credit the CrossWire module.
   SpaRVG, LEB, AKJV, KorHKJV), and modules with no stated license (Estonian,
   Maori, Modern Hebrew NT). The scrollmapper "Albanian Bible" names no
   edition or translator, so it is left out until its source is known.
+- **David Martin's French Bible (1744, scrollmapper `FreBDM1744`)**: its psalms
+  count titles as verses, as the Hebrew numbering does, but its other books
+  follow the English chapter divisions, so neither scheme maps it correctly.
 - **The eBible corpus line-per-verse files** (BibleNLP/ebible): they squeeze
   every Bible into one verse list, which drops LXX verses that have no
   Hebrew-numbered slot (for example Psalm 9:22-39), so the original USFM is
@@ -153,7 +178,9 @@ generated from the standard Paratext/SIL versification files (`lxx.vrs`,
 MIT) by composing each scheme's map to the "original" scheme with the
 inverse of the English one. Psalm titles that are numbered as verses map to
 `null`. `build_versification.py --check` lists chapters whose verse count
-differs from the declared scheme; most differences are a verse or two (for
+differs from the declared scheme, and flags a Bible when another scheme fits
+it clearly better (fewer than half as many chapters differ), which means its
+`versification` in `sources.py` is probably wrong; most differences are a verse or two (for
 example Romans 14:24-26 in the Byzantine text, which the KJV prints as
 16:25-27). Giguet's French follows the SWORD LXX layout, which does not
 number psalm titles the same way, so its psalms can be a verse or two off.
