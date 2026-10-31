@@ -73,7 +73,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "burmese"
     ],
     "notes": "Burmese in the round Myanmar script, with vowels, tones and medial letters written around each consonant.",
-    "speech": "my-MM"
+    "speech": "my-MM",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "cherokee": {
     "id": "cherokee",
@@ -294,7 +299,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "khmer"
     ],
     "notes": "Khmer, the language of Cambodia, with consonants in two series.",
-    "speech": "km-KH"
+    "speech": "km-KH",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "klingon": {
     "id": "klingon",
@@ -324,7 +334,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "lao"
     ],
     "notes": "Lao, a close cousin of Thai, with consonants in three tone classes.",
-    "speech": "lo-LA"
+    "speech": "lo-LA",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "latin": {
     "id": "latin",
@@ -486,6 +501,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "tibetan"
     ],
     "notes": "Tibetan in the Uchen script, syllables separated by a dot called tsheg.",
-    "speech": "bo"
+    "speech": "bo",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   }
 };
