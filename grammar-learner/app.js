@@ -1,5 +1,5 @@
 // Grammar Learner: lessons with examples and explained drills. Lesson data
-// lives in data/<lang>.js; progress in localStorage under lsd-grammar-v1 as
+// lives in languages/<lang>/grammar.js (data.grammar in its meta.json); progress in localStorage under lsd-grammar-v1 as
 // { <lang>: { <lessonId>: { best, total, done, date } } }.
 (() => {
   const $ = (id) => document.getElementById(id);
@@ -15,16 +15,6 @@
   };
   const pickOne = (a) => a[Math.floor(Math.random() * a.length)];
 
-  const FILES = {
-    japanese: "data/japanese.js",
-    klingon: "data/klingon.js",
-    hangul: "data/hangul.js",
-    arabic: "data/arabic.js",
-    cyrillic: "data/cyrillic.js",
-    hindi: "data/hindi.js",
-    chinese: "data/chinese.js",
-    latin: "data/latin.js",
-  };
   const PASS = 0.8;
 
   const store = LSD.store("lsd-grammar-v1", {});
@@ -37,7 +27,7 @@
   let lessonId = null;
 
   async function init() {
-    const metas = (await LSD.all()).filter((m) => FILES[m.id]);
+    const metas = (await LSD.all()).filter((m) => LSD.has(m, "grammar"));
     LSD.picker($("langSelect"), metas, null, open, "Choose…");
     $("langGrid").innerHTML = metas
       .map((m) => {
@@ -67,10 +57,9 @@
     meta = id ? await LSD.get(id) : null;
     $("langSelect").value = meta ? meta.id : "";
     course = null;
-    if (meta && FILES[meta.id]) {
+    if (meta && LSD.has(meta, "grammar")) {
       try {
-        await LSD.loadScript(FILES[meta.id]);
-        course = window.GRAMMAR[meta.id];
+        course = await LSD.load(meta.id, "grammar");
       } catch (e) {
         course = null;
       }
@@ -141,7 +130,7 @@
     let html = '<div class="card lesson"><h2>' + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>";
     for (const s of l.sections) {
       if (s.h) html += "<h3>" + esc(s.h) + "</h3>";
-      if (s.p) html += "<p>" + s.p.replace(/\{([^}]*)\}/g, "<mark>$1</mark>") + "</p>"; // lesson text is trusted, written in data/*.js
+      if (s.p) html += "<p>" + s.p.replace(/\{([^}]*)\}/g, "<mark>$1</mark>") + "</p>"; // lesson text is trusted, written in languages/*/grammar.js
       (s.examples || []).forEach((ex) => (html += example(ex)));
     }
     if (l.table) html += gridTable(l.table);
