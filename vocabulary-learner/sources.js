@@ -98,16 +98,18 @@
     }));
   }
 
-  // Decks written for the Desk itself (decks/<lang>.js): [word, reading?, English, note].
-  function deskLoader(lang, hasReading) {
+  // Decks written for the Desk itself, in languages/<lang>/vocab.js (data.vocab
+  // in its meta.json). A word is [word, reading, English, note], or
+  // [word, English, note] for languages written without a separate reading.
+  function deskLoader(lang) {
     return async () => {
-      await LSD.loadScript("decks/" + lang + ".js");
-      return (window.LSD_DECKS[lang] || []).map((d) => ({
+      const decks = (await LSD.load(lang, "vocab")) || [];
+      return decks.map((d) => ({
         id: "desk-" + d.id,
         title: d.title,
         group: "Desk starter words",
         cards: d.words.map((w) =>
-          hasReading
+          w.length >= 4
             ? { front: w[0], reading: w[1], back: w[2], note: w[3] || "", speak: w[0] }
             : { front: w[0], reading: "", back: w[1], note: w[2] || "", speak: "" }
         ),
@@ -117,14 +119,11 @@
 
   window.VOCAB_SOURCES = {
     japanese: [kanaDecks, phrasebookDecks, kanjiDecks],
-    klingon: [deskLoader("klingon", false)],
-    chinese: [deskLoader("chinese", true)],
-    arabic: [deskLoader("arabic", true), alphabetLoader("arabic.js", "arabic")],
-    hangul: [deskLoader("hangul", true), alphabetLoader("hangul.js", "hangul")],
-    cyrillic: [deskLoader("cyrillic", true), alphabetLoader("cyrillic.js", "cyrillic")],
-    hindi: [deskLoader("hindi", true), alphabetLoader("devanagari.js", "devanagari")],
-    greek: [deskLoader("greek", true), alphabetLoader("greek.js", "greek")],
-    latin: [deskLoader("latin", false)],
+    arabic: [alphabetLoader("arabic.js", "arabic")],
+    hangul: [alphabetLoader("hangul.js", "hangul")],
+    cyrillic: [alphabetLoader("cyrillic.js", "cyrillic")],
+    hindi: [alphabetLoader("devanagari.js", "devanagari")],
+    greek: [alphabetLoader("greek.js", "greek")],
   };
   // Every other SquirrelGo Alphabets language starts with its example words.
   const ALPHABET_ONLY = {
@@ -135,6 +134,10 @@
     tamazight: "tifinagh", manipuri: "meetei",
   };
   for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.VOCAB_SOURCES[lang] = [alphabetLoader(script + ".js", script)];
+  // Every language with a Desk deck gets it first.
+  for (const meta of Object.values(window.LSD_LANGUAGE_REGISTRY || {})) {
+    if (LSD.has(meta, "vocab")) window.VOCAB_SOURCES[meta.id] = [deskLoader(meta.id), ...(window.VOCAB_SOURCES[meta.id] || [])];
+  }
 
   // Every deck for a language. A source that fails to load (a missing folder,
   // say) is reported and skipped, not fatal.

@@ -11,13 +11,14 @@ const tl = path.join(ROOT, "translation-learner", "data");
 for (const f of fs.readdirSync(tl)) if (f.endsWith(".js") && f !== "network.js") load("translation-learner/data/" + f);
 
 const decks = {};
-const deckDir = path.join(ROOT, "vocabulary-learner", "decks");
-for (const f of fs.readdirSync(deckDir)) {
-  load("vocabulary-learner/decks/" + f);
-  const id = f.replace(/\.js$/, "");
-  // Desk decks are [word, reading, English, note]; Klingon has no reading.
+const langDir = path.join(ROOT, "languages");
+for (const id of fs.readdirSync(langDir).sort()) {
+  if (!fs.existsSync(path.join(langDir, id, "vocab.js"))) continue;
+  load("languages/" + id + "/vocab.js");
+  // Desk decks are [word, reading, English, note], or [word, English, note]
+  // for languages with no separate reading (Klingon, Latin).
   decks[id] = (window.LSD_DECKS[id] || []).flatMap((d) =>
-    d.words.map((w) => (id === "klingon" ? [w[0], "", w[1]] : [w[0], w[1], w[2]]))
+    d.words.map((w) => (w.length >= 4 ? [w[0], w[1], w[2]] : [w[0], "", w[1]]))
   );
 }
 

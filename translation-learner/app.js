@@ -35,7 +35,7 @@
   async function deckEntries(id) {
     if (!(id in DECKS)) return [];
     try {
-      await LSD.loadScript("../vocabulary-learner/decks/" + id + ".js");
+      await LSD.load(id, "vocab");
     } catch (e) {
       return [];
     }
