@@ -2,8 +2,10 @@
 
 Short lessons with worked examples, then a practice round that explains every
 answer. Python has the full beginner course (12 lessons, from `print` to
-classes); QuickBASIC, Delphi, Win16, Z80, brainFOOD, LOLCODE, INTERCAL,
-Whitespace, Piet and Malbolge each have a shorter course. Progress is saved in
+classes). brainFOOD has a full course too (8 lessons, from the eight
+commands to moving, copying, decisions and words in memory). QuickBASIC,
+Delphi, Win16, Z80, LOLCODE, INTERCAL, Whitespace, Piet and Malbolge each
+have a shorter course. Progress is saved in
 the browser.
 
 ## Launch
