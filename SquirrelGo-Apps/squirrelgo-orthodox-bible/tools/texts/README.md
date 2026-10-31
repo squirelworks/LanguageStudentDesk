@@ -208,6 +208,57 @@ Left out of the packs because they are modern translations still in copyright:
 
 Notes whose text is a failed machine translation ("I cannot provide...") are dropped.
 
+### Greek originals (downloadable packs)
+
+So a Father's note can be read in the language he wrote it in, beside the
+English and Russian, `build_commentary_grc.py` (called from
+`build_commentary.py`) builds Greek packs (`"lang": "grc"`) from
+[First1KGreek](https://github.com/OpenGreekAndLatin/First1KGreek) (Open Greek
+and Latin, University of Leipzig), licensed **CC BY-SA 4.0**. The license and
+source are in each pack's first line and catalog entry; anyone who
+redistributes these packs must credit First1KGreek and keep the same license.
+`fetch_sources.sh` checks out only the two folders used.
+
+| Pack | Text | Edition |
+| --- | --- | --- |
+| `catena-grc-*` | Catenae of the Greek Fathers on the whole New Testament (Chrysostom, Cyril of Alexandria, Severian, Theodoret, Isidore of Pelusium, Ammonius and others, each fragment headed with its author), with a second catena on Romans 7-16 and two on Revelation | J. A. Cramer, *Catenae Graecorum Patrum in Novum Testamentum*, Oxford 1838-44 (First1KGreek tlg4102) |
+| `cyril-alexandria-grc` | St Cyril of Alexandria on the Twelve Prophets | P. E. Pusey, Oxford 1868 (First1KGreek tlg4090.tlg001) |
+
+Neither edition numbers verses. Each prints the passage it explains as a short
+paragraph (the lemma), so a lemma is matched word for word (accents ignored)
+against the Greek Bible in the app, Robinson-Pierpont for the New Testament and
+Brenton's Septuagint (`lxx` numbering) for the Prophets, moving forward
+through the book; a comment that quotes a verse a little further on starts a
+note on that verse. The lemma itself is not repeated in the note. Catena
+fragments by Apollinaris, Theodore (of Mopsuestia or Heraclea), Didymus,
+Origen, Eusebius or Severus of Antioch are left out: those headed with the name
+or opening on it ("Θεόδωρος δέ φησι"), and the "Τοῦ αὐτοῦ" fragments that
+follow them. Fathers who only mention one of them are kept. The text is the editors' Greek as OCR'd by First1KGreek, so it has the
+occasional misread letter.
+
+### Latin originals (downloadable packs)
+
+`build_commentary_lat.py` builds Latin packs (`"lang": "la"`) from Open Greek
+and Latin's [CSEL edition](https://github.com/OpenGreekAndLatin/csel-dev)
+(Corpus Scriptorum Ecclesiasticorum Latinorum), also **CC BY-SA 4.0**, with
+the same credit and share-alike terms.
+
+| Pack | Text | Edition |
+| --- | --- | --- |
+| `ambrose-lat` | St Ambrose of Milan on St Luke, on twelve Psalms (1, 35-40, 43, 45, 47, 48, 61) and on Psalm 118 | CSEL 32.4 (Schenkl, 1902), CSEL 64 (Petschenig, 1919), CSEL 62 (Petschenig, 1913) |
+| `hilary-lat` | St Hilary of Poitiers, Tractatus super psalmos (58 Psalms, with Psalm 118 by letter) | CSEL 22 (Zingerle, 1891) |
+
+The Luke commentary prints the verse each section discusses in its margin,
+which gives the key. The Psalm commentaries are split by Psalm and numbered
+section, and each section is keyed to the verse of that Psalm it quotes first,
+matched word pair by word pair against the Clementine Vulgate pack (so
+`fetch_sources.sh` and `build_bibles.py --packs` must run first, as the packs
+workflow does). Notes use the Vulgate numbering (`vul`): Psalm 118 there is
+Psalm 119 in the KJV, and Psalm titles are verse 1. Victorinus of Pettau on
+Revelation is in the same collection but left out for now: the edition prints
+Victorinus's text and St Jerome's revision of it side by side, and they are
+not yet told apart.
+
 ### Russian commentaries (downloadable packs)
 
 Pre-revolutionary Russian translations from [azbyka.ru/otechnik](https://azbyka.ru/otechnik/),
