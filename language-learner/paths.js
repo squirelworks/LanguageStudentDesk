@@ -262,6 +262,10 @@
       gr("gr-basics", "“To be”, “my” and “have”", "ነኝ, ነህ, ነው; the endings for “my” and “your”; and አለ and የለም.", ["to-be", "possessives", "have-not"]),
       gr("gr-more", "Questions, places and verbs", "Question words, ከ-, በ-, ለ- and plurals, and verbs in the present and past.", ["questions", "place-plural", "verbs"]),
     ],
+    cherokee: [
+      gr("gr-basics", "Greetings, names and Set A", "ᎣᏏᏲ and ᏙᎯᏧ; names with ᏓᏆᏙᎠ; and Set A prefixes on ᎦᏬᏂᎭ “is speaking”.", ["greetings", "to-be", "prefixes"]),
+      gr("gr-more", "Want, questions, no and numbers", "Set B ᎠᏆᏚᎵᎭ and ᎨᎦ; questions with ‑Ꮝ and ‑Ꮷ; Ꮭ negation; numbers one to ten.", ["verbs", "questions", "negation-numbers"]),
+    ],
     mongolian: [
       gr("gr-basics", "Pronouns, questions and cases", "Pronouns and биш, questions with уу and үү, and the endings for my, in and from.", ["pronouns", "questions", "cases"]),
       gr("gr-more", "“Have” and verbs", "байна and байхгүй, and verbs in the present and the past.", ["have", "present", "past"]),

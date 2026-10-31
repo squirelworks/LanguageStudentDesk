@@ -105,6 +105,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Cherokee in Sequoyah's syllabary of 85 characters.",
     "speech": "chr",
     "data": {
+      "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
     }
