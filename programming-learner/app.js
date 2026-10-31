@@ -35,7 +35,7 @@
     const norm = (w) => (ci ? w.toUpperCase() : w);
     const cm = p.comment ? p.comment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ".*" : "(?!)";
     const str = /[rRbBfF]{0,2}(?:"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')/.source;
-    const re = new RegExp("(" + cm + ")|(" + (p.noStrings ? "(?!)" : str) + ")|(\\b\\d+(?:\\.\\d+)?\\b)|([A-Za-z_$][A-Za-z0-9_$]*)", "g");
+    const re = new RegExp("(" + cm + ")|(" + (p.noStrings ? "(?!)" : str) + ")|(\\b\\d[0-9A-Fa-f]*[hH]\\b|\\b[01]+[bB]\\b|\\b\\d+(?:\\.\\d+)?\\b)|([A-Za-z_$][A-Za-z0-9_$]*)", "g");
     let out = "";
     let last = 0;
     code.replace(re, (m, c, s, n, w, at) => {

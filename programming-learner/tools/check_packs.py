@@ -2,7 +2,7 @@
 """Checks the Programming Learner packs in ../data/.
 
 Every pack: answers are among their options and options are unique.
-Packs with a runner below (Python, brainFOOD): every example with `out` and
+Packs with a runner below (Python, brainFOOD, Z80 via z80run.py): every example with `out` and
 every practice question of kind "output" is run, and what it prints must match exactly.
 
     python3 programming-learner/tools/check_packs.py
@@ -14,6 +14,9 @@ import pathlib
 import subprocess
 import sys
 import tempfile
+
+sys.dont_write_bytecode = True  # keep tools/ free of __pycache__
+import z80run  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 DATA = HERE.parent / "data"
@@ -65,7 +68,11 @@ def python(code):
     return r.stdout.rstrip("\n"), r.stderr.strip()
 
 
-RUNNERS = {"python": python, "brainfood": brainfood}
+def z80(code):
+    return z80run.run(code)
+
+
+RUNNERS = {"python": python, "brainfood": brainfood, "z80": z80}
 
 
 def load():
