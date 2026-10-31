@@ -24,6 +24,8 @@ The stroke orders and the checked writing pad are loaded from [SquirrelGo Klingo
 - `www/js/strokes.js`: SVG drawing, animation and stroke matching
 - `www/js/writepad.js`: the checked writing pad
 
+The last two are the same stroke player and pad every SquirrelGo character app uses; their source is `SquirrelGo-Apps/shared/`, copied into each app by `SquirrelGo-Apps/tools/sync-shared.sh`. The pad draws in this page's `--accent` color.
+
 These load by relative path, so open the app from the repository tree. `js/pad.js` (the old freehand pad) is no longer loaded.
 
 ## pIqaD on computers
