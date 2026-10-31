@@ -1,0 +1,52 @@
+name: Translation Learner corpora
+
+# Downloads Tatoeba sentence pairs (through OPUS) and kaikki.org's Wiktionary
+# extracts, which not every build machine can reach, reduces them to small
+# link files with translation-learner/tools/fetch_corpora.py, retrains the
+# meaning network, and commits only the small outputs:
+#   translation-learner/tools/tatoeba/links.tsv
+#   translation-learner/tools/wiktionary/<lang>.tsv
+#   translation-learner/data/network.js and data/wordbank/<lang>.js
+# On a branch the commit goes to that branch. On main it goes to the
+# translation-learner-corpora branch instead, to be merged by pull request.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/translation-learner-corpora.yml"
+      - "translation-learner/tools/fetch_corpora.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: translation-learner-corpora-${{ github.ref }}
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install numpy
+        run: pip install numpy==2.1.3
+      - name: Tatoeba sentence pairs
+        run: python3 translation-learner/tools/fetch_corpora.py tatoeba || echo "::warning::Tatoeba could not be downloaded; keeping the links already committed"
+      - name: Wiktionary entries
+        run: python3 translation-learner/tools/fetch_corpora.py wiktionary || echo "::warning::Wiktionary could not be downloaded; keeping the entries already committed"
+      # The link files are committed before retraining, so a retrain that
+      # fails its checks can still be tuned from them on any machine.
+      - name: Commit the link files
+        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: Tatoeba and Wiktionary links" translation-learner/tools/tatoeba translation-learner/tools/wiktionary
+      - name: Retrain the meaning network
+        run: python3 translation-learner/tools/build_network.py
+      - name: Check
+        run: node translation-learner/check.js
+      - name: Commit the retrained network
+        run: bash translation-learner/tools/commit_outputs.sh "Translation Learner: retrain on Tatoeba and Wiktionary" translation-learner/data

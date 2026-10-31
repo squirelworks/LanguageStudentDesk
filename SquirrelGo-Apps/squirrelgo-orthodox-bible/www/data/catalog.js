@@ -995,20 +995,44 @@ window.SGO_CATALOG = {
       ]
     },
     {
-      "id": "chrysostom-ru-1co-gal",
+      "id": "chrysostom-ru-1ti-1jn",
       "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
       "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
       "lang": "ru",
       "license": "Public Domain",
       "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
       "books": [
-        "1CO",
-        "2CO",
-        "GAL"
+        "1TI",
+        "2TI",
+        "TIT",
+        "PHM",
+        "HEB",
+        "JAS",
+        "1PE",
+        "2PE",
+        "1JN"
       ],
       "tradition": "east",
-      "size": 3712047,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-1co-gal.js"
+      "size": 2461163,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-1ti-1jn.js"
+    },
+    {
+      "id": "chrysostom-ru-2co-col",
+      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
+      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
+      "lang": "ru",
+      "license": "Public Domain",
+      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
+      "books": [
+        "2CO",
+        "GAL",
+        "EPH",
+        "PHP",
+        "COL"
+      ],
+      "tradition": "east",
+      "size": 3715952,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-2co-col.js"
     },
     {
       "id": "chrysostom-ru-act-rom",
@@ -1022,48 +1046,8 @@ window.SGO_CATALOG = {
         "ROM"
       ],
       "tradition": "east",
-      "size": 3713327,
+      "size": 3714227,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-act-rom.js"
-    },
-    {
-      "id": "chrysostom-ru-eph-phm",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "EPH",
-        "PHP",
-        "COL",
-        "1TH",
-        "2TH",
-        "1TI",
-        "2TI",
-        "TIT",
-        "PHM"
-      ],
-      "tradition": "east",
-      "size": 3806172,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-eph-phm.js"
-    },
-    {
-      "id": "chrysostom-ru-heb-1jn",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "HEB",
-        "JAS",
-        "1PE",
-        "2PE",
-        "1JN"
-      ],
-      "tradition": "east",
-      "size": 1242035,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-heb-1jn.js"
     },
     {
       "id": "chrysostom-ru-jhn",
@@ -1076,22 +1060,8 @@ window.SGO_CATALOG = {
         "JHN"
       ],
       "tradition": "east",
-      "size": 2561794,
+      "size": 2561276,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-jhn.js"
-    },
-    {
-      "id": "chrysostom-ru-mat",
-      "author": "Святитель Иоанн Златоуст (St John Chrysostom)",
-      "work": "Беседы на Псалмы; Толкования на Притчи Соломона*; Толкование на пророка Иеремию; Толкование на книгу пророка Даниила*; and other works",
-      "lang": "ru",
-      "license": "Public Domain",
-      "source": "https://azbyka.ru/otechnik/ (via the orthodox-bible-sources-ru branch)",
-      "books": [
-        "MAT"
-      ],
-      "tradition": "east",
-      "size": 3720489,
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-mat.js"
     },
     {
       "id": "chrysostom-ru-psa-dan",
@@ -1103,11 +1073,12 @@ window.SGO_CATALOG = {
       "books": [
         "PSA",
         "PRO",
+        "ISA",
         "JER",
         "DAN"
       ],
       "tradition": "east",
-      "size": 3331423,
+      "size": 3364775,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-ru-psa-dan.js"
     },
     {
@@ -1273,7 +1244,7 @@ window.SGO_CATALOG = {
         "HEB"
       ],
       "tradition": "east",
-      "size": 2803589,
+      "size": 2812342,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-mat-heb.js"
     },
     {
@@ -1287,7 +1258,7 @@ window.SGO_CATALOG = {
         "PSA"
       ],
       "tradition": "east",
-      "size": 5302962,
+      "size": 5299741,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/euthymius-ru-psa.js"
     },
     {
@@ -1503,7 +1474,7 @@ window.SGO_CATALOG = {
         "HEB"
       ],
       "tradition": "east",
-      "size": 2226881,
+      "size": 2228207,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-dan-heb.js"
     },
     {
@@ -1523,7 +1494,6 @@ window.SGO_CATALOG = {
         "OBA",
         "JON",
         "NAM",
-        "HAB",
         "ZEP",
         "HAG",
         "ZEC",
@@ -1534,7 +1504,7 @@ window.SGO_CATALOG = {
         "EZK"
       ],
       "tradition": "east",
-      "size": 3953942,
+      "size": 3902064,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theodoret-ru-psa-ezk.js"
     },
     {
@@ -1638,7 +1608,7 @@ window.SGO_CATALOG = {
         "JUD"
       ],
       "tradition": "east",
-      "size": 2924585,
+      "size": 2932435,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/theophylact-ru-1co-jud.js"
     },
     {
