@@ -6,5 +6,5 @@
   "characterKeys": ["kanji"],
   "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
   "speech": "zh-CN",
-  "data": { "grammar": "grammar.js", "reference": "reference.json" }
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }

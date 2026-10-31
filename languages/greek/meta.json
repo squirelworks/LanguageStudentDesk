@@ -6,5 +6,5 @@
   "characterKeys": ["greek"],
   "notes": "Modern Greek in the Greek alphabet, 24 letters with a stress mark.",
   "speech": "el-GR",
-  "data": { "grammar": "grammar.js", "reference": "reference.json" }
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }
