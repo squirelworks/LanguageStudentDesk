@@ -11,7 +11,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "ethiopic"
     ],
     "notes": "Amharic in the Ethiopic fidel, where each letter has seven vowel orders.",
-    "speech": "am-ET"
+    "speech": "am-ET",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "arabic": {
     "id": "arabic",
@@ -97,7 +102,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "cherokee"
     ],
     "notes": "Cherokee in Sequoyah's syllabary of 85 characters.",
-    "speech": "chr"
+    "speech": "chr",
+    "data": {
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "chinese": {
     "id": "chinese",
@@ -267,7 +276,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "syllabics"
     ],
     "notes": "Inuktitut in Canadian syllabics, where turning a shape changes its vowel.",
-    "speech": "iu"
+    "speech": "iu",
+    "data": {
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "japanese": {
     "id": "japanese",
@@ -408,7 +421,11 @@ window.LSD_LANGUAGE_REGISTRY = {
       "meetei"
     ],
     "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
-    "speech": "mni"
+    "speech": "mni",
+    "data": {
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "mongolian": {
     "id": "mongolian",
@@ -421,7 +438,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "mongolian"
     ],
     "notes": "Mongolian in the traditional vertical script used in Inner Mongolia.",
-    "speech": "mn"
+    "speech": "mn",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "odia": {
     "id": "odia",
@@ -488,7 +510,12 @@ window.LSD_LANGUAGE_REGISTRY = {
       "tifinagh"
     ],
     "notes": "Standard Moroccan Tamazight in Tifinagh, the geometric alphabet of the Amazigh (Berber) languages.",
-    "speech": "zgh"
+    "speech": "zgh",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
   },
   "tamil": {
     "id": "tamil",

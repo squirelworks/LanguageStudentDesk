@@ -5,5 +5,6 @@
   "writingSystems": ["syllabics"],
   "characterKeys": ["syllabics"],
   "notes": "Inuktitut in Canadian syllabics, where turning a shape changes its vowel.",
-  "speech": "iu"
+  "speech": "iu",
+  "data": { "vocab": "vocab.js", "reference": "reference.json" }
 }

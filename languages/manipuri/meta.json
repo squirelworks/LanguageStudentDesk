@@ -5,5 +5,6 @@
   "writingSystems": ["meetei"],
   "characterKeys": ["meetei"],
   "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
-  "speech": "mni"
+  "speech": "mni",
+  "data": { "vocab": "vocab.js", "reference": "reference.json" }
 }

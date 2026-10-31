@@ -5,5 +5,6 @@
   "writingSystems": ["ethiopic"],
   "characterKeys": ["ethiopic"],
   "notes": "Amharic in the Ethiopic fidel, where each letter has seven vowel orders.",
-  "speech": "am-ET"
+  "speech": "am-ET",
+  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
 }
