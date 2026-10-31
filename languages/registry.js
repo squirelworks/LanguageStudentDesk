@@ -25,7 +25,10 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Abjad with contextual forms (isolated, initial, medial, final).",
     "speech": "ar-SA",
-    "direction": "rtl"
+    "direction": "rtl",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "armenian": {
     "id": "armenian",
@@ -90,7 +93,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "kanji"
     ],
     "notes": "Shared character set with Japanese Kanji / Korean Hanja. Use for Hanzi view.",
-    "speech": "zh-CN"
+    "speech": "zh-CN",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "cyrillic": {
     "id": "cyrillic",
@@ -103,7 +109,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "cyrillic"
     ],
     "speech": "ru-RU",
-    "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic."
+    "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "english": {
     "id": "english",
@@ -114,7 +123,10 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "characterKeys": [],
     "notes": "English in the Latin alphabet, for learners of English as a second language.",
-    "speech": "en-US"
+    "speech": "en-US",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "georgian": {
     "id": "georgian",
@@ -166,7 +178,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "hangul"
     ],
     "speech": "ko-KR",
-    "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul."
+    "notes": "Hangul alphabet, written in syllable blocks. The id matches the Character Learner's ?lang=hangul.",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "hebrew": {
     "id": "hebrew",
@@ -193,7 +208,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "devanagari"
     ],
     "speech": "hi-IN",
-    "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi."
+    "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "inuktitut": {
     "id": "inuktitut",
@@ -223,7 +241,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "kanji"
     ],
     "notes": "Hiragana, Katakana, and Kanji. Kanji can also be viewed in Hanzi or Hanja context.",
-    "speech": "ja-JP"
+    "speech": "ja-JP",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "kannada": {
     "id": "kannada",
@@ -262,7 +283,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "klingon"
     ],
     "notes": "pIqaD script.",
-    "font": "pIqaD"
+    "font": "pIqaD",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "lao": {
     "id": "lao",
@@ -286,7 +310,10 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "characterKeys": [],
     "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
-    "speech": "la"
+    "speech": "la",
+    "data": {
+      "reference": "reference.json"
+    }
   },
   "malayalam": {
     "id": "malayalam",
