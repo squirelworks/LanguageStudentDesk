@@ -53,6 +53,19 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Bengali (Bangla) in the Bengali–Assamese script.",
     "speech": "bn-BD"
   },
+  "burmese": {
+    "id": "burmese",
+    "name": "Burmese",
+    "nativeName": "မြန်မာ",
+    "writingSystems": [
+      "burmese"
+    ],
+    "characterKeys": [
+      "burmese"
+    ],
+    "notes": "Burmese in the round Myanmar script, with vowels, tones and medial letters written around each consonant.",
+    "speech": "my-MM"
+  },
   "cherokee": {
     "id": "cherokee",
     "name": "Cherokee",
@@ -288,6 +301,19 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Malayalam in the Malayalam script, spoken in Kerala.",
     "speech": "ml-IN"
   },
+  "manipuri": {
+    "id": "manipuri",
+    "name": "Manipuri",
+    "nativeName": "ꯃꯤꯇꯩꯂꯣꯟ",
+    "writingSystems": [
+      "meetei"
+    ],
+    "characterKeys": [
+      "meetei"
+    ],
+    "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
+    "speech": "mni"
+  },
   "mongolian": {
     "id": "mongolian",
     "name": "Mongolian",
@@ -300,6 +326,19 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Mongolian in the traditional vertical script used in Inner Mongolia.",
     "speech": "mn"
+  },
+  "odia": {
+    "id": "odia",
+    "name": "Odia",
+    "nativeName": "ଓଡ଼ିଆ",
+    "writingSystems": [
+      "odia"
+    ],
+    "characterKeys": [
+      "odia"
+    ],
+    "notes": "Odia, the language of Odisha, in its round-topped script; consonants carry a built-in o.",
+    "speech": "or-IN"
   },
   "punjabi": {
     "id": "punjabi",
@@ -326,6 +365,19 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Sinhala in the Sinhala script, spoken in Sri Lanka.",
     "speech": "si-LK"
+  },
+  "tamazight": {
+    "id": "tamazight",
+    "name": "Tamazight",
+    "nativeName": "ⵜⴰⵎⴰⵣⵉⵖⵜ",
+    "writingSystems": [
+      "tifinagh"
+    ],
+    "characterKeys": [
+      "tifinagh"
+    ],
+    "notes": "Standard Moroccan Tamazight in Tifinagh, the geometric alphabet of the Amazigh (Berber) languages.",
+    "speech": "zgh"
   },
   "tamil": {
     "id": "tamil",

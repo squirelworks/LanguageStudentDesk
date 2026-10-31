@@ -12,7 +12,7 @@ Open with `?lang=<id>` (for example `?lang=japanese`) or pick a language on the 
 | Greek | A starter deck written for the Desk (`decks/greek.js`, about 230 words) and SquirrelGo Alphabets example words |
 | Klingon, Chinese | Starter decks written for the Desk (`decks/*.js`, about 250 words each) |
 | Latin | A starter deck written for the Desk (`decks/latin.js`, about 190 words, with genitives, genders and principal parts) |
-| Armenian, Georgian, Hebrew, Amharic, Cherokee, Inuktitut, Mongolian, Thai, Lao, Khmer, Tibetan, Bengali, Punjabi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Sinhala | SquirrelGo Alphabets example words, one for each letter |
+| Armenian, Georgian, Hebrew, Amharic, Cherokee, Inuktitut, Mongolian, Thai, Lao, Khmer, Tibetan, Bengali, Punjabi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Sinhala, Burmese, Odia, Tamazight, Manipuri | SquirrelGo Alphabets example words, one for each letter |
 | Any language | My words: add your own |
 
 Desk decks are lists of `[word, reading, English, note]` (Klingon and Latin leave out the reading; pIqaD is drawn from the romanization).

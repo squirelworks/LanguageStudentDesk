@@ -131,7 +131,8 @@
     armenian: "armenian", georgian: "georgian", hebrew: "hebrew", amharic: "ethiopic", cherokee: "cherokee",
     inuktitut: "syllabics", mongolian: "mongolian", thai: "thai", lao: "lao", khmer: "khmer", tibetan: "tibetan",
     bengali: "bengali", punjabi: "gurmukhi", gujarati: "gujarati", tamil: "tamil", telugu: "telugu",
-    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala",
+    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala", burmese: "burmese", odia: "odia",
+    tamazight: "tifinagh", manipuri: "meetei",
   };
   for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.VOCAB_SOURCES[lang] = [alphabetLoader(script + ".js", script)];
 

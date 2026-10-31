@@ -1,0 +1,9 @@
+{
+  "id": "burmese",
+  "name": "Burmese",
+  "nativeName": "မြန်မာ",
+  "writingSystems": ["burmese"],
+  "characterKeys": ["burmese"],
+  "notes": "Burmese in the round Myanmar script, with vowels, tones and medial letters written around each consonant.",
+  "speech": "my-MM"
+}
