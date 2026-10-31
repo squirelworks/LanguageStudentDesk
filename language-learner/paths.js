@@ -22,14 +22,19 @@
   };
 
   // A script, its example words, first grammar, your own words, then the wider Desk.
-  // grammar is a list of { id, title, text, lessons } steps checked in the Grammar Learner.
-  function alphabetPath(script, appName, grammar) {
-    return [
+  // grammar is a list of { id, title, text, lessons } steps checked in the Grammar Learner;
+  // leave it empty for a language with no lessons yet and the stage is left out.
+  // words is how many example words the script has, when that is fewer than thirty.
+  const COUNT = { 7: "seven", 10: "ten", 12: "twelve", 15: "fifteen", 20: "twenty", 25: "twenty-five", 30: "thirty" };
+  function alphabetPath(script, appName, grammar, words = 30) {
+    const most = Math.min(30, words);
+    const first = Math.min(15, Math.floor(most / 2));
+    const path = [
       {
         title: "Learn the script",
         steps: [
           { id: "script", title: "Learn the letters", text: "Work through the lessons, chart and quiz until you can read every letter without the hint.", tools: tools([appName, ALPHA, true], T.chars) },
-          { id: "words", title: "Read your first words", text: "Each letter comes with an example word. Study fifteen of them in spaced review.", tools: tools(T.vocab), check: { vocab: "sg-" + script + "-words", min: 15 } },
+          { id: "words", title: "Read your first words", text: "Each letter comes with an example word. Study " + COUNT[first] + " of them in spaced review.", tools: tools(T.vocab), check: { vocab: "sg-" + script + "-words", min: first } },
         ],
       },
       {
@@ -39,12 +44,15 @@
       {
         title: "Grow your vocabulary",
         steps: [
-          { id: "more-words", title: "Thirty example words", text: "Keep a few new words coming each day until thirty are in your review.", tools: tools(T.vocab), check: { vocab: "sg-" + script + "-words", min: 30 } },
+          { id: "more-words", title: most === 30 ? "Thirty example words" : "Every example word", text: "Keep a few new words coming each day until " + (most === 30 ? "thirty are" : "all " + COUNT[most] + " are") + " in your review.", tools: tools(T.vocab), check: { vocab: "sg-" + script + "-words", min: most } },
           { id: "mine", title: "Collect ten words of your own", text: "Add words you meet in songs, signs or lessons to My words.", tools: tools(T.vocab), check: { mine: 10 } },
-          { id: "explore", title: "Find a course or a book", text: "Pick a textbook, course or reader to take you further than the Desk's grammar lessons.", tools: tools(T.resources, T.reference) },
+          grammar.length
+            ? { id: "explore", title: "Find a course or a book", text: "Pick a textbook, course or reader to take you further than the Desk's grammar lessons.", tools: tools(T.resources, T.reference) }
+            : { id: "explore", title: "Find a course or a book", text: "Pick a textbook or course for your first sentences. Forvo, Wiktionary and Anki work for every language.", tools: tools(T.resources) },
         ],
       },
     ];
+    return grammar.length ? path : path.filter((stage) => stage.steps.length);
   }
 
   window.LANGUAGE_PATHS = {
@@ -72,6 +80,14 @@
           { id: "kanji-n5", title: "Your first kanji", text: "The JLPT N5 kanji: numbers, days, people, directions. Learn the meanings in review and the stroke order in SquirrelGo Kanji or the Character Learner.", tools: tools(T.vocab, T.chars), check: { vocab: "kanji-n5", min: 30 } },
           { id: "small-particles", title: "Joining ideas", text: "と, も, の, から/まで and the sentence endings か, よ, ね.", tools: tools(T.grammar), check: { grammar: ["to", "mo", "no", "kara-made", "endings"] } },
           { id: "mine", title: "Look up ten words", text: "Search the dictionary in the Vocabulary Learner (Add words) and keep ten words you want to know.", tools: tools(T.vocab, ["SquirrelGo Dictionary", "SquirrelGo-Apps/squirrelgo-dictionary/index.html", true]), check: { mine: 10 } },
+        ],
+      },
+      {
+        title: "Polite verbs",
+        steps: [
+          { id: "desu-masu", title: "です and ます", text: "Say what something is, and what you do, will do and don't do, in polite Japanese.", tools: tools(T.grammar), check: { grammar: ["desu", "masu"] } },
+          { id: "past", title: "The past", text: "ました and ませんでした: what you did yesterday.", tools: tools(T.grammar), check: { grammar: ["mashita"] } },
+          { id: "adj-te", title: "Adjectives and requests", text: "The two kinds of adjective, and asking politely with てください.", tools: tools(T.grammar), check: { grammar: ["adjectives", "te-kudasai"] } },
         ],
       },
       {
@@ -106,6 +122,14 @@
         ],
       },
       {
+        title: "Suffixes and nouns",
+        steps: [
+          { id: "suffixes", title: "Not, can, and questions", text: "-be', -laH and -'a': the three verb suffixes you will use every day.", tools: tools(T.grammar), check: { grammar: ["verb-suffixes"] } },
+          { id: "nouns", title: "Plurals and possessives", text: "-pu', -Du' and -mey, then my, your and their.", tools: tools(T.grammar), check: { grammar: ["noun-plural", "possession"] } },
+          { id: "places", title: "Places, and “to be”", text: "-Daq, -vo' and -vaD, and how tlhIngan jIH says “I am a Klingon”.", tools: tools(T.grammar), check: { grammar: ["locative", "to-be"] } },
+        ],
+      },
+      {
         title: "Who does what to whom",
         steps: [
           { id: "prefixes", title: "The prefix grid", text: "Prefixes with an object, the bare verb, and commands.", tools: tools(T.grammar), check: { grammar: ["with-object", "empty", "imperative"] } },
@@ -128,6 +152,14 @@
         steps: [
           { id: "people", title: "People and questions", text: "我, 你, 他, and 什么, 谁, 哪儿.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 10 } },
           { id: "verbs", title: "Verbs and time", text: "是, 有, 去, 吃 and today/tomorrow/yesterday.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 15 } },
+          { id: "gr-basics", title: "是, 很 and saying no", text: "是 between nouns, 很 with adjectives, and the two negatives 不 and 没.", tools: tools(T.grammar), check: { grammar: ["shi", "hen", "bu-mei"] } },
+        ],
+      },
+      {
+        title: "Asking and describing",
+        steps: [
+          { id: "gr-questions", title: "Questions, 的 and measure words", text: "吗 questions, 我的 and 老师的, and counting things with 个, 本 and 杯.", tools: tools(T.grammar), check: { grammar: ["ma", "de", "measure"] } },
+          { id: "food", title: "Food and drink", text: "Order tea, rice and noodles.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 12 } },
           { id: "mine", title: "Collect ten words of your own", text: "Add words from your textbook or shows to My words.", tools: tools(T.vocab, T.resources), check: { mine: 10 } },
         ],
       },
@@ -144,9 +176,68 @@
       { id: "gr-basics", title: "Это, gender and verbs", text: "Sentences without “is”, he/she/it by the noun's ending, and the present tense of читать.", lessons: ["eto", "gender", "present"] },
       { id: "gr-cases", title: "First case endings and plurals", text: "The object ending -у, в and на with -е, and plurals in -ы and -и.", lessons: ["accusative", "prepositional", "plural"] },
     ]),
+    greek: (() => {
+      const [script, grow] = alphabetPath("greek", "SquirrelGo Alphabets", []);
+      return [
+        script,
+        {
+          title: "First words",
+          steps: [
+            { id: "greetings", title: "Greetings", text: "γεια σου, καλημέρα, ευχαριστώ and παρακαλώ.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 10 } },
+            { id: "numbers", title: "Numbers", text: "Zero to a thousand.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 12 } },
+            { id: "verbs", title: "Everyday verbs", text: "είμαι, έχω, θέλω, πάω and the verbs you need to get around.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 15 } },
+            { id: "food", title: "At the taverna", text: "Order water, coffee, bread and the bill.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 12 } },
+          ],
+        },
+        grow,
+      ];
+    })(),
+    latin: [
+      {
+        title: "First words",
+        steps: [
+          { id: "greetings", title: "Salvē and valē", text: "Greetings and the phrases a Roman would use every day.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 8 } },
+          { id: "sounds", title: "How Latin sounds", text: "Read the overview and pronunciation cards: hard c and g, v said as w, and why the macrons matter.", tools: tools(T.reference) },
+          { id: "numbers", title: "Numbers and numerals", text: "ūnus to mīlle, with the Roman numeral for each.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
+        ],
+      },
+      {
+        title: "First sentences",
+        steps: [
+          { id: "gr-verbs", title: "“To be” and the present tense", text: "sum, es, est, and the six endings that say who does it.", tools: tools(T.grammar), check: { grammar: ["esse", "present"] } },
+          { id: "verbs", title: "Everyday verbs", text: "amō, videō, dīcō, faciō and their principal parts.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 15 } },
+        ],
+      },
+      {
+        title: "Cases",
+        steps: [
+          { id: "gr-cases", title: "Subject, object and plurals", text: "puella and puellam, servus and servum, and their plurals.", tools: tools(T.grammar), check: { grammar: ["nom-acc", "plural"] } },
+          { id: "people", title: "People", text: "Family, friends, masters and citizens, each with its genitive and gender.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 12 } },
+        ],
+      },
+      {
+        title: "Building up",
+        steps: [
+          { id: "gr-more", title: "Agreement and prepositions", text: "bonus, bona, bonum, and the prepositions that take the accusative or the ablative.", tools: tools(T.grammar), check: { grammar: ["agreement", "prepositions"] } },
+          { id: "describing", title: "Describing words", text: "Adjectives to practise agreement with.", tools: tools(T.vocab), check: { vocab: "desk-describing", min: 12 } },
+          { id: "explore", title: "Read real Latin", text: "Find a reader or a course to take you on to the classics.", tools: tools(T.resources, T.reference) },
+        ],
+      },
+    ],
     hindi: alphabetPath("devanagari", "SquirrelGo Alphabets", [
       { id: "gr-basics", title: "“To be”, word order and gender", text: "हूँ, है, हो, हैं; verb-last sentences and questions with क्या; masculine and feminine adjectives.", lessons: ["hona", "word-order", "gender"] },
       { id: "gr-phrases", title: "Postpositions, “of” and the present", text: "में, पर, से, को; का, की, के; and everyday verbs like मैं हिंदी बोलता हूँ.", lessons: ["postpositions", "ka-ki-ke", "present"] },
     ]),
   };
+
+  // The other SquirrelGo Alphabets languages: the script, its example words, then your own.
+  const ALPHABET_ONLY = {
+    armenian: "armenian", georgian: "georgian", hebrew: "hebrew", amharic: "ethiopic", cherokee: "cherokee",
+    inuktitut: "syllabics", mongolian: "mongolian", thai: "thai", lao: "lao", khmer: "khmer", tibetan: "tibetan",
+    bengali: "bengali", punjabi: "gurmukhi", gujarati: "gujarati", tamil: "tamil", telugu: "telugu",
+    kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala",
+  };
+  // Scripts with fewer than thirty example words.
+  const WORDS = { mongolian: 15, syllabics: 20, cherokee: 25 };
+  for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.LANGUAGE_PATHS[lang] = alphabetPath(script, "SquirrelGo Alphabets", [], WORDS[script]);
 })();
