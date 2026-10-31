@@ -447,7 +447,7 @@
 
 <footer>
   LanguageStudentDesk · Character Learner<br>
-  Modular core — add new scripts by dropping in a data file. Progress saved locally.
+  Your progress is saved in this browser.
   <span id="kanjiCoverageNote"></span>
 </footer>
 
@@ -460,8 +460,9 @@
      one flat table; file it under "klingon" so it sits beside the Alphabets scripts. -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"></script>
 <script>window.SG_STROKES = { klingon: window.SG_STROKES };</script>
-<!-- Shared SquirrelGo Alphabets: 25 scripts, their stroke orders and recorded sounds,
-     plus the stroke player and checked writing pad (keys are "<script>|<char>") -->
+<!-- sg-alphabets: written by SquirrelGo-Apps/tools/sync-shared.sh from the Alphabets app's index.html -->
+<!-- Shared SquirrelGo Alphabets: 29 scripts, their stroke orders and recorded sounds,
+     plus the stroke player and checked writing pad below (keys are "<script>|<char>") -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/app.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/latin.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/latin.js"></script>
@@ -493,6 +494,12 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/gujarati.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/gujarati.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/gujarati.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/odia.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/odia.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/odia.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/meetei.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/meetei.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/meetei.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tamil.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tamil.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tamil.js"></script>
@@ -517,6 +524,9 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/ethiopic.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/ethiopic.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/ethiopic.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tifinagh.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tifinagh.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tifinagh.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/cherokee.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/cherokee.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/cherokee.js"></script>
@@ -526,6 +536,9 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/mongolian.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/mongolian.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/mongolian.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/burmese.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/burmese.js"></script>
+<script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/burmese.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/thai.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/thai.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/thai.js"></script>
@@ -538,6 +551,7 @@
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/tibetan.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tibetan.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio/tibetan.js"></script>
+<!-- /sg-alphabets -->
 <!-- Shared SquirrelGo Kana: hiragana and katakana stroke orders (KanjiVG) and recorded sounds -->
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes/hiragana.js"></script>
 <script src="../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes/katakana.js"></script>
@@ -737,7 +751,7 @@ function updateCoverageNote() {
   const n = SCRIPTS.kanji?.chars?.length || 0;
   const strokes = (typeof StrokeOrder !== 'undefined' && window.KANJI_STROKES)
     ? Object.keys(window.KANJI_STROKES).length : 0;
-  el.textContent = ` · Kanji: ${n} Jōyō (same as SquirrelGo) · stroke data: ${strokes}`;
+  el.textContent = strokes >= n ? ` · ${n} Jōyō kanji, each with stroke order` : ` · ${n} Jōyō kanji`;
 }
 
 function cardHTML(c, learnedSet, idx) {

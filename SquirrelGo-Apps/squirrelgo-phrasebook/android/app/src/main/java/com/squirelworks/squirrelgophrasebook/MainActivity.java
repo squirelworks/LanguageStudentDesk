@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setTextZoom(100);
+        // Flashcards play the recorded phrase as soon as a card is shown.
+        settings.setMediaPlaybackRequiresUserGesture(false);
 
         webView.addJavascriptInterface(new Bridge(), "AndroidTTS");
         webView.setWebViewClient(new WebViewClient());
