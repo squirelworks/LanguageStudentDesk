@@ -12,6 +12,7 @@
   const VOCAB = "vocabulary-learner/index.html";
   const GRAMMAR = "grammar-learner/index.html";
   const tools = (...t) => t;
+  const gr = (id, title, text, lessons) => ({ id, title, text, lessons });
   const T = {
     chars: ["Character Learner", CHARS],
     vocab: ["Vocabulary Learner", VOCAB],
@@ -177,7 +178,10 @@
       { id: "gr-cases", title: "First case endings and plurals", text: "The object ending -у, в and на with -е, and plurals in -ы and -и.", lessons: ["accusative", "prepositional", "plural"] },
     ]),
     greek: (() => {
-      const [script, grow] = alphabetPath("greek", "SquirrelGo Alphabets", []);
+      const [script, sentences, grow] = alphabetPath("greek", "SquirrelGo Alphabets", [
+        gr("gr-basics", "“To be”, the article and the present", "είμαι, είσαι, είναι; ο, η, το and gender; and the present tense of everyday verbs.", ["eimai", "articles", "present"]),
+        gr("gr-more", "No, questions, objects and plurals", "Δεν and questions, τον, την, το for the object, and plurals with οι and τα.", ["den-questions", "accusative", "plural"]),
+      ]);
       return [
         script,
         {
@@ -189,6 +193,7 @@
             { id: "food", title: "At the taverna", text: "Order water, coffee, bread and the bill.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 12 } },
           ],
         },
+        sentences,
         grow,
       ];
     })(),
@@ -230,15 +235,99 @@
     ]),
   };
 
-  // The other SquirrelGo Alphabets languages: the script, its example words, then your own.
-  const ALPHABET_ONLY = {
+  // The other SquirrelGo Alphabets languages: the script, its example words, a first
+  // grammar stage where the language has lessons, then your own words.
+  const ALPHABETS = {
     armenian: "armenian", georgian: "georgian", hebrew: "hebrew", amharic: "ethiopic", cherokee: "cherokee",
     inuktitut: "syllabics", mongolian: "mongolian", thai: "thai", lao: "lao", khmer: "khmer", tibetan: "tibetan",
     bengali: "bengali", punjabi: "gurmukhi", gujarati: "gujarati", tamil: "tamil", telugu: "telugu",
     kannada: "kannada", malayalam: "malayalam", sinhala: "sinhala", burmese: "burmese", odia: "odia",
     tamazight: "tifinagh", manipuri: "meetei",
   };
+  // First grammar for those languages; lesson ids match languages/<id>/grammar.js.
+  const FIRST_GRAMMAR = {
+    armenian: [
+      gr("gr-basics", "“To be”, “the” and plurals", "եմ, ես, է; the endings -ը and -ն for “the”; and plurals with -եր and -ներ.", ["em", "article", "plural"]),
+      gr("gr-more", "Verbs, saying no, and cases", "The present with -ում եմ, չ- and questions, and the endings for in, from and “my”.", ["present", "negative", "cases"]),
+    ],
+    georgian: [
+      gr("gr-basics", "“To be”, this and that, plurals", "ვარ, ხარ, არის; ეს, ის and “my”; and plurals with -ები.", ["var", "es-is", "plural"]),
+      gr("gr-more", "Verbs, places and saying no", "The present tense, -ში, -ზე and -დან, and არ, ვერ and questions.", ["present", "places", "ar-questions"]),
+    ],
+    hebrew: [
+      gr("gr-basics", "No “is”, “the” and gender", "Pronouns, the prefix ה־, and adjectives that agree.", ["pronouns", "ha", "gender"]),
+      gr("gr-more", "Verbs, “there is” and prefixes", "The present tense, יש and אין, and ב־, ל־, מ־ and של.", ["present", "yesh-ein", "prefixes"]),
+    ],
+    amharic: [
+      gr("gr-basics", "“To be”, “my” and “have”", "ነኝ, ነህ, ነው; the endings for “my” and “your”; and አለ and የለም.", ["to-be", "possessives", "have-not"]),
+      gr("gr-more", "Questions, places and verbs", "Question words, ከ-, በ-, ለ- and plurals, and verbs in the present and past.", ["questions", "place-plural", "verbs"]),
+    ],
+    mongolian: [
+      gr("gr-basics", "Pronouns, questions and cases", "Pronouns and биш, questions with уу and үү, and the endings for my, in and from.", ["pronouns", "questions", "cases"]),
+      gr("gr-more", "“Have” and verbs", "байна and байхгүй, and verbs in the present and the past.", ["have", "present", "past"]),
+    ],
+    thai: [
+      gr("gr-basics", "Polite words, “to be” and word order", "ครับ and ค่ะ, เป็น, อยู่ and มี, and where describing words go.", ["polite", "pen-yuu-mii", "word-order"]),
+      gr("gr-more", "No, questions, time and counting", "ไม่ and ไหม, time words for past and future, and classifiers.", ["mai-questions", "time", "classifiers"]),
+    ],
+    lao: [
+      gr("gr-basics", "Pronouns, “to be” and word order", "ຂ້ອຍ and ເຈົ້າ, ເປັນ, ຢູ່ and ມີ, and where describing words go.", ["pronouns", "pen-yu-mi", "word-order"]),
+      gr("gr-more", "No, questions, time and counting", "ບໍ່ and ບໍ, time words for past and future, and classifiers.", ["bo-questions", "time", "classifiers"]),
+    ],
+    khmer: [
+      gr("gr-basics", "Pronouns, “to be” and word order", "បាទ and ចាស, ជា, នៅ and មាន, and where describing words go.", ["pronouns", "chea-nov-mean", "word-order"]),
+      gr("gr-more", "No, questions, time and counting", "មិន…ទេ and questions, time words for past and future, and classifiers.", ["min-te", "time", "classifiers"]),
+    ],
+    tibetan: [
+      gr("gr-basics", "Pronouns, “is” and “there is”", "Pronouns and polite words, ཡིན and རེད, and ཡོད and འདུག.", ["pronouns", "yin-re", "yod-duk"]),
+      gr("gr-more", "No, questions and verbs", "Saying no, asking questions, and verbs for now, tomorrow and yesterday.", ["negation", "questions", "verbs"]),
+    ],
+    bengali: [
+      gr("gr-basics", "No “is”, verbs and saying no", "Sentences without “is”, আছে, verbs and politeness, and না and নেই.", ["no-to-be", "present", "na"]),
+      gr("gr-more", "Questions, “the” and cases", "Question words, -টা and -গুলো, and the endings -র and -তে.", ["questions", "ta-gulo", "cases"]),
+    ],
+    punjabi: [
+      gr("gr-basics", "“To be”, word order and gender", "ਹਾਂ, ਹੈ, ਹੋ, ਹਨ; verb-last sentences and questions; masculine and feminine.", ["hona", "word-order", "gender"]),
+      gr("gr-more", "Verbs, postpositions and “of”", "The present tense, ਵਿੱਚ, ਉੱਤੇ, ਤੋਂ, ਨੂੰ, and ਦਾ, ਦੀ, ਦੇ.", ["present", "postpositions", "da-di-de"]),
+    ],
+    gujarati: [
+      gr("gr-basics", "“To be”, questions and gender", "છું, છે, છો; questions and નથી; and the three genders.", ["chhe", "questions", "gender"]),
+      gr("gr-more", "Verbs, places and “of”", "The present tense, -માં, -પર, -થી, and નો, ની, નું.", ["present", "places", "no-ni-nu"]),
+    ],
+    tamil: [
+      gr("gr-basics", "Pronouns, verbs and saying no", "Sentences without “is”, the present tense, and இருக்கிறது and இல்லை.", ["pronouns", "present", "illai"]),
+      gr("gr-more", "Questions, cases and plurals", "Questions, the endings for in, from and to, “my”, and plurals with -கள்.", ["questions", "cases", "en-kal"]),
+    ],
+    telugu: [
+      gr("gr-basics", "Pronouns, verbs and saying no", "Sentences without “is”, the present with -తున్నాను, and కాదు and లేదు.", ["pronouns", "present", "kaadu-ledu"]),
+      gr("gr-more", "Questions, cases and plurals", "Questions, -లో, నుండి and -కి, “my”, and plurals with -లు.", ["questions", "cases", "naa-lu"]),
+    ],
+    kannada: [
+      gr("gr-basics", "Pronouns, verbs and saying no", "Sentences without “is”, the present tense, and ಇದೆ, ಇಲ್ಲ and ಅಲ್ಲ.", ["pronouns", "present", "illa-alla"]),
+      gr("gr-more", "Questions, cases and plurals", "Questions, the endings for in, from and to, “my”, and plurals with -ಗಳು.", ["questions", "cases", "nanna-galu"]),
+    ],
+    malayalam: [
+      gr("gr-basics", "“Is”, verbs and saying no", "ആണ്, the present tense, and ഉണ്ട്, ഇല്ല and അല്ല.", ["aanu", "present", "illa-alla"]),
+      gr("gr-more", "Questions, cases and plurals", "Questions, the endings for in, from and to, “my”, and plurals with -കൾ.", ["questions", "cases", "ente-kal"]),
+    ],
+    sinhala: [
+      gr("gr-basics", "No “is”, verbs and saying no", "Sentences without “is”, the present with -නවා, and නෑ and නෙවෙයි.", ["no-to-be", "present", "nae"]),
+      gr("gr-more", "Questions, “there is” and cases", "Questions with ද, ඉන්නවා and තියෙනවා, and the endings for to, from and “my”.", ["questions", "inna-thiyena", "cases"]),
+    ],
+    burmese: [
+      gr("gr-basics", "Pronouns, “is” and verb endings", "Pronouns and politeness, ပါ and ရှိတယ်, and the endings တယ်, မယ် and ပြီ.", ["pronouns", "pa-shi", "endings"]),
+      gr("gr-more", "No, questions and particles", "မ…ဘူး, questions with လား and လဲ, place particles and counting.", ["ma-bu", "questions", "particles"]),
+    ],
+    odia: [
+      gr("gr-basics", "No “is”, verbs and saying no", "Sentences without “is”, ଅଛି, the present with -ଉଛି, and ନାହିଁ.", ["achhi", "present", "nahin"]),
+      gr("gr-more", "Questions, cases and plurals", "Questions, -ରେ, -ରୁ and -କୁ, “my”, and plurals.", ["questions", "cases", "mora-mane"]),
+    ],
+    tamazight: [
+      gr("gr-basics", "Pronouns, gender and plurals", "Pronouns and ⴷ, masculine and feminine nouns, and plurals.", ["pronouns", "gender", "plural"]),
+      gr("gr-more", "“My”, places and verbs", "ⵉⵏⵓ and ⵏⵏⴽ, ⴳ, ⵣⴳ, ⵙ and ⵏ, and verbs in the past with ⵓⵔ for “not”.", ["possession", "places", "verbs"]),
+    ],
+  };
   // Scripts with fewer than thirty example words.
   const WORDS = { mongolian: 15, meetei: 18, syllabics: 20, tifinagh: 23, cherokee: 25 };
-  for (const [lang, script] of Object.entries(ALPHABET_ONLY)) window.LANGUAGE_PATHS[lang] = alphabetPath(script, "SquirrelGo Alphabets", [], WORDS[script]);
+  for (const [lang, script] of Object.entries(ALPHABETS)) window.LANGUAGE_PATHS[lang] = alphabetPath(script, "SquirrelGo Alphabets", FIRST_GRAMMAR[lang] || [], WORDS[script]);
 })();
