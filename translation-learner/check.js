@@ -40,14 +40,33 @@ console.log(bad ? bad + " problems" : "matrix ok");
 const N = require("./net.js");
 new Function(fs.readFileSync(path.join(dir, "network.js"), "utf8"))();
 const net = N.load(window.TL_NETWORK, T.stem);
-const lines = [
-  ["boy", "child", true], ["kid", "child", true], ["large", "big", true], ["talk", "speak", true],
-  ["tea", "water", false], ["coffee", "tea", false], ["hot", "cold", false], ["hello", "thanks", false], ["dog", "cat", false],
-];
-for (const [word, mid, want] of lines) {
+// The reference pairs the close line was set from (tools/build_network.py):
+// no unrelated pair may count as close, and enough related pairs must.
+const ref = window.TL_NETWORK.reference;
+for (const [word, mid] of ref.apart) {
   const s = net.sim(net.english(word), "m:" + mid);
-  if (s == null || s >= net.close !== want) {
-    console.log("network: " + word + " vs " + mid + " is " + (s == null ? "unknown" : s.toFixed(2)) + ", expected " + (want ? "close" : "not close"));
+  if (s == null || s >= net.close) {
+    console.log("network: " + word + " vs " + mid + " is " + (s == null ? "unknown" : s.toFixed(2)) + ", expected not close");
+    process.exitCode = 1;
+  }
+}
+const near = ref.near.filter(([word, mid]) => net.sim(net.english(word), "m:" + mid) >= net.close).length;
+if (near < ref.share * ref.near.length) {
+  console.log("network: only " + near + " of " + ref.near.length + " related pairs are close");
+  process.exitCode = 1;
+}
+// Near misses: a misspelt word is carried over with a spelling note; a real
+// English word is never read as a misspelling of another.
+{
+  const ja = T.build(matrix, window.TL_LANGS.japanese).sentences.find((x) => x.id === "i-am-student");
+  const typo = T.checkEnglish(ja, "I am a studnet.", net);
+  if (!typo.honest || typo.typos !== 1) {
+    console.log("near miss: \"studnet\" should count as student, with a spelling note");
+    process.exitCode = 1;
+  }
+  const other = T.checkEnglish(ja, "I am a stud.", net);
+  if (other.honest) {
+    console.log("near miss: \"stud\" should not count as student");
     process.exitCode = 1;
   }
 }

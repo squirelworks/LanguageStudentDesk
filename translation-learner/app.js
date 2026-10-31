@@ -274,7 +274,7 @@
         .join(" ");
     let html = '<div class="verdict ' + (honest ? "ok" : "bad") + '">';
     if (override) html += "Counted as right.";
-    else if (r.honest) html += "Every meaning carried over, nothing added.";
+    else if (r.honest) html += "Every meaning carried over, nothing added." + (r.typos ? " Check the spelling below." : "");
     else {
       const parts = [];
       if (r.dropped) parts.push(r.dropped + (r.dropped === 1 ? " meaning" : " meanings") + " missing");
@@ -290,7 +290,8 @@
     });
     implied.forEach((u) => (html += piece("—", "", u.meaning.label, u.status === "kept" ? "kept" : "grammar", u.status === "kept" ? "“" + u.matched.join(" ") + "”" : "implied")));
     html += "</div>";
-    if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label)).join(", ") + ".</p>";
+    if (r.typos) html += '<p class="small">Spelling: ' + r.units.filter((u) => u.typo).map((u) => "“" + esc(u.matched[0]) + "” is spelt “" + esc(u.typo) + "”").join(", ") + ".</p>";
+    if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(T.closeCredit(u.sim, state.net.close) * 100) + "% credit)").join(", ") + ".</p>";
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";
     html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-close">close</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
@@ -528,16 +529,22 @@
     nextWord();
   }
 
-  function drawBank() {
+  // The word bank as the filter and search box show it.
+  function shownWords() {
     const filter = $("wbFilter").value;
     const q = $("wbSearch").value.trim().toLowerCase();
+    return state.bank.filter((w) => {
+      if (filter === "known" && !w.english) return false;
+      if (filter === "unknown" && w.english) return false;
+      return !q || w.word.includes(q) || w.english.toLowerCase().includes(q);
+    });
+  }
+
+  function drawBank() {
     const list = $("wbList");
     list.innerHTML = "";
     list.dir = state.meta && state.meta.direction === "rtl" ? "rtl" : "ltr";
-    for (const w of state.bank) {
-      if (filter === "known" && !w.english) continue;
-      if (filter === "unknown" && w.english) continue;
-      if (q && !w.word.includes(q) && !w.english.toLowerCase().includes(q)) continue;
+    for (const w of shownWords()) {
       const b = document.createElement("button");
       b.className = w.english ? "" : "none";
       b.innerHTML = '<span class="n">' + w.rank + '</span><span class="w target">' + esc(w.word) + '</span><span class="e">' + esc(w.english || "—") + "</span>";
@@ -581,19 +588,26 @@
     const want = new Set(T.englishWords(w.english).map((x) => x.stem));
     const said = T.englishWords(answer);
     let verdict = "bad", text = "Not quite.";
+    const typo = !said.some((x) => want.has(x.stem)) && said.find((x) =>
+      !(state.net && state.net.has("en:" + x.word)) && T.englishWords(w.english).some((y) => T.misspelt(x.word, y.word)));
     if (said.some((x) => want.has(x.stem))) {
       verdict = "ok";
       text = "Right.";
+    } else if (typo) {
+      verdict = "ok";
+      const right = T.englishWords(w.english).find((y) => T.misspelt(typo.word, y.word));
+      text = "Right, but it is spelt “" + esc(right.word) + "”.";
     } else if (state.net) {
       const key = state.lang + ":" + (state.net.has(state.lang + ":" + w.word) ? w.word : w.base);
-      const best = Math.max(...said.map((x) => {
+      let best = -1, bestWord = "";
+      said.forEach((x) => {
         const n = state.net.english(x.word);
         const s = n == null ? null : state.net.sim(n, key);
-        return s == null ? -1 : s;
-      }));
+        if (s != null && s > best) (best = s), (bestWord = x.word);
+      });
       if (best >= state.net.close) {
         verdict = "close";
-        text = "Close: the meaning network puts your word next to it.";
+        text = "Close: “" + esc(bestWord) + "” is near it in meaning, but not quite it.";
       }
     }
     $("wpInput").disabled = true;
@@ -606,6 +620,36 @@
     $("wpResult").hidden = false;
     $("wpNext").onclick = nextWord;
     $("wpNext").focus();
+  }
+
+  // ---- Practice sets ----
+  // Tab-separated files that Anki (File > Import) and spreadsheets read. The
+  // header lines starting with # are Anki's import settings.
+
+  function download(name, columns, rows) {
+    const clean = (v) => String(v == null ? "" : v).replace(/[\t\r\n]+/g, " ");
+    const lines = ["#separator:tab", "#html:false", "#columns:" + columns.join("\t")];
+    rows.forEach((r) => lines.push(r.map(clean).join("\t")));
+    const blob = new Blob([lines.join("\n") + "\n"], { type: "text/tab-separated-values;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  function exportWords() {
+    const words = shownWords().filter((w) => w.english);
+    const credit = "Word list: " + state.bankCredit;
+    download(state.lang + "-top-words.tsv", ["Word", "English", "Dictionary form", "Rank", "Source"],
+      words.map((w) => [w.word, w.english, w.base, w.rank, credit]));
+  }
+
+  function exportSentences() {
+    download(state.lang + "-sentences.tsv", ["Sentence", "Reading", "English", "Meanings"],
+      state.sentences.map((s) => [sentenceText(s), sentenceReading(s), s.en, s.tokens.map((t) => T.bare(t.text) + " = " + t.units.map(unitLabel).join(" + ")).join("; ")]));
   }
 
   // ---- Tabs ----
@@ -657,6 +701,8 @@
   $("tgSkip").onclick = () => next("toTarget");
   $("bdGo").onclick = breakDown;
   $("wbFilter").onchange = drawBank;
+  $("wbExport").onclick = exportWords;
+  $("sentExport").onclick = exportSentences;
   $("wbSearch").oninput = drawBank;
   $("wpCheck").onclick = checkWord;
   $("wpInput").addEventListener("keydown", (e) => {

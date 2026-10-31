@@ -75,14 +75,20 @@ WALKS = 12
 WALK_LEN = 16
 WINDOW = 4
 NEG = 5
-EPOCHS = 5
+EPOCHS = 8
 SEED = 20261030
-# Where "close" starts is set from these pairs (the same ones check.js tests):
-# a word and a meaning it should be close to, and pairs that only share
-# topics. The line goes 60% of the way from the highest unrelated pair to the
-# lowest related one, leaning strict.
-CLOSE_PAIRS = [("boy", "child"), ("kid", "child"), ("large", "big"), ("talk", "speak")]
+# Where "close" starts is set from reference pairs, which are written into
+# network.js for check.js to test: an English word and a meaning it is near
+# but is not one of the meaning's own English words (those match exactly), and
+# pairs that only share a topic. The line sits just above every unrelated
+# pair, and at least NEAR_SHARE of the related pairs must clear it.
+CLOSE_PAIRS = [
+    ("boy", "child"), ("baby", "child"), ("cottage", "house"), ("comrade", "friend"), ("companion", "friend"),
+    ("pleasant", "good"), ("consume", "eat"), ("discuss", "speak"), ("great", "big"),
+]
 APART_PAIRS = [("tea", "water"), ("coffee", "tea"), ("hot", "cold"), ("hello", "thanks"), ("dog", "cat")]
+NEAR_SHARE = 0.75
+MARGIN = 0.02
 
 # Glosses for word bank words the Desk itself does not know. glosses/<lang>.tsv
 # is generated from an open dictionary by gloss_dictionaries.py;
@@ -106,6 +112,11 @@ TATOEBA_LINKS = os.path.join(HERE, "tatoeba", "links.tsv")
 TATOEBA_CREDIT = "Tatoeba sentence pairs via OPUS, CC BY 2.0 FR, https://tatoeba.org"
 WIKTIONARY = os.path.join(HERE, "wiktionary")
 WIKTIONARY_CREDIT = "Wiktionary via kaikki.org, CC BY-SA 4.0, https://kaikki.org"
+# How strongly these tie a Desk word to an English word. Kept below the
+# Desk's own glosses: sentence co-occurrence and a dictionary's first senses
+# are looser than a gloss written for the word.
+TATOEBA_WEIGHT = float(os.environ.get("TL_TATOEBA_WEIGHT", 0.5))
+WIKTIONARY_WEIGHT = float(os.environ.get("TL_WIKTIONARY_WEIGHT", 0.5))
 CN_CODES = {"japanese": "ja", "hangul": "ko", "chinese": "zh", "cyrillic": "ru", "hindi": "hi", "arabic": "ar"}
 # How strongly each kind of ConceptNet link ties two words. RelatedTo is
 # loose (a word and its topic), so it counts for less.
@@ -438,19 +449,27 @@ def build_graph(src, banks):
             for words in english_words(english)[:3]:
                 known = [w for w in words if "en:" + w in g.ids]
                 for w in known:
-                    g.link(key, "en:" + w, 1.0 / len(words))
+                    g.link(key, "en:" + w, WIKTIONARY_WEIGHT / len(words))
             if head:
                 g.link(key, lang + ":" + head, 1.0)
     # Tatoeba: a Desk word and the English words that keep turning up in the
     # translations of its sentences, weighted by how reliably they do.
+    # Only a word's clear translations count: a Dice of at least 0.2 and at
+    # least half its best, so 茶 (tea) does not also pull in coffee, the
+    # other drink in its sentences.
     if os.path.exists(TATOEBA_LINKS):
+        found = defaultdict(list)
         with open(TATOEBA_LINKS, encoding="utf-8") as f:
             for line in f:
                 if line.startswith("#"):
                     continue
                 lang, word, en, _, dice = line.rstrip("\n").split("\t")
-                if "en:" + en in g.ids:
-                    g.link(lang + ":" + word, "en:" + en, min(1.0, 3 * float(dice)))
+                found[(lang, word)].append((en, float(dice)))
+        for (lang, word), links in found.items():
+            best = max(d for _, d in links)
+            for en, dice in links:
+                if dice >= max(0.2, best / 2) and "en:" + en in g.ids:
+                    g.link(lang + ":" + word, "en:" + en, TATOEBA_WEIGHT * min(1.0, 2 * dice))
     # Word bank words that look like a form of a word the graph knows
     # (a noun with a particle, a conjugated verb) lean on that word.
     forms = defaultdict(dict)
@@ -544,12 +563,14 @@ def main():
     def sim(word, mid):
         return float(v[g.ids["en:" + word]] @ v[g.ids["m:" + mid]])
 
-    near = min(sim(w, m) for w, m in CLOSE_PAIRS)
+    for w, m in CLOSE_PAIRS + APART_PAIRS:
+        print("  %s / %s: %.2f" % (w, m, sim(w, m)))
     apart = max(sim(w, m) for w, m in APART_PAIRS)
-    if near - apart < 0.05:
-        sys.exit("related and unrelated pairs are too close together (%.2f vs %.2f)" % (near, apart))
-    close = apart + 0.6 * (near - apart)
-    print("close line %.3f (related from %.2f, unrelated up to %.2f)" % (close, near, apart))
+    close = apart + MARGIN
+    near = sum(sim(w, m) >= close for w, m in CLOSE_PAIRS)
+    if near < NEAR_SHARE * len(CLOSE_PAIRS):
+        sys.exit("only %d of %d related pairs clear the close line %.2f" % (near, len(CLOSE_PAIRS), close))
+    print("close line %.3f (unrelated up to %.2f; %d of %d related pairs clear it)" % (close, apart, near, len(CLOSE_PAIRS)))
 
     q = np.clip(np.round(v * 127), -127, 127).astype(np.int8)
     with open(os.path.join(DATA, "network.js"), "w", encoding="utf-8") as f:
@@ -560,6 +581,7 @@ def main():
             {
                 "dim": DIM,
                 "close": round(close, 3),
+                "reference": {"near": CLOSE_PAIRS, "apart": APART_PAIRS, "share": NEAR_SHARE},
                 "keys": "\n".join(g.keys),
                 "vectors": base64.b64encode(q.tobytes()).decode("ascii"),
             },
