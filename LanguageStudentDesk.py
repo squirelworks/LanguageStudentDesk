@@ -85,10 +85,11 @@ TOOLS = {
 }
 GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 
-# ?lang= values the scoped tools understand beyond languages/*/meta.json.
+# ?lang= values the scoped tools understand that are not languages in
+# languages/registry.js: the Programming Learner's courses.
 EXTRA_LANGS = [
-    "cyrillic", "hangul", "hindi", "latin", "english", "python",
-    "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace", "win16", "z80",
+    "python", "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace",
+    "win16", "z80",
 ]
 
 
@@ -127,15 +128,25 @@ def scan_tools():
     return tools
 
 
+def load_registry():
+    """languages/registry.js, which languages/build_registry.py generates from
+    every languages/<id>/meta.json, as {id: meta}."""
+    try:
+        text = (BASE / "languages" / "registry.js").read_text(encoding="utf-8")
+        body = text.split("window.LSD_LANGUAGE_REGISTRY =", 1)[1].strip().rstrip(";")
+        return json.loads(body)
+    except (OSError, ValueError, IndexError):
+        return {}
+
+
 def load_languages():
-    """Language ids for ?lang=: languages/*/meta.json first, then the extras."""
-    langs = []
-    for meta in sorted((BASE / "languages").glob("*/meta.json")):
-        try:
-            langs.append(json.loads(meta.read_text(encoding="utf-8"))["id"])
-        except (OSError, ValueError, KeyError):
-            continue
-    return langs + [x for x in EXTRA_LANGS if x not in langs]
+    """(id, label) pairs for the ?lang= dropdown: every language in the
+    registry, by name, then the Programming Learner's courses by id."""
+    metas = sorted(load_registry().values(), key=lambda m: m.get("name", m["id"]).lower())
+    langs = [(m["id"], m.get("name", m["id"]) + (f" · {m['nativeName']}" if m.get("nativeName") else ""))
+             for m in metas]
+    ids = {i for i, _ in langs}
+    return langs + [(x, x) for x in EXTRA_LANGS if x not in ids]
 
 
 def home_page(tools):
@@ -148,16 +159,35 @@ def home_page(tools):
         rows.append(f"<h2>{html.escape(group)}</h2><ul>")
         for t in items:
             apk = f' · <a href="{t.apk_url}">Android APK</a>' if t.apk else ""
-            rows.append(f'<li><a href="/{quote(t.rel)}"><strong>{html.escape(t.title)}</strong></a>'
+            scoped = ' data-scoped="1"' if t.scoped else ""
+            rows.append(f'<li><a href="/{quote(t.rel)}"{scoped}><strong>{html.escape(t.title)}</strong></a>'
                         f'<br><span>{html.escape(t.desc)}{apk}</span></li>')
         rows.append("</ul>")
+    options = "".join(f'<option value="{html.escape(i)}">{html.escape(label)}</option>' for i, label in load_languages())
+    picker = (f'<p><label>Language <select id="lang"><option value="">Any</option>{options}</select></label>'
+              ' <span>Tools that teach one language at a time open in this one.</span></p>')
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Language Student Desk</title>
 <style>body{{font-family:system-ui,sans-serif;background:#0f0f12;color:#e8e8e8;margin:0 auto;max-width:760px;padding:1.5rem}}
 h1{{color:#ffd54f}}h2{{color:#aaa;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}}
 ul{{list-style:none;padding:0}}li{{background:#1a1a20;border-radius:8px;padding:.8rem 1rem;margin:.5rem 0}}
-a{{color:#ffd54f}}span{{color:#aaa;font-size:.9rem}}</style></head><body>
-<h1>Language Student Desk</h1>{''.join(rows)}</body></html>"""
+a{{color:#ffd54f}}span{{color:#aaa;font-size:.9rem}}
+select{{background:#1a1a20;color:#e8e8e8;border:1px solid #333;border-radius:6px;padding:.3rem .5rem;margin-left:.4rem}}</style></head><body>
+<h1>Language Student Desk</h1>{picker}{''.join(rows)}
+<script>
+const pick = document.getElementById("lang");
+pick.value = localStorage.getItem("lsd-desk-lang") || "";
+function scope() {{
+  localStorage.setItem("lsd-desk-lang", pick.value);
+  document.querySelectorAll("a[data-scoped]").forEach((a) => {{
+    const u = new URL(a.getAttribute("href"), location.href);
+    if (pick.value) u.searchParams.set("lang", pick.value); else u.searchParams.delete("lang");
+    a.href = u.pathname + u.search;
+  }});
+}}
+pick.onchange = scope;
+scope();
+</script></body></html>"""
 
 
 class DeskServer:
@@ -296,8 +326,10 @@ def run_gui(tools, server):
     lang_frame.pack(anchor="w", pady=4)
     ttk.Label(lang_frame, text="Language:").pack(side="left")
     lang_var = tk.StringVar()
-    lang_combo = ttk.Combobox(lang_frame, textvariable=lang_var, width=18, state="readonly",
-                              values=[""] + load_languages())
+    languages = load_languages()
+    lang_ids = {label: lang_id for lang_id, label in languages}
+    lang_combo = ttk.Combobox(lang_frame, textvariable=lang_var, width=28, state="readonly",
+                              values=[""] + [label for _, label in languages])
     lang_combo.pack(side="left", padx=8)
     lang_note = ttk.Label(lang_frame, text="", style="Muted.TLabel")
     lang_note.pack(side="left")
@@ -369,7 +401,7 @@ def run_gui(tools, server):
         if not t.index.exists():
             messagebox.showwarning("Not found", "The selected tool's files are missing. Try searching again.")
             return
-        lang = lang_var.get().strip()
+        lang = lang_ids.get(lang_var.get(), "")
         webbrowser.open(tool_url(t, server, lang))
         scope = f" (lang={lang})" if lang and t.scoped else ""
         status.config(text=f"Opened {t.title} in browser{scope}")
@@ -384,7 +416,7 @@ def run_gui(tools, server):
         t = selected()
         if t:
             root.clipboard_clear()
-            root.clipboard_append(tool_url(t, server, lang_var.get().strip()))
+            root.clipboard_append(tool_url(t, server, lang_ids.get(lang_var.get(), "")))
             status.config(text="Link copied. It works while the Desk is open.")
 
     open_btn.config(command=open_selected)
