@@ -35,11 +35,20 @@
     return cache[id];
   }
 
+  // English name, then id. The registry is keyed by folder id (hangul, cyrillic),
+  // which is not the name on the language bar.
+  function byName(a, b) {
+    const an = String((a && a.name) || (a && a.id) || "");
+    const bn = String((b && b.name) || (b && b.id) || "");
+    return an.localeCompare(bn, "en", { sensitivity: "base" }) || String(a.id || "").localeCompare(String(b.id || ""));
+  }
+
   // Every language in the registry, with fresh meta where it can be fetched.
+  // Sorted by the name the language bar shows, so a new language slots itself in.
   async function all() {
     const ids = Object.keys(REGISTRY);
     const metas = await Promise.all(ids.map(get));
-    return metas.filter(Boolean);
+    return metas.filter(Boolean).sort(byName);
   }
 
   // Sets ?lang= in the address bar without reloading (null clears it).
@@ -60,7 +69,7 @@
   function picker(select, metas, current, onChange, allLabel) {
     select.innerHTML = "";
     if (allLabel) select.add(new Option(allLabel, ""));
-    metas.forEach((m) => select.add(new Option(m.name + (m.nativeName ? " · " + m.nativeName : ""), m.id)));
+    metas.slice().sort(byName).forEach((m) => select.add(new Option(m.name + (m.nativeName ? " · " + m.nativeName : ""), m.id)));
     select.value = current || "";
     select.onchange = () => {
       setParam(select.value || null);

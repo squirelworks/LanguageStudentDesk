@@ -165,6 +165,24 @@ window.LSD_LANGUAGE_REGISTRY = {
       "reference": "reference.json"
     }
   },
+  "french": {
+    "id": "french",
+    "name": "French",
+    "nativeName": "français",
+    "writingSystems": [
+      "latin"
+    ],
+    "characterKeys": [
+      "latin"
+    ],
+    "notes": "Standard French in the Latin alphabet, with accents and the cedilla.",
+    "speech": "fr-FR",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
+  },
   "georgian": {
     "id": "georgian",
     "name": "Georgian",
@@ -177,6 +195,24 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Georgian in Mkhedruli, which has no capital letters.",
     "speech": "ka-GE",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
+  },
+  "german": {
+    "id": "german",
+    "name": "German",
+    "nativeName": "Deutsch",
+    "writingSystems": [
+      "latin"
+    ],
+    "characterKeys": [
+      "latin"
+    ],
+    "notes": "Standard German in the Latin alphabet, with umlauts and ß.",
+    "speech": "de-DE",
     "data": {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
@@ -294,6 +330,24 @@ window.LSD_LANGUAGE_REGISTRY = {
     ],
     "notes": "Inuktitut in Canadian syllabics, where turning a shape changes its vowel.",
     "speech": "iu",
+    "data": {
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
+  },
+  "italian": {
+    "id": "italian",
+    "name": "Italian",
+    "nativeName": "italiano",
+    "writingSystems": [
+      "latin"
+    ],
+    "characterKeys": [
+      "latin"
+    ],
+    "notes": "Standard Italian in the Latin alphabet, with accents on stressed final vowels.",
+    "speech": "it-IT",
     "data": {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
