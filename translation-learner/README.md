@@ -85,7 +85,7 @@ window.TL_LANGS.hangul = {
 - A leading `-` glues a token to the one before (suffixes, particles written solid); a trailing `-` glues it to the one after (prefixes).
 - One token carrying two meanings joins them with `+` (`not+know`).
 - A meaning the language leaves to context (Japanese and Korean often drop "I") goes in `implied`. Learners may leave it out of their English.
-- `reading` is the romanization, or kana for Japanese (romaji is generated from it). Leave it `""` when the text is already romanized, as for Klingon.
+- `reading` is the romanization, or kana for Japanese (romaji is generated from it). Leave it `""` when the text is already romanized, as for Klingon, or is already Latin script with macrons, as for Latin.
 - Each column must carry exactly its row's `m`: `check.js` reports any meaning a rendering drops or adds, and checks that the row's own English passes the translation checker.
 
 ## The meaning network
@@ -130,7 +130,7 @@ nor far; it is simply unknown. Glosses give one sense per word, so homographs (K
 
 The 1,000 most frequent words per language come from [wordfreq 3.1](https://github.com/rspeer/wordfreq)
 by Robyn Speer, which blends subtitles, Wikipedia, news, books and web text; its data is licensed
-**CC BY-SA 4.0**. Klingon has no frequency list, so it has no word bank tab.
+**CC BY-SA 4.0**. Klingon and Latin have no frequency list in wordfreq, so they have no word bank tab.
 
 Each word's English comes, in order of preference, from:
 

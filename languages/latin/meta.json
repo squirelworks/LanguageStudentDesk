@@ -3,7 +3,7 @@
   "name": "Latin",
   "nativeName": "Lingua Latina",
   "writingSystems": ["latin"],
-  "characterKeys": [],
+  "characterKeys": ["latin"],
   "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
   "speech": "la",
   "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }

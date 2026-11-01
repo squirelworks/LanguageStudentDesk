@@ -262,6 +262,10 @@
       gr("gr-basics", "“To be”, “my” and “have”", "ነኝ, ነህ, ነው; the endings for “my” and “your”; and አለ and የለም.", ["to-be", "possessives", "have-not"]),
       gr("gr-more", "Questions, places and verbs", "Question words, ከ-, በ-, ለ- and plurals, and verbs in the present and past.", ["questions", "place-plural", "verbs"]),
     ],
+    cherokee: [
+      gr("gr-basics", "Greetings, names and Set A", "ᎣᏏᏲ and ᏙᎯᏧ; names with ᏓᏆᏙᎠ; and Set A prefixes on ᎦᏬᏂᎭ “is speaking”.", ["greetings", "to-be", "prefixes"]),
+      gr("gr-more", "Want, questions, no and numbers", "Set B ᎠᏆᏚᎵᎭ and ᎨᎦ; questions with ‑Ꮝ and ‑Ꮷ; Ꮭ negation; numbers one to ten.", ["verbs", "questions", "negation-numbers"]),
+    ],
     inuktitut: [
       gr("gr-basics", "Nouns, possession and places", "Singular, dual and plural; my/your/his endings; and ‑mi, ‑mut, ‑mit for in, to and from.", ["nouns", "possession", "places"]),
       gr("gr-more", "Verbs, questions and saying no", "Present endings ‑junga/‑jutit/‑juq; questions with ‑vit; and negation with ‑nngit‑.", ["verbs", "questions", "negation"]),
@@ -325,6 +329,10 @@
     odia: [
       gr("gr-basics", "No “is”, verbs and saying no", "Sentences without “is”, ଅଛି, the present with -ଉଛି, and ନାହିଁ.", ["achhi", "present", "nahin"]),
       gr("gr-more", "Questions, cases and plurals", "Questions, -ରେ, -ରୁ and -କୁ, “my”, and plurals.", ["questions", "cases", "mora-mane"]),
+    ],
+    manipuri: [
+      gr("gr-basics", "Word order, “is”, and case endings", "SOV order; the copula ‑ni; and ‑na, ‑da, ‑bu (with ‑gi for “of”).", ["sov", "ni", "cases"]),
+      gr("gr-more", "Aspect, questions and saying no", "Verb aspect ‑i / ‑le / ‑gani; questions with ‑bra; and negation with ‑de / ‑loi.", ["aspect", "questions", "negation"]),
     ],
     tamazight: [
       gr("gr-basics", "Pronouns, gender and plurals", "Pronouns and ⴷ, masculine and feminine nouns, and plurals.", ["pronouns", "gender", "plural"]),
