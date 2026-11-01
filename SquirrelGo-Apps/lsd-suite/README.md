@@ -13,7 +13,7 @@ This APK is not published. There is no rolling GitHub release and no Actions wor
 - Resource Learner
 - Reference Learner
 - Translation Learner
-- Programming Learner (Slick included; the course list follows `programming-learner/data/catalog.js`)
+- Programming Learner (Slick and Chisel included; the course list follows `programming-learner/data/catalog.js`)
 - Legalese Learner
 - Language Learner
 - Grammar Learner
@@ -23,7 +23,7 @@ Pick a language or a programming course on the menu. Tools that take `?lang=` op
 
 ## Build the debug APK
 
-Java 17 and Android SDK 34 (platform `android-34`, build-tools `34.0.0`). Same Gradle wrapper as the other SquirrelGo apps (AGP 8.2.2, Gradle 8.5).
+Java 17 and Android SDK 36 (platform `android-36`, build-tools `35.0.0`). Same Gradle wrapper as the other SquirrelGo apps (AGP 8.9.1, Gradle 8.11.1).
 
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64   # a JDK 17, wherever it lives
