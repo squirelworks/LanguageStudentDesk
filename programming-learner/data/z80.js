@@ -57,6 +57,8 @@ window.PROGRAMMING.z80 = {
         { q: "HL holds 1234h. What is in H?", options: ["12h", "34h", "1234h", "0"], answer: "12h", why: "H is the high byte of the pair, L the low byte." },
         { q: "Which value is not the same as the others?", options: ["10h", "16", "00010000b", "0Ah"], answer: "0Ah", why: "10h, 16 and 00010000b are all sixteen; 0Ah is ten." },
         { q: "Why write 0FFh instead of FFh?", options: ["So the assembler reads a number, not a name", "It is a bigger number", "It means a negative number", "FFh is a different value"], answer: "So the assembler reads a number, not a name", why: "A word that starts with a letter looks like a label; the leading 0 marks it as a number." },
+        { q: "After LD HL, 8000h then LD L, 5, what is in HL?", options: ["8005h", "0005h", "8500h", "8000h"], answer: "8005h", why: "Changing L only replaces the low byte; H stays 80h, so HL becomes 8005h." },
+        { q: "What does LD A, (HL) do?", options: ["Loads A from the memory byte HL points at", "Stores A into memory at HL", "Copies HL into A", "Adds (HL) to A"], answer: "Loads A from the memory byte HL points at", why: "Brackets mean memory; the destination A comes first, so A receives the byte." },
       ],
     },
     {
@@ -131,6 +133,24 @@ msg:    DB   'Nuts$ and more'`, options: ["Nuts", "Nuts$ and more", "Nuts and mo
         RET`, options: ["HI", "H", "I", "IH"], answer: "HI", why: "Each call to function 2 prints the character in E, in program order." },
         { q: "What does ORG 100h tell the assembler?", options: ["The program will be loaded at address 100h", "Print 100h characters", "The program is 100h bytes long", "Start a loop"], answer: "The program will be loaded at address 100h", why: "CP/M loads every .COM program at 100h, so labels must be counted from there." },
         { q: "Why set C again before a second CALL 5?", options: ["The BDOS may have changed it", "CALL always clears C", "C counts the calls", "It is only needed for style"], answer: "The BDOS may have changed it", why: "CP/M makes no promise to keep registers, so a careful program reloads them." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   DE, msg
+        LD   C, 9
+        CALL 5
+        RET
+msg:    DB   'Z80', 13, 10
+        DB   'OK$'`, options: ["Z80\nOK", "Z80OK", "Z80", "OK"], answer: "Z80\nOK", why: "13 and 10 start a new line; function 9 then prints OK and stops at $." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   E, 'Z'
+        LD   C, 2
+        CALL 5
+        LD   E, '8'
+        LD   C, 2
+        CALL 5
+        LD   E, '0'
+        LD   C, 2
+        CALL 5
+        RET`, options: ["Z80", "Z", "80", "0Z8"], answer: "Z80", why: "Each function-2 call prints the character currently in E." },
       ],
     },
     {
@@ -220,6 +240,23 @@ msg:    DB   'Nuts$ and more'`, options: ["Nuts", "Nuts$ and more", "Nuts and mo
         CALL 5
         RET`, options: ["5", "9", "7", "3"], answer: "5", why: "NEG makes A −2 (254); 254 + 7 wraps to 5." },
         { q: "Why OR A before SBC HL, DE?", options: ["To clear carry so it is not subtracted too", "To set A to 0", "To make HL positive", "SBC needs A to be 0"], answer: "To clear carry so it is not subtracted too", why: "SBC subtracts the carry as well; OR A leaves A alone but always clears carry." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 5
+        ADD  A, 3
+        INC  A
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["9", "8", "5", "3"], answer: "9", why: "5 + 3 is 8; INC makes 9; adding '0' makes the character 9." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 4
+        ADD  A, A
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["8", "4", "6", "0"], answer: "8", why: "ADD A, A doubles A: 4 becomes 8." },
       ],
     },
     {
@@ -313,6 +350,28 @@ lomsg:  DB   'low$'
 himsg:  DB   'high$'`, options: ["low", "high", "lowhigh", "12"], answer: "low", why: "12 − 20 borrows, so carry is set and JR NC is not taken." },
         { q: "Which jump cannot be written with JR?", options: ["JP M, label", "JR Z, label", "JR NC, label", "JR label"], answer: "JP M, label", why: "JR only tests Z, NZ, C and NC; the sign condition M needs JP." },
         { q: "What does OR A do to A?", options: ["Nothing, but it sets the flags from A", "Clears A", "Sets A to 255", "Doubles A"], answer: "Nothing, but it sets the flags from A", why: "A OR A is A; the point is that Z and S now describe A, and carry is cleared." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 5
+        CP   5
+        JR   Z, yes
+        LD   E, 'N'
+        JR   say
+yes:    LD   E, 'Y'
+say:    LD   C, 2
+        CALL 5
+        RET`, options: ["Y", "N", "5", "YN"], answer: "Y", why: "A equals 5, so Z is set and JR Z takes the yes branch." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 9
+        CP   4
+        JR   C, lo
+        LD   DE, hi
+        JR   out
+lo:     LD   DE, lom
+out:    LD   C, 9
+        CALL 5
+        RET
+hi:     DB   'hi$'
+lom:    DB   'lo$'`, options: ["hi", "lo", "hilo", "9"], answer: "hi", why: "9 is not below 4, so carry is clear and JR C is skipped." },
       ],
     },
     {
@@ -425,6 +484,25 @@ lp:     ADD  A, A
         { q: "Why test LD A, B / OR C after DEC BC?", options: ["DEC BC sets no flags", "DEC BC clears A", "OR C adds C to B", "It makes the loop faster"], answer: "DEC BC sets no flags", why: "16-bit INC and DEC leave the flags alone, so you check both halves for zero yourself." },
         { q: "What does LD B, 0 then a DJNZ loop do?", options: ["Runs 256 times", "Runs 0 times", "Runs once", "Never stops"], answer: "Runs 256 times", why: "The first DEC turns 0 into 255, so the loop goes all the way round: 256 passes." },
         { q: "The loop body calls the BDOS. What keeps the DJNZ count safe?", options: ["PUSH BC before, POP BC after", "Nothing is needed", "Using DEC B instead", "Putting the count in C"], answer: "PUSH BC before, POP BC after", why: "The BDOS may change B; saving BC on the stack and restoring it keeps the counter." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   B, 2
+        LD   A, 3
+lp:     ADD  A, 2
+        DJNZ lp
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["7", "5", "3", "9"], answer: "7", why: "Two passes add 2 each time: 3 → 5 → 7." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   B, 3
+lp:     PUSH BC
+        LD   E, '+'
+        LD   C, 2
+        CALL 5
+        POP  BC
+        DJNZ lp
+        RET`, options: ["+++", "++", "+", "++++"], answer: "+++", why: "B starts at 3 and PUSH/POP keep it safe across each BDOS call." },
       ],
     },
     {
@@ -533,6 +611,27 @@ triple: LD   B, A
         CALL 5
         RET`, options: ["Y", "B", "X", "A"], answer: "Y", why: "POP DE restores the pair saved earlier, so E is Y again." },
         { q: "A routine does PUSH HL but returns without POP HL. What happens at RET?", options: ["It jumps to the address that was in HL", "It returns normally", "HL is restored", "The assembler refuses"], answer: "It jumps to the address that was in HL", why: "RET pops the top of the stack, which is now HL's old value, not the return address." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 1
+        CALL plus3
+        CALL plus3
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET
+plus3:  ADD  A, 3
+        RET`, options: ["7", "4", "1", "6"], answer: "7", why: "Each CALL adds 3: 1 → 4 → 7." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   D, 'P'
+        LD   E, 'Q'
+        PUSH DE
+        LD   D, 'R'
+        LD   E, 'S'
+        POP  DE
+        LD   C, 2
+        CALL 5
+        RET`, options: ["Q", "S", "P", "R"], answer: "Q", why: "POP DE restores the saved pair, so function 2 prints E, which is Q again." },
       ],
     },
     {
@@ -667,6 +766,30 @@ done:   LD   A, B
         RET
 s:      DB   'oak', 0`, options: ["3", "4", "0", "2"], answer: "3", why: "The loop counts bytes until the 0: o, a and k." },
         { q: "What does DS 10 do?", options: ["Reserves 10 bytes of space", "Prints 10 characters", "Defines the string 10", "Delays 10 steps"], answer: "Reserves 10 bytes of space", why: "DS (define space) leaves room in the program for data written later." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   HL, w
+        LD   E, (HL)
+        PUSH HL
+        LD   C, 2
+        CALL 5
+        POP  HL
+        INC  HL
+        LD   E, (HL)
+        LD   C, 2
+        CALL 5
+        RET
+w:      DB   'OK'`, options: ["OK", "O", "KO", "K"], answer: "OK", why: "HL starts at O; after printing, INC HL moves to K. PUSH/POP keep HL across the first CALL." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   HL, src
+        LD   DE, dst
+        LD   BC, 4
+        LDIR
+        LD   DE, dst
+        LD   C, 9
+        CALL 5
+        RET
+src:    DB   'hi!$'
+dst:    DS   4`, options: ["hi!", "hi!$", "src", "dst"], answer: "hi!", why: "LDIR copies four bytes including the $; function 9 prints up to that $." },
       ],
     },
     {
@@ -777,6 +900,22 @@ zero:   LD   C, 2
         LD   C, 2
         CALL 5
         RET`, options: ["4", "5", "9", "3"], answer: "4", why: "Shifting right halves and drops the remainder: 9 → 4, with 1 in carry." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 'a'
+        OR   20h
+        AND  0DFh
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["A", "a", " ", "0"], answer: "A", why: "OR 20h leaves a lowercase letter alone; AND 0DFh then clears bit 5 to make A." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 3
+        SLA  A
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["6", "3", "7", "4"], answer: "6", why: "SLA doubles: 3 becomes 6." },
       ],
     },
     {
@@ -925,6 +1064,29 @@ mul:    ADD  A, 3
         LD   C, 2
         CALL 5
         RET`, options: ["9", "6", "3", "0"], answer: "9", why: "Adding 3 three times is 3 × 3." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   A, 37h
+        RRCA
+        RRCA
+        RRCA
+        RRCA
+        AND  0Fh
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["3", "7", "37", "0"], answer: "3", why: "Four RRCA moves bring the high nibble down; AND 0Fh keeps 3." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   B, 3
+        LD   C, 3
+        XOR  A
+mul:    ADD  A, C
+        DJNZ mul
+        ADD  A, '0'
+        LD   E, A
+        LD   C, 2
+        CALL 5
+        RET`, options: ["9", "6", "3", "0"], answer: "9", why: "XOR A clears the total; three adds of C (3) make 9." },
       ],
     },
     {
@@ -1033,6 +1195,22 @@ lp:     DEC  D
 skip:   DJNZ lp
         RET`, options: ["!!", "!", "!!!", "!!!!!!"], answer: "!!", why: "The countdown in D hits 0 on passes 3 and 6, so ! prints twice." },
         { q: "Which register pair is most often used as a memory pointer?", options: ["HL", "AF", "BC only", "PC"], answer: "HL", why: "HL is the main address register: (HL) works with almost every instruction." },
+        { kind: "output", q: "What does this print?", code: `        ORG  100h
+        LD   B, 5
+        LD   D, 2
+lp:     DEC  D
+        JR   NZ, skip
+        LD   D, 2
+        PUSH BC
+        PUSH DE
+        LD   E, '*'
+        LD   C, 2
+        CALL 5
+        POP  DE
+        POP  BC
+skip:   DJNZ lp
+        RET`, options: ["**", "*", "***", "*****"], answer: "**", why: "The countdown in D hits 0 on passes 2 and 4, so * prints twice in five loops." },
+        { q: "In the FizzBuzz loop, what is D used for?", options: ["Remembering whether a word was printed this pass", "Counting to 15", "Holding the current number", "The BDOS function number"], answer: "Remembering whether a word was printed this pass", why: "D starts at 0 each pass and becomes 1 if Fizz or Buzz printed, so the number can be skipped." },
       ],
     },
   ],
