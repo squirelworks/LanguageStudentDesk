@@ -2,7 +2,7 @@
 
 Offline Japanese phrasebook for modern Android (and desktop browsers), part of LanguageStudentDesk.
 
-This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from, and two more for service members in Japan (Logistics and Joint Training with the Self-Defense Forces). Six everyday packs for travelers and office workers (Travel, Restaurant, Shopping, Directions, Emergencies, Workplace) and five for living and studying in Japan (Small Talk, Daily Life, Classroom, Culture & Etiquette, Health & Pharmacy) round it out, along with Business for dealing with Japanese companies and Kids for children and families. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
+This is a **new open implementation** meant to replace the aging Japanese phrasebook apps on Google Play whose package ids end in `.ja.ac`, `.ja.bc`, `.ja.ca`, `.ja.md`, `.ja.nv` and `.ja.pa` (Air Crew, Basic, Civil Affairs, Medical, Naval and Public Affairs). Instead of six separate apps it is one app with packs: the six topics those apps covered, plus Force Protection, Military Police, Cordon & Search and Weapons, the other four modules of the Defense Language Institute survival-kit series those topics come from, and two more for service members in Japan (Logistics and Joint Training with the Self-Defense Forces). Six everyday packs for travelers and office workers (Travel, Restaurant, Shopping, Directions, Emergencies, Workplace) and five for living and studying in Japan (Small Talk, Daily Life, Classroom, Culture & Etiquette, Health & Pharmacy) round it out, along with Business for dealing with Japanese companies, Kids for children and families, and Sports for watching games, the gym and martial arts. All phrases, notes and translations here are original; nothing was copied from those apps. Not affiliated with their developers.
 
 ## Packs
 
@@ -33,6 +33,7 @@ This is a **new open implementation** meant to replace the aging Japanese phrase
 | Culture & Etiquette 文化 | new | Shrines and temples, hot springs, visiting a home, gifts, festivals, manners |
 | Health & Pharmacy 健康 | new | Pharmacies, everyday ailments, clinics, dentists, staying fit |
 | Kids 子ども | new | Playing, school day, feelings, at home, out with children |
+| Sports スポーツ | new | Watching games, joining in, the gym, ball sports, martial arts and swimming |
 
 ## Features
 
