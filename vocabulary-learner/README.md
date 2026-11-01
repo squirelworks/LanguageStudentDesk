@@ -7,7 +7,7 @@ Open with `?lang=<id>` (for example `?lang=japanese`) or pick a language on the 
 
 | Language | Decks |
 |---|---|
-| Japanese | SquirrelGo Kana example words (hiragana, katakana), the ten SquirrelGo Phrasebook packs, SquirrelGo Kanji by JLPT level, and dictionary lookups from the SquirrelGo Dictionary |
+| Japanese | SquirrelGo Kana example words (hiragana, katakana), the 25 SquirrelGo Phrasebook packs, SquirrelGo Kanji by JLPT level, and dictionary lookups from the SquirrelGo Dictionary |
 | Korean, Russian, Hindi, Arabic | Starter decks written for the Desk (`languages/<id>/vocab.js`, about 300 words each) and SquirrelGo Alphabets example words |
 | Greek | A starter deck written for the Desk (`languages/greek/vocab.js`, about 230 words) and SquirrelGo Alphabets example words |
 | Klingon, Chinese | Starter decks written for the Desk (`languages/<id>/vocab.js`, about 250 words each) |

@@ -1,10 +1,23 @@
 // Amharic first grammar for the Grammar Learner. Written for this project.
 // Examples are [Amharic, romanization, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Amharic — original example sentences):
+// - Wiktionary Amharic lemmas (CC BY-SA): የ- (genitive “of”), መሄድ (infinitive “to go”),
+//   አየ (“see”), ይህ (“this”), ፈለገ (“want / look for”), and related verb forms.
+// - Wikipedia “Amharic” grammar sections (CC BY-SA): object pronoun suffixes, demonstratives
+//   ይህ / ያ, accusative -(ə)n on definite objects, imperative overview.
+// - FSI Amharic Basic Course (US government; public domain) Units 6 and 33: relational የ-,
+//   infinitive መ- with ፈለገ, imperfective shape, negative perfective/imperfective አል-…ም /
+//   አይ-…ም, and negative imperative አት-.
+// - In-repo languages/amharic/reference.json and vocab.js — same Desk pack lemmas and
+//   romanization (e = short vowel of “the”; gn = ny of “canyon”).
+// Lessons 1–6 unchanged; 7–12 deepen object suffixes, imperatives, infinitive + want/can,
+// የ-, verb negation, and demonstratives with definite -ን.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.amharic = {
   title: "Amharic first grammar",
-  intro: "Amharic is the working language of Ethiopia and a Semitic language, a cousin of Arabic and Hebrew. The verb comes last, “you” has separate forms for a man and a woman, and small endings on nouns and verbs carry a lot of meaning. These lessons cover pronouns and “to be”, “my” and “your” endings, having and not having, questions, small words for place, and verbs in the present and past. The romanization is a simple guide: e is the short vowel of “the”, and gn is the ny sound of “canyon”.",
+  intro: "Amharic is the working language of Ethiopia and a Semitic language, a cousin of Arabic and Hebrew. The verb comes last, “you” has separate forms for a man and a woman, and small endings on nouns and verbs carry a lot of meaning. Lessons 1–6 cover pronouns and “to be”, “my” and “your” endings, having and not having, questions, small words for place, and verbs in the present and past. Lessons 7–12 add object endings on the verb, commands, “to …” with መ- after want and can, የ- for “of”, wrapping አል-…ም to say no on a verb, and ይህ / ያ with the object ending -ን. The romanization is a simple guide: e is the short vowel of “the”, and gn is the ny sound of “canyon”.",
   lessons: [
     {
       id: "to-be",
@@ -169,6 +182,205 @@ window.GRAMMAR.amharic = {
         { q: "እሷ አማርኛ ＿።", en: "She speaks Amharic.", options: ["ትናገራለች", "ይናገራል", "እናገራለሁ", "ተናገረች"], answer: "ትናገራለች", why: "She, present: ት-…-አለች." },
         { q: "ትናንት ወደ ገበያ ＿።", en: "I went to the market yesterday.", options: ["ሄድኩ", "እሄዳለሁ", "ሄደ", "ይሄዳል"], answer: "ሄድኩ", why: "I, past: -ኩ." },
         { q: "እሱ ትናንት ＿።", en: "He came yesterday.", options: ["መጣ", "መጣሁ", "ይመጣል", "መጣች"], answer: "መጣ", why: "He, past: the bare stem, መጣ." },
+      ],
+    },
+
+    {
+      id: "object-suffixes",
+      title: "Me, you, him on the verb",
+      particle: "-ኝ -ህ -ሽ -ው -አት",
+      summary: "“Me”, “you” and “him / her” can be endings on the verb.",
+      sections: [
+        {
+          p: "A definite object is often marked on the verb itself. Common endings: <b>-ኝ</b> (-gn) me, <b>-ህ</b> (-h) you (to a man), <b>-ሽ</b> (-sh) you (to a woman), <b>-ው</b> (-w) him / it, <b>-አት</b> (-at) her. So አየ “he saw” → <b>አየኝ</b> he saw me, <b>አያት</b> he saw her; ሰጠ “he gave” → <b>ሰጠኝ</b> he gave (it to) me.",
+          examples: [
+            ["እሱ {አየኝ}።", "Issu ayyegn.", "He saw me."],
+            ["መጽሐፉን {ሰጠኝ}።", "Metsihafun settegn.", "He gave me the book."],
+            ["እሱ {አያት}።", "Issu ayyat.", "He saw her."],
+            ["{አልገባኝም}።", "Algebagnim.", "I don't understand."],
+          ],
+        },
+        {
+          h: "On the present",
+          p: "The same endings sit after the present form: <b>ይወደኛል</b> (yiwedegnal) he loves me; <b>እወድሃለሁ</b> (iwedihallehu) I love you (to a man). The verb still comes last.",
+          examples: [
+            ["እሱ {ይወደኛል}።", "Issu yiwedegnal.", "He loves me."],
+            ["እኔ {እወድሃለሁ}።", "Ine iwedihallehu.", "I love you. (to a man)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "እሱ ＿።", en: "He saw me.", options: ["አየኝ", "አያት", "አየሁ", "ሰጠኝ"], answer: "አየኝ", why: "-ኝ on the verb marks “me”: አየኝ." },
+        { q: "መጽሐፉን ＿።", en: "He gave me the book.", options: ["ሰጠኝ", "ሰጣት", "አየኝ", "ሰጠሁ"], answer: "ሰጠኝ", why: "ሰጠ + -ኝ = he gave (to) me." },
+        { q: "እሱ ＿።", en: "He saw her.", options: ["አያት", "አየኝ", "አየህ", "ሰጠኝ"], answer: "አያት", why: "-አት marks “her”: አያት." },
+        { q: "＿።", en: "I don't understand.", options: ["አልገባኝም", "አልገባህም", "አየኝ", "የለኝም"], answer: "አልገባኝም", why: "አልገባኝም is the everyday “I don't understand” (it didn't enter me)." },
+        { q: "እሱ ＿።", en: "He loves me.", options: ["ይወደኛል", "እወድሃለሁ", "ይወዳል", "ወደደ"], answer: "ይወደኛል", why: "ይወዳል + -ኝ → ይወደኛል, “he loves me”." },
+      ],
+    },
+    {
+      id: "imperatives",
+      title: "Commands: go, come, give",
+      particle: "ሂድ ና ስጥ አት-",
+      summary: "A short stem is the command; አት- turns it into “don't”.",
+      sections: [
+        {
+          p: "Commands drop the present wrap and use a short stem that changes for who you are speaking to. “Go”: <b>ሂድ</b> (hid) to a man, <b>ሂጂ</b> (hiji) to a woman, <b>ሂዱ</b> (hidu) to more than one (also polite). “Come” is irregular: <b>ና</b> (na) to a man, <b>ነይ</b> (ney) to a woman, <b>ኑ</b> (nu) plural. “Give”: <b>ስጥ</b> (sit) / <b>ስጪ</b> (sichi) / <b>ስጡ</b> (situ). <b>እንሂድ</b> (inhid) is “let's go”.",
+          examples: [
+            ["{ሂድ}!", "Hid!", "Go! (to a man)"],
+            ["{ሂጂ}!", "Hiji!", "Go! (to a woman)"],
+            ["{ና}!", "Na!", "Come! (to a man)"],
+            ["{ነይ}!", "Ney!", "Come! (to a woman)"],
+            ["ቡና {እንጠጣ}።", "Buna intetta.", "Let's have coffee."],
+          ],
+        },
+        {
+          h: "Don't — and give me",
+          p: "“Don't …” puts <b>አት-</b> (at-) on the front and does <i>not</i> add -ም: <b>አትሂድ</b> don't go (to a man), <b>አትሂጂ</b> (to a woman). Object endings can sit on a command: <b>ስጠኝ</b> (sittegn) give me (it).",
+          examples: [
+            ["{አትሂድ}!", "Atihid!", "Don't go! (to a man)"],
+            ["መጽሐፉን {ስጠኝ}።", "Metsihafun sittegn.", "Give me the book. (to a man)"],
+            ["{እንሂድ}።", "Inhid.", "Let's go."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿!", en: "Go! (to a man)", options: ["ሂድ", "ሂጂ", "ና", "መሄድ"], answer: "ሂድ", why: "ሂድ is the command “go” to a man." },
+        { q: "＿!", en: "Come! (to a woman)", options: ["ነይ", "ና", "ሂጂ", "ኑ"], answer: "ነይ", why: "“Come” to a woman is ነይ (to a man: ና)." },
+        { q: "＿!", en: "Don't go! (to a man)", options: ["አትሂድ", "አልሄድም", "ሂድ", "አትሂጂ"], answer: "አትሂድ", why: "አት- makes a negative command; no -ም." },
+        { q: "መጽሐፉን ＿።", en: "Give me the book. (to a man)", options: ["ስጠኝ", "ሰጠኝ", "ስጪ", "አትስጥ"], answer: "ስጠኝ", why: "Command ስጥ + -ኝ = ስጠኝ, “give me”." },
+        { q: "＿።", en: "Let's go.", options: ["እንሂድ", "ሂዱ", "ና", "እሄዳለሁ"], answer: "እንሂድ", why: "እንሂድ is “let's go”." },
+      ],
+    },
+    {
+      id: "infinitive-want",
+      title: "መ- — to go, and wanting to",
+      particle: "መሄድ እፈልጋለሁ እችላለሁ",
+      summary: "መ- makes “to …”; put it before እፈልጋለሁ or እችላለሁ.",
+      sections: [
+        {
+          p: "The infinitive (“to …”) puts <b>መ-</b> (me-) on the verb stem: <b>መሄድ</b> (mehed) to go, <b>መምጣት</b> (memtat) to come, <b>መብላት</b> (meblat) to eat, <b>መጻፍ</b> (mesaf) to write, <b>መናገር</b> (menager) to speak, <b>መማር</b> (memar) to learn. It is a verbal noun, so other noun prefixes can join it later.",
+          examples: [
+            ["{መሄድ}", "mehed", "to go"],
+            ["{መብላት}", "meblat", "to eat"],
+            ["{መናገር}", "menager", "to speak"],
+            ["{መማር}", "memar", "to learn"],
+          ],
+        },
+        {
+          h: "I want to … / I can …",
+          p: "Put the infinitive before the conjugated verb (verb last): <b>መሄድ እፈልጋለሁ</b> (mehed ifeleggallehu) I want to go; <b>መብላት እፈልጋለሁ</b> I want to eat. Ability uses <b>ቻለ</b>: <b>እችላለሁ</b> (ichilallehu) I can, <b>ትችላለህ</b> you can (man). So አማርኛ መናገር እችላለሁ — I can speak Amharic.",
+          examples: [
+            ["{መሄድ እፈልጋለሁ}።", "Mehed ifeleggallehu.", "I want to go."],
+            ["{መብላት እፈልጋለሁ}።", "Meblat ifeleggallehu.", "I want to eat."],
+            ["አማርኛ {መናገር እችላለሁ}።", "Amarigna menager ichilallehu.", "I can speak Amharic."],
+            ["መጻፍ {ትችላለህ}?", "Mesaf tichilalleh?", "Can you write? (to a man)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ እፈልጋለሁ።", en: "I want to go.", options: ["መሄድ", "ሄድኩ", "እሄዳለሁ", "ሂድ"], answer: "መሄድ", why: "መሄድ is the infinitive “to go”." },
+        { q: "መብላት ＿።", en: "I want to eat.", options: ["እፈልጋለሁ", "እችላለሁ", "ብላሁ", "ይፈልጋል"], answer: "እፈልጋለሁ", why: "እፈልጋለሁ = I want; the infinitive comes before it." },
+        { q: "አማርኛ መናገር ＿።", en: "I can speak Amharic.", options: ["እችላለሁ", "እፈልጋለሁ", "እናገራለሁ", "ችያለሁ"], answer: "እችላለሁ", why: "እችላለሁ = I can." },
+        { q: "How do you say “to learn”?", en: "", options: ["መማር", "እማራለሁ", "ተማሪ", "ማር"], answer: "መማር", why: "መ- + stem: መማር." },
+        { q: "መጻፍ ＿?", en: "Can you write? (to a man)", options: ["ትችላለህ", "እችላለሁ", "ትፈልጋለህ", "ጻፍ"], answer: "ትችላለህ", why: "ትችላለህ is “you can” to a man." },
+      ],
+    },
+    {
+      id: "ye-genitive",
+      title: "የ- — of, ’s",
+      particle: "የ-",
+      summary: "የ- on the first noun means “of …” or “ ’s ”.",
+      sections: [
+        {
+          p: "The prefix <b>የ-</b> (ye-) links two nouns as “X of Y” or “Y's X”. It joins the <i>possessor</i> (or the describing noun), which comes first: <b>የኢትዮጵያ ከተማ</b> a city of Ethiopia, <b>የአማርኛ መጽሐፍ</b> an Amharic book, <b>የእናቴ ስም</b> my mother's name.",
+          examples: [
+            ["{የ}ኢትዮጵያ ከተማ", "ye-Ityopya ketema", "a city of Ethiopia"],
+            ["{የ}አማርኛ መጽሐፍ", "ye-amarigna metsihaf", "an Amharic book"],
+            ["{የ}እናቴ ስም ማን ነው?", "Ye-inate sim man new?", "What is my mother's name?"],
+            ["ይህ {የ}ቤት ቁልፍ ነው።", "Yih ye-bet kulif new.", "This is the house key."],
+          ],
+        },
+        {
+          h: "የኔ, ያንተ — mine, yours",
+          p: "With a pronoun, የ- makes an independent “mine / yours”: <b>የኔ</b> (yene) mine, <b>ያንተ</b> (yante) yours (man's), <b>ያንቺ</b> (yanchi) yours (woman's), <b>የኛ</b> (yegna) ours. Useful when you want to stress ownership: ይህ የኔ ነው — this is mine.",
+          examples: [
+            ["ይህ {የኔ} ነው።", "Yih yene new.", "This is mine."],
+            ["ያ መኪና {ያንተ} ነው?", "Ya mekina yante new?", "Is that car yours? (to a man)"],
+            ["መጽሐፉ {የኛ} ነው።", "Metsihafu yegna new.", "The book is ours."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ኢትዮጵያ ከተማ", en: "a city of Ethiopia", options: ["የ", "ከ", "በ", "ለ"], answer: "የ", why: "የ- marks “of” on the possessor." },
+        { q: "＿አማርኛ መጽሐፍ", en: "an Amharic book", options: ["የ", "በ", "ከ", "ወደ"], answer: "የ", why: "የአማርኛ = of Amharic / Amharic (book)." },
+        { q: "ይህ ＿ ነው።", en: "This is mine.", options: ["የኔ", "ስሜ", "ቤቴ", "እኔ"], answer: "የኔ", why: "የኔ = mine." },
+        { q: "ያ መኪና ＿ ነው?", en: "Is that car yours? (to a man)", options: ["ያንተ", "ያንቺ", "የኔ", "የኛ"], answer: "ያንተ", why: "ያንተ = yours, to a man." },
+        { q: "＿እናቴ ስም ማን ነው?", en: "What is my mother's name?", options: ["የ", "ከ", "ለ", "በ"], answer: "የ", why: "የእናቴ = my mother's." },
+      ],
+    },
+    {
+      id: "verb-negation",
+      title: "አል-…ም — I don't, he didn't",
+      particle: "አል- … -ም",
+      summary: "Wrap the verb with አል- and -ም to negate it (not the same as አይደለም).",
+      sections: [
+        {
+          p: "Lesson 3 used <b>አይደለም</b> (“is not”) and <b>የለም</b> (“there isn't”). To negate an ordinary verb, wrap it: <b>አል-</b> … <b>-ም</b>. In the past: <b>አልመጣም</b> (almetam) he didn't come; <b>አልሄድኩም</b> (alhedkum) I didn't go. The person ending stays inside the wrap.",
+          examples: [
+            ["እሱ ትናንት {አልመጣም}።", "Issu tinant almetam.", "He didn't come yesterday."],
+            ["ትናንት ወደ ገበያ {አልሄድኩም}።", "Tinant wede gebeya alhedkum.", "I didn't go to the market yesterday."],
+            ["እሷ {አልመጣችም}።", "Isswa almetachim.", "She didn't come."],
+          ],
+        },
+        {
+          h: "Present and future “don't / won't”",
+          p: "For the present/future, drop the -አለሁ / -አል piece and wrap the short stem: <b>አልሄድም</b> (alhedim) I don't / won't go; <b>አይሄድም</b> (ayihedim) he doesn't / won't go; <b>አትሄድም</b> (atihedim) you (man) don't / won't go. Compare a command “don't go!” <b>አትሂድ</b>, which has no -ም.",
+          examples: [
+            ["ነገ {አልሄድም}።", "Nege alhedim.", "I won't go tomorrow."],
+            ["እሱ ቡና {አይጠጣም}።", "Issu buna ayitetam.", "He doesn't drink coffee."],
+            ["አማርኛ {አልናገርም}።", "Amarigna alnagerim.", "I don't speak Amharic."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "እሱ ትናንት ＿።", en: "He didn't come yesterday.", options: ["አልመጣም", "መጣ", "አይመጣም", "የለም"], answer: "አልመጣም", why: "Past negative: አል- + stem + -ም." },
+        { q: "ትናንት ወደ ገበያ ＿።", en: "I didn't go to the market yesterday.", options: ["አልሄድኩም", "አልሄድም", "ሄድኩ", "አትሂድ"], answer: "አልሄድኩም", why: "I, past: አልሄድኩም keeps -ኩ inside the wrap." },
+        { q: "ነገ ＿።", en: "I won't go tomorrow.", options: ["አልሄድም", "አልሄድኩም", "እሄዳለሁ", "አትሂድ"], answer: "አልሄድም", why: "Present/future “I don't/won't”: አልሄድም." },
+        { q: "እሱ ቡና ＿።", en: "He doesn't drink coffee.", options: ["አይጠጣም", "ይጠጣል", "አልጠጣም", "የለም"], answer: "አይጠጣም", why: "He, present negative often starts with አይ-: አይጠጣም." },
+        { q: "አማርኛ ＿።", en: "I don't speak Amharic.", options: ["አልናገርም", "እናገራለሁ", "አትናገር", "የለኝም"], answer: "አልናገርም", why: "አልናገርም = I don't speak." },
+      ],
+    },
+    {
+      id: "demonstratives-accusative",
+      title: "ይህ, ያ — this, that; and -ን",
+      particle: "ይህ ያ -ን",
+      summary: "ይህ this, ያ that; a definite object often takes -ን.",
+      sections: [
+        {
+          p: "<b>ይህ</b> (yih) is “this” (near; masculine or general), <b>ይቺ</b> (yichi) “this” for a feminine noun, <b>ያ</b> (ya) “that” (far). Plurals add እነ-: <b>እነዚህ</b> (innezih) these, <b>እነዚያ</b> (innezziya) those. They can stand alone or sit before a noun: ይህ ቤት, this house.",
+          examples: [
+            ["{ይህ} ቤት ነው።", "Yih bet new.", "This is a house."],
+            ["{ያ} ሰው ማን ነው?", "Ya sew man new?", "Who is that person?"],
+            ["{እነዚህ} መጽሐፎች ናቸው።", "Innezih metsihafoch nachew.", "These are books."],
+            ["{ይቺ} ሴት ዶክተር ናት።", "Yichi set doktor nat.", "This woman is a doctor."],
+          ],
+        },
+        {
+          h: "Marking the object with -ን",
+          p: "When the object is definite (“the …”, a name, or already “this/that”), Amharic usually adds <b>-ን</b> (-n): ቤቱ → <b>ቤቱን</b> the house (as object); ይህ → <b>ይህን</b> this (as object). Indefinite objects often skip it. So ቤቱን አየሁ — I saw the house; ይህን መጽሐፍ እፈልጋለሁ — I want this book.",
+          examples: [
+            ["{ቤቱን} አየሁ።", "Betun ayyehu.", "I saw the house."],
+            ["{ይህን} መጽሐፍ እፈልጋለሁ።", "Yihin metsihaf ifeleggallehu.", "I want this book."],
+            ["{ውሻውን} አየሁ።", "Wishawn ayyehu.", "I saw the dog."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ ቤት ነው።", en: "This is a house.", options: ["ይህ", "ያ", "እነዚህ", "ከ"], answer: "ይህ", why: "ይህ = this (near)." },
+        { q: "＿ ሰው ማን ነው?", en: "Who is that person?", options: ["ያ", "ይህ", "እነዚህ", "ማን"], answer: "ያ", why: "ያ = that (far)." },
+        { q: "＿ መጽሐፎች ናቸው።", en: "These are books.", options: ["እነዚህ", "ይህ", "ያ", "እነዚያ"], answer: "እነዚህ", why: "እነዚህ = these." },
+        { q: "＿ አየሁ።", en: "I saw the house.", options: ["ቤቱን", "ቤቱ", "ቤት", "ይህ ቤት"], answer: "ቤቱን", why: "Definite object: ቤቱ + -ን = ቤቱን." },
+        { q: "＿ መጽሐፍ እፈልጋለሁ።", en: "I want this book.", options: ["ይህን", "ይህ", "ያ", "መጽሐፉ"], answer: "ይህን", why: "ይህ as object takes -ን: ይህን." },
       ],
     },
   ],

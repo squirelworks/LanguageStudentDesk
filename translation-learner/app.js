@@ -7,13 +7,16 @@
 
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
-  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "hebrew", "klingon"];
+  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "klingon"];
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
-  // Rows are [word, reading, English, note], or [word, English, note] for Klingon.
-  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, hebrew: true, klingon: false };
+  // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
+  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, klingon: false };
 
   // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
+  // Greek joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Greek as el).
+  // Latin has no wordfreq list (like Klingon), so it has no Top 1,000 tab.
   // Hebrew joins the network via its column and Desk decks; a wordfreq Top 1,000
   // bank can be added later (wordfreq has Hebrew as he).
   const BANKS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic"];

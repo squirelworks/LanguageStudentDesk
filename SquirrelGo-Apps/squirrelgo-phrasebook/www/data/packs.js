@@ -1977,5 +1977,160 @@ window.PHRASEBOOK_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: "driving",
+    code: "dv",
+    title: "Driving",
+    jaTitle: "運転",
+    desc: "Renting a car, road rules, parking, fuel and charging, and roadside trouble.",
+    categories: [
+      {
+        title: "Renting a car",
+        phrases: [
+          ["I'd like to rent a car.", "レンタカーを借りたいです。", "レンタカー を かりたい です。"],
+          ["Do you have an automatic?", "オートマ車はありますか。", "オートマしゃ は あります か。", "Most Japanese rentals are automatic (AT); manuals are rare."],
+          ["For three days, please.", "三日間お願いします。", "みっかかん おねがい します。"],
+          ["Here is my driver's license.", "運転免許証です。", "うんてんめんきょしょう です。", "Visitors usually need an International Driving Permit with their home license."],
+          ["Do I need an International Driving Permit?", "国際免許は必要ですか。", "こくさいめんきょ は ひつよう です か。"],
+          ["Full insurance, please.", "保険はフルカバーでお願いします。", "ほけん は フルカバー で おねがい します。"],
+          ["How much is it per day?", "一日いくらですか。", "いちにち いくら です か。"],
+          ["Does it include ETC?", "ETCは付いていますか。", "ETC は ついて います か。", "ETC is the electronic toll system; many rentals include a card in the car."],
+          ["Where do I return the car?", "車はどこに返せばいいですか。", "くるま は どこ に かえれば いい です か。"],
+          ["Please fill it up before returning.", "返却前に満タンにしてください。", "へんきゃくまえ に まんタン に して ください。"]
+        ]
+      },
+      {
+        title: "On the road",
+        phrases: [
+          ["Keep left.", "左側通行です。", "ひだりがわ つうこう です。", "Japan drives on the left."],
+          ["What's the speed limit?", "制限速度は何キロですか。", "せいげんそくど は なんキロ です か。"],
+          ["Is this a toll road?", "有料道路ですか。", "ゆうりょうどうろ です か。"],
+          ["Where is the nearest highway entrance?", "一番近いインターチェンジはどこですか。", "いちばん ちかい インターチェンジ は どこ です か。"],
+          ["Take the next exit.", "次の出口です。", "つぎ の でぐち です。"],
+          ["There's a traffic jam ahead.", "この先渋滞です。", "この さき じゅうたい です。"],
+          ["Please turn right at the next light.", "次の信号を右に曲がってください。", "つぎ の しんごう を みぎ に まがって ください。"],
+          ["No right turn.", "右折禁止です。", "うせつ きんし です。"],
+          ["One-way street.", "一方通行です。", "いっぽうつうこう です。"],
+          ["How long to Kyoto by car?", "車で京都までどのくらいかかりますか。", "くるま で きょうと まで どの くらい かかります か。"]
+        ]
+      },
+      {
+        title: "Parking",
+        phrases: [
+          ["Is there a parking lot nearby?", "近くに駐車場はありますか。", "ちかく に ちゅうしゃじょう は あります か。"],
+          ["How much is parking per hour?", "駐車場は一時間いくらですか。", "ちゅうしゃじょう は いちじかん いくら です か。"],
+          ["Is parking free?", "駐車場は無料ですか。", "ちゅうしゃじょう は むりょう です か。"],
+          ["How long can I park here?", "ここにどのくらい止められますか。", "ここ に どの くらい とめられます か。"],
+          ["No parking.", "駐車禁止です。", "ちゅうしゃ きんし です。"],
+          ["The lot is full.", "満車です。", "まんしゃ です。"],
+          ["Where is the ticket machine?", "精算機はどこですか。", "せいさんき は どこ です か。", "Many lots make you pay at a machine before returning to the car."],
+          ["I lost my parking ticket.", "駐車券をなくしました。", "ちゅうしゃけん を なくしました。"]
+        ]
+      },
+      {
+        title: "Fuel & charging",
+        phrases: [
+          ["Where is the nearest gas station?", "一番近いガソリンスタンドはどこですか。", "いちばん ちかい ガソリンスタンド は どこ です か。"],
+          ["Fill it up with regular, please.", "レギュラーを満タンお願いします。", "レギュラー を まんタン おねがい します。"],
+          ["Twenty liters of regular, please.", "レギュラーを二十リットルお願いします。", "レギュラー を にじゅうリットル おねがい します。"],
+          ["Self-service is fine.", "セルフで大丈夫です。", "セルフ で だいじょうぶ です。"],
+          ["Do you take credit cards?", "クレジットカードは使えますか。", "クレジットカード は つかえます か。"],
+          ["Is there an EV charger nearby?", "近くに電気自動車の充電器はありますか。", "ちかく に でんきじどうしゃ の じゅうでんき は あります か。"],
+          ["I'd like to charge the car.", "充電をお願いします。", "じゅうでん を おねがい します。"],
+          ["How long until it's full?", "満タンまでどのくらいかかりますか。", "まんタン まで どの くらい かかります か。"]
+        ]
+      },
+      {
+        title: "Trouble on the road",
+        phrases: [
+          ["I have a flat tire.", "タイヤがパンクしました。", "タイヤ が パンク しました。"],
+          ["The car won't start.", "エンジンがかかりません。", "エンジン が かかりません。"],
+          ["I ran out of gas.", "ガソリンが切れました。", "ガソリン が きれました。"],
+          ["Please call a tow truck.", "レッカー車を呼んでください。", "レッカーしゃ を よんで ください。"],
+          ["I was in an accident.", "事故に遭いました。", "じこ に あいました。"],
+          ["Is anyone hurt?", "けが人はいますか。", "けがにん は います か。"],
+          ["Please call the police.", "警察を呼んでください。", "けいさつ を よんで ください。", "For traffic accidents call 110; many policies also want the police report."],
+          ["Where is the rental company's roadside assistance number?", "レンタカー会社のロードサービスの番号はどこに書いてありますか。", "レンタカーがいしゃ の ロードサービス の ばんごう は どこ に かいて あります か。"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "sports",
+    code: "sp",
+    title: "Sports",
+    jaTitle: "スポーツ",
+    desc: "Watching games, joining a club, the gym, ball sports, and martial arts.",
+    categories: [
+      {
+        title: "Watching a game",
+        phrases: [
+          ["I'd like two tickets, please.", "チケットを二枚ください。", "チケット を にまい ください。"],
+          ["Where is my seat?", "私の席はどこですか。", "わたし の せき は どこ です か。"],
+          ["What time does the game start?", "試合は何時に始まりますか。", "しあい は なんじ に はじまります か。"],
+          ["Who is winning?", "どちらが勝っていますか。", "どちら が かって います か。"],
+          ["That was a great play!", "すごいプレーでしたね！", "すごい プレー でした ね！"],
+          ["Is there a scoreboard?", "スコアボードはありますか。", "スコアボード は あります か。"],
+          ["Where can I buy a team jersey?", "ユニフォームはどこで買えますか。", "ユニフォーム は どこ で かえます か。"],
+          ["Let's go! (cheer)", "頑張れ！", "がんばれ！", "Also shouted as 行け (ike) or the team's name."]
+        ]
+      },
+      {
+        title: "Joining in",
+        phrases: [
+          ["Can I join?", "仲間に入れてください。", "なかま に いれて ください。"],
+          ["I'm a beginner.", "初心者です。", "しょしんしゃ です。"],
+          ["Please go easy on me.", "よろしくお願いします。", "よろしく おねがい します。", "Said when joining a practice or match."],
+          ["How do you play this?", "これはどうやってやりますか。", "これ は どう やって やります か。"],
+          ["Whose turn is it?", "誰の番ですか。", "だれ の ばん です か。"],
+          ["Nice shot!", "ナイスショット！", "ナイスショット！"],
+          ["I need a break.", "少し休憩させてください。", "すこし きゅうけい させて ください。"],
+          ["Good game.", "お疲れ様でした。", "おつかれさま でした。", "Said after practice or a match, not only at work."],
+          ["Is there a sports club nearby?", "近くにスポーツクラブはありますか。", "ちかく に スポーツクラブ は あります か。"]
+        ]
+      },
+      {
+        title: "At the gym",
+        phrases: [
+          ["I'd like a trial membership.", "体験入会をお願いします。", "たいけんにゅうかい を おねがい します。"],
+          ["Where are the free weights?", "フリーウェイトはどこですか。", "フリーウェイト は どこ です か。"],
+          ["Is this machine free?", "このマシンは空いていますか。", "この マシン は あいて います か。"],
+          ["How do I use this machine?", "このマシンの使い方を教えてください。", "この マシン の つかいかた を おしえて ください。"],
+          ["I'd like to take a yoga class.", "ヨガのクラスを受けたいです。", "ヨガ の クラス を うけたい です。"],
+          ["Where is the stretching area?", "ストレッチスペースはどこですか。", "ストレッチスペース は どこ です か。"],
+          ["Do you have a towel rental?", "タオルの貸し出しはありますか。", "タオル の かしだし は あります か。"],
+          ["What time does the gym close?", "ジムは何時までですか。", "ジム は なんじ まで です か。"]
+        ]
+      },
+      {
+        title: "Ball sports",
+        phrases: [
+          ["Shall we play soccer?", "サッカーしませんか。", "サッカー しません か。", "Association football; フットボール is less common in Japan."],
+          ["Shall we play baseball?", "野球しませんか。", "やきゅう しません か。"],
+          ["Pass the ball, please.", "パスをお願いします。", "パス を おねがい します。"],
+          ["I play tennis.", "テニスをします。", "テニス を します。"],
+          ["Is the court free?", "コートは空いていますか。", "コート は あいて います か。"],
+          ["I'd like to reserve a court.", "コートを予約したいです。", "コート を よやく したい です。"],
+          ["Do you have a basketball court?", "バスケットコートはありますか。", "バスケットコート は あります か。"],
+          ["Where can I rent a racket?", "ラケットはどこで借りられますか。", "ラケット は どこ で かりられます か。"],
+          ["What's the score?", "スコアは何対何ですか。", "スコア は なんたいなん です か。"]
+        ]
+      },
+      {
+        title: "Martial arts & swimming",
+        phrases: [
+          ["I'd like to try judo.", "柔道を体験したいです。", "じゅうどう を たいけん したい です。"],
+          ["Where is the dojo?", "道場はどこですか。", "どうじょう は どこ です か。"],
+          ["Please teach me the basics.", "基本を教えてください。", "きほん を おしえて ください。"],
+          ["What rank are you?", "何段ですか。", "なんだん です か。", "Dan ranks for black belts; beginners ask 級 (kyū) instead."],
+          ["Is there a kendo club?", "剣道部はありますか。", "けんどうぶ は あります か。"],
+          ["I'd like to swim.", "泳ぎたいです。", "およぎたい です。"],
+          ["Do I need a swim cap?", "スイムキャップは必要ですか。", "スイムキャップ は ひつよう です か。", "Most public pools in Japan require a cap."],
+          ["Which lane is for beginners?", "初心者レーンはどれですか。", "しょしんしゃ レーン は どれ です か。"],
+          ["How deep is the pool?", "プールの深さはどのくらいですか。", "プール の ふかさ は どの くらい です か。"]
+        ]
+      }
+    ]
   }
 ];
