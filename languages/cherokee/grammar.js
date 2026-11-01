@@ -5,22 +5,32 @@
 // Sources (open / educational; accuracy over volume — no invented forms):
 // - Cherokee Nation Language Program, ᏣᎳᎩ ᎣᏣᏕᎶᏆᎠ (Cherokee language textbook PDF)
 //   https://cherokeenationdictionary.net/pdf/cherokee_grammar.pdf — prefixes, greetings,
-//   questions (-s / -ju), negation (tla + yi-/y-), numbers, want / speak / go conjugations.
+//   questions (-s / -ju), negation (tla + yi-/y-), numbers, want / speak / go conjugations;
+//   Set B hungry (-yosiha), eat-a-meal / drink present forms, recent past pairs,
+//   imperatives (Hiwonihi), kinship Set B on mother (Eji / Agiji / Jaji / Uji).
 // - Cherokee Nation Language Technology, Grammar Set A / Set B handout
 //   https://language.cherokee.org/media/fadc4zn5/grammar_a_b.pdf
+// - Cherokee Nation Language Technology, Cherokee Reader
+//   https://language.cherokee.org/media/ti2etezo/cherokee_reader.pdf — ᎠᎩᏲᏏ(Ꭽ), ᎤᏅᏗ.
 // - Durbin Feeling (1975), Cherokee–English Dictionary (Cherokee Nation of Oklahoma),
 //   cited via Wiktionary for attested lemma glosses (e.g. ᎦᏬᏂᎭ gawoniha).
 // - Wiktionary Cherokee entries and phrasebook (CC BY-SA): ᎣᏏᏲ, ᏩᏙ, ᏙᎯᏧ, ᏙᎾᏓᎪᎲᎢ,
 //   Ꮵ ᏣᎳᎩ, ᎦᏙ ᏕᏣᏙᎠ, Ꮭ ᏣᎳᎩ ᏱᏥᏬᏂ, Ꮭ, numerals, and verb lemmas.
 // - Wikipedia “Cherokee grammar” (CC BY-SA) for Set A / Set B overview.
+// - culturev.com Cherokee verb conjugations (open learner tables): hungry, drink, dine,
+//   speak (incl. ᎯᏬᏂᎯ), read/look (ᏥᎪᎵᏰᎠ …).
+// - Raven Rock Cherokee Dictionary (culturev.com PDF) for ᎤᏅᏗ, ᎪᏪᎵ, ᎤᏥ / ᎠᎩᏥ,
+//   ᎠᎵᏍᏓᏴᎲᏍᎦ / ᎦᎵᏍᏓᏴ… “eat a meal”.
 // - This repo’s languages/cherokee/vocab.js and reference.json for greeting and number forms
-//   already used in the Desk (osiyo, wado, saquu–sgohi, ayv, nihi, …).
+//   already used in the Desk (osiyo, wado, saquu–sgohi, ayv, nihi, etsi, edoda, …).
+// Lessons 1–6 unchanged; 7–12 deepen hungry (Set B before consonant), eating a meal,
+// drinking, reading/looking, kinship possession on “mother”, recent past, and commands.
 // Romanization matches the Desk vocab (ts for Ꮳ/Ꮵ, v for the nasal vowel, qu for Ꮖ).
 // Tone is not marked; sources that mark pitch are cited only for the form, not the tone.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.cherokee = {
   title: "Cherokee first grammar",
-  intro: "Cherokee (ᏣᎳᎩ, Tsalagi) packs who does what into the verb with pronoun prefixes, so a whole English sentence is often one word. These lessons cover greetings, name and identity statements, Set A and Set B prefixes on a few well-attested verbs, yes/no and question-word questions, negation with Ꮭ, and the numbers one to ten. Examples use Sequoyah’s syllabary with the same romanization as the Desk vocabulary; tone is left unmarked.",
+  intro: "Cherokee (ᏣᎳᎩ, Tsalagi) packs who does what into the verb with pronoun prefixes, so a whole English sentence is often one word. Lessons 1–6 cover greetings, name and identity statements, Set A and Set B prefixes on a few well-attested verbs, yes/no and question-word questions, negation with Ꮭ, and the numbers one to ten. Lessons 7–12 add “hungry”, eating a meal, drinking, reading or looking at something, kinship forms for “mother”, the recent past, and commands. Examples use Sequoyah’s syllabary with the same romanization as the Desk vocabulary; tone is left unmarked.",
   lessons: [
     {
       id: "greetings",
@@ -213,6 +223,198 @@ window.GRAMMAR.cherokee = {
         { q: "＿", en: "one", options: ["ᏌᏊ", "ᏔᎵ", "ᏦᎢ", "ᏍᎪᎯ"], answer: "ᏌᏊ", why: "ᏌᏊ (saquu) = one." },
         { q: "＿", en: "seven (sacred clan number)", options: ["ᎦᎵᏉᎩ", "ᎯᏍᎩ", "ᏑᏓᎵ", "ᏐᏁᎳ"], answer: "ᎦᎵᏉᎩ", why: "ᎦᎵᏉᎩ (galiquogi) = seven." },
         { q: "＿", en: "ten", options: ["ᏍᎪᎯ", "ᏌᏊ", "ᏅᎩ", "ᏧᏁᎳ"], answer: "ᏍᎪᎯ", why: "ᏍᎪᎯ (sgohi) = ten." },
+      ],
+    },
+    {
+      id: "hungry",
+      title: "ᎠᎩᏲᏏᎭ — hungry (Set B before a consonant)",
+      particle: "ᎠᎩ- Ꮳ- Ꭴ-",
+      summary: "Set B before a consonant: I / you / he or she is hungry.",
+      sections: [
+        {
+          p: "Lesson 4 used Set B before a vowel (<b>ᎠᏆ-</b> on “want”). Before a consonant, Set B “I” is <b>ᎠᎩ-</b> (agi-), “you” is <b>Ꮳ-</b> (tsa-), and “he/she” is <b>Ꭴ-</b> (u-). The stem <b>-yosiha</b> “be hungry” gives <b>ᎠᎩᏲᏏᎭ</b> (agiyosiha) “I am hungry”, <b>ᏣᏲᏏᎭ</b> (tsayosiha) “you are hungry”, <b>ᎤᏲᏏᎭ</b> (uyosiha) “he/she is hungry”.",
+          examples: [
+            ["{ᎠᎩᏲᏏᎭ}.", "Agiyosiha.", "I am hungry."],
+            ["{ᏣᏲᏏᎭ}.", "Tsayosiha.", "You are hungry."],
+            ["{ᎤᏲᏏᎭ}.", "Uyosiha.", "He / she is hungry."],
+          ],
+        },
+        {
+          h: "Asking, and more than one person",
+          p: "Ask with a yes/no ending: <b>ᏣᏲᏏᎭᏍ?</b> (tsayosihas?) “Are you hungry?”. When more than one person is hungry, materials often add the distributive <b>de-</b>/<b>d-</b>: <b>ᏚᏂᏲᏏᎭ</b> (duniyosiha) “they are hungry” (each person’s hunger counts).",
+          examples: [
+            ["{ᏣᏲᏏᎭᏍ}?", "Tsayosihas?", "Are you hungry?"],
+            ["ᎠᏂᏍᎦᏯ {ᏚᏂᏲᏏᎭ}.", "Anisgaya duniyosiha.", "The men are hungry."],
+            ["ᎩᏟ {ᏚᏂᏲᏏᎭ}.", "Gitli duniyosiha.", "The dogs are hungry."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿.", en: "I am hungry.", options: ["ᎠᎩᏲᏏᎭ", "ᏣᏲᏏᎭ", "ᎤᏲᏏᎭ", "ᎠᏆᏚᎵᎭ"], answer: "ᎠᎩᏲᏏᎭ", why: "Set B “I” before a consonant is ᎠᎩ-; ᎠᎩᏲᏏᎭ = I am hungry." },
+        { q: "＿.", en: "You are hungry.", options: ["ᏣᏲᏏᎭ", "ᎠᎩᏲᏏᎭ", "ᎤᏲᏏᎭ", "ᎯᏬᏂᎭ"], answer: "ᏣᏲᏏᎭ", why: "Set B “you” before a consonant is Ꮳ- (tsa-)." },
+        { q: "＿.", en: "He/she is hungry.", options: ["ᎤᏲᏏᎭ", "ᎠᎩᏲᏏᎭ", "ᏣᏲᏏᎭ", "ᎦᏬᏂᎭ"], answer: "ᎤᏲᏏᎭ", why: "Set B third person before a consonant is Ꭴ- (u-)." },
+        { q: "＿?", en: "Are you hungry?", options: ["ᏣᏲᏏᎭᏍ", "ᎠᎩᏲᏏᎭ", "ᎨᎦ", "ᏩᏙ"], answer: "ᏣᏲᏏᎭᏍ", why: "ᏣᏲᏏᎭ plus yes/no ‑Ꮝ asks “Are you hungry?”." },
+        { q: "ᎠᏂᏍᎦᏯ ＿.", en: "The men are hungry.", options: ["ᏚᏂᏲᏏᎭ", "ᎤᏲᏏᎭ", "ᎠᎩᏲᏏᎭ", "ᏥᏬᏂᎭ"], answer: "ᏚᏂᏲᏏᎭ", why: "Plural “they are hungry” often takes distributive d- + uni- → ᏚᏂᏲᏏᎭ." },
+      ],
+    },
+    {
+      id: "eat-meal",
+      title: "ᎦᎵᏍᏓᏴᎲᏍᎦ — eating a meal",
+      particle: "ᎦᎵᏍᏓᏴᎲᏍᎦ",
+      summary: "Set A before a vowel on the everyday “dine / eat a meal” verb.",
+      sections: [
+        {
+          p: "“Eat a meal / dine” is a Set A verb whose stem begins with a vowel. Present forms: <b>ᎦᎵᏍᏓᏴᎲᏍᎦ</b> (galisdayvhvsga) “I am eating a meal”, <b>ᎭᎵᏍᏓᏴᎲᏍᎦ</b> (halisdayvhvsga) “you are eating a meal”, <b>ᎠᎵᏍᏓᏴᎲᏍᎦ</b> (alisdayvhvsga) “he/she is eating a meal”.",
+          examples: [
+            ["{ᎦᎵᏍᏓᏴᎲᏍᎦ}.", "Galisdayvhvsga.", "I am eating a meal."],
+            ["{ᎭᎵᏍᏓᏴᎲᏍᎦ}.", "Halisdayvhvsga.", "You are eating a meal."],
+            ["{ᎠᎵᏍᏓᏴᎲᏍᎦ}.", "Alisdayvhvsga.", "He / she is eating a meal."],
+          ],
+        },
+        {
+          h: "They and you all",
+          p: "“They are eating a meal” is <b>ᎠᎾᎵᏍᏓᏴᎲᏍᎦ</b> (analisdayvhvsga). “You all are eating a meal” is <b>ᎢᏣᎵᏍᏓᏴᎲᏍᎦ</b> (itsalisdayvhvsga). (Eating a named lump of food uses a different classifying “eat” stem; learn the meal verb first.)",
+          examples: [
+            ["{ᎠᎾᎵᏍᏓᏴᎲᏍᎦ}.", "Analisdayvhvsga.", "They are eating a meal."],
+            ["{ᎢᏣᎵᏍᏓᏴᎲᏍᎦ}.", "Itsalisdayvhvsga.", "You all are eating a meal."],
+            ["ᎣᏏᏲ. {ᎦᎵᏍᏓᏴᎲᏍᎦ}.", "Osiyo. Galisdayvhvsga.", "Hello. I am eating a meal."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿.", en: "I am eating a meal.", options: ["ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎭᎵᏍᏓᏴᎲᏍᎦ", "ᎠᎵᏍᏓᏴᎲᏍᎦ", "ᎦᏗᏔᏍᎦ"], answer: "ᎦᎵᏍᏓᏴᎲᏍᎦ", why: "Set A “I” before a vowel is g-; ᎦᎵᏍᏓᏴᎲᏍᎦ = I am eating a meal." },
+        { q: "＿.", en: "You are eating a meal.", options: ["ᎭᎵᏍᏓᏴᎲᏍᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ", "ᎨᎦ"], answer: "ᎭᎵᏍᏓᏴᎲᏍᎦ", why: "Set A “you” before a vowel is h-." },
+        { q: "＿.", en: "He/she is eating a meal.", options: ["ᎠᎵᏍᏓᏴᎲᏍᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎭᎵᏍᏓᏴᎲᏍᎦ", "ᎤᏲᏏᎭ"], answer: "ᎠᎵᏍᏓᏴᎲᏍᎦ", why: "Third person present “is dining” is ᎠᎵᏍᏓᏴᎲᏍᎦ." },
+        { q: "＿.", en: "They are eating a meal.", options: ["ᎠᎾᎵᏍᏓᏴᎲᏍᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎢᏣᎵᏍᏓᏴᎲᏍᎦ", "ᏚᏂᏲᏏᎭ"], answer: "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ", why: "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ = they are eating a meal." },
+        { q: "＿.", en: "You all are eating a meal.", options: ["ᎢᏣᎵᏍᏓᏴᎲᏍᎦ", "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎯᏬᏂᎭ"], answer: "ᎢᏣᎵᏍᏓᏴᎲᏍᎦ", why: "ᎢᏣᎵᏍᏓᏴᎲᏍᎦ = you all are eating a meal." },
+      ],
+    },
+    {
+      id: "drink",
+      title: "ᎦᏗᏔᏍᎦ — drinking",
+      particle: "ᎦᏗᏔᏍᎦ",
+      summary: "“Drink it” with Set A before a vowel; milk is ᎤᏅᏗ.",
+      sections: [
+        {
+          p: "“Drink (it)” is also Set A before a vowel: <b>ᎦᏗᏔᏍᎦ</b> (gaditasga) “I am drinking it”, <b>ᎭᏗᏔᏍᎦ</b> (haditasga) “you are drinking it”, <b>ᎠᏗᏔᏍᎦ</b> (aditasga) “he/she is drinking it”. Put the thing drunk first when you name it.",
+          examples: [
+            ["{ᎦᏗᏔᏍᎦ}.", "Gaditasga.", "I am drinking it."],
+            ["{ᎭᏗᏔᏍᎦ}.", "Haditasga.", "You are drinking it."],
+            ["{ᎠᏗᏔᏍᎦ}.", "Aditasga.", "He / she is drinking it."],
+          ],
+        },
+        {
+          h: "Milk, and they",
+          p: "<b>ᎤᏅᏗ</b> (unvdi) is “milk”. A textbook example is <b>ᎤᏅᏗ ᎦᏗᏔᏍᎦ</b> “I am drinking milk”. “They are drinking it” is <b>ᎠᎾᏗᏔᏍᎦ</b> (anaditasga). Coffee from earlier lessons is still <b>ᎧᏫ</b> (kahwi).",
+          examples: [
+            ["ᎤᏅᏗ {ᎦᏗᏔᏍᎦ}.", "Unvdi gaditasga.", "I am drinking milk."],
+            ["ᎧᏫ {ᎭᏗᏔᏍᎦ}.", "Kahwi haditasga.", "You are drinking coffee."],
+            ["{ᎠᎾᏗᏔᏍᎦ}.", "Anaditasga.", "They are drinking it."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿.", en: "I am drinking it.", options: ["ᎦᏗᏔᏍᎦ", "ᎭᏗᏔᏍᎦ", "ᎠᏗᏔᏍᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ"], answer: "ᎦᏗᏔᏍᎦ", why: "ᎦᏗᏔᏍᎦ (gaditasga) = I am drinking it." },
+        { q: "＿.", en: "You are drinking it.", options: ["ᎭᏗᏔᏍᎦ", "ᎦᏗᏔᏍᎦ", "ᎠᎾᏗᏔᏍᎦ", "ᎠᎩᏲᏏᎭ"], answer: "ᎭᏗᏔᏍᎦ", why: "ᎭᏗᏔᏍᎦ (haditasga) = you are drinking it." },
+        { q: "＿ means “milk”.", en: "", options: ["ᎤᏅᏗ", "ᎧᏫ", "ᎠᎹ", "ᎦᏚ"], answer: "ᎤᏅᏗ", why: "ᎤᏅᏗ (unvdi) = milk." },
+        { q: "ᎤᏅᏗ ＿.", en: "I am drinking milk.", options: ["ᎦᏗᏔᏍᎦ", "ᎭᏗᏔᏍᎦ", "ᎠᏆᏚᎵᎭ", "ᎨᎦ"], answer: "ᎦᏗᏔᏍᎦ", why: "Object first, then ᎦᏗᏔᏍᎦ: ᎤᏅᏗ ᎦᏗᏔᏍᎦ." },
+        { q: "＿.", en: "They are drinking it.", options: ["ᎠᎾᏗᏔᏍᎦ", "ᎦᏗᏔᏍᎦ", "ᎭᏗᏔᏍᎦ", "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ"], answer: "ᎠᎾᏗᏔᏍᎦ", why: "ᎠᎾᏗᏔᏍᎦ (anaditasga) = they are drinking it." },
+      ],
+    },
+    {
+      id: "read-look",
+      title: "ᏥᎪᎵᏰᎠ — reading / looking at it",
+      particle: "ᏥᎪᎵᏰᎠ",
+      summary: "Another Set A consonant-stem verb; paper or a book is ᎪᏪᎵ.",
+      sections: [
+        {
+          p: "The present stem <b>-goliye'a</b> means “read it / look at it”. Set A before a consonant: <b>ᏥᎪᎵᏰᎠ</b> (tsigoliyea) “I am reading it”, <b>ᎯᎪᎵᏰᎠ</b> (higoliyea) “you are reading it”, <b>ᎠᎪᎵᏰᎠ</b> (agoliyea) “he/she is reading it”.",
+          examples: [
+            ["{ᏥᎪᎵᏰᎠ}.", "Tsigoliyea.", "I am reading / looking at it."],
+            ["{ᎯᎪᎵᏰᎠ}.", "Higoliyea.", "You are reading / looking at it."],
+            ["Ꮎ ᎠᏍᎦᏯ {ᎠᎪᎵᏰᎠ}.", "Na asgaya agoliyea.", "That man is reading / looking at it."],
+          ],
+        },
+        {
+          h: "Paper and books",
+          p: "<b>ᎪᏪᎵ</b> (gohweli) is “paper; book; letter”. Name it with the verb: <b>ᎪᏪᎵ ᏥᎪᎵᏰᎠ</b> “I am reading the paper/book”. “They are reading it” is <b>ᎠᏂᎪᎵᏰᎠ</b> (anigoliyea).",
+          examples: [
+            ["ᎪᏪᎵ {ᏥᎪᎵᏰᎠ}.", "Gohweli tsigoliyea.", "I am reading the paper / book."],
+            ["ᎪᏪᎵ {ᎯᎪᎵᏰᎠ}.", "Gohweli higoliyea.", "You are reading the paper / book."],
+            ["{ᎠᏂᎪᎵᏰᎠ}.", "Anigoliyea.", "They are reading / looking at it."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿.", en: "I am reading it.", options: ["ᏥᎪᎵᏰᎠ", "ᎯᎪᎵᏰᎠ", "ᎠᎪᎵᏰᎠ", "ᏥᏬᏂᎭ"], answer: "ᏥᎪᎵᏰᎠ", why: "Set A “I” + -goliye'a → ᏥᎪᎵᏰᎠ." },
+        { q: "＿.", en: "You are reading it.", options: ["ᎯᎪᎵᏰᎠ", "ᏥᎪᎵᏰᎠ", "ᎠᏂᎪᎵᏰᎠ", "ᎭᏗᏔᏍᎦ"], answer: "ᎯᎪᎵᏰᎠ", why: "Set A “you” is Ꭿ- before a consonant." },
+        { q: "Ꮎ ᎠᏍᎦᏯ ＿.", en: "That man is reading it.", options: ["ᎠᎪᎵᏰᎠ", "ᏥᎪᎵᏰᎠ", "ᎯᎪᎵᏰᎠ", "ᎦᏬᏂᎭ"], answer: "ᎠᎪᎵᏰᎠ", why: "Third person present is ᎠᎪᎵᏰᎠ." },
+        { q: "＿ means “paper; book”.", en: "", options: ["ᎪᏪᎵ", "ᎤᏅᏗ", "ᎦᏚ", "ᏩᏯ"], answer: "ᎪᏪᎵ", why: "ᎪᏪᎵ (gohweli) = paper, book, or letter." },
+        { q: "ᎪᏪᎵ ＿.", en: "I am reading the paper/book.", options: ["ᏥᎪᎵᏰᎠ", "ᎯᎪᎵᏰᎠ", "ᎠᎪᎵᏰᎠ", "ᎦᏗᏔᏍᎦ"], answer: "ᏥᎪᎵᏰᎠ", why: "Object ᎪᏪᎵ with ᏥᎪᎵᏰᎠ." },
+      ],
+    },
+    {
+      id: "kinship-mother",
+      title: "ᎡᏥ — mother, and Set B possession",
+      particle: "ᎡᏥ ᎠᎩᏥ",
+      summary: "Address your mother, then Set B forms for my / your / his or her mother.",
+      sections: [
+        {
+          p: "When you speak <i>to</i> your own mother, say <b>ᎡᏥ</b> (etsi), as in the Desk vocabulary. Set B on the kinship stem gives relationship forms: <b>ᎠᎩᏥ</b> (agitsi) “my mother” (literally “she is mother to me”), <b>ᏣᏥ</b> (tsatsi) “your mother”, <b>ᎤᏥ</b> (utsi) “his/her mother”. People are not “owned”; the prefix marks the relationship.",
+          examples: [
+            ["{ᎡᏥ}.", "Etsi.", "Mother! (addressing your own mother)"],
+            ["{ᎠᎩᏥ}.", "Agitsi.", "My mother. (she is mother to me)"],
+            ["{ᏣᏥ}. / {ᎤᏥ}.", "Tsatsi. / Utsi.", "Your mother. / His or her mother."],
+          ],
+        },
+        {
+          h: "Father beside mother",
+          p: "Address your own father with <b>ᎡᏙᏓ</b> (edoda) from the vocabulary. Third-person “his/her father” appears in materials as <b>ᎤᏙᏓ</b> (udoda). Keep the address forms for speaking to parents, and the Set B forms when you talk about them.",
+          examples: [
+            ["{ᎡᏙᏓ}.", "Edoda.", "Father! (addressing your own father)"],
+            ["ᎯᎠ {ᎡᏥ}.", "Hia etsi.", "This is my mother. (address form in a reader line)"],
+            ["ᎤᏙᏓ ᎦᏬᏂᎭ.", "Udoda gawoniha.", "His / her father is speaking."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ — addressing your own mother.", en: "", options: ["ᎡᏥ", "ᎠᎩᏥ", "ᎤᏥ", "ᎠᎨᏯ"], answer: "ᎡᏥ", why: "ᎡᏥ (etsi) is used when speaking to your own mother." },
+        { q: "＿ means “my mother” (relationship form).", en: "", options: ["ᎠᎩᏥ", "ᎡᏥ", "ᏣᏥ", "ᎤᏥ"], answer: "ᎠᎩᏥ", why: "Set B agi- + mother stem → ᎠᎩᏥ (agitsi)." },
+        { q: "＿ means “your mother”.", en: "", options: ["ᏣᏥ", "ᎠᎩᏥ", "ᎡᏥ", "ᎠᏴ"], answer: "ᏣᏥ", why: "Set B tsa- → ᏣᏥ (tsatsi)." },
+        { q: "＿ means “his/her mother”.", en: "", options: ["ᎤᏥ", "ᎠᎩᏥ", "ᏣᏥ", "ᎡᏙᏓ"], answer: "ᎤᏥ", why: "Set B u- → ᎤᏥ (utsi)." },
+        { q: "＿ — addressing your own father.", en: "", options: ["ᎡᏙᏓ", "ᎤᏙᏓ", "ᎡᏥ", "ᎠᏍᎦᏯ"], answer: "ᎡᏙᏓ", why: "ᎡᏙᏓ (edoda) addresses your own father." },
+      ],
+    },
+    {
+      id: "recent-past-commands",
+      title: "Recent past, and commands",
+      particle: "‑Ꭿ! ᎭᏗᏔ!",
+      summary: "Same-day “just did” forms, and second-person commands.",
+      sections: [
+        {
+          p: "The <b>recent past</b> (same day) often looks like a short command stem. Present → recent past pairs from the Cherokee Nation textbook: <b>ᎦᎵᏍᏓᏴᎲᏍᎦ</b> → <b>ᎦᎵᏍᏓᏴᎲᎦ</b> (galisdayvhvga) “I just ate a meal”; <b>ᎠᏂᏬᏂᎭ</b> → <b>ᎠᏂᏬᏂᎯ</b> (aniwonihi) “they just spoke”; <b>ᎭᏗᏔᏍᎦ</b> → <b>ᎭᏗᏔ</b> (hadita) “you just drank it”.",
+          examples: [
+            ["{ᎦᎵᏍᏓᏴᎲᎦ}.", "Galisdayvhvga.", "I just ate a meal."],
+            ["{ᎠᏂᏬᏂᎯ}.", "Aniwonihi.", "They just spoke."],
+            ["{ᎭᏗᏔ}.", "Hadita.", "You just drank it. (same stem as the command)"],
+          ],
+        },
+        {
+          h: "Commands (imperative)",
+          p: "Commands use second-person prefixes on a stem close to the recent past. <b>ᎯᏬᏂᎯ!</b> (hiwonihi!) “Speak!”; <b>ᎭᏗᏔ!</b> (hadita!) “Drink it!”; <b>ᎭᎵᏍᏓᏴᎲᎦ!</b> (halisdayvhvga!) “Eat a meal! / Have a meal!”. Tone and context separate “just did” from “do it!”; learn the pairs as set phrases first.",
+          examples: [
+            ["{ᎯᏬᏂᎯ}!", "Hiwonihi!", "Speak!"],
+            ["{ᎭᏗᏔ}!", "Hadita!", "Drink it!"],
+            ["{ᎭᎵᏍᏓᏴᎲᎦ}!", "Halisdayvhvga!", "Eat a meal!"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ᎦᎵᏍᏓᏴᎲᏍᎦ → ＿ (I just ate a meal).", en: "", options: ["ᎦᎵᏍᏓᏴᎲᎦ", "ᎭᎵᏍᏓᏴᎲᏍᎦ", "ᎠᎾᎵᏍᏓᏴᎲᏍᎦ", "ᎦᏗᏔᏍᎦ"], answer: "ᎦᎵᏍᏓᏴᎲᎦ", why: "Recent past of “I am eating a meal” is ᎦᎵᏍᏓᏴᎲᎦ." },
+        { q: "ᎠᏂᏬᏂᎭ → ＿ (they just spoke).", en: "", options: ["ᎠᏂᏬᏂᎯ", "ᎯᏬᏂᎯ", "ᏥᏬᏂᎭ", "ᎦᏬᏂᎭ"], answer: "ᎠᏂᏬᏂᎯ", why: "Recent past “they just spoke” is ᎠᏂᏬᏂᎯ." },
+        { q: "＿!", en: "Speak!", options: ["ᎯᏬᏂᎯ", "ᎯᏬᏂᎭ", "ᏥᏬᏂᎭ", "ᎭᏗᏔ"], answer: "ᎯᏬᏂᎯ", why: "Imperative “Speak!” is ᎯᏬᏂᎯ!" },
+        { q: "＿!", en: "Drink it!", options: ["ᎭᏗᏔ", "ᎭᏗᏔᏍᎦ", "ᎦᏗᏔᏍᎦ", "ᎯᏬᏂᎯ"], answer: "ᎭᏗᏔ", why: "Command “Drink it!” is ᎭᏗᏔ!" },
+        { q: "＿!", en: "Eat a meal!", options: ["ᎭᎵᏍᏓᏴᎲᎦ", "ᎦᎵᏍᏓᏴᎲᏍᎦ", "ᎭᎵᏍᏓᏴᎲᏍᎦ", "ᎠᎩᏲᏏᎭ"], answer: "ᎭᎵᏍᏓᏴᎲᎦ", why: "Imperative “Have a meal!” is ᎭᎵᏍᏓᏴᎲᎦ!" },
       ],
     },
   ],
