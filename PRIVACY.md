@@ -1,6 +1,6 @@
 # Privacy policy
 
-SquirrelWorks publishes the Android apps named below. This policy covers all of them. Contact: squirelworks@gmail.com. Source and website: https://github.com/squirelworks/LanguageStudentDesk.
+SquirrelWorks publishes the Android apps named below. This policy covers all of them. Contact: brianhack@hackingcovfefe.com. Source and website: https://github.com/squirelworks/LanguageStudentDesk.
 
 ## Apps
 
@@ -50,7 +50,7 @@ These apps are study tools for a general audience, ages 13 and older. They are n
 
 ## Contact
 
-Questions about this policy: squirelworks@gmail.com
+Questions about this policy: brianhack@hackingcovfefe.com
 
 ## Changes
 
