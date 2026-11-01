@@ -1,6 +1,14 @@
 // Standard Moroccan Tamazight starter words for the Vocabulary Learner.
 // Each word is [Tifinagh, Latin transcription, English, note]. Written for this project.
 // In the transcription c is sh, x is kh, ɣ is a throaty r, and a dot marks an emphatic sound.
+//
+// Sources (attested forms only; leave out if unsure):
+// - Existing Desk Tamazight decks in this file and languages/tamazight/reference.json
+//   / grammar.js (IRCAM-style Standard Moroccan Tamazight orthography)
+// - Wiktionary Appendix:Central Atlas Tamazight Swadesh list (CC BY-SA): body parts,
+//   colours, animals, nature words, and everyday verbs (gn, sl, qqim, kf, ini)
+// - Cross-check: forms already used in Desk grammar/reference examples (e.g. amaziɣ)
+// New cards are append-only; do not remove or reorder existing words.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.tamazight = [
   {
@@ -40,6 +48,7 @@ window.LSD_DECKS.tamazight = [
       ["ⴱⴰⴱⴰ", "baba", "dad", ""],
       ["ⴰⵙⵍⵎⴰⴷ", "aslmad", "teacher", "A woman: ⵜⴰⵙⵍⵎⴰⴷⵜ, taslmadt."],
       ["ⴰⵏⵍⵎⴰⴷ", "anlmad", "student", "A woman: ⵜⴰⵏⵍⵎⴰⴷⵜ, tanlmadt."],
+      ["ⴰⵎⴰⵣⵉⵖ", "amaziɣ", "Amazigh (man)", "Feminine ⵜⴰⵎⴰⵣⵉⵖⵜ, tamaziɣt; plural ⵉⵎⴰⵣⵉⵖⵏ, imaziɣn. Desk grammar."],
     ],
   },
   {
@@ -71,6 +80,8 @@ window.LSD_DECKS.tamazight = [
       ["ⵜⴰⴳⵍⴰⵢⵜ", "taglayt", "egg", ""],
       ["ⵙⴽⵙⵓ", "sksu", "couscous", ""],
       ["ⵜⴰⵎⵎⵏⵜ", "tammnt", "honey", ""],
+      ["ⵜⵉⵙⵏⵜ", "tisnt", "salt", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵜⴰⵃⴱⵓⴱⵜ", "taḥbubt", "fruit", "Wiktionary Central Atlas Tamazight Swadesh list."],
     ],
   },
   {
@@ -89,6 +100,11 @@ window.LSD_DECKS.tamazight = [
       ["ⴰⵔⴰ", "ara", "write", ""],
       ["ⵥⵕ", "ẓr", "see", ""],
       ["ⵅⴷⵎ", "xdm", "work", ""],
+      ["ⴳⵏ", "gn", "sleep", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵙⵍ", "sl", "hear", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵇⵇⵉⵎ", "qqim", "sit; stay", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴽⴼ", "kf", "give", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⵏⵉ", "ini", "say", "Wiktionary Central Atlas Tamazight Swadesh list."],
     ],
   },
   {
@@ -134,6 +150,7 @@ window.LSD_DECKS.tamazight = [
       ["ⴰⵢⵢⵓⵔ", "ayyur", "month; moon", ""],
       ["ⴰⵙⴳⴳⵯⴰⵙ", "asggʷas", "year", ""],
       ["ⵢⵏⵏⴰⵢⵔ", "ynnayr", "January; the Amazigh new year", "Celebrated around 13 January."],
+      ["ⵉⴹ", "iḍ", "night", "Wiktionary Central Atlas Tamazight Swadesh list."],
     ],
   },
   {
@@ -146,6 +163,60 @@ window.LSD_DECKS.tamazight = [
       ["ⵎⴰⵅ", "max", "why", ""],
       ["ⵎⵏⵛⴽ", "mnck", "how much; how many", ""],
       ["ⵎⵏⵛⴽ ⴰⴷ ⵉⵙⵡⴰ?", "mnck ad iswa?", "how much does it cost?", ""],
+      ["ⵎⵉⵎⴽ", "mimk", "how", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵎⴰⵢ", "may", "who; what", "Wiktionary Central Atlas Tamazight Swadesh list."],
+    ],
+  },
+  {
+    id: "body",
+    title: "Body",
+    words: [
+      ["ⵉⵖⴼ", "iɣf", "head", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵜⵉⵟⵟ", "tiṭṭ", "eye", "Plural ⴰⵍⵍⵏ, alln. Wiktionary Swadesh list."],
+      ["ⴰⵎⵥⵥⵓⵖ", "amẓẓuɣ", "ear", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵏⵣⴰⵔ", "anzar", "nose", "Also ⵜⵉⴳⵏⵣⴰⵔ, tignzar. Wiktionary Swadesh list."],
+      ["ⵉⵎⵉ", "imi", "mouth", "Also ⴰⵇⵎⵓ, aqmu. Wiktionary Swadesh list."],
+      ["ⴰⴼⵓⵙ", "afus", "hand", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⴹⴰⵔ", "aḍar", "foot; leg", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵓⵍ", "ul", "heart", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵣⵣⴰⵔ", "azzar", "hair", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⵍⵙ", "ils", "tongue", "Wiktionary Central Atlas Tamazight Swadesh list."],
+    ],
+  },
+  {
+    id: "colours",
+    title: "Colours",
+    words: [
+      ["ⴰⵣⴳⴳⵯⴰⵖ", "azggʷaɣ", "red", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵣⴳⵣⴰⵡ", "azgzaw", "green", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵡⵔⴰⵖ", "awraɣ", "yellow", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵓⵎⵍⵉⵍ", "umlil", "white", "Also ⴰⵎⵍⵍⴰⵍ, amllal. Wiktionary Swadesh list."],
+      ["ⴰⴱⵔⴽⴰⵏ", "abrkan", "black", "Also ⴰⴱⵅⵅⵓⵛ, abxxuc. Wiktionary Swadesh list."],
+    ],
+  },
+  {
+    id: "animals",
+    title: "Animals",
+    words: [
+      ["ⴰⵊⴹⵉⴹ", "ajḍiḍ", "bird", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⵢⴷⵉ", "iydi", "dog", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⴼⵉⵖⵔ", "ifiɣr", "snake", "Wiktionary Central Atlas Tamazight Swadesh list."],
+    ],
+  },
+  {
+    id: "nature",
+    title: "Nature",
+    words: [
+      ["ⴰⵙⴽⵍⵓ", "asklu", "tree", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵜⴰⴼⵓⴽⵜ", "tafukt", "sun", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⵜⵔⵉ", "itri", "star", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵏⵥⴰⵔ", "anẓar", "rain", "Not the same word as ⴰⵏⵣⴰⵔ anzar “nose”. Wiktionary Swadesh list."],
+      ["ⴰⴽⴰⵍ", "akal", "earth; land", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⵉⴳⵏⵏⴰ", "ignna", "sky", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⴼⴰ", "afa", "fire", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵥⵔⵓ", "aẓru", "stone", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⴷⴼⵍ", "adfl", "snow", "Wiktionary Central Atlas Tamazight Swadesh list."],
+      ["ⴰⵣⵡⵓ", "azwu", "wind", "Wiktionary Central Atlas Tamazight Swadesh list."],
     ],
   },
 ];

@@ -1,10 +1,25 @@
 // Latin first grammar for the Grammar Learner. Written for this project.
 // Examples are [Latin, word by word, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Classical constructions — original example sentences):
+// - Allen and Greenough's New Latin Grammar (public domain / Ginn & Company via
+//   Perseus / Dickinsoned_Latin): genitive of possession, dative of indirect object,
+//   imperfect and perfect indicative formation, -ne / quis / quid / ubi / cūr
+//   questions, and nōn / nēmō / nihil negation.
+// - Wiktionary Latin lemmas and grammar notes (CC BY-SA): sum/esse, amāre, monēre,
+//   dare, vidēre; 1st/2nd-declension case endings; imperfect -bā-; perfect -vī/-uī
+//   stems and -ī -istī -it endings.
+// - Wikipedia “Latin grammar”, “Latin declension”, “Latin conjugation”
+//   (CC BY-SA) for beginner overview of cases, imperfect vs perfect, and enclitic -ne.
+// - In-repo languages/latin/reference.json cards (cases, first/second declension,
+//   imperfect, perfect, prepositions) — same beginner seam; examples here are original.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (genitive, dative, imperfect,
+// perfect, questions, negation). Long vowels marked with macrons as in lessons 1–6.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.latin = {
   title: "Latin first grammar",
-  intro: "Latin shows who does what by the endings of words, not by their order. A verb's ending tells you the subject, and a noun's ending tells you its job in the sentence. These lessons start with “to be” and the present tense, then the subject and object endings, plurals, adjectives that agree, and the two cases that follow prepositions. Long vowels are marked with macrons.",
+  intro: "Latin shows who does what by the endings of words, not by their order. A verb's ending tells you the subject, and a noun's ending tells you its job in the sentence. Lessons 1–6 cover “to be”, the present tense, subject and object endings, plurals, adjectives that agree, and the cases that follow prepositions. Lessons 7–12 add the genitive and dative, the imperfect and perfect, questions, and saying no. Long vowels are marked with macrons.",
   lessons: [
     {
       id: "esse",
@@ -188,6 +203,192 @@ window.GRAMMAR.latin = {
         { q: "What does «in aquam» mean?", en: "", options: ["into the water", "in the water", "out of the water", "with water"], answer: "into the water", why: "in + accusative (-am) = movement: into." },
         { q: "Ex ＿ currunt.", en: "They run out of the forest.", options: ["silvā", "silvam", "silva", "silvae"], answer: "silvā", why: "ex (out of) takes the ablative: -ā." },
         { q: "Per ＿ ambulant.", en: "They walk through the streets.", options: ["viās", "viīs", "via", "viae"], answer: "viās", why: "per takes the accusative; plural of via: viās." },
+      ],
+    },
+    {
+      id: "genitive",
+      title: "The genitive — of, belonging to",
+      particle: "-ae / -ī",
+      summary: "Whose? The ending marks the owner.",
+      sections: [
+        {
+          p: "Possession and “of” use the <b>genitive</b>. Nouns like puella make it in <b>-ae</b> (puellae “of the girl”), nouns like servus in <b>-ī</b> (servī “of the slave”). It often comes next to the thing owned: liber puellae, “the girl's book”.",
+          examples: [
+            ["Liber {puellae} est.", "book · of the girl · is", "It is the girl's book."],
+            ["Fīlius {dominī} labōrat.", "son · of the master · works", "The master's son is working."],
+            ["Vīlla {Mārcī} magna est.", "villa · of Marcus · great · is", "Marcus's villa is large."],
+          ],
+        },
+        {
+          h: "Plural “of”",
+          p: "More than one owner: puell<b>ārum</b> “of the girls”, servōrum “of the slaves”. Neuter bellum makes bellī (sg.) and bellōrum (pl.), same pattern as servus.",
+          examples: [
+            ["Casae {agricolārum} sunt parvae.", "houses · of the farmers · are · small", "The farmers' houses are small."],
+            ["Finis {bellī} est.", "end · of the war · is", "It is the end of the war."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Liber ＿ est.", en: "It is the girl's book.", options: ["puellae", "puellam", "puella", "puellā"], answer: "puellae", why: "“Of the girl” is the genitive: -ae." },
+        { q: "Fīlius ＿ venit.", en: "The master's son comes.", options: ["dominī", "dominum", "dominus", "dominō"], answer: "dominī", why: "“Of the master”: genitive -ī." },
+        { q: "What does «casa agricolārum» mean?", en: "casa = house", options: ["the farmers' house", "the farmer's houses", "a house for farmers", "farmers in the house"], answer: "the farmers' house", why: "agricolārum is genitive plural: of the farmers." },
+        { q: "Amīcus ＿ sum.", en: "I am a friend of Marcus.", options: ["Mārcī", "Mārcum", "Mārcus", "Mārcō"], answer: "Mārcī", why: "“Of Marcus” takes the genitive -ī." },
+        { q: "The genitive singular of bellum (war) is…", en: "", options: ["bellī", "bellum", "bellō", "bella"], answer: "bellī", why: "Neuter -um nouns make their genitive in -ī, like servus." },
+      ],
+    },
+    {
+      id: "dative",
+      title: "The dative — to and for",
+      particle: "-ae / -ō",
+      summary: "The person who receives or benefits.",
+      sections: [
+        {
+          p: "The <b>dative</b> marks the person you give to, show to, or do something for. For puella nouns it ends in <b>-ae</b> (same spelling as the genitive, but the job is different): puellae librum dō, “I give the girl a book”. For servus nouns it ends in <b>-ō</b>: servō pecūniam dō.",
+          examples: [
+            ["{Puellae} librum dō.", "to the girl · book · I give", "I give the girl a book."],
+            ["{Servō} pecūniam dat.", "to the slave · money · he gives", "He gives the slave money."],
+            ["Magister {discipulīs} fābulam nārrat.", "teacher · to the pupils · story · tells", "The teacher tells the pupils a story."],
+          ],
+        },
+        {
+          h: "Not the object",
+          p: "The thing given stays in the accusative (librum, pecūniam). The person who receives is dative. Verbs like dare “to give”, nārrāre “to tell”, and monstrāre “to show” regularly take both.",
+          examples: [
+            ["Māter {fīliō} cibum dat.", "mother · to the son · food · gives", "The mother gives the son food."],
+            ["{Amīcīs} hortum monstrō.", "to the friends · garden · I show", "I show the garden to my friends."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ librum dō.", en: "I give the girl a book.", options: ["Puellae", "Puellam", "Puella", "Puellā"], answer: "Puellae", why: "The receiver is dative: -ae." },
+        { q: "Dominus ＿ pecūniam dat.", en: "The master gives the slave money.", options: ["servō", "servum", "servus", "servī"], answer: "servō", why: "Dative of a -us noun: -ō." },
+        { q: "What does «discipulīs fābulam nārrat» mean?", en: "fābulam = story", options: ["He tells the pupils a story.", "The pupils tell a story.", "He tells a story about the pupils.", "A story tells the pupils."], answer: "He tells the pupils a story.", why: "discipulīs is dative plural (to the pupils); fābulam is the object." },
+        { q: "Māter ＿ cibum dat.", en: "The mother gives the son food.", options: ["fīliō", "fīlium", "fīlius", "fīliī"], answer: "fīliō", why: "“To the son” is dative -ō." },
+        { q: "In «puellae librum dō», what case is librum?", en: "", options: ["accusative (the thing given)", "dative (the receiver)", "genitive (of the book)", "nominative (subject)"], answer: "accusative (the thing given)", why: "The book is the direct object; the girl (puellae) is dative." },
+      ],
+    },
+    {
+      id: "imperfect",
+      title: "The imperfect — was doing, used to",
+      particle: "-bam -bās -bat",
+      summary: "Ongoing or habitual action in the past.",
+      sections: [
+        {
+          p: "The <b>imperfect</b> describes something that was going on or used to happen: “I was loving”, “they used to work”. Build it with <b>-bā-</b> plus person endings (note <b>-m</b> for “I”, not -ō): amābam, amābās, amābat, amābāmus, amābātis, amābant.",
+          examples: [
+            ["In hortō {ambulābam}.", "in · garden · I was walking", "I was walking in the garden."],
+            ["Puellae {cantābant}.", "girls · were singing", "The girls were singing. / The girls used to sing."],
+            ["Magister nōs {monēbat}.", "teacher · us · was warning", "The teacher used to warn us."],
+          ],
+        },
+        {
+          h: "sum in the imperfect",
+          p: "“Was / were” is irregular: <b>eram</b>, erās, erat, erāmus, erātis, erant — no -bā- here, but the same past idea.",
+          examples: [
+            ["Laetus {eram}.", "happy · I was", "I was happy."],
+            ["Amīcī in forō {erant}.", "friends · in · forum · were", "The friends were in the forum."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "In vīllā habit＿.", en: "I used to live in a villa. (imperfect)", options: ["ābam", "ō", "āvī", "ābant"], answer: "ābam", why: "Imperfect “I”: -bam → habitābam." },
+        { q: "Puerī in agrō labōr＿.", en: "The boys were working in the field.", options: ["ābant", "ant", "āvērunt", "at"], answer: "ābant", why: "Imperfect “they”: -bant." },
+        { q: "What does «cantābāmus» mean?", en: "cantāre = to sing", options: ["we were singing", "we sing", "we sang (once)", "you were singing"], answer: "we were singing", why: "-bāmus = we, imperfect." },
+        { q: "Laeta ＿.", en: "She was happy.", options: ["erat", "est", "fuit", "erant"], answer: "erat", why: "“She was” from sum: erat." },
+        { q: "Who does «monēbātis» refer to?", en: "monēre = to warn", options: ["you all (were warning)", "we (were warning)", "they (were warning)", "he (was warning)"], answer: "you all (were warning)", why: "-bātis = you plural, imperfect." },
+      ],
+    },
+    {
+      id: "perfect",
+      title: "The perfect — did, have done",
+      particle: "-ī -istī -it",
+      summary: "A finished action in the past.",
+      sections: [
+        {
+          p: "The <b>perfect</b> is a single completed act: “I loved”, “I have seen”. Take the perfect stem (often with <b>-v-</b> or <b>-u-</b>: amāv-, monu-) and the special endings, the same for every verb: <b>-ī</b>, <b>-istī</b>, <b>-it</b>, <b>-imus</b>, <b>-istis</b>, <b>-ērunt</b>.",
+          examples: [
+            ["Rōmam {amāvī}.", "Rome · I loved / have loved", "I loved Rome. / I have loved Rome."],
+            ["Quid {vīdistī}?", "what · you saw", "What did you see?"],
+            ["Agricolae diū {labōrāvērunt}.", "farmers · long · they worked", "The farmers worked for a long time."],
+          ],
+        },
+        {
+          h: "sum and a famous line",
+          p: "“I was / I have been” from sum is <b>fuī</b>, fuistī, fuit, fuimus, fuistis, fuērunt. Caesar's line uses three perfects in a row.",
+          examples: [
+            ["Herī fessus {fuī}.", "yesterday · tired · I was", "Yesterday I was tired."],
+            ["{Vēnī}, {vīdī}, {vīcī}.", "I came · I saw · I conquered", "I came, I saw, I conquered."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Ego Rōmam amāv＿.", en: "I loved Rome. (perfect)", options: ["ī", "istī", "it", "ērunt"], answer: "ī", why: "Perfect “I” ends in -ī: amāvī." },
+        { q: "Quid vīd＿?", en: "What did you (sg.) see?", options: ["istī", "ī", "it", "imus"], answer: "istī", why: "Perfect “you” (one person): -istī." },
+        { q: "What does «labōrāvērunt» mean?", en: "labōrāre = to work", options: ["they worked", "they were working", "they work", "we worked"], answer: "they worked", why: "-ērunt = they, perfect (completed)." },
+        { q: "Mārcus herī ＿.", en: "Marcus was here yesterday. (perfect of sum)", options: ["fuit", "erat", "est", "fuērunt"], answer: "fuit", why: "Perfect of sum, he/she: fuit." },
+        { q: "Who does «amāvistis» refer to?", en: "amāre = to love", options: ["you all (loved)", "we (loved)", "they (loved)", "you (sg.) loved"], answer: "you all (loved)", why: "-istis = you plural, perfect." },
+      ],
+    },
+    {
+      id: "questions",
+      title: "Questions — -ne, quis, ubi, cūr",
+      particle: "-ne / quis / ubi",
+      summary: "Yes/no with -ne; who, what, where, why.",
+      sections: [
+        {
+          p: "A yes/no question often adds the little word <b>-ne</b> to the first word: <b>Estne</b> Marcus amīcus? “Is Marcus a friend?” Wh-questions use question words: <b>quis</b> “who?”, <b>quid</b> “what?”, <b>ubi</b> “where?”, <b>cūr</b> “why?”.",
+          examples: [
+            ["{Estne} laetus?", "is-ne · happy", "Is he happy?"],
+            ["{Quis} venit?", "who · comes", "Who is coming?"],
+            ["{Ubi} habitās?", "where · you live", "Where do you live?"],
+          ],
+        },
+        {
+          h: "Why and what",
+          p: "<b>Cūr</b> asks for a reason. <b>Quid</b> is the object form “what?” (quis is usually the subject “who?”).",
+          examples: [
+            ["{Cūr} labōrātis?", "why · you all work", "Why are you working?"],
+            ["{Quid} portās?", "what · you carry", "What are you carrying?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ Marcus agricola?", en: "Is Marcus a farmer?", options: ["Estne", "Est", "Quis", "Ubi"], answer: "Estne", why: "-ne on est makes a yes/no question." },
+        { q: "＿ in hortō est?", en: "Who is in the garden?", options: ["Quis", "Quid", "Ubi", "Cūr"], answer: "Quis", why: "“Who?” as subject is quis." },
+        { q: "＿ habitās?", en: "Where do you live?", options: ["Ubi", "Quis", "Cūr", "Quid"], answer: "Ubi", why: "ubi = where?" },
+        { q: "What does «Cūr cantat?» mean?", en: "", options: ["Why is he/she singing?", "Who is singing?", "Where is he singing?", "Is he singing?"], answer: "Why is he/she singing?", why: "cūr = why?" },
+        { q: "＿ portat servus?", en: "What is the slave carrying?", options: ["Quid", "Quis", "Ubi", "Estne"], answer: "Quid", why: "“What?” as object is quid." },
+      ],
+    },
+    {
+      id: "negation",
+      title: "Saying no — nōn, nēmō, nihil",
+      particle: "nōn / nēmō / nihil",
+      summary: "Not, nobody, nothing.",
+      sections: [
+        {
+          p: "Put <b>nōn</b> before the verb (or the word you deny): nōn veniō “I am not coming”, nōn est “it is not”. For people, <b>nēmō</b> means “nobody”; for things, <b>nihil</b> (or nīl) means “nothing”.",
+          examples: [
+            ["Marcus {nōn} labōrat.", "Marcus · not · works", "Marcus is not working."],
+            ["{Nēmō} in forō est.", "nobody · in · forum · is", "Nobody is in the forum."],
+            ["{Nihil} videō.", "nothing · I see", "I see nothing."],
+          ],
+        },
+        {
+          h: "With questions and “never”",
+          p: "Nōnne expects “yes” (Nōnne amīcus es? “You're a friend, aren't you?”). <b>Numquam</b> means “never”.",
+          examples: [
+            ["{Nōnne} laetus es?", "not-ne · happy · you are", "You're happy, aren't you?"],
+            ["{Numquam} Rōmam videō.", "never · Rome · I see", "I never see Rome."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Marcus ＿ labōrat.", en: "Marcus is not working.", options: ["nōn", "nēmō", "nihil", "numquam"], answer: "nōn", why: "nōn negates the verb." },
+        { q: "＿ in vīllā est.", en: "Nobody is in the villa.", options: ["Nēmō", "Nihil", "Nōn", "Quis"], answer: "Nēmō", why: "nēmō = nobody (a person)." },
+        { q: "＿ audiō.", en: "I hear nothing.", options: ["Nihil", "Nēmō", "Nōn", "Numquam"], answer: "Nihil", why: "nihil = nothing (a thing)." },
+        { q: "What does «Numquam cantat» mean?", en: "", options: ["He/she never sings.", "He/she does not sing (now).", "Nobody sings.", "Does he sing?"], answer: "He/she never sings.", why: "numquam = never." },
+        { q: "What does «Nōnne amīcus es?» expect?", en: "", options: ["yes", "no", "a name", "a place"], answer: "yes", why: "nōnne questions expect agreement: “aren't you…?”" },
       ],
     },
   ],

@@ -30,6 +30,56 @@ window.LSD_RESOURCES = {
     { title: "Oxford Hindi-English Dictionary (McGregor)", url: "https://dsal.uchicago.edu/dictionaries/mcgregor/", meta: "Searchable online at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Devanagari"], stars: 5 },
     { title: "Platts' Dictionary of Urdu, Classical Hindi and English", url: "https://dsal.uchicago.edu/dictionaries/platts/", meta: "Classic dictionary in Devanagari, Urdu and roman script · Free", tags: ["dictionary", "Urdu"], stars: 4 },
   ],
+  bengali: [
+    { title: "Basic Bangla (Michigan State)", url: "https://openbooks.lib.msu.edu/basicbangla/", meta: "Interactive open textbook: Bangla script, grammar, conversation and vocabulary · Free, CC", tags: ["beginner", "textbook", "script"], stars: 5 },
+    { title: "Bangla at UT Austin", url: "https://bangla.la.utexas.edu/", meta: "Open Bangla script, pronunciation, grammar and dialogue materials (COERLL) · Free", tags: ["beginner", "audio", "script"], stars: 5 },
+    { title: "Biswas Bengali–English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/biswas-bengali/", meta: "Searchable at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Bengali"], stars: 5 },
+  ],
+  tamil: [
+    { title: "Basic Tamil (Michigan State)", url: "https://openbooks.lib.msu.edu/basictamil/", meta: "Interactive open textbook for true beginners: script, conversation and grammar · Free, CC BY-NC", tags: ["beginner", "textbook", "script"], stars: 5 },
+    { title: "Tamil Virtual Academy", url: "https://www.tamilvu.org/", meta: "Government of Tamil Nadu courses and audiovisual lessons · Free", tags: ["courses", "video", "government"], stars: 5 },
+    { title: "Tamil Lexicon", url: "https://dsal.uchicago.edu/dictionaries/tamil-lex/", meta: "University of Madras lexicon, searchable at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Tamil"], stars: 5 },
+  ],
+  telugu: [
+    { title: "Basic Telugu (Michigan State)", url: "https://openbooks.lib.msu.edu/basictelugu/", meta: "Interactive open textbook for beginning Telugu · Free, CC", tags: ["beginner", "textbook", "script"], stars: 5 },
+    { title: "Brown's Telugu–English Dictionary (1903)", url: "https://dsal.uchicago.edu/dictionaries/brown/", meta: "Classic dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Telugu"], stars: 5 },
+    { title: "Gwynn's Telugu–English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/gwynn/", meta: "Modern Telugu dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Telugu"], stars: 4 },
+  ],
+  kannada: [
+    { title: "Kittel's Kannada–English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/kittel/", meta: "Standard historical dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Kannada"], stars: 5 },
+    { title: "Wikibooks: Kannada", url: "https://en.wikibooks.org/wiki/Kannada", meta: "Community-written introduction to Kannada script and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Wiktionary: Kannada", url: "https://en.wiktionary.org/wiki/Category:Kannada_language", meta: "Entries with inflection, etymology and pronunciation · Free", tags: ["dictionary", "grammar"], stars: 4 },
+  ],
+  malayalam: [
+    { title: "Malayalam at UT Austin", url: "https://malayalam.la.utexas.edu/", meta: "University Malayalam programme with open educational resources · Free", tags: ["courses", "OER"], stars: 5 },
+    { title: "UT Austin Malayalam resources", url: "https://malayalam.la.utexas.edu/resources/", meta: "Open materials for script, listening and classroom use (COERLL) · Free", tags: ["beginner", "audio", "script"], stars: 5 },
+    { title: "Gundert Malayalam and English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/gundert/", meta: "Classic dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Malayalam"], stars: 5 },
+  ],
+  gujarati: [
+    { title: "Gujarati Lexicon", url: "https://www.gujaratilexicon.com/", meta: "Large online Gujarati dictionary with literature and idioms · Free", tags: ["dictionary", "Gujarati"], stars: 5 },
+    { title: "Wikibooks: Gujarati", url: "https://en.wikibooks.org/wiki/Gujarati", meta: "Community-written introduction to Gujarati script and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Wiktionary: Gujarati", url: "https://en.wiktionary.org/wiki/Category:Gujarati_language", meta: "Entries with inflection, etymology and pronunciation · Free", tags: ["dictionary", "grammar"], stars: 4 },
+  ],
+  punjabi: [
+    { title: "Basic Punjabi (Michigan State)", url: "https://openbooks.lib.msu.edu/basicpunjabi/", meta: "Interactive open textbook for beginning Punjabi · Free, CC", tags: ["beginner", "textbook", "script"], stars: 5 },
+    { title: "Bashir Punjabi–English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/bashir/", meta: "Searchable at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Punjabi"], stars: 5 },
+    { title: "Maya Singh's Panjabi Dictionary", url: "https://dsal.uchicago.edu/dictionaries/singh/", meta: "Classic 1895 dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Punjabi"], stars: 4 },
+  ],
+  odia: [
+    { title: "Purnnachandra Odia Bhashakosha (Praharaj)", url: "https://dsal.uchicago.edu/dictionaries/praharaj/", meta: "Major Odia lexicon at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Odia"], stars: 5 },
+    { title: "Wikibooks: Odia", url: "https://en.wikibooks.org/wiki/Odia", meta: "Community-written introduction to Odia script and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Wiktionary: Odia", url: "https://en.wiktionary.org/wiki/Category:Odia_language", meta: "Entries with inflection, etymology and pronunciation · Free", tags: ["dictionary", "grammar"], stars: 4 },
+  ],
+  sinhala: [
+    { title: "Carter Sinhalese–English Dictionary", url: "https://dsal.uchicago.edu/dictionaries/carter/", meta: "Classic dictionary at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Sinhala"], stars: 5 },
+    { title: "Learn Sinhala", url: "https://www.learnsinhala.com/", meta: "Spoken Sinhala lessons and phrase practice · Free", tags: ["beginner", "audio"], stars: 4 },
+    { title: "Department of Official Languages (Sri Lanka)", url: "https://languagesdept.gov.lk/web/index.php?lang=en", meta: "Government learning materials, glossary and trilingual tools · Free", tags: ["government", "reference"], stars: 4 },
+  ],
+  manipuri: [
+    { title: "Learners' Manipuri–English Dictionary (Sharma)", url: "https://dsal.uchicago.edu/dictionaries/sharma/", meta: "Searchable at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Manipuri"], stars: 5 },
+    { title: "Wikibooks: Modern Meitei", url: "https://en.wikibooks.org/wiki/Modern_Meitei", meta: "Community-written introduction to Meitei (Manipuri) and Meetei Mayek · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Unicode Meetei Mayek chart", url: "https://www.unicode.org/charts/PDF/UABC0.pdf", meta: "Official code chart for the Meetei Mayek script · Free", tags: ["script", "reference"], stars: 4 },
+  ],
   cyrillic: [
     { title: "Между нами (Mezhdu nami)", url: "https://mezhdunami.org", meta: "Complete first-year Russian textbook with audio and grammar charts · Free, CC BY-NC-ND", tags: ["beginner", "textbook", "audio"], stars: 5 },
     { title: "OpenRussian", url: "https://en.openrussian.org", meta: "Dictionary with stress marks, declensions, conjugations and examples · Free (optional Pro)", tags: ["dictionary", "grammar"], stars: 5 },
