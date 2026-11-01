@@ -99,6 +99,90 @@ kk kk lc kk
 kk kk ng kk
 kk kk ww kk
 kk nb nb nb`,
+    add42: `lr lr lr lr nr nr dr dy lr kk
+kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk nb nb nb`,
+    sub83: `lr lr lr lr lr lr lr lr nr nr nr dr ly nr kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    mul25: `lr lr nr nr nr nr nr dr ny dr kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk nb nb nb`,
+    div82: `lr lr lr lr lr lr lr lr nr nr dr dg ly kk
+kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    mod83: `lr lr lr lr lr lr lr lr nr nr nr dr lg ny kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    pop43: `lr lr lr lr nr nr nr dr nr dm kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk nb nb nb`,
+    mul35: `lr lr lr nr nr nr nr nr dr ny dr kk
+kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk nb nb nb`,
+    g25: `lr lr nr nr nr nr nr dr dc lg kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk nb nb nb`,
+    g72: `lr lr lr lr lr lr lr nr nr dr dc lg kk
+kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    not1: `lr nr lg ny kk
+kk kk kk ww kk
+kk kk kk ww kk
+kk kk kk ww kk
+kk kk nb nb nb`,
+    dup5: `lr nr nb lm nb kk
+lr kk kk kk ww kk
+lr kk kk kk ww kk
+lr kk kk kk ww kk
+lr kk kk nb nb nb`,
+    charA: `lr lr lr lr lr nr nr nr nr nr nr nr nr nr nr nr nr nr dr ny lr kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    charBang: `lr lr lr nr nr nr nr nr nr nr nr nr nr nr dr ny lr kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    char0: `lr lr lr lr lr lr nr nr nr nr nr nr nr nr dr ny lr kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk kk kk kk kk kk kk nb nb nb`,
+    gap33: `lr nr ww ww nr nr nr dr ny dr kk
+lr kk kk kk kk kk kk kk kk ww kk
+lr kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk kk ww kk
+kk kk kk kk kk kk kk kk nb nb nb`,
+    turn3: `lr nr dc kk
+kk kk dc kk
+kk kk dc kk
+kk kk lc kk
+kk kk ng kk
+kk kk ww kk
+kk nb nb nb`,
+    two39: `lr nr dm lm nm lr nm kk
+lr kk dm lm kk kk ww kk
+lr kk dm lm kk kk ww kk
+kk kk kk kk kk kk ww kk
+kk kk kk kk kk nb nb nb`,
   };
 
   window.PROGRAMMING.piet = {
@@ -151,6 +235,10 @@ ww ww ww kk kk kk`,
           { q: "What number does push put on the stack?", options: ["The size of the block just left", "The colour's number", "Always 1", "The row number"], answer: "The size of the block just left", why: "Block size in codels is how Piet gets numbers into a program." },
           { q: "What do black codels do?", options: ["Block movement, like walls", "End the program at once", "Print a space", "Push 0"], answer: "Block movement, like walls", why: "The pointer cannot enter black; it turns and tries another way." },
           { q: "Dark red to light red. How many steps darker is that?", options: ["1", "2", "0", "It is lighter, so none"], answer: "1", why: "Lightness wraps around: light, normal, dark, then light again, so dark to light is one step darker." },
+          { q: "Which change in colour is multiply?", options: ["One hue step and two darker", "One hue step, same lightness", "Two hue steps, same lightness", "No hue change, one darker"], answer: "One hue step and two darker", why: "Look in the hue-step 1 row, two-darker column." },
+          { q: "How many coloured hues does Piet use (not counting white and black)?", options: ["6", "3", "18", "8"], answer: "6", why: "Red, yellow, green, cyan, blue and magenta; each comes in three lightnesses." },
+          { q: "What do the letters ww mean in these lessons?", options: ["A white codel", "Write and wait", "Two pushes", "A wall"], answer: "A white codel", why: "ww is white free space; kk is black." },
+          { q: "Red to green at the same lightness. What happens?", options: ["divide", "add", "multiply", "greater"], answer: "divide", why: "Red to green is two hue steps with no lightness change: divide." },
         ],
       },
       {
@@ -187,6 +275,12 @@ ww ww ww kk kk kk`,
           { kind: "output", q: "What does this print?", code: P.mod, options: ["1", "3", "0", "5"], answer: "1", why: "Push 7, push 2, mod: the remainder of 7 ÷ 2 is 1." },
           { kind: "output", q: "What does this print?", code: P.pop, options: ["6", "5", "65", "11"], answer: "6", why: "Push 6, push 5, then pop throws the 5 away, leaving 6 to print." },
           { q: "Which change in colour is subtract?", options: ["One hue step and one darker", "One hue step, same lightness", "Two hue steps, same lightness", "No hue change, one darker"], answer: "One hue step and one darker", why: "Look in the hue-step 1 row, one-darker column." },
+          { kind: "output", q: "What does this print?", code: P.add42, options: ["6", "4", "2", "8"], answer: "6", why: "Push 4, push 2, add: 4 + 2 = 6." },
+          { kind: "output", q: "What does this print?", code: P.sub83, options: ["5", "8", "3", "11"], answer: "5", why: "Push 8, push 3, subtract: 8 − 3 = 5." },
+          { kind: "output", q: "What does this print?", code: P.mul25, options: ["10", "7", "25", "2"], answer: "10", why: "Push 2, push 5, multiply: 2 × 5 = 10." },
+          { kind: "output", q: "What does this print?", code: P.div82, options: ["4", "8", "2", "6"], answer: "4", why: "Push 8, push 2, divide: whole-number division gives 4." },
+          { kind: "output", q: "What does this print?", code: P.mod83, options: ["2", "0", "3", "8"], answer: "2", why: "Push 8, push 3, mod: the remainder of 8 ÷ 3 is 2." },
+          { kind: "output", q: "What does this print?", code: P.pop43, options: ["4", "3", "7", "1"], answer: "4", why: "Push 4, push 3, then pop throws the 3 away, leaving 4 to print." },
         ],
       },
       {
@@ -214,6 +308,10 @@ ww ww ww kk kk kk`,
           { q: "Which character code does out (char) need to print A?", options: ["65", "1", "97", "41"], answer: "65", why: "A is 65 in ASCII; 97 is a lowercase a." },
           { q: "How would you get 72 on the stack with small blocks?", options: ["Push 8, push 9, multiply", "Push 7, push 2", "Push 72 times", "Push 9, push 8, subtract"], answer: "Push 8, push 9, multiply", why: "8 × 9 = 72, using two small blocks instead of one 72-codel block." },
           { q: "What does duplicate do?", options: ["Pushes a copy of the top value", "Prints the top value twice", "Doubles the top value", "Copies a block of codels"], answer: "Pushes a copy of the top value", why: "Afterwards the same number is on the stack twice." },
+          { kind: "output", q: "What does this print?", code: P.charA, options: ["A", "a", "65", "H"], answer: "A", why: "Push 5, push 13, multiply: 65 is the code for A, then out (char)." },
+          { kind: "output", q: "What does this print?", code: P.charBang, options: ["!", "3", "33", "B"], answer: "!", why: "Push 3, push 11, multiply: 33 is the code for an exclamation mark." },
+          { kind: "output", q: "What does this print?", code: P.char0, options: ["0", "48", "6", "8"], answer: "0", why: "Push 6, push 8, multiply: 48 is the code for the digit character 0." },
+          { q: "How does out (char) differ from out (number)?", options: ["It prints the top value as a character code", "It prints twice", "It leaves the value on the stack", "It only works with red"], answer: "It prints the top value as a character code", why: "out (number) writes digits; out (char) writes the character for that code." },
         ],
       },
       {
@@ -243,6 +341,11 @@ ww ww ww kk kk kk`,
           { kind: "output", q: "What does this print?", code: P.greater2, options: ["1", "0", "4", "7"], answer: "1", why: "Push 4, push 3, greater: 4 is bigger than 3, so 1." },
           { kind: "output", q: "What does this print?", code: P.not, options: ["0", "1", "4", "-4"], answer: "0", why: "Push 4, then not: any value other than 0 becomes 0." },
           { q: "Stack (bottom to top) 5, 6, 7. Push 2 and 1, then roll. What is the stack?", options: ["5, 7, 6", "6, 7, 5", "7, 5, 6", "5, 6, 7"], answer: "5, 7, 6", why: "Depth 2, one roll: the top value 7 is buried two deep, under the 6." },
+          { kind: "output", q: "What does this print?", code: P.dup5, options: ["25", "5", "10", "0"], answer: "25", why: "Push 5, duplicate, multiply: 5 × 5 = 25." },
+          { kind: "output", q: "What does this print?", code: P.g72, options: ["1", "0", "7", "2"], answer: "1", why: "Push 7, push 2, greater: 7 is bigger than 2, so 1." },
+          { kind: "output", q: "What does this print?", code: P.g25, options: ["0", "1", "2", "5"], answer: "0", why: "Push 2, push 5, greater: 2 is not bigger than 5, so 0." },
+          { kind: "output", q: "What does this print?", code: P.not1, options: ["0", "1", "2", "-1"], answer: "0", why: "Push 1, then not: any value other than 0 becomes 0." },
+          { kind: "output", q: "What does this print?", code: P.mul35, options: ["15", "8", "35", "3"], answer: "15", why: "Push 3, push 5, multiply: 3 × 5 = 15." },
         ],
       },
       {
@@ -274,6 +377,10 @@ ww ww ww kk kk kk`,
           { q: "What does pointer do with a 1 on the stack?", options: ["Turns clockwise once", "Turns anticlockwise once", "Moves one codel", "Stops the program"], answer: "Turns clockwise once", why: "A positive number turns the direction pointer clockwise that many times." },
           { q: "What happens when the run crosses white codels?", options: ["No command runs", "The block size is pushed", "The program stops", "The colour resets to red"], answer: "No command runs", why: "White is free space; only colour-to-colour moves run commands." },
           { q: "When does a Piet program stop?", options: ["After eight blocked attempts in a row", "At the last codel of the image", "When it reaches a white codel", "When the stack is empty"], answer: "After eight blocked attempts in a row", why: "The interpreter tries every combination of the direction pointer and codel chooser before giving up." },
+          { kind: "output", q: "What does this print?", code: P.turn3, options: ["3", "1", "5", "0"], answer: "3", why: "Push 1, pointer turns the run downward, then a 3-codel cyan block is pushed and printed." },
+          { kind: "output", q: "What does this print?", code: P.gap33, options: ["9", "3", "6", "12"], answer: "9", why: "White separates the two pushes; push 3, push 3, multiply gives 9." },
+          { kind: "output", q: "What does this print?", code: P.two39, options: ["39", "33", "93", "6"], answer: "39", why: "Push 3 and print it, then push 3, push 3, multiply and print 9, so the output is 39." },
+          { q: "What does switch do?", options: ["Flips the codel chooser", "Turns the direction pointer", "Swaps the top two stack values", "Stops the program"], answer: "Flips the codel chooser", why: "Switch pops a number and flips the chooser that many times; with pointer it picks a path." },
         ],
       },
     ],
