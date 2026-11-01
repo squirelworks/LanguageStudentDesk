@@ -30,6 +30,31 @@ window.LSD_RESOURCES = {
     { title: "Oxford Hindi-English Dictionary (McGregor)", url: "https://dsal.uchicago.edu/dictionaries/mcgregor/", meta: "Searchable online at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Devanagari"], stars: 5 },
     { title: "Platts' Dictionary of Urdu, Classical Hindi and English", url: "https://dsal.uchicago.edu/dictionaries/platts/", meta: "Classic dictionary in Devanagari, Urdu and roman script · Free", tags: ["dictionary", "Urdu"], stars: 4 },
   ],
+  thai: [
+    { title: "Thai Notes", url: "https://thai-notes.com/", meta: "Reading course, tone practice, FSI-based lessons and searchable dictionaries · Free", tags: ["beginner", "script", "dictionary"], stars: 5 },
+    { title: "Thai Language Online (UH Mānoa)", url: "https://thailanguage-online.com/", meta: "University of Hawaiʻi open Thai audio-visual resources and reading materials · Free", tags: ["university", "audio", "script"], stars: 5 },
+    { title: "SEAlang Thai Dictionary", url: "http://sealang.net/thai/dictionary.htm", meta: "Searchable Thai–English dictionary and corpus tools (SEAlang Library) · Free", tags: ["dictionary", "corpus"], stars: 5 },
+  ],
+  lao: [
+    { title: "SEAsite Lao (Northern Illinois)", url: "https://seasite.niu.edu/Lao/", meta: "Spoken Lao lessons with audio, quizzes, flashcards and tone charts · Free", tags: ["beginner", "audio", "university"], stars: 5 },
+    { title: "FSI Lao Basic Course", url: "https://www.fsi-language-courses.org/fsi-lao-basic-course/", meta: "Public-domain Foreign Service Institute Lao course with texts and audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "SEAlang Lao Dictionary", url: "http://sealang.net/lao/dictionary.htm", meta: "Searchable Lao–English dictionary and corpus (SEAlang Library) · Free", tags: ["dictionary", "corpus"], stars: 5 },
+  ],
+  khmer: [
+    { title: "FSI Cambodian Basic Course", url: "https://www.fsi-language-courses.org/fsi-cambodian-basic-course/", meta: "Public-domain Foreign Service Institute Cambodian (Khmer) course with audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "SEAsite Khmer (Northern Illinois)", url: "https://seasite.niu.edu/Khmer/", meta: "Khmer script, reading and language materials from NIU's Center for Southeast Asian Studies · Free", tags: ["script", "university"], stars: 4 },
+    { title: "SEAlang Khmer Dictionary", url: "http://sealang.net/khmer/dictionary.htm", meta: "Searchable Khmer–English dictionary, corpus and bitext (SEAlang Library) · Free", tags: ["dictionary", "corpus"], stars: 5 },
+  ],
+  burmese: [
+    { title: "Everyday Spoken Burmese", url: "https://my.wikisource.org/wiki/Everyday_Spoken_Burmese", meta: "Burmese script guide with romanization and everyday vocabulary (Wikisource) · Free", tags: ["beginner", "script"], stars: 5 },
+    { title: "SEAsite Burmese (Northern Illinois)", url: "https://seasite.niu.edu/Burmese/", meta: "Myanmar language, literature and culture learning materials · Free", tags: ["university", "culture"], stars: 4 },
+    { title: "SEAlang Burmese Dictionary", url: "http://sealang.net/burmese/dictionary.htm", meta: "Searchable Burmese–English dictionary, corpus and bitext (SEAlang Library) · Free", tags: ["dictionary", "corpus"], stars: 5 },
+  ],
+  tibetan: [
+    { title: "THL Tibetan Terms", url: "https://thlib.org/terms/", meta: "Tibetan and Himalayan Library dictionary content with definitions and multimedia · Free", tags: ["dictionary", "university"], stars: 5 },
+    { title: "Wikibooks: Tibetan", url: "https://en.wikibooks.org/wiki/Tibetan", meta: "Community-written introduction to Tibetan script and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Buddhist Digital Resource Center", url: "https://library.bdrc.io/", meta: "Searchable library of Tibetan texts and scans · Free", tags: ["texts", "reading"], stars: 5 },
+  ],
   bengali: [
     { title: "Basic Bangla (Michigan State)", url: "https://openbooks.lib.msu.edu/basicbangla/", meta: "Interactive open textbook: Bangla script, grammar, conversation and vocabulary · Free, CC", tags: ["beginner", "textbook", "script"], stars: 5 },
     { title: "Bangla at UT Austin", url: "https://bangla.la.utexas.edu/", meta: "Open Bangla script, pronunciation, grammar and dialogue materials (COERLL) · Free", tags: ["beginner", "audio", "script"], stars: 5 },
