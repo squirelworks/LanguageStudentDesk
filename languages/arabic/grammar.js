@@ -1,10 +1,25 @@
 // Arabic sentence basics (Modern Standard Arabic) for the Grammar Learner. Written for this project.
 // Examples are [Arabic, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested MSA constructions — original example sentences):
+// - Wiktionary Arabic lemmas and grammar notes (CC BY-SA): ال, ة, هذا/هذه, possessive
+//   suffixes, في/على/من/إلى, independent pronouns, كتب past/present conjugations, هل/ما/من/أين,
+//   لا/ما/ليس negation, إضافة (construct state).
+// - Wikipedia “Arabic grammar”, “Modern Standard Arabic”, “Arabic verbs”, “Iḍāfah”
+//   (CC BY-SA) for beginner overview of nominal sentences, imperfect/perfect, questions,
+//   negation, and the construct.
+// - In-repo languages/arabic/reference.json cards (pronouns, past-present, idafa, sun-moon,
+//   nominal-sentences, gender-agreement) — same beginner seam; examples here are original.
+// - Open educational MSA references (OpenArabic.org grammar map / basic sentences overview)
+//   for particle inventory only; wording and drills are original to this pack.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (independent pronouns, present, past,
+// questions, negation, iḍāfa). Transliteration matches lessons 1–6 (short vowels shown;
+// sun-letter assimilation written as spoken).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.arabic = {
   title: "Arabic sentence basics",
-  intro: "These lessons cover the building blocks of Modern Standard Arabic: the word for “the”, masculine and feminine, sentences without “is”, “this” and “that”, attached pronouns, and the common prepositions. Arabic is read right to left and short vowels are usually not written; the transliteration under each example shows how it sounds.",
+  intro: "These lessons cover the building blocks of Modern Standard Arabic. Lessons 1–6 cover ال, masculine and feminine, sentences without “is”, هذا / هذه, attached possessives, and في / على / من / إلى. Lessons 7–12 add independent pronouns, the present and past of كتب, questions with هل / ما / من / أين, لا / ما / ليس, and the iḍāfa construct. Arabic is read right to left and short vowels are usually not written; the transliteration under each example shows how it sounds.",
   lessons: [
     {
       id: "al",
@@ -192,6 +207,202 @@ window.GRAMMAR.arabic = {
         { q: "أذهب ＿ السوق.", en: "I go to the market.", options: ["إلى", "من", "على", "في"], answer: "إلى", why: "Movement towards a place takes إلى." },
         { q: "هي ＿ الغرفة.", en: "She is in the room.", options: ["في", "إلى", "من", "على"], answer: "في", why: "“In” is في." },
         { q: "What does الولد في المدرسة mean?", en: "ولد = boy", options: ["The boy is at school.", "The boy goes to school.", "The boy is from the school.", "the school boy"], answer: "The boy is at school.", why: "في = in/at, and no word for “is” is needed." },
+      ],
+    },
+    {
+      id: "pronouns",
+      title: "أنا، أنت، هو — independent pronouns",
+      particle: "أنا أنت هو هي",
+      summary: "Standalone “I, you, he, she…” before a noun or description.",
+      sections: [
+        {
+          p: "Arabic has separate words for “you” to a man and to a woman. Use these pronouns as the subject of a sentence without “is”, just as in lesson 3.",
+          examples: [
+            ["{أنا} طالب.", "anā ṭālib.", "I am a student."],
+            ["{أنتَ} مهندس.", "anta muhandis.", "You (m.) are an engineer."],
+            ["{أنتِ} طالبة.", "anti ṭāliba.", "You (f.) are a student."],
+            ["{هو} طبيب.", "huwa ṭabīb.", "He is a doctor."],
+            ["{هي} مدرسة.", "hiya mudarrisa.", "She is a teacher."],
+          ],
+        },
+        {
+          h: "We, you (pl.), they",
+          p: "The plural forms are <b>نحن</b> (we), <b>أنتم</b> (you, plural), and <b>هم</b> (they, masculine). They work the same way: pronoun + description.",
+          examples: [
+            ["{نحن} من مصر.", "naḥnu min miṣr.", "We are from Egypt."],
+            ["{أنتم} في البيت.", "antum fī l-bayt.", "You (pl.) are at home."],
+            ["{هم} طلاب.", "hum ṭullāb.", "They are students."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ طالبة.", en: "I am a student (woman).", options: ["أنا", "هو", "هي", "أنتَ"], answer: "أنا", why: "أنا is “I”; gender shows on the noun طالبة." },
+        { q: "Speaking to a woman: ＿ مهندسة.", en: "You are an engineer.", options: ["أنتِ", "أنتَ", "هو", "هم"], answer: "أنتِ", why: "أنتِ is “you” to a woman; أنتَ is to a man." },
+        { q: "What does هي في المدرسة mean?", en: "", options: ["She is at school.", "He is at school.", "I am at school.", "They are at school."], answer: "She is at school.", why: "هي = she; في المدرسة = at school." },
+        { q: "＿ من لبنان.", en: "We are from Lebanon.", options: ["نحن", "أنا", "هو", "أنتم"], answer: "نحن", why: "نحن is “we”." },
+        { q: "Which pronoun means “they” (men)?", en: "", options: ["هم", "نحن", "أنتِ", "هي"], answer: "هم", why: "هم = they (masculine)." },
+      ],
+    },
+    {
+      id: "present",
+      title: "أكتب، يكتب — the present",
+      particle: "أـ تـ يـ نـ",
+      summary: "Present-tense prefixes mark who is doing the action.",
+      sections: [
+        {
+          p: "The present (imperfect) puts a prefix on the verb stem. With the root كتب “write”: <b>أكتب</b> I write, <b>تكتب</b> you (m.) / she writes, <b>يكتب</b> he writes, <b>نكتب</b> we write.",
+          examples: [
+            ["أنا {أكتب} رسالة.", "anā aktubu risāla.", "I write / am writing a letter."],
+            ["هو {يكتب} الدرس.", "huwa yaktubu d-dars.", "He writes / is writing the lesson."],
+            ["هي {تكتب} اسمها.", "hiya taktubu ismahā.", "She writes / is writing her name."],
+            ["نحن {نكتب} بالعربية.", "naḥnu naktubu bil-ʿarabiyya.", "We write in Arabic."],
+          ],
+        },
+        {
+          h: "You (feminine) and they",
+          p: "“You (f.) write” is <b>تكتبين</b> (taktubīna). “They (m.) write” is <b>يكتبون</b> (yaktubūna). The present covers both “do” and “are doing” in everyday statements.",
+          examples: [
+            ["أنتِ {تكتبين} جيداً.", "anti taktubīna jayyidan.", "You (f.) write well."],
+            ["هم {يكتبون} الواجب.", "hum yaktubūna l-wājib.", "They write / are writing the homework."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "أنا ＿ كتاباً.", en: "I write a book / am writing a book. (كتب)", options: ["أكتب", "يكتب", "نكتب", "يكتبون"], answer: "أكتب", why: "أـ is the “I” prefix: أكتب." },
+        { q: "هو ＿ الرسالة.", en: "He writes the letter.", options: ["يكتب", "أكتب", "نكتب", "تكتبين"], answer: "يكتب", why: "يـ marks “he”: يكتب." },
+        { q: "How do you say “We write”?", en: "", options: ["نكتب", "أكتب", "يكتب", "تكتب"], answer: "نكتب", why: "نـ is “we”: نكتب." },
+        { q: "What does هي تكتب mean?", en: "", options: ["She writes / is writing.", "He writes.", "I write.", "They write."], answer: "She writes / is writing.", why: "تـ with هي is “she” in the present." },
+        { q: "هم ＿ الدرس.", en: "They write the lesson.", options: ["يكتبون", "أكتب", "تكتب", "نكتب"], answer: "يكتبون", why: "يكتبون is “they (m.) write”." },
+      ],
+    },
+    {
+      id: "past",
+      title: "كتبتُ، كتب — the past",
+      particle: "ـتُ ـتَ ـتْ ـنا",
+      summary: "Past-tense endings mark who did the action.",
+      sections: [
+        {
+          p: "The past (perfect) adds endings to the stem. The dictionary form <b>كتب</b> (kataba) is “he wrote”. Change the ending for other persons: كتبتُ I wrote, كتبتَ you (m.) wrote, كتبتْ she wrote.",
+          examples: [
+            ["أنا {كتبتُ} رسالة.", "anā katabtu risāla.", "I wrote a letter."],
+            ["هو {كتب} الدرس.", "huwa kataba d-dars.", "He wrote the lesson."],
+            ["هي {كتبت} اسمها.", "hiya katabat ismahā.", "She wrote her name."],
+            ["أنتَ {كتبتَ} جيداً.", "anta katabta jayyidan.", "You (m.) wrote well."],
+          ],
+        },
+        {
+          h: "We and they",
+          p: "<b>كتبنا</b> is “we wrote”; <b>كتبوا</b> is “they (m.) wrote”. Short vowels on the endings are often left unwritten, so context and the pronoun tell you who acted.",
+          examples: [
+            ["نحن {كتبنا} الواجب.", "naḥnu katabnā l-wājib.", "We wrote the homework."],
+            ["هم {كتبوا} التقرير.", "hum katabū t-taqrīr.", "They wrote the report."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "أنا ＿ الرسالة.", en: "I wrote the letter.", options: ["كتبتُ", "كتب", "يكتب", "أكتب"], answer: "كتبتُ", why: "ـتُ marks “I” in the past: كتبتُ." },
+        { q: "هو ＿ الدرس أمس.", en: "He wrote the lesson yesterday.", options: ["كتب", "أكتب", "نكتب", "تكتبين"], answer: "كتب", why: "كتب (kataba) is “he wrote”." },
+        { q: "What does هي كتبت mean?", en: "", options: ["She wrote.", "He wrote.", "I write.", "They write."], answer: "She wrote.", why: "كتبت (katabat) is “she wrote”." },
+        { q: "How do you say “We wrote”?", en: "", options: ["كتبنا", "كتبتُ", "يكتبون", "نكتب"], answer: "كتبنا", why: "كتبنا = we wrote." },
+        { q: "هم ＿ الواجب.", en: "They wrote the homework.", options: ["كتبوا", "أكتب", "تكتب", "كتبتِ"], answer: "كتبوا", why: "كتبوا is “they (m.) wrote”." },
+      ],
+    },
+    {
+      id: "questions",
+      title: "هل، ما، من، أين — questions",
+      particle: "هل ما من أين",
+      summary: "Yes/no with هل; what, who and where with question words.",
+      sections: [
+        {
+          p: "Put <b>هل</b> (hal) at the front for a yes/no question; the rest of the sentence stays the same. Answer with نعم (yes) or لا (no).",
+          examples: [
+            ["{هل} هذا كتاب؟", "hal hādhā kitāb?", "Is this a book?"],
+            ["{هل} أنتَ طالب؟", "hal anta ṭālib?", "Are you a student?"],
+            ["نعم، أنا طالب.", "naʿam, anā ṭālib.", "Yes, I am a student."],
+          ],
+        },
+        {
+          h: "ما، من، أين",
+          p: "<b>ما</b> / <b>ماذا</b> ask “what?”, <b>من</b> asks “who?”, and <b>أين</b> asks “where?”. The question word comes first.",
+          examples: [
+            ["{ما} هذا؟", "mā hādhā?", "What is this?"],
+            ["{من} هو؟", "man huwa?", "Who is he?"],
+            ["{أين} الكتاب؟", "ayna l-kitāb?", "Where is the book?"],
+            ["{ماذا} تكتب؟", "mādhā taktubu?", "What are you writing?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ هذا قلم؟", en: "Is this a pen?", options: ["هل", "ما", "من", "أين"], answer: "هل", why: "هل makes a yes/no question." },
+        { q: "＿ المدرسة؟", en: "Where is the school?", options: ["أين", "هل", "من", "ما"], answer: "أين", why: "أين = where?" },
+        { q: "＿ هذا؟", en: "What is this?", options: ["ما", "هل", "أين", "من"], answer: "ما", why: "ما = what? (with a noun or هذا)." },
+        { q: "＿ هي؟", en: "Who is she?", options: ["من", "ما", "هل", "أين"], answer: "من", why: "من = who?" },
+        { q: "What does هل أنتِ طالبة؟ mean?", en: "", options: ["Are you (f.) a student?", "Who is the student?", "Where is the student?", "What student are you?"], answer: "Are you (f.) a student?", why: "هل + أنتِ طالبة: yes/no question." },
+      ],
+    },
+    {
+      id: "negation",
+      title: "لا، ما، ليس — saying “not”",
+      particle: "لا ما ليس",
+      summary: "لا before the present, ما before the past, ليس in “is not” sentences.",
+      sections: [
+        {
+          p: "Negation depends on what follows. <b>لا</b> (lā) goes before a present verb: لا أكتب “I do not write”. <b>ما</b> (mā) goes before a past verb: ما كتب “he did not write”.",
+          examples: [
+            ["{لا} أكتب بالعبرية.", "lā aktubu bil-ʿibriyya.", "I do not write in Hebrew."],
+            ["هو {لا} يذهب إلى السوق.", "huwa lā yadhhabu ilā s-sūq.", "He does not go to the market."],
+            ["{ما} كتبتُ الرسالة.", "mā katabtu r-risāla.", "I did not write the letter."],
+            ["هي {ما} ذهبت.", "hiya mā dhahabat.", "She did not go."],
+          ],
+        },
+        {
+          h: "ليس — “is not”",
+          p: "For a sentence without a present “to be”, use <b>ليس</b> (laysa) “is not”. It changes with the person: لستُ “I am not”, ليست “she is not”, ليس “he / it is not”.",
+          examples: [
+            ["البيت {ليس} كبيراً.", "al-bayt laysa kabīran.", "The house is not big."],
+            ["أنا {لستُ} طبيباً.", "anā lastu ṭabīban.", "I am not a doctor."],
+            ["هي {ليست} هنا.", "hiya laysat hunā.", "She is not here."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ أفهم.", en: "I do not understand. (أفهم = I understand)", options: ["لا", "ما", "هل", "من"], answer: "لا", why: "لا + present verb: لا أفهم." },
+        { q: "＿ كتب الدرس.", en: "He did not write the lesson.", options: ["ما", "لا", "هل", "أين"], answer: "ما", why: "ما + past verb: ما كتب." },
+        { q: "الكتاب ＿ جديداً.", en: "The book is not new.", options: ["ليس", "لا", "ما", "هل"], answer: "ليس", why: "Nominal “is not”: ليس." },
+        { q: "How do you say “I am not a teacher”?", en: "مدرس = teacher", options: ["أنا لستُ مدرساً.", "أنا لا مدرس.", "أنا ما مدرس.", "أنا هل مدرس."], answer: "أنا لستُ مدرساً.", why: "لستُ is “I am not” with ليس." },
+        { q: "What does هي لا تكتب mean?", en: "", options: ["She does not write.", "She did not write.", "Is she writing?", "She is not a writer (noun)."], answer: "She does not write.", why: "لا + present تكتب." },
+      ],
+    },
+    {
+      id: "idafa",
+      title: "إضافة — “X of Y”",
+      particle: "إضافة",
+      summary: "Two nouns side by side: the thing owned, then the owner.",
+      sections: [
+        {
+          p: "To say “the student’s book” or “the door of the house”, put the owned thing first and the owner second. The first noun never takes ال; only the last noun may. The whole phrase is definite when the last noun is definite.",
+          examples: [
+            ["{كتاب الطالب}", "kitāb aṭ-ṭālib", "the student’s book"],
+            ["{باب البيت}", "bāb al-bayt", "the door of the house"],
+            ["{مدير المدرسة}", "mudīr al-madrasa", "the school principal"],
+          ],
+        },
+        {
+          h: "ة becomes -at; no “of” word",
+          p: "When the first noun ends in ة, say it as -at inside the construct: مدينة نيويورك “New York City”. There is no separate word for “of”.",
+          examples: [
+            ["{مدينة} نيويورك", "madīnat nyū yūrk", "New York City"],
+            ["{غرفة} البيت", "ghurfat al-bayt", "the room of the house"],
+            ["{اسم} الطالب", "ism aṭ-ṭālib", "the student’s name"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "How do you say “the student’s book”?", en: "كتاب = book, طالب = student", options: ["كتاب الطالب", "الكتاب الطالب", "طالب الكتاب", "الكتاب ل الطالب"], answer: "كتاب الطالب", why: "Owned first without ال, then the owner: كتاب الطالب." },
+        { q: "What does باب البيت mean?", en: "", options: ["the door of the house", "the house of the door", "a door and a house", "doors of houses"], answer: "the door of the house", why: "باب (door) + البيت (the house)." },
+        { q: "Which phrase is a correct iḍāfa?", en: "", options: ["مدير الشركة", "المدير الشركة", "مدير ال الشركة", "الشركة مدير"], answer: "مدير الشركة", why: "First noun without ال: مدير الشركة." },
+        { q: "غرفة ＿", en: "the room of the house", options: ["البيت", "بيت", "البيتي", "في البيت"], answer: "البيت", why: "Owner last and definite: غرفة البيت." },
+        { q: "What happens to ة on the first noun in an iḍāfa?", en: "", options: ["It is said -at", "It is deleted", "It becomes ال", "It doubles"], answer: "It is said -at", why: "ة is pronounced -at before the second noun: مدينة، غرفة." },
       ],
     },
   ],

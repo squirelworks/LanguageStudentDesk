@@ -40,6 +40,9 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `++++++[>++++++++<-]>.+.+.`, options: ["012", "000", "0", "123"], answer: "012", why: "6 × 8 = 48 is the character 0; each +. adds one and prints again." },
         { q: "How many boxes does the pointer move in >>><?", options: ["2 to the right", "4 to the right", "3 to the right", "1 to the left"], answer: "2 to the right", why: "Three steps right, one step left." },
         { q: "What happens to a letter like x in a program?", options: ["It is ignored", "It prints x", "It is an error", "It ends the program"], answer: "It is ignored", why: "Only the eight command symbols mean anything." },
+        { kind: "output", q: "What does this print?", code: `+++++[>+++++++++++++<-]>.`, options: ["A", "E", "M", "@"], answer: "A", why: "5 × 13 = 65, the code for A." },
+        { kind: "output", q: "What does this print?", code: `+++++++[>+++++++<-]>.`, options: ["1", "0", "7", "A"], answer: "1", why: "7 × 7 = 49, the code for the character 1." },
+        { q: "What does the , command do?", options: ["Reads one typed character into the current box", "Prints a comma", "Clears the box", "Moves left"], answer: "Reads one typed character into the current box", why: "Comma is input; the box gets the character's code." },
       ],
     },
     {
@@ -74,6 +77,9 @@ window.PROGRAMMING.brainfood = {
         { q: "After ++++++++++[>+++++++<-] which box holds 70?", options: ["Box 1", "Box 0", "Box 7", "Box 10"], answer: "Box 1", why: "Box 0 counts the 10 rounds down to 0; box 1 gains 7 each round." },
         { kind: "output", q: "What does this print?", code: `+++++[>+++++++++++++<-]>.+++.`, options: ["AD", "AB", "A", "BE"], answer: "AD", why: "5 × 13 = 65 is A; three more is 68, D." },
         { q: "Why is the program text full of words like H and space?", options: ["They are notes; non-commands are ignored", "They print themselves", "They name the boxes", "They are required labels"], answer: "They are notes; non-commands are ignored", why: "Any character that is not one of the eight commands is skipped." },
+        { kind: "output", q: "What does this print?", code: `+++++[>+++++++++++++<-]>.++++.`, options: ["AE", "AD", "A", "EI"], answer: "AE", why: "5 × 13 = 65 is A; four more is 69, E." },
+        { kind: "output", q: "What does this print?", code: `+++++[>+++++++++++++<-]>+.+.+.`, options: ["BCD", "ABC", "AAA", "DEF"], answer: "BCD", why: "65 + 1 is B; each +. prints the next letter." },
+        { q: "What does the program ,[.,] do?", options: ["Echoes each typed character until it reads a 0", "Prints a comma forever", "Clears every box", "Reads one character and stops"], answer: "Echoes each typed character until it reads a 0", why: "It reads, then loops printing and reading until a 0 ends the loop." },
       ],
     },
     {
@@ -119,6 +125,9 @@ window.PROGRAMMING.brainfood = {
         { q: "After +++[->+<] which box holds 3?", options: ["Box 1", "Box 0", "Both", "Neither"], answer: "Box 1", why: "Moving empties box 0 into box 1." },
         { q: "Why does copying use a third box?", options: ["Moving empties the source, so one copy has to be moved back", "Boxes can only hold one value", "The loop needs three arrows", "It is faster"], answer: "Moving empties the source, so one copy has to be moved back", why: "The value goes into two boxes, then one of them refills the original." },
         { kind: "output", q: "What does this print?", code: `++>+++<[->+<]>>++++++[>++++++++<-]>[-<<+>>]<<.`, options: ["5", "6", "2", "3"], answer: "5", why: "2 moved onto 3 gives 5; then 48 is built two boxes along and moved on top, giving the character 5." },
+        { kind: "output", q: "What does this print?", code: `+++[->+<]>>++++++[<++++++++>-]<.`, options: ["3", "0", "C", "6"], answer: "3", why: "3 is moved into box 1, then 48 is added so it prints as the character 3." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++<-]>+[->>+<<]>>.`, options: ["A", "B", "@", "Nothing"], answer: "A", why: "65 is built in box 1, moved two boxes along, and printed from box 3." },
+        { q: "After ++>+++<[->+<] what does box 0 hold?", options: ["0", "2", "3", "5"], answer: "0", why: "Moving empties the source box into the next one." },
       ],
     },
     {
@@ -156,6 +165,9 @@ window.PROGRAMMING.brainfood = {
         { q: "In the multiply program, why is box 1 copied each round?", options: ["Adding it to box 2 would otherwise empty it", "To print it", "To count the rounds", "Box 1 must stay at 0"], answer: "Adding it to box 2 would otherwise empty it", why: "Moving empties the source; copying keeps box 1 ready for the next round." },
         { kind: "output", q: "What does this print?", code: `+++[>+++<-]>>++++++[>++++++++<-]>[-<<+>>]<<.`, options: ["9", "6", "3", "0"], answer: "9", why: "The first loop makes 3 × 3 = 9 in box 1; then 48 is built and added to it." },
         { q: "With wrapping, what is in a box after 0 then -?", options: ["255", "-1", "0", "It stops the program"], answer: "255", why: "Boxes hold 0 to 255 and wrap around at both ends." },
+        { kind: "output", q: "What does this print?", code: `++++++++>+++[-<->]<>++++++[<++++++++>-]<.`, options: ["5", "8", "3", "11"], answer: "5", why: "8 take away 3 is 5, plus 48 is the character 5." },
+        { kind: "output", q: "What does this print?", code: `++>++++<[>[->+>+<<]>>[-<<+>>]<<<-]>>>++++++[<++++++++>-]<.`, options: ["8", "6", "4", "2"], answer: "8", why: "2 × 4 is built in box 2 by the nested loops; then 48 turns it into the character 8." },
+        { kind: "output", q: "What does this print?", code: `+++[>++<-]>>++++++[>++++++++<-]>[-<<+>>]<<.`, options: ["6", "5", "3", "2"], answer: "6", why: "3 × 2 = 6 in box 1; adding 48 prints the digit 6." },
       ],
     },
     {
@@ -197,6 +209,9 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `++++>++++++++[>++++++++<-]>++++<<[>>.+<<-]`, options: ["DEFG", "ABCD", "DCBA", "D"], answer: "DEFG", why: "Box 2 starts at 68 (D) and grows by one each of the four rounds." },
         { q: "Why does the grid program use box 3 for the stars on each row?", options: ["Box 3 is refilled every row, while box 0 keeps the row count", "Box 3 holds the star", "Box 3 prints the new line", "It does not need to"], answer: "Box 3 is refilled every row, while box 0 keeps the row count", why: "Each loop needs its own counter, or the inner loop would use up the outer one." },
         { q: "A loop body moves right three times and left twice. What goes wrong?", options: ["The loop checks a different box each round", "Nothing", "It runs one extra time", "The program will not start"], answer: "The loop checks a different box each round", why: "The pointer drifts one box right per round, so ] no longer tests the counter." },
+        { kind: "output", q: "What does this print?", code: `+++>++++++++[>++++++++<-]>+<<[>>.+<<-]`, options: ["ABC", "AAA", "CBA", "A"], answer: "ABC", why: "Box 2 starts at A and grows by one across three counted rounds." },
+        { kind: "output", q: "What does this print?", code: `++++>++++++[>+++++++<-]<[>>.<<-]`, options: ["****", "*", "****\n", "AAAA"], answer: "****", why: "Box 2 holds a star (42) and the outer count prints it four times." },
+        { kind: "output", q: "What does this print?", code: `+++++>++++++++[>++++++++<-]>+<<[>>.<<-]`, options: ["AAAAA", "ABCDE", "A", "AAAA"], answer: "AAAAA", why: "Five rounds print the same box without changing it." },
       ],
     },
     {
@@ -232,6 +247,8 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<+++++>+++[-<->]<>+<[>>>.<<<[-]>-<]>[>>>.<<<-]<`, options: ["N", "Y", "NY", "Nothing"], answer: "N", why: "5 take away 3 is 2, not zero, so N is printed and the flag is cleared." },
         { q: "Why does an if-loop end with [-]?", options: ["So the loop runs at most once", "To print the box", "To move the pointer", "To set a flag"], answer: "So the loop runs at most once", why: "Emptying its own box makes the ] check fail, so the loop exits." },
         { q: "What is the flag box for?", options: ["Remembering whether the then part ran, so the else part can be skipped", "Counting rounds", "Holding the answer", "Printing Y"], answer: "Remembering whether the then part ran, so the else part can be skipped", why: "The then part clears the flag; the else part runs only if it is still set." },
+        { kind: "output", q: "What does this print?", code: `++>++++++++[>++++++++<-]>+<<[>>.<<[-]]`, options: ["A", "AA", "Nothing", "B"], answer: "A", why: "Box 0 holds 2, so the one-time loop still runs once: it prints A and then clears itself." },
+        { kind: "output", q: "What does this print?", code: `+>++++++++[>++++++++<-]>+<<[>>.<<[-]]`, options: ["A", "Nothing", "AA", "B"], answer: "A", why: "The flag box is 1, so the if-loop prints A and empties itself." },
       ],
     },
     {
@@ -261,6 +278,9 @@ window.PROGRAMMING.brainfood = {
         { q: "When does [.>] stop?", options: ["When the pointer reaches a box holding 0", "After 10 boxes", "When it prints a space", "Never"], answer: "When the pointer reaches a box holding 0", why: "The loop test checks the current box; a 0 ends the walk." },
         { kind: "output", q: "What does this print?", code: `++++++++[>++++++++>++++++++<<-]>+>++<[.>]`, options: ["AB", "A", "BA", "@A"], answer: "AB", why: "Boxes 1 and 2 become 65 and 66, and the walk prints both before stopping at box 3." },
         { q: "Why keep a 0 box before the start of a word?", options: ["So a backwards walk like [<] knows where to stop", "Boxes must start at 1", "To hold the length", "So the word prints in capitals"], answer: "So a backwards walk like [<] knows where to stop", why: "Walks stop at 0, so zeros at both ends mark the edges of the word." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++>++++++++>++++++++<<<-]>+>++>+++<<[.>]`, options: ["ABC", "CBA", "AAA", "ABCD"], answer: "ABC", why: "Boxes 1–3 hold 65–67; [.>] walks right printing until the trailing 0." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++>++++++++<<-]>+>++<[.>]<[.<]`, options: ["ABBA", "AB", "BA", "ABAB"], answer: "ABBA", why: "A forward walk prints AB, then a backward walk prints BA." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++>++++++++>++++++++<<<-]>+>++>+++<<[.>]<[.<]`, options: ["ABCCBA", "ABCABC", "CBACBA", "ABC"], answer: "ABCCBA", why: "Forwards to the end prints ABC; backwards prints CBA." },
       ],
     },
     {
@@ -284,6 +304,9 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `+++++>>++++++++[<++++++++>-]<++++++++++++++++++++++++++<[>.-<-]`, options: ["ZYXWV", "ABCDE", "VWXYZ", "Z"], answer: "ZYXWV", why: "Box 1 starts at 90 (Z) and the loop prints it, then takes 1 away, five times." },
         { q: "Which is the shortest way to put 64 in a box?", options: ["A loop of 8 rounds adding 8", "64 plus signs", "A loop of 64 rounds adding 1", "Reading it with ,"], answer: "A loop of 8 rounds adding 8", why: "++++++++[>++++++++<-] is 19 commands instead of 64." },
         { q: "Which pattern prints every box until a 0?", options: ["[.>]", "[-]", "[->+<]", ".+."], answer: "[.>]", why: "Print, move right, and repeat while the box is not 0." },
+        { kind: "output", q: "What does this print?", code: `+++>++++++++[>++++++++<-]>+<<[>>.+<<-]`, options: ["ABC", "AAA", "CBA", "ABCD"], answer: "ABC", why: "Three counted rounds print A, then B, then C." },
+        { kind: "output", q: "What does this print?", code: `++++>++++++++[>++++++++<-]>+++<<[>>.+<<-]`, options: ["CDEF", "ABCD", "EFGH", "C"], answer: "CDEF", why: "Box 2 starts at 67 (C) and steps up across four rounds." },
+        { kind: "output", q: "What does this print?", code: `+++>++++++++[>++++++++<-]>++++++++++++++++++++++++++<<[>>.-<<-]`, options: ["ZYX", "ABC", "XYZ", "Z"], answer: "ZYX", why: "Box 2 starts at Z and counts down three times." },
       ],
     },
   ],
