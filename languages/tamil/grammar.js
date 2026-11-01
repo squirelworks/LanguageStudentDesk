@@ -1,10 +1,24 @@
 // Tamil first grammar for the Grammar Learner. Written for this project.
 // Examples are [Tamil, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Modern Tamil constructions — original example sentences):
+// - Wiktionary Tamil lemmas and conjugation notes (CC BY-SA): past -த்-/-ன்-, future -வ்-/-ப்-,
+//   polite imperative -ங்கள், infinitive + வேண்டும், dative experiencer + முடியும்/முடியாது,
+//   comparative விட.
+// - Wikipedia “Tamil grammar” / “Tamil language — Grammar” (CC BY-SA) for beginner overview
+//   of tense markers, imperatives, modal வேண்டும், ability, and comparison with விட.
+// - Lehmann, Thomas (1989/1993), A Grammar of Modern Tamil (Institute of Asian Studies,
+//   Madras): written Tamil tense morphology, infinitive + வேண்டும், ability, and comparison
+//   (reference grammar; examples here are original).
+// - In-repo languages/tamil/reference.json (present/past/future markers, case endings,
+//   everyday phrases with -ங்கள்) — same beginner seam; examples here are original.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (past, future, imperatives, வேண்டும்,
+// முடியும், விட). Transliteration matches lessons 1–6 (simplified; long vowels doubled).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.tamil = {
   title: "Tamil first grammar",
-  intro: "Tamil is a Dravidian language: words are built by adding suffixes one after another, the verb comes last, and the verb ending says who did it, including whether “he” is masculine, feminine or polite. Written Tamil and everyday spoken Tamil differ quite a lot; these lessons use the standard forms, which are understood everywhere and are fine for polite speech. They cover sentences without “is”, the present tense, இல்லை and இருக்கிறது, questions, case endings, and “my” and plurals.",
+  intro: "Tamil is a Dravidian language: words are built by adding suffixes one after another, the verb comes last, and the verb ending says who did it, including whether “he” is masculine, feminine or polite. Written Tamil and everyday spoken Tamil differ quite a lot; these lessons use the standard forms, which are understood everywhere and are fine for polite speech. Lessons 1–6 cover sentences without “is”, the present tense, இல்லை and இருக்கிறது, questions, case endings, and “my” and plurals. Lessons 7–12 add the past and future, polite imperatives, வேண்டும், முடியும், and comparing with விட.",
   lessons: [
     {
       id: "pronouns",
@@ -176,6 +190,193 @@ window.GRAMMAR.tamil = {
         { q: "பழம் → ＿", en: "fruit → fruits", options: ["பழங்கள்", "பழம்கள்", "பழத்தில்", "பழமா"], answer: "பழங்கள்", why: "-ம் becomes -ங்- before -கள்." },
         { q: "பையன் → ＿", en: "boy → boys", options: ["பையன்கள்", "பையங்கள்", "பையனுக்கு", "பையனா"], answer: "பையன்கள்", why: "Add -கள்." },
         { q: "ராம＿ கார்", en: "Ram's car", options: ["ுடைய", "ில்", "ுக்கு", "ை"], answer: "ுடைய", why: "-உடைய = 's, of: ராமுடைய." },
+      ],
+    },
+    {
+      id: "past",
+      title: "The past tense: -த்- and -ன்-",
+      particle: "-த்தேன் -னேன்",
+      summary: "Same person endings as the present; the tense marker is -த்- or -ன்-.",
+      sections: [
+        {
+          p: "Keep the person endings from the present (-ஏன், -ஆய், -ஈர்கள், -ஆன், -ஆள், -ஆர், -ஓம், -ஆர்கள்) and change the middle marker. Many verbs take <b>-த்-</b>: படி → <b>படித்தேன்</b> “I studied”. Others take <b>-ன்-</b> after a linking இ: பேசு → <b>பேசினேன்</b> “I spoke”.",
+          examples: [
+            ["நான் நேற்று தமிழ் படி{த்தேன்}.", "Naan netru thamizh padiththen.", "I studied Tamil yesterday."],
+            ["அவள் ஒரு பாட்டு பாடி{னாள்}.", "Aval oru paattu paadinaal.", "She sang a song."],
+            ["நீங்கள் எங்கே போ{னீர்கள்}?", "Neengal enge poneergal?", "Where did you go?"],
+          ],
+        },
+        {
+          h: "Come and go",
+          p: "A few everyday verbs have their own past stems: வா (come) → <b>வந்தேன்</b>, போ (go) → <b>போனேன்</b>, செய் (do) → <b>செய்தேன்</b>. The person ending still tells who did it.",
+          examples: [
+            ["நேற்று நண்பர் {வந்தார்}.", "Netru nanbar vandhaar.", "A friend came yesterday. (polite)"],
+            ["நாங்கள் கடைக்குப் {போனோம்}.", "Naangal kadaikkup ponom.", "We went to the shop."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "நான் நேற்று படித்த＿.", en: "I studied yesterday.", options: ["ேன்", "ான்", "ாள்", "ோம்"], answer: "ேன்", why: "“I” still takes -ஏன் in the past." },
+        { q: "அவன் ஒரு கடிதம் எழுதின＿.", en: "He wrote a letter.", options: ["ான்", "ாள்", "ேன்", "ீர்கள்"], answer: "ான்", why: "“He” takes -ஆன்: எழுதினான்." },
+        { q: "அவள் பாடின＿.", en: "She sang.", options: ["ாள்", "ான்", "ேன்", "ார்கள்"], answer: "ாள்", why: "“She” takes -ஆள்." },
+        { q: "Which means “I came yesterday”?", en: "நேற்று = yesterday", options: ["நான் நேற்று வந்தேன்.", "நான் நேற்று வருகிறேன்.", "நான் நேற்று வருவேன்.", "நான் நேற்று வாருங்கள்."], answer: "நான் நேற்று வந்தேன்.", why: "Past of வா is வந்தேன்." },
+        { q: "நாங்கள் வீட்டிற்குப் போன＿.", en: "We went home.", options: ["ோம்", "ேன்", "ார்", "ாய்"], answer: "ோம்", why: "“We” takes -ஓம்: போனோம்." },
+      ],
+    },
+    {
+      id: "future",
+      title: "The future: -வ்- and -ப்-",
+      particle: "-வேன் -பேன்",
+      summary: "Same person endings again; the future marker is -வ்- or -ப்-.",
+      sections: [
+        {
+          p: "For “will”, put <b>-வ்-</b> or <b>-ப்-</b> before the person ending. Strong verbs often take -வ்-: பேசு → <b>பேசுவேன்</b>. Weak verbs often take -ப்-: படி → <b>படிப்பேன்</b>. The endings are still -ஏன், -ஆய், -ஈர்கள், and so on.",
+          examples: [
+            ["நான் நாளை வரு{வேன்}.", "Naan naalai varuven.", "I will come tomorrow."],
+            ["அவள் பாட்டு பாடு{வாள்}.", "Aval paattu paaduvaal.", "She will sing a song."],
+            ["நீங்கள் தமிழ் படி{ப்பீர்கள்}.", "Neengal thamizh padippeergal.", "You will study Tamil."],
+          ],
+        },
+        {
+          h: "Habits and tomorrow",
+          p: "The same future forms also cover habits and general truths in writing: நான் காலைக் காபி குடிப்பேன் can mean “I (will) drink coffee in the morning”. Time words like <b>நாளை</b> (tomorrow) make the future reading clear.",
+          examples: [
+            ["நாளை மழை பெய்{யும்}.", "Naalai mazhai peyyum.", "It will rain tomorrow. (neuter -உம்)"],
+            ["அவர் நாளை வரு{வார்}.", "Avar naalai varuvaar.", "He / she will come tomorrow. (polite)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "நான் நாளை வருவ＿.", en: "I will come tomorrow.", options: ["ேன்", "ான்", "ாள்", "ோம்"], answer: "ேன்", why: "“I” future: வருவேன்." },
+        { q: "அவன் பள்ளிக்குப் போவ＿.", en: "He will go to school.", options: ["ான்", "ாள்", "ேன்", "ீர்கள்"], answer: "ான்", why: "“He” takes -ஆன்: போவான்." },
+        { q: "அவள் பாடுவ＿.", en: "She will sing.", options: ["ாள்", "ான்", "ேன்", "ார்கள்"], answer: "ாள்", why: "“She” takes -ஆள்." },
+        { q: "Which means “We will study Tamil”?", en: "", options: ["நாங்கள் தமிழ் படிப்போம்.", "நாங்கள் தமிழ் படிக்கிறோம்.", "நாங்கள் தமிழ் படித்தோம்.", "நாங்கள் தமிழ் படியுங்கள்."], answer: "நாங்கள் தமிழ் படிப்போம்.", why: "Future of படி for “we”: படிப்போம்." },
+        { q: "நீங்கள் எப்போது வருவ＿?", en: "When will you come? (polite)", options: ["ீர்கள்", "ாய்", "ேன்", "ான்"], answer: "ீர்கள்", why: "Polite “you” takes -ஈர்கள்: வருவீர்கள்." },
+      ],
+    },
+    {
+      id: "imperative",
+      title: "Polite requests: -ங்கள்",
+      particle: "-ங்கள்",
+      summary: "Add -ங்கள் to ask someone politely to do something.",
+      sections: [
+        {
+          p: "For a polite command or request, use the stem (often with a linking vowel) plus <b>-ங்கள்</b>: வா → <b>வாருங்கள்</b> “please come”, போ → <b>போங்கள்</b> “please go”, பேசு → <b>பேசுங்கள்</b> “please speak”. Intimate speech drops -ங்கள் and uses a bare stem (வா, போ), which these lessons leave aside.",
+          examples: [
+            ["தயவுசெய்து உள்ளே {வாருங்கள்}.", "Thayavuseidhu ulle vaarungal.", "Please come in."],
+            ["மெதுவாகப் {பேசுங்கள்}.", "Medhuvaagap pesungal.", "Please speak slowly."],
+            ["ஒரு காபி {கொடுங்கள்}.", "Oru kaapi kodungal.", "Please give (me) a coffee."],
+          ],
+        },
+        {
+          h: "Don't do that",
+          p: "A polite “don't” uses <b>-ஆதீர்கள்</b> (or -ஆதே intimately): <b>போகாதீர்கள்</b> “please don't go”, <b>தொடாதீர்கள்</b> “please don't touch”.",
+          examples: [
+            ["தயவுசெய்து அதைத் தொட{ாதீர்கள்}.", "Thayavuseidhu adhaith thodaadheergal.", "Please don't touch that."],
+            ["இங்கே புகைபிடிக்க{ாதீர்கள்}.", "Inge pugaipidikkaadheergal.", "Please don't smoke here."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "தயவுசெய்து உட்கார்＿.", en: "Please sit down.", options: ["ுங்கள்", "ுகிறேன்", "ுவேன்", "ாதீர்கள்"], answer: "ுங்கள்", why: "Polite request: உட்காருங்கள்." },
+        { q: "மெதுவாகப் பேசு＿.", en: "Please speak slowly.", options: ["ங்கள்", "கிறீர்கள்", "வீர்கள்", "ாதீர்கள்"], answer: "ங்கள்", why: "பேசுங்கள் is the polite imperative." },
+        { q: "ஒரு தண்ணீர் கொடு＿.", en: "Please give (me) some water.", options: ["ங்கள்", "க்கிறேன்", "ப்பேன்", "த்தேன்"], answer: "ங்கள்", why: "கொடுங்கள் = please give." },
+        { q: "Which means “Please come tomorrow”?", en: "நாளை = tomorrow", options: ["நாளை வாருங்கள்.", "நாளை வருகிறீர்கள்.", "நாளை வருவீர்கள்.", "நாளை வந்தீர்கள்."], answer: "நாளை வாருங்கள்.", why: "Request form of வா is வாருங்கள்." },
+        { q: "தயவுசெய்து போக＿.", en: "Please don't go.", options: ["ாதீர்கள்", "ுங்கள்", "ிறீர்கள்", "ுவீர்கள்"], answer: "ாதீர்கள்", why: "Polite negative: போகாதீர்கள்." },
+      ],
+    },
+    {
+      id: "vendum",
+      title: "வேண்டும் — need, must, want to",
+      particle: "வேண்டும்",
+      summary: "எனக்கு + noun + வேண்டும் for “I need”; infinitive + வேண்டும் for “must / have to”.",
+      sections: [
+        {
+          p: "To need a thing, Tamil says “to me … is needed”: <b>எனக்கு</b> + noun + <b>வேண்டும்</b>. For people: உங்களுக்கு, அவனுக்கு, அவளுக்கு. The thing stays a plain noun.",
+          examples: [
+            ["{எனக்கு} ஒரு காபி {வேண்டும்}.", "Enakku oru kaapi vendum.", "I need / want a coffee."],
+            ["{உங்களுக்கு} உதவி வேண்டுமா?", "Ungalukku udhavi vendumaa?", "Do you need help?"],
+            ["{எனக்கு} நேரம் வேண்டாம்.", "Enakku neram vendaam.", "I don't need time. / I don't want (any) time."],
+          ],
+        },
+        {
+          h: "Must: infinitive + வேண்டும்",
+          p: "Put the <b>infinitive</b> (போக, வர, படிக்க, செய்ய, பேச) before வேண்டும் for “must / have to / should”: நான் போக <b>வேண்டும்</b>. The subject is the usual nominative (நான், நீங்கள்), not எனக்கு.",
+          examples: [
+            ["நான் இன்று வேலைக்குப் போக {வேண்டும்}.", "Naan indru velaikkup poga vendum.", "I have to go to work today."],
+            ["நீங்கள் மெதுவாகப் பேச {வேண்டும்}.", "Neengal medhuvaagap pesa vendum.", "You should speak slowly."],
+            ["நாம் காத்திருக்க {வேண்டாம்}.", "Naam kaaththirukka vendaam.", "We need not wait. / We shouldn't wait."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ ஒரு தண்ணீர் வேண்டும்.", en: "I need some water.", options: ["எனக்கு", "நான்", "என்", "நாம்"], answer: "எனக்கு", why: "Needing a thing uses எனக்கு, “to me”." },
+        { q: "உங்களுக்கு உதவி ＿?", en: "Do you need help?", options: ["வேண்டுமா", "வேண்டும்நான்", "முடியுமா", "இருக்கிறதா"], answer: "வேண்டுமா", why: "வேண்டும் + -ஆ for a yes/no question." },
+        { q: "நான் நாளை வர ＿.", en: "I have to come tomorrow.", options: ["வேண்டும்", "முடியும்", "இல்லை", "கிறேன்"], answer: "வேண்டும்", why: "Infinitive + வேண்டும் = must / have to." },
+        { q: "Which is the infinitive “to study”?", en: "", options: ["படிக்க", "படிக்கிறேன்", "படித்தேன்", "படியுங்கள்"], answer: "படிக்க", why: "Infinitives often end in -அ / -க்க: படிக்க." },
+        { q: "நான் போக ＿.", en: "I don't have to go. / I needn't go.", options: ["வேண்டாம்", "முடியாது", "இல்லை", "போகிறேன்"], answer: "வேண்டாம்", why: "Negative of வேண்டும் is வேண்டாம்." },
+      ],
+    },
+    {
+      id: "mudiyum",
+      title: "முடியும் — can and cannot",
+      particle: "முடியும்",
+      summary: "என்னால் + infinitive + முடியும் for ability; முடியாது for “cannot”.",
+      sections: [
+        {
+          p: "Ability is said with the instrumental of the person: <b>என்னால்</b> (by me), <b>உங்களால்</b>, <b>அவனால்</b>, then the infinitive, then <b>முடியும்</b> “is possible”. So என்னால் நீந்த முடியும், “I can swim”.",
+          examples: [
+            ["{என்னால்} தமிழ் பேச {முடியும்}.", "Ennaal thamizh pesa mudiyum.", "I can speak Tamil."],
+            ["{உங்களால்} வர முடியுமா?", "Ungalaal vara mudiyumaa?", "Can you come?"],
+            ["{அவளால்} நன்றாகப் பாட முடியும்.", "Avalaal nandraagap paada mudiyum.", "She can sing well."],
+          ],
+        },
+        {
+          h: "Cannot: முடியாது",
+          p: "Replace முடியும் with <b>முடியாது</b> for “cannot / is not possible”: என்னால் இன்று வர <b>முடியாது</b>. The infinitive stays the same.",
+          examples: [
+            ["என்னால் இன்று வர {முடியாது}.", "Ennaal indru vara mudiyaadhu.", "I can't come today."],
+            ["அவனால் காரை ஓட்ட {முடியாது}.", "Avanaal kaarai otta mudiyaadhu.", "He can't drive a car."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ தமிழ் பேச முடியும்.", en: "I can speak Tamil.", options: ["என்னால்", "எனக்கு", "நான்", "என்"], answer: "என்னால்", why: "Ability uses என்னால், “by me”." },
+        { q: "உங்களால் நீந்த ＿?", en: "Can you swim?", options: ["முடியுமா", "வேண்டுமா", "இருக்கிறதா", "வருகிறதா"], answer: "முடியுமா", why: "முடியும் + -ஆ asks about ability." },
+        { q: "என்னால் இன்று வர ＿.", en: "I can't come today.", options: ["முடியாது", "வேண்டாம்", "இல்லை", "வந்தேன்"], answer: "முடியாது", why: "முடியாது = cannot." },
+        { q: "Which means “She can drive”?", en: "ஓட்ட = to drive", options: ["அவளால் ஓட்ட முடியும்.", "அவளுக்கு ஓட்ட வேண்டும்.", "அவள் ஓட்டுங்கள்.", "அவள் ஓட்டினாள்."], answer: "அவளால் ஓட்ட முடியும்.", why: "அவளால் + infinitive + முடியும்." },
+        { q: "Where does the infinitive sit with முடியும்?", en: "", options: ["Before முடியும்", "After முடியும்", "Instead of என்னால்", "Only at the start"], answer: "Before முடியும்", why: "Pattern: என்னால் + infinitive + முடியும்." },
+      ],
+    },
+    {
+      id: "vida",
+      title: "விட — comparing",
+      particle: "விட",
+      summary: "A-ஐ விட B … for “B is more … than A”.",
+      sections: [
+        {
+          p: "To compare, put the standard of comparison first with the object ending and <b>விட</b> (“than”): <b>அதை விட</b> “than that”. Then name what you are talking about and the describing word. The describing word does not change for tense.",
+          examples: [
+            ["இந்த வீடு அந்த வீட்ட{ை விட} பெரியது.", "Indha veedu andha veettai vida periyadhu.", "This house is bigger than that house."],
+            ["அவன் என்{னை விட} உயரமானவன்.", "Avan ennai vida uyaramaanavan.", "He is taller than me."],
+            ["இன்று நேற்ற{ை விட} வெப்பமாக இருக்கிறது.", "Indru netrai vida veppamaga irukkiradhu.", "Today is hotter than yesterday."],
+          ],
+        },
+        {
+          h: "The most, and “as … as”",
+          p: "<b>எல்லாவற்றையும் விட</b> or <b>மிகவும்</b> gives a strong “most / very” reading: இது மிகவும் இனிப்பு, “this is very sweet”. For “as … as”, Tamil often uses <b>போல</b> or <b>அளவுக்கு</b> rather than விட.",
+          examples: [
+            ["இந்தப் பழம் {மிகவும்} இனிப்பு.", "Indhap pazham migavum inippu.", "This fruit is very sweet."],
+            ["அவள் அன்னை{யைப் போல} பாடுகிறாள்.", "Aval annaivaip pola paadugiraal.", "She sings like (her) mother."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "இது அதை ＿ பெரியது.", en: "This is bigger than that.", options: ["விட", "வேண்டும்", "முடியும்", "இல்லை"], answer: "விட", why: "விட after the compared thing means “than”." },
+        { q: "அவன் என்னை விட ＿.", en: "He is taller than me.", options: ["உயரமானவன்", "உயரமானவள்", "உயரமானது வேண்டும்", "உயர முடியும்"], answer: "உயரமானவன்", why: "Masculine “taller one”: உயரமானவன்." },
+        { q: "இன்று நேற்றை விட ＿ இருக்கிறது.", en: "Today is colder than yesterday.", options: ["குளிராக", "குளிர் வேண்டும்", "குளிர் முடியும்", "குளிருங்கள்"], answer: "குளிராக", why: "Describing word after விட: குளிராக இருக்கிறது." },
+        { q: "Which means “This book is better than that book”?", en: "நல்லது = good / better here", options: ["இந்தப் புத்தகம் அந்தப் புத்தகத்தை விட நல்லது.", "இந்தப் புத்தகம் விட அந்தப் புத்தகம் நல்லது வேண்டும்.", "இந்தப் புத்தகம் அந்தப் புத்தகம் முடியும் நல்லது.", "விட இந்தப் புத்தகம் அந்தப் புத்தகம்."], answer: "இந்தப் புத்தகம் அந்தப் புத்தகத்தை விட நல்லது.", why: "Compared thing + -ஐ விட, then the describing word." },
+        { q: "இந்தச் சாப்பாடு ＿ சுவையாக இருக்கிறது.", en: "This food is very tasty.", options: ["மிகவும்", "விட", "வேண்டும்", "முடியும்"], answer: "மிகவும்", why: "மிகவும் = very / most." },
       ],
     },
   ],
