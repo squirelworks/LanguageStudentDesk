@@ -326,6 +326,10 @@
       gr("gr-basics", "No “is”, verbs and saying no", "Sentences without “is”, ଅଛି, the present with -ଉଛି, and ନାହିଁ.", ["achhi", "present", "nahin"]),
       gr("gr-more", "Questions, cases and plurals", "Questions, -ରେ, -ରୁ and -କୁ, “my”, and plurals.", ["questions", "cases", "mora-mane"]),
     ],
+    manipuri: [
+      gr("gr-basics", "Word order, “is”, and case endings", "SOV order; the copula ‑ni; and ‑na, ‑da, ‑bu (with ‑gi for “of”).", ["sov", "ni", "cases"]),
+      gr("gr-more", "Aspect, questions and saying no", "Verb aspect ‑i / ‑le / ‑gani; questions with ‑bra; and negation with ‑de / ‑loi.", ["aspect", "questions", "negation"]),
+    ],
     tamazight: [
       gr("gr-basics", "Pronouns, gender and plurals", "Pronouns and ⴷ, masculine and feminine nouns, and plurals.", ["pronouns", "gender", "plural"]),
       gr("gr-more", "“My”, places and verbs", "ⵉⵏⵓ and ⵏⵏⴽ, ⴳ, ⵣⴳ, ⵙ and ⵏ, and verbs in the past with ⵓⵔ for “not”.", ["possession", "places", "verbs"]),

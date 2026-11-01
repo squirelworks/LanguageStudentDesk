@@ -446,6 +446,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
     "speech": "mni",
     "data": {
+      "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
     }
