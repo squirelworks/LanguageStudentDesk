@@ -30,6 +30,31 @@ window.LSD_RESOURCES = {
     { title: "Oxford Hindi-English Dictionary (McGregor)", url: "https://dsal.uchicago.edu/dictionaries/mcgregor/", meta: "Searchable online at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Devanagari"], stars: 5 },
     { title: "Platts' Dictionary of Urdu, Classical Hindi and English", url: "https://dsal.uchicago.edu/dictionaries/platts/", meta: "Classic dictionary in Devanagari, Urdu and roman script · Free", tags: ["dictionary", "Urdu"], stars: 4 },
   ],
+  amharic: [
+    { title: "FSI Amharic Basic Course", url: "https://www.fsi-language-courses.org/fsi-amharic-basic-course/", meta: "Public-domain Foreign Service Institute Amharic course with texts and audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "Abyssinica Dictionary", url: "https://dictionary.abyssinica.com/", meta: "Large Amharic–English dictionary with Ethiopic script lookup · Free", tags: ["dictionary", "Amharic"], stars: 5 },
+    { title: "Lexilogos Amharic", url: "https://www.lexilogos.com/english/amharic_dictionary.htm", meta: "Hub of free Amharic dictionaries, keyboards and Ethiopic script tools · Free", tags: ["dictionary", "script"], stars: 5 },
+  ],
+  mongolian: [
+    { title: "Peace Corps Mongolian Language Lessons", url: "https://www.fsi-language-courses.org/mongolian/courses/peace-corps-mongolian-language-lessons/", meta: "Basic Mongolian expressions with audio for Peace Corps trainees · Free", tags: ["beginner", "audio"], stars: 5 },
+    { title: "Bolor Dictionary", url: "https://bolor-toli.com/", meta: "Mongolian–English and multilingual dictionary with Cyrillic and traditional script · Free", tags: ["dictionary", "Mongolian"], stars: 5 },
+    { title: "Lexilogos Mongolian", url: "https://www.lexilogos.com/english/mongolian_dictionary.htm", meta: "Hub of free Mongolian dictionaries, phrasebooks and script charts · Free", tags: ["dictionary", "script"], stars: 5 },
+  ],
+  tamazight: [
+    { title: "IRCAM Amazigh Dictionary (DGLAi)", url: "https://tal.ircam.ma/dglai/", meta: "Official trilingual Amazigh–French–Arabic dictionary from Morocco's Royal Institute · Free", tags: ["dictionary", "government"], stars: 5 },
+    { title: "Amazigh.online", url: "https://www.amazigh.online/", meta: "Tifinagh reading lessons and a themed Tamazight dictionary · Free", tags: ["beginner", "script", "dictionary"], stars: 5 },
+    { title: "Lexilogos Berber / Amazigh", url: "https://www.lexilogos.com/berbere_dictionnaire.htm", meta: "Hub of free Tamazight, Kabyle and other Amazigh dictionaries and keyboards · Free", tags: ["dictionary", "Tifinagh"], stars: 4 },
+  ],
+  cherokee: [
+    { title: "Cherokee Nation Language Department", url: "https://language.cherokee.org/", meta: "Official syllabary charts, verb handbooks and free teaching materials · Free", tags: ["syllabary", "government"], stars: 5 },
+    { title: "Cherokee Nation Dictionary", url: "https://cherokeenationdictionary.net/", meta: "Searchable Cherokee–English dictionary with audio and Durbin Feeling entries · Free", tags: ["dictionary", "audio"], stars: 5 },
+    { title: "Wikibooks: Cherokee", url: "https://en.wikibooks.org/wiki/Cherokee", meta: "Community-written introduction to the Cherokee syllabary and basics · Free", tags: ["beginner", "script"], stars: 4 },
+  ],
+  inuktitut: [
+    { title: "Inuktut Tusaalanga", url: "https://www.tusaalanga.ca/", meta: "Free Inuktut lessons, dialogues and audio across several dialects (Pirurvik / Nunavut) · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "Inuktitut Living Dictionary", url: "https://www.livingdictionary.com/", meta: "Searchable dictionary across English, French, roman Inuktitut and syllabics · Free", tags: ["dictionary", "syllabics"], stars: 5 },
+    { title: "Wikibooks: Inuktitut", url: "https://en.wikibooks.org/wiki/Inuktitut", meta: "Community-written introduction to Inuktitut syllabics and basics · Free", tags: ["beginner", "script"], stars: 4 },
+  ],
   georgian: [
     { title: "Wikibooks: Georgian", url: "https://en.wikibooks.org/wiki/Georgian", meta: "Community-written introduction to Mkhedruli script and basics · Free", tags: ["beginner", "script"], stars: 4 },
     { title: "translate.ge", url: "https://translate.ge/", meta: "Georgian–English and English–Georgian online dictionary · Free", tags: ["dictionary", "Georgian"], stars: 5 },
