@@ -97,6 +97,12 @@ begin
 end.`, options: ["a=16", "a=8", "a= 16", "16"], answer: "a=16", why: "a becomes 4 × 4, and WriteLn puts the number straight after the text." },
         { q: "Where are variables declared?", options: ["In a var block before begin", "Anywhere in the code", "Only inside functions", "They are never declared"], answer: "In a var block before begin", why: "Pascal wants every variable named, with its type, before the code that uses it." },
         { q: "How do you write the text Don't in Pascal?", options: ["'Don''t'", "\"Don't\"", "'Don\\'t'", "'Don't'"], answer: "'Don''t'", why: "Strings use single quotes, and a quote inside is written twice." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+begin
+  WriteLn('It''s ok');
+end.`, options: ["It's ok", "It''s ok", "Its ok", "It ok"], answer: "It's ok", why: "A doubled quote inside a string becomes one quote in the output." },
+        { q: "What does {$APPTYPE CONSOLE} do?", options: ["Opens a text window for WriteLn", "Starts a form", "Turns on debugging", "Imports SysUtils"], answer: "Opens a text window for WriteLn", why: "It is a compiler directive that makes a console program instead of a GUI one." },
       ],
     },
     {
@@ -207,6 +213,21 @@ uses SysUtils;
 begin
   WriteLn(Format('[%d|%s]', [7, 'oak']));
 end.`, options: ["[7|oak]", "[%d|%s]", "[7, oak]", "[ 7|oak]"], answer: "[7|oak]", why: "Format replaces %d with the integer and %s with the string, in order." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  c: Char;
+begin
+  c := 'A';
+  Inc(c);
+  WriteLn(c, Ord(c));
+end.`, options: ["B66", "A65", "B67", "A66"], answer: "B66", why: "Inc moves A to B, and Ord(B) is 66." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+begin
+  WriteLn('n=' + IntToStr(3 * 4));
+end.`, options: ["n=12", "n=3*4", "n= 12", "12"], answer: "n=12", why: "IntToStr turns 12 into digits with no spaces, then + joins them to the text." },
       ],
     },
     {
@@ -309,6 +330,25 @@ begin
   end;
 end.`, options: ["weekend", "weekday", "weekday\nweekend", "Nothing"], answer: "weekend", why: "6 is in the list 6, 7." },
         { q: "Which can a case statement switch on?", options: ["A Char", "A string", "A Double", "An array"], answer: "A Char", why: "case needs an ordinal type: integers, characters, Booleans or enumerations." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  n: Integer;
+begin
+  n := 4;
+  if not (n = 3) then WriteLn('ok') else WriteLn('no');
+end.`, options: ["ok", "no", "ok\nno", "Nothing"], answer: "ok", why: "n equals 4, so not (n = 3) is true." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  c: Char;
+begin
+  c := 'Q';
+  case c of
+    'A'..'P': WriteLn('early');
+    'Q'..'Z': WriteLn('late');
+  end;
+end.`, options: ["late", "early", "early\nlate", "Nothing"], answer: "late", why: "Q sits in the range Q to Z." },
       ],
     },
     {
@@ -429,6 +469,27 @@ begin
   WriteLn;
 end.`, options: ["12", "123", "1245", "12345"], answer: "12", why: "Break leaves the loop as soon as i reaches 3." },
         { q: "Why set total := 0 before the loop?", options: ["Variables inside routines do not start at 0 by themselves", "for loops need it", "Otherwise total is a string", "It is only style"], answer: "Variables inside routines do not start at 0 by themselves", why: "Pascal does not clear variables declared in a procedure or function, so they hold leftover values until you set them." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  i: Integer;
+begin
+  for i := 1 to 5 do
+  begin
+    if i mod 2 = 0 then Continue;
+    Write(i);
+  end;
+  WriteLn;
+end.`, options: ["135", "12345", "24", "1 3 5"], answer: "135", why: "Continue skips the even numbers, and Write adds no spaces." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  i, t: Integer;
+begin
+  t := 0;
+  for i := 3 downto 1 do t := t + i;
+  WriteLn(t);
+end.`, options: ["6", "3", "4", "0"], answer: "6", why: "downto counts 3, 2, 1 and the sum is 6." },
       ],
     },
     {
@@ -568,6 +629,17 @@ begin
   WriteLn(a);
 end.`, options: ["5", "0", "50", "An error"], answer: "5", why: "Without var the procedure works on a copy; a is untouched." },
         { q: "What does const in front of a parameter promise?", options: ["The routine will not change it", "It is a constant number", "It is passed by var", "It must be a literal"], answer: "The routine will not change it", why: "The compiler refuses changes, and can avoid copying large values." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+function Add(a, b: Integer): Integer;
+begin
+  Result := a + b;
+  if Result > 10 then Result := 10;
+end;
+begin
+  WriteLn(Add(7, 5));
+end.`, options: ["10", "12", "7", "5"], answer: "10", why: "7 + 5 is 12, then the if caps Result at 10." },
+        { q: "How do you declare a procedure that can change the caller's Integer?", options: ["procedure P(var n: Integer);", "procedure P(n: Integer);", "procedure P(const n: Integer);", "procedure P(out var n);"], answer: "procedure P(var n: Integer);", why: "var before the parameter makes it the caller's own variable." },
       ],
     },
     {
@@ -670,6 +742,21 @@ end.`, options: ["cone", "pine", "econe", "necone"], answer: "cone", why: "Delet
 begin
   WriteLn(Length('oak tree'));
 end.`, options: ["8", "7", "2", "3"], answer: "8", why: "The space counts as a character." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+var
+  s: string;
+begin
+  s := 'nut';
+  Insert('hazel', s, 1);
+  WriteLn(s);
+end.`, options: ["hazelnut", "nuthazel", "hazel", "nut"], answer: "hazelnut", why: "Insert puts hazel at position 1, in front of nut." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+begin
+  WriteLn(StringOfChar('-', 3));
+end.`, options: ["---", "-", "- - -", "***"], answer: "---", why: "StringOfChar repeats the character the given number of times." },
       ],
     },
     {
@@ -770,6 +857,26 @@ begin
   WriteLn(High(a));
 end.`, options: ["2", "3", "1", "0"], answer: "2", why: "Three items numbered 0, 1 and 2." },
         { q: "How do you read the Nuts field of the record in team[1]?", options: ["team[1].Nuts", "team.Nuts[1]", "team[1]->Nuts", "Nuts(team[1])"], answer: "team[1].Nuts", why: "Pick the element first, then the field with a dot." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+var
+  a: array[2..4] of Integer;
+begin
+  WriteLn(Low(a), ' ', High(a));
+end.`, options: ["2 4", "0 2", "1 3", "2 3"], answer: "2 4", why: "Low and High return the declared bounds of a static array." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+type
+  TPoint = record
+    X, Y: Integer;
+  end;
+var
+  p: TPoint;
+begin
+  p.X := 3;
+  p.Y := 4;
+  WriteLn(p.X * p.Y);
+end.`, options: ["12", "7", "34", "3"], answer: "12", why: "The fields hold 3 and 4, and 3 × 4 is 12." },
       ],
     },
     {
@@ -903,6 +1010,34 @@ begin
 end.`, options: ["3", "0", "1", "An error"], answer: "3", why: "Object fields start at 0, and each Bump adds one." },
         { q: "What does override do?", options: ["Replaces a virtual method in a descendant class", "Hides a field", "Creates a new object", "Calls the parent method"], answer: "Replaces a virtual method in a descendant class", why: "Calls through a parent-type variable then run the descendant's version." },
         { q: "What is a property with read FName and no write?", options: ["Read-only from outside", "Write-only", "A compile error", "A method"], answer: "Read-only from outside", why: "Without a write part, code outside the class can read the property but not set it." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+type
+  TBase = class
+    function Tag: string; virtual;
+  end;
+  TKid = class(TBase)
+    function Tag: string; override;
+  end;
+
+function TBase.Tag: string;
+begin
+  Result := 'base';
+end;
+
+function TKid.Tag: string;
+begin
+  Result := 'kid';
+end;
+
+var
+  b: TBase;
+begin
+  b := TKid.Create;
+  WriteLn(b.Tag);
+  b.Free;
+end.`, options: ["kid", "base", "TKid", "An error"], answer: "kid", why: "b holds a TKid, so the override runs even though the variable's type is TBase." },
+        { q: "What does obj is TOwl ask?", options: ["Whether obj is a TOwl or a descendant", "Whether obj equals the class", "Whether obj is nil", "Whether obj has a Free method"], answer: "Whether obj is a TOwl or a descendant", why: "is tests the object's real class at run time." },
       ],
     },
     {
@@ -996,6 +1131,23 @@ begin
   WriteLn(StrToIntDef('seven', -1));
 end.`, options: ["-1", "7", "0", "An error"], answer: "-1", why: "seven is not written in digits, so the default -1 is returned." },
         { q: "What is the difference between except and finally?", options: ["except handles errors; finally always runs", "They are the same", "finally handles errors; except always runs", "except is for classes only"], answer: "except handles errors; finally always runs", why: "Use except to deal with a problem and finally to clean up whatever happens." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+begin
+  try
+    raise Exception.Create('boom');
+  except
+    on E: Exception do WriteLn('caught:', E.Message);
+  end;
+  WriteLn('after');
+end.`, options: ["caught:boom\nafter", "boom\nafter", "caught:boom", "after"], answer: "caught:boom\nafter", why: "except catches the raise, prints the Message, then the program carries on." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+begin
+  WriteLn(StrToIntDef('12', 0) + StrToIntDef('x', 3));
+end.`, options: ["15", "12", "3", "0"], answer: "15", why: "'12' converts to 12; 'x' is not a number so the default 3 is used." },
       ],
     },
     {
@@ -1061,6 +1213,8 @@ end;`,
         { q: "Which part of a unit can other units use?", options: ["interface", "implementation", "initialization", "var"], answer: "interface", why: "Only what is declared in the interface section is visible outside the unit." },
         { q: "What does the Sender parameter of an event tell you?", options: ["Which component fired the event", "Which key was pressed", "The form's size", "The user's name"], answer: "Which component fired the event", why: "One handler can serve several buttons; Sender says which one was clicked." },
         { q: "How do you show the number n in Label1?", options: ["Label1.Caption := IntToStr(n);", "Label1.Caption := n;", "Label1 := n;", "ShowLabel(n);"], answer: "Label1.Caption := IntToStr(n);", why: "Caption is a string property, so the integer has to be converted." },
+        { q: "What does {$R *.dfm} do in a form unit?", options: ["Links the form's layout resource into the program", "Runs the form", "Imports the VCL", "Creates Button1"], answer: "Links the form's layout resource into the program", why: "The .dfm is compiled as a resource and {$R *.dfm} pulls it in." },
+        { q: "How do you show a short message box?", options: ["ShowMessage('Hello');", "WriteLn('Hello');", "Message('Hello');", "Alert('Hello');"], answer: "ShowMessage('Hello');", why: "ShowMessage (from Dialogs) pops up a simple modal box with OK." },
       ],
     },
     {
@@ -1113,6 +1267,36 @@ uses SysUtils;
 begin
   WriteLn('[' + IntToStr(7) + ']');
 end.`, options: ["[7]", "[ 7]", "[7 ]", "7"], answer: "[7]", why: "IntToStr gives the digits with no spaces." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+
+function Say(n: Integer): string;
+begin
+  Result := '';
+  if n mod 3 = 0 then Result := 'Fizz';
+  if n mod 5 = 0 then Result := Result + 'Buzz';
+  if Result = '' then Result := IntToStr(n);
+end;
+
+begin
+  WriteLn(Say(15), ',', Say(7));
+end.`, options: ["FizzBuzz,7", "Fizz,Buzz", "15,7", "FizzBuzz,Fizz"], answer: "FizzBuzz,7", why: "15 is a multiple of both 3 and 5; 7 matches neither so it stays a number." },
+        { kind: "output", q: "What does this print?", code: `program Q;
+{$APPTYPE CONSOLE}
+uses SysUtils;
+var
+  i: Integer;
+  w: string;
+begin
+  for i := 14 to 15 do
+  begin
+    w := '';
+    if i mod 3 = 0 then w := w + 'Fizz';
+    if i mod 5 = 0 then w := w + 'Buzz';
+    if w = '' then WriteLn(i) else WriteLn(w);
+  end;
+end.`, options: ["14\nFizzBuzz", "FizzBuzz\n14", "14\n15", "Fizz\nBuzz"], answer: "14\nFizzBuzz", why: "14 matches neither test; 15 gets Fizz then Buzz joined." },
       ],
     },
   ],
