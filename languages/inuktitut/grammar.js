@@ -9,18 +9,32 @@
 //   anaananga; -up; Inuit nunangat), location questions (nani / namut / nakit), statement and
 //   question verb endings (anijunga / nirijutit / nirivit; -junga~-tunga tables), -nngit- negatives.
 // - Wikipedia “Inuit grammar” (CC BY-SA): indicative person table in syllabics (ᐊᓂᔪᖓ …),
-//   -nngit- (ᖁᕕᐊᓱᙱᑦᑐᖓ quviasunngittunga, ᓴᓇᙱᑦᑐᖅ sananngittuq), pisuk- as a state verb.
-// - Wiktionary (CC BY-SA): ᐃᒡᓗ iglu “house”, ᐃᓄᒃ inuk / ᐃᓄᐃᑦ inuit, ᐊᓈᓇ anaana, lemma glosses.
+//   -nngit- (ᖁᕕᐊᓱᙱᑦᑐᖓ quviasunngittunga, ᓴᓇᙱᑦᑐᖅ sananngittuq), pisuk- as a state verb;
+//   tense modifiers ‑niaq‑ (ᑎᑭᒻᓂᐊᖅᑐᖅ tikimniaqtuq), ‑rataaq‑ (ᐃᓱᒪᕋᑖᖅᑐᖓ isumarataaqtunga),
+//   ‑qqau‑ (ᖅᑲᐅ; ᑐᓵᖅᑲᐅᙱᑦᑕᒋᑦ), ‑lauq‑ (ᐃᒡᓗᒥᒃ ᓂᐅᕕᐊᓚᐅᖅᑐᖓ Iglumik niuvialauqtunga).
+// - Wiktionary (CC BY-SA): ᐃᒡᓗ iglu “house”, ᐃᓄᒃ inuk / ᐃᓄᐃᑦ inuit, ᐊᓈᓇ anaana,
+//   ᐅᕙᖓ uvanga, ᐃᕝᕕᑦ ivvit, lemma glosses.
 // - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca) grammar topic index for pedagogical framing
 //   (noun endings, possession, -mi/-mut/-mit, simple verb endings, questions, the negative).
+// - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca), South Qikiqtaaluk:
+//   grammar topics 7 Future (‑niaq‑ / ‑laaq‑; niriniaqtunga, suniaqqit, katimaniaqtugut /
+//   katimalaaqtugut, aullalaaqtuq), 8 Past (‑rataaq‑ / ‑qqau‑ / ‑lauq‑; isirataaqtuq,
+//   tikirataaqtugut, angirraqqaujunga, malilauqtut), 10 Want (‑juma‑ / ‑ruma‑ / ‑guma‑;
+//   ilaujumajuq, kaapiturumajunga, sinigumajugut), 14 To Have (‑qaq‑ / ‑lik; uluqaqtunga,
+//   uluqaqqit), 22 Commands (‑git / ‑rit / ‑gitsi; nirigit, qaigit, isirit, tupagit),
+//   6 Pronouns (uvanga, ivvit, uvaguk, uvagut, ivvilli, uvangalu);
+//   lesson dialogues with syllabics: lesson/2 (ᐅᕙᖓ, ᐃᕝᕕᑦ, ᐃᕝᕕᓪᓕ), lesson/3 (ᓱᕕᑦ, ᓱᓂᐊᖅᑭ…,
+//   ᓱᓛᖅᑭᑦ), lesson/5 (ᑳᐱᑐᕈᒪᕕᑦ, ᑳᐱᑐᕈᒪᔪᖓ, ᑏᑐᕈᒪᔪᖓ), lesson/7–8 (ᐃᑦᓯᕙᐅᑕᖃᖅᑭᑦ,
+//   ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ, ᑎᑎᕋᐅᑎᖃᖅᑐᖓ, ᑎᑎᕋᐅᑎᓕᒃ, ᐱᔪᒪᕕᑦ).
 // - This repo’s languages/inuktitut/vocab.js and reference.json (greetings, people, land words,
 //   and syllabics already used on the Desk: qanuippit, qanuinngittunga, nunavut, …).
 // - SquirrelGo Alphabets syllabics example: ᐱᓱᒃᑐᖅ pisuktuq “he or she walks”.
+// Lessons 1–6 unchanged; 7–12 deepen future, past, wanting, having, commands, and pronouns.
 // Romanization follows the Inuit Cultural Institute (ICI) standard used in Nunavut materials.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.inuktitut = {
   title: "Inuktitut first grammar",
-  intro: "Inuktitut (ᐃᓄᒃᑎᑐᑦ, Inuktitut) builds a whole English sentence inside one word: a root, then endings for who, where, and whether. These lessons cover noun number, possession, the place endings ‑mi / ‑mut / ‑mit, present verb person endings, questions, and negation with ‑nngit‑. Examples use Canadian Aboriginal syllabics with ICI Roman orthography; there is no tone to mark.",
+  intro: "Inuktitut (ᐃᓄᒃᑎᑐᑦ, Inuktitut) builds a whole English sentence inside one word: a root, then endings for who, where, and whether. Lessons 1–6 cover noun number, possession, the place endings ‑mi / ‑mut / ‑mit, present verb person endings, questions, and negation with ‑nngit‑. Lessons 7–12 add future ‑niaq‑ / ‑laaq‑, past ‑rataaq‑ / ‑qqau‑ / ‑lauq‑, wanting with ‑juma‑, having with ‑qaq‑, commands with ‑git, and independent pronouns. Examples use Canadian Aboriginal syllabics with ICI Roman orthography; there is no tone to mark.",
   lessons: [
     {
       id: "nouns",
@@ -216,6 +230,204 @@ window.GRAMMAR.inuktitut = {
         { q: "＿.", en: "I'm fine.", options: ["ᖃᓄᐃᙱᑦᑐᖓ", "ᖃᓄᐃᑉᐱᑦ", "ᐄ", "ᖁᕕᐊᓱᒃᑐᖅ"], answer: "ᖃᓄᐃᙱᑦᑐᖓ", why: "qanuinngittunga uses ‑nngit‑ in the stock reply." },
         { q: "＿", en: "Yes.", options: ["ᐄ", "ᐋᒃᑲ", "ᓱᓇ", "ᓇᓂ"], answer: "ᐄ", why: "ii (ᐄ) is yes." },
         { q: "＿", en: "No.", options: ["ᐋᒃᑲ", "ᐄ", "ᓴᓇᔪᖅ", "ᑭᓇ"], answer: "ᐋᒃᑲ", why: "aakka (ᐋᒃᑲ) is no." },
+      ],
+    },
+    {
+      id: "future",
+      title: "Later today, and farther ahead: ‑niaq‑ / ‑laaq‑",
+      particle: "-niaq- -laaq-",
+      summary: "Put a future affix between the root and the person ending; ‑niaq‑ is later today, ‑laaq‑ is tomorrow or beyond.",
+      sections: [
+        {
+          p: "For something later the same day, insert <b>‑niaq‑</b> before the person ending. After a vowel the ending then begins with <b>t</b>: <b>ᓂᕆᓂᐊᖅᑐᖓ</b> (niriniaqtunga) “I will be eating”. The question <b>ᓱᕕᑦ?</b> (suvit?) “What are you doing?” becomes <b>ᓱᓂᐊᖅᑭᑦ?</b> (suniaqqit?) “What will you be doing?”. After a root in <b>‑q</b>, that <b>q</b> becomes <b>r</b> before ‑niaq‑: <b>kaapituq‑</b> → <b>ᑳᐱᑐᕐᓂᐊᖅᑐᖓ</b> (kaapiturniaqtunga) “I will be drinking coffee”.",
+          examples: [
+            ["{ᓂᕆᓂᐊᖅᑐᖓ}.", "niriniaqtunga", "I will be eating (later today)"],
+            ["{ᓱᓂᐊᖅᑭᑦ}?", "suniaqqit?", "What will you be doing?"],
+            ["{ᑳᐱᑐᕐᓂᐊᖅᑐᖓ}.", "kaapiturniaqtunga", "I will be drinking coffee (later today)"],
+            ["{ᑲᑎᒪᓂᐊᖅᑐᒍᑦ}.", "katimaniaqtugut", "We will meet (later today)"],
+          ],
+        },
+        {
+          h: "Tomorrow or farther: ‑laaq‑",
+          p: "For tomorrow or a more distant future, use <b>‑laaq‑</b> (it deletes a final consonant on the root): <b>ᑲᑎᒪᓛᖅᑐᒍᑦ</b> (katimalaaqtugut) “we will meet (tomorrow or later)”, <b>ᐊᐅᓪᓚᓛᖅᑐᖅ</b> (aullalaaqtuq) “he/she will leave town”. Compare same-day <b>‑niaq‑</b> with farther <b>‑laaq‑</b> on the same root.",
+          examples: [
+            ["{ᑲᑎᒪᓛᖅᑐᒍᑦ}.", "katimalaaqtugut", "We will meet (tomorrow or later)"],
+            ["{ᐊᐅᓪᓚᓛᖅᑐᖅ}.", "aullalaaqtuq", "He/she will leave town"],
+            ["ᑲᑎᒪᓂᐊᖅᑐᒍᑦ / {ᑲᑎᒪᓛᖅᑐᒍᑦ}", "katimaniaqtugut / katimalaaqtugut", "we meet later today / tomorrow+"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "niri‑ + later today + I → ＿", en: "I will be eating (later today)", options: ["ᓂᕆᓂᐊᖅᑐᖓ", "ᓂᕆᔪᖓ", "ᓂᕆᓛᖅᑐᖓ", "ᓂᕆᕕᑦ"], answer: "ᓂᕆᓂᐊᖅᑐᖓ", why: "‑niaq‑ before ‑tunga: niriniaqtunga." },
+        { q: "＿?", en: "What will you be doing?", options: ["ᓱᓂᐊᖅᑭᑦ", "ᓱᕕᑦ", "ᓱᓇ", "ᓇᓂ"], answer: "ᓱᓂᐊᖅᑭᑦ", why: "su‑ + ‑niaq‑ + ‑qit → suniaqqit?" },
+        { q: "katima‑ + later today + we → ＿", en: "We will meet later today", options: ["ᑲᑎᒪᓂᐊᖅᑐᒍᑦ", "ᑲᑎᒪᓛᖅᑐᒍᑦ", "ᑲᑎᒪᔪᒍᑦ", "ᐊᐅᓪᓚᓛᖅᑐᖅ"], answer: "ᑲᑎᒪᓂᐊᖅᑐᒍᑦ", why: "Same-day future uses ‑niaq‑: katimaniaqtugut." },
+        { q: "katima‑ + tomorrow+ + we → ＿", en: "We will meet tomorrow or later", options: ["ᑲᑎᒪᓛᖅᑐᒍᑦ", "ᑲᑎᒪᓂᐊᖅᑐᒍᑦ", "ᑲᑎᒪᔪᒍᑦ", "ᓱᓂᐊᖅᑭᑦ"], answer: "ᑲᑎᒪᓛᖅᑐᒍᑦ", why: "Farther future uses ‑laaq‑: katimalaaqtugut." },
+        { q: "aullaq‑ + tomorrow+ + he/she → ＿", en: "He/she will leave town", options: ["ᐊᐅᓪᓚᓛᖅᑐᖅ", "ᐊᐅᓪᓚᖅᑐᖅ", "ᐊᐅᓪᓚᕋᑖᖅᑐᖅ", "ᑲᑎᒪᓛᖅᑐᒍᑦ"], answer: "ᐊᐅᓪᓚᓛᖅᑐᖅ", why: "‑laaq‑ deletes final q: aullalaaqtuq." },
+      ],
+    },
+    {
+      id: "past",
+      title: "Just now, earlier, yesterday: ‑rataaq‑ / ‑qqau‑ / ‑lauq‑",
+      particle: "-rataaq- -qqau- -lauq-",
+      summary: "Three past affixes sit between the root and the person ending; each one deletes a final consonant on the root.",
+      sections: [
+        {
+          p: "Within the last hour, use <b>‑rataaq‑</b>: <b>ᐃᓯᕋᑖᖅᑐᖅ</b> (isirataaqtuq) “he/she just came in”, <b>ᑎᑭᕋᑖᖅᑐᒍᑦ</b> (tikirataaqtugut) “we just arrived”, <b>ᐊᐅᓪᓚᕋᑖᖅᑐᖅ</b> (aullarataaqtuq) “he/she just left”. Earlier the same day, use <b>‑qqau‑</b>: <b>ᐊᖏᕐᕋᖅᑲᐅᔪᖓ</b> (angirraqqaujunga) “I went home earlier”, <b>ᑎᑭᖅᑲᐅᔪᖅ</b> (tikiqqaujuq) “he/she arrived earlier”.",
+          examples: [
+            ["{ᐃᓯᕋᑖᖅᑐᖅ}.", "isirataaqtuq", "He/she just came in"],
+            ["{ᑎᑭᕋᑖᖅᑐᒍᑦ}.", "tikirataaqtugut", "We just arrived"],
+            ["{ᐊᖏᕐᕋᖅᑲᐅᔪᖓ}.", "angirraqqaujunga", "I went home earlier today"],
+            ["{ᑎᑭᖅᑲᐅᔪᖅ}.", "tikiqqaujuq", "He/she arrived earlier today"],
+          ],
+        },
+        {
+          h: "Yesterday or not long ago: ‑lauq‑",
+          p: "For yesterday or the recent past beyond today, use <b>‑lauq‑</b>: <b>ᒪᓕᓚᐅᖅᑐᑦ</b> (malilauqtut) “they followed (yesterday or earlier)”. A full Wikipedia example is <b>ᐃᒡᓗᒥᒃ ᓂᐅᕕᐊᓚᐅᖅᑐᖓ</b> (Iglumik niuvialauqtunga) “I bought a house”. Speakers also let plain present endings mean past for motion verbs when the context is clear (<b>tikippunga</b> “I arrived”).",
+          examples: [
+            ["{ᒪᓕᓚᐅᖅᑐᑦ}.", "malilauqtut", "They followed (yesterday or earlier)"],
+            ["ᐃᒡᓗᒥᒃ {ᓂᐅᕕᐊᓚᐅᖅᑐᖓ}.", "Iglumik niuvialauqtunga", "I bought a house"],
+            ["ᐊᐅᓪᓚᕋᑖᖅᑐᖅ / {ᐊᖏᕐᕋᖅᑲᐅᔪᖓ}", "aullarataaqtuq / angirraqqaujunga", "just left / went home earlier"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "isiq‑ + just now + he/she → ＿", en: "He/she just came in", options: ["ᐃᓯᕋᑖᖅᑐᖅ", "ᐃᓯᕆᑦ", "ᑎᑭᖅᑲᐅᔪᖅ", "ᐊᐅᓪᓚᓛᖅᑐᖅ"], answer: "ᐃᓯᕋᑖᖅᑐᖅ", why: "‑rataaq‑ after isi‑: isirataaqtuq." },
+        { q: "tikit‑ + just now + we → ＿", en: "We just arrived", options: ["ᑎᑭᕋᑖᖅᑐᒍᑦ", "ᑎᑭᖅᑲᐅᔪᖅ", "ᑎᑭᔪᒍᑦ", "ᒪᓕᓚᐅᖅᑐᑦ"], answer: "ᑎᑭᕋᑖᖅᑐᒍᑦ", why: "‑rataaq‑ + ‑tugut: tikirataaqtugut." },
+        { q: "＿ = I went home earlier today", en: "I went home earlier", options: ["ᐊᖏᕐᕋᖅᑲᐅᔪᖓ", "ᐃᓯᕋᑖᖅᑐᖅ", "ᐊᐅᓪᓚᓛᖅᑐᖅ", "ᓂᕆᓂᐊᖅᑐᖓ"], answer: "ᐊᖏᕐᕋᖅᑲᐅᔪᖓ", why: "Earlier today uses ‑qqau‑: angirraqqaujunga." },
+        { q: "tikit‑ + earlier today + he/she → ＿", en: "He/she arrived earlier", options: ["ᑎᑭᖅᑲᐅᔪᖅ", "ᑎᑭᕋᑖᖅᑐᒍᑦ", "ᒪᓕᓚᐅᖅᑐᑦ", "ᐃᓯᕋᑖᖅᑐᖅ"], answer: "ᑎᑭᖅᑲᐅᔪᖅ", why: "‑qqau‑ + ‑juq: tikiqqaujuq." },
+        { q: "malik‑ + yesterday+ + they → ＿", en: "They followed (yesterday or earlier)", options: ["ᒪᓕᓚᐅᖅᑐᑦ", "ᒪᓕᔪᑦ", "ᑎᑭᖅᑲᐅᔪᖅ", "ᐊᖏᕐᕋᖅᑲᐅᔪᖓ"], answer: "ᒪᓕᓚᐅᖅᑐᑦ", why: "‑lauq‑ + ‑tut: malilauqtut." },
+      ],
+    },
+    {
+      id: "want",
+      title: "Wanting to: ‑juma‑ / ‑ruma‑ / ‑guma‑",
+      particle: "-juma- -ruma- -guma-",
+      summary: "The want affix changes shape after a vowel, after ‑q, and after ‑k.",
+      sections: [
+        {
+          p: "To say you want to do something, insert <b>‑juma‑</b> after a vowel-final root: <b>ilau‑</b> “come along” → <b>ᐃᓚᐅᔪᒪᔪᖅ</b> (ilaujumajuq) “he/she wants to come along”, <b>ᐃᓚᐅᔪᒪᕙ?</b> (ilaujumava?) “Does he/she want to come along?”. The everyday <b>ᐱᔪᒪᕕᑦ?</b> (pijumavit?) asks “Do you want (it / to)?”.",
+          examples: [
+            ["{ᐃᓚᐅᔪᒪᔪᖅ}.", "ilaujumajuq", "He/she wants to come along"],
+            ["{ᐃᓚᐅᔪᒪᕙ}?", "ilaujumava?", "Does he/she want to come along?"],
+            ["{ᐱᔪᒪᕕᑦ}?", "pijumavit?", "Do you want it / to?"],
+          ],
+        },
+        {
+          h: "After ‑q and after ‑k",
+          p: "After a root in <b>‑q</b>, use <b>‑ruma‑</b>: <b>kaapituq‑</b> “have coffee” → <b>ᑳᐱᑐᕈᒪᕕᑦ?</b> (kaapiturumavit?) “Do you want coffee?”, <b>ᑳᐱᑐᕈᒪᔪᖓ</b> (kaapiturumajunga) “I want coffee”. Tea uses the same pattern: <b>ᑏᑐᕈᒪᔪᖓ</b> (tiiturumajunga). After a root in <b>‑k</b>, use <b>‑guma‑</b>: <b>sinik‑</b> → <b>ᓯᓂᒍᒪᔪᒍᑦ</b> (sinigumajugut) “we want to sleep”.",
+          examples: [
+            ["{ᑳᐱᑐᕈᒪᕕᑦ}?", "kaapiturumavit?", "Do you want coffee?"],
+            ["{ᑳᐱᑐᕈᒪᔪᖓ}.", "kaapiturumajunga", "I want coffee"],
+            ["{ᑏᑐᕈᒪᔪᖓ}.", "tiiturumajunga", "I want tea"],
+            ["{ᓯᓂᒍᒪᔪᒍᑦ}.", "sinigumajugut", "We want to sleep"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ilau‑ + want + he/she → ＿", en: "He/she wants to come along", options: ["ᐃᓚᐅᔪᒪᔪᖅ", "ᐃᓚᐅᔪᖅ", "ᑳᐱᑐᕈᒪᔪᖓ", "ᓯᓂᒍᒪᔪᒍᑦ"], answer: "ᐃᓚᐅᔪᒪᔪᖅ", why: "After a vowel, ‑juma‑: ilaujumajuq." },
+        { q: "＿?", en: "Do you want coffee?", options: ["ᑳᐱᑐᕈᒪᕕᑦ", "ᑳᐱᑐᕈᒪᔪᖓ", "ᑏᑐᕈᒪᔪᖓ", "ᐱᔪᒪᕕᑦ"], answer: "ᑳᐱᑐᕈᒪᕕᑦ", why: "After ‑q the want affix is ‑ruma‑: kaapiturumavit?" },
+        { q: "＿.", en: "I want coffee", options: ["ᑳᐱᑐᕈᒪᔪᖓ", "ᑳᐱᑐᕈᒪᕕᑦ", "ᓂᕆᔪᖓ", "ᓯᓂᒍᒪᔪᒍᑦ"], answer: "ᑳᐱᑐᕈᒪᔪᖓ", why: "kaapiturumajunga = I want coffee." },
+        { q: "＿.", en: "I want tea", options: ["ᑏᑐᕈᒪᔪᖓ", "ᑳᐱᑐᕈᒪᔪᖓ", "ᑏ", "ᐃᒥᖅ"], answer: "ᑏᑐᕈᒪᔪᖓ", why: "tii‑tuq‑ + ‑ruma‑: tiiturumajunga." },
+        { q: "sinik‑ + want + we → ＿", en: "We want to sleep", options: ["ᓯᓂᒍᒪᔪᒍᑦ", "ᓯᓂᒃᑐᒍᑦ", "ᐃᓚᐅᔪᒪᔪᖅ", "ᑳᐱᑐᕈᒪᔪᖓ"], answer: "ᓯᓂᒍᒪᔪᒍᑦ", why: "After ‑k the want affix is ‑guma‑: sinigumajugut." },
+      ],
+    },
+    {
+      id: "have",
+      title: "Having something: ‑qaq‑ and ‑lik",
+      particle: "-qaq- -lik",
+      summary: "Add ‑qaq‑ to a noun before the person ending; for “he/she has …”, speakers often use ‑lik instead.",
+      sections: [
+        {
+          p: "Attach <b>‑qaq‑</b> to a noun, then a person ending: <b>ᐅᓗᖃᖅᑐᖓ</b> (uluqaqtunga) “I have an ulu”, <b>ᐅᓗᖃᖅᑭᑦ?</b> (uluqaqqit?) “Do you have an ulu?”. The same pattern on everyday office words: <b>ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ</b> (itsivautaqaqtunga) “I have a chair”, <b>ᑎᑎᕋᐅᑎᖃᖅᑐᖓ</b> (titirautiqaqtunga) “I have a pen” (nouns in <b>‑t</b> often add <b>‑i‑</b> before ‑qaq‑).",
+          examples: [
+            ["{ᐅᓗᖃᖅᑐᖓ}.", "uluqaqtunga", "I have an ulu"],
+            ["{ᐅᓗᖃᖅᑭᑦ}?", "uluqaqqit?", "Do you have an ulu?"],
+            ["{ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ}.", "itsivautaqaqtunga", "I have a chair"],
+            ["{ᑎᑎᕋᐅᑎᖃᖅᑐᖓ}.", "titirautiqaqtunga", "I have a pen"],
+          ],
+        },
+        {
+          h: "He/she has …: ‑lik",
+          p: "For a plain “he/she has X”, speakers prefer <b>‑lik</b> on the noun instead of …qaqtuq: <b>ᑎᑎᕋᐅᑎᓕᒃ</b> (titirautilik) “he/she has a pen”. Negatives still use ‑qaq‑ + ‑nngit‑ (both delete a preceding consonant): ask with ‑qaq‑, and answer that someone does not have it with the negative chain—not with ‑lik.",
+          examples: [
+            ["{ᑎᑎᕋᐅᑎᓕᒃ}.", "titirautilik", "He/she has a pen"],
+            ["ᐃᑦᓯᕙᐅᑕᖃᖅᑭᑦ? / {ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ}.", "itsivautaqaqqit? / itsivautaqaqtunga", "Do you have a chair? / I have a chair."],
+            ["ᐅᓗᖃᖅᑭᑦ? / {ᐅᓗᖃᖅᑐᖓ}.", "uluqaqqit? / uluqaqtunga", "Do you have an ulu? / I have an ulu."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ulu + have + I → ＿", en: "I have an ulu", options: ["ᐅᓗᖃᖅᑐᖓ", "ᐅᓗᖃᖅᑭᑦ", "ᑎᑎᕋᐅᑎᓕᒃ", "ᐅᓗ"], answer: "ᐅᓗᖃᖅᑐᖓ", why: "ulu + ‑qaq‑ + ‑tunga: uluqaqtunga." },
+        { q: "＿?", en: "Do you have an ulu?", options: ["ᐅᓗᖃᖅᑭᑦ", "ᐅᓗᖃᖅᑐᖓ", "ᐱᔪᒪᕕᑦ", "ᓱᕕᑦ"], answer: "ᐅᓗᖃᖅᑭᑦ", why: "ulu + ‑qaq‑ + ‑qit → uluqaqqit?" },
+        { q: "＿.", en: "I have a chair", options: ["ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ", "ᐃᑦᓯᕙᐅᑕᖃᖅᑭᑦ", "ᑎᑎᕋᐅᑎᓕᒃ", "ᐅᓗᖃᖅᑐᖓ"], answer: "ᐃᑦᓯᕙᐅᑕᖃᖅᑐᖓ", why: "itsivautaqaqtunga = I have a chair." },
+        { q: "＿.", en: "I have a pen", options: ["ᑎᑎᕋᐅᑎᖃᖅᑐᖓ", "ᑎᑎᕋᐅᑎᓕᒃ", "ᐅᓗᖃᖅᑐᖓ", "ᑎᑎᕋᐅᑦ"], answer: "ᑎᑎᕋᐅᑎᖃᖅᑐᖓ", why: "titiraut + i + qaq + tunga." },
+        { q: "＿.", en: "He/she has a pen", options: ["ᑎᑎᕋᐅᑎᓕᒃ", "ᑎᑎᕋᐅᑎᖃᖅᑐᖓ", "ᐅᓗᖃᖅᑐᖓ", "ᐃᓚᐅᔪᒪᔪᖅ"], answer: "ᑎᑎᕋᐅᑎᓕᒃ", why: "Third-person “has” often uses ‑lik: titirautilik." },
+      ],
+    },
+    {
+      id: "commands",
+      title: "Commands: ‑git / ‑rit",
+      particle: "-git -rit",
+      summary: "Imperative endings tell one person, two people, or a group what to do.",
+      sections: [
+        {
+          p: "Speaking to one person, add <b>‑git</b> after a vowel (or after deleting a final <b>k</b> or <b>t</b>): <b>ᓂᕆᒋᑦ!</b> (nirigit!) “Eat!”, <b>ᖃᐃᒋᑦ!</b> (qaigit!) “Come here!”, <b>ᑐᐸᒋᑦ!</b> (tupagit!) “Wake up!”, <b>ᐃᖏᒋᑦ</b> (ingigit) “Sit down”. After a root in <b>‑q</b>, use <b>‑rit</b> instead: <b>isiq‑</b> → <b>ᐃᓯᕆᑦ!</b> (isirit!) “Come in!”.",
+          examples: [
+            ["{ᓂᕆᒋᑦ}!", "nirigit!", "Eat!"],
+            ["{ᖃᐃᒋᑦ}!", "qaigit!", "Come here!"],
+            ["{ᑐᐸᒋᑦ}!", "tupagit!", "Wake up!"],
+            ["{ᐃᓯᕆᑦ}!", "isirit!", "Come in!"],
+          ],
+        },
+        {
+          h: "Two people, and three or more",
+          p: "To two people: <b>‑gittik</b> / <b>‑rittik</b> — <b>qaigittik!</b> “Come here, you two!”, <b>isirittik!</b> “Come in, you two!”. To three or more: <b>‑gitsi</b> / <b>‑ritsi</b> (also heard as ‑gitti / ‑ritti) — <b>ᖃᐃᒋᑦᓯ!</b> (qaigitsi!) “Come here! (to a group)”.",
+          examples: [
+            ["{ᖃᐃᒋᑦᑎᒃ}!", "qaigittik!", "Come here, you two!"],
+            ["{ᖃᐃᒋᑦᓯ}!", "qaigitsi!", "Come here! (to 3+)"],
+            ["ᓂᕆᒋᑦ! / {ᐃᓯᕆᑦ}!", "nirigit! / isirit!", "Eat! / Come in!"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "niri‑ + command (one) → ＿", en: "Eat!", options: ["ᓂᕆᒋᑦ", "ᓂᕆᔪᑎᑦ", "ᓂᕆᕕᑦ", "ᖃᐃᒋᑦ"], answer: "ᓂᕆᒋᑦ", why: "‑git after a vowel: nirigit!" },
+        { q: "＿!", en: "Come here!", options: ["ᖃᐃᒋᑦ", "ᐃᓯᕆᑦ", "ᓂᕆᒋᑦ", "ᑐᐸᒋᑦ"], answer: "ᖃᐃᒋᑦ", why: "qai‑ + ‑git: qaigit!" },
+        { q: "isiq‑ + command (one) → ＿", en: "Come in!", options: ["ᐃᓯᕆᑦ", "ᐃᓯᒋᑦ", "ᖃᐃᒋᑦ", "ᐃᓯᕋᑖᖅᑐᖅ"], answer: "ᐃᓯᕆᑦ", why: "After ‑q the imperative is ‑rit: isirit!" },
+        { q: "tupak‑ + command (one) → ＿", en: "Wake up!", options: ["ᑐᐸᒋᑦ", "ᑐᐸᒃᑐᖅ", "ᖃᐃᒋᑦ", "ᐃᖏᒋᑦ"], answer: "ᑐᐸᒋᑦ", why: "‑git deletes final k: tupagit!" },
+        { q: "＿!", en: "Come here! (to three or more)", options: ["ᖃᐃᒋᑦᓯ", "ᖃᐃᒋᑦ", "ᐃᓯᕆᑦ", "ᓂᕆᒋᑦ"], answer: "ᖃᐃᒋᑦᓯ", why: "Plural addressees take ‑gitsi: qaigitsi!" },
+      ],
+    },
+    {
+      id: "pronouns",
+      title: "Pronouns: I, you, and “what about …?”",
+      particle: "uvanga ivvit",
+      summary: "Independent pronouns are optional before verbs; they shine for emphasis and short replies.",
+      sections: [
+        {
+          p: "Basic pronouns: <b>ᐅᕙᖓ</b> (uvanga) “I / me”, <b>ᐅᕙᒍᒃ</b> (uvaguk) “we two”, <b>ᐅᕙᒍᑦ</b> (uvagut) “we (3+)”, <b>ᐃᕝᕕᑦ</b> (ivvit) “you (one)”, <b>ᐃᓕᑦᓯᒃ</b> (ilitsik) “you two”, <b>ᐃᓕᑦᓯ</b> (ilitsi) “you (3+)”, and nearby <b>ᐅᓇ</b> (una) “this person here”. Verb endings already mark the person, so <b>ᓂᕆᔪᖓ</b> alone means “I am eating” without uvanga.",
+          examples: [
+            ["{ᐅᕙᖓ}", "uvanga", "I; me"],
+            ["{ᐃᕝᕕᑦ}", "ivvit", "you (one)"],
+            ["{ᐅᕙᒍᒃ}, {ᐅᕙᒍᑦ}", "uvaguk, uvagut", "we two; we (3+)"],
+            ["{ᐅᓇ}", "una", "this person here"],
+          ],
+        },
+        {
+          h: "What about you? Me too",
+          p: "Add <b>‑li</b> to shift the topic: <b>ᐃᕝᕕᓪᓕ?</b> (ivvilli?) “What about you?”. Add <b>‑lu</b> for “and / too”: <b>ᐅᕙᖓᓗ</b> (uvangalu) “me too”. After a final consonant, ‑li / ‑lu turn that consonant to <b>l</b> (ivvit + li → ivvilli).",
+          examples: [
+            ["ᖃᓄᐃᙱᑦᑐᖓ. {ᐃᕝᕕᓪᓕ}?", "Qanuinngittunga. ivvilli?", "I'm fine. What about you?"],
+            ["{ᐅᕙᖓᓗ}.", "uvangalu", "Me too"],
+            ["{ᐅᕙᖓ}?", "uvanga?", "Me?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ = I / me", en: "I; me", options: ["ᐅᕙᖓ", "ᐃᕝᕕᑦ", "ᐅᓇ", "ᐅᕙᒍᑦ"], answer: "ᐅᕙᖓ", why: "uvanga (ᐅᕙᖓ) is I/me." },
+        { q: "＿ = you (one)", en: "you (one person)", options: ["ᐃᕝᕕᑦ", "ᐅᕙᖓ", "ᐃᓕᑦᓯ", "ᐅᓇ"], answer: "ᐃᕝᕕᑦ", why: "ivvit (ᐃᕝᕕᑦ) is you (singular)." },
+        { q: "＿?", en: "What about you?", options: ["ᐃᕝᕕᓪᓕ", "ᐅᕙᖓ", "ᐃᕝᕕᑦ", "ᐅᕙᖓᓗ"], answer: "ᐃᕝᕕᓪᓕ", why: "ivvit + ‑li → ivvilli?" },
+        { q: "＿.", en: "Me too", options: ["ᐅᕙᖓᓗ", "ᐃᕝᕕᓪᓕ", "ᐅᕙᖓ", "ᐄ"], answer: "ᐅᕙᖓᓗ", why: "uvanga + ‑lu: uvangalu." },
+        { q: "＿ = we (three or more)", en: "we (3+)", options: ["ᐅᕙᒍᑦ", "ᐅᕙᒍᒃ", "ᐅᕙᖓ", "ᐃᓕᑦᓯ"], answer: "ᐅᕙᒍᑦ", why: "uvagut is we (3+); uvaguk is we two." },
       ],
     },
   ],
