@@ -91,7 +91,7 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 # ?lang= values the scoped tools understand that are not languages in
 # languages/registry.js: the Programming Learner's courses.
 EXTRA_LANGS = [
-    "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick",
+    "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
     "win16", "z80",
 ]

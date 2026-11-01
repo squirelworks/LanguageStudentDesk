@@ -9,7 +9,8 @@ brainFOOD (8 lessons, from the eight commands to decisions and words in
 memory), Delphi (11 lessons, from Pascal basics to classes, exceptions and
 forms), C (5 lessons, from `printf` to functions), Rust (5 lessons, from
 `println!` to ownership), Go (5 lessons, from `fmt.Println` to slices),
-Slick (3 reading lessons on the published s-expression notation for Go) and
+Slick (3 reading lessons on the published s-expression notation for Go),
+Chisel (5 reading lessons, from elaboration to <code>when</code>) and
 Whitespace (6 lessons, from numbers in S, T and L to loops and
 subroutines). The language menu is sorted by name. Win16 has a 9-lesson reading course, from WinMain to dialogs,
 memory and porting to Win32; its C programs need Windows 3.x, so they show
