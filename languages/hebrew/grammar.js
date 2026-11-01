@@ -1,10 +1,23 @@
 // Modern Hebrew first grammar for the Grammar Learner. Written for this project.
 // Examples are [Hebrew, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Modern Hebrew — original example sentences):
+// - Wiktionary Modern Hebrew lemmas and conjugations (CC BY-SA): כתב (pa'al past /
+//   present / future / לכתוב), את (definite direct-object marker; אוֹתִי…), מה / מי /
+//   איפה / מתי / למה / איך, רוצה / יכול / צריך, בית / ספר construct forms, בית ספר.
+// - Wikipedia “Modern Hebrew grammar”, “Hebrew language”, “Construct state”
+//   (CC BY-SA) for beginner overview of past/future person marking, את, question
+//   words, infinitive with ל־, and סמיכות (smikhut).
+// - In-repo languages/hebrew/reference.json (et, present, pronouns, numbers) and
+//   vocab.js — same Desk pack lemmas; unpointed spelling and Israeli transliteration
+//   match lessons 1–6 (ch = throaty sound in Bach; no niqqud in examples).
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (past, future, את, questions,
+// want/can/must + infinitive, smikhut).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.hebrew = {
   title: "Hebrew first grammar",
-  intro: "Modern Hebrew is written right to left, usually without vowel marks, and builds words from three-consonant roots. There is no “am / is / are” in the present tense, “the” is a single letter joined to the word, and nouns, adjectives and verbs all mark masculine or feminine. These lessons cover sentences without “to be”, ה־ for “the”, gender and adjectives, the present tense, יש and אין for “there is” and “have”, and the little prepositions that join the front of a word. Transliteration follows modern Israeli pronunciation: ch is the throaty sound in Bach.",
+  intro: "Modern Hebrew is written right to left, usually without vowel marks, and builds words from three-consonant roots. There is no “am / is / are” in the present tense, “the” is a single letter joined to the word, and nouns, adjectives and verbs all mark masculine or feminine. Lessons 1–6 cover sentences without “to be”, ה־ for “the”, gender and adjectives, the present tense, יש and אין for “there is” and “have”, and the little prepositions that join the front of a word. Lessons 7–12 add the past and future of כתב, את before a definite object, question words, wanting and ability with an infinitive, and סמיכות (“X of Y”). Transliteration follows modern Israeli pronunciation: ch is the throaty sound in Bach.",
   lessons: [
     {
       id: "pronouns",
@@ -191,6 +204,201 @@ window.GRAMMAR.hebrew = {
         { q: "האוטובוס הזה נוסע ＿חיפה?", en: "Does this bus go to Haifa?", options: ["ל", "מ", "ב", "ה"], answer: "ל", why: "ל־ = to." },
         { q: "האמא ＿", en: "my mother", options: ["שלי", "שלו", "שלה", "של"], answer: "שלי", why: "שלי = my, after the noun." },
         { q: "הטלפון ＿ יוסי", en: "Yossi's phone", options: ["של", "שלי", "ל", "מ"], answer: "של", why: "של = of: “the phone of Yossi”." },
+      ],
+    },
+    {
+      id: "past",
+      title: "כתבתי, כתבת, כתב — the past",
+      particle: "־תי ־ת ־נו",
+      summary: "Past-tense endings mark who did the action; the stem is shared.",
+      sections: [
+        {
+          p: "The past adds endings to a stem. With the root כ־ת־ב: <b>כתבתי</b> I wrote, <b>כתבת</b> you wrote (a man; a woman says the same spelling with a shorter last vowel), <b>כתב</b> he wrote, <b>כתבה</b> she wrote. Unlike the present, the past changes for person as well as gender.",
+          examples: [
+            ["אני {כתבתי} מכתב.", "Ani katavti michtav.", "I wrote a letter."],
+            ["הוא {כתב} את השם.", "Hu katav et ha-shem.", "He wrote the name."],
+            ["היא {כתבה} הודעה.", "Hi katva hoda'a.", "She wrote a message."],
+            ["אתה {כתבת} יפה.", "Ata katavta yafe.", "You wrote nicely. (to a man)"],
+          ],
+        },
+        {
+          h: "We and they",
+          p: "<b>כתבנו</b> is “we wrote”; <b>כתבו</b> is “they wrote”. Everyday writing leaves the vowels out, so the pronoun (or the ending itself) tells you who acted. The same endings work on other past stems: אכלתי “I ate”, הלכתי “I went”.",
+          examples: [
+            ["אנחנו {כתבנו} שיעורי בית.", "Anachnu katavnu shi'urei bayit.", "We wrote homework."],
+            ["הם {כתבו} את הדוח.", "Hem katvu et ha-doch.", "They wrote the report."],
+            ["אני {אכלתי} פיתה.", "Ani achalti pita.", "I ate a pita."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "אני ＿ מכתב אתמול.", en: "I wrote a letter yesterday.", options: ["כתבתי", "כותב", "אכתוב", "כתב"], answer: "כתבתי", why: "־תי marks “I” in the past: כתבתי." },
+        { q: "הוא ＿ את השם.", en: "He wrote the name.", options: ["כתב", "כתבתי", "כותב", "נכתוב"], answer: "כתב", why: "כתב is “he wrote”." },
+        { q: "What does היא כתבה mean?", en: "", options: ["She wrote.", "He wrote.", "I write.", "They write."], answer: "She wrote.", why: "כתבה is “she wrote”." },
+        { q: "How do you say “We wrote”?", en: "", options: ["כתבנו", "כתבתי", "כותבים", "נכתוב"], answer: "כתבנו", why: "כתבנו = we wrote." },
+        { q: "הם ＿ את הדוח.", en: "They wrote the report.", options: ["כתבו", "כתבתי", "כותב", "אכתוב"], answer: "כתבו", why: "כתבו is “they wrote”." },
+      ],
+    },
+    {
+      id: "future",
+      title: "אכתוב, תכתוב, יכתוב — the future",
+      particle: "א־ ת־ י־ נ־",
+      summary: "Future forms put person markers at the front of the stem.",
+      sections: [
+        {
+          p: "The future (and polite requests) uses prefixes: <b>אכתוב</b> I will write, <b>תכתוב</b> you (a man) / she will write, <b>תכתבי</b> you (a woman) will write, <b>יכתוב</b> he will write. The same root כ־ת־ב keeps one stem; only the person marker changes.",
+          examples: [
+            ["אני {אכתוב} מחר.", "Ani echtov machar.", "I will write tomorrow."],
+            ["אתה {תכתוב} את הכתובת?", "Ata tichtov et ha-ktovet?", "Will you write the address? (to a man)"],
+            ["היא {תכתוב} לנו.", "Hi tichtov lanu.", "She will write to us."],
+            ["הוא {יכתוב} ספר.", "Hu yichtov sefer.", "He will write a book."],
+          ],
+        },
+        {
+          h: "We and they — and saying no",
+          p: "<b>נכתוב</b> is “we will write”; <b>יכתבו</b> “they will write”; <b>תכתבו</b> “you (plural) will write”. Put <b>לא</b> before the future form for “will not”: אני לא אכתוב. A sharp “don't!” to one person uses <b>אל</b> plus the future: אל תכתוב!",
+          examples: [
+            ["אנחנו {נכתוב} יחד.", "Anachnu nichtov yachad.", "We will write together."],
+            ["הם {יכתבו} את התשובה.", "Hem yichtevu et ha-tshuva.", "They will write the answer."],
+            ["{אל} תכתוב בעט אדום.", "Al tichtov be-et adom.", "Don't write in red pen."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "אני ＿ מחר.", en: "I will write tomorrow.", options: ["אכתוב", "כתבתי", "כותב", "כתב"], answer: "אכתוב", why: "א־ marks “I” in the future: אכתוב." },
+        { q: "הוא ＿ ספר.", en: "He will write a book.", options: ["יכתוב", "אכתוב", "כתבתי", "כותבים"], answer: "יכתוב", why: "י־ marks “he” in the future." },
+        { q: "What does נכתוב mean?", en: "", options: ["We will write.", "I wrote.", "He writes.", "They wrote."], answer: "We will write.", why: "נ־ is “we” in the future." },
+        { q: "＿ תכתוב כאן!", en: "Don't write here!", options: ["אל", "לא", "אין", "בלי"], answer: "אל", why: "אל + future is a sharp “don't”." },
+        { q: "הם ＿ את התשובה.", en: "They will write the answer.", options: ["יכתבו", "כתבו", "כותבים", "כתבתי"], answer: "יכתבו", why: "יכתבו is “they will write”." },
+      ],
+    },
+    {
+      id: "et",
+      title: "את — before a definite object",
+      particle: "את",
+      summary: "When the object already has “the” (or is a name), Hebrew puts את in front of it.",
+      sections: [
+        {
+          p: "את (et) has no English translation. It only appears before a <b>definite</b> direct object — one with ה־, a name, or a possessive like שלי. With an indefinite object there is no את: אני רואה ים, “I see a sea”; אני רואה את הים, “I see the sea”.",
+          examples: [
+            ["אני רואה {את} הים.", "Ani ro'e et ha-yam.", "I see the sea."],
+            ["אני רואה ים.", "Ani ro'e yam.", "I see a sea. (no את)"],
+            ["אתה מכיר {את} דנה?", "Ata makir et Dana?", "Do you know Dana?"],
+          ],
+        },
+        {
+          h: "Me, you, him",
+          p: "When the object is a person pronoun, את merges with it: <b>אותי</b> me, <b>אותך</b> you, <b>אותו</b> him, <b>אותה</b> her, <b>אותנו</b> us, <b>אותם</b> them. You still need a verb in front: הוא רואה אותי.",
+          examples: [
+            ["הוא רואה {אותי}.", "Hu ro'e oti.", "He sees me."],
+            ["אני מכירה {אותו}.", "Ani makira oto.", "I know him. (a woman speaking)"],
+            ["תכתוב {אותה} בעברית.", "Tichtov ota be-ivrit.", "Write it (fem.) in Hebrew."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "אני רואה ＿ הספר.", en: "I see the book.", options: ["את", "ה", "של", "ל"], answer: "את", why: "הספר is definite, so the object marker את is required." },
+        { q: "אני רואה ＿.", en: "I see a book. (ספר)", options: ["ספר", "את ספר", "את הספר", "הספר"], answer: "ספר", why: "An indefinite object takes no את." },
+        { q: "אתה מכיר ＿ יוסי?", en: "Do you know Yossi?", options: ["את", "של", "ל", "מ"], answer: "את", why: "Names count as definite objects." },
+        { q: "הוא רואה ＿.", en: "He sees me.", options: ["אותי", "את אני", "לי", "שלי"], answer: "אותי", why: "את + “me” merges as אותי." },
+        { q: "What does «אני אוהב אותה» mean?", en: "", options: ["I love her.", "I love him.", "She loves me.", "I love them."], answer: "I love her.", why: "אותה = her (object)." },
+      ],
+    },
+    {
+      id: "questions",
+      title: "מה, מי, איפה — asking questions",
+      particle: "מה מי איפה",
+      summary: "Question words sit at the front; yes/no questions often keep statement word order.",
+      sections: [
+        {
+          p: "Common question words: <b>מה</b> what, <b>מי</b> who, <b>איפה</b> where, <b>מתי</b> when, <b>למה</b> why, <b>איך</b> how, <b>כמה</b> how much / how many. They usually open the sentence. Yes/no questions can use the same order as a statement, only with rising tone — or the more formal <b>האם</b> in front.",
+          examples: [
+            ["{מה} זה?", "Ma ze?", "What is this?"],
+            ["{מי} אתה?", "Mi ata?", "Who are you? (to a man)"],
+            ["{איפה} התחנה?", "Eifo ha-tachana?", "Where is the station?"],
+            ["{מתי} אתה מגיע?", "Matai ata magia?", "When are you arriving?"],
+          ],
+        },
+        {
+          h: "Why, how, how much",
+          p: "<b>למה</b> asks why; <b>איך</b> asks how; <b>כמה</b> asks how much or how many. Answer with a full sentence, or with short everyday replies like כי… (“because…”).",
+          examples: [
+            ["{למה} את עצובה?", "Lama at atzuva?", "Why are you sad? (to a woman)"],
+            ["{איך} אומרים \"thank you\" בעברית?", "Eich omrim \"thank you\" be-ivrit?", "How do you say “thank you” in Hebrew?"],
+            ["{כמה} זה עולה?", "Kama ze ole?", "How much does this cost?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ זה?", en: "What is this?", options: ["מה", "מי", "איפה", "מתי"], answer: "מה", why: "מה = what." },
+        { q: "＿ התחנה?", en: "Where is the station?", options: ["איפה", "מה", "מי", "למה"], answer: "איפה", why: "איפה = where." },
+        { q: "＿ אתה מגיע?", en: "When are you arriving?", options: ["מתי", "מה", "איך", "כמה"], answer: "מתי", why: "מתי = when." },
+        { q: "＿ זה עולה?", en: "How much does this cost?", options: ["כמה", "מה", "מי", "איפה"], answer: "כמה", why: "כמה = how much / how many." },
+        { q: "What does «מי את?» mean?", en: "", options: ["Who are you? (to a woman)", "What are you?", "Where are you?", "How are you?"], answer: "Who are you? (to a woman)", why: "מי = who; את is “you” to a woman." },
+      ],
+    },
+    {
+      id: "infinitive",
+      title: "רוצה, יכול, צריך — want, can, must",
+      particle: "לכתוב",
+      summary: "Wanting, ability and need take an infinitive that begins with ל־.",
+      sections: [
+        {
+          p: "The infinitive of a verb starts with <b>ל־</b>: <b>לכתוב</b> to write, <b>לדבר</b> to speak, <b>לאכול</b> to eat, <b>ללמוד</b> to learn. Put it after a helping word: אני רוצה לכתוב, “I want to write”.",
+          examples: [
+            ["אני רוצה {לכתוב} מכתב.", "Ani rotze lichtov michtav.", "I want to write a letter. (a man)"],
+            ["היא אוהבת {לדבר} עברית.", "Hi ohevet ledaber ivrit.", "She likes to speak Hebrew."],
+            ["אנחנו צריכים {לאכול}.", "Anachnu tzrichim le'echol.", "We need to eat."],
+          ],
+        },
+        {
+          h: "Can and must",
+          p: "<b>יכול / יכולה</b> means “can, able to”; <b>צריך / צריכה</b> means “need to, must”. They agree in gender and number like adjectives: הוא יכול לבוא, היא יכולה לבוא, הם יכולים לבוא. Negate with לא: אני לא יכולה לבוא.",
+          examples: [
+            ["אתה {יכול} לעזור לי?", "Ata yachol la'azor li?", "Can you help me? (to a man)"],
+            ["היא {צריכה} ללכת עכשיו.", "Hi tzricha lalechet achshav.", "She needs to go now."],
+            ["אני {לא יכול} לדבר עכשיו.", "Ani lo yachol ledaber achshav.", "I can't talk now. (a man)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "אני רוצה ＿ מכתב.", en: "I want to write a letter.", options: ["לכתוב", "כותב", "כתבתי", "אכתוב"], answer: "לכתוב", why: "After רוצה, use the infinitive with ל־." },
+        { q: "אתה ＿ לעזור לי?", en: "Can you help me? (to a man)", options: ["יכול", "יכולה", "צריכה", "רוצה"], answer: "יכול", why: "יכול is the masculine singular “can”." },
+        { q: "היא ＿ ללכת.", en: "She needs to go.", options: ["צריכה", "צריך", "יכול", "כותבת"], answer: "צריכה", why: "Feminine singular of צריך is צריכה." },
+        { q: "How do you say “to speak”?", en: "", options: ["לדבר", "מדבר", "דיבר", "אדבר"], answer: "לדבר", why: "The infinitive of “speak” is לדבר." },
+        { q: "אני ＿ יכול לבוא.", en: "I can't come. (a man)", options: ["לא", "אין", "אל", "בלי"], answer: "לא", why: "לא before יכול negates ability." },
+      ],
+    },
+    {
+      id: "smikhut",
+      title: "סמיכות — “X of Y”",
+      particle: "בית ספר",
+      summary: "Two nouns side by side mean “X of Y”; “the” goes on the second noun.",
+      sections: [
+        {
+          p: "Hebrew often skips a word for “of”. Put the main noun first and the second noun right after it: <b>כוס קפה</b> “a cup of coffee”, <b>חדר שינה</b> “a bedroom” (room of sleep), <b>בית ספר</b> “a school” (house of book). This pair is called <b>סמיכות</b> (smikhut).",
+          examples: [
+            ["{כוס קפה}", "kos kafe", "a cup of coffee"],
+            ["{בית ספר}", "beit sefer", "a school"],
+            ["{חדר שינה}", "cheder sheina", "a bedroom"],
+          ],
+        },
+        {
+          h: "Where “the” goes — and small shape changes",
+          p: "To make the whole pair definite, put ה on the <b>second</b> noun only: <b>בית הספר</b> “the school”. Feminine nouns ending in ־ה often turn that ending into ־ת in the first slot: עוגה → <b>עוגת גבינה</b> “cheesecake”. Masculine plurals in ־ים often become ־י: ספרים → <b>ספרי ילדים</b> “children's books”.",
+          examples: [
+            ["{בית הספר} גדול.", "Beit ha-sefer gadol.", "The school is big."],
+            ["{עוגת גבינה}", "ugat gvina", "a cheesecake"],
+            ["{ספרי ילדים}", "sifrei yeladim", "children's books"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ קפה", en: "a cup of coffee", options: ["כוס", "כוס ה", "הכוס", "קפה כוס"], answer: "כוס", why: "Main noun first: כוס קפה." },
+        { q: "How do you say “the school”?", en: "בית + ספר", options: ["בית הספר", "הבית ספר", "הבית הספר", "בית ספר ה"], answer: "בית הספר", why: "ה goes on the second noun only." },
+        { q: "עוגה → ＿ שוקולד", en: "a chocolate cake", options: ["עוגת", "עוגה", "העוגה", "עוגות"], answer: "עוגת", why: "Feminine ־ה becomes ־ת in smikhut." },
+        { q: "ספרים → ＿ ילדים", en: "children's books", options: ["ספרי", "ספרים", "הספרים", "ספר"], answer: "ספרי", why: "Plural ־ים often becomes ־י in the construct." },
+        { q: "What does «חדר שינה» mean?", en: "", options: ["a bedroom", "a sleeping child", "the room is asleep", "sleep well"], answer: "a bedroom", why: "Literally “room of sleep”: a bedroom." },
       ],
     },
   ],

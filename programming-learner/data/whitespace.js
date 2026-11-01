@@ -35,6 +35,11 @@ L  LL             end the program`, out: "5" },
         { q: "What does L LL do?", options: ["Ends the program", "Prints a new line", "Pushes 0", "Nothing"], answer: "Ends the program", why: "Three line feeds is the flow-control command for end." },
         { q: "What happens to the letters in a Whitespace file?", options: ["They are ignored", "They are pushed on the stack", "They cause an error", "They are printed"], answer: "They are ignored", why: "Only space, tab and line feed are part of the language." },
         { q: "How is −2 written?", options: ["TTSL", "STSL", "TSTL", "TTL"], answer: "TTSL", why: "T for minus, then binary 10 as TS, then L." },
+        { q: "Which IMP starts stack manipulation?", options: ["S", "TS", "TT", "TL"], answer: "S", why: "A single space is the stack IMP; TS is arithmetic, TT is heap, TL is I/O." },
+        { q: "Which number is STSSSL?", options: ["+8", "+4", "+16", "−8"], answer: "+8", why: "S for plus, then bits TSSS are binary 1000, which is 8." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSSL
+TL ST
+L  LL`, options: ["4", "2", "8", "1"], answer: "4", why: "STSSL is +100 in binary, which is 4, printed as a number." },
       ],
     },
     {
@@ -86,6 +91,19 @@ TS TT
 TL ST
 L  LL`, options: ["2", "3", "26", "14"], answer: "2", why: "20 divided by 6 is 3 with 2 left over; TS TT gives the remainder." },
         { q: "Which command prints the top value as a number?", options: ["TL ST", "TL SS", "TS SS", "S LS"], answer: "TL ST", why: "TL is input/output; ST outputs a number, SS outputs a character." },
+        { kind: "output", q: "What does this print?", code: `S  S  STTL
+S  S  STSTL
+TS SL
+TL ST
+L  LL`, options: ["15", "8", "35", "2"], answer: "15", why: "3 × 5 = 15; TS SL multiplies the top two values." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSTSSL
+S  S  STSSL
+TS TS
+TL ST
+L  LL`, options: ["5", "4", "20", "0"], answer: "5", why: "20 divided by 4 is 5; TS TS is whole-number divide." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSSSSTL
+TL SS
+L  LL`, options: ["!", "A", "33", " "], answer: "!", why: "STSSSSTL is 33, the character code for an exclamation mark." },
       ],
     },
     {
@@ -115,6 +133,23 @@ TL ST
 L  LL`, options: ["-6", "6", "10", "82"], answer: "-6", why: "After the swap 2 is under 8, so subtract works out 2 − 8." },
         { q: "Why duplicate a value before printing it?", options: ["Printing pops it, so a copy is kept for later", "Printing needs two values", "To print it twice as big", "It is required before every print"], answer: "Printing pops it, so a copy is kept for later", why: "Output commands remove the value they print." },
         { q: "Stack holds 1 then 2 on top. What is on top after S LT?", options: ["1", "2", "3", "Nothing"], answer: "1", why: "Swap exchanges the top two values." },
+        { kind: "output", q: "What does this print?", code: `S  S  STTSL
+S  LS
+TS SS
+TL ST
+L  LL`, options: ["12", "6", "36", "0"], answer: "12", why: "Duplicate 6, then add: 6 + 6 = 12." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSTL
+S  S  STSL
+S  LT
+TL ST
+TL ST
+L  LL`, options: ["52", "25", "7", "10"], answer: "52", why: "After the swap, 5 is on top and prints first, then 2." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSTL
+S  S  STSL
+S  LL
+TL ST
+L  LL`, options: ["5", "2", "7", "52"], answer: "5", why: "S LL drops the top value 2, leaving 5 to print." },
+        { q: "What does S LL do?", options: ["Throws away the top of the stack", "Ends the program", "Duplicates the top", "Swaps the top two"], answer: "Throws away the top of the stack", why: "After the S prefix, LL is drop; LS is duplicate; LT is swap." },
       ],
     },
     {
@@ -143,6 +178,21 @@ TL ST
 L  LL`, options: ["18", "9", "1", "10"], answer: "18", why: "9 is stored at address 1, fetched back, duplicated and added to itself." },
         { q: "What do you push before TT S?", options: ["An address, then a value", "A value, then an address", "Just a value", "Nothing"], answer: "An address, then a value", why: "Store pops the value from the top and the address from under it." },
         { q: "What does retrieving an address that was never stored give?", options: ["0", "An error", "The address itself", "A random number"], answer: "0", why: "Unused heap boxes read as 0." },
+        { kind: "output", q: "What does this print?", code: `S  S  SL
+S  S  STSSL
+TT S
+S  S  STL
+S  S  STTL
+TT S
+S  S  SL
+TT T
+S  S  STL
+TT T
+TS SS
+TL ST
+L  LL`, options: ["7", "4", "3", "43"], answer: "7", why: "Heap[0] is 4 and heap[1] is 3; fetching both and adding gives 7." },
+        { q: "Which IMP introduces heap commands?", options: ["TT", "TS", "TL", "S"], answer: "TT", why: "Two tabs mean heap access; TT S stores and TT T retrieves." },
+        { q: "After TT T, where is the fetched value?", options: ["On top of the stack", "Still only in the heap", "Printed", "In a register"], answer: "On top of the stack", why: "Retrieve pushes the heap value onto the stack so you can print or compute with it." },
       ],
     },
     {
@@ -180,6 +230,32 @@ L  SS TL
 L  LL`, options: ["321", "3210", "123", "3"], answer: "321", why: "The counter starts at 3 and goes down; the loop ends when it reaches 0, before printing it." },
         { q: "What does L TS label do?", options: ["Pops a value and jumps if it is zero", "Jumps always", "Marks a label", "Pops a value and jumps if it is negative"], answer: "Pops a value and jumps if it is zero", why: "TS after the L prefix is jump-if-zero; TT is jump-if-negative." },
         { q: "Why does the loop duplicate the counter before testing it?", options: ["The test pops the value it checks", "Tests need two values", "To count twice as fast", "Labels need it"], answer: "The test pops the value it checks", why: "Without the copy, the counter would be gone after the first test." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSL
+L  SS SL
+S  LS
+TL ST
+S  S  STL
+TS ST
+S  LS
+L  TS TL
+L  SL SL
+L  SS TL
+L  LL`, options: ["21", "210", "12", "2"], answer: "21", why: "Countdown from 2: print 2, then 1, then stop when the counter hits 0." },
+        { kind: "output", q: "What does this print?", code: `S  S  STL
+L  SS SL
+S  LS
+TL ST
+S  S  STL
+TS SS
+S  LS
+S  S  STSSL
+TS ST
+L  TS TL
+L  SL SL
+L  SS TL
+S  LL
+L  LL`, options: ["123", "1234", "12", "321"], answer: "123", why: "Count up from 1, stop when the counter minus 4 is zero, then drop the leftover 4." },
+        { q: "What does L SS label do?", options: ["Marks a place in the program", "Jumps to that label", "Calls a subroutine", "Ends the program"], answer: "Marks a place in the program", why: "L SS sets a label; L SL jumps to it, L ST calls it." },
       ],
     },
     {
@@ -233,6 +309,34 @@ TS SL
 L  TL`, options: ["200", "20", "2", "1000"], answer: "200", why: "Each call multiplies the top value by 10: 2, then 20, then 200." },
         { q: "Where does L TL return to?", options: ["The command after the last call", "The start of the program", "The last label", "Label S"], answer: "The command after the last call", why: "Calls remember where they came from, like CALL and RET in assembly." },
         { q: "Which command jumps only if the value is negative?", options: ["L TT", "L TS", "L SL", "L ST"], answer: "L TT", why: "TT is jump-if-negative; TS is jump-if-zero; SL always jumps; ST calls." },
+        { kind: "output", q: "What does this print?", code: `S  S  STSTL
+L  ST SL
+TL ST
+L  LL
+L  SS SL
+S  LS
+TS SS
+L  TL`, options: ["10", "5", "25", "0"], answer: "10", why: "The subroutine doubles by adding the value to itself: 5 + 5 = 10." },
+        { kind: "output", q: "What does this print?", code: `S  S  TTSL
+S  LS
+L  TT SL
+S  S  STSSTTTTL
+TL SS
+L  LL
+L  SS SL
+S  S  STSSTTSSL
+TL SS
+L  LL`, options: ["L", "O", "LO", "−2"], answer: "L", why: "−2 is negative, so the jump is taken and 76 (L) is printed." },
+        { kind: "output", q: "What does this print?", code: `S  S  STL
+L  TS SL
+S  S  STSSTTTTL
+TL SS
+L  LL
+L  SS SL
+S  S  STSSTTSSL
+TL SS
+L  LL`, options: ["O", "L", "OL", "1"], answer: "O", why: "1 is not zero, so the jump is skipped and 79 (O) is printed." },
+        { q: "What does L ST label do?", options: ["Calls a subroutine at that label", "Marks the label", "Jumps if zero", "Returns from a call"], answer: "Calls a subroutine at that label", why: "L ST is call; L TL returns; L SS marks; L TS is jump-if-zero." },
       ],
     },
   ],

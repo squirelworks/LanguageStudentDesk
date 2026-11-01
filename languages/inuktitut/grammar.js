@@ -14,6 +14,8 @@
 //   ‑qqau‑ (ᖅᑲᐅ; ᑐᓵᖅᑲᐅᙱᑦᑕᒋᑦ), ‑lauq‑ (ᐃᒡᓗᒥᒃ ᓂᐅᕕᐊᓚᐅᖅᑐᖓ Iglumik niuvialauqtunga).
 // - Wiktionary (CC BY-SA): ᐃᒡᓗ iglu “house”, ᐃᓄᒃ inuk / ᐃᓄᐃᑦ inuit, ᐊᓈᓇ anaana,
 //   ᐅᕙᖓ uvanga, ᐃᕝᕕᑦ ivvit, lemma glosses.
+// - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca) grammar topic index for pedagogical framing
+//   (noun endings, possession, -mi/-mut/-mit, simple verb endings, questions, the negative).
 // - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca), South Qikiqtaaluk:
 //   grammar topics 7 Future (‑niaq‑ / ‑laaq‑; niriniaqtunga, suniaqqit, katimaniaqtugut /
 //   katimalaaqtugut, aullalaaqtuq), 8 Past (‑rataaq‑ / ‑qqau‑ / ‑lauq‑; isirataaqtuq,
