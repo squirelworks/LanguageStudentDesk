@@ -396,9 +396,9 @@ window.LSD_REFERENCE = {
             "e": "I don't understand."
           },
           {
-            "t": "አማርኛ {አልናገርም}.",
-            "r": "Amarigna alnaggärm.",
-            "e": "I don't speak Amharic."
+            "t": "ቡና {የለም}.",
+            "r": "Buna yellämm.",
+            "e": "There is no coffee."
           }
         ],
         "tags": [

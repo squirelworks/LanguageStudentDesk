@@ -266,6 +266,10 @@
       gr("gr-basics", "Greetings, names and Set A", "ᎣᏏᏲ and ᏙᎯᏧ; names with ᏓᏆᏙᎠ; and Set A prefixes on ᎦᏬᏂᎭ “is speaking”.", ["greetings", "to-be", "prefixes"]),
       gr("gr-more", "Want, questions, no and numbers", "Set B ᎠᏆᏚᎵᎭ and ᎨᎦ; questions with ‑Ꮝ and ‑Ꮷ; Ꮭ negation; numbers one to ten.", ["verbs", "questions", "negation-numbers"]),
     ],
+    inuktitut: [
+      gr("gr-basics", "Nouns, possession and places", "Singular, dual and plural; my/your/his endings; and ‑mi, ‑mut, ‑mit for in, to and from.", ["nouns", "possession", "places"]),
+      gr("gr-more", "Verbs, questions and saying no", "Present endings ‑junga/‑jutit/‑juq; questions with ‑vit; and negation with ‑nngit‑.", ["verbs", "questions", "negation"]),
+    ],
     mongolian: [
       gr("gr-basics", "Pronouns, questions and cases", "Pronouns and биш, questions with уу and үү, and the endings for my, in and from.", ["pronouns", "questions", "cases"]),
       gr("gr-more", "“Have” and verbs", "байна and байхгүй, and verbs in the present and the past.", ["have", "present", "past"]),

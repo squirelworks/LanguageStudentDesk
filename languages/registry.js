@@ -295,6 +295,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Inuktitut in Canadian syllabics, where turning a shape changes its vowel.",
     "speech": "iu",
     "data": {
+      "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
     }
