@@ -88,7 +88,8 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 # ?lang= values the scoped tools understand that are not languages in
 # languages/registry.js: the Programming Learner's courses.
 EXTRA_LANGS = [
-    "python", "quickbasic", "brainfood", "delphi", "intercal", "lolcode", "malbolge", "piet", "whitespace",
+    "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick",
+    "intercal", "lolcode", "malbolge", "piet", "whitespace",
     "win16", "z80",
 ]
 
@@ -146,7 +147,8 @@ def load_languages():
     langs = [(m["id"], m.get("name", m["id"]) + (f" · {m['nativeName']}" if m.get("nativeName") else ""))
              for m in metas]
     ids = {i for i, _ in langs}
-    return langs + [(x, x) for x in EXTRA_LANGS if x not in ids]
+    extras = sorted(((x, x) for x in EXTRA_LANGS if x not in ids), key=lambda pair: pair[1].lower())
+    return langs + extras
 
 
 def home_page(tools):
