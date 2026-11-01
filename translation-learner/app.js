@@ -7,11 +7,11 @@
 
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
-  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "armenian", "klingon"];
+  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "armenian", "klingon"];
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
   // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
-  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, bengali: true, armenian: true, klingon: false };
+  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, bengali: true, tamil: true, armenian: true, klingon: false };
 
   // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
   // Greek joins the network via its column and Desk decks; a wordfreq Top 1,000
@@ -22,6 +22,8 @@
   // Thai joins the network via its column and Desk decks; a wordfreq Top 1,000
   // bank can be added later (wordfreq has Thai as th).
   // Bengali has no wordfreq bank yet (like Klingon), so it has no Top 1,000 tab.
+  // Tamil joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Tamil as ta).
   // Armenian joins the network via its column and Desk decks; a wordfreq Top 1,000
   // bank can be added later (wordfreq has Armenian as hy).
   const BANKS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic"];
