@@ -358,6 +358,37 @@
         "names",
         "politeness"
       ]
+    },
+    {
+      "id": "particles",
+      "topic": "grammar",
+      "title": "Subject က and object ကို",
+      "body": "Burmese marks roles with small particles after the noun. က (ga) often marks the subject; ကို (go) marks a definite object. They are dropped when context is clear.",
+      "examples": [
+        {
+          "t": "ကျွန်တော်{က} မြန်မာစကား သင်တယ်။",
+          "r": "Kya-naw ga myanma zaga thin de.",
+          "e": "I (man speaking) am learning Burmese."
+        },
+        {
+          "t": "စာအုပ်{ကို} ဖတ်တယ်။",
+          "r": "Sa-ouq go phat de.",
+          "e": "(I) read the book."
+        }
+      ],
+      "tags": [
+        "particles"
+      ]
+    },
+    {
+      "id": "thingyan",
+      "topic": "culture",
+      "title": "Thingyan",
+      "body": "Thingyan (သင်္ကြန်) is the Burmese new year water festival in mid-April. People pour and splash water in the streets to wash away the old year, and many also make offerings at monasteries.",
+      "tags": [
+        "festivals",
+        "new year"
+      ]
     }
   ]
 }

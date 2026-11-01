@@ -65,6 +65,9 @@ print("shown")`, options: ["shown", "hidden\nshown", "# print(\"hidden\")\nshown
         { kind: "output", q: "What does this print?", code: String.raw`print("x", "y", sep="")`, options: ["xy", "x y", "x\ny", "x,y"], answer: "xy", why: "sep sets what goes between the values; an empty string means nothing at all." },
         { q: "Which line is a valid string with an apostrophe in it?", options: ["\"It's mine\"", "'It's mine'", "It's mine", "('It's mine')"], answer: "\"It's mine\"", why: "Double quotes around the text let the single quote inside be an ordinary character." },
         { kind: "output", q: "What does this print?", code: String.raw`print("a\nb")`, options: ["a\nb", "a b", "anb", "a\\nb"], answer: "a\nb", why: "\\n inside a string is a newline, so b lands on the next line." },
+        { kind: "output", q: "What does this print?", code: String.raw`print("Hi", end="")
+print("!")`, options: ["Hi!", "Hi\n!", "Hi !", "Hi"], answer: "Hi!", why: "end=\"\" stops print from adding its usual newline, so the next print carries on the same line." },
+        { kind: "output", q: "What does this print?", code: String.raw`print("one", "two", sep="\n")`, options: ["one\ntwo", "one two", "one\\ntwo", "onetwo"], answer: "one\ntwo", why: "sep can be a newline, so the two values land on separate lines." },
       ],
     },
     {
@@ -124,6 +127,9 @@ print(f"I live in an {tree}")`, options: ["I live in an oak", "I live in an {tre
 b = a
 a = 9
 print(b)`, options: ["1", "9", "a", "An error"], answer: "1", why: "b was pointed at the value 1. Moving a to 9 afterwards does not move b." },
+        { kind: "output", q: "What does this print?", code: String.raw`print(int(3.9) + float("2"))`, options: ["5.0", "5", "3.92", "An error"], answer: "5.0", why: "int chops 3.9 down to 3; float(\"2\") is 2.0; 3 + 2.0 is the float 5.0." },
+        { kind: "output", q: "What does this print?", code: String.raw`ready = True
+print(type(ready))`, options: ["<class 'bool'>", "<class 'True'>", "<class 'int'>", "True"], answer: "<class 'bool'>", why: "True and False are bool values." },
       ],
     },
     {
@@ -176,6 +182,8 @@ print(total)`,
 n *= 4
 print(n)`, options: ["12", "7", "3", "34"], answer: "12", why: "n *= 4 is short for n = n * 4." },
         { q: "How would you test whether a number n is even?", options: ["n % 2 == 0", "n / 2 == 0", "n // 2 == 1", "n ** 2 == 0"], answer: "n % 2 == 0", why: "An even number leaves no remainder when divided by 2." },
+        { kind: "output", q: "What does this print?", code: String.raw`print(2 ** 4)`, options: ["16", "8", "6", "24"], answer: "16", why: "** raises to a power: 2 to the 4th is 16." },
+        { kind: "output", q: "What does this print?", code: String.raw`print(round(3.6), abs(-2), max(1, 9, 4))`, options: ["4 2 9", "3 2 9", "4 -2 9", "3.6 2 9"], answer: "4 2 9", why: "round goes to the nearest whole number, abs drops the sign, max picks the largest." },
       ],
     },
     {
@@ -229,6 +237,8 @@ s.upper()
 print(s)`, options: ["leaf", "LEAF", "Leaf", "None"], answer: "leaf", why: "upper() returns a new string, but nothing keeps it. s itself never changes." },
         { kind: "output", q: "What does this print?", code: String.raw`print(len("a b"))`, options: ["3", "2", "1", "4"], answer: "3", why: "The space counts as a character." },
         { kind: "output", q: "What does this print?", code: String.raw`print("tree house".split())`, options: ["['tree', 'house']", "['tree house']", "tree house", "['t', 'r', 'e', 'e']"], answer: "['tree', 'house']", why: "split() with no argument splits on whitespace and returns a list." },
+        { kind: "output", q: "What does this print?", code: String.raw`print("chestnut".find("nut"))`, options: ["5", "4", "-1", "0"], answer: "5", why: "c-h-e-s-t are positions 0–4; nut starts at 5." },
+        { kind: "output", q: "What does this print?", code: String.raw`print("  Pine  ".strip().replace("Pine", "Oak"))`, options: ["Oak", "  Oak  ", "Pine", "Oak  "], answer: "Oak", why: "strip removes the spaces first; then replace swaps Pine for Oak." },
       ],
     },
     {
@@ -297,6 +307,14 @@ if items:
 else:
     print("empty")`, options: ["empty", "full", "[]", "An error"], answer: "empty", why: "An empty list counts as false." },
         { q: "Why does `if x = 5:` fail?", options: ["One = assigns; comparing needs ==", "Numbers cannot follow if", "The colon is wrong", "x must be a string"], answer: "One = assigns; comparing needs ==", why: "Python refuses assignment inside an if condition, which catches a very common slip." },
+        { kind: "output", q: "What does this print?", code: String.raw`n = 3
+if n < 0 or n > 10:
+    print("out")
+elif n == 3 and n != 4:
+    print("three")
+else:
+    print("other")`, options: ["three", "out", "other", "three\nout"], answer: "three", why: "n is not out of range, so the first if is false; both parts of the elif are true." },
+        { kind: "output", q: "What does this print?", code: String.raw`print(0 or "fallback")`, options: ["fallback", "0", "True", "False"], answer: "fallback", why: "0 counts as false, so or moves on and gives the next value." },
       ],
     },
     {
@@ -368,6 +386,14 @@ for i in range(5):
 print(s)`, options: ["10", "15", "5", "4"], answer: "10", why: "0 + 1 + 2 + 3 + 4 = 10. range(5) never reaches 5." },
         { kind: "output", q: "What does this print?", code: String.raw`for i in range(5, 0, -2):
     print(i)`, options: ["5\n3\n1", "5\n3", "5\n4\n3\n2\n1", "1\n3\n5"], answer: "5\n3\n1", why: "Start at 5, step −2, stop before 0." },
+        { kind: "output", q: "What does this print?", code: String.raw`for n in range(1, 6):
+    if n % 2 == 0:
+        continue
+    print(n)`, options: ["1\n3\n5", "2\n4", "1\n2\n3\n4\n5", "1\n3"], answer: "1\n3\n5", why: "continue skips the even numbers before print runs." },
+        { kind: "output", q: "What does this print?", code: String.raw`n = 1
+while n < 8:
+    n *= 2
+print(n)`, options: ["8", "4", "16", "7"], answer: "8", why: "1 → 2 → 4 → 8; once n is 8 the while test fails." },
       ],
     },
     {
@@ -440,6 +466,10 @@ print(a)`, options: ["[1, 2]", "[1]", "[2]", "An error"], answer: "[1, 2]", why:
 y = sorted(x)
 print(x)`, options: ["[3, 1, 2]", "[1, 2, 3]", "None", "[3, 2, 1]"], answer: "[3, 1, 2]", why: "sorted() returns a new list and leaves the original alone." },
         { kind: "output", q: "What does this print?", code: String.raw`print([1, 2, 3, 4][1:3])`, options: ["[2, 3]", "[1, 2, 3]", "[2, 3, 4]", "[1, 2]"], answer: "[2, 3]", why: "Positions 1 and 2; the slice stops before 3." },
+        { kind: "output", q: "What does this print?", code: String.raw`x = [3, 1, 2]
+x.sort()
+print(x)`, options: ["[1, 2, 3]", "[3, 1, 2]", "None", "[3, 2, 1]"], answer: "[1, 2, 3]", why: ".sort() changes the list itself, unlike sorted() which returns a new one." },
+        { kind: "output", q: "What does this print?", code: String.raw`print([n for n in range(6) if n % 2 == 1])`, options: ["[1, 3, 5]", "[0, 2, 4]", "[1, 3, 5, 6]", "[2, 4]"], answer: "[1, 3, 5]", why: "The if keeps only the odd numbers from range(6)." },
       ],
     },
     {
@@ -502,6 +532,11 @@ print(d.get("x", "none"))`, options: ["none", "None", "An error", "x"], answer: 
         { kind: "output", q: "What does this print?", code: String.raw`a, b = 1, 2
 a, b = b, a
 print(a, b)`, options: ["2 1", "1 2", "2 2", "1 1"], answer: "2 1", why: "The right side builds the tuple (2, 1) first, then unpacks it, so the swap works." },
+        { kind: "output", q: "What does this print?", code: String.raw`d = {"oak": 2, "pine": 5}
+print("oak" in d, d.get("elm", -1))`, options: ["True -1", "False -1", "True None", "2 -1"], answer: "True -1", why: "in checks keys; get returns the default −1 when elm is missing." },
+        { kind: "output", q: "What does this print?", code: String.raw`point = (10, 20)
+x, y = point
+print(x * y)`, options: ["200", "30", "(10, 20)", "An error"], answer: "200", why: "Unpacking fills x and y from the tuple; 10 × 20 = 200." },
       ],
     },
     {
@@ -577,6 +612,15 @@ print(x)`, options: ["5", "10", "None", "An error"], answer: "5", why: "x = 10 i
     print("unreached")
 
 print(first_two("pine"))`, options: ["pi", "pi\nunreached", "pine", "unreached"], answer: "pi", why: "return ends the function immediately; the line after it never runs." },
+        { kind: "output", q: "What does this print?", code: String.raw`def pair(a, b=1):
+    return a, a + b
+
+x, y = pair(4)
+print(x, y)`, options: ["4 5", "4 1", "(4, 5)", "An error"], answer: "4 5", why: "Returning two values makes a tuple that unpacks into x and y; b defaults to 1." },
+        { kind: "output", q: "What does this print?", code: String.raw`def label(kind, count=1):
+    return f"{count} {kind}"
+
+print(label("acorn", count=3))`, options: ["3 acorn", "1 acorn", "acorn 3", "count=3 acorn"], answer: "3 acorn", why: "The named argument count=3 overrides the default." },
       ],
     },
     {
@@ -638,6 +682,14 @@ except IndexError:
 finally:
     print("end")
 print(x)`, options: ["end\n0", "0\nend", "end", "An error"], answer: "end\n0", why: "The IndexError is caught and x set to 0; finally prints end; then x is printed." },
+        { kind: "output", q: "What does this print?", code: String.raw`try:
+    n = int("7")
+except ValueError:
+    n = -1
+else:
+    n = n + 1
+print(n)`, options: ["8", "7", "-1", "An error"], answer: "8", why: "int succeeds, so else runs and adds 1; except is skipped." },
+        { q: "Which error does `{\"a\": 1}[\"b\"]` raise?", options: ["KeyError", "IndexError", "NameError", "TypeError"], answer: "KeyError", why: "Dictionaries raise KeyError for a missing key; IndexError is for sequences." },
       ],
     },
     {
@@ -697,6 +749,12 @@ print(sqrt(16) + 1)`, options: ["5.0", "5", "17", "An error"], answer: "5.0", wh
     f.write("a\nb\n")
 with open("t.txt") as f:
     print(len(f.readlines()))`, options: ["2", "4", "1", "3"], answer: "2", why: "The file holds two lines, a and b; readlines returns a list of both." },
+        { kind: "output", q: "What does this print?", code: String.raw`import math
+print(math.ceil(4.1))`, options: ["5", "4", "4.0", "5.0"], answer: "5", why: "ceil rounds up to the next whole number." },
+        { kind: "output", q: "What does this print?", code: String.raw`with open("note.txt", "w") as f:
+    f.write("oak")
+with open("note.txt") as f:
+    print(f.read().upper())`, options: ["OAK", "oak", "Oak", ""], answer: "OAK", why: "read() pulls the whole file as one string; upper makes it OAK." },
       ],
     },
     {
@@ -799,6 +857,23 @@ print(B().hi())`, options: ["A", "B", "None", "An error"], answer: "A", why: "B 
         return "pine"
 
 print(P())`, options: ["pine", "P", "<P object>", "None"], answer: "pine", why: "print uses __str__ when the class defines it." },
+        { kind: "output", q: "What does this print?", code: String.raw`class Animal:
+    def speak(self):
+        return "..."
+class Bird(Animal):
+    def speak(self):
+        return "chirp"
+
+print(Bird().speak())`, options: ["chirp", "...", "None", "An error"], answer: "chirp", why: "Bird replaces speak; the parent's version is not used." },
+        { kind: "output", q: "What does this print?", code: String.raw`class Counter:
+    def __init__(self):
+        self.n = 0
+    def add(self, k):
+        self.n += k
+        return self.n
+
+c = Counter()
+print(c.add(2), c.add(3))`, options: ["2 5", "2 3", "5 5", "0 5"], answer: "2 5", why: "add returns the new total each time: 0+2 then 2+3." },
       ],
     },
   ],
