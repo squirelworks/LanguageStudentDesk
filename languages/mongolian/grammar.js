@@ -1,10 +1,23 @@
 // Mongolian first grammar for the Grammar Learner. Written for this project.
 // Examples are in Cyrillic, the script used in Mongolia, as [Mongolian, romanization, English];
 // {braces} mark the point of the lesson. Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Khalkha Cyrillic constructions — original example sentences):
+// - Wiktionary Mongolian lemmas (CC BY-SA): ном, кино, ус, хүн, монгол, автобус, найз, сүү,
+//   цай, явах, ирэх, унших, уух, ярих, чадах, суух, идэх; case endings -ыг/-ийг/-г,
+//   -аар/-ээр/-оор/-өөр, -тай/-тэй/-той; desiderative -маар; polite imperative -аарай/-ээрэй.
+// - Wikipedia “Mongolian language”, “Mongolian grammar”, “Mongolian Cyrillic alphabet”
+//   (CC BY-SA): SOV order, vowel harmony, case inventory, attributive number forms
+//   (гурван, таван, …), imperatives, ability with -ж чадах.
+// - In-repo languages/mongolian/reference.json (cases, numbers, vowel-harmony) and vocab.js
+//   (сүүтэй цай, Уучлаарай, Сайхан амраарай, монголоор) — same Desk pack lemmas and
+//   romanization (ü/ö, kh for х).
+// Lessons 1–6 unchanged; 7–12 deepen accusative, instrumental, comitative, want/can,
+// commands, and numbers before nouns.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.mongolian = {
   title: "Mongolian first grammar",
-  intro: "These lessons teach everyday Mongolian as it is spoken in Mongolia and written in Cyrillic there; the Reference cards show how the same words look in the traditional vertical script. The verb comes last, endings are added to words, and vowel harmony decides which form an ending takes: words with a, o, u take endings with a, o, u, and words with e, ö, ü take endings with e, ö, ü. The lessons cover pronouns and “is not”, questions, case endings, “have”, and verbs in the present and past.",
+  intro: "These lessons teach everyday Mongolian as it is spoken in Mongolia and written in Cyrillic there; the Reference cards show how the same words look in the traditional vertical script. The verb comes last, endings are added to words, and vowel harmony decides which form an ending takes: words with a, o, u take endings with a, o, u, and words with e, ö, ü take endings with e, ö, ü. Lessons 1–6 cover pronouns and “is not”, questions, “my / in / from”, “have”, and verbs in the present and past. Lessons 7–12 add the definite object ending, “by / in (a language)”, “with”, want and can, commands, and how numbers sit before a noun.",
   lessons: [
     {
       id: "pronouns",
@@ -161,6 +174,150 @@ window.GRAMMAR.mongolian = {
         { q: "Би тэр киног ＿.", en: "I didn't see that film.", options: ["үзээгүй", "үзсэн", "үзнэ", "үзэхгүй"], answer: "үзээгүй", why: "Didn't: -ээгүй." },
         { q: "Тэр Монголд ＿ уу?", en: "Did he go to Mongolia?", options: ["очсон", "очно", "очихгүй", "очиж"], answer: "очсон", why: "Past: -сон (back vowel о)." },
         { q: "За, би ＿!", en: "Right, I'm here! (I've just arrived)", options: ["ирлээ", "ирнэ", "ирээгүй", "ирэхгүй"], answer: "ирлээ", why: "Just happened: -лээ." },
+      ],
+    },
+    {
+      id: "accusative",
+      title: "The object: -ыг, -ийг, -г",
+      particle: "-ыг -ийг -г",
+      summary: "A definite object takes -ыг / -ийг / -г before the verb.",
+      sections: [
+        {
+          p: "When the object is a particular thing you already have in mind, Mongolian marks it with the accusative. After a consonant use <b>-ыг</b> (back vowels) or <b>-ийг</b> (front vowels): ном → <b>номыг</b>, хүн → <b>хүнийг</b>. After a long vowel or diphthong use <b>-г</b>: кино → <b>киног</b>, цай → <b>цайг</b>. Indefinite or brand-new objects often stay bare.",
+          examples: [
+            ["Би {номыг} уншиж байна.", "Bi nomyg unshij baina.", "I'm reading the book."],
+            ["Би тэр {киног} үзсэн.", "Bi ter kinog üzsen.", "I saw that film."],
+            ["Тэр {усыг} уусан.", "Ter usyg uusan.", "He drank the water."],
+            ["Би {хүнийг} харсан.", "Bi khüniig kharsan.", "I saw the person."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Би ном＿ уншиж байна.", en: "I'm reading the book.", options: ["ыг", "ийг", "г", "д"], answer: "ыг", why: "ном ends in a consonant with back vowels: -ыг." },
+        { q: "Би тэр кино＿ үзсэн.", en: "I saw that film.", options: ["г", "ыг", "ийг", "аас"], answer: "г", why: "кино ends in a long vowel: -г." },
+        { q: "Тэр ус＿ уусан.", en: "He drank the water.", options: ["ыг", "ийг", "г", "тай"], answer: "ыг", why: "ус is a back-vowel word ending in a consonant: -ыг." },
+        { q: "Би хүн＿ харсан.", en: "I saw the person.", options: ["ийг", "ыг", "г", "ээс"], answer: "ийг", why: "хүн has a front vowel: -ийг." },
+        { q: "Би цай＿ уусан.", en: "I drank the tea.", options: ["г", "ыг", "ийг", "аар"], answer: "г", why: "цай ends in a long vowel sound: -г." },
+      ],
+    },
+    {
+      id: "instrumental",
+      title: "By, with, in a language: -аар",
+      particle: "-аар -ээр -оор -өөр",
+      summary: "-аар / -ээр / -оор / -өөр: by means of, and “in” a language.",
+      sections: [
+        {
+          p: "The instrumental ending means “by, with, by means of”, and with a language name it means “in that language”. Harmony picks the vowel: <b>-аар</b> (a, u), <b>-оор</b> (o), <b>-ээр</b> (e, ü, i), <b>-өөр</b> (ö). So <b>монголоор</b> “in Mongolian”, <b>автобусаар</b> “by bus”, <b>гараар</b> “by hand”.",
+          examples: [
+            ["Тэр {монголоор} ярьдаг.", "Ter mongoloor yaridag.", "She speaks Mongolian."],
+            ["Би {автобусаар} явна.", "Bi avtobusaar yavna.", "I'll go by bus."],
+            ["Би {гараар} бичсэн.", "Bi garaar bichsen.", "I wrote it by hand."],
+            ["Тэр англи {хэлээр} ярьдаг.", "Ter angli kheleer yaridag.", "He speaks English."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Тэр монгол＿ ярьдаг.", en: "She speaks Mongolian.", options: ["оор", "аар", "ээр", "өөр"], answer: "оор", why: "монгол has о: instrumental -оор." },
+        { q: "Би автобус＿ явна.", en: "I'll go by bus.", options: ["аар", "оор", "ээр", "тай"], answer: "аар", why: "автобус has а/у: -аар." },
+        { q: "Би гар＿ бичсэн.", en: "I wrote it by hand.", options: ["аар", "ээр", "оор", "ыг"], answer: "аар", why: "гар has а: -аар." },
+        { q: "Тэр англи хэл＿ ярьдаг.", en: "He speaks English.", options: ["ээр", "аар", "оор", "тай"], answer: "ээр", why: "хэл has э: -ээр." },
+        { q: "Би энэ захиаг үзэг＿ бичнэ.", en: "I'll write this letter with a pen.", options: ["ээр", "аар", "оор", "ийг"], answer: "ээр", why: "үзэг has front ү/э: -ээр." },
+      ],
+    },
+    {
+      id: "comitative",
+      title: "With, having: -тай",
+      particle: "-тай -тэй -той",
+      summary: "-тай / -тэй / -той means “with” or “having”.",
+      sections: [
+        {
+          p: "<b>-тай / -тэй / -той</b> means “with” a person or thing, and also “having”: <b>найзтай</b> with a friend, <b>сүүтэй цай</b> tea with milk, <b>мөнгөтэй</b> having money. Harmony: <b>-тай</b> (a, u), <b>-той</b> (o), <b>-тэй</b> (e, ö, ü, i).",
+          examples: [
+            ["Би {найзтай} явна.", "Bi naiztai yavna.", "I'll go with a friend."],
+            ["Би {сүүтэй} цай ууна.", "Bi süütei tsai uuna.", "I'll drink milk tea."],
+            ["Тэр {ахтай} ирсэн.", "Ter akhtai irsen.", "He came with his older brother."],
+            ["Тэр {мөнгөтэй}.", "Ter möngötei.", "He has money / is well-off."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Би найз＿ явна.", en: "I'll go with a friend.", options: ["тай", "тэй", "той", "аар"], answer: "тай", why: "найз takes -тай." },
+        { q: "Би сүү＿ цай ууна.", en: "I'll drink milk tea (tea with milk).", options: ["тэй", "тай", "той", "ээр"], answer: "тэй", why: "сүү has front ү: -тэй." },
+        { q: "Тэр ах＿ ирсэн.", en: "He came with his older brother.", options: ["тай", "тэй", "той", "ыг"], answer: "тай", why: "ах has а: -тай." },
+        { q: "Энэ сүү＿ цай юу?", en: "Is this milk tea?", options: ["тэй", "тай", "той", "өөр"], answer: "тэй", why: "сүүтэй цай = tea with milk." },
+        { q: "Би багш＿ уулзсан.", en: "I met with the teacher.", options: ["тай", "тэй", "той", "аар"], answer: "тай", why: "багштай = with the teacher." },
+      ],
+    },
+    {
+      id: "want-can",
+      title: "Want and can: -маар, чадна",
+      particle: "-маар чадна",
+      summary: "-маар байна “I'd like to”; -ж чадна “can”; чадахгүй “can't”.",
+      sections: [
+        {
+          p: "To say you'd like to do something, put <b>-маар / -мээр / -моор / -мөөр</b> on the verb stem and add <b>байна</b>: <b>явмаар байна</b> I'd like to go, <b>уумаар байна</b> I'd like a drink. Ability uses the connective <b>-ж</b> plus <b>чадах</b>: <b>явж чадна</b> I can go, <b>ярьж чадна</b> I can speak. The negative is <b>чадахгүй</b>.",
+          examples: [
+            ["Би гэр лүү {явмаар байна}.", "Bi ger lüü yavmaar baina.", "I'd like to go home."],
+            ["Би цай {уумаар байна}.", "Bi tsai uumaar baina.", "I'd like to drink tea."],
+            ["Би монголоор {ярьж чадна}.", "Bi mongoloor yarij chadna.", "I can speak Mongolian."],
+            ["Би маргааш {явж чадахгүй}.", "Bi margaash yavj chadakhgüi.", "I can't go tomorrow."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Би гэр лүү яв＿ байна.", en: "I'd like to go home.", options: ["маар", "сан", "ж", "на"], answer: "маар", why: "-маар байна = would like to." },
+        { q: "Би цай уу＿ байна.", en: "I'd like to drink tea.", options: ["маар", "сан", "даг", "хгүй"], answer: "маар", why: "уух → уумаар байна." },
+        { q: "Би монголоор ярьж ＿.", en: "I can speak Mongolian.", options: ["чадна", "чадахгүй", "байна", "биш"], answer: "чадна", why: "-ж чадна = can." },
+        { q: "Би маргааш явж ＿.", en: "I can't go tomorrow.", options: ["чадахгүй", "чадна", "маар", "байна"], answer: "чадахгүй", why: "чадахгүй = cannot." },
+        { q: "Би ном унши＿ байна.", en: "I'd like to read a book.", options: ["маар", "ж", "сан", "даг"], answer: "маар", why: "унших → уншимаар байна." },
+      ],
+    },
+    {
+      id: "imperatives",
+      title: "Commands: stem and -аарай",
+      particle: "Яв! -аарай",
+      summary: "Bare stem for a blunt command; -аарай / -ээрэй is the polite ask.",
+      sections: [
+        {
+          p: "A plain command is often just the verb stem: <b>Яв!</b> Go!, <b>Ир!</b> Come!, <b>Суу!</b> Sit!, <b>Ид!</b> Eat! To soften it, add <b>-аарай / -ээрэй / -оорой / -өөрэй</b> (harmony again): <b>яваарай</b> please go, <b>ирээрэй</b> please come. Everyday polite phrases use the same ending: <b>Уучлаарай</b> excuse me, <b>Сайхан амраарай</b> have a good rest.",
+          examples: [
+            ["{Яв}!", "Yav!", "Go!"],
+            ["Энд {суу}!", "End suu!", "Sit here!"],
+            ["Маргааш {ирээрэй}.", "Margaash ireerei.", "Please come tomorrow."],
+            ["{Уучлаарай}.", "Uuchlaarai.", "Excuse me / I'm sorry."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿!", en: "Go!", options: ["Яв", "Явна", "Явсан", "Явмаар"], answer: "Яв", why: "Bare stem = blunt command." },
+        { q: "Энд ＿!", en: "Sit here!", options: ["суу", "сууна", "суусан", "суумаар"], answer: "суу", why: "Stem of суух: Суу!" },
+        { q: "Маргааш ир＿.", en: "Please come tomorrow.", options: ["ээрэй", "лээ", "сэн", "нэ"], answer: "ээрэй", why: "Polite ask: -ээрэй (front vowels)." },
+        { q: "＿.", en: "Excuse me / I'm sorry.", options: ["Уучлаарай", "Уучлаа", "Уучлахгүй", "Уучлав"], answer: "Уучлаарай", why: "Fixed polite form with -аарай." },
+        { q: "Хоол ＿!", en: "Eat! (the food)", options: ["ид", "идсэн", "иднэ", "идмээр"], answer: "ид", why: "Stem of идэх: Ид!" },
+      ],
+    },
+    {
+      id: "numbers-noun",
+      title: "Numbers before a noun",
+      particle: "гурван таван",
+      summary: "Many numbers take a short form before a noun: гурван ном.",
+      sections: [
+        {
+          p: "Standing alone you say <b>гурав</b> three, <b>тав</b> five, <b>арав</b> ten. Right before a noun, most numbers switch to a short attributive form ending in <b>-н</b>: <b>гурван ном</b> three books, <b>таван хүн</b> five people, <b>арван төгрөг</b> ten tögrög. <b>Нэг</b> one and <b>хоёр</b> two stay the same before a noun.",
+          examples: [
+            ["Надад {гурван} ном байна.", "Nadad gurvan nom baina.", "I have three books."],
+            ["Энд {таван} хүн байна.", "End tavan khün baina.", "There are five people here."],
+            ["Би {хоёр} цай авна.", "Bi khoyor tsai avna.", "I'll take two teas."],
+            ["Энэ {арван} төгрөг вэ?", "Ene arvan tögrög ve?", "Is this ten tögrög?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Надад гурва＿ ном байна.", en: "I have three books.", options: ["н", "в", "г", "д"], answer: "н", why: "гурав → гурван before a noun." },
+        { q: "Энд тава＿ хүн байна.", en: "There are five people here.", options: ["н", "в", "г", "й"], answer: "н", why: "тав → таван before a noun." },
+        { q: "Би ＿ цай авна.", en: "I'll take two teas.", options: ["хоёр", "хоёрын", "хоёрон", "хоёрн"], answer: "хоёр", why: "хоёр does not take -н before a noun." },
+        { q: "Энэ ара＿ төгрөг вэ?", en: "Is this ten tögrög?", options: ["ван", "в", "ын", "г"], answer: "ван", why: "арав → арван before a noun." },
+        { q: "Надад дөрвө＿ ном байна.", en: "I have four books.", options: ["н", "в", "г", "с"], answer: "н", why: "дөрөв → дөрвөн before a noun." },
       ],
     },
   ],

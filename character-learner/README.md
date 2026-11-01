@@ -23,6 +23,11 @@ tradition shows each tradition's reading on its detail card.
 - Learn / Quiz / Flashcards
 - Click a character for details
 - **Kanji stroke-order animation** (shared KanjiVG data from SquirrelGo — works offline)
+- **Hanzi / hanja:** detail reuses that same KanjiVG table by exact character, so
+  glyphs that also appear in the Jōyō set animate; Simplified-only and many
+  education-hanja forms show “No stroke-order data”. There is no checked writing
+  pad for CJK yet. Investigation and next-step license choice:
+  [`languages/cjk/STROKES.md`](../languages/cjk/STROKES.md).
 - **Stroke order and checked writing pad for every non-kanji script with SquirrelGo data**
   (every script above except kanji, which has its own KanjiVG player).
   Cards with two letters, such as Greek "Α α", animate both and let you pick which one to write.
