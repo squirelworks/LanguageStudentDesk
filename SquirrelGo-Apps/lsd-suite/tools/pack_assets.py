@@ -50,6 +50,7 @@ REQUIRED = [
     "language-learner/index.html",
     "programming-learner/index.html",
     "programming-learner/data/catalog.js",
+    "programming-learner/data/slick.js",
     "programming-learner/data/chisel.js",
     "legalese-learner/index.html",
     "translation-learner/index.html",
