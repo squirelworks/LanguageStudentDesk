@@ -1,7 +1,8 @@
 name: Desk data checks
 
 # Registry generation, JS syntax, and programming pack integrity for the Desk
-# languages/ layer and learner tools. See CURSOR-HANDOFF P0.1.
+# languages/ layer and learner tools, plus an informational languages coverage
+# report. See CURSOR-HANDOFF P0.1 / P0.2.
 
 on:
   push:
@@ -59,3 +60,26 @@ jobs:
             -name '*.js' -print0 | sort -z)
       - name: Programming packs check out
         run: python3 programming-learner/tools/check_packs.py
+      # Informational: print coverage + threshold warnings. Drill validation still
+      # fails this step (answer not in options / duplicate options). Threshold
+      # misses via --min-* only warn; do not fail CI on them yet (P0.2).
+      - name: Languages coverage report (informational)
+        run: |
+          set +e
+          python3 languages/coverage.py \
+            --min-grammar-lessons 6 --min-grammar-drills 30 \
+            --min-vocab-decks 9 --min-vocab-words 110 \
+            --min-reference 10
+          status=$?
+          set -e
+          # 0 = clean; 1 = drill validation failures (fail the job);
+          # threshold warnings alone still exit 0.
+          if [ "$status" -eq 1 ]; then
+            echo "coverage.py reported drill validation failures"
+            exit 1
+          fi
+          if [ "$status" -ne 0 ]; then
+            echo "coverage.py failed unexpectedly with status $status"
+            exit "$status"
+          fi
+          echo "Coverage report finished (threshold warnings are informational)."
