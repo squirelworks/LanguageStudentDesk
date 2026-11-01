@@ -30,6 +30,26 @@ window.LSD_RESOURCES = {
     { title: "Oxford Hindi-English Dictionary (McGregor)", url: "https://dsal.uchicago.edu/dictionaries/mcgregor/", meta: "Searchable online at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Devanagari"], stars: 5 },
     { title: "Platts' Dictionary of Urdu, Classical Hindi and English", url: "https://dsal.uchicago.edu/dictionaries/platts/", meta: "Classic dictionary in Devanagari, Urdu and roman script · Free", tags: ["dictionary", "Urdu"], stars: 4 },
   ],
+  georgian: [
+    { title: "Wikibooks: Georgian", url: "https://en.wikibooks.org/wiki/Georgian", meta: "Community-written introduction to Mkhedruli script and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "translate.ge", url: "https://translate.ge/", meta: "Georgian–English and English–Georgian online dictionary · Free", tags: ["dictionary", "Georgian"], stars: 5 },
+    { title: "SEELRC Georgian Reference Grammar (Aronson)", url: "https://slaviccenters.duke.edu/projects/grammars", meta: "Howard Aronson's Georgian reference grammar in Duke/SEELRC Reference Grammar Network · Free", tags: ["grammar", "university"], stars: 5 },
+  ],
+  armenian: [
+    { title: "Wikibooks: Armenian", url: "https://en.wikibooks.org/wiki/Armenian", meta: "Community-written introduction to the Armenian alphabet and basics · Free", tags: ["beginner", "script"], stars: 4 },
+    { title: "Armenian Grammar (Balayan)", url: "https://slaviccenters.duke.edu/sites/slaviccenters.duke.edu/files/documents/Armenian_Balayan_0.pdf", meta: "Dialogue-based handbook of Armenian grammar for beginning and intermediate students (Duke/SEELRC) · Free", tags: ["grammar", "textbook"], stars: 5 },
+    { title: "Lexilogos Armenian", url: "https://www.lexilogos.com/english/armenian_dictionary.htm", meta: "Hub of free Eastern and Western Armenian dictionaries and keyboards · Free", tags: ["dictionary", "Armenian"], stars: 5 },
+  ],
+  greek: [
+    { title: "Center for the Greek Language", url: "https://www.greek-language.gr/", meta: "Portal for Modern Greek: dictionaries, grammars, corpora and learning materials · Free", tags: ["dictionary", "grammar", "government"], stars: 5 },
+    { title: "Dictionary of Standard Modern Greek (Triantafyllidis)", url: "https://www.greek-language.gr/greekLang/modern_greek/tools/lexica/triantafyllides/index.html", meta: "Searchable Modern Greek dictionary from the Institute of Modern Greek Studies · Free", tags: ["dictionary", "Modern Greek"], stars: 5 },
+    { title: "FSI Greek Basic Course", url: "https://www.fsi-language-courses.org/fsi-greek-basic-course/", meta: "Public-domain Foreign Service Institute Greek course with texts and audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+  ],
+  hebrew: [
+    { title: "Pealim", url: "https://www.pealim.com/", meta: "Hebrew verb conjugation tables with binyanim, roots and searchable dictionary · Free", tags: ["verbs", "grammar", "dictionary"], stars: 5 },
+    { title: "FSI Hebrew Basic Course", url: "https://www.fsi-language-courses.org/fsi-hebrew-basic-course/", meta: "Public-domain Foreign Service Institute Hebrew course with texts and audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "Sefaria", url: "https://www.sefaria.org/", meta: "Living library of Jewish texts with Hebrew–English facing pages · Free", tags: ["texts", "reading"], stars: 5 },
+  ],
   thai: [
     { title: "Thai Notes", url: "https://thai-notes.com/", meta: "Reading course, tone practice, FSI-based lessons and searchable dictionaries · Free", tags: ["beginner", "script", "dictionary"], stars: 5 },
     { title: "Thai Language Online (UH Mānoa)", url: "https://thailanguage-online.com/", meta: "University of Hawaiʻi open Thai audio-visual resources and reading materials · Free", tags: ["university", "audio", "script"], stars: 5 },
