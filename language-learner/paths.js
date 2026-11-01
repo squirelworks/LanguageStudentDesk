@@ -229,6 +229,102 @@
         ],
       },
     ],
+    german: [
+      {
+        title: "First words",
+        steps: [
+          { id: "greetings", title: "Hallo and danke", text: "Greetings and the phrases you use every day.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 8 } },
+          { id: "sounds", title: "How German sounds", text: "Umlauts, ß, and the two kinds of ch.", tools: tools(T.reference) },
+          { id: "numbers", title: "Numbers", text: "null to tausend, and why twenty-one is “one-and-twenty”.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
+        ],
+      },
+      {
+        title: "First sentences",
+        steps: [
+          { id: "gr-basics", title: "“To be” and the present", text: "sein, and the endings -e, -st, -t on a verb like machen.", tools: tools(T.grammar), check: { grammar: ["sein", "present"] } },
+          { id: "verbs", title: "Everyday verbs", text: "haben, machen, gehen, sprechen and the verbs you need to get around.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 12 } },
+        ],
+      },
+      {
+        title: "Nouns and order",
+        steps: [
+          { id: "gr-nouns", title: "der, die, das and verb-second", text: "Gender, ein and eine, and why the verb stays in second place.", tools: tools(T.grammar), check: { grammar: ["articles", "verb-second"] } },
+          { id: "people", title: "People", text: "Family and friends, each with its article.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 12 } },
+        ],
+      },
+      {
+        title: "Building up",
+        steps: [
+          { id: "gr-more", title: "The object, and saying no", text: "den and einen, and the difference between nicht and kein.", tools: tools(T.grammar), check: { grammar: ["accusative", "negation"] } },
+          { id: "food", title: "At the café", text: "Order water, coffee and the bill.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 10 } },
+          { id: "explore", title: "Keep going", text: "A course and a dictionary for the next step.", tools: tools(T.resources, T.reference) },
+        ],
+      },
+    ],
+    french: [
+      {
+        title: "First words",
+        steps: [
+          { id: "greetings", title: "Bonjour and merci", text: "Greetings, and tu versus vous.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 8 } },
+          { id: "sounds", title: "How French sounds", text: "Accents, and why so many final letters are silent.", tools: tools(T.reference) },
+          { id: "numbers", title: "Numbers", text: "zéro to mille.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
+        ],
+      },
+      {
+        title: "First sentences",
+        steps: [
+          { id: "gr-basics", title: "être and avoir", text: "je suis, j'ai, and why age uses avoir.", tools: tools(T.grammar), check: { grammar: ["etre", "avoir"] } },
+          { id: "verbs", title: "Everyday verbs", text: "parler, aller, faire and the verbs you need to get around.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 12 } },
+        ],
+      },
+      {
+        title: "Nouns and verbs",
+        steps: [
+          { id: "gr-nouns", title: "le, la, and -er verbs", text: "Gender, un and une, and the present of parler.", tools: tools(T.grammar), check: { grammar: ["articles", "er-verbs"] } },
+          { id: "people", title: "People", text: "Family and friends, each with its article.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 12 } },
+        ],
+      },
+      {
+        title: "Building up",
+        steps: [
+          { id: "gr-more", title: "ne…pas, questions, agreement", text: "Wrapping the verb in ne…pas, est-ce que, and petite versus petit.", tools: tools(T.grammar), check: { grammar: ["negation", "questions"] } },
+          { id: "food", title: "At the café", text: "Order water, coffee and l'addition.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 10 } },
+          { id: "explore", title: "Keep going", text: "A course and a dictionary for the next step.", tools: tools(T.resources, T.reference) },
+        ],
+      },
+    ],
+    italian: [
+      {
+        title: "First words",
+        steps: [
+          { id: "greetings", title: "Ciao and grazie", text: "Greetings, and tu versus Lei.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 8 } },
+          { id: "sounds", title: "How Italian sounds", text: "c and g, double consonants, and why è is not e.", tools: tools(T.reference) },
+          { id: "numbers", title: "Numbers", text: "zero to mille.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
+        ],
+      },
+      {
+        title: "First sentences",
+        steps: [
+          { id: "gr-basics", title: "essere and avere", text: "sono, sei, è, and ho, hai, ha. Age uses avere.", tools: tools(T.grammar), check: { grammar: ["essere", "avere"] } },
+          { id: "verbs", title: "Everyday verbs", text: "parlare, andare, fare and the verbs you need to get around.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 12 } },
+        ],
+      },
+      {
+        title: "Nouns and verbs",
+        steps: [
+          { id: "gr-nouns", title: "il, la, and -are verbs", text: "The article, including lo studente, and the present of parlare.", tools: tools(T.grammar), check: { grammar: ["articles", "are-verbs"] } },
+          { id: "people", title: "People", text: "Family and friends, each with its article.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 12 } },
+        ],
+      },
+      {
+        title: "Building up",
+        steps: [
+          { id: "gr-more", title: "non, and agreement", text: "non before the verb, and bello versus bella.", tools: tools(T.grammar), check: { grammar: ["negation", "agreement"] } },
+          { id: "food", title: "At the café", text: "Order water, coffee and il conto.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 10 } },
+          { id: "explore", title: "Keep going", text: "A course and a dictionary for the next step.", tools: tools(T.resources, T.reference) },
+        ],
+      },
+    ],
     hindi: alphabetPath("devanagari", "SquirrelGo Alphabets", [
       { id: "gr-basics", title: "“To be”, word order and gender", text: "हूँ, है, हो, हैं; verb-last sentences and questions with क्या; masculine and feminine adjectives.", lessons: ["hona", "word-order", "gender"] },
       { id: "gr-phrases", title: "Postpositions, “of” and the present", text: "में, पर, से, को; का, की, के; and everyday verbs like मैं हिंदी बोलता हूँ.", lessons: ["postpositions", "ka-ki-ke", "present"] },

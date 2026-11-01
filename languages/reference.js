@@ -4928,6 +4928,226 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "french": {
+    "id": "french",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "French at a glance",
+        "body": [
+          "French is a Romance language, descended from Latin, and an official language in France, Belgium, Switzerland, Canada and many countries in Africa. The subject pronoun stays in the sentence: je, tu, il, elle, nous, vous, ils, elles.",
+          "Many final consonants are silent, and an -e on an adjective often marks the feminine in writing even when you cannot hear it."
+        ],
+        "examples": [
+          {
+            "t": "Je {parle} français.",
+            "e": "I speak French."
+          },
+          {
+            "t": "Je {ne} parle {pas} anglais.",
+            "e": "I don't speak English."
+          }
+        ],
+        "tags": [
+          "pronouns",
+          "spelling"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Accents and silent letters",
+        "body": [
+          "é is like the vowel in “say” without the glide. è and ê are more open, like “bed”. ç is an s before a, o, u: français. A final consonant is often silent (parlent sounds like parle), unless the next word begins with a vowel and the consonant is linked across (liaison)."
+        ],
+        "table": {
+          "head": [
+            "Spelling",
+            "Roughly"
+          ],
+          "rows": [
+            [
+              "é",
+              "closed e, as in café"
+            ],
+            [
+              "è, ê",
+              "open e, as in père"
+            ],
+            [
+              "ç",
+              "s, as in français"
+            ],
+            [
+              "ou",
+              "as in vous, “oo”"
+            ],
+            [
+              "u",
+              "like German ü: tu"
+            ],
+            [
+              "r",
+              "at the back of the throat"
+            ],
+            [
+              "final -ent",
+              "silent in ils parlent"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "articles",
+        "topic": "grammar",
+        "title": "le, la, les, un, une",
+        "body": "Nouns are masculine or feminine. le and la become l' before a vowel sound. After ne…pas, “a” or “some” becomes de.",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Plural"
+          ],
+          "rows": [
+            [
+              "the",
+              "le livre",
+              "la table",
+              "les livres"
+            ],
+            [
+              "the, before a vowel",
+              "l'ami",
+              "l'école",
+              "les amis"
+            ],
+            [
+              "a / some",
+              "un livre",
+              "une table",
+              "des livres"
+            ]
+          ]
+        },
+        "examples": [
+          {
+            "t": "Je n'ai pas {de} livre.",
+            "e": "I don't have a book."
+          }
+        ],
+        "tags": [
+          "articles"
+        ]
+      },
+      {
+        "id": "er-verbs",
+        "topic": "verbs",
+        "title": "être, avoir, and -er verbs",
+        "body": "être and avoir are irregular and extremely common. Most other new verbs you meet at the start end in -er and follow parler.",
+        "table": {
+          "head": [
+            "",
+            "parler",
+            "être",
+            "avoir"
+          ],
+          "rows": [
+            [
+              "je",
+              "parle",
+              "suis",
+              "ai (j'ai)"
+            ],
+            [
+              "tu",
+              "parles",
+              "es",
+              "as"
+            ],
+            [
+              "il/elle",
+              "parle",
+              "est",
+              "a"
+            ],
+            [
+              "nous",
+              "parlons",
+              "sommes",
+              "avons"
+            ],
+            [
+              "vous",
+              "parlez",
+              "êtes",
+              "avez"
+            ],
+            [
+              "ils/elles",
+              "parlent",
+              "sont",
+              "ont"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "body": "Seize is sixteen. From seventeen the pattern is dix-sept, dix-huit, dix-neuf, then vingt. In France, 70, 80 and 90 are built on vingt (soixante-dix, quatre-vingts, quatre-vingt-dix). Belgium and Switzerland use septante, huitante or octante, and nonante.",
+        "examples": [
+          {
+            "t": "{vingt}",
+            "e": "twenty"
+          },
+          {
+            "t": "j'ai vingt {ans}",
+            "e": "I am twenty (literally “I have twenty years”)"
+          }
+        ],
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "please-thanks",
+        "topic": "phrases",
+        "title": "Please, thanks, and the bill",
+        "body": "s'il vous plaît is the polite “please”; s'il te plaît is for someone you call tu. merci is “thank you”, de rien or je vous en prie answers it. The café bill is l'addition.",
+        "examples": [
+          {
+            "t": "{Merci} beaucoup.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "L'{addition}, s'il vous plaît.",
+            "e": "The bill, please."
+          }
+        ],
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "tu-vous",
+        "topic": "culture",
+        "title": "tu and vous",
+        "body": "vous is the safe choice with strangers, in shops, and at work. tu is for friends, family, children, and anyone who has invited you to use it. Switching is a small social step; if you are unsure, stay with vous.",
+        "tags": [
+          "politeness"
+        ]
+      }
+    ]
+  },
   "georgian": {
     "id": "georgian",
     "entries": [
@@ -5440,6 +5660,234 @@ window.LSD_REFERENCE = {
           "culture",
           "food",
           "wine"
+        ]
+      }
+    ]
+  },
+  "german": {
+    "id": "german",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "German at a glance",
+        "body": [
+          "German is a West Germanic language, close to English and Dutch, and the official language of Germany, Austria and much of Switzerland. Nouns are capitalized. The verb in a simple statement sits in second place.",
+          "Articles carry the gender: der (masculine), die (feminine), das (neuter). The plural article is die for every gender."
+        ],
+        "examples": [
+          {
+            "t": "Ich {lerne} Deutsch.",
+            "e": "I am learning German."
+          },
+          {
+            "t": "Heute {lerne} ich Deutsch.",
+            "e": "Today I am learning German."
+          }
+        ],
+        "tags": [
+          "word order",
+          "gender"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "Umlauts, ß and ch",
+        "body": [
+          "ä, ö and ü are separate vowels, not decorations. ä is near the vowel in “bed”, ö and ü are rounded (say “ee” with rounded lips for ü). ß is a sharp s, used after a long vowel or diphthong: Fuß, Straße. Switzerland writes ss instead.",
+          "ch after a, o, u and au is the sound in Bach. After e, i, ä, ö, ü and the consonants it is softer, as in ich."
+        ],
+        "table": {
+          "head": [
+            "Spelling",
+            "Roughly"
+          ],
+          "rows": [
+            [
+              "ä",
+              "as in bed"
+            ],
+            [
+              "ö",
+              "like the vowel in French feu"
+            ],
+            [
+              "ü",
+              "like the vowel in French tu"
+            ],
+            [
+              "ß",
+              "ss: Straße “street”"
+            ],
+            [
+              "ch (ich)",
+              "a soft hiss"
+            ],
+            [
+              "ch (Bach)",
+              "as in Scottish loch"
+            ],
+            [
+              "w",
+              "like English v"
+            ],
+            [
+              "v",
+              "often like English f: Vater"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "articles",
+        "topic": "grammar",
+        "title": "der, die, das in the nominative and accusative",
+        "body": "Learn each noun with its article. In the accusative (the direct object) only the masculine changes: der → den, ein → einen. die and das stay as they are.",
+        "table": {
+          "head": [
+            "",
+            "Masculine",
+            "Feminine",
+            "Neuter",
+            "Plural"
+          ],
+          "rows": [
+            [
+              "Subject",
+              "der Mann",
+              "die Frau",
+              "das Kind",
+              "die Kinder"
+            ],
+            [
+              "Object",
+              "den Mann",
+              "die Frau",
+              "das Kind",
+              "die Kinder"
+            ],
+            [
+              "“a”, object",
+              "einen Apfel",
+              "eine Frage",
+              "ein Buch",
+              "—"
+            ]
+          ]
+        },
+        "tags": [
+          "articles",
+          "case"
+        ]
+      },
+      {
+        "id": "present",
+        "topic": "verbs",
+        "title": "The present tense",
+        "body": "One present covers “I learn” and “I am learning”. Regular verbs add -e, -st, -t, -en, -t, -en. sein and haben are irregular and come up constantly.",
+        "table": {
+          "head": [
+            "",
+            "machen",
+            "sein",
+            "haben"
+          ],
+          "rows": [
+            [
+              "ich",
+              "mache",
+              "bin",
+              "habe"
+            ],
+            [
+              "du",
+              "machst",
+              "bist",
+              "hast"
+            ],
+            [
+              "er/sie/es",
+              "macht",
+              "ist",
+              "hat"
+            ],
+            [
+              "wir / Sie",
+              "machen",
+              "sind",
+              "haben"
+            ],
+            [
+              "ihr",
+              "macht",
+              "seid",
+              "habt"
+            ],
+            [
+              "sie",
+              "machen",
+              "sind",
+              "haben"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "body": "From twenty-one upward, German names the units first: einundzwanzig is “one-and-twenty”. The noun after a number stays singular in the sense that the number itself carries the plural: zwei Bücher, with the noun in the plural form.",
+        "examples": [
+          {
+            "t": "{einundzwanzig}",
+            "e": "twenty-one"
+          },
+          {
+            "t": "zwei {Bücher}",
+            "e": "two books"
+          }
+        ],
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "please-thanks",
+        "topic": "phrases",
+        "title": "Please, thanks, and the bill",
+        "body": "bitte covers both “please” and “you're welcome”. danke is “thank you”. In a café, bitte zahlen or die Rechnung, bitte asks for the bill.",
+        "examples": [
+          {
+            "t": "{Danke} schön.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "{Bitte}.",
+            "e": "You're welcome. / Please."
+          },
+          {
+            "t": "Die {Rechnung}, bitte.",
+            "e": "The bill, please."
+          }
+        ],
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "regions",
+        "topic": "culture",
+        "title": "Where German is spoken",
+        "body": "Standard German (Hochdeutsch) is what courses teach. Everyday speech in Bavaria, Austria and Switzerland can sound quite different, and Swiss German is a set of dialects rather than a separate spelling system. Written German is shared, with small differences (ss for ß in Switzerland).",
+        "tags": [
+          "dialects"
         ]
       }
     ]
@@ -8647,6 +9095,218 @@ window.LSD_REFERENCE = {
         ],
         "tags": [
           "negation"
+        ]
+      }
+    ]
+  },
+  "italian": {
+    "id": "italian",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Italian at a glance",
+        "body": [
+          "Italian is a Romance language, the national language of Italy and an official language of Switzerland. The verb ending usually makes the subject pronoun unnecessary: parlo already means “I speak”.",
+          "Almost every word ends in a vowel. A written accent marks stress on a final vowel: città, caffè, è."
+        ],
+        "examples": [
+          {
+            "t": "{Parlo} italiano.",
+            "e": "I speak Italian."
+          },
+          {
+            "t": "{Non} parlo inglese.",
+            "e": "I don't speak English."
+          }
+        ],
+        "tags": [
+          "verbs",
+          "spelling"
+        ]
+      },
+      {
+        "id": "sounds",
+        "topic": "sounds",
+        "title": "How Italian is spelled",
+        "body": "Spelling is close to the sound. c and g are hard before a, o, u (casa, gatto) and soft before e and i (cena “chay-na”, gelato). ch and gh keep them hard (che, ghiaccio). gn is like the ny in “canyon” (gnocchi). Double consonants are held longer: note the difference between note and notte.",
+        "table": {
+          "head": [
+            "Spelling",
+            "Roughly"
+          ],
+          "rows": [
+            [
+              "c, g + a/o/u",
+              "k, g: casa, gatto"
+            ],
+            [
+              "c, g + e/i",
+              "ch, j: cena, gelato"
+            ],
+            [
+              "ch, gh",
+              "k, g before e/i: che"
+            ],
+            [
+              "gn",
+              "ny: gnocchi"
+            ],
+            [
+              "gli",
+              "ly: famiglia"
+            ],
+            [
+              "è",
+              "“is”; e without the accent is “and”"
+            ]
+          ]
+        },
+        "tags": [
+          "pronunciation"
+        ]
+      },
+      {
+        "id": "articles",
+        "topic": "grammar",
+        "title": "il, lo, la, and un, uno, una",
+        "body": "The article agrees with the noun and with the sound that follows. il and un are the ordinary masculine forms. lo and uno are used before s + consonant, z, gn, ps and a few others. gli is the plural of lo.",
+        "table": {
+          "head": [
+            "",
+            "Ordinary masculine",
+            "s + consonant, z…",
+            "Feminine"
+          ],
+          "rows": [
+            [
+              "the",
+              "il libro",
+              "lo studente",
+              "la casa"
+            ],
+            [
+              "the, plural",
+              "i libri",
+              "gli studenti",
+              "le case"
+            ],
+            [
+              "a",
+              "un libro",
+              "uno studente",
+              "una casa"
+            ]
+          ]
+        },
+        "tags": [
+          "articles"
+        ]
+      },
+      {
+        "id": "are-verbs",
+        "topic": "verbs",
+        "title": "essere, avere, and -are verbs",
+        "body": "essere and avere are irregular. Most verbs you learn first end in -are and follow parlare. The h in ho, hai, ha and hanno is silent; it keeps those words distinct from o, ai and a.",
+        "table": {
+          "head": [
+            "",
+            "parlare",
+            "essere",
+            "avere"
+          ],
+          "rows": [
+            [
+              "io",
+              "parlo",
+              "sono",
+              "ho"
+            ],
+            [
+              "tu",
+              "parli",
+              "sei",
+              "hai"
+            ],
+            [
+              "lui/lei",
+              "parla",
+              "è",
+              "ha"
+            ],
+            [
+              "noi",
+              "parliamo",
+              "siamo",
+              "abbiamo"
+            ],
+            [
+              "voi",
+              "parlate",
+              "siete",
+              "avete"
+            ],
+            [
+              "loro",
+              "parlano",
+              "sono",
+              "hanno"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers",
+        "body": "The teens are regular from undici onward except for the spelling of sedici. venti drops the final vowel before uno and otto: ventuno, ventotto. Age uses avere: ho vent'anni.",
+        "examples": [
+          {
+            "t": "{venti}",
+            "e": "twenty"
+          },
+          {
+            "t": "ho venti {anni}",
+            "e": "I am twenty"
+          }
+        ],
+        "tags": [
+          "numbers"
+        ]
+      },
+      {
+        "id": "please-thanks",
+        "topic": "phrases",
+        "title": "Please, thanks, and the bill",
+        "body": "grazie is “thank you”, prego answers it and can also mean “please” or “go ahead”. per favore is the ordinary “please”. The restaurant bill is il conto.",
+        "examples": [
+          {
+            "t": "{Grazie} mille.",
+            "e": "Thank you very much."
+          },
+          {
+            "t": "{Prego}.",
+            "e": "You're welcome."
+          },
+          {
+            "t": "Il {conto}, per favore.",
+            "e": "The bill, please."
+          }
+        ],
+        "tags": [
+          "politeness"
+        ]
+      },
+      {
+        "id": "tu-lei",
+        "topic": "culture",
+        "title": "tu and Lei",
+        "body": "tu is for friends, family and people your own age once you know them. Lei (written with a capital) is the polite “you”, with the same verb forms as “she”. In shops and with strangers, Lei is the safer start.",
+        "tags": [
+          "politeness"
         ]
       }
     ]

@@ -162,6 +162,21 @@ window.LSD_RESOURCES = {
     { title: "Dickinson College Commentaries", url: "https://dcc.dickinson.edu", meta: "Annotated classical texts and a core Latin vocabulary list · Free", tags: ["reading", "vocabulary"], stars: 4 },
     { title: "The Latin Library", url: "https://www.thelatinlibrary.com", meta: "Large collection of Latin texts from every period · Free", tags: ["texts"], stars: 4 },
   ],
+  german: [
+    { title: "DW Learn German", url: "https://learngerman.dw.com/en/learn-german/s-9528", meta: "Free video courses from Deutsche Welle, from absolute beginner upward · Free", tags: ["beginner", "video", "courses"], stars: 5 },
+    { title: "FSI German Basic Course", url: "https://www.fsi-language-courses.org/fsi-german-basic-course/", meta: "Public-domain Foreign Service Institute German course with audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "Wikibooks: German", url: "https://en.wikibooks.org/wiki/German", meta: "Community-written grammar, vocabulary and pronunciation · Free", tags: ["grammar", "reference"], stars: 4 },
+  ],
+  french: [
+    { title: "Français interactif", url: "https://www.laits.utexas.edu/fi/", meta: "University of Texas open first-year French course with video and grammar · Free", tags: ["beginner", "video", "university"], stars: 5 },
+    { title: "FSI French Basic Course", url: "https://www.fsi-language-courses.org/fsi-french-basic-course-revised/", meta: "Public-domain Foreign Service Institute French course with audio · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "Wikibooks: French", url: "https://en.wikibooks.org/wiki/French", meta: "Community-written grammar and vocabulary · Free", tags: ["grammar", "reference"], stars: 4 },
+  ],
+  italian: [
+    { title: "FSI Italian Fast Course", url: "https://www.fsi-language-courses.org/fsi-italian-fast-course/", meta: "Public-domain Foreign Service Institute Italian course · Free", tags: ["beginner", "audio", "grammar"], stars: 5 },
+    { title: "One World Italiano — grammatica", url: "https://oneworlditaliano.com/grammatica-italiana/", meta: "Free Italian grammar reference and exercises · Free", tags: ["beginner", "grammar"], stars: 4 },
+    { title: "Wikibooks: Italian", url: "https://en.wikibooks.org/wiki/Italian", meta: "Community-written grammar, pronunciation and vocabulary · Free", tags: ["grammar", "reference"], stars: 4 },
+  ],
   english: [
     { title: "BBC Learning English", url: "https://www.bbc.co.uk/learningenglish", meta: "Courses, grammar, pronunciation and news-based lessons · Free", tags: ["courses", "audio", "video"], stars: 5 },
     { title: "Cambridge Dictionary", url: "https://dictionary.cambridge.org", meta: "Learner's dictionary with UK and US pronunciation and grammar notes · Free", tags: ["dictionary", "pronunciation"], stars: 5 },
