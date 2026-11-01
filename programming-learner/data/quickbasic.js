@@ -69,6 +69,10 @@ PRINT "x"; SPC(3); "y"`,
 PRINT "Tree"`, options: ["UpTree", "Up\nTree", "Up Tree", "Up;Tree"], answer: "UpTree", why: "The semicolon at the end keeps the cursor on the line, so the next PRINT carries on." },
         { kind: "output", q: "What does this print?", code: `PRINT "Nuts:"; -3`, options: ["Nuts:-3", "Nuts: -3", "Nuts: 3", "Nuts:- 3"], answer: "Nuts:-3", why: "The space before a number is where its sign goes, so a negative number fills it with the minus." },
         { q: "What does a comma between PRINT items do?", options: ["Moves to the next 14-character column", "Prints a comma", "Starts a new line", "Joins the items with no space"], answer: "Moves to the next 14-character column", why: "Commas line output up in print zones, which is handy for tables." },
+        { kind: "output", q: "What does this print?", code: `PRINT "A", "B"`, options: ["A             B", "A B", "AB", "A,B"], answer: "A             B", why: "A comma jumps to the next 14-character print zone." },
+        { kind: "output", q: "What does this print?", code: `PRINT "Hi"
+PRINT
+PRINT "Lo"`, options: ["Hi\n\nLo", "Hi\nLo", "Hi Lo", "HiLo"], answer: "Hi\n\nLo", why: "PRINT alone writes a blank line." },
       ],
     },
     {
@@ -130,6 +134,11 @@ b$ = "meg"
 PRINT b$ + a$`, options: ["megnut", "nutmeg", "meg nut", "nut meg"], answer: "megnut", why: "+ joins strings in the order written." },
         { q: "What is in count% if the program never set it?", options: ["0", "Nothing; it is an error", "-1", "A random number"], answer: "0", why: "Number variables start at 0 and strings start empty." },
         { q: "Which type holds the most digits?", options: ["DOUBLE", "SINGLE", "INTEGER", "LONG"], answer: "DOUBLE", why: "DOUBLE is double precision: about 15 digits against SINGLE's 7." },
+        { kind: "output", q: "What does this print?", code: `CONST N = 4
+PRINT "x"; N`, options: ["x 4", "x4", "x N", "4x"], answer: "x 4", why: "CONST N is a number, so PRINT leaves a space for its sign." },
+        { kind: "output", q: "What does this print?", code: `DIM n AS INTEGER
+n = 2.9
+PRINT n`, options: [" 3", " 2.9", " 2", "2.9"], answer: " 3", why: "INTEGER stores whole numbers, so 2.9 rounds to 3." },
       ],
     },
     {
@@ -185,6 +194,11 @@ PRINT score`,
         { kind: "output", q: "What does this print?", code: `PRINT 3 ^ 2`, options: [" 9", " 6", " 5", " 1"], answer: " 9", why: "^ is a power: 3 squared." },
         { kind: "output", q: "What does this print?", code: `PRINT INT(-1.5)`, options: ["-2", "-1", " 2", "-1.5"], answer: "-2", why: "INT always rounds down, and down from −1.5 is −2. FIX would give −1." },
         { kind: "output", q: "What does this print?", code: `PRINT 2 / 8`, options: [" .25", " 0", " 4", " 0.25"], answer: " .25", why: "/ gives a decimal answer, printed without the leading 0." },
+        { kind: "output", q: "What does this print?", code: `PRINT FIX(-1.5)`, options: ["-1", "-2", " 1", "-1.5"], answer: "-1", why: "FIX chops towards zero; INT would give −2." },
+        { kind: "output", q: "What does this print?", code: `s = 5
+s = s * 3
+s = s - 1
+PRINT s`, options: [" 14", " 15", " 4", " 5"], answer: " 14", why: "5 × 3 is 15, then subtract 1." },
       ],
     },
     {
@@ -241,6 +255,8 @@ IF "Zebra" < "apple" THEN PRINT "capitals first"`,
         { kind: "output", q: "What does this print?", code: `PRINT INSTR("walnut", "l")`, options: [" 3", " 2", " 4", " 0"], answer: " 3", why: "w is 1, a is 2, l is 3." },
         { q: "What does \"Score:\" + 5 do?", options: ["Stops with a type mismatch error", "Gives Score:5", "Gives Score: 5", "Gives 5"], answer: "Stops with a type mismatch error", why: "+ cannot join text and a number; convert with STR$ first." },
         { kind: "output", q: "What does this print?", code: `PRINT CHR$(ASC("B") + 1)`, options: ["C", "A", "B1", " 67"], answer: "C", why: "B is code 66; one more is 67, which is C." },
+        { kind: "output", q: "What does this print?", code: `PRINT RIGHT$("pinecone", 4)`, options: ["cone", "pine", "econ", "conecone"], answer: "cone", why: "RIGHT$ takes characters from the end." },
+        { kind: "output", q: "What does this print?", code: `PRINT VAL("3.5kg") + 1`, options: [" 4.5", " 3.5", " 1", " 45"], answer: " 4.5", why: "VAL reads the leading number and stops at k." },
       ],
     },
     {
@@ -301,6 +317,10 @@ END IF`, options: ["medium", "medium\nsmall", "big", "small"], answer: "medium",
         { kind: "output", q: "What does this print?", code: `a = 3
 IF a > 1 AND a < 3 THEN PRINT "in" ELSE PRINT "out"`, options: ["out", "in", "in\nout", "Nothing"], answer: "out", why: "a < 3 is false when a is 3, and AND needs both to be true." },
         { q: "Which runs the PRINT?", options: ["IF 7 THEN PRINT \"yes\"", "IF 0 THEN PRINT \"yes\"", "IF \"\" THEN PRINT \"yes\"", "IF 3 < 2 THEN PRINT \"yes\""], answer: "IF 7 THEN PRINT \"yes\"", why: "Any non-zero number counts as true; IF \"\" is a type mismatch, since IF wants a number." },
+        { kind: "output", q: "What does this print?", code: `n = 0
+IF n = 0 THEN PRINT "zero": PRINT "done"
+IF n > 0 THEN PRINT "pos"`, options: ["zero\ndone", "zero", "done", "zero\ndone\npos"], answer: "zero\ndone", why: "The colon runs both statements on the one-line IF; the second IF is false." },
+        { kind: "output", q: "What does this print?", code: `PRINT NOT 0; NOT -1`, options: ["-1  0", " 0 -1", " 1  0", "-1 -1"], answer: "-1  0", why: "NOT flips bits: NOT 0 is −1 (true) and NOT −1 is 0 (false)." },
       ],
     },
     {
@@ -397,6 +417,13 @@ FOR i = 1 TO 4
     t = t + i
 NEXT i
 PRINT t`, options: [" 10", " 4", " 24", " 5"], answer: " 10", why: "1 + 2 + 3 + 4 = 10." },
+        { kind: "output", q: "What does this print?", code: `FOR i = 3 TO 1 STEP -1
+    PRINT i;
+NEXT i`, options: [" 3  2  1", " 1  2  3", " 3  1", "Nothing"], answer: " 3  2  1", why: "A negative STEP counts down and reaches 1." },
+        { kind: "output", q: "What does this print?", code: `FOR n = 1 TO 10
+    IF n * n > 20 THEN EXIT FOR
+NEXT n
+PRINT n`, options: [" 5", " 4", " 10", " 6"], answer: " 5", why: "4² is 16, still ≤ 20; 5² is 25, so EXIT FOR leaves n at 5." },
       ],
     },
     {
@@ -460,6 +487,16 @@ SELECT CASE n
 END SELECT`, options: ["over ten", "over forty", "over ten\nover forty", "Nothing"], answer: "over ten", why: "Both cases match, but only the first matching case runs." },
         { q: "How do you write a case for 3 or 5 or 7?", options: ["CASE 3, 5, 7", "CASE 3 OR 5 OR 7", "CASE 3 TO 7", "CASE IS 3, 5, 7"], answer: "CASE 3, 5, 7", why: "A comma-separated list matches any of its values. 3 TO 7 would also match 4 and 6." },
         { q: "What runs if no case matches and there is no CASE ELSE?", options: ["Nothing", "The first case", "The last case", "An error"], answer: "Nothing", why: "The program just carries on after END SELECT." },
+        { kind: "output", q: "What does this print?", code: `k$ = "N"
+SELECT CASE k$
+    CASE "N", "n": PRINT "north"
+    CASE "S": PRINT "south"
+END SELECT`, options: ["north", "south", "Nothing", "N"], answer: "north", why: "A comma list matches any listed value; k$ is N." },
+        { kind: "output", q: "What does this print?", code: `n = 2
+SELECT CASE n
+    CASE 1, 2, 3: PRINT "few"
+    CASE 2: PRINT "two"
+END SELECT`, options: ["few", "two", "few\ntwo", "Nothing"], answer: "few", why: "Only the first matching case runs." },
       ],
     },
     {
@@ -550,6 +587,13 @@ READ y
 PRINT x; y
 DATA 7, 8`, options: [" 7  7", " 7  8", " 8  7", " 8  8"], answer: " 7  7", why: "RESTORE goes back to the first DATA value, so y reads 7 again." },
         { q: "What does SWAP a, b do?", options: ["Exchanges the values of a and b", "Copies a into b", "Sorts an array", "Makes a and b the same variable"], answer: "Exchanges the values of a and b", why: "After SWAP, a holds what b held and b holds what a held." },
+        { kind: "output", q: "What does this print?", code: `DIM a(2)
+a(0) = 1
+a(2) = 4
+PRINT a(0) * a(2)`, options: [" 4", " 2", " 5", " 0"], answer: " 4", why: "DIM a(2) makes indexes 0 to 2; 1 × 4 = 4." },
+        { kind: "output", q: "What does this print?", code: `x = 3: y = 9
+SWAP x, y
+PRINT x; y`, options: [" 9  3", " 3  9", " 3  3", " 9  9"], answer: " 9  3", why: "SWAP exchanges the two values." },
       ],
     },
     {
@@ -660,6 +704,20 @@ PRINT x
 SUB Change
     x = 2
 END SUB`, options: [" 1", " 2", " 0", " 3"], answer: " 1", why: "The x inside the SUB is its own local variable; without DIM SHARED the main x is untouched." },
+        { kind: "output", q: "What does this print?", code: `DECLARE FUNCTION Triple (n)
+PRINT Triple(4)
+
+FUNCTION Triple (n)
+    Triple = n * 3
+END FUNCTION`, options: [" 12", " 4", " 7", " 3"], answer: " 12", why: "The FUNCTION assigns Triple = n * 3, so 4 × 3 = 12." },
+        { kind: "output", q: "What does this print?", code: `DECLARE SUB AddOne (x%)
+n% = 4
+AddOne (n%)
+PRINT n%
+
+SUB AddOne (x%)
+    x% = x% + 1
+END SUB`, options: [" 4", " 5", " 0", " 3"], answer: " 4", why: "Brackets pass a copy, so changing x% does not change n%." },
       ],
     },
     {
@@ -719,6 +777,8 @@ PRINT "Got it in"; tries; "tries."`,
         { q: "What does INKEY$ give when no key is pressed?", options: ["An empty string", "It waits for a key", "0", "The last key pressed"], answer: "An empty string", why: "INKEY$ never waits, which makes it useful in game loops." },
         { q: "LOCATE 1, 1 moves the cursor where?", options: ["Top-left corner", "Bottom-right corner", "Row 1 of a new screen", "Centre"], answer: "Top-left corner", why: "Rows and columns both count from 1 at the top left." },
         { q: "In the guessing game, why LOOP UNTIL g = secret at the bottom?", options: ["The player must guess at least once", "DO loops need it", "It is faster", "INPUT only works in that kind of loop"], answer: "The player must guess at least once", why: "A test at the bottom always runs the body once before checking." },
+        { q: "What does COLOR 14, 1 set?", options: ["Yellow text on a blue background", "Blue text on yellow", "White on black", "Red on green"], answer: "Yellow text on a blue background", why: "14 is yellow and 1 is blue in the 16-colour text palette." },
+        { q: "How many columns does the default text screen have?", options: ["80", "40", "25", "64"], answer: "80", why: "The text screen is 25 rows by 80 columns." },
       ],
     },
     {
@@ -769,6 +829,22 @@ END FUNCTION`,
     PRINT w$
 NEXT n`, options: ["Fizz\nBuzz", "FizzBuzz", "Buzz\nFizz", "Fizz"], answer: "Fizz\nBuzz", why: "9 divides by 3 only, and 10 divides by 5 only." },
         { q: "Why build w$ up instead of testing 15 first?", options: ["A multiple of both gets both words added", "MOD 15 is not allowed", "It is the only way in BASIC", "Strings cannot be compared"], answer: "A multiple of both gets both words added", why: "15 passes both tests, so Fizz and then Buzz are added and FizzBuzz comes out." },
+        { kind: "output", q: "What does this print?", code: `FOR n = 14 TO 15
+    w$ = ""
+    IF n MOD 3 = 0 THEN w$ = w$ + "Fizz"
+    IF n MOD 5 = 0 THEN w$ = w$ + "Buzz"
+    IF w$ = "" THEN PRINT n ELSE PRINT w$
+NEXT n`, options: [" 14\nFizzBuzz", "FizzBuzz\n 14", " 14\n 15", "Fizz\nBuzz"], answer: " 14\nFizzBuzz", why: "14 is neither multiple; 15 is both, so Fizz then Buzz are joined." },
+        { kind: "output", q: "What does this print?", code: `DECLARE FUNCTION Say$ (n%)
+PRINT Say$(6); ","; Say$(10)
+
+FUNCTION Say$ (n%)
+    w$ = ""
+    IF n% MOD 3 = 0 THEN w$ = "Fizz"
+    IF n% MOD 5 = 0 THEN w$ = w$ + "Buzz"
+    IF w$ = "" THEN w$ = LTRIM$(STR$(n%))
+    Say$ = w$
+END FUNCTION`, options: ["Fizz,Buzz", "FizzBuzz", "6,10", "Buzz,Fizz"], answer: "Fizz,Buzz", why: "6 is only a multiple of 3; 10 is only a multiple of 5." },
       ],
     },
   ],
