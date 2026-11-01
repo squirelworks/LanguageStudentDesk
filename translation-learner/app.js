@@ -7,11 +7,11 @@
 
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
-  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "klingon"];
+  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
   // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
-  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, bengali: true, tamil: true, georgian: true, klingon: false };
+  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, bengali: true, tamil: true, georgian: true, armenian: true, klingon: false };
 
   // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
   // Greek joins the network via its column and Desk decks; a wordfreq Top 1,000
@@ -26,6 +26,8 @@
   // bank can be added later (wordfreq has Tamil as ta).
   // Georgian joins the network via its column and Desk decks; a wordfreq Top 1,000
   // bank can be added later (wordfreq has Georgian as ka).
+  // Armenian joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Armenian as hy).
   const BANKS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic"];
 
   const progress = LSD.store("lsd-translation-v1", {});
