@@ -60,7 +60,7 @@ Examples:
 - [Resource Learner](resource-learner/) — General study resources plus specialized lists for Japanese, Klingon, Arabic, Korean, Chinese, Hindi, Russian, Latin and English (other languages fall back to general).
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
 - [Translation Learner](translation-learner/) — Sentence translation checked by meaning, not spelling: into English, into the language, sentence breakdowns, a meaning matrix, and top-1,000 word practice for Japanese, Korean, Chinese, Russian, Hindi, Arabic and Klingon.
-- [Programming Learner](programming-learner/) — Fifteen courses with syntax, concepts and practice: Python, QuickBASIC, Delphi, C, Rust, Go, Slick, Win16, Z80, brainFOOD, LOLCODE, INTERCAL, Whitespace, Piet and Malbolge.
+- [Programming Learner](programming-learner/) — Programming language courses with syntax, concepts and practice; the full list is in the learner's menu and its [README](programming-learner/README.md).
 - [Legalese Learner](legalese-learner/) — How contract language works: *shall* and *may*, *herein*, *notwithstanding*, consideration, and the boilerplate at the back. Reading practice, not legal advice.
 - [Language Learner](language-learner/) — A guided path per language: script, first words, grammar, then practice, with progress ticks.
 - [Grammar Learner](grammar-learner/) — Short grammar lessons with explained drills, per language (most Desk languages; Cherokee, Inuktitut and Manipuri have none yet; English is reference-only).
