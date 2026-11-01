@@ -14,7 +14,9 @@
     return a;
   };
 
-  const CATALOG = window.PROGRAMMING_CATALOG;
+  const CATALOG = window.PROGRAMMING_CATALOG.slice().sort((a, b) =>
+    a.name.localeCompare(b.name, "en", { sensitivity: "base" }) || a.id.localeCompare(b.id)
+  );
   const PASS = 0.8;
   const store = LSD.store("lsd-programming-v1", {});
   const progress = store.load();
