@@ -2055,5 +2055,82 @@ window.PHRASEBOOK_PACKS = [
         ]
       }
     ]
+  },
+  {
+    id: "sports",
+    code: "sp",
+    title: "Sports",
+    jaTitle: "スポーツ",
+    desc: "Watching games, joining a club, the gym, ball sports, and martial arts.",
+    categories: [
+      {
+        title: "Watching a game",
+        phrases: [
+          ["I'd like two tickets, please.", "チケットを二枚ください。", "チケット を にまい ください。"],
+          ["Where is my seat?", "私の席はどこですか。", "わたし の せき は どこ です か。"],
+          ["What time does the game start?", "試合は何時に始まりますか。", "しあい は なんじ に はじまります か。"],
+          ["Who is winning?", "どちらが勝っていますか。", "どちら が かって います か。"],
+          ["That was a great play!", "すごいプレーでしたね！", "すごい プレー でした ね！"],
+          ["Is there a scoreboard?", "スコアボードはありますか。", "スコアボード は あります か。"],
+          ["Where can I buy a team jersey?", "ユニフォームはどこで買えますか。", "ユニフォーム は どこ で かえます か。"],
+          ["Let's go! (cheer)", "頑張れ！", "がんばれ！", "Also shouted as 行け (ike) or the team's name."]
+        ]
+      },
+      {
+        title: "Joining in",
+        phrases: [
+          ["Can I join?", "仲間に入れてください。", "なかま に いれて ください。"],
+          ["I'm a beginner.", "初心者です。", "しょしんしゃ です。"],
+          ["Please go easy on me.", "よろしくお願いします。", "よろしく おねがい します。", "Said when joining a practice or match."],
+          ["How do you play this?", "これはどうやってやりますか。", "これ は どう やって やります か。"],
+          ["Whose turn is it?", "誰の番ですか。", "だれ の ばん です か。"],
+          ["Nice shot!", "ナイスショット！", "ナイスショット！"],
+          ["I need a break.", "少し休憩させてください。", "すこし きゅうけい させて ください。"],
+          ["Good game.", "お疲れ様でした。", "おつかれさま でした。", "Said after practice or a match, not only at work."],
+          ["Is there a sports club nearby?", "近くにスポーツクラブはありますか。", "ちかく に スポーツクラブ は あります か。"]
+        ]
+      },
+      {
+        title: "At the gym",
+        phrases: [
+          ["I'd like a trial membership.", "体験入会をお願いします。", "たいけんにゅうかい を おねがい します。"],
+          ["Where are the free weights?", "フリーウェイトはどこですか。", "フリーウェイト は どこ です か。"],
+          ["Is this machine free?", "このマシンは空いていますか。", "この マシン は あいて います か。"],
+          ["How do I use this machine?", "このマシンの使い方を教えてください。", "この マシン の つかいかた を おしえて ください。"],
+          ["I'd like to take a yoga class.", "ヨガのクラスを受けたいです。", "ヨガ の クラス を うけたい です。"],
+          ["Where is the stretching area?", "ストレッチスペースはどこですか。", "ストレッチスペース は どこ です か。"],
+          ["Do you have a towel rental?", "タオルの貸し出しはありますか。", "タオル の かしだし は あります か。"],
+          ["What time does the gym close?", "ジムは何時までですか。", "ジム は なんじ まで です か。"]
+        ]
+      },
+      {
+        title: "Ball sports",
+        phrases: [
+          ["Shall we play soccer?", "サッカーしませんか。", "サッカー しません か。", "Association football; フットボール is less common in Japan."],
+          ["Shall we play baseball?", "野球しませんか。", "やきゅう しません か。"],
+          ["Pass the ball, please.", "パスをお願いします。", "パス を おねがい します。"],
+          ["I play tennis.", "テニスをします。", "テニス を します。"],
+          ["Is the court free?", "コートは空いていますか。", "コート は あいて います か。"],
+          ["I'd like to reserve a court.", "コートを予約したいです。", "コート を よやく したい です。"],
+          ["Do you have a basketball court?", "バスケットコートはありますか。", "バスケットコート は あります か。"],
+          ["Where can I rent a racket?", "ラケットはどこで借りられますか。", "ラケット は どこ で かりられます か。"],
+          ["What's the score?", "スコアは何対何ですか。", "スコア は なんたいなん です か。"]
+        ]
+      },
+      {
+        title: "Martial arts & swimming",
+        phrases: [
+          ["I'd like to try judo.", "柔道を体験したいです。", "じゅうどう を たいけん したい です。"],
+          ["Where is the dojo?", "道場はどこですか。", "どうじょう は どこ です か。"],
+          ["Please teach me the basics.", "基本を教えてください。", "きほん を おしえて ください。"],
+          ["What rank are you?", "何段ですか。", "なんだん です か。", "Dan ranks for black belts; beginners ask 級 (kyū) instead."],
+          ["Is there a kendo club?", "剣道部はありますか。", "けんどうぶ は あります か。"],
+          ["I'd like to swim.", "泳ぎたいです。", "およぎたい です。"],
+          ["Do I need a swim cap?", "スイムキャップは必要ですか。", "スイムキャップ は ひつよう です か。", "Most public pools in Japan require a cap."],
+          ["Which lane is for beginners?", "初心者レーンはどれですか。", "しょしんしゃ レーン は どれ です か。"],
+          ["How deep is the pool?", "プールの深さはどのくらいですか。", "プール の ふかさ は どの くらい です か。"]
+        ]
+      }
+    ]
   }
 ];
