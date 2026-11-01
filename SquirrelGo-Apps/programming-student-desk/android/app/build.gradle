@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.application'
+}
+
+def repoRoot = rootProject.projectDir.parentFile.parentFile.parentFile
+def packScript = new File(repoRoot, "SquirrelGo-Apps/programming-student-desk/tools/pack_assets.py")
+def packedAssets = layout.buildDirectory.dir("generated/deskAssets")
+
+// Mirror the Programming Learner into the asset root before it is merged.
+// The menu and the learner then share the same relative paths as in the git repo.
+def packDeskAssets = tasks.register("packDeskAssets", Exec) {
+    inputs.file(packScript)
+    inputs.dir(new File(repoRoot, "programming-learner"))
+    inputs.file(new File(repoRoot, "languages/learners.css"))
+    inputs.file(new File(repoRoot, "languages/lsd-lang.js"))
+    inputs.file(new File(repoRoot, "SquirrelGo-Apps/programming-student-desk/www/index.html"))
+    outputs.dir(packedAssets)
+    def out = packedAssets.get().asFile
+    commandLine "python3", packScript.absolutePath, "--dest", out.absolutePath
+}
+
+tasks.configureEach { task ->
+    if (task.name == "preBuild" || task.name == "mergeDebugAssets" || task.name == "mergeReleaseAssets") {
+        task.dependsOn(packDeskAssets)
+    }
+}
+
+android {
+    namespace 'com.squirelworks.programmingstudentdesk'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.squirelworks.programmingstudentdesk"
+        minSdk 24
+        targetSdk 36
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    sourceSets {
+        main {
+            assets.srcDir packedAssets
+        }
+    }
+
+    // A fixed debug key, so new builds install over old ones and keep your data.
+    // Release uses the same app-local keystore; there is no separate upload key.
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+}
