@@ -7,13 +7,20 @@
 
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
-  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "georgian", "klingon"];
+  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "georgian", "klingon"];
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
-  // Rows are [word, reading, English, note], or [word, English, note] for Klingon.
-  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, georgian: true, klingon: false };
+  // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
+  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, georgian: true, klingon: false };
 
   // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
+  // Greek joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Greek as el).
+  // Latin has no wordfreq list (like Klingon), so it has no Top 1,000 tab.
+  // Hebrew joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Hebrew as he).
+  // Thai joins the network via its column and Desk decks; a wordfreq Top 1,000
+  // bank can be added later (wordfreq has Thai as th).
   // Georgian joins the network via its column and Desk decks; a wordfreq Top 1,000
   // bank can be added later (wordfreq has Georgian as ka).
   const BANKS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic"];
@@ -468,7 +475,7 @@
           continue;
         }
         const tip = s.tokens.map((t) => T.bare(t.text) + " = " + t.units.map(unitLabel).join(" + ")).concat(s.implied.map((u) => "(" + u.label + ": implied)")).join("\n");
-        const rtl = c.id === "arabic" ? ' dir="rtl"' : "";
+        const rtl = c.id === "arabic" || c.id === "hebrew" ? ' dir="rtl"' : "";
         const face = ["japanese", "chinese", "hangul"].includes(c.id) ? "target" : "target plain";
         html += '<td class="' + face + (c.id === state.lang ? " here" : "") + '" title="' + esc(tip) + '"' + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + "</td>";
       }
