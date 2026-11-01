@@ -43,8 +43,20 @@ android {
         }
     }
 
-    // A fixed debug key, so new builds install over old ones and keep your data.
-    // Release uses the same app-local keystore; there is no separate upload key.
+    // Debug stays on the app-local debug keystore. Release reads the upload
+    // key from the environment or from gitignored local.properties
+    // (UPLOAD_STORE_FILE, UPLOAD_STORE_PASSWORD, UPLOAD_KEY_ALIAS,
+    // UPLOAD_KEY_PASSWORD). Those values are not committed.
+    def localProps = new Properties()
+    def localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        localPropsFile.withInputStream { localProps.load(it) }
+    }
+    def signingProp = { String name ->
+        System.getenv(name) ?: localProps.getProperty(name)
+    }
+    def uploadStore = signingProp("UPLOAD_STORE_FILE")
+
     signingConfigs {
         debug {
             storeFile file("debug.keystore")
@@ -52,12 +64,20 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        release {
+            if (uploadStore) {
+                storeFile file(uploadStore)
+                storePassword signingProp("UPLOAD_STORE_PASSWORD")
+                keyAlias signingProp("UPLOAD_KEY_ALIAS")
+                keyPassword signingProp("UPLOAD_KEY_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
         debug {
             applicationIdSuffix ".debug"

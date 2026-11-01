@@ -10,7 +10,7 @@ This AAB is not published on GitHub. There is no rolling GitHub release, no tag,
 
 Java 17 and Android SDK 36 (platform `android-36`, build-tools `36.0.0`). Android Gradle Plugin 8.9.1, Gradle 8.11.1.
 
-Release is signed with an app-local debug-style keystore at `android/app/debug.keystore` (alias `androiddebugkey`, store and key password `android`). There is no separate upload key. The keystore is gitignored; create it once before the first build:
+Debug builds are signed with an app-local debug-style keystore at `android/app/debug.keystore` (alias `androiddebugkey`, store and key password `android`). That file is gitignored. Release signing does not use it. `bundleRelease` reads `UPLOAD_STORE_FILE`, `UPLOAD_STORE_PASSWORD`, `UPLOAD_KEY_ALIAS`, and `UPLOAD_KEY_PASSWORD` from the environment, or from the same keys in gitignored `android/local.properties`. Do not commit the upload keystore or those passwords.
 
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64   # a JDK 17, wherever it lives
@@ -21,6 +21,8 @@ keytool -genkeypair -keystore app/debug.keystore \
   -storepass android -keypass android -alias androiddebugkey \
   -keyalg RSA -keysize 2048 -validity 10000 \
   -dname "CN=Android Debug, OU=Android, O=Unknown, L=Unknown, ST=Unknown, C=US"
+# Release only: export UPLOAD_STORE_FILE, UPLOAD_STORE_PASSWORD,
+# UPLOAD_KEY_ALIAS, and UPLOAD_KEY_PASSWORD, or put them in local.properties.
 chmod +x gradlew
 ./gradlew bundleRelease
 # output: app/build/outputs/bundle/release/app-release.aab
