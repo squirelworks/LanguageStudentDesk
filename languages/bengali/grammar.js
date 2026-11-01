@@ -1,10 +1,22 @@
 // Bengali first grammar for the Grammar Learner. Written for this project.
 // Examples are [Bengali, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Standard Bengali constructions — original example sentences):
+// - Wiktionary Bengali lemmas and conjugation tables (CC BY-SA): খাওয়া, করা, যাওয়া, দেওয়া,
+//   পারা — present continuous (-চ্ছি/-ছ/-ছেন), simple past (-লাম/-লে/-লেন), future (-ব/-বে/-বেন),
+//   infinitive -তে + পারা, imperatives (খাও/খান, দাও/দিন).
+// - Wikipedia “Bengali grammar” (CC BY-SA): progressive/perfect/past/future overview, imperative
+//   mood by politeness, objective case -কে, postpositions (থেকে).
+// - In-repo languages/bengali/reference.json (present endings, -কে, থেকে, everyday phrases) —
+//   same beginner seam; examples here are original.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (progressive, past, future, -কে,
+// imperatives, পারা). Transliteration matches lessons 1–6 (simplified; o for inherent অ;
+// chh for ছ).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.bengali = {
   title: "Bengali first grammar",
-  intro: "Bengali (Bangla) puts the verb last and has no grammatical gender: the verb changes for the person and for how polite you are, but never for he or she. Present-tense sentences often need no “is”. These lessons cover sentences without “to be” and আছে, verbs and politeness, saying no, questions, “the” with -টা and plurals, and “my” and “in”. The transliteration is simplified: o is the short vowel most consonants carry, and ch, th, kh are breathy sounds.",
+  intro: "Bengali (Bangla) puts the verb last and has no grammatical gender: the verb changes for the person and for how polite you are, but never for he or she. Present-tense sentences often need no “is”. Lessons 1–6 cover sentences without “to be” and আছে, verbs and politeness, saying no, questions, “the” with -টা and plurals, and “my” and “in”. Lessons 7–12 add the progressive with -ছি, the simple past, the future, object -কে, polite requests, and “can” with পারা. The transliteration is simplified: o is the short vowel most consonants carry, and ch, th, kh are breathy sounds.",
   lessons: [
     {
       id: "no-to-be",
@@ -192,6 +204,196 @@ window.GRAMMAR.bengali = {
         { q: "আমি স্কুল＿ যাই।", en: "I go to school.", options: ["ে", "র", "টা", "রা"], answer: "ে", why: "After a consonant, “to, at” is -এ: স্কুলে." },
         { q: "সে অফিস＿ কাজ করে।", en: "She works at an office.", options: ["ে", "তে", "র", "গুলো"], answer: "ে", why: "অফিস ends in a consonant: অফিসে." },
         { q: "＿ নাম কী?", en: "What is your name? (polite)", options: ["আপনার", "তোমার", "আপনি", "তার"], answer: "আপনার", why: "Polite “your” is আপনার." },
+      ],
+    },
+    {
+      id: "progressive",
+      title: "Happening now: -ছি",
+      particle: "-ছি -ছ -ছেন",
+      summary: "Stem + ছ / চ্ছ + the person ending for “-ing”.",
+      sections: [
+        {
+          p: "For an action in progress, add the progressive marker before the person ending: after a vowel stem it is written <b>চ্ছি / চ্ছ / চ্ছেন / চ্ছে</b>, and after a consonant stem <b>ছি / ছ / ছেন / ছে</b>. With খাওয়া: <b>আমি খাচ্ছি</b>, <b>তুমি খাচ্ছ</b>, <b>আপনি খাচ্ছেন</b>, <b>সে খাচ্ছে</b>.",
+          examples: [
+            ["আমি ভাত খা{চ্ছি}।", "Ami bhat khachhi.", "I am eating rice."],
+            ["তুমি কী কর{ছ}?", "Tumi ki korcho?", "What are you doing? (friendly)"],
+            ["আপনি বাংলা শিখ{ছেন}।", "Apni bangla shikhchen.", "You are learning Bengali. (polite)"],
+            ["সে স্কুলে যা{চ্ছে}।", "She skule jachchhe.", "He / she is going to school."],
+          ],
+        },
+        {
+          h: "Not right now",
+          p: "Put <b>না</b> after the progressive verb, as usual: খাচ্ছি না “am not eating”. This form is for “now”; habits still use the simple present from lesson 2.",
+          examples: [
+            ["আমি এখন কাজ কর{ছি} না।", "Ami ekhon kaj korchi na.", "I'm not working right now."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "আমি চা খাচ্＿।", en: "I am drinking tea.", options: ["ছি", "ছ", "ছেন", "ছে"], answer: "ছি", why: "“I” progressive: -ছি → খাচ্ছি." },
+        { q: "তুমি কী কর＿?", en: "What are you doing? (friendly)", options: ["ছ", "ছি", "ছেন", "ছে"], answer: "ছ", why: "তুমি progressive: করছ." },
+        { q: "আপনি কোথায় যাচ্＿?", en: "Where are you going? (polite)", options: ["ছেন", "ছি", "ছ", "ছে"], answer: "ছেন", why: "আপনি progressive: যাচ্ছেন." },
+        { q: "সে গান গাচ্＿।", en: "He / she is singing.", options: ["ছে", "ছি", "ছ", "ছেন"], answer: "ছে", why: "সে progressive: গাচ্ছে." },
+        { q: "Which marks “happening right now”, not a habit?", en: "", options: ["আমি পড়ছি।", "আমি পড়ি।", "আমি পড়ব।", "আমি পড়লাম।"], answer: "আমি পড়ছি।", why: "পড়ছি is progressive; পড়ি is the simple present habit." },
+      ],
+    },
+    {
+      id: "past",
+      title: "The simple past: -লাম",
+      particle: "-লাম -লে -লেন",
+      summary: "Recent completed actions take -লাম / -লে / -লেন / -ল.",
+      sections: [
+        {
+          p: "The simple past is for something that has just happened. Endings: <b>-লাম</b> (আমি), <b>-লে</b> (তুমি), <b>-লেন</b> (আপনি / তিনি), <b>-ল</b> (সে). Many stems change vowel: খাওয়া → খে-, করা stays কর-.",
+          examples: [
+            ["আমি ভাত খে{লাম}।", "Ami bhat khelam.", "I ate rice."],
+            ["তুমি কী কর{লে}?", "Tumi ki korle?", "What did you do? (friendly)"],
+            ["আপনি কোথায় গে{লেন}?", "Apni kothay gelen?", "Where did you go? (polite)"],
+            ["সে চিঠি লিখ{ল}।", "She chithi likhlo.", "He / she wrote a letter."],
+          ],
+        },
+        {
+          h: "যাওয়া is irregular",
+          p: "যাওয়া “to go” uses the past stem <b>গে-</b>: গেলাম, গেলে, গেলেন, গেল — not যা-লাম.",
+          examples: [
+            ["আমি বাজারে {গেলাম}।", "Ami bajare gelam.", "I went to the market."],
+            ["সে বাড়ি {গেল}।", "She bari gelo.", "He / she went home."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "আমি মাছ খে＿।", en: "I ate fish.", options: ["লাম", "লে", "লেন", "ল"], answer: "লাম", why: "“I” simple past: খেলাম." },
+        { q: "তুমি কী কর＿?", en: "What did you do? (friendly)", options: ["লে", "লাম", "লেন", "ল"], answer: "লে", why: "তুমি past: করলে." },
+        { q: "আপনি কোথায় গে＿?", en: "Where did you go? (polite)", options: ["লেন", "লাম", "লে", "ল"], answer: "লেন", why: "আপনি past of যাওয়া: গেলেন." },
+        { q: "সে বাড়ি ＿।", en: "He / she went home.", options: ["গেল", "গেলাম", "যাচ্ছি", "যাব"], answer: "গেল", why: "সে + যাওয়া past: গেল." },
+        { q: "Which is the simple past of “I do”?", en: "করা = to do", options: ["আমি করলাম।", "আমি করছি।", "আমি করি।", "আমি করব।"], answer: "আমি করলাম।", why: "করলাম is simple past; করছি is progressive." },
+      ],
+    },
+    {
+      id: "future",
+      title: "The future: -ব",
+      particle: "-ব -বে -বেন",
+      summary: "Stem + -ব / -বে / -বেন for “will”.",
+      sections: [
+        {
+          p: "The future endings are <b>-ব</b> (আমি / আমরা), <b>-বে</b> (তুমি and সে — same form), and <b>-বেন</b> (আপনি / তিনি). For খাওয়া: <b>খাব</b>, <b>খাবে</b>, <b>খাবেন</b>.",
+          examples: [
+            ["আমি কাল ঢাকায় যা{ব}।", "Ami kal Dhakay jabo.", "I will go to Dhaka tomorrow."],
+            ["তুমি চা খা{বে}?", "Tumi cha khabe?", "Will you have tea? (friendly)"],
+            ["আপনি কী কর{বেন}?", "Apni ki korben?", "What will you do? (polite)"],
+            ["সে সন্ধ্যায় আস{বে}।", "She shondhay ashbe.", "He / she will come in the evening."],
+          ],
+        },
+        {
+          h: "কাল works both ways",
+          p: "<b>কাল</b> means both “yesterday” and “tomorrow”; the tense of the verb tells you which. না still sits after the verb: যাব না “I will not go”.",
+          examples: [
+            ["আমি কাল আস{ব} না।", "Ami kal ashbo na.", "I will not come tomorrow."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "আমি কাল মুম্বাই যা＿।", en: "I will go to Mumbai tomorrow.", options: ["ব", "বে", "বেন", "লাম"], answer: "ব", why: "আমি future: যাব." },
+        { q: "তুমি চিঠি লিখ＿?", en: "Will you write a letter? (friendly)", options: ["বে", "ব", "বেন", "ছ"], answer: "বে", why: "তুমি future: লিখবে." },
+        { q: "আপনি কখন আস＿?", en: "When will you come? (polite)", options: ["বেন", "ব", "বে", "লেন"], answer: "বেন", why: "আপনি future: আসবেন." },
+        { q: "সে রাত্রে ফোন কর＿।", en: "He / she will phone at night.", options: ["বে", "ব", "বেন", "ছে"], answer: "বে", why: "সে future matches তুমি: করবে." },
+        { q: "How do you say “We will eat”?", en: "খাওয়া = to eat", options: ["আমরা খাব।", "আমরা খাচ্ছি।", "আমরা খেলাম।", "আমরা খাই।"], answer: "আমরা খাব।", why: "আমরা takes the same future as আমি: খাব." },
+      ],
+    },
+    {
+      id: "object-ke",
+      title: "Object -কে: me, you, him",
+      particle: "-কে",
+      summary: "People as objects take -কে: আমাকে, তোমাকে, আপনাকে, তাকে.",
+      sections: [
+        {
+          p: "When a person is the object (or the one you give something to), add <b>-কে</b>. The pronouns: <b>আমাকে</b> me, <b>তোমাকে</b> you (friendly), <b>আপনাকে</b> you (polite), <b>তাকে</b> him/her, <b>উনাকে</b> him/her (polite).",
+          examples: [
+            ["উনি {আমাকে} চিনেন।", "Uni amake chinen.", "He / she knows me. (polite)"],
+            ["আমি {তোমাকে} ডাকছি।", "Ami tomake dakchhi.", "I am calling you. (friendly)"],
+            ["দয়া করে {আপনাকে} সাহায্য করব।", "Doya kore apnake shahajjo korbo.", "I will help you. (polite)"],
+            ["সে {তাকে} একটা বই দিল।", "She take ekta boi dil.", "He / she gave him / her a book."],
+          ],
+        },
+        {
+          h: "Things usually stay bare",
+          p: "Inanimate objects often need no -কে: আমি বইটা পড়ি “I read the book”. People almost always take it. The ending is also written <b>-রে</b> in some Bangladesh speech; these lessons use -কে.",
+          examples: [
+            ["আমি চিঠি{টা} পড়লাম।", "Ami chithita porlam.", "I read the letter. (no -কে on the thing)"],
+            ["রাম{কে} ডাকো।", "Ramke dako.", "Call Ram. (friendly)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "উনি ＿ চেনেন।", en: "He / she knows me. (polite subject)", options: ["আমাকে", "আমি", "আমার", "আমায়"], answer: "আমাকে", why: "Object “me” is আমাকে." },
+        { q: "আমি ＿ ফোন করব।", en: "I will phone you. (friendly)", options: ["তোমাকে", "তুমি", "তোমার", "আপনাকে"], answer: "তোমাকে", why: "Friendly object “you” is তোমাকে." },
+        { q: "দয়া করে ＿ সাহায্য করুন।", en: "Please help him / her.", options: ["তাকে", "সে", "তার", "তিনি"], answer: "তাকে", why: "Object “him / her” is তাকে." },
+        { q: "Which needs -কে?", en: "", options: ["আমি রামকে দেখলাম।", "আমি বইটা দেখলাম।", "আমি চা খাই।", "এটা আমার বাড়ি।"], answer: "আমি রামকে দেখলাম।", why: "People as objects take -কে; things often do not." },
+        { q: "＿ একটা কলম দিন।", en: "Give me a pen, please. (polite)", options: ["আমাকে", "আমি", "আমার", "আপনি"], answer: "আমাকে", why: "“Give me …” puts আমাকে before the thing." },
+      ],
+    },
+    {
+      id: "imperative",
+      title: "Requests: করো and করুন",
+      particle: "করো করুন",
+      summary: "Commands change with politeness: তুমি করো, আপনি করুন.",
+      sections: [
+        {
+          p: "To tell someone to do something, use the imperative. Friendly <b>তুমি</b> often looks like the present stem with -ো: <b>করো</b>, <b>বলো</b>, <b>খাও</b>. Polite <b>আপনি</b> takes <b>-ুন</b> or a short polite form: <b>করুন</b>, <b>বলুন</b>, <b>খান</b>, <b>দিন</b> (from দেওয়া).",
+          examples: [
+            ["এখানে বস{ো}।", "Ekhane bosho.", "Sit here. (friendly)"],
+            ["দয়া করে আস্তে বল{ুন}।", "Doya kore aste bolun.", "Please speak slowly. (polite)"],
+            ["এটা খা{ও}।", "Eta khao.", "Eat this. (friendly)"],
+            ["একটা কলম {দিন}।", "Ekta kolom din.", "Give me a pen, please. (polite)"],
+          ],
+        },
+        {
+          h: "Please, and don't",
+          p: "Polite requests often start with <b>দয়া করে</b> “kindly / please”. To say “don't”, put <b>না</b> after the imperative: করো না, করবেন না (a soft future-style “please don't”).",
+          examples: [
+            ["{দয়া করে} বসুন।", "Doya kore boshun.", "Please sit. (polite)"],
+            ["ওখানে যেও {না}।", "Okhane jeo na.", "Don't go there. (friendly)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "দয়া করে আস্তে বল＿।", en: "Please speak slowly. (polite)", options: ["ুন", "ো", "ি", "েন"], answer: "ুন", why: "Polite imperative of বলা: বলুন." },
+        { q: "এখানে বস＿।", en: "Sit here. (friendly)", options: ["ো", "ুন", "ি", "েন"], answer: "ো", why: "Friendly imperative: বসো." },
+        { q: "একটা চা ＿।", en: "Give (me) a tea, please. (polite)", options: ["দিন", "দাও", "দিই", "দিল"], answer: "দিন", why: "Polite imperative of দেওয়া: দিন." },
+        { q: "Which is the polite “eat”?", en: "খাওয়া", options: ["খান", "খাও", "খাই", "খাচ্ছে"], answer: "খান", why: "আপনি imperative of খাওয়া is খান." },
+        { q: "How do you say “Please sit” (polite)?", en: "", options: ["দয়া করে বসুন।", "দয়া করে বসো।", "আমি বসি।", "তুমি বসছ।"], answer: "দয়া করে বসুন।", why: "দয়া করে + polite imperative বসুন." },
+      ],
+    },
+    {
+      id: "para",
+      title: "পারা — can",
+      particle: "পারা",
+      summary: "Infinitive -তে + conjugated পারা for ability.",
+      sections: [
+        {
+          p: "To say you can do something, put the main verb in the infinitive with <b>-তে</b>, then conjugate <b>পারা</b>: <b>পারি</b> (আমি), <b>পারো</b> (তুমি), <b>পারেন</b> (আপনি), <b>পারে</b> (সে).",
+          examples: [
+            ["আমি বাংলা বল{তে পারি}।", "Ami bangla bolte pari.", "I can speak Bengali."],
+            ["তুমি সাঁতার কাট{তে পারো}?", "Tumi shatar katte paro?", "Can you swim? (friendly)"],
+            ["আপনি আস{তে পারেন}?", "Apni ashte paren?", "Can you come? (polite)"],
+            ["সে গাড়ি চালাতে {পারে}।", "She gari chalate pare.", "He / she can drive a car."],
+          ],
+        },
+        {
+          h: "Cannot",
+          p: "Put <b>না</b> after পারা: পারি না “cannot”. The infinitive stays before it.",
+          examples: [
+            ["আমি আজ আসতে {পারি না}।", "Ami aj ashte pari na.", "I can't come today."],
+            ["আমরা এটা করতে {পারি না}।", "Amra eta korte pari na.", "We can't do this."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "আমি বাংলা বলতে পা＿।", en: "I can speak Bengali.", options: ["রি", "রো", "রেন", "রে"], answer: "রি", why: "আমি + পারা: পারি." },
+        { q: "তুমি সাঁতার কাটতে পা＿?", en: "Can you swim? (friendly)", options: ["রো", "রি", "রেন", "রে"], answer: "রো", why: "তুমি + পারা: পারো." },
+        { q: "আপনি আসতে পা＿?", en: "Can you come? (polite)", options: ["রেন", "রি", "রো", "রে"], answer: "রেন", why: "আপনি + পারা: পারেন." },
+        { q: "How do you say “I can't help”?", en: "সাহায্য করা = to help", options: ["আমি সাহায্য করতে পারি না।", "আমি না সাহায্য পারি করতে।", "আমি সাহায্য পারি না করা।", "আমাকে সাহায্য পারি না।"], answer: "আমি সাহায্য করতে পারি না।", why: "Infinitive করতে + পারি না." },
+        { q: "Where does পারা sit?", en: "", options: ["After the -তে infinitive", "Before the main verb", "Only at the start of the sentence", "Instead of the object"], answer: "After the -তে infinitive", why: "Pattern: verb-তে + পারি / পারো / পারেন / পারে." },
       ],
     },
   ],
