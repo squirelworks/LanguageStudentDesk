@@ -1,10 +1,25 @@
 // Tamazight first grammar for the Grammar Learner. Written for this project.
 // Standard Moroccan Tamazight in Tifinagh. Examples are [Tifinagh, Latin transcription, English];
 // {braces} mark the point of the lesson. Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Standard Moroccan / Central Atlas constructions —
+// original example sentences built only from cited lemmas and patterns):
+// - Existing Desk Tamazight grammar.js, vocab.js, reference.json (IRCAM-style Neo-Tifinagh;
+//   Latin: c = sh, x = kh, ɣ = throaty r; emphatics dotted).
+// - Wikipedia “Central Atlas Tamazight grammar” (CC BY-SA): ad + aorist future/irrealis;
+//   ur negation; bare-stem imperative; construct/annexed state after prepositions and numerals.
+// - Wiktionary Central Atlas Tamazight lemmas and Swadesh appendix (CC BY-SA): ⴷⴷⵓ (ddu),
+//   ⵎⴰⵏⵉ (mani), ⵓⵔ (ur), number and quality-verb lemmas.
+// - Ouali (2020), “Verb morphology, tense, and aspect in Tamazight” (McGill Working Papers
+//   in Linguistics 26.1, open PDF): ad + aorist; riɣ ad … “I want to …”; að i-ddu.
+// - Penchoen, Thomas G. (1973), A Grammar of Tamazight (Ayt Ayache / related), via
+//   archive.org OCR: /ad-/ future, /is-/ interrogative, /ur-/ negative; mani, mlmi.
+// Lessons 1–6 unchanged; 7–12 deepen questions, numbers, future, want+ad, imperatives,
+// and quality verbs. Never invent forms for this language — leave out if unsure.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.tamazight = {
   title: "Tamazight first grammar",
-  intro: "Tamazight is the Amazigh (Berber) language of Morocco, written in Tifinagh. Nouns are masculine or feminine, and a feminine noun is usually wrapped in t…t. Plurals change both ends of the word, “my” and “your” follow the noun, and verbs show the person with prefixes and endings. The Latin transcription is the official one: c is sh, x is kh, ɣ is a throaty r, and a dot under a letter marks an emphatic sound.",
+  intro: "Tamazight is the Amazigh (Berber) language of Morocco, written in Tifinagh. Nouns are masculine or feminine, and a feminine noun is usually wrapped in t…t. Plurals change both ends of the word, “my” and “your” follow the noun, and verbs show the person with prefixes and endings. Lessons 1–6 cover pronouns with ⴷ, gender, plurals, possession, place words, and the past with ⵓⵔ. Lessons 7–12 add question words, number gender, the future with ⴰⴷ, “want to” with ⵔⵉⵖ ⴰⴷ, imperatives, and quality verbs. The Latin transcription is the official one: c is sh, x is kh, ɣ is a throaty r, and a dot under a letter marks an emphatic sound.",
   lessons: [
     {
       id: "pronouns",
@@ -149,6 +164,191 @@ window.GRAMMAR.tamazight = {
         { q: "ⵏⵜⵜⴰⵜ ＿ ⵙ ⵕⴱⴰⵟ.", en: "She went to Rabat.", options: ["ⵜⴷⴷⴰ", "ⵉⴷⴷⴰ", "ⴷⴷⵉⵖ", "ⵏⴷⴷⴰ"], answer: "ⵜⴷⴷⴰ", why: "She: the prefix ⵜ-." },
         { q: "ⵓⵔ ＿.", en: "I don't know.", options: ["ⵙⵙⵉⵏⵖ", "ⵙⵙⵏⵖ", "ⵉⵙⵙⵏ", "ⵜⵙⵙⵏ"], answer: "ⵙⵙⵉⵏⵖ", why: "After ⵓⵔ, ⵙⵙⵏⵖ changes to ⵙⵙⵉⵏⵖ." },
         { q: "＿ ⴰⵎⴰⵏ.", en: "I want water.", options: ["ⵔⵉⵖ", "ⵉⵔⴰ", "ⵜⵔⴰ", "ⵏⵔⴰ"], answer: "ⵔⵉⵖ", why: "I: the ending -ⵖ." },
+      ],
+    },
+    {
+      id: "questions",
+      title: "What, where, when, why, how much",
+      particle: "ⵎⴰⵜⵜⴰ ⵎⴰⵏⵉ ⵎⵍⵎⵉ",
+      summary: "Question words come first; the rest of the sentence keeps its usual order.",
+      sections: [
+        {
+          p: "<b>ⵎⴰⵜⵜⴰ</b> (matta) what, <b>ⵎⴰⵏⵉ</b> (mani) where, <b>ⵎⵍⵎⵉ</b> (mlmi) when, <b>ⵎⴰⵅ</b> (max) why, <b>ⵎⵏⵛⴽ</b> (mnck) how much / how many. Put the question word at the front: ⵎⴰⵜⵜⴰ ⵉⵙⵎ ⵏⵏⴽ?",
+          examples: [
+            ["{ⵎⴰⵜⵜⴰ} ⵉⵙⵎ ⵏⵏⴽ?", "Matta ism nnk?", "What is your name? (to a man)"],
+            ["{ⵎⴰⵏⵉ} ⵜⵣⴷⵖ?", "Mani tzdɣ?", "Where does she live?"],
+            ["{ⵎⵍⵎⵉ}?", "Mlmi?", "When?"],
+            ["{ⵎⴰⵅ}?", "Max?", "Why?"],
+          ],
+        },
+        {
+          h: "How much",
+          p: "<b>ⵎⵏⵛⴽ</b> asks for a quantity or a price. A common market question is <b>ⵎⵏⵛⴽ ⴰⴷ ⵉⵙⵡⴰ?</b> (mnck ad iswa?) “how much does it cost?”.",
+          examples: [
+            ["{ⵎⵏⵛⴽ} ⴰⴷ ⵉⵙⵡⴰ?", "Mnck ad iswa?", "How much does it cost?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ ⵉⵙⵎ ⵏⵏⴽ?", en: "What is your name? (to a man)", options: ["ⵎⴰⵜⵜⴰ", "ⵎⴰⵏⵉ", "ⵎⵍⵎⵉ", "ⵎⴰⵅ"], answer: "ⵎⴰⵜⵜⴰ", why: "ⵎⴰⵜⵜⴰ = what." },
+        { q: "＿ ⵜⵣⴷⵖ?", en: "Where does she live?", options: ["ⵎⴰⵏⵉ", "ⵎⴰⵜⵜⴰ", "ⵎⵍⵎⵉ", "ⵎⵏⵛⴽ"], answer: "ⵎⴰⵏⵉ", why: "ⵎⴰⵏⵉ = where." },
+        { q: "＿?", en: "When?", options: ["ⵎⵍⵎⵉ", "ⵎⴰⵏⵉ", "ⵎⴰⵅ", "ⵎⴰⵜⵜⴰ"], answer: "ⵎⵍⵎⵉ", why: "ⵎⵍⵎⵉ = when." },
+        { q: "＿?", en: "Why?", options: ["ⵎⴰⵅ", "ⵎⴰⵏⵉ", "ⵎⵍⵎⵉ", "ⵎⵏⵛⴽ"], answer: "ⵎⴰⵅ", why: "ⵎⴰⵅ = why." },
+        { q: "＿ ⴰⴷ ⵉⵙⵡⴰ?", en: "How much does it cost?", options: ["ⵎⵏⵛⴽ", "ⵎⴰⵜⵜⴰ", "ⵎⴰⵏⵉ", "ⵎⵍⵎⵉ"], answer: "ⵎⵏⵛⴽ", why: "ⵎⵏⵛⴽ = how much / how many." },
+      ],
+    },
+    {
+      id: "numbers",
+      title: "One and two change for gender",
+      particle: "ⵢⴰⵏ ⵢⴰⵜ ⵙⵉⵏ ⵙⵏⴰⵜ",
+      summary: "ⵢⴰⵏ / ⵙⵉⵏ with masculine; ⵢⴰⵜ / ⵙⵏⴰⵜ with feminine. After a number the noun is often annexed.",
+      sections: [
+        {
+          p: "Amazigh numbers one to ten are everyday counting words. <b>ⵢⴰⵏ</b> (yan) is “one” with a masculine noun; <b>ⵢⴰⵜ</b> (yat) with a feminine one. <b>ⵙⵉⵏ</b> (sin) is “two” (m); <b>ⵙⵏⴰⵜ</b> (snat) “two” (f). From three up, one form is usual for both genders: ⴽⵕⴰⴹ, ⴽⴽⵓⵥ, ⵙⵎⵎⵓⵙ…",
+          examples: [
+            ["{ⵢⴰⵏ} ⵓⵔⴳⴰⵣ", "yan urgaz", "one man"],
+            ["{ⵢⴰⵜ} ⵜⵎⵖⴰⵔⵜ", "yat tmɣart", "one woman"],
+            ["{ⵙⵉⵏ} ⵉⵔⴳⴰⵣⵏ", "sin irgazn", "two men"],
+            ["{ⵙⵏⴰⵜ} ⵜⵉⵎⵖⴰⵔⵉⵏ", "snat timɣarin", "two women"],
+          ],
+        },
+        {
+          h: "Annexed after the number",
+          p: "After a number the noun often takes the annexed (construct) state, the same change you saw after ⴳ: ⴰⵔⴳⴰⵣ → <b>ⵓⵔⴳⴰⵣ</b>, ⵜⴰⵎⵖⴰⵔⵜ → <b>ⵜⵎⵖⴰⵔⵜ</b>. Two and above usually take a plural noun: ⵙⵉⵏ ⵉⵔⴳⴰⵣⵏ, ⴽⵕⴰⴹ ⵉⵏⵍⵎⴰⴷⵏ.",
+          examples: [
+            ["ⴽⵕⴰⴹ {ⵉ}ⵏⵍⵎⴰⴷ{ⵏ}", "kraḍ inlmadn", "three students"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ ⵓⵔⴳⴰⵣ", en: "one man", options: ["ⵢⴰⵏ", "ⵢⴰⵜ", "ⵙⵉⵏ", "ⵙⵏⴰⵜ"], answer: "ⵢⴰⵏ", why: "Masculine “one”: ⵢⴰⵏ." },
+        { q: "＿ ⵜⵎⵖⴰⵔⵜ", en: "one woman", options: ["ⵢⴰⵜ", "ⵢⴰⵏ", "ⵙⵉⵏ", "ⵙⵏⴰⵜ"], answer: "ⵢⴰⵜ", why: "Feminine “one”: ⵢⴰⵜ." },
+        { q: "＿ ⵉⵔⴳⴰⵣⵏ", en: "two men", options: ["ⵙⵉⵏ", "ⵙⵏⴰⵜ", "ⵢⴰⵏ", "ⵢⴰⵜ"], answer: "ⵙⵉⵏ", why: "Masculine “two”: ⵙⵉⵏ." },
+        { q: "＿ ⵜⵉⵎⵖⴰⵔⵉⵏ", en: "two women", options: ["ⵙⵏⴰⵜ", "ⵙⵉⵏ", "ⵢⴰⵏ", "ⵢⴰⵜ"], answer: "ⵙⵏⴰⵜ", why: "Feminine “two”: ⵙⵏⴰⵜ." },
+        { q: "Which number goes with a feminine noun for “one”?", en: "", options: ["ⵢⴰⵜ", "ⵢⴰⵏ", "ⵙⵉⵏ", "ⴽⵕⴰⴹ"], answer: "ⵢⴰⵜ", why: "Only ⵢⴰⵜ is the feminine “one”." },
+      ],
+    },
+    {
+      id: "future",
+      title: "ⴰⴷ — will / going to",
+      particle: "ⴰⴷ",
+      summary: "ⴰⴷ plus the aorist stem marks a future or planned action.",
+      sections: [
+        {
+          p: "Put <b>ⴰⴷ</b> (ad) before the verb in its aorist (dictionary) stem, still marked for person: <b>ⴰⴷ ⴷⴷⵓⵖ</b> (ad dduɣ) I will go, <b>ⴰⴷ ⵉⴷⴷⵓ</b> (ad iddu) he will go, <b>ⴰⴷ ⵜⴷⴷⵓ</b> (ad tddu) she will go, <b>ⴰⴷ ⵏⴷⴷⵓ</b> (ad nddu) we will go. This is not the same stem as the past you learned: past “he went” is ⵉⴷⴷⴰ; future “he will go” is ⴰⴷ ⵉⴷⴷⵓ.",
+          examples: [
+            ["ⴰⵙⴽⴽⴰ {ⴰⴷ} {ⴷⴷⵓⵖ} ⵙ ⵎⵔⵔⴰⴽⵛ.", "Askka ad dduɣ s Mrrakc.", "Tomorrow I will go to Marrakech."],
+            ["ⵏⵜⵜⴰ {ⴰⴷ} {ⵉⴷⴷⵓ} ⵙ ⵜⵉⵣⵏⵉⵜ.", "Ntta ad iddu s Tiznit.", "He will go to Tiznit."],
+            ["ⵏⵜⵜⴰⵜ {ⴰⴷ} {ⵜⴷⴷⵓ} ⵙ ⵕⴱⴰⵟ.", "Nttat ad tddu s Rbaṭ.", "She will go to Rabat."],
+          ],
+        },
+        {
+          h: "Price with ⴰⴷ",
+          p: "The market question <b>ⵎⵏⵛⴽ ⴰⴷ ⵉⵙⵡⴰ?</b> uses the same ⴰⴷ: literally “how much will it cost?”.",
+          examples: [
+            ["ⵎⵏⵛⴽ {ⴰⴷ} ⵉⵙⵡⴰ?", "Mnck ad iswa?", "How much does it cost?"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ⴰⵙⴽⴽⴰ ＿ ⴷⴷⵓⵖ ⵙ ⵎⵔⵔⴰⴽⵛ.", en: "Tomorrow I will go to Marrakech.", options: ["ⴰⴷ", "ⵓⵔ", "ⴳ", "ⵙ"], answer: "ⴰⴷ", why: "ⴰⴷ marks the future before the aorist." },
+        { q: "ⵏⵜⵜⴰ ⴰⴷ ＿.", en: "He will go.", options: ["ⵉⴷⴷⵓ", "ⵉⴷⴷⴰ", "ⴷⴷⵉⵖ", "ⵜⴷⴷⴰ"], answer: "ⵉⴷⴷⵓ", why: "Future uses the aorist ⵉⴷⴷⵓ, not past ⵉⴷⴷⴰ." },
+        { q: "ⵏⵜⵜⴰⵜ ⴰⴷ ＿ ⵙ ⵕⴱⴰⵟ.", en: "She will go to Rabat.", options: ["ⵜⴷⴷⵓ", "ⵉⴷⴷⵓ", "ⴷⴷⵉⵖ", "ⵏⴷⴷⵓ"], answer: "ⵜⴷⴷⵓ", why: "She: prefix ⵜ- on the aorist." },
+        { q: "ⵎⵏⵛⴽ ＿ ⵉⵙⵡⴰ?", en: "How much does it cost?", options: ["ⴰⴷ", "ⵓⵔ", "ⴷ", "ⵏ"], answer: "ⴰⴷ", why: "The set phrase uses ⴰⴷ before ⵉⵙⵡⴰ." },
+        { q: "Which is the future “I will go”?", en: "", options: ["ⴰⴷ ⴷⴷⵓⵖ", "ⴷⴷⵉⵖ", "ⵓⵔ ⴷⴷⵉⵖ", "ⵉⴷⴷⴰ"], answer: "ⴰⴷ ⴷⴷⵓⵖ", why: "ⴰⴷ + aorist with -ⵖ." },
+      ],
+    },
+    {
+      id: "want-ad",
+      title: "ⵔⵉⵖ ⴰⴷ — I want to …",
+      particle: "ⵔⵉⵖ ⴰⴷ",
+      summary: "Want a verb: ⵔⵉⵖ plus ⴰⴷ and an aorist.",
+      sections: [
+        {
+          p: "You already know <b>ⵔⵉⵖ</b> (riɣ) “I want” with a noun: ⵔⵉⵖ ⴰⵎⴰⵏ. To want <i>to do</i> something, keep ⵔⵉⵖ and add <b>ⴰⴷ</b> plus the aorist: <b>ⵔⵉⵖ ⴰⴷ ⴷⴷⵓⵖ</b> (riɣ ad dduɣ) I want to go. The same pattern works for other persons on the second verb: ⵔⵉⵖ ⴰⴷ ⵉⴷⴷⵓ “I want him to go”.",
+          examples: [
+            ["{ⵔⵉⵖ} {ⴰⴷ} {ⴷⴷⵓⵖ}.", "Riɣ ad dduɣ.", "I want to go."],
+            ["ⵔⵉⵖ ⴰⴷ {ⵉⴷⴷⵓ}.", "Riɣ ad iddu.", "I want him to go."],
+            ["ⴰⵙⴽⴽⴰ ⵔⵉⵖ ⴰⴷ ⴷⴷⵓⵖ ⵙ ⵜⵉⵏⵎⵍ.", "Askka riɣ ad dduɣ s tinml.", "Tomorrow I want to go to school."],
+          ],
+        },
+        {
+          h: "Don't want",
+          p: "Negate the wanting with <b>ⵓⵔ</b> before ⵔⵉⵖ: <b>ⵓⵔ ⵔⵉⵖ ⴰⴷ ⵉⴷⴷⵓ</b> (ur riɣ ad iddu) I don't want him to go. The ⴰⴷ + aorist part stays.",
+          examples: [
+            ["{ⵓⵔ} ⵔⵉⵖ ⴰⴷ ⵉⴷⴷⵓ.", "Ur riɣ ad iddu.", "I don't want him to go."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ⵔⵉⵖ ＿ ⴷⴷⵓⵖ.", en: "I want to go.", options: ["ⴰⴷ", "ⵓⵔ", "ⴳ", "ⵙ"], answer: "ⴰⴷ", why: "Want + verb needs ⴰⴷ before the aorist." },
+        { q: "ⵔⵉⵖ ⴰⴷ ＿.", en: "I want to go.", options: ["ⴷⴷⵓⵖ", "ⴷⴷⵉⵖ", "ⵉⴷⴷⴰ", "ⵜⴷⴷⴰ"], answer: "ⴷⴷⵓⵖ", why: "Aorist “I go”: ⴷⴷⵓⵖ (past was ⴷⴷⵉⵖ)." },
+        { q: "ⵔⵉⵖ ⴰⴷ ＿.", en: "I want him to go.", options: ["ⵉⴷⴷⵓ", "ⴷⴷⵓⵖ", "ⵉⴷⴷⴰ", "ⵏⴷⴷⵓ"], answer: "ⵉⴷⴷⵓ", why: "He: ⵉⴷⴷⵓ after ⴰⴷ." },
+        { q: "＿ ⵔⵉⵖ ⴰⴷ ⵉⴷⴷⵓ.", en: "I don't want him to go.", options: ["ⵓⵔ", "ⴰⴷ", "ⴷ", "ⵏ"], answer: "ⵓⵔ", why: "ⵓⵔ negates ⵔⵉⵖ." },
+        { q: "How do you say “I want to go”?", en: "", options: ["ⵔⵉⵖ ⴰⴷ ⴷⴷⵓⵖ.", "ⵔⵉⵖ ⴷⴷⵉⵖ.", "ⴰⴷ ⵔⵉⵖ ⵉⴷⴷⴰ.", "ⵓⵔ ⴷⴷⵓⵖ ⵔⵉⵖ."], answer: "ⵔⵉⵖ ⴰⴷ ⴷⴷⵓⵖ.", why: "ⵔⵉⵖ + ⴰⴷ + aorist." },
+      ],
+    },
+    {
+      id: "imperatives",
+      title: "Commands: just the stem",
+      particle: "ⴷⴷⵓ! ⵛⵛ! ⵙⵡ!",
+      summary: "A bare aorist stem speaks to “you”: go!, eat!, drink!.",
+      sections: [
+        {
+          p: "To tell one person to do something, use the aorist stem alone — no ⴰⴷ, no person ending: <b>ⴷⴷⵓ!</b> (ddu!) go!, <b>ⵛⵛ!</b> (cc!) eat!, <b>ⵙⵡ!</b> (sw!) drink!, <b>ⵙⴰⵡⵍ!</b> (sawl!) speak!. Add the object after it when you need one: ⵙⵡ ⴰⵎⴰⵏ!",
+          examples: [
+            ["{ⴷⴷⵓ}!", "Ddu!", "Go!"],
+            ["{ⵛⵛ}!", "Cc!", "Eat!"],
+            ["{ⵙⵡ} ⴰⵎⴰⵏ!", "Sw aman!", "Drink water!"],
+            ["{ⵙⴰⵡⵍ}!", "Sawl!", "Speak!"],
+          ],
+        },
+        {
+          h: "Not a past form",
+          p: "ⴷⴷⵓ! is a command. ⴷⴷⵉⵖ is “I went”, and ⴰⴷ ⴷⴷⵓⵖ is “I will go”. Keep the three apart: stem alone = command; stem with endings = past or future story.",
+          examples: [
+            ["ⴷⴷⵓ ⵙ ⵜⵉⵏⵎⵍ!", "Ddu s tinml!", "Go to school!"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿!", en: "Go!", options: ["ⴷⴷⵓ", "ⴷⴷⵉⵖ", "ⵉⴷⴷⴰ", "ⴰⴷ ⴷⴷⵓⵖ"], answer: "ⴷⴷⵓ", why: "Bare stem = singular command." },
+        { q: "＿!", en: "Eat!", options: ["ⵛⵛ", "ⵛⵛⵉⵖ", "ⵙⵡ", "ⵔⵉⵖ"], answer: "ⵛⵛ", why: "Imperative of ⵛⵛ is the stem itself." },
+        { q: "＿ ⴰⵎⴰⵏ!", en: "Drink water!", options: ["ⵙⵡ", "ⵙⵡⵉⵖ", "ⵛⵛ", "ⴷⴷⵓ"], answer: "ⵙⵡ", why: "Command + object: ⵙⵡ ⴰⵎⴰⵏ." },
+        { q: "＿!", en: "Speak!", options: ["ⵙⴰⵡⵍ", "ⵙⴰⵡⵍⵖ", "ⵓⵔ", "ⴰⴷ"], answer: "ⵙⴰⵡⵍ", why: "Bare stem ⵙⴰⵡⵍ." },
+        { q: "Which is a command, not “I went”?", en: "", options: ["ⴷⴷⵓ!", "ⴷⴷⵉⵖ.", "ⵉⴷⴷⴰ.", "ⵏⴷⴷⴰ."], answer: "ⴷⴷⵓ!", why: "Stem alone is the imperative." },
+      ],
+    },
+    {
+      id: "quality",
+      title: "Quality verbs: big, small, good",
+      particle: "ⵎⵇⵇⵓⵔ ⵎⵥⵥⵉⵢ ⵉⵖⵓⴷⴰ",
+      summary: "Many “adjectives” are verbs: they take the same person markers as other verbs.",
+      sections: [
+        {
+          p: "Words like <b>ⵎⵇⵇⵓⵔ</b> (mqqur) be big and <b>ⵎⵥⵥⵉⵢ</b> (mẓẓiy) be small are verbs. They agree with what they describe: <b>ⵉⵎⵇⵇⵓⵔ</b> (imqqur) he / it (m) is big, <b>ⵜⵎⵇⵇⵓⵔ</b> (tmqqur) she / it (f) is big. The noun often comes first: ⵜⴰⴷⴷⴰⵔⵜ ⵏⵏⵙ ⵜⵎⵇⵇⵓⵔ.",
+          examples: [
+            ["ⵜⴰⴷⴷⴰⵔⵜ ⵏⵏⵙ {ⵜⵎⵇⵇⵓⵔ}.", "Taddart nns tmqqur.", "His house is big."],
+            ["ⴰⴷⵔⴰⵔ {ⵉⵎⵇⵇⵓⵔ}.", "Adrar imqqur.", "The mountain is big."],
+            ["ⵎⵥⵥⵉⵢ", "mẓẓiy", "be small"],
+          ],
+        },
+        {
+          h: "It is good, hot, cold",
+          p: "Some quality verbs are often heard in the “it is …” form: <b>ⵉⵖⵓⴷⴰ</b> (iɣuda) it is good / nice, <b>ⵉⵃⵎⴰ</b> (iḥma) it is hot, <b>ⵉⵙⵎⵎⵉⴹ</b> (ismmiḍ) it is cold, <b>ⵉⴼⵓⵍⴽⵉ</b> (ifulki) it is beautiful.",
+          examples: [
+            ["{ⵉⵖⵓⴷⴰ}.", "Iɣuda.", "It's good / nice."],
+            ["ⴰⵙⵙⴰ {ⵉⵃⵎⴰ}.", "Ass-a iḥma.", "Today it is hot."],
+            ["ⴰⵙⵙⴰ {ⵉⵙⵎⵎⵉⴹ}.", "Ass-a ismmiḍ.", "Today it is cold."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ⵜⴰⴷⴷⴰⵔⵜ ⵏⵏⵙ ＿.", en: "His house is big.", options: ["ⵜⵎⵇⵇⵓⵔ", "ⵉⵎⵇⵇⵓⵔ", "ⵎⵥⵥⵉⵢ", "ⵉⵖⵓⴷⴰ"], answer: "ⵜⵎⵇⵇⵓⵔ", why: "Feminine subject: ⵜ- on the quality verb." },
+        { q: "ⴰⴷⵔⴰⵔ ＿.", en: "The mountain is big.", options: ["ⵉⵎⵇⵇⵓⵔ", "ⵜⵎⵇⵇⵓⵔ", "ⵉⵙⵎⵎⵉⴹ", "ⵉⵖⵓⴷⴰ"], answer: "ⵉⵎⵇⵇⵓⵔ", why: "Masculine subject: ⵉ-." },
+        { q: "＿.", en: "It's good / nice.", options: ["ⵉⵖⵓⴷⴰ", "ⵉⵎⵇⵇⵓⵔ", "ⵜⵎⵇⵇⵓⵔ", "ⵓⵔ"], answer: "ⵉⵖⵓⴷⴰ", why: "ⵉⵖⵓⴷⴰ = it is good." },
+        { q: "ⴰⵙⵙⴰ ＿.", en: "Today it is cold.", options: ["ⵉⵙⵎⵎⵉⴹ", "ⵉⵃⵎⴰ", "ⵉⵖⵓⴷⴰ", "ⵉⵎⵇⵇⵓⵔ"], answer: "ⵉⵙⵎⵎⵉⴹ", why: "ⵉⵙⵎⵎⵉⴹ = it is cold." },
+        { q: "ⴰⵙⵙⴰ ＿.", en: "Today it is hot.", options: ["ⵉⵃⵎⴰ", "ⵉⵙⵎⵎⵉⴹ", "ⵎⵥⵥⵉⵢ", "ⵓⵔ"], answer: "ⵉⵃⵎⴰ", why: "ⵉⵃⵎⴰ = it is hot." },
       ],
     },
   ],

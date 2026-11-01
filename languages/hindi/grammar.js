@@ -1,10 +1,23 @@
 // Hindi first grammar for the Grammar Learner. Written for this project.
 // Examples are [Hindi, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Hindustani constructions — original example sentences):
+// - Wiktionary Hindi lemmas and grammar notes (CC BY-SA): होना past था/थी/थे, progressive
+//   रहा/रही/रहे, perfective participles, ergative ने, future -गा/-गी/-गे, dative मुझे/
+//   चाहिए/पसंद, सकना.
+// - Wikipedia “Hindi grammar”, “Hindustani grammar”, “Hindustani grammar — verbs”
+//   (CC BY-SA) for beginner overview of past copula, progressive, perfective + ने,
+//   future, experiencer subjects, and ability with सकना.
+// - In-repo languages/hindi/reference.json cards (progressive, ne, future,
+//   dative-subject, sakna) — same beginner seam; examples here are original.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (was/were, -ing, past + ने,
+// future, dative चाहिए, सकना). Transliteration matches lessons 1–6 (simplified;
+// long vowels marked with a macron; n after a vowel can mark nasal sound).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.hindi = {
   title: "Hindi first grammar",
-  intro: "Hindi puts the verb at the end, uses postpositions that come after the noun instead of prepositions before it, and gives every noun a gender that the words around it follow. These lessons cover “to be”, word order, gender, the main postpositions, का / की / के for possession, and the everyday present tense. Transliteration is simplified: a long vowel has a line over it, and n after a vowel can mark nasal sound.",
+  intro: "Hindi puts the verb at the end, uses postpositions that come after the noun instead of prepositions before it, and gives every noun a gender that the words around it follow. Lessons 1–6 cover “to be”, word order, gender, the main postpositions, का / की / के for possession, and the everyday present tense. Lessons 7–12 add था / थी / थे, the progressive with रहा, the past with ने, the future, मुझे / चाहिए, and सकना. Transliteration is simplified: a long vowel has a line over it, and n after a vowel can mark nasal sound.",
   lessons: [
     {
       id: "hona",
@@ -189,6 +202,195 @@ window.GRAMMAR.hindi = {
         { q: "मैं (a man) रोज़ दौड़＿ हूँ।", en: "I run every day.", options: ["ता", "ती", "ते"], answer: "ता", why: "One man: -ता, with हूँ for मैं." },
         { q: "हम (a mixed group) खाना बना＿ हैं।", en: "We cook food.", options: ["ते", "ता", "ती"], answer: "ते", why: "Mixed or male groups take -ते." },
         { q: "How do you say “I don't drink coffee” (a woman)?", en: "पीना = to drink", options: ["मैं कॉफ़ी नहीं पीती।", "मैं नहीं कॉफ़ी पीता।", "मैं कॉफ़ी पीती नहीं हूँ नहीं।", "नहीं मैं कॉफ़ी पीते।"], answer: "मैं कॉफ़ी नहीं पीती।", why: "नहीं goes before the verb, -ती for a woman, and है / हूँ can be dropped." },
+      ],
+    },
+    {
+      id: "tha",
+      title: "था, थी, थे — “was / were”",
+      particle: "था / थी / थे",
+      summary: "The past of “to be”, and “used to” with -ता था.",
+      sections: [
+        {
+          p: "Replace हूँ / है / हैं with <b>था</b> (one man or masculine thing), <b>थी</b> (one woman or feminine thing), or <b>थे</b> (men, mixed groups, polite आप). They still sit at the end.",
+          examples: [
+            ["मैं घर पर {था}।", "Main ghar par thā.", "I was at home. (a man)"],
+            ["वह बीमार {थी}।", "Vah bīmār thī.", "She was ill."],
+            ["हम दिल्ली में {थे}।", "Ham dillī men the.", "We were in Delhi."],
+            ["आप कहाँ {थे}?", "Āp kahān the?", "Where were you? (polite)"],
+          ],
+        },
+        {
+          h: "Used to: -ता था",
+          p: "Pair the present -ता / -ती / -ते form with था / थी / थे for a past habit: जाता था “used to go / would go”.",
+          examples: [
+            ["मैं रोज़ चाय पी{ता था}।", "Main roz chāy pītā thā.", "I used to drink tea every day. (a man)"],
+            ["वह स्कूल जा{ती थी}।", "Vah skūl jātī thī.", "She used to go to school."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "कल मैं घर पर ＿ ।", en: "Yesterday I was at home. (a man)", options: ["था", "थी", "थे", "हूँ"], answer: "था", why: "One man in the past: था." },
+        { q: "सीता कल बीमार ＿ ।", en: "Sita was ill yesterday.", options: ["थी", "था", "थे", "है"], answer: "थी", why: "One woman: थी." },
+        { q: "आप कहाँ ＿ ?", en: "Where were you? (polite)", options: ["थे", "था", "थी", "हो"], answer: "थे", why: "Polite आप takes थे, just as it takes हैं in the present." },
+        { q: "मैं (a man) पहले कॉफ़ी पी＿ ।", en: "I used to drink coffee.", options: ["ता था", "ती थी", "ते थे", "ता हूँ"], answer: "ता था", why: "Habit in the past: -ता + था for a man." },
+        { q: "What does वह दिल्ली में रहती थी mean?", en: "", options: ["She used to live in Delhi.", "She lives in Delhi now.", "She will live in Delhi.", "She can live in Delhi."], answer: "She used to live in Delhi.", why: "-ती थी is a feminine past habit." },
+      ],
+    },
+    {
+      id: "progressive",
+      title: "रहा, रही, रहे — happening now",
+      particle: "रहा / रही / रहे",
+      summary: "Stem + रहा / रही / रहे + हूँ / है / हैं for “-ing”.",
+      sections: [
+        {
+          p: "For an action in progress, take the bare stem (drop -ना), add <b>रहा</b> (one man), <b>रही</b> (a woman), or <b>रहे</b> (men, mixed groups, polite आप), then हूँ / है / हो / हैं.",
+          examples: [
+            ["मैं खा {रहा} हूँ।", "Main khā rahā hūn.", "I am eating. (a man)"],
+            ["वह पढ़ {रही} है।", "Vah paṛh rahī hai.", "She is reading / studying."],
+            ["बच्चे खेल {रहे} हैं।", "Bacce khel rahe hain.", "The children are playing."],
+            ["आप क्या कर {रहे} हैं?", "Āp kyā kar rahe hain?", "What are you doing? (polite)"],
+          ],
+        },
+        {
+          h: "Not right now",
+          p: "Put <b>नहीं</b> before रहा: नहीं पढ़ रहा “is not reading”. This form is for “now”; habits still use -ता हूँ from lesson 6.",
+          examples: [
+            ["मैं अभी काम {नहीं} कर रहा।", "Main abhī kām nahīn kar rahā.", "I'm not working right now. (a man)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "मैं (a man) हिंदी सीख ＿ हूँ।", en: "I am learning Hindi.", options: ["रहा", "रही", "रहे", "ता"], answer: "रहा", why: "One man in progress: रहा." },
+        { q: "वह (a woman) खाना बना ＿ है।", en: "She is cooking.", options: ["रही", "रहा", "रहे", "ती"], answer: "रही", why: "A woman subject takes रही." },
+        { q: "आप क्या कर ＿ हैं?", en: "What are you doing? (polite)", options: ["रहे", "रहा", "रही", "ते"], answer: "रहे", why: "Polite आप takes रहे, like -ते हैं." },
+        { q: "How do you say “The children are playing”?", en: "खेलना = to play", options: ["बच्चे खेल रहे हैं।", "बच्चे खेलता हैं।", "बच्चे खेल रहा है।", "बच्चे खेल रही हूँ।"], answer: "बच्चे खेल रहे हैं।", why: "Plural subject: रहे हैं." },
+        { q: "Which marks “happening right now”, not a habit?", en: "", options: ["मैं पढ़ रहा हूँ।", "मैं पढ़ता हूँ।", "मैं पढ़ूँगा।", "मैंने पढ़ा।"], answer: "मैं पढ़ रहा हूँ।", why: "रहा हूँ is progressive; पढ़ता हूँ is habitual." },
+      ],
+    },
+    {
+      id: "ne-past",
+      title: "The past with ने",
+      particle: "ने",
+      summary: "Transitive past: subject + ने, verb matches the object.",
+      sections: [
+        {
+          p: "In the simple past, verbs that take an object mark the doer with <b>ने</b>. The verb then agrees with the <b>object</b>, not the doer: masculine object → -आ, feminine → -ई, masculine plural → -ए.",
+          examples: [
+            ["मैं{ने} किताब पढ़ी।", "Mainne kitāb paṛhī.", "I read the book. (पढ़ी matches किताब, feminine)"],
+            ["राम {ने} खाना खाया।", "Rām ne khānā khāyā.", "Ram ate the food. (खाना is masculine)"],
+            ["उस{ने} चिट्ठियाँ लिखीं।", "Usne ciṭṭhiyān likhīn.", "He / she wrote letters. (feminine plural)"],
+          ],
+        },
+        {
+          h: "No ने when there is no object",
+          p: "Intransitive verbs like जाना (go) and आना (come) do <b>not</b> take ने. The verb agrees with the subject as usual: गया / गई / गए.",
+          examples: [
+            ["वह घर {गई}।", "Vah ghar gaī.", "She went home."],
+            ["मैं बाज़ार {गया}।", "Main bāzār gayā.", "I went to the market. (a man)"],
+            ["वे आ {गए}।", "Ve ā gae.", "They arrived / came."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "राम ＿ पानी पिया।", en: "Ram drank water.", options: ["ने", "को", "से", "का"], answer: "ने", why: "पीना takes an object, so the subject gets ने." },
+        { q: "मैंने किताब पढ़＿ ।", en: "I read the book.", options: ["ी", "ा", "े", "ूँ"], answer: "ी", why: "किताब is feminine, so the participle is पढ़ी." },
+        { q: "मैंने आम खा＿ ।", en: "I ate a mango. (आम is masculine)", options: ["या", "ई", "ए", "ती"], answer: "या", why: "Masculine object: खाया (stem ख् + आया)." },
+        { q: "वह घर ＿ ।", en: "She went home.", options: ["गई", "गया", "गए", "ने गई"], answer: "गई", why: "जाना is intransitive: no ने, and गई for a woman." },
+        { q: "Which sentence needs ने?", en: "", options: ["मैंने चाय पी।", "मैं बाज़ार गया।", "वह आई।", "हम सोए।"], answer: "मैंने चाय पी।", why: "Only the transitive “drank tea” takes ने; go, come and sleep do not." },
+      ],
+    },
+    {
+      id: "future",
+      title: "The future: -गा / -गी / -गे",
+      particle: "-गा / -गी / -गे",
+      summary: "Stem + person ending + -गā / -गī for “will”.",
+      sections: [
+        {
+          p: "The future adds a person piece and then <b>-गा</b> (masculine) or <b>-गी</b> (feminine). Common pattern for जाना: मैं जाऊँगा / जाऊँगी, वह जाएगा / जाएगी, आप / हम / वे जाएँगे / जाएँगी, तुम जाओगे / जाओगी.",
+          examples: [
+            ["मैं कल दिल्ली {जाऊँगा}।", "Main kal dillī jāūngā.", "I will go to Delhi tomorrow. (a man)"],
+            ["वह शाम को आए{गी}।", "Vah shām ko āegī.", "She will come in the evening."],
+            ["हम हिंदी सीखे{गे}।", "Ham hindī sīkhenge.", "We will learn Hindi."],
+            ["आप क्या करे{गे}?", "Āp kyā karenge?", "What will you do? (polite)"],
+          ],
+        },
+        {
+          h: "कल works both ways",
+          p: "<b>कल</b> means both “yesterday” and “tomorrow”; the tense of the verb tells you which. नहीं still sits before the verb: नहीं जाऊँगा “I will not go”.",
+          examples: [
+            ["मैं कल नहीं आ{ऊँगा}।", "Main kal nahīn āūngā.", "I will not come tomorrow. (a man)"],
+          ],
+        },
+      ],
+      drills: [
+        { q: "मैं (a man) कल मुंबई जा＿ ।", en: "I will go to Mumbai tomorrow.", options: ["ऊँगा", "ऊँगी", "एगा", "ता हूँ"], answer: "ऊँगा", why: "मैं + masculine future of जाना: जाऊँगा." },
+        { q: "वह (a woman) पत्र लिख＿ ।", en: "She will write a letter.", options: ["ेगी", "ेगा", "ूँगी", "ती थी"], answer: "ेगी", why: "वह feminine future: लिखेगी." },
+        { q: "आप कब आ＿ ?", en: "When will you come? (polite)", options: ["एँगे", "एगा", "ऊँगा", "ते हैं"], answer: "एँगे", why: "Polite आप takes -एँगे / -एँगी." },
+        { q: "How do you say “We will eat” (mixed group)?", en: "खाना = to eat", options: ["हम खाएँगे।", "हम खाता हैं।", "हम खा रहा।", "हमने खाया।"], answer: "हम खाएँगे।", why: "हम + future: खाएँगे." },
+        { q: "मैं कल नहीं ＿ ।", en: "I will not go tomorrow. (a man)", options: ["जाऊँगा", "गया", "जाता हूँ", "जा रहा हूँ"], answer: "जाऊँगा", why: "Future negative: नहीं + जाऊँगा." },
+      ],
+    },
+    {
+      id: "dative",
+      title: "मुझे, चाहिए — “to me” feelings",
+      particle: "मुझे / चाहिए",
+      summary: "Needs, likes and knowing a language take को on the person.",
+      sections: [
+        {
+          p: "Feelings, needs and likes are said “to me”: the person takes <b>को</b> (मुझे, तुम्हें, आपको, उसे, हमें, उन्हें) and the thing is the grammatical subject. <b>चाहिए</b> means “is needed / want”.",
+          examples: [
+            ["{मुझे} पानी चाहिए।", "Mujhe pānī chāhie.", "I need / want water."],
+            ["{आपको} चाय चाहिए?", "Āpko chāy chāhie?", "Do you want tea?"],
+            ["{उसे} किताब चाहिए।", "Use kitāb chāhie.", "He / she needs a book."],
+          ],
+        },
+        {
+          h: "Likes and knowing",
+          p: "The same “to me” pattern covers liking with <b>पसंद है</b> and knowing a language with <b>आती है</b> (“comes to me”).",
+          examples: [
+            ["{मुझे} चाय पसंद है।", "Mujhe chāy pasand hai.", "I like tea."],
+            ["{मुझे} हिंदी आती है।", "Mujhe hindī ātī hai.", "I know Hindi."],
+            ["{उसे} आम पसंद हैं।", "Use ām pasand hain.", "He / she likes mangoes."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "＿ पानी चाहिए।", en: "I need water.", options: ["मुझे", "मैं", "मेरा", "मुझ"], answer: "मुझे", why: "Need takes the dative: मुझे, not मैं." },
+        { q: "आपको चाय ＿ ?", en: "Do you want tea?", options: ["चाहिए", "चाहता", "है चाहिए मैं", "पसंद"], answer: "चाहिए", why: "“Want / need” with a dative person is चाहिए." },
+        { q: "＿ हिंदी आती है।", en: "I know Hindi.", options: ["मुझे", "मैं", "मेरी", "हम"], answer: "मुझे", why: "Knowing a language: मुझे … आती है." },
+        { q: "How do you say “She likes coffee”?", en: "", options: ["उसे कॉफ़ी पसंद है।", "वह कॉफ़ी पसंद हूँ।", "उसकी कॉफ़ी चाहिए है।", "वह कॉफ़ी आती है।"], answer: "उसे कॉफ़ी पसंद है।", why: "उसे + thing + पसंद है." },
+        { q: "What decides हूँ vs है after पसंद?", en: "", options: ["The thing liked", "The person who likes it", "Always हूँ", "Always हैं"], answer: "The thing liked", why: "The liked thing is the subject: चाय पसंद है, आम पसंद हैं." },
+      ],
+    },
+    {
+      id: "sakna",
+      title: "सकना — can",
+      particle: "सकना",
+      summary: "Bare stem + सकता / सकती / सकते for ability.",
+      sections: [
+        {
+          p: "To say you can do something, put the bare verb stem before <b>सकना</b> and conjugate सकना: सकता (one man), सकती (a woman), सकते (men, mixed, polite आप), then हूँ / है / हैं.",
+          examples: [
+            ["मैं हिंदी बोल {सकता} हूँ।", "Main hindī bol saktā hūn.", "I can speak Hindi. (a man)"],
+            ["वह गाड़ी चला {सकती} है।", "Vah gāṛī chalā saktī hai.", "She can drive a car."],
+            ["क्या आप मेरी मदद कर {सकते} हैं?", "Kyā āp merī madad kar sakte hain?", "Can you help me?"],
+          ],
+        },
+        {
+          h: "Cannot",
+          p: "Put <b>नहीं</b> before सकता: नहीं आ सकता “cannot come”. For a learned skill, सकना and आना (lesson 11) often both work.",
+          examples: [
+            ["मैं आज नहीं आ {सकता}।", "Main āj nahīn ā saktā.", "I can't come today. (a man)"],
+            ["हम यह नहीं कर {सकते}।", "Ham yah nahīn kar sakte.", "We can't do this."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "मैं (a man) तैर ＿ हूँ।", en: "I can swim.", options: ["सकता", "सकती", "सकते", "रहा"], answer: "सकता", why: "One man: सकता हूँ." },
+        { q: "वह (a woman) अंग्रेज़ी बोल ＿ है।", en: "She can speak English.", options: ["सकती", "सकता", "सकते", "रही"], answer: "सकती", why: "A woman subject: सकती." },
+        { q: "क्या आप आ ＿ हैं?", en: "Can you come? (polite)", options: ["सकते", "सकता", "सकती", "रहे"], answer: "सकते", why: "Polite आप: सकते हैं." },
+        { q: "How do you say “I can't help” (a man)?", en: "मदद करना = to help", options: ["मैं मदद नहीं कर सकता।", "मैं नहीं मदद करता सकना।", "मैंने मदद नहीं सकता।", "मुझे मदद नहीं सकता हूँ।"], answer: "मैं मदद नहीं कर सकता।", why: "नहीं before सकता; stem कर + सकता." },
+        { q: "Where does सकना sit?", en: "", options: ["After the bare stem, before हूँ / है", "Before the main verb", "Only at the start of the sentence", "Instead of the object"], answer: "After the bare stem, before हूँ / है", why: "Pattern: stem + सकता / सकती / सकते + होना." },
       ],
     },
   ],
