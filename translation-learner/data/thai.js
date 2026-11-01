@@ -1,0 +1,56 @@
+// Thai column of the meaning matrix (matrix.js). Written for this project.
+// Tokens are [text, romanization, meaning id]. Thai is written without spaces
+// between words (sep: ""), so tokens glue together in the written sentence.
+// The romanization has no tone marks, matching languages/thai. Sources: forms
+// match languages/thai/vocab.js and the Thai grammar pack (ผมเป็นนักเรียน,
+// สวัสดี, ขอบคุณ, ผมไม่เข้าใจ, คุณพูดภาษาอังกฤษไหม, ห้องน้ำอยู่ที่ไหน,
+// อันนี้เท่าไร, เช็คบิล).
+window.TL_LANGS = window.TL_LANGS || {};
+window.TL_LANGS.thai = {
+  sep: "",
+  r: {
+    "i-am-student": { end: ".", t: [["ผม", "phom", "i"], ["เป็น", "pen", "@copula"], ["นักเรียน", "nakrian", "student"]] },
+    "name-anna": { end: ".", t: [["ผม", "phom", "i"], ["ชื่อ", "chue", "name"], ["แอนนา", "Aenna", "anna"]] },
+    "your-name": { end: "?", t: [["คุณ", "khun", "you"], ["ชื่อ", "chue", "name"], ["อะไร", "arai", "what"]] },
+    "hello": { end: ".", t: [["สวัสดี", "sawatdi", "hello"]] },
+    "nice-to-meet-you": { end: ".", t: [["ยินดีที่ได้รู้จัก", "yin di thi dai ru chak", "nice-to-meet-you"]] },
+    "thank-you": { end: ".", t: [["ขอบคุณ", "khop khun", "thanks"]] },
+    "thank-you-very-much": { end: ".", t: [["ขอบคุณ", "khop khun", "thanks"], ["มาก", "mak", "very-much"]] },
+    "success": { end: "!", t: [["โชคดี", "chok di", "success"]] },
+    "dont-understand": { end: ".", t: [["ผม", "phom", "i"], ["ไม่", "mai", "not"], ["เข้าใจ", "khao chai", "understand"]] },
+    "dont-know": { end: ".", t: [["ผม", "phom", "i"], ["ไม่", "mai", "not"], ["รู้", "ru", "know"]] },
+    "speak-english": { end: "?", t: [["คุณ", "khun", "you"], ["พูด", "phut", "speak"], ["ภาษาอังกฤษ", "phasa Angkrit", "english"], ["ไหม", "mai", "@question"]] },
+    "love-you": { end: ".", t: [["ผม", "phom", "i"], ["รัก", "rak", "love"], ["คุณ", "khun", "you"]] },
+    "like-coffee": { end: ".", t: [["ผม", "phom", "i"], ["ชอบ", "chop", "like"], ["กาแฟ", "kafae", "coffee"]] },
+    "like-tea": { end: ".", t: [["ผม", "phom", "i"], ["ชอบ", "chop", "like"], ["ชา", "cha", "tea"]] },
+    "my-friend": { end: ".", t: [["เขา", "khao", "he"], ["เป็น", "pen", "@copula"], ["เพื่อน", "phuean", "friend"], ["ของ", "khong", "@possessive"], ["ผม", "phom", "i"]] },
+    "who-is-he": { end: "?", t: [["เขา", "khao", "he"], ["เป็น", "pen", "@copula"], ["ใคร", "khrai", "who"]] },
+    "where-live": { end: "?", t: [["คุณ", "khun", "you"], ["อยู่", "yu", "live"], ["ที่ไหน", "thi nai", "where"]] },
+
+    "this-is-book": { end: ".", t: [["นี่", "ni", "this"], ["คือ", "khue", "@copula"], ["หนังสือ", "nangsue", "book"]] },
+    "this-is-my-book": { end: ".", t: [["นี่", "ni", "this"], ["คือ", "khue", "@copula"], ["หนังสือ", "nangsue", "book"], ["ของ", "khong", "@possessive"], ["ผม", "phom", "i"]] },
+    "drink-water": { end: ".", t: [["ผม", "phom", "i"], ["ดื่ม", "duem", "drink"], ["น้ำ", "nam", "water"]] },
+    "drink-tea": { end: ".", t: [["ผม", "phom", "i"], ["ดื่ม", "duem", "drink"], ["ชา", "cha", "tea"]] },
+    "want-coffee": { end: ".", t: [["ผม", "phom", "i"], ["อยาก", "yak", "want"], ["กาแฟ", "kafae", "coffee"]] },
+    "read-book": { end: ".", t: [["ผม", "phom", "i"], ["อ่าน", "an", "read"], ["หนังสือ", "nangsue", "book"]] },
+    "eat-rice": { end: ".", t: [["เรา", "rao", "we"], ["กิน", "kin", "eat"], ["ข้าว", "khao", "rice"]] },
+    "hot-today": { end: ".", t: [["วันนี้", "wan ni", "today"], ["ร้อน", "ron", "hot"]] },
+    "cold-today": { end: ".", t: [["วันนี้", "wan ni", "today"], ["หนาว", "nao", "cold"]] },
+    "have-cat": { end: ".", t: [["ผม", "phom", "i"], ["มี", "mi", "have"], ["แมว", "maeo", "cat"]] },
+    "house-big": { end: ".", t: [["บ้าน", "ban", "house"], ["ใหญ่", "yai", "big"]] },
+    "car-new": { end: ".", t: [["รถ", "rot", "car"], ["ใหม่", "mai", "new"]] },
+    "delicious": { end: ".", t: [["อร่อย", "aroi", "delicious"]] },
+    "food-tasty": { end: ".", t: [["อาหาร", "ahan", "food"], ["อร่อย", "aroi", "delicious"], ["มาก", "mak", "very"]] },
+
+    "where-station": { end: "?", t: [["สถานี", "sathani", "station"], ["อยู่", "yu", "@place"], ["ที่ไหน", "thi nai", "where"]] },
+    "where-toilet": { end: "?", t: [["ห้องน้ำ", "hong nam", "toilet"], ["อยู่", "yu", "@place"], ["ที่ไหน", "thi nai", "where"]] },
+    "where-hotel": { end: "?", t: [["โรงแรม", "rong raem", "hotel"], ["อยู่", "yu", "@place"], ["ที่ไหน", "thi nai", "where"]] },
+    "how-much-this": { end: "?", t: [["อันนี้", "an ni", "this"], ["เท่าไร", "thao rai", "how-much"]] },
+    "how-much-is-it": { end: "?", t: [["เท่าไร", "thao rai", "how-much"]] },
+    "bill-please": { end: ".", t: [["เช็คบิล", "chek bin", "bill+please"]] },
+    "go-school": { end: ".", t: [["ผม", "phom", "i"], ["ไป", "pai", "go"], ["โรงเรียน", "rong rian", "school"]] },
+    "going-home": { end: ".", t: [["ผม", "phom", "i"], ["ไป", "pai", "go"], ["บ้าน", "ban", "home"]] },
+    "we-going-home": { end: ".", t: [["เรา", "rao", "we"], ["ไป", "pai", "go"], ["บ้าน", "ban", "home"]] },
+    "where-going": { end: "?", t: [["คุณ", "khun", "you"], ["ไป", "pai", "go"], ["ที่ไหน", "thi nai", "where"]] },
+  },
+};
