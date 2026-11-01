@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f12">
+<title>Language Student Desk</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 1.1rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #0f0f12;
+    color: #e8e8e8;
+  }
+  header h1 { margin: 0; color: #ffd54f; font-size: 1.55rem; letter-spacing: -0.02em; }
+  header p { margin: 0.35rem 0 0; color: #aaa; line-height: 1.4; }
+  .picker {
+    position: sticky; top: 0; z-index: 2;
+    margin: 1rem 0;
+    padding: 0.75rem 0.85rem;
+    background: #16161c;
+    border: 1px solid #2a2a32;
+    border-radius: 12px;
+  }
+  .picker label { display: block; font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
+  select {
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.7rem 0.6rem;
+    font: inherit;
+    font-size: 1rem;
+    color: #e8e8e8;
+    background: #0f0f12;
+    border: 1px solid #3a3a44;
+    border-radius: 8px;
+  }
+  .hint { margin: 0.45rem 0 0; color: #8e8e93; font-size: 0.82rem; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  a.card {
+    display: block;
+    margin: 0.55rem 0;
+    padding: 0.9rem 1rem;
+    background: #1a1a20;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    min-height: 44px;
+  }
+  a.card:active { background: #252530; }
+  a.card strong { display: block; color: #ffd54f; font-size: 1.05rem; }
+  a.card span { display: block; margin-top: 0.25rem; color: #aaa; font-size: 0.9rem; line-height: 1.35; }
+  footer { margin-top: 1.2rem; color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Language Student Desk</h1>
+  <p>Grammar, vocabulary, language, programming, legalese, translation, reference, resource, character, and Klingon. Each one opens inside this app.</p>
+</header>
+<div class="picker">
+  <label for="lang">Open scoped tools in</label>
+  <select id="lang"><option value="">All languages</option></select>
+  <p class="hint">Passed as ?lang=. Klingon and Legalese do not use it. Back returns to this menu.</p>
+</div>
+<ul id="list"></ul>
+<footer>Progress stays on this device. The separate SquirrelGo apps (Kana, Kanji, Dictionary, Phrasebook, Orthodox Bible) are not this app; Character and Vocabulary use the script and deck data packed with it.</footer>
+<script src="../../../languages/registry.js"></script>
+<script src="../../../programming-learner/data/catalog.js"></script>
+<script>
+(function () {
+  var LEARNERS = [
+    { href: "../../../klingon/index.html", title: "Klingon (tlhIngan Hol)",
+      desc: "pIqaD alphabet, handwriting, numbers, vocabulary, grammar, reader and quizzes.", scoped: false },
+    { href: "../../../character-learner/index.html", title: "Character Learner",
+      desc: "Kana, kanji, hanzi, hanja, pIqaD and the Alphabets scripts: stroke order and a writing pad.", scoped: true },
+    { href: "../../../resource-learner/index.html", title: "Resource Learner",
+      desc: "Curated learning resources, general and per language.", scoped: true },
+    { href: "../../../reference-learner/index.html", title: "Reference Learner",
+      desc: "Quick lookup for language facts and notes.", scoped: true },
+    { href: "../../../translation-learner/index.html", title: "Translation Learner",
+      desc: "Sentence translation checked by meaning, a meaning matrix, and top-1,000 word practice.", scoped: true },
+    { href: "../../../programming-learner/index.html", title: "Programming Learner",
+      desc: "Syntax, concepts and practice, from Python and Slick to the esolangs.", scoped: true },
+    { href: "../../../legalese-learner/index.html", title: "Legalese Learner",
+      desc: "How the heavy words in a contract work. Reading practice, not legal advice.", scoped: false },
+    { href: "../../../language-learner/index.html", title: "Language Learner",
+      desc: "A guided path per language: script, first words, grammar, then practice.", scoped: true },
+    { href: "../../../grammar-learner/index.html", title: "Grammar Learner",
+      desc: "Short grammar lessons with explained drills.", scoped: true },
+    { href: "../../../vocabulary-learner/index.html", title: "Vocabulary Learner",
+      desc: "Flashcards, spaced review and Anki export.", scoped: true }
+  ];
+
+  var lang = document.getElementById("lang");
+  var list = document.getElementById("list");
+  var registry = window.LSD_LANGUAGE_REGISTRY || {};
+  var metas = Object.keys(registry).map(function (id) { return registry[id]; });
+  metas.sort(function (a, b) {
+    return String(a.name || a.id).localeCompare(String(b.name || b.id), "en", { sensitivity: "base" });
+  });
+  var languages = document.createElement("optgroup");
+  languages.label = "Languages";
+  metas.forEach(function (m) {
+    var label = m.name || m.id;
+    if (m.nativeName) label += " · " + m.nativeName;
+    languages.appendChild(new Option(label, m.id));
+  });
+  lang.appendChild(languages);
+  var courses = document.createElement("optgroup");
+  courses.label = "Programming courses";
+  (window.PROGRAMMING_CATALOG || []).slice().sort(function (a, b) {
+    return String(a.name).localeCompare(String(b.name), "en", { sensitivity: "base" });
+  }).forEach(function (c) {
+    courses.appendChild(new Option(c.name, c.id));
+  });
+  lang.appendChild(courses);
+
+  try { lang.value = localStorage.getItem("lsd-suite-lang") || ""; } catch (e) {}
+
+  function hrefFor(item) {
+    if (!item.scoped || !lang.value) return item.href;
+    return item.href + "?lang=" + encodeURIComponent(lang.value);
+  }
+  function render() {
+    list.innerHTML = "";
+    LEARNERS.forEach(function (item) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.className = "card";
+      a.href = hrefFor(item);
+      var title = document.createElement("strong");
+      title.textContent = item.title;
+      var desc = document.createElement("span");
+      desc.textContent = item.desc;
+      a.appendChild(title);
+      a.appendChild(desc);
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+  lang.onchange = function () {
+    try { localStorage.setItem("lsd-suite-lang", lang.value); } catch (e) {}
+    render();
+  };
+  render();
+})();
+</script>
+</body>
+</html>

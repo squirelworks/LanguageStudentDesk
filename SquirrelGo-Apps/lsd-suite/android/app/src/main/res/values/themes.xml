@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.LanguageStudentDesk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#FFD54F</item>
+        <item name="colorPrimaryVariant">#C9A227</item>
+        <item name="colorOnPrimary">#1A1A20</item>
+        <item name="android:statusBarColor">#0F0F12</item>
+        <item name="android:navigationBarColor">#0F0F12</item>
+        <item name="android:windowBackground">#0F0F12</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
