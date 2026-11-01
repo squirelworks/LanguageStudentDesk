@@ -1,10 +1,23 @@
 // Eastern Armenian first grammar for the Grammar Learner. Written for this project.
 // Examples are [Armenian, romanization, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Eastern Armenian — original example sentences):
+// - Wiktionary Eastern Armenian lemmas and conjugations (CC BY-SA): ունեմ / ունես / ունի
+//   (+ չունեմ…); գրել aorist գրեցի / գրեցիր / գրեց…, future գրելու եմ…, conditional
+//   կգրեմ…; ուզել → ուզում եմ; կարող եմ + infinitive.
+// - Wikipedia “Eastern Armenian verb table”, “Armenian grammar”, “Armenian language”
+//   (CC BY-SA) for beginner overview of aorist vs -ելու future, differential object
+//   marking (animate dative -ին vs inanimate nominative), and case endings -ի / -ով.
+// - In-repo languages/armenian/reference.json (to-be, present, main cases including
+//   -ի / -ից / -ով / -ում) and vocab.js — same Desk pack lemmas; romanization with
+//   ë for ը and apostrophe for aspirates matches lessons 1–6.
+// Lessons 1–6 unchanged; 7–12 deepen the same seam (have, want, can/must, aorist,
+// future, genitive-dative and instrumental).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.armenian = {
   title: "Armenian first grammar",
-  intro: "Eastern Armenian, the standard language of Armenia, has no grammatical gender. “The” is an ending on the noun, most verbs are built from a participle plus a small helper verb, and endings on nouns do the work of English prepositions. These lessons cover “to be”, the article, plurals, the present tense, saying no and asking, and in, from and “my”. Armenian ends a sentence with ։ and marks a question with ՞ over the stressed vowel. In the romanization ë is the short “uh” sound and k' is a breathy k.",
+  intro: "Eastern Armenian, the standard language of Armenia, has no grammatical gender. “The” is an ending on the noun, most verbs are built from a participle plus a small helper verb, and endings on nouns do the work of English prepositions. Lessons 1–6 cover “to be”, the article, plurals, the present tense, saying no and asking, and in, from and “my”. Lessons 7–12 add “have” and “want”, can and must, the simple past and future, and of/to and with/by. Armenian ends a sentence with ։ and marks a question with ՞ over the stressed vowel. In the romanization ë is the short “uh” sound and k' is a breathy k.",
   lessons: [
     {
       id: "em",
@@ -192,6 +205,198 @@ window.GRAMMAR.armenian = {
         { q: "＿ եղբայրը բժիշկ է։", en: "My brother is a doctor.", options: ["Իմ", "Քո", "Նրա", "Ձեր"], answer: "Իմ", why: "իմ = my." },
         { q: "＿ մայրը որտե՞ղ է։", en: "Where is your mother? (to a friend)", options: ["Քո", "Իմ", "Մեր", "Նրանց"], answer: "Քո", why: "քո = your, to one friend." },
         { q: "How do you say “at home”?", en: "", options: ["տանը", "տունում", "տունից", "տներ"], answer: "տանը", why: "“At home” is the irregular տանը." },
+      ],
+    },
+    {
+      id: "unem",
+      title: "ունեմ — “I have”",
+      particle: "ունեմ",
+      summary: "Having conjugates on its own: ունեմ, ունես, ունի…; “don’t have” is չունեմ.",
+      sections: [
+        {
+          p: "<b>ունեմ</b> I have, <b>ունես</b> you have, <b>ունի</b> he / she has. The thing owned stays in the nominative: Ես գիրք ունեմ, “I have a book”. Pronouns are often dropped.",
+          examples: [
+            ["Ես հարց {ունեմ}։", "Yes harts' unem.", "I have a question."],
+            ["Ժամանակ {ունե՞ս}։", "Zhamanak unes?", "Do you have time?"],
+            ["Նա մեծ տուն {ունի}։", "Na mets tun uni.", "He / she has a big house."],
+          ],
+        },
+        {
+          h: "We, you (plural), they — and “don’t have”",
+          p: "<b>ունենք</b> we have, <b>ունեք</b> you have (plural or polite), <b>ունեն</b> they have. Negate by putting <b>չ-</b> on the front: <b>չունեմ</b>, <b>չունես</b>, <b>չունի</b>…",
+          examples: [
+            ["Մենք տոմսեր {ունենք}։", "Menk' tomser unenk'.", "We have tickets."],
+            ["Ես ժամանակ {չունեմ}։", "Yes zhamanak chunem.", "I don't have time."],
+            ["Նրանք հարցեր {ունեն}։", "Nrank' harts'er unen.", "They have questions."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Ես գիրք ＿։", en: "I have a book.", options: ["ունեմ", "ունես", "ունի", "ունենք"], answer: "ունեմ", why: "ունեմ = I have." },
+        { q: "Ժամանակ ＿։", en: "Do you have time? (one friend)", options: ["ունե՞ս", "ունե՞մ", "ունի՞", "ունե՞ն"], answer: "ունե՞ս", why: "ունես = you have; ՞ marks the question." },
+        { q: "Նա մեքենա ＿։", en: "He / she has a car.", options: ["ունի", "ունեմ", "ունես", "ունեն"], answer: "ունի", why: "ունի = he / she has." },
+        { q: "Մենք տոմսեր ＿։", en: "We have tickets.", options: ["ունենք", "ունեմ", "ունի", "ունեք"], answer: "ունենք", why: "ունենք = we have." },
+        { q: "Ես ժամանակ ＿։", en: "I don't have time.", options: ["չունեմ", "ունեմ", "չեմ", "ոչ"], answer: "չունեմ", why: "չ- on ունեմ gives չունեմ." },
+      ],
+    },
+    {
+      id: "uzum",
+      title: "ուզում եմ — “I want”",
+      particle: "ուզում",
+      summary: "Wanting uses the present pattern ուզում + helper; follow it with a noun or an infinitive.",
+      sections: [
+        {
+          p: "ուզել “to want” builds like any present: <b>ուզում եմ</b> I want, <b>ուզում ես</b> you want, <b>ուզում է</b> he / she wants. You can want a thing: սուրճ եմ ուզում.",
+          examples: [
+            ["Սուրճ եմ {ուզում}։", "Surch em uzum.", "I want coffee."],
+            ["Ի՞նչ ես {ուզում}։", "Inch es uzum?", "What do you want?"],
+            ["Նա ջուր է {ուզում}։", "Na jur e uzum.", "He / she wants water."],
+          ],
+        },
+        {
+          h: "Wanting to do something",
+          p: "After ուզում եմ put the infinitive: <b>ուզում եմ գնալ</b> “I want to go”, <b>ուզում եմ ուտել</b> “I want to eat”. Negate the helper as usual: չեմ ուզում.",
+          examples: [
+            ["{Ուզում եմ} գնալ։", "Uzum em gnal.", "I want to go."],
+            ["{Ուզում ես} ուտե՞լ։", "Uzum es utel?", "Do you want to eat?"],
+            ["Ես չեմ {ուզում} սպասել։", "Yes chem uzum spasel.", "I don't want to wait."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Ես թեյ եմ ＿։", en: "I want tea.", options: ["ուզում", "ունեմ", "կարող", "գրում"], answer: "ուզում", why: "ուզում եմ = I want." },
+        { q: "Ի՞նչ ես ＿։", en: "What do you want?", options: ["ուզում", "ունես", "կարող", "ապրում"], answer: "ուզում", why: "ուզում ես = you want." },
+        { q: "Նա ջուր է ＿։", en: "He / she wants water.", options: ["ուզում", "ունի", "կարող", "խմում"], answer: "ուզում", why: "ուզում է = he / she wants." },
+        { q: "Ուզում եմ ＿։", en: "I want to go. (գնալ)", options: ["գնալ", "գնում", "գնացի", "գնալու"], answer: "գնալ", why: "After ուզում եմ, use the infinitive գնալ." },
+        { q: "Ես ＿ ուզում սպասել։", en: "I don't want to wait.", options: ["չեմ", "եմ", "չի", "ոչ"], answer: "չեմ", why: "Negate the helper: չեմ ուզում." },
+      ],
+    },
+    {
+      id: "karogh",
+      title: "կարող եմ and պետք է — can and must",
+      particle: "կարող",
+      summary: "Ability is կարող + “to be” + infinitive; “must” is պետք է before a special verb form.",
+      sections: [
+        {
+          p: "<b>կարող եմ</b> I can, <b>կարող ես</b> you can, <b>կարող է</b> he / she can. Put an infinitive after it: կարող եմ խոսել, “I can speak”. Negate the helper: չեմ կարող.",
+          examples: [
+            ["Հայերեն խոսել {կարող եմ}։", "Hayeren khosel karogh em.", "I can speak Armenian."],
+            ["Օգնել {կարո՞ղ ես}։", "Ognel karogh es?", "Can you help?"],
+            ["Նա երգել {կարող է}։", "Na yergel karogh e.", "He / she can sing."],
+          ],
+        },
+        {
+          h: "Must: պետք է",
+          p: "<b>պետք է</b> means “must / need to”. It stays the same for every person; the verb after it takes a short ending (like the subjunctive): <b>պետք է գնամ</b> “I must go”, <b>պետք է գնաս</b> “you must go”, <b>պետք է գնա</b> “he / she must go”.",
+          examples: [
+            ["{Պետք է} գնամ։", "Petk' e gnam.", "I must / need to go."],
+            ["{Պետք է} սպասես։", "Petk' e spaces.", "You must wait."],
+            ["Վաղը {պետք է} աշխատի։", "Vaghë petk' e ashkhati.", "Tomorrow he / she must work."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Անգլերեն խոսել ＿ եմ։", en: "I can speak English.", options: ["կարող", "ուզում", "ունեմ", "պետք"], answer: "կարող", why: "կարող եմ = I can." },
+        { q: "Օգնել կարող ＿։", en: "Can you help?", options: ["ե՞ս", "ե՞մ", "է՞", "ե՞ն"], answer: "ե՞ս", why: "կարող ես = you can." },
+        { q: "Ես ＿ կարող գալ։", en: "I can't come.", options: ["չեմ", "եմ", "չի", "ոչ"], answer: "չեմ", why: "չեմ կարող negates ability." },
+        { q: "＿ է գնամ։", en: "I must go.", options: ["Պետք", "Կարող", "Ուզում", "Ունեմ"], answer: "Պետք", why: "պետք է = must / need to." },
+        { q: "What does «պետք է սպասես» mean?", en: "", options: ["You must wait.", "I can wait.", "I want to wait.", "You have time."], answer: "You must wait.", why: "պետք է + սպասես is “you must wait”." },
+      ],
+    },
+    {
+      id: "aorist",
+      title: "գրեցի — the simple past",
+      particle: "գրեցի",
+      summary: "The aorist finishes an action: endings go straight on the stem, with no helper.",
+      sections: [
+        {
+          p: "The aorist (simple past) of գրել “to write” is <b>գրեցի</b> I wrote, <b>գրեցիր</b> you wrote, <b>գրեց</b> he / she wrote. There is no եմ / ես helper here — the ending itself marks the person.",
+          examples: [
+            ["Երեկ նամակ {գրեցի}։", "Yerek namak grets'i.", "Yesterday I wrote a letter."],
+            ["Ի՞նչ {գրեցիր}։", "Inch grets'ir?", "What did you write?"],
+            ["Նա գիրք {գրեց}։", "Na girk' grets'.", "He / she wrote a book."],
+          ],
+        },
+        {
+          h: "We, you (plural), they",
+          p: "<b>գրեցինք</b> we wrote, <b>գրեցիք</b> you wrote (plural or polite), <b>գրեցին</b> they wrote. Negate with <b>չ-</b> on the front: չգրեցի “I didn’t write”.",
+          examples: [
+            ["Մենք միասին {գրեցինք}։", "Menk' miasin grets'ink'.", "We wrote together."],
+            ["Նրանք պատասխան {գրեցին}։", "Nrank' pataskhan grets'in.", "They wrote the answer."],
+            ["Այսօր {չգրեցի}։", "Aysor chgrets'i.", "I didn't write today."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Երեկ նամակ ＿։", en: "Yesterday I wrote a letter.", options: ["գրեցի", "գրում եմ", "գրելու եմ", "գրեց"], answer: "գրեցի", why: "գրեցի = I wrote (aorist)." },
+        { q: "Դու ի՞նչ ＿։", en: "What did you write?", options: ["գրեցիր", "գրեցի", "գրեց", "գրում ես"], answer: "գրեցիր", why: "գրեցիր = you wrote." },
+        { q: "Նա գիրք ＿։", en: "He / she wrote a book.", options: ["գրեց", "գրեցի", "գրում է", "գրելու է"], answer: "գրեց", why: "գրեց = he / she wrote." },
+        { q: "Մենք միասին ＿։", en: "We wrote together.", options: ["գրեցինք", "գրեցի", "գրեցին", "գրում ենք"], answer: "գրեցինք", why: "գրեցինք = we wrote." },
+        { q: "Այսօր ＿։", en: "I didn't write today.", options: ["չգրեցի", "չեմ գրում", "չգրելու", "ոչ գրեցի"], answer: "չգրեցի", why: "չ- on the aorist: չգրեցի." },
+      ],
+    },
+    {
+      id: "future",
+      title: "գրելու եմ — the future",
+      particle: "-ելու",
+      summary: "Change -ել / -ալ to -ելու and add the “to be” helper; everyday speech also uses կ- forms.",
+      sections: [
+        {
+          p: "The standard future replaces the infinitive ending with <b>-ելու</b> (or <b>-ալու</b>) and adds եմ, ես, է…: գրել → <b>գրելու եմ</b> I will write, <b>գրելու ես</b> you will write, <b>գրելու է</b> he / she will write.",
+          examples: [
+            ["Վաղը նամակ եմ {գրելու}։", "Vaghë namak em grelu.", "Tomorrow I will write a letter."],
+            ["Ի՞նչ ես {գրելու}։", "Inch es grelu?", "What will you write?"],
+            ["Նա գիրք է {գրելու}։", "Na girk' e grelu.", "He / she will write a book."],
+          ],
+        },
+        {
+          h: "We / they — “will not” — and կ-",
+          p: "<b>գրելու ենք</b> we will write, <b>գրելու եք</b> you will write (plural), <b>գրելու են</b> they will write. Negate the helper: չեմ գրելու. In everyday Eastern Armenian the conditional with <b>կ-</b> (<b>կգրեմ</b>, <b>կգրես</b>, <b>կգրի</b>…) is also very often used to mean “will”.",
+          examples: [
+            ["Մենք միասին ենք {գրելու}։", "Menk' miasin enk' grelu.", "We will write together."],
+            ["Նրանք պատասխան են {գրելու}։", "Nrank' pataskhan en grelu.", "They will write the answer."],
+            ["Այսօր {չեմ} գրելու։", "Aysor chem grelu.", "I will not write today."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "Վաղը նամակ եմ ＿։", en: "Tomorrow I will write a letter.", options: ["գրելու", "գրեցի", "գրում", "գրել"], answer: "գրելու", why: "գրելու եմ = I will write." },
+        { q: "Նա գիրք է ＿։", en: "He / she will write a book.", options: ["գրելու", "գրեց", "գրում", "կարող"], answer: "գրելու", why: "գրելու է = he / she will write." },
+        { q: "Մենք միասին ենք ＿։", en: "We will write together.", options: ["գրելու", "գրեցինք", "գրում", "ուզում"], answer: "գրելու", why: "գրելու ենք = we will write." },
+        { q: "Նրանք պատասխան են ＿։", en: "They will write the answer.", options: ["գրելու", "գրեցին", "գրում", "ունեն"], answer: "գրելու", why: "գրելու են = they will write." },
+        { q: "Այսօր ＿ գրելու։", en: "I will not write today.", options: ["չեմ", "եմ", "չի", "ոչ"], answer: "չեմ", why: "չեմ գրելու = I will not write." },
+      ],
+    },
+    {
+      id: "i-ov",
+      title: "Of, to, and with: -ի, -ին, -ով",
+      particle: "-ի -ով",
+      summary: "-ի is “of / to”; definite people as objects take -ին; -ով means “with, by, through”.",
+      sections: [
+        {
+          p: "The genitive–dative ending <b>-ի</b> covers “of” and “to”: քաղաք → քաղաք<b>ի</b> “of / to a city”. Definite “the …’s / to the …” often adds <b>-ն</b>: քաղաքի<b>ն</b>. People who are the object of a verb take this definite dative: Արամ → Արամ<b>ին</b> “Aram (as object)”. Things stay nominative as objects: գիրքը տեսնում եմ.",
+          examples: [
+            ["Քաղաք{ի} կենտրոնը", "k'aghak'i kentronë", "the center of the city"],
+            ["Ես տեսնում եմ Արամ{ին}։", "Yes tesnum em Aramin.", "I see Aram."],
+            ["Գիրքը տալիս եմ Անի{ին}։", "Girk'ë talis em Aniin.", "I give the book to Ani."],
+          ],
+        },
+        {
+          h: "Instrumental -ով",
+          p: "<b>-ով</b> means “with, by, through”: մատիտ → մատիտ<b>ով</b> “with a pencil”, ավտոբուս → ավտոբուս<b>ով</b> “by bus”. Together with -ում and -ից from lesson 6, these endings replace many English prepositions.",
+          examples: [
+            ["Ես մատիտ{ով} եմ գրում։", "Yes matitov em grum.", "I write with a pencil."],
+            ["Մենք ավտոբուս{ով} ենք գալիս։", "Menk' avtobusov enk' galis.", "We are coming by bus."],
+            ["Պատուհան{ով} նայում եմ։", "Patuhanov nayum em.", "I look through the window."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "քաղաք → քաղաք＿ կենտրոնը", en: "the center of the city", options: ["ի", "ով", "ում", "ից"], answer: "ի", why: "-ի is of / to: քաղաքի." },
+        { q: "Ես տեսնում եմ Արամ＿։", en: "I see Aram.", options: ["ին", "ը", "ով", "ում"], answer: "ին", why: "A definite person as object takes -ին: Արամին." },
+        { q: "մատիտ → մատիտ＿", en: "with a pencil", options: ["ով", "ի", "ում", "ից"], answer: "ով", why: "-ով = with / by." },
+        { q: "Մենք ավտոբուս＿ ենք գալիս։", en: "We are coming by bus.", options: ["ով", "ում", "ից", "ի"], answer: "ով", why: "ավտոբուսով = by bus." },
+        { q: "How do you say “through the window”?", en: "պատուհան", options: ["պատուհանով", "պատուհանում", "պատուհանից", "պատուհանի"], answer: "պատուհանով", why: "-ով covers “through” as well as “with / by”." },
       ],
     },
   ],
