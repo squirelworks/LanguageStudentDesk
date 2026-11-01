@@ -88,6 +88,13 @@ VISIBLE "PUBLIC"
 KTHXBYE`, options: ["PUBLIC", "SECRET\nPUBLIC", "SECRET", "Nothing"], answer: "PUBLIC", why: "The first line is a comment, so it never runs." },
         { q: "How do you put a new line inside a string?", options: [":)", "\\n", ":>", "::"], answer: ":)", why: "The colon is LOLCODE's escape character, and :) means a new line." },
         { q: "Which word ends a multi-line comment?", options: ["TLDR", "OBTW", "BTW", "KTHXBYE"], answer: "TLDR", why: "OBTW opens the comment and TLDR closes it." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE "ONE:)TWO"
+KTHXBYE`, options: ["ONE\nTWO", "ONE:)TWO", "ONETWO", "ONE TWO"], answer: "ONE\nTWO", why: ":) inside a string is a new line." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE "A", VISIBLE "B", VISIBLE "C"
+KTHXBYE`, options: ["A\nB\nC", "ABC", "A B C", "A,B,C"], answer: "A\nB\nC", why: "A comma acts like a line break, so each VISIBLE runs on its own." },
+        { q: "What does a ! at the end of VISIBLE do?", options: ["Stops the new line so the next print continues on the same line", "Prints an exclamation mark", "Ends the program", "Starts a comment"], answer: "Stops the new line so the next print continues on the same line", why: "Without !, VISIBLE always finishes with a new line." },
       ],
     },
     {
@@ -168,6 +175,16 @@ KTHXBYE`, options: ["MAH KITTEH", "MAH :{pet}", "MAH pet", "MAH"], answer: "MAH 
         { kind: "output", q: "What does this print?", code: `HAI 1.2
 VISIBLE SMOOSH "A" AN 1 AN "B" MKAY
 KTHXBYE`, options: ["A1B", "A 1 B", "2", "A1"], answer: "A1B", why: "SMOOSH turns each value into text and joins them with nothing between." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A n ITZ 5
+n IS NOW A YARN
+VISIBLE SMOOSH n AN "!" MKAY
+KTHXBYE`, options: ["5!", "5", "!", "NOOB!"], answer: "5!", why: "IS NOW A YARN changes n itself; SMOOSH then joins it with \"!\"." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A typed ITZ "9"
+VISIBLE MAEK typed A NUMBR
+KTHXBYE`, options: ["9", "\"9\"", "9.00", "NOOB"], answer: "9", why: "MAEK gives a NUMBR copy of the digit string; VISIBLE shows 9." },
+        { q: "What does MKAY mark?", options: ["The end of a SMOOSH (or ALL OF / ANY OF) list", "The end of the program", "A comment", "A new variable"], answer: "The end of a SMOOSH (or ALL OF / ANY OF) list", why: "Variable-length operator lists need MKAY so LOLCODE knows where they stop." },
       ],
     },
     {
@@ -234,6 +251,15 @@ KTHXBYE`, options: ["8", "6", "9", "2"], answer: "8", why: "The first value of D
         { kind: "output", q: "What does this print?", code: `HAI 1.2
 VISIBLE SUM OF 1.5 AN 1
 KTHXBYE`, options: ["2.50", "2", "2.5", "3"], answer: "2.50", why: "One side is a NUMBAR, so the sum is a NUMBAR, shown with two decimal places." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE PRODUKT OF 5 AN SUM OF 1 AN 1
+KTHXBYE`, options: ["10", "6", "7", "51"], answer: "10", why: "The second value of PRODUKT OF is SUM OF 1 AN 1, which is 2; 5 × 2 = 10." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE SMALLR OF 9 AN 2
+KTHXBYE`, options: ["2", "9", "7", "11"], answer: "2", why: "SMALLR OF returns the lesser of the two." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE QUOSHUNT OF 9.0 AN 2
+KTHXBYE`, options: ["4.50", "4", "4.5", "5"], answer: "4.50", why: "One side is a NUMBAR, so the quotient is a NUMBAR shown with two decimal places." },
       ],
     },
     {
@@ -308,6 +334,15 @@ KTHXBYE`, options: ["WIN", "FAIL", "NOOB", "NOT"], answer: "WIN", why: "NOT FAIL
 PRODUKT OF 6 AN 7
 VISIBLE IT
 KTHXBYE`, options: ["42", "NOOB", "IT", "13"], answer: "42", why: "A bare value goes into IT, so IT holds 42." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE BOTH OF WIN AN WIN
+KTHXBYE`, options: ["WIN", "FAIL", "BOTH", "2"], answer: "WIN", why: "BOTH OF is “and”: both sides are WIN." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE WON OF WIN AN FAIL
+KTHXBYE`, options: ["WIN", "FAIL", "WON", "NOOB"], answer: "WIN", why: "WON OF is “one but not both”; exactly one side is WIN." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE NOT "FAIL"
+KTHXBYE`, options: ["FAIL", "WIN", "\"FAIL\"", "NOOB"], answer: "FAIL", why: "Any non-empty YARN counts as WIN, so NOT flips it to FAIL." },
       ],
     },
     {
@@ -409,6 +444,25 @@ O RLY?
 OIC
 KTHXBYE`, options: ["FIVE", "FIVE\nBIG", "BIG", "ONE"], answer: "FIVE", why: "Only the first part whose test is WIN runs, even though the last test would also be WIN." },
         { q: "Which word means “else if”?", options: ["MEBBE", "NO WAI", "YA RLY", "OMG"], answer: "MEBBE", why: "MEBBE has its own test and is tried only when the parts above it failed." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A x ITZ 10
+BOTH SAEM x AN BIGGR OF x AN 10
+O RLY?
+  YA RLY
+    VISIBLE "GE10"
+  NO WAI
+    VISIBLE "LT10"
+OIC
+KTHXBYE`, options: ["GE10", "LT10", "GE10\nLT10", "10"], answer: "GE10", why: "x equals BIGGR OF x AN 10, so x is at least 10 and YA RLY runs." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+FAIL
+O RLY?
+  YA RLY
+    VISIBLE "YES"
+  NO WAI
+    VISIBLE "NO"
+OIC
+KTHXBYE`, options: ["NO", "YES", "FAIL", "Nothing"], answer: "NO", why: "Putting FAIL alone stores FAIL in IT, so the NO WAI part runs." },
       ],
     },
     {
@@ -493,6 +547,20 @@ WTF?
 OIC
 KTHXBYE`, options: ["SOMETHING ELSE", "ONE", "ONE\nSOMETHING ELSE", "7"], answer: "SOMETHING ELSE", why: "7 matches no OMG, so the OMGWTF case runs." },
         { q: "Which can be written after OMG?", options: ["\"YES\"", "SUM OF 1 AN 2", "x", "BOTH SAEM x AN 1"], answer: "\"YES\"", why: "Cases must be plain values, not expressions or variables." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+2
+WTF?
+  OMG 1
+    VISIBLE "ONE"
+    GTFO
+  OMG 2
+    VISIBLE "TWO"
+  OMG 3
+    VISIBLE "THREE"
+    GTFO
+OIC
+KTHXBYE`, options: ["TWO\nTHREE", "TWO", "THREE", "ONE\nTWO\nTHREE"], answer: "TWO\nTHREE", why: "Match starts at OMG 2 with no GTFO, so it falls through into OMG 3." },
+        { q: "What is OMGWTF for?", options: ["The case that runs when no OMG matched", "Ending the program", "Printing an error", "A second GTFO"], answer: "The case that runs when no OMG matched", why: "OMGWTF is the default case, like else in a switch." },
       ],
     },
     {
@@ -584,6 +652,14 @@ VISIBLE t
 KTHXBYE`, options: ["8", "6", "10", "4"], answer: "8", why: "The body runs four times (k = 0 to 3), adding 2 each time." },
         { q: "What stops a loop that has no TIL or WILE?", options: ["GTFO", "OIC", "KTHXBYE inside it", "Nothing can"], answer: "GTFO", why: "GTFO inside a loop breaks out of it." },
         { q: "What is the difference between TIL and WILE?", options: ["TIL stops when the test is WIN; WILE stops when it is FAIL", "They are the same", "WILE only counts down", "TIL runs at least once"], answer: "TIL stops when the test is WIN; WILE stops when it is FAIL", why: "TIL means “until” and WILE means “while”." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A t ITZ 1
+IM IN YR l UPPIN YR i TIL BOTH SAEM i AN 3
+  t R PRODUKT OF t AN 2
+IM OUTTA YR l
+VISIBLE t
+KTHXBYE`, options: ["8", "6", "4", "3"], answer: "8", why: "The body runs three times (i = 0, 1, 2), doubling 1 → 2 → 4 → 8." },
+        { q: "What does UPPIN YR i do each round?", options: ["Adds 1 to i after the body", "Sets i to 0", "Subtracts 1 from i", "Prints i"], answer: "Adds 1 to i after the body", why: "UPPIN is the loop's increment; NERFIN subtracts 1 instead." },
       ],
     },
     {
@@ -691,6 +767,19 @@ HOW IZ I sum YR n
 IF U SAY SO
 VISIBLE I IZ sum YR 4 MKAY
 KTHXBYE`, options: ["10", "4", "24", "0"], answer: "10", why: "4 + 3 + 2 + 1 + 0, stopping when n reaches 0." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+HOW IZ I sq YR n
+  FOUND YR PRODUKT OF n AN n
+IF U SAY SO
+VISIBLE I IZ sq YR 6 MKAY
+KTHXBYE`, options: ["36", "12", "6", "42"], answer: "36", why: "The function returns n × n; 6 × 6 = 36." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+HOW IZ I add3 YR a AN YR b AN YR c
+  FOUND YR SUM OF a AN SUM OF b AN c
+IF U SAY SO
+VISIBLE I IZ add3 YR 1 AN YR 2 AN YR 3 MKAY
+KTHXBYE`, options: ["6", "123", "5", "3"], answer: "6", why: "Extra parameters use AN YR; 1 + 2 + 3 = 6." },
+        { q: "How do you add a second parameter when defining a function?", options: ["AN YR name", "AND name", "YR name twice", "MKAY name"], answer: "AN YR name", why: "HOW IZ I f YR a AN YR b … matches the call I IZ f YR … AN YR … MKAY." },
       ],
     },
     {
@@ -758,6 +847,22 @@ IM IN YR l UPPIN YR n TIL BOTH SAEM n AN 6
 IM OUTTA YR l
 KTHXBYE`, options: ["024", "135", "0246", "246"], answer: "024", why: "n runs from 0 to 5, and only the even ones print." },
         { q: "What does GIMMEH x do?", options: ["Reads a typed line into x", "Prints x", "Makes x a NUMBR", "Deletes x"], answer: "Reads a typed line into x", why: "GIMMEH is LOLCODE's input; the value is always a YARN." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A s ITZ ""
+IM IN YR l UPPIN YR i TIL BOTH SAEM i AN 4
+  BOTH SAEM MOD OF SUM OF i AN 1 AN 2 AN 0
+  O RLY?
+    YA RLY
+      s R SMOOSH s AN "E" MKAY
+    NO WAI
+      s R SMOOSH s AN "O" MKAY
+  OIC
+IM OUTTA YR l
+VISIBLE s
+KTHXBYE`, options: ["OEOE", "EOEO", "OOOO", "EEEE"], answer: "OEOE", why: "For i = 0..3 the values 1..4 alternate odd/even: O, E, O, E." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+VISIBLE BOTH SAEM MOD OF 10 AN 5 AN 0
+KTHXBYE`, options: ["WIN", "FAIL", "0", "2"], answer: "WIN", why: "10 divides by 5 with remainder 0, so BOTH SAEM … AN 0 is WIN." },
       ],
     },
   ],

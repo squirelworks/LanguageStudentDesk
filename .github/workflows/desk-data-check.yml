@@ -1,7 +1,8 @@
 name: Desk data checks
 
-# Registry generation, JS syntax, programming pack integrity, and an
-# informational languages coverage report. See CURSOR-HANDOFF P0.1 / P0.2.
+# Registry generation, JS syntax, and programming pack integrity for the Desk
+# languages/ layer and learner tools, plus an informational languages coverage
+# report. See CURSOR-HANDOFF P0.1 / P0.2.
 
 on:
   push:
