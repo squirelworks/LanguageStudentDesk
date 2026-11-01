@@ -406,7 +406,9 @@ window.LSD_LANGUAGE_REGISTRY = {
     "writingSystems": [
       "latin"
     ],
-    "characterKeys": [],
+    "characterKeys": [
+      "latin"
+    ],
     "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
     "speech": "la",
     "data": {
@@ -446,6 +448,7 @@ window.LSD_LANGUAGE_REGISTRY = {
     "notes": "Manipuri (Meeteilon) in Meetei Mayek, whose first letters are named after parts of the body.",
     "speech": "mni",
     "data": {
+      "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
     }

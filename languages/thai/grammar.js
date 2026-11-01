@@ -1,10 +1,21 @@
 // Thai first grammar for the Grammar Learner. Written for this project.
 // Examples are [Thai, romanization, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
+//
+// Sources (open / educational; attested Thai constructions — original example sentences):
+// - Wiktionary Thai lemmas and grammar notes (CC BY-SA): ได้ (ability / permission after
+//   the verb), อยาก / อยากได้, ชอบ, ต้อง / ไม่ต้อง, ควร, ห้าม, ให้ (give; let; for),
+//   กว่า, ที่สุด, directional ไป / มา after verbs.
+// - Wikipedia “Thai language”, “Thai grammar” (CC BY-SA) for beginner overview of
+//   analytic verbs, serial verb constructions, and post-verbal ได้ vs pre-verbal modals.
+// - In-repo languages/thai/reference.json (markers, classifiers, pronouns) and vocab.js —
+//   same Desk pack lemmas; romanization without tone marks matches lessons 1–6.
+// Lessons 1–6 unchanged; 7–12 deepen the same beginner seam (ability, want/like, must,
+// ให้, comparison, directionals).
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.thai = {
   title: "Thai first grammar",
-  intro: "Thai words never change their form: no endings for tense, person, plural or gender. Instead, word order and small helper words carry the meaning, and the speaker's own gender shows up in the polite word at the end of a sentence. These lessons cover pronouns and ครับ / ค่ะ, the three verbs for “to be” and “have”, word order and describing words, saying no and asking, time words, and counting with classifiers. The romanization is a simple one without tone marks; listen to each word with text to speech to hear the tone.",
+  intro: "Thai words never change their form: no endings for tense, person, plural or gender. Instead, word order and small helper words carry the meaning, and the speaker's own gender shows up in the polite word at the end of a sentence. Lessons 1–6 cover pronouns and ครับ / ค่ะ, เป็น / อยู่ / มี, word order and describing words, ไม่ and ไหม, time words, and classifiers. Lessons 7–12 add ได้, อยาก / ชอบ, ต้อง / ควร, ให้, กว่า / ที่สุด, and directional ไป / มา. The romanization is a simple one without tone marks; listen to each word with text to speech to hear the tone.",
   lessons: [
     {
       id: "polite",
@@ -192,6 +203,193 @@ window.GRAMMAR.thai = {
         { q: "ขอเบียร์สอง＿", en: "Two bottles of beer, please.", options: ["ขวด", "ตัว", "คน", "เล่ม"], answer: "ขวด", why: "ขวด = bottle." },
         { q: "Which means “four books”?", en: "หนังสือ = book, สี่ = four", options: ["หนังสือสี่เล่ม", "สี่หนังสือ", "สี่เล่มหนังสือ", "หนังสือเล่มสี่"], answer: "หนังสือสี่เล่ม", why: "Noun, number, classifier." },
         { q: "เสื้อ＿นี้สวย", en: "This shirt is pretty.", options: ["ตัว", "คน", "เล่ม", "แก้ว"], answer: "ตัว", why: "Clothes use ตัว, which also goes before นี้." },
+      ],
+    },
+    {
+      id: "dai",
+      title: "ได้ — can, and able to",
+      particle: "ได้",
+      summary: "After the verb for ability or permission; ไม่ได้ for “cannot”.",
+      sections: [
+        {
+          p: "<b>ได้</b> (dai) after a verb phrase means “can / be able to / be allowed to”: พูดไทยได้ “can speak Thai”. The main verb stays bare; ได้ does not change for person or tense.",
+          examples: [
+            ["ผมพูดภาษาไทย{ได้}", "Phom phut phasa Thai dai.", "I can speak Thai."],
+            ["คุณขับรถ{ได้}ไหม", "Khun khap rot dai mai?", "Can you drive?"],
+            ["นั่งตรงนี้{ได้}", "Nang trong ni dai.", "You may sit here."],
+          ],
+        },
+        {
+          h: "ไม่ได้ — cannot",
+          p: "Negate with <b>ไม่ได้</b> after the verb: ไปไม่ได้ “cannot go”. Do not put ได้ before the verb for ability (that position is a different, past-like reading).",
+          examples: [
+            ["ผมไป{ไม่ได้}", "Phom pai mai dai.", "I can't go."],
+            ["เขากินเผ็ด{ไม่ได้}", "Khao kin phet mai dai.", "He can't eat spicy food."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ฉันว่ายน้ำ＿", en: "I can swim.", options: ["ได้", "ต้อง", "อยาก", "จะ"], answer: "ได้", why: "Ability: verb + ได้." },
+        { q: "คุณพูดอังกฤษ＿ไหม", en: "Can you speak English?", options: ["ได้", "เป็น", "มี", "แล้ว"], answer: "ได้", why: "ได้ after the verb asks about ability." },
+        { q: "วันนี้ผมไป＿", en: "I can't go today.", options: ["ไม่ได้", "ไม่ต้อง", "ไม่เคย", "ไม่ไหม"], answer: "ไม่ได้", why: "ไม่ได้ after the verb = cannot." },
+        { q: "Where does ได้ go for “can read”?", en: "อ่าน = read", options: ["After อ่าน", "Before อ่าน", "At the start of the sentence", "Instead of อ่าน"], answer: "After อ่าน", why: "Ability ได้ follows the verb phrase." },
+        { q: "เปิดหน้าต่าง＿ไหม", en: "May I open the window?", options: ["ได้", "กำลัง", "เคย", "ของ"], answer: "ได้", why: "ได้ also covers permission: “may / allowed to”." },
+      ],
+    },
+    {
+      id: "yak-chop",
+      title: "อยาก and ชอบ — want and like",
+      particle: "อยาก ชอบ",
+      summary: "อยาก before a verb for “want to”; อยากได้ before a noun; ชอบ for “like”.",
+      sections: [
+        {
+          p: "<b>อยาก</b> (yak) before a verb means “want to”: อยากกิน “want to eat”. Before a noun, Thai usually says <b>อยากได้</b> (yak dai), “want to get / want (a thing)”. Negate desire with ไม่อยาก.",
+          examples: [
+            ["ผม{อยาก}เรียนภาษาไทย", "Phom yak rian phasa Thai.", "I want to study Thai."],
+            ["คุณ{อยาก}ไปไหน", "Khun yak pai nai?", "Where do you want to go?"],
+            ["ฉัน{อยากได้}กาแฟ", "Chan yak dai kafae.", "I want (some) coffee."],
+          ],
+        },
+        {
+          h: "ชอบ — like",
+          p: "<b>ชอบ</b> (chop) is “to like”: ชอบกินข้าวผัด “like (to eat) fried rice”. It takes a noun or a verb phrase after it, and needs no “to” word.",
+          examples: [
+            ["เขา{ชอบ}ชาเขียว", "Khao chop cha khiao.", "He likes green tea."],
+            ["ฉัน{ชอบ}อ่านหนังสือ", "Chan chop an nangsue.", "I like reading books."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ผม＿ไปทะเล", en: "I want to go to the sea.", options: ["อยาก", "ได้", "ต้อง", "แล้ว"], answer: "อยาก", why: "อยาก before a verb = want to." },
+        { q: "ฉัน＿น้ำส้ม", en: "I want orange juice.", options: ["อยากได้", "อยาก", "ได้", "ชอบได้"], answer: "อยากได้", why: "Before a noun, use อยากได้." },
+        { q: "เขา＿ดนตรีไทย", en: "She likes Thai music.", options: ["ชอบ", "อยาก", "ต้อง", "เป็น"], answer: "ชอบ", why: "ชอบ = like." },
+        { q: "ผม＿รอ", en: "I don't want to wait.", options: ["ไม่อยาก", "ไม่ได้", "ไม่ต้อง", "ไม่เคย"], answer: "ไม่อยาก", why: "ไม่อยาก = don't want to." },
+        { q: "คุณ＿กินอะไร", en: "What do you want to eat?", options: ["อยาก", "ได้", "กำลัง", "ของ"], answer: "อยาก", why: "อยาก + verb: want to eat." },
+      ],
+    },
+    {
+      id: "tong-khuan",
+      title: "ต้อง and ควร — must and should",
+      particle: "ต้อง ควร",
+      summary: "ต้อง before the verb for “must”; ควร for “should”; ไม่ต้อง means “need not”.",
+      sections: [
+        {
+          p: "<b>ต้อง</b> (tong) before a verb means “must / have to”: ต้องทำงาน “have to work”. <b>ควร</b> (khuan) is softer “should / ought to”: ควรพัก “should rest”.",
+          examples: [
+            ["ผม{ต้อง}ไปทำงาน", "Phom tong pai tham ngan.", "I have to go to work."],
+            ["คุณ{ต้อง}รอที่นี่", "Khun tong ro thi ni.", "You have to wait here."],
+            ["เขา{ควร}นอนเร็ว", "Khao khuan non reo.", "He should go to bed early."],
+          ],
+        },
+        {
+          h: "ไม่ต้อง and ห้าม",
+          p: "<b>ไม่ต้อง</b> means “don't have to / need not”, not “must not”. For “must not / forbidden”, Thai uses <b>ห้าม</b> (ham): ห้ามสูบบุหรี่ “no smoking”.",
+          examples: [
+            ["คุณ{ไม่ต้อง}มา", "Khun mai tong ma.", "You don't have to come."],
+            ["{ห้าม}ถ่ายรูป", "Ham thai rup.", "No photos. / Photography forbidden."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "พรุ่งนี้ผม＿ตื่นเช้า", en: "Tomorrow I have to wake up early.", options: ["ต้อง", "ได้", "อยาก", "เคย"], answer: "ต้อง", why: "ต้อง before the verb = must / have to." },
+        { q: "คุณ＿พักผ่อน", en: "You should rest.", options: ["ควร", "ได้", "ไหม", "แล้ว"], answer: "ควร", why: "ควร = should." },
+        { q: "คุณ＿ซื้อของขวัญ", en: "You don't have to buy a gift.", options: ["ไม่ต้อง", "ไม่ได้", "ไม่อยาก", "ห้าม"], answer: "ไม่ต้อง", why: "ไม่ต้อง = need not, not “must not”." },
+        { q: "＿จอดรถที่นี่", en: "No parking here. / Parking forbidden.", options: ["ห้าม", "ต้อง", "ควร", "ได้"], answer: "ห้าม", why: "ห้าม = must not / forbidden." },
+        { q: "เด็ก ๆ ＿ทำการบ้าน", en: "The children have to do homework.", options: ["ต้อง", "อยากได้", "กำลัง", "ของ"], answer: "ต้อง", why: "ต้อง + verb for obligation." },
+      ],
+    },
+    {
+      id: "hai",
+      title: "ให้ — give, for, and let",
+      particle: "ให้",
+      summary: "Give something to someone; do something for someone; let someone do.",
+      sections: [
+        {
+          p: "<b>ให้</b> (hai) as a main verb is “to give”: ให้เงิน “give money”. The receiver often comes right after ให้: ให้เขาหนังสือ “give him a book”.",
+          examples: [
+            ["ผม{ให้}เขาเงิน", "Phom hai khao ngern.", "I give him money."],
+            ["แม่{ให้}ฉันนาฬิกา", "Mae hai chan nalika.", "Mother gave me a watch."],
+          ],
+        },
+        {
+          h: "For someone, and let someone",
+          p: "After another verb, ให้ marks who benefits: ซื้อให้เพื่อน “buy for a friend”. ให้ + person + verb also means “let / have someone do”: ให้ผมดู “let me see”.",
+          examples: [
+            ["ฉันซื้อของ{ให้}แม่", "Chan sue khong hai mae.", "I bought something for Mum."],
+            ["{ให้}ผมช่วย", "Hai phom chuai.", "Let me help."],
+            ["ครู{ให้}นักเรียนอ่าน", "Khru hai nakrian an.", "The teacher has the students read."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "ผม＿น้องสาวหนังสือ", en: "I give my younger sister a book.", options: ["ให้", "ได้", "ต้อง", "ของ"], answer: "ให้", why: "ให้ = give; the receiver follows ให้." },
+        { q: "เขาทำอาหาร＿ผม", en: "He cooked for me.", options: ["ให้", "ได้", "ไหม", "แล้ว"], answer: "ให้", why: "Verb + ให้ + person = for someone's benefit." },
+        { q: "＿ฉันดูหน่อย", en: "Let me take a look.", options: ["ให้", "อยาก", "กำลัง", "เคย"], answer: "ให้", why: "ให้ + person + verb = let someone do." },
+        { q: "แม่＿ลูกไปโรงเรียน", en: "Mum lets / has the child go to school.", options: ["ให้", "เป็น", "อยู่", "มี"], answer: "ให้", why: "Causative ให้: have someone do." },
+        { q: "Which means “buy a gift for a friend”?", en: "ซื้อ = buy, ของขวัญ = gift, เพื่อน = friend", options: ["ซื้อของขวัญให้เพื่อน", "ให้ซื้อเพื่อนของขวัญ", "เพื่อนให้ซื้อของขวัญ", "ซื้อให้ของขวัญเพื่อน"], answer: "ซื้อของขวัญให้เพื่อน", why: "Action, then ให้ + beneficiary." },
+      ],
+    },
+    {
+      id: "kwa-thisut",
+      title: "กว่า and ที่สุด — comparing",
+      particle: "กว่า ที่สุด",
+      summary: "Adjective + กว่า for “more … than”; adjective + ที่สุด for “the most”.",
+      sections: [
+        {
+          p: "The describing word never changes. Put <b>กว่า</b> (kwa) after it for “more … than”: ใหญ่กว่า “bigger”. Name what you compare after กว่า: บ้านนี้ใหญ่กว่าบ้านนั้น.",
+          examples: [
+            ["พี่สูง{กว่า}น้อง", "Phi sung kwa nong.", "The older sibling is taller than the younger."],
+            ["วันนี้ร้อน{กว่า}เมื่อวาน", "Wan ni ron kwa muea wan.", "Today is hotter than yesterday."],
+            ["อันนี้ดี{กว่า}", "An ni di kwa.", "This one is better."],
+          ],
+        },
+        {
+          h: "ที่สุด — the most",
+          p: "<b>ที่สุด</b> (thi sut) after a describing word means “the most / -est”: อร่อยที่สุด “the most delicious”. Do not stack มาก or กว่า with ที่สุด.",
+          examples: [
+            ["ร้านนี้{อร่อยที่สุด}", "Ran ni aroi thi sut.", "This shop is the most delicious."],
+            ["เขาเก่ง{ที่สุด}ในห้อง", "Khao keng thi sut nai hong.", "He is the best in the class."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "รถคันนี้แพง＿คันนั้น", en: "This car is more expensive than that one.", options: ["กว่า", "ที่สุด", "ได้", "ไหม"], answer: "กว่า", why: "Adjective + กว่า (+ B) = more … than." },
+        { q: "ภูเขานี้สูง＿", en: "This mountain is the tallest.", options: ["ที่สุด", "กว่า", "มากกว่า", "กำลัง"], answer: "ที่สุด", why: "Adjective + ที่สุด = the most." },
+        { q: "Which means “My house is bigger than his”?", en: "บ้าน = house, ใหญ่ = big", options: ["บ้านฉันใหญ่กว่าบ้านเขา", "บ้านฉันกว่าใหญ่บ้านเขา", "บ้านฉันใหญ่ที่สุดบ้านเขา", "บ้านฉันเป็นใหญ่กว่าเขา"], answer: "บ้านฉันใหญ่กว่าบ้านเขา", why: "Adjective stays bare; กว่า follows it." },
+        { q: "ชาเขียว＿กาแฟ", en: "Green tea is better than coffee. (ดี = good)", options: ["ดีกว่า", "ดีที่สุด", "ได้ดี", "ต้องดี"], answer: "ดีกว่า", why: "ดี + กว่า for “better than”." },
+        { q: "อาหารไทย＿", en: "Thai food is the most delicious.", options: ["อร่อยที่สุด", "อร่อยกว่า", "อร่อยได้", "อร่อยต้อง"], answer: "อร่อยที่สุด", why: "ที่สุด marks the superlative." },
+      ],
+    },
+    {
+      id: "pai-ma",
+      title: "ไป and มา after verbs — direction",
+      particle: "ไป มา",
+      summary: "After another verb, ไป is away from the speaker and มา is toward the speaker.",
+      sections: [
+        {
+          p: "<b>ไป</b> (pai) and <b>มา</b> (ma) are full verbs (“go” / “come”), but Thai also puts them after another verb to show direction. เดินไป “walk away (that way)”; เดินมา “walk over here”.",
+          examples: [
+            ["เขานำหนังสือ{ไป}", "Khao nam nangsue pai.", "He took the book away."],
+            ["เพื่อนเดิน{มา}", "Phuean doen ma.", "A friend walked over (toward me)."],
+            ["เอาแก้วน้ำ{มา}หน่อย", "Ao kaeo nam ma noi.", "Bring a glass of water (here), please."],
+          ],
+        },
+        {
+          h: "Serial verbs: go and …",
+          p: "Thai often stacks verbs with nothing between them: <b>ไปซื้อ</b>ของ “go (and) buy things”, <b>มาหา</b>ผม “come (and) see me”. The order is the order of events.",
+          examples: [
+            ["ผม{ไปซื้อ}ข้าว", "Phom pai sue khao.", "I'm going to buy rice / food."],
+            ["{มาหา}ผมหน่อย", "Ma ha phom noi.", "Come see me a moment."],
+            ["เรา{ไปกิน}ข้าวกัน", "Rao pai kin khao kan.", "Let's go eat."],
+          ],
+        },
+      ],
+      drills: [
+        { q: "เขานำกระเป๋า＿", en: "He took the bag away.", options: ["ไป", "มา", "ได้", "แล้ว"], answer: "ไป", why: "ไป after the verb = away from the speaker." },
+        { q: "ใครเดิน＿", en: "Who is walking this way?", options: ["มา", "ไป", "ต้อง", "ของ"], answer: "มา", why: "มา = toward the speaker." },
+        { q: "เอาหนังสือ＿ให้ฉัน", en: "Bring the book to me.", options: ["มา", "ไป", "ไหม", "เคย"], answer: "มา", why: "เอามา = bring here." },
+        { q: "Which means “go buy fruit”?", en: "ซื้อ = buy, ผลไม้ = fruit", options: ["ไปซื้อผลไม้", "ซื้อไปผลไม้", "ผลไม้ไปซื้อ", "ไปผลไม้ซื้อ"], answer: "ไปซื้อผลไม้", why: "Serial verbs: go, then buy." },
+        { q: "เรากลับ＿บ้านแล้ว", en: "We have come back home (here).", options: ["มา", "ไป", "ได้", "ควร"], answer: "มา", why: "กลับมา = come back (toward here)." },
       ],
     },
   ],

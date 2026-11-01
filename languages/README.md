@@ -121,6 +121,12 @@ with it, or the table tags a character a tradition has no entry for.
 - Radicals and stroke counts of characters that are not kanji come from Unihan
   `kRSUnicode` and `kTotalStrokes`; kanji keep the SquirrelGo Kanji values.
 
+Stroke **counts** live in the shared table; stroke **paths** do not. Character
+Learner reuses KanjiVG for glyphs that match Jōyō kanji. See
+[`cjk/STROKES.md`](cjk/STROKES.md) for coverage numbers, license options
+(KanjiVG CC BY-SA vs Make Me a Hanzi / AnimCJK Arphic PL), and the
+recommended HSK 1 follow-up.
+
 `cjk/build_cjk.py` rebuilds the hanzi and hanja files and their tags in the
 table from those sources:
 
