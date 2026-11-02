@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+}
+
+def repoRoot = rootProject.projectDir.parentFile.parentFile.parentFile
+def packScript = new File(repoRoot, "SquirrelGo-Apps/lsd-suite/tools/pack_assets.py")
+def packedAssets = layout.buildDirectory.dir("generated/deskAssets")
+
+// Mirror the learners into the asset root before they are merged. The menu
+// and the learners then share the same relative paths as in the git repo.
+def packDeskAssets = tasks.register("packDeskAssets", Exec) {
+    inputs.file(packScript)
+    [
+        "grammar-learner", "vocabulary-learner", "language-learner",
+        "programming-learner", "legalese-learner", "translation-learner",
+        "reference-learner", "resource-learner", "character-learner",
+        "klingon", "languages", "SquirrelGo-Apps/lsd-suite/www",
+        "SquirrelGo-Apps/squirrelgo-characters",
+        "SquirrelGo-Apps/squirrelgo-phrasebook/www",
+        "SquirrelGo-Apps/squirrelgo-dictionary/www",
+    ].each { inputs.dir(new File(repoRoot, it)) }
+    outputs.dir(packedAssets)
+    def out = packedAssets.get().asFile
+    commandLine "python3", packScript.absolutePath, "--dest", out.absolutePath
+}
+
+tasks.configureEach { task ->
+    if (task.name == "preBuild" || task.name == "mergeDebugAssets" || task.name == "mergeReleaseAssets") {
+        task.dependsOn(packDeskAssets)
+    }
+}
+
+android {
+    namespace 'com.squirelworks.lsd'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.squirelworks.lsd"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    sourceSets {
+        main {
+            assets.srcDir packedAssets
+        }
+    }
+
+    // A fixed debug key, so new builds install over old ones and keep your data.
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+}

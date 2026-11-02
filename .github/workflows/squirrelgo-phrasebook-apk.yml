@@ -30,11 +30,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      # The runner image ships the Android SDK; just make sure API 34 is there.
+      # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-34" "build-tools;34.0.0" > /dev/null
+          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
       - name: Sync web assets into the APK
         run: |
           rm -rf android/app/src/main/assets/www
