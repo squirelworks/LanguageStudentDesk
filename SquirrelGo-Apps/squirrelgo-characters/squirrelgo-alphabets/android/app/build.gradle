@@ -10,8 +10,8 @@ android {
         applicationId "com.squirelworks.squirrelgoalphabets"
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 4
+        versionName "1.0.3"
     }
 
     // A fixed debug key, so new builds install over old ones and keep your data.
