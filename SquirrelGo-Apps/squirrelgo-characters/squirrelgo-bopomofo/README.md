@@ -19,10 +19,10 @@ export ANDROID_HOME=$HOME/android-sdk
 echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 # Optional Play signing (gitignored): upload.storeFile, upload.storePassword,
 # upload.keyAlias, upload.keyPassword — or the UPLOAD_* environment variables.
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android && ./gradlew bundleRelease
+cd android && ./gradlew bundleRelease assembleRelease
 ```
+
+Release builds run `syncWwwAssets` automatically (copies `www/` into `android/app/src/main/assets/www` before packaging).
 
 ## Layout
 
