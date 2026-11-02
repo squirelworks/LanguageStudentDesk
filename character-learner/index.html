@@ -263,23 +263,21 @@
     padding: 1rem;
   }
 
-  @media (max-width: 480px) {
-    .scripts-toggle { display: inline-block; }
-    .scripts-toggle.hidden-by-scope { display: none; }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: min(280px, 85vw);
-      z-index: 50;
-      transform: translateX(-105%);
-      transition: transform 0.22s ease;
-      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
-    }
-    .sidebar.drawer-open { transform: translateX(0); }
-    .sidebar.hidden { display: none !important; }
+  body.drawer-layout .scripts-toggle { display: inline-block; }
+  body.drawer-layout .scripts-toggle.hidden-by-scope { display: none; }
+  body.drawer-layout .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(280px, 85vw);
+    z-index: 50;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
   }
+  body.drawer-layout .sidebar.drawer-open { transform: translateX(0); }
+  body.drawer-layout .sidebar.hidden { display: none !important; }
 
   @font-face {
     font-family: 'pIqaD';
@@ -627,6 +625,9 @@ const drawerMq = window.matchMedia('(max-width: 480px)');
 function isDrawerLayout() {
   return drawerMq.matches && !document.getElementById('sidebar')?.classList.contains('hidden');
 }
+function syncDrawerLayoutClass() {
+  document.body.classList.toggle('drawer-layout', drawerMq.matches);
+}
 function setScriptsDrawer(open) {
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('drawerBackdrop');
@@ -648,12 +649,16 @@ function closeScriptsDrawer() { setScriptsDrawer(false); }
 function toggleScriptsDrawer() { setScriptsDrawer(!document.getElementById('sidebar')?.classList.contains('drawer-open')); }
 
 function bindScriptsDrawer() {
+  syncDrawerLayoutClass();
   const toggle = document.getElementById('scriptsToggle');
   const backdrop = document.getElementById('drawerBackdrop');
   const sidebar = document.getElementById('sidebar');
   toggle.onclick = () => toggleScriptsDrawer();
   backdrop.onclick = () => closeScriptsDrawer();
-  drawerMq.addEventListener('change', () => setScriptsDrawer(false));
+  drawerMq.addEventListener('change', () => {
+    syncDrawerLayoutClass();
+    setScriptsDrawer(false);
+  });
   let touchStartX = null;
   sidebar.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
   sidebar.addEventListener('touchend', (e) => {
