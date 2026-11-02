@@ -55,7 +55,7 @@ android {
     def signingProp = { String name ->
         System.getenv(name) ?: localProps.getProperty(name)
     }
-    def uploadStore = signingProp("UPLOAD_STORE_FILE")
+    def uploadStore = signingProp("UPLOAD_STORE_FILE") ?: localProps.getProperty("upload.storeFile")
 
     signingConfigs {
         debug {
@@ -67,9 +67,9 @@ android {
         release {
             if (uploadStore) {
                 storeFile file(uploadStore)
-                storePassword signingProp("UPLOAD_STORE_PASSWORD")
-                keyAlias signingProp("UPLOAD_KEY_ALIAS")
-                keyPassword signingProp("UPLOAD_KEY_PASSWORD")
+                storePassword signingProp("UPLOAD_STORE_PASSWORD") ?: localProps.getProperty("upload.storePassword")
+                keyAlias signingProp("UPLOAD_KEY_ALIAS") ?: localProps.getProperty("upload.keyAlias")
+                keyPassword signingProp("UPLOAD_KEY_PASSWORD") ?: localProps.getProperty("upload.keyPassword")
             }
         }
     }
@@ -77,7 +77,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            signingConfig (uploadStore ? signingConfigs.release : signingConfigs.debug)
         }
         debug {
             applicationIdSuffix ".debug"

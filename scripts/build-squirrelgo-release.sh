@@ -3,6 +3,10 @@ set -euo pipefail
 ROOT=/workspace
 SDK="${ANDROID_HOME:-$HOME/android-sdk}"
 export ANDROID_HOME="$SDK"
+export UPLOAD_STORE_FILE="${UPLOAD_STORE_FILE:-/home/ubuntu/squirelworks-upload.keystore}"
+export UPLOAD_STORE_PASSWORD="${UPLOAD_STORE_PASSWORD:-$(grep UPLOAD_STORE_PASSWORD /home/ubuntu/squirelworks-upload.password | cut -d= -f2)}"
+export UPLOAD_KEY_ALIAS="${UPLOAD_KEY_ALIAS:-squirelworks-upload}"
+export UPLOAD_KEY_PASSWORD="${UPLOAD_KEY_PASSWORD:-$UPLOAD_STORE_PASSWORD}"
 OUT_AAB="$ROOT/aabs"
 OUT_ART="/opt/cursor/artifacts/aabs"
 mkdir -p "$OUT_AAB" "$OUT_ART"
