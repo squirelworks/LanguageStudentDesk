@@ -1,0 +1,34 @@
+// Apply from an app's android/app/build.gradle after: ext.appRoot = rootProject.projectDir.parentFile
+
+def packScript = {
+    def d = ext.appRoot
+    for (int i = 0; i < 6 && d != null; i++) {
+        def f = new File(d, "tools/pack_www_assets.py")
+        if (f.isFile()) return f
+        d = d.parentFile
+    }
+    throw new GradleException("pack_www_assets.py not found above " + ext.appRoot)
+}()
+
+def packedAssets = layout.buildDirectory.dir("generated/deskAssets")
+def wwwSrc = new File(ext.appRoot, "www")
+
+def packDeskAssets = tasks.register("packDeskAssets", Exec) {
+    inputs.file(packScript)
+    inputs.dir(wwwSrc)
+    outputs.dir(packedAssets)
+    def out = packedAssets.get().asFile
+    commandLine "python3", packScript.absolutePath, "--src", wwwSrc.absolutePath, "--dest", out.absolutePath
+}
+
+tasks.configureEach { task ->
+    if (task.name == "preBuild" || task.name == "mergeDebugAssets" || task.name == "mergeReleaseAssets") {
+        task.dependsOn(packDeskAssets)
+    }
+}
+
+android.sourceSets {
+    main {
+        assets.srcDir packedAssets
+    }
+}
