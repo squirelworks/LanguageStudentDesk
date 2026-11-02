@@ -53,7 +53,7 @@ TOOLS = {
                             "Syntax, concepts and practice for programming languages, from Python to Malbolge.",
                             "Desk tools", True, None),
     "programming-student-desk": ("Programming Student Desk",
-                                 "The Programming Learner as its own offline Android app. The course list is the learner's catalog, including Slick and Chisel.",
+                                 "The Programming Learner as its own offline Android app. A home menu lists every course and opens one inside the app.",
                                  "Desk tools", True, None),
     "legalese-learner": ("Legalese Learner",
                          "How the heavy words in a contract work: shall, notwithstanding, herein, and the clauses at the back. Reading practice, not legal advice.",

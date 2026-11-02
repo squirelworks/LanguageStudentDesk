@@ -1,6 +1,6 @@
 # Programming Student Desk (Android)
 
-The Programming Learner as its own offline Android app. A home menu lists every course in `programming-learner/data/catalog.js` (Slick and Chisel included) and opens one with `?lang=<id>`, the same query the Desk launcher uses. The asset root mirrors just that learner and the shared `languages/learners.css` and `languages/lsd-lang.js` files it loads. The rest of the Desk is not in the app.
+The Programming Learner as its own offline Android app. A home menu lists every course (Slick and Chisel included) and opens one inside the app. The asset root mirrors just that learner and the shared `languages/learners.css` and `languages/lsd-lang.js` files it loads. The rest of the Desk is not in the app.
 
 Package id: `com.squirelworks.programmingstudentdesk`. The debug build adds `.debug`; the release AAB does not. Store name: Programming Student Desk. Minimum Android: 7.0 (API 24). compileSdk and targetSdk: 36.
 
