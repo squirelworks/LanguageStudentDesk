@@ -53,7 +53,7 @@ build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana" Squirrel
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji" SquirrelGoKanji SquirrelGoKanji
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets
-build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "SquirrelGo-Apps/lsd-suite/www/index.html"
+build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "assets/www/index.html"
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo" SquirrelGoBopomofo SquirrelGoBopomofo
 
 echo "All builds finished."
