@@ -1,0 +1,1350 @@
+[
+  {
+    "id": "hangul-tense",
+    "level": "absolute-beginner",
+    "title": "Doubled consonants",
+    "particle": "ㄲ ㄸ ㅃ ㅆ ㅉ",
+    "summary": "Five tense doubles: no puff of air, a tight start.",
+    "sections": [
+      {
+        "p": "Doubled <b>ㄲ ㄸ ㅃ ㅆ ㅉ</b> sit in the same mouth positions as ㄱ ㄷ ㅂ ㅅ ㅈ but the start is tight, with almost no air. English has nothing quite like them; keep the mouth small and the start short.",
+        "examples": [
+          [
+            "따뜻하다",
+            "ttatteuthada",
+            "warm (starts with ㄸ)"
+          ],
+          [
+            "쌀",
+            "ssal",
+            "rice (uncooked)"
+          ],
+          [
+            "집",
+            "jip",
+            "house — compare ㅂ in 받침 later"
+          ]
+        ]
+      },
+      {
+        "h": "Not the same as aspiration",
+        "p": "Do not confuse ㅋ with ㄲ: ㅋ is a puff, ㄲ is tense. In these lessons romanization uses doubled letters: tt, ss, pp, jj, kk."
+      }
+    ],
+    "drills": [
+      {
+        "q": "Which is the tense (doubled) t?",
+        "en": "",
+        "options": [
+          "ㄸ",
+          "ㄷ",
+          "ㅌ",
+          "ㄴ"
+        ],
+        "answer": "ㄸ",
+        "why": "ㄸ is doubled ㄷ, not aspirated ㅌ."
+      },
+      {
+        "q": "쌀 starts with which letter?",
+        "en": "",
+        "options": [
+          "ㅆ",
+          "ㅅ",
+          "ㅊ",
+          "ㅉ"
+        ],
+        "answer": "ㅆ",
+        "why": "쌀 is ssal, rice."
+      },
+      {
+        "q": "ㄲ is the partner of…",
+        "en": "",
+        "options": [
+          "ㄱ",
+          "ㅋ",
+          "ㄴ",
+          "ㅎ"
+        ],
+        "answer": "ㄱ",
+        "why": "ㄲ is tense; ㅋ is aspirated."
+      },
+      {
+        "q": "Which pair is plain versus tense?",
+        "en": "",
+        "options": [
+          "ㅂ / ㅃ",
+          "ㅂ / ㅍ",
+          "ㄷ / ㅌ",
+          "ㅈ / ㅊ"
+        ],
+        "answer": "ㅂ / ㅃ",
+        "why": "ㅃ is the tense partner of ㅂ."
+      },
+      {
+        "q": "Read 집.",
+        "en": "",
+        "options": [
+          "jip (house)",
+          "ssal (rice)",
+          "ttal (daughter)",
+          "ppang (bread)"
+        ],
+        "answer": "jip (house)",
+        "why": "집 is jip, one ㅈ not doubled."
+      }
+    ]
+  },
+  {
+    "id": "hangul-yot",
+    "level": "absolute-beginner",
+    "title": "Combined vowels",
+    "particle": "ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ",
+    "summary": "Vowels built from two parts; yot marks ㅑ ㅕ ㅛ ㅠ inside a bigger vowel.",
+    "sections": [
+      {
+        "p": "After a consonant, <b>ㅘ wa, ㅙ wae, ㅚ oe, ㅝ wo, ㅞ we, ㅟ wi, ㅢ ui</b> are one vowel sound in one block. ㅚ and ㅟ are often pronounced like we and wi in modern Seoul speech.",
+        "examples": [
+          [
+            "과",
+            "gwa",
+            "and / suffix"
+          ],
+          [
+            "왜",
+            "wae",
+            "why"
+          ],
+          [
+            "의",
+            "ui",
+            "of / doctor"
+          ]
+        ]
+      },
+      {
+        "h": "Where they sit",
+        "p": "Like simple vowels, combined vowels are tall and stand to the right: 과 is ㄱ + ㅘ."
+      }
+    ],
+    "drills": [
+      {
+        "q": "과 is…",
+        "en": "",
+        "options": [
+          "ㄱ + ㅘ",
+          "ㄱ + ㅗ",
+          "ㄱ + ㅜ",
+          "ㅇ + ㅏ"
+        ],
+        "answer": "ㄱ + ㅘ",
+        "why": "과 stacks ㄱ with the combined vowel ㅘ."
+      },
+      {
+        "q": "왜 means…",
+        "en": "",
+        "options": [
+          "why",
+          "water",
+          "doctor",
+          "and"
+        ],
+        "answer": "why",
+        "why": "왜 wae is why."
+      },
+      {
+        "q": "ㅢ in 의사 is romanized…",
+        "en": "",
+        "options": [
+          "ui",
+          "wi",
+          "we",
+          "u"
+        ],
+        "answer": "ui",
+        "why": "의사 uisa is doctor."
+      },
+      {
+        "q": "Which block has ㅝ?",
+        "en": "",
+        "options": [
+          "wo",
+          "wa",
+          "wi",
+          "ui"
+        ],
+        "answer": "wo",
+        "why": "ㅝ is wo, as in the question word (rare alone)."
+      },
+      {
+        "q": "Combined vowels in a block sit…",
+        "en": "",
+        "options": [
+          "to the right of the first consonant",
+          "under the consonant",
+          "before the consonant",
+          "only at word end"
+        ],
+        "answer": "to the right of the first consonant",
+        "why": "They are tall vowels."
+      }
+    ]
+  },
+  {
+    "id": "hangul-numbers",
+    "level": "absolute-beginner",
+    "title": "Numbers 1–10",
+    "particle": "하나 … 열",
+    "summary": "Native Korean numbers for counting small things and telling age in speech.",
+    "sections": [
+      {
+        "p": "<b>하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟, 아홉, 열</b> are the native numbers one to ten. Before a counter they shorten: 한, 두, 세, 네 (하나→한, 둘→두…).",
+        "examples": [
+          [
+            "하나, 둘, 셋",
+            "hana, dul, set",
+            "one, two, three"
+          ],
+          [
+            "사과 세 개",
+            "sagwa se gae",
+            "three apples (세 + counter)"
+          ],
+          [
+            "열 살",
+            "yeol sal",
+            "ten years old"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Three (before a counter) is…",
+        "en": "",
+        "options": [
+          "세",
+          "셋",
+          "삼",
+          "서"
+        ],
+        "answer": "세",
+        "why": "셋 becomes 세 before a counter."
+      },
+      {
+        "q": "열 is…",
+        "en": "",
+        "options": [
+          "ten",
+          "nine",
+          "eleven",
+          "one"
+        ],
+        "answer": "ten",
+        "why": "열 yeol is ten."
+      },
+      {
+        "q": "사과 두 개 means…",
+        "en": "",
+        "options": [
+          "two apples",
+          "three apples",
+          "two people",
+          "two books"
+        ],
+        "answer": "two apples",
+        "why": "두 is two + counter 개."
+      },
+      {
+        "q": "Which is the native word for four?",
+        "en": "",
+        "options": [
+          "넷",
+          "사",
+          "넷",
+          "사십"
+        ],
+        "answer": "넷",
+        "why": "넷 net is four (native)."
+      },
+      {
+        "q": "아홉 is…",
+        "en": "",
+        "options": [
+          "nine",
+          "eight",
+          "seven",
+          "six"
+        ],
+        "answer": "nine",
+        "why": "아홉 ahop is nine."
+      }
+    ]
+  },
+  {
+    "id": "hangul-sino-numbers",
+    "level": "absolute-beginner",
+    "title": "Sino-Korean numbers",
+    "particle": "일 이 삼 …",
+    "summary": "Chinese-origin numbers for dates, money, floors and phone digits.",
+    "sections": [
+      {
+        "p": "<b>일, 이, 삼, 사, 오, 육, 칠, 팔, 구, 십</b> are the Sino-Korean digits. They combine for larger numbers: 십일 eleven, 이십 twenty, 삼십오 thirty-five.",
+        "examples": [
+          [
+            "오월",
+            "owol",
+            "May (month five)"
+          ],
+          [
+            "삼천 원",
+            "samcheon won",
+            "three thousand won"
+          ],
+          [
+            "이층",
+            "icheung",
+            "second floor"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "May is…",
+        "en": "",
+        "options": [
+          "오월",
+          "오일",
+          "오년",
+          "오시"
+        ],
+        "answer": "오월",
+        "why": "Month five: 오월."
+      },
+      {
+        "q": "이십 is…",
+        "en": "",
+        "options": [
+          "twenty",
+          "twelve",
+          "two",
+          "thirty"
+        ],
+        "answer": "twenty",
+        "why": "이 + 십 = twenty."
+      },
+      {
+        "q": "Which is Sino-Korean for seven?",
+        "en": "",
+        "options": [
+          "칠",
+          "일곱",
+          "칠",
+          "셋"
+        ],
+        "answer": "칠",
+        "why": "칠 chil is seven (Sino)."
+      },
+      {
+        "q": "삼천 원 is…",
+        "en": "",
+        "options": [
+          "three thousand won",
+          "three hundred won",
+          "thirty won",
+          "three won"
+        ],
+        "answer": "three thousand won",
+        "why": "천 is thousand."
+      },
+      {
+        "q": "Second floor is often…",
+        "en": "",
+        "options": [
+          "이층",
+          "이 살",
+          "둘 층",
+          "이번"
+        ],
+        "answer": "이층",
+        "why": "층 is floor; 이층 second floor."
+      }
+    ]
+  },
+  {
+    "id": "hangul-greetings",
+    "level": "absolute-beginner",
+    "title": "Greetings",
+    "particle": "안녕하세요",
+    "summary": "Hello, goodbye and thank you in polite speech.",
+    "sections": [
+      {
+        "p": "<b>안녕하세요</b> is hello. <b>안녕히 가세요</b> says goodbye to someone leaving; <b>안녕히 계세요</b> to someone staying. <b>감사합니다</b> is thank you; <b>천만에요</b> answers it.",
+        "examples": [
+          [
+            "{안녕하세요}.",
+            "annyeonghaseyo.",
+            "Hello."
+          ],
+          [
+            "{감사합니다}.",
+            "gamsahamnida.",
+            "Thank you."
+          ],
+          [
+            "{안녕히} 가세요.",
+            "annyeonghi gaseyo.",
+            "Goodbye (you are going)."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Polite hello is…",
+        "en": "",
+        "options": [
+          "안녕하세요",
+          "안녕",
+          "감사합니다",
+          "죄송합니다"
+        ],
+        "answer": "안녕하세요",
+        "why": "안녕하세요 is the everyday polite hello."
+      },
+      {
+        "q": "You thank someone with…",
+        "en": "",
+        "options": [
+          "감사합니다",
+          "미안합니다",
+          "안녕히 계세요",
+          "네"
+        ],
+        "answer": "감사합니다",
+        "why": "감사합니다 is thank you."
+      },
+      {
+        "q": "Someone leaves your shop. You say…",
+        "en": "",
+        "options": [
+          "안녕히 가세요",
+          "안녕히 계세요",
+          "안녕하세요",
+          "들어오세요"
+        ],
+        "answer": "안녕히 가세요",
+        "why": "They go, so 가세요."
+      },
+      {
+        "q": "You stay; the guest leaves. They say to you…",
+        "en": "",
+        "options": [
+          "안녕히 계세요",
+          "안녕히 가세요",
+          "감사합니다",
+          "안녕"
+        ],
+        "answer": "안녕히 계세요",
+        "why": "You stay: 계세요."
+      },
+      {
+        "q": "Answer to 감사합니다 is often…",
+        "en": "",
+        "options": [
+          "천만에요",
+          "안녕하세요",
+          "네",
+          "아니요"
+        ],
+        "answer": "천만에요",
+        "why": "천만에요 or 아니에요: you're welcome."
+      }
+    ]
+  },
+  {
+    "id": "hangul-ne-aniyo",
+    "level": "absolute-beginner",
+    "title": "Yes and no",
+    "particle": "네 / 아니요",
+    "summary": "Short answers in polite conversation.",
+    "sections": [
+      {
+        "p": "<b>네</b> (often pronounced ne or e) means yes. <b>아니요</b> means no. <b>아니에요</b> softens “that's not so” or “I'm not”.",
+        "examples": [
+          [
+            "{네}, 맞아요.",
+            "Ne, majayo.",
+            "Yes, that's right."
+          ],
+          [
+            "{아니요}, 괜찮아요.",
+            "Aniyo, gwaenchanayo.",
+            "No, it's fine."
+          ],
+          [
+            "저는 학생이 {아니에요}.",
+            "Jeoneun haksaeng-i anieyo.",
+            "I'm not a student."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Polite yes is…",
+        "en": "",
+        "options": [
+          "네",
+          "예",
+          "아니요",
+          "네요"
+        ],
+        "answer": "네",
+        "why": "네 is yes in everyday polite speech."
+      },
+      {
+        "q": "Polite no is…",
+        "en": "",
+        "options": [
+          "아니요",
+          "네",
+          "아니에요",
+          "안"
+        ],
+        "answer": "아니요",
+        "why": "아니요 is no."
+      },
+      {
+        "q": "I'm not a teacher uses…",
+        "en": "",
+        "options": [
+          "아니에요",
+          "아니요",
+          "네",
+          "없어요"
+        ],
+        "answer": "아니에요",
+        "why": "Copula negative: 아니에요."
+      },
+      {
+        "q": "Answer “Is this coffee?” — Yes.",
+        "en": "",
+        "options": [
+          "네, 커피예요.",
+          "아니요, 커피예요.",
+          "네, 커피를.",
+          "아니에요, 커피."
+        ],
+        "answer": "네, 커피예요.",
+        "why": "네 confirms; 커피예요 it's coffee."
+      },
+      {
+        "q": "괜찮아요? — I'm fine, thanks.",
+        "en": "",
+        "options": [
+          "네, 괜찮아요.",
+          "아니요, 괜찮아요.",
+          "네, 안 괜찮아요.",
+          "아니에요, 괜찮아요."
+        ],
+        "answer": "네, 괜찮아요.",
+        "why": "네 affirms: it's fine."
+      }
+    ]
+  },
+  {
+    "id": "hangul-read-body",
+    "level": "absolute-beginner",
+    "title": "Reading: body and health",
+    "particle": "머리 손 발",
+    "summary": "Common body words in Hangul blocks.",
+    "sections": [
+      {
+        "p": "Read each block left to right, top to bottom: <b>머리</b> meori head, <b>손</b> son hand, <b>발</b> bal foot, <b>눈</b> nun eye, <b>귀</b> gwi ear.",
+        "examples": [
+          [
+            "머리",
+            "meori",
+            "head"
+          ],
+          [
+            "손",
+            "son",
+            "hand"
+          ],
+          [
+            "발",
+            "bal",
+            "foot"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Read 손.",
+        "en": "",
+        "options": [
+          "son (hand)",
+          "bal (foot)",
+          "nun (eye)",
+          "meori (head)"
+        ],
+        "answer": "son (hand)",
+        "why": "손 is son."
+      },
+      {
+        "q": "발 is…",
+        "en": "",
+        "options": [
+          "foot",
+          "hand",
+          "head",
+          "ear"
+        ],
+        "answer": "foot",
+        "why": "발 bal is foot."
+      },
+      {
+        "q": "눈 means…",
+        "en": "",
+        "options": [
+          "eye",
+          "ear",
+          "snow",
+          "hand"
+        ],
+        "answer": "eye",
+        "why": "눈 nun is eye (context also snow)."
+      },
+      {
+        "q": "Which is “head”?",
+        "en": "",
+        "options": [
+          "머리",
+          "머리",
+          "목",
+          "배"
+        ],
+        "answer": "머리",
+        "why": "머리 meori is head."
+      },
+      {
+        "q": "귀 is…",
+        "en": "",
+        "options": [
+          "ear",
+          "eye",
+          "mouth",
+          "nose"
+        ],
+        "answer": "ear",
+        "why": "귀 gwi is ear."
+      }
+    ]
+  },
+  {
+    "id": "hangul-read-food",
+    "level": "absolute-beginner",
+    "title": "Reading: food words",
+    "particle": "밥 물 김치",
+    "summary": "Everyday food vocabulary in syllable blocks.",
+    "sections": [
+      {
+        "p": "<b>밥</b> bap cooked rice/meal, <b>물</b> mul water, <b>김치</b> gimchi kimchi, <b>불고기</b> bulgogi, <b>빵</b> ppang bread.",
+        "examples": [
+          [
+            "밥",
+            "bap",
+            "rice / meal"
+          ],
+          [
+            "물",
+            "mul",
+            "water"
+          ],
+          [
+            "김치",
+            "gimchi",
+            "kimchi"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Read 물.",
+        "en": "",
+        "options": [
+          "mul (water)",
+          "bap (rice)",
+          "ppang (bread)",
+          "gimchi"
+        ],
+        "answer": "mul (water)",
+        "why": "물 is mul."
+      },
+      {
+        "q": "밥 is…",
+        "en": "",
+        "options": [
+          "rice / meal",
+          "water",
+          "bread",
+          "meat"
+        ],
+        "answer": "rice / meal",
+        "why": "밥 bap is cooked rice or a meal."
+      },
+      {
+        "q": "빵 starts with…",
+        "en": "",
+        "options": [
+          "ㅃ",
+          "ㅂ",
+          "ㅍ",
+          "ㅌ"
+        ],
+        "answer": "ㅃ",
+        "why": "빵 ppang has tense ㅃ."
+      },
+      {
+        "q": "김치 has how many blocks?",
+        "en": "",
+        "options": [
+          "two",
+          "one",
+          "three",
+          "four"
+        ],
+        "answer": "two",
+        "why": "김 + 치."
+      },
+      {
+        "q": "Which is bread?",
+        "en": "",
+        "options": [
+          "빵",
+          "밥",
+          "물",
+          "김"
+        ],
+        "answer": "빵",
+        "why": "빵 ppang is bread."
+      }
+    ]
+  },
+  {
+    "id": "hangul-read-places",
+    "level": "absolute-beginner",
+    "title": "Reading: places",
+    "particle": "집 학교 병원",
+    "summary": "Home, school and public places.",
+    "sections": [
+      {
+        "p": "<b>집</b> jip home, <b>학교</b> hakgyo school, <b>병원</b> byeongwon hospital, <b>공원</b> gongwon park, <b>회사</b> hoesa company.",
+        "examples": [
+          [
+            "집",
+            "jip",
+            "home"
+          ],
+          [
+            "학교",
+            "hakgyo",
+            "school"
+          ],
+          [
+            "병원",
+            "byeongwon",
+            "hospital"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "학교 is…",
+        "en": "",
+        "options": [
+          "school",
+          "home",
+          "hospital",
+          "company"
+        ],
+        "answer": "school",
+        "why": "학교 hakgyo is school."
+      },
+      {
+        "q": "Read 집.",
+        "en": "",
+        "options": [
+          "jip (home)",
+          "jip (house)",
+          "hakgyo",
+          "byeongwon"
+        ],
+        "answer": "jip (home)",
+        "why": "집 jip is home."
+      },
+      {
+        "q": "병원 means…",
+        "en": "",
+        "options": [
+          "hospital",
+          "school",
+          "park",
+          "office"
+        ],
+        "answer": "hospital",
+        "why": "병원 byeongwon is hospital."
+      },
+      {
+        "q": "Which is park?",
+        "en": "",
+        "options": [
+          "공원",
+          "회사",
+          "병원",
+          "학교"
+        ],
+        "answer": "공원",
+        "why": "공원 gongwon is park."
+      },
+      {
+        "q": "회사 is…",
+        "en": "",
+        "options": [
+          "company / office",
+          "school",
+          "home",
+          "hospital"
+        ],
+        "answer": "company / office",
+        "why": "회사 hoesa is company."
+      }
+    ]
+  },
+  {
+    "id": "do-particle",
+    "level": "beginner",
+    "title": "도 — also, too",
+    "particle": "도",
+    "summary": "Adds “also” or “even” after a noun.",
+    "sections": [
+      {
+        "p": "<b>도</b> after a noun means also, too, or even. It replaces 은/는 or 을/를 when those roles apply: 저도 “me too”, 커피도 “coffee too”.",
+        "examples": [
+          [
+            "저{도} 학생이에요.",
+            "Jeodo haksaeng-ieyo.",
+            "I'm a student too."
+          ],
+          [
+            "물{도} 마셔요.",
+            "Mul-do masyeoyo.",
+            "I drink water too."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "I like coffee too: 커피＿.",
+        "en": "",
+        "options": [
+          "도",
+          "는",
+          "만",
+          "에"
+        ],
+        "answer": "도",
+        "why": "도 adds also."
+      },
+      {
+        "q": "What does 저도 mean?",
+        "en": "",
+        "options": [
+          "me too",
+          "only me",
+          "not me",
+          "I"
+        ],
+        "answer": "me too",
+        "why": "저 + 도 = me too."
+      },
+      {
+        "q": "Which adds “even Minji”?",
+        "en": "",
+        "options": [
+          "민지도",
+          "민지만",
+          "민지는",
+          "민지를"
+        ],
+        "answer": "민지도",
+        "why": "민지 + 도."
+      },
+      {
+        "q": "도 replaces which pair when marking also on a topic?",
+        "en": "",
+        "options": [
+          "은/는",
+          "이/가",
+          "을/를",
+          "에"
+        ],
+        "answer": "은/는",
+        "why": "Topic also: noun + 도 instead of 는."
+      },
+      {
+        "q": "물도 마셔요 means…",
+        "en": "",
+        "options": [
+          "I drink water too.",
+          "I only drink water.",
+          "I don't drink water.",
+          "Water drinks me."
+        ],
+        "answer": "I drink water too.",
+        "why": "도 is also."
+      }
+    ]
+  },
+  {
+    "id": "man-particle",
+    "level": "beginner",
+    "title": "만 — only",
+    "particle": "만",
+    "summary": "Limits to just that thing.",
+    "sections": [
+      {
+        "p": "<b>만</b> means only or just: 커피만 “only coffee”, 오늘만 “only today”.",
+        "examples": [
+          [
+            "커피{만} 마셔요.",
+            "Keopiman masyeoyo.",
+            "I only drink coffee."
+          ],
+          [
+            "오늘{만} 쉬어요.",
+            "Oneulman swieoyo.",
+            "I rest only today."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Only coffee: 커피＿.",
+        "en": "",
+        "options": [
+          "만",
+          "도",
+          "은",
+          "를"
+        ],
+        "answer": "만",
+        "why": "만 is only."
+      },
+      {
+        "q": "오늘만 means…",
+        "en": "",
+        "options": [
+          "only today",
+          "today also",
+          "not today",
+          "today"
+        ],
+        "answer": "only today",
+        "why": "만 limits to today only."
+      },
+      {
+        "q": "Which means “only me”?",
+        "en": "",
+        "options": [
+          "저만",
+          "저도",
+          "저는",
+          "저를"
+        ],
+        "answer": "저만",
+        "why": "저 + 만."
+      },
+      {
+        "q": "커피만 마셔요 implies…",
+        "en": "",
+        "options": [
+          "nothing else to drink",
+          "coffee also",
+          "no coffee",
+          "all drinks"
+        ],
+        "answer": "nothing else to drink",
+        "why": "만 excludes other drinks."
+      },
+      {
+        "q": "만 versus 도: which excludes others?",
+        "en": "",
+        "options": [
+          "만",
+          "도",
+          "은",
+          "에"
+        ],
+        "answer": "만",
+        "why": "만 is only; 도 is also."
+      }
+    ]
+  },
+  {
+    "id": "ege-ge",
+    "level": "beginner",
+    "title": "에게 / 한테 — to a person",
+    "particle": "에게 / 한테",
+    "summary": "Direction toward someone in speech.",
+    "sections": [
+      {
+        "p": "<b>에게</b> (written) and <b>한테</b> (spoken) mark the person who receives an action: 친구에게 전화해요 “I call a friend”. Animals and very polite speech use different words; start with people.",
+        "examples": [
+          [
+            "친구{에게} 선물을 줬어요.",
+            "Chingu-ege seommul-eul jwosseoyo.",
+            "I gave a gift to a friend."
+          ],
+          [
+            "엄마{한테} 말했어요.",
+            "Eomma-hante malhaesseoyo.",
+            "I told Mom."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "To a friend (spoken): 친구＿.",
+        "en": "",
+        "options": [
+          "한테",
+          "에게",
+          "에서",
+          "으로"
+        ],
+        "answer": "한테",
+        "why": "한테 is spoken to a person."
+      },
+      {
+        "q": "친구에게 means…",
+        "en": "",
+        "options": [
+          "to a friend",
+          "from a friend",
+          "at a friend",
+          "with a friend"
+        ],
+        "answer": "to a friend",
+        "why": "에게 marks the recipient."
+      },
+      {
+        "q": "Which is more spoken?",
+        "en": "",
+        "options": [
+          "한테",
+          "에게",
+          "에서",
+          "와"
+        ],
+        "answer": "한테",
+        "why": "한테 is colloquial; 에게 is neutral/written."
+      },
+      {
+        "q": "I gave Mom a gift: 엄마＿ 선물.",
+        "en": "",
+        "options": [
+          "한테",
+          "에서",
+          "을",
+          "는"
+        ],
+        "answer": "한테",
+        "why": "Recipient: 한테."
+      },
+      {
+        "q": "전화하다 often takes…",
+        "en": "",
+        "options": [
+          "에게/한테",
+          "에서",
+          "으로",
+          "만"
+        ],
+        "answer": "에게/한테",
+        "why": "You call to someone."
+      }
+    ]
+  },
+  {
+    "id": "eseo-time",
+    "level": "beginner",
+    "title": "에 — time and schedule",
+    "particle": "에",
+    "summary": "Clock time and fixed appointments take 에.",
+    "sections": [
+      {
+        "p": "Hours and days take <b>에</b>: 세 시에 at three, 월요일에 on Monday, 내일에 tomorrow (often 내일 alone).",
+        "examples": [
+          [
+            "아홉 시{에} 만나요.",
+            "Ahop si-e mannayo.",
+            "Let's meet at nine."
+          ],
+          [
+            "월요일{에} 시험이 있어요.",
+            "Woryoil-e siheom-i isseoyo.",
+            "There's an exam on Monday."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "At eight o'clock: 여덟 시＿.",
+        "en": "",
+        "options": [
+          "에",
+          "에서",
+          "부터",
+          "까지"
+        ],
+        "answer": "에",
+        "why": "Clock time takes 에."
+      },
+      {
+        "q": "월요일에 means…",
+        "en": "",
+        "options": [
+          "on Monday",
+          "from Monday",
+          "until Monday",
+          "at Monday's place"
+        ],
+        "answer": "on Monday",
+        "why": "Day + 에 = on that day."
+      },
+      {
+        "q": "Which is “at three”?",
+        "en": "",
+        "options": [
+          "세 시에",
+          "세 시에서",
+          "세 시를",
+          "세 시는"
+        ],
+        "answer": "세 시에",
+        "why": "Time: 시 + 에."
+      },
+      {
+        "q": "Meeting time uses…",
+        "en": "",
+        "options": [
+          "에",
+          "에서",
+          "으로",
+          "도"
+        ],
+        "answer": "에",
+        "why": "Fixed time point: 에."
+      },
+      {
+        "q": "내일 만나요 often drops…",
+        "en": "",
+        "options": [
+          "에 (optional)",
+          "the verb",
+          "the subject",
+          "the object"
+        ],
+        "answer": "에 (optional)",
+        "why": "내일 can stand without 에 in speech."
+      }
+    ]
+  },
+  {
+    "id": "question-words",
+    "level": "beginner",
+    "title": "Question words",
+    "particle": "뭐 어디 누구 언제",
+    "summary": "What, where, who, when in basic questions.",
+    "sections": [
+      {
+        "p": "<b>뭐</b> (무엇) what, <b>어디</b> where, <b>누구</b> who, <b>언제</b> when. They stay in the sentence; the verb still ends the clause.",
+        "examples": [
+          [
+            "{뭐} 먹어요?",
+            "Mwo meogeoyo?",
+            "What are you eating?"
+          ],
+          [
+            "{어디} 가요?",
+            "Eodi gayo?",
+            "Where are you going?"
+          ],
+          [
+            "{누구}예요?",
+            "Nugu-yeyo?",
+            "Who is it?"
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "What are you eating?",
+        "en": "",
+        "options": [
+          "뭐 먹어요?",
+          "어디 먹어요?",
+          "누구 먹어요?",
+          "언제 먹어요?"
+        ],
+        "answer": "뭐 먹어요?",
+        "why": "뭐 is what."
+      },
+      {
+        "q": "어디 가요? means…",
+        "en": "",
+        "options": [
+          "Where are you going?",
+          "What are you going?",
+          "Who goes?",
+          "When go?"
+        ],
+        "answer": "Where are you going?",
+        "why": "어디 = where."
+      },
+      {
+        "q": "Who is it? (polite)",
+        "en": "",
+        "options": [
+          "누구예요?",
+          "뭐예요?",
+          "어디예요?",
+          "언제예요?"
+        ],
+        "answer": "누구예요?",
+        "why": "누구 + 예요."
+      },
+      {
+        "q": "언제 is…",
+        "en": "",
+        "options": [
+          "when",
+          "where",
+          "what",
+          "who"
+        ],
+        "answer": "when",
+        "why": "언제 eonje is when."
+      },
+      {
+        "q": "Question word for place…",
+        "en": "",
+        "options": [
+          "어디",
+          "뭐",
+          "누구",
+          "언제"
+        ],
+        "answer": "어디",
+        "why": "어디 eodi is where."
+      }
+    ]
+  },
+  {
+    "id": "iryo-juseyo",
+    "level": "beginner",
+    "title": "주세요 and 죄송합니다",
+    "particle": "주세요",
+    "summary": "Please give me… and a basic apology.",
+    "sections": [
+      {
+        "p": "<b>주세요</b> is please give (me): 커피 주세요 “Coffee, please.” <b>죄송합니다</b> is I'm sorry (polite). <b>미안합니다</b> is also sorry, slightly less formal in some settings.",
+        "examples": [
+          [
+            "커피 {주세요}.",
+            "Keopi juseyo.",
+            "Coffee, please."
+          ],
+          [
+            "{죄송합니다}.",
+            "Joesonghamnida.",
+            "I'm sorry."
+          ]
+        ]
+      }
+    ],
+    "drills": [
+      {
+        "q": "Coffee, please.",
+        "en": "",
+        "options": [
+          "커피 주세요.",
+          "커피 마셔요.",
+          "커피 있어요.",
+          "커피예요."
+        ],
+        "answer": "커피 주세요.",
+        "why": "주세요 asks them to give/serve."
+      },
+      {
+        "q": "Polite strong apology…",
+        "en": "",
+        "options": [
+          "죄송합니다",
+          "감사합니다",
+          "안녕하세요",
+          "네"
+        ],
+        "answer": "죄송합니다",
+        "why": "죄송합니다 is sorry."
+      },
+      {
+        "q": "Water, please: 물＿.",
+        "en": "",
+        "options": [
+          "주세요",
+          "마셔요",
+          "있어요",
+          "예요"
+        ],
+        "answer": "주세요",
+        "why": "물 주세요."
+      },
+      {
+        "q": "주세요 attaches to…",
+        "en": "",
+        "options": [
+          "a noun you want",
+          "only verbs",
+          "only people",
+          "only places"
+        ],
+        "answer": "a noun you want",
+        "why": "Noun + 주세요."
+      },
+      {
+        "q": "After bumping someone you say…",
+        "en": "",
+        "options": [
+          "죄송합니다",
+          "감사합니다",
+          "안녕히 가세요",
+          "네"
+        ],
+        "answer": "죄송합니다",
+        "why": "Apology."
+      }
+    ]
+  }
+]
