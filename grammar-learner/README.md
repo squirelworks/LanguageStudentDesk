@@ -10,7 +10,10 @@ Short lessons with examples, then a drill that explains every answer. Open with 
 - **Russian** (`languages/cyrillic/grammar.js`): six lessons — это and the missing “is”, noun gender, the present tense, the accusative -у/-ю, в/на with -е, and plurals.
 - **Hindi** (`languages/hindi/grammar.js`): six lessons — हूँ/है/हो/हैं, word order and questions, gender, में/पर/से/को, का/की/के, and the habitual present.
 - **Chinese** (`languages/chinese/grammar.js`): six lessons — 是, adjectives with 很, 不 and 没, questions with 吗, 的, and measure words.
+- **Taiwanese** (`languages/taiwanese/grammar.js`): traditional characters, with Zhuyin and pinyin. Lessons carry a `level` and run from greetings and tones through daily sentences, particles and aspect, connected speech, news-style writing, and nuance.
 - **Latin** (`languages/latin/grammar.js`): six lessons — sum/es/est, the present tense endings, subject and object, plurals, adjectives that agree, and prepositions with the accusative and ablative.
+
+When lessons include a `level` (`absolute-beginner`, `beginner`, `beginner-intermediate`, `intermediate`, `advanced-intermediate`, `advanced`), the list is grouped under those tabs. Tapping a tab shows that level only. A course with no `level` stays one list, which is how Korean and the other courses behave until their files use the same field. On a narrow screen the tabs are one scrolling row of chips under the title, and the selected level's list fills the rest of the screen.
 
 The Language Learner's Korean, Arabic, Russian and Hindi paths have a “First sentences” stage that ticks off from these lessons.
 

@@ -25,6 +25,83 @@
   let meta = null;
   let course = null;
   let lessonId = null;
+  let levelId = null;
+  let showLesson = false;
+
+  // Lessons that carry a `level` id are grouped under these chips, in this order.
+  // A course with no `level` fields keeps a single list.
+  const LEVELS = [
+    ["absolute-beginner", "Absolute Beginner"],
+    ["beginner", "Beginner"],
+    ["beginner-intermediate", "Beginner Intermediate"],
+    ["intermediate", "Intermediate"],
+    ["advanced-intermediate", "Advanced Intermediate"],
+    ["advanced", "Advanced"],
+  ];
+  const LEVEL_LABEL = Object.fromEntries(LEVELS);
+
+  function hasLevels() {
+    return !!(course && course.lessons.some((l) => l.level));
+  }
+
+  function levelChoices() {
+    const present = new Set(course.lessons.map((l) => l.level).filter(Boolean));
+    const known = LEVELS.filter(([id]) => present.has(id));
+    const extra = [...present].filter((id) => !LEVEL_LABEL[id]).map((id) => [id, id]);
+    const tabs = known.concat(extra);
+    if (course.lessons.some((l) => !l.level)) tabs.push(["", "Other"]);
+    return tabs;
+  }
+
+  function ensureLevel() {
+    if (!hasLevels()) {
+      levelId = null;
+      return;
+    }
+    const ids = levelChoices().map(([id]) => id);
+    if (ids.includes(levelId)) return;
+    const current = course.lessons.find((l) => l.id === lessonId);
+    const fromLesson = current ? current.level || "" : "";
+    levelId = ids.includes(fromLesson) ? fromLesson : ids[0];
+  }
+
+  function visibleLessons() {
+    if (!hasLevels()) return course.lessons;
+    ensureLevel();
+    return course.lessons.filter((l) => (l.level || "") === levelId);
+  }
+
+  function phoneLevels() {
+    return hasLevels() && window.matchMedia("(max-width: 800px)").matches;
+  }
+
+  function layoutMode() {
+    const leveled = hasLevels();
+    const phone = window.matchMedia("(max-width: 800px)").matches;
+    document.body.classList.toggle("levels-phone", !!(leveled && phone));
+    const courseEl = $("course");
+    if (!courseEl) return;
+    courseEl.classList.toggle("with-levels", leveled);
+    courseEl.classList.toggle("show-lesson", !!(leveled && phone && showLesson));
+  }
+
+  function bindBack() {
+    const b = $("backLessons");
+    if (b) b.onclick = () => {
+      showLesson = false;
+      layoutMode();
+    };
+  }
+
+  function backBar() {
+    return '<button type="button" class="back-lessons" id="backLessons">← Lessons</button>';
+  }
+
+  function levelKicker(lesson) {
+    if (!lesson || !lesson.level) return "";
+    const label = LEVEL_LABEL[lesson.level] || lesson.level;
+    return '<p class="level-kicker">' + esc(label) + "</p>";
+  }
 
   async function init() {
     const metas = (await LSD.all()).filter((m) => LSD.has(m, "grammar"));
@@ -70,6 +147,9 @@
     document.body.className = meta ? "lang-" + meta.id : "";
     $("vocabLink").href = LSD.toolUrl("vocabulary-learner/index.html", meta && meta.id);
     if (!course) {
+      levelId = null;
+      showLesson = false;
+      layoutMode();
       $("title").textContent = "Grammar Learner";
       $("subtitle").textContent = meta ? "There are no grammar lessons for " + meta.name + "." : id ? "No language called “" + id + "” in languages/." : "Short lessons with examples, then a drill that explains every answer.";
       document.title = "Grammar Learner — Language Student Desk";
@@ -81,29 +161,71 @@
     const saved = progress[meta.id] || {};
     // Start at the first lesson not yet passed.
     lessonId = (course.lessons.find((l) => !(saved[l.id] && saved[l.id].done)) || course.lessons[0]).id;
-    if (location.hash.slice(1) && course.lessons.some((l) => l.id === location.hash.slice(1))) lessonId = location.hash.slice(1);
+    const hash = location.hash.slice(1);
+    if (hash && (hash === "intro" || hash === "mixed" || course.lessons.some((l) => l.id === hash))) lessonId = hash;
+    const opened = course.lessons.find((l) => l.id === lessonId);
+    levelId = opened && opened.level ? opened.level : null;
+    showLesson = !!(hash && lessonId === hash);
     renderList();
     renderLesson();
+    layoutMode();
+  }
+
+  function renderLevelTabs() {
+    const row = $("levelTabs");
+    if (!hasLevels()) {
+      row.hidden = true;
+      row.innerHTML = "";
+      return;
+    }
+    ensureLevel();
+    row.hidden = false;
+    row.innerHTML = levelChoices()
+      .map(([id, label]) => {
+        const on = id === levelId;
+        return '<button type="button" role="tab" data-level="' + esc(id) + '"' + (on ? ' class="active" aria-selected="true"' : ' aria-selected="false"') + ">" + esc(label) + "</button>";
+      })
+      .join("");
+    row.querySelectorAll("[data-level]").forEach((b) => (b.onclick = () => {
+      levelId = b.getAttribute("data-level");
+      showLesson = false;
+      layoutMode();
+      renderList();
+    }));
+    const active = row.querySelector(".active");
+    if (active) {
+      const left = active.offsetLeft;
+      const right = left + active.offsetWidth;
+      if (left < row.scrollLeft) row.scrollLeft = Math.max(0, left - 8);
+      else if (right > row.scrollLeft + row.clientWidth) row.scrollLeft = right - row.clientWidth + 8;
+    }
   }
 
   function renderList() {
+    renderLevelTabs();
     const saved = progress[meta.id] || {};
     const anyDone = course.lessons.some((l) => saved[l.id]);
+    const shown = visibleLessons();
     $("lessonList").innerHTML =
-      '<button data-id="intro"' + (lessonId === "intro" ? ' class="active"' : "") + '><span class="tick">ℹ</span><span class="lt">About this course</span></button><hr>' +
-      course.lessons
-        .map((l, i) => {
+      '<button type="button" data-id="intro"' + (lessonId === "intro" ? ' class="active"' : "") + '><span class="tick">ℹ</span><span class="lt">About this course</span></button><hr>' +
+      shown
+        .map((l) => {
           const p = saved[l.id];
-          return '<button data-id="' + l.id + '"' + (l.id === lessonId ? ' class="active"' : "") + '><span class="tick">' + (p && p.done ? "✓" : i + 1) + '</span><span class="lt">' + esc(l.title) + "</span>" + (p ? '<span class="score">' + p.best + "/" + p.total + "</span>" : "") + "</button>";
+          const n = course.lessons.indexOf(l) + 1;
+          return '<button type="button" data-id="' + l.id + '"' + (l.id === lessonId ? ' class="active"' : "") + '><span class="tick">' + (p && p.done ? "✓" : n) + '</span><span class="lt">' + esc(l.title) + "</span>" + (p ? '<span class="score">' + p.best + "/" + p.total + "</span>" : "") + "</button>";
         })
         .join("") +
-      '<hr><button data-id="mixed"' + (lessonId === "mixed" ? ' class="active"' : "") + (anyDone ? "" : " disabled") + '><span class="tick">↻</span><span class="lt">Mixed review</span></button>';
+      '<hr><button type="button" data-id="mixed"' + (lessonId === "mixed" ? ' class="active"' : "") + (anyDone ? "" : " disabled") + '><span class="tick">↻</span><span class="lt">Mixed review</span></button>';
+    $("lessonList").scrollTop = 0;
     $("lessonList").querySelectorAll("[data-id]").forEach((b) => (b.onclick = () => {
+      if (b.disabled) return;
       lessonId = b.dataset.id;
       history.replaceState(null, "", "#" + lessonId);
+      if (phoneLevels()) showLesson = true;
       renderList();
       renderLesson();
-      window.scrollTo(0, 0);
+      layoutMode();
+      if (!phoneLevels() || showLesson) window.scrollTo(0, 0);
     }));
   }
 
@@ -122,12 +244,13 @@
     if (!course) return;
     const box = $("lesson");
     if (lessonId === "intro") {
-      box.innerHTML = '<div class="card lesson"><h2>' + esc(course.title) + "</h2><p>" + esc(course.intro) + '</p><p class="muted">Pass a lesson by getting ' + PASS * 100 + "% of its drill right. Your best scores are saved in this browser, and the Language Learner uses them to track your path.</p></div>";
+      box.innerHTML = backBar() + '<div class="card lesson"><h2>' + esc(course.title) + "</h2><p>" + esc(course.intro) + '</p><p class="muted">Pass a lesson by getting ' + PASS * 100 + "% of its drill right. Your best scores are saved in this browser, and the Language Learner uses them to track your path.</p></div>";
+      bindBack();
       return;
     }
     if (lessonId === "mixed") return startDrill(mixedDrills(), "Mixed review", null);
     const l = course.lessons.find((x) => x.id === lessonId);
-    let html = '<div class="card lesson"><h2>' + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>";
+    let html = backBar() + '<div class="card lesson">' + levelKicker(l) + "<h2>" + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>";
     for (const s of l.sections) {
       if (s.h) html += "<h3>" + esc(s.h) + "</h3>";
       if (s.p) html += "<p>" + s.p.replace(/\{([^}]*)\}/g, "<mark>$1</mark>") + "</p>"; // lesson text is trusted, written in languages/*/grammar.js
@@ -136,6 +259,7 @@
     if (l.table) html += gridTable(l.table);
     html += "</div>";
     box.innerHTML = html + '<div class="card practice" id="practice"></div>';
+    bindBack();
     startDrill(drillsFor(l), "Practice", l);
   }
 
@@ -173,7 +297,10 @@
 
   function startDrill(items, label, lesson) {
     drill = { items, i: 0, right: 0, label, lesson, answered: false };
-    if (lessonId === "mixed") $("lesson").innerHTML = '<div class="card"><h2>Mixed review</h2><p class="muted">Questions from every lesson you have practised.</p></div><div class="card practice" id="practice"></div>';
+    if (lessonId === "mixed") {
+      $("lesson").innerHTML = backBar() + '<div class="card"><h2>Mixed review</h2><p class="muted">Questions from every lesson you have practised.</p></div><div class="card practice" id="practice"></div>';
+      bindBack();
+    }
     drawDrill();
   }
 
@@ -237,9 +364,12 @@
     $("again").onclick = () => (lessonId === "mixed" ? startDrill(mixedDrills(), "Mixed review", null) : startDrill(drillsFor(drill.lesson), "Practice", drill.lesson));
     if ($("nextL")) $("nextL").onclick = () => {
       lessonId = next.id;
+      if (next.level) levelId = next.level;
+      if (phoneLevels()) showLesson = true;
       history.replaceState(null, "", "#" + lessonId);
       renderList();
       renderLesson();
+      layoutMode();
       window.scrollTo(0, 0);
     };
   }
@@ -349,6 +479,8 @@
       why: p + "- is the command prefix " + (o === "none" ? "with no object, speaking to " + (many ? "several people." : "one person.") : "for an object of “" + o + "”."),
     };
   }
+
+  window.matchMedia("(max-width: 800px)").addEventListener("change", () => layoutMode());
 
   init();
 })();
