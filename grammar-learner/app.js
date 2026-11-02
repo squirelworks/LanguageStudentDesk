@@ -155,7 +155,7 @@
       document.title = "Grammar Learner — Language Student Desk";
       return;
     }
-    $("title").innerHTML = "Grammar Learner <small>" + esc(meta.name) + (meta.nativeName ? " · " + esc(meta.nativeName) : "") + "</small>";
+    $("title").textContent = "Grammar Learner";
     $("subtitle").textContent = course.title;
     document.title = "Grammar · " + meta.name + " — Language Student Desk";
     const saved = progress[meta.id] || {};

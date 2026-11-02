@@ -8,6 +8,7 @@
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body {
     margin: 0 auto;
     max-width: 720px;
@@ -45,6 +46,7 @@
   }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
+  #panel-favorites.active { max-height: min(42vh, 320px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .picker {
     margin: 0 0 0.75rem;
     padding: 0.75rem 0.85rem;

@@ -31,13 +31,13 @@ header.top {
   border-bottom: 3px solid var(--accent);
   padding: 0.9rem 1.2rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.65rem;
 }
-header.top h1 { margin: 0; font-size: 1.45rem; }
+header.top h1 { margin: 0; font-size: 1.45rem; line-height: 1.25; overflow-wrap: normal; word-break: normal; }
 header.top h1 small { color: var(--muted); font-weight: 400; font-size: 0.9rem; margin-left: 0.4rem; }
-header.top .grow { flex: 1; }
+header.top .grow { flex: none; width: 100%; min-width: 0; }
 header.top p { margin: 0; color: var(--muted); font-size: 0.9rem; }
 select, input, textarea, button { font: inherit; }
 select, input[type=text], input[type=number], input[type=search], textarea {

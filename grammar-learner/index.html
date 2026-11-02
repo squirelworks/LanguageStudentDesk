@@ -55,11 +55,20 @@
   .why.ok { border-left: 3px solid var(--correct); }
   .why.bad { border-left: 3px solid var(--wrong); }
   .scorebar { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+  header.top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+  header.top .grow { flex: none; width: 100%; min-width: 0; }
+  header.top h1 { line-height: 1.25; overflow-wrap: normal; word-break: normal; }
+  header.top .head-tools { width: 100%; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  header.top .lang-pick { display: block; flex: 1 1 100%; min-width: 0; }
+  header.top .lang-pick select { width: 100%; max-width: 100%; min-height: 44px; margin-top: 0.25rem; }
   @media (max-width: 800px) {
     .layout { grid-template-columns: 1fr; }
     .lessons { position: static; }
     header.top { max-width: 100%; }
-    header.top h1 { overflow-wrap: anywhere; }
     header.top select { max-width: 100%; }
     body.levels-phone { width: 100%; max-width: 100%; height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
     body.levels-phone header.top { flex: 0 0 auto; min-width: 0; max-width: 100%; }
@@ -85,8 +94,10 @@
     <h1 id="title">Grammar Learner</h1>
     <p id="subtitle">Short lessons with examples, then a drill that explains every answer.</p>
   </div>
-  <label class="small muted" id="piqadOpt" hidden><input type="checkbox" id="piqad"> Show pIqaD</label>
-  <label class="small muted">Language <select id="langSelect"></select></label>
+  <div class="head-tools">
+    <label class="small muted" id="piqadOpt" hidden><input type="checkbox" id="piqad"> Show pIqaD</label>
+    <label class="small muted lang-pick">Language <select id="langSelect"></select></label>
+  </div>
 </header>
 <main>
   <section id="home" hidden>
