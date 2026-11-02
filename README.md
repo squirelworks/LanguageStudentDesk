@@ -61,6 +61,7 @@ Examples:
 - [Reference Learner](reference-learner/) — Quick lookup for language facts and notes.
 - [Translation Learner](translation-learner/) — Sentence translation checked by meaning, not spelling: into English, into the language, sentence breakdowns, a meaning matrix, and top-1,000 word practice for Japanese, Korean, Chinese, Russian, Hindi, Arabic and Klingon.
 - [Programming Learner](programming-learner/) — Programming language courses with syntax, concepts and practice; the full list is in the learner's menu and its [README](programming-learner/README.md).
+- [Programming Student Desk](SquirrelGo-Apps/programming-student-desk/) — The Programming Learner as its own offline Android app: a home menu lists every course and opens one inside the app. Build the release AAB locally; it is not a GitHub release.
 - [Legalese Learner](legalese-learner/) — How contract language works: *shall* and *may*, *herein*, *notwithstanding*, consideration, and the boilerplate at the back. Reading practice, not legal advice.
 - [Language Learner](language-learner/) — A guided path per language: script, first words, grammar, then practice, with progress ticks.
 - [Grammar Learner](grammar-learner/) — Short grammar lessons with explained drills, per language (most Desk languages; Cherokee, Inuktitut and Manipuri have none yet; English is reference-only).
