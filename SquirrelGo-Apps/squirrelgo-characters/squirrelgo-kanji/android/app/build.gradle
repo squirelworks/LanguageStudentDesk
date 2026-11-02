@@ -4,17 +4,31 @@ plugins {
 
 android {
     namespace 'com.squirelworks.squirrelgokanji'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.squirelworks.squirrelgokanji"
         minSdk 24
-        targetSdk 34
-        versionCode 2
-        versionName "1.1.0"
+        targetSdk 36
+        versionCode 5
+        versionName "1.1.3"
     }
 
     // A fixed debug key, so new builds install over old ones and keep your data.
+    // Play uploads read UPLOAD_STORE_FILE, UPLOAD_STORE_PASSWORD, UPLOAD_KEY_ALIAS,
+    // and UPLOAD_KEY_PASSWORD from the environment, or upload.storeFile,
+    // upload.storePassword, upload.keyAlias, and upload.keyPassword from the
+    // gitignored local.properties. Release builds without those stay on the debug key.
+    def uploadProps = new Properties()
+    def uploadPropsFile = rootProject.file("local.properties")
+    if (uploadPropsFile.exists()) {
+        uploadPropsFile.withInputStream { uploadProps.load(it) }
+    }
+    def uploadStoreFile = System.getenv("UPLOAD_STORE_FILE") ?: uploadProps.getProperty("upload.storeFile")
+    def uploadStorePassword = System.getenv("UPLOAD_STORE_PASSWORD") ?: uploadProps.getProperty("upload.storePassword")
+    def uploadKeyAlias = System.getenv("UPLOAD_KEY_ALIAS") ?: uploadProps.getProperty("upload.keyAlias")
+    def uploadKeyPassword = System.getenv("UPLOAD_KEY_PASSWORD") ?: uploadProps.getProperty("upload.keyPassword")
+
     signingConfigs {
         debug {
             storeFile file("debug.keystore")
@@ -22,11 +36,20 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        if (uploadStoreFile) {
+            release {
+                storeFile file(uploadStoreFile)
+                storePassword uploadStorePassword
+                keyAlias uploadKeyAlias
+                keyPassword uploadKeyPassword
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig (uploadStoreFile ? signingConfigs.release : signingConfigs.debug)
         }
         debug {
             applicationIdSuffix ".debug"
