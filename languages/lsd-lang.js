@@ -12,6 +12,7 @@
   const REGISTRY = window.LSD_LANGUAGE_REGISTRY || {};
   // Pinned first in language menus (LSD.all / LSD.picker); not alphabetical.
   const PINNED = ["taiwanese"];
+  const FAVORITES_KEY = "lsd-favorite-languages";
   const cache = {};
 
   // The ?lang= value, lowercased, or null.
@@ -45,17 +46,74 @@
     return an.localeCompare(bn, "en", { sensitivity: "base" }) || String(a.id || "").localeCompare(String(b.id || ""));
   }
 
+  // localStorage wrapper that never throws (private windows, blocked storage).
+  function store(key, fallback) {
+    return {
+      load() {
+        try {
+          const v = JSON.parse(localStorage.getItem(key));
+          return v == null ? structuredClone(fallback) : v;
+        } catch (e) {
+          return structuredClone(fallback);
+        }
+      },
+      save(v) {
+        try {
+          localStorage.setItem(key, JSON.stringify(v));
+        } catch (e) {}
+      },
+    };
+  }
+
+  const favoritesStore = store(FAVORITES_KEY, []);
+
+  function favoriteIds() {
+    const list = favoritesStore.load();
+    if (!Array.isArray(list)) return [];
+    return list.filter((id) => id in REGISTRY);
+  }
+
+  function isFavorite(id) {
+    return favoriteIds().includes(id);
+  }
+
+  function toggleFavorite(id) {
+    if (!id || !(id in REGISTRY)) return favoriteIds();
+    let favs = favoriteIds();
+    if (favs.includes(id)) favs = favs.filter((x) => x !== id);
+    else favs = favs.concat(id);
+    favoritesStore.save(favs);
+    return favs;
+  }
+
   function sortMetas(metas) {
-    return metas.slice().sort((a, b) => {
-      const ap = PINNED.indexOf(a.id);
-      const bp = PINNED.indexOf(b.id);
-      if (ap >= 0 || bp >= 0) {
-        if (ap < 0) return 1;
-        if (bp < 0) return -1;
-        return ap - bp;
-      }
-      return byName(a, b);
-    });
+    const favs = favoriteIds();
+    const favSet = new Set(favs);
+    const pinnedRest = PINNED.filter((id) => !favSet.has(id));
+    const byId = Object.fromEntries(metas.filter(Boolean).map((m) => [m.id, m]));
+    const shown = new Set();
+    const out = [];
+    const push = (m) => {
+      if (!m || shown.has(m.id)) return;
+      shown.add(m.id);
+      out.push(m);
+    };
+    favs.forEach((id) => push(byId[id]));
+    pinnedRest.forEach((id) => push(byId[id]));
+    metas
+      .slice()
+      .sort((a, b) => {
+        const ap = PINNED.indexOf(a.id);
+        const bp = PINNED.indexOf(b.id);
+        if (ap >= 0 || bp >= 0) {
+          if (ap < 0) return 1;
+          if (bp < 0) return -1;
+          return ap - bp;
+        }
+        return byName(a, b);
+      })
+      .forEach((m) => push(m));
+    return out;
   }
 
   // Every language in the registry, with fresh meta where it can be fetched.
@@ -89,25 +147,6 @@
     select.onchange = () => {
       setParam(select.value || null);
       onChange(select.value || null);
-    };
-  }
-
-  // localStorage wrapper that never throws (private windows, blocked storage).
-  function store(key, fallback) {
-    return {
-      load() {
-        try {
-          const v = JSON.parse(localStorage.getItem(key));
-          return v == null ? structuredClone(fallback) : v;
-        } catch (e) {
-          return structuredClone(fallback);
-        }
-      },
-      save(v) {
-        try {
-          localStorage.setItem(key, JSON.stringify(v));
-        } catch (e) {}
-      },
     };
   }
 
@@ -280,7 +319,8 @@
   }
 
   window.LSD = {
-    BASE, param, get, all, setParam, toolUrl, picker, store, canSpeak, speak, loadScript, loadCss, piqad,
+    BASE, param, get, all, setParam, toolUrl, picker, store, sortMetas, favoriteIds, isFavorite, toggleFavorite,
+    canSpeak, speak, loadScript, loadCss, piqad,
     files, has, dataUrls, load, cjkScript, cjk,
   };
 })();
