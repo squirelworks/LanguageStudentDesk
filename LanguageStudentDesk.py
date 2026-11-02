@@ -65,7 +65,7 @@ TOOLS = {
                            "Flashcards, spaced review and Anki export, with decks drawn from the SquirrelGo apps.",
                            "Desk tools", True, None),
     "lsd-suite": ("Language Student Desk (Android)",
-                  "The Desk learners in one offline Android app: a home menu for Klingon, character, resource, reference, translation, programming, legalese, language, grammar and vocabulary.",
+                  "The Desk learners in one offline Android app. A home menu opens each learner inside the app.",
                   "Desk tools", False, None),
     "squirrelgo-kana": ("SquirrelGo Kana",
                         "Hiragana and katakana: lessons, charts, quizzes, flashcards, writing pad, audio.",
