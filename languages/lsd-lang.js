@@ -10,6 +10,8 @@
 (() => {
   const BASE = new URL(".", document.currentScript.src); // .../languages/
   const REGISTRY = window.LSD_LANGUAGE_REGISTRY || {};
+  // Pinned first in language menus (LSD.all / LSD.picker); not alphabetical.
+  const PINNED = ["taiwanese"];
   const cache = {};
 
   // The ?lang= value, lowercased, or null.
@@ -43,12 +45,25 @@
     return an.localeCompare(bn, "en", { sensitivity: "base" }) || String(a.id || "").localeCompare(String(b.id || ""));
   }
 
+  function sortMetas(metas) {
+    return metas.slice().sort((a, b) => {
+      const ap = PINNED.indexOf(a.id);
+      const bp = PINNED.indexOf(b.id);
+      if (ap >= 0 || bp >= 0) {
+        if (ap < 0) return 1;
+        if (bp < 0) return -1;
+        return ap - bp;
+      }
+      return byName(a, b);
+    });
+  }
+
   // Every language in the registry, with fresh meta where it can be fetched.
-  // Sorted by the name the language bar shows, so a new language slots itself in.
+  // Pinned ids first, then sorted by the name the language bar shows.
   async function all() {
     const ids = Object.keys(REGISTRY);
     const metas = await Promise.all(ids.map(get));
-    return metas.filter(Boolean).sort(byName);
+    return sortMetas(metas.filter(Boolean));
   }
 
   // Sets ?lang= in the address bar without reloading (null clears it).
@@ -69,7 +84,7 @@
   function picker(select, metas, current, onChange, allLabel) {
     select.innerHTML = "";
     if (allLabel) select.add(new Option(allLabel, ""));
-    metas.slice().sort(byName).forEach((m) => select.add(new Option(m.name + (m.nativeName ? " · " + m.nativeName : ""), m.id)));
+    sortMetas(metas).forEach((m) => select.add(new Option(m.name + (m.nativeName ? " · " + m.nativeName : ""), m.id)));
     select.value = current || "";
     select.onchange = () => {
       setParam(select.value || null);

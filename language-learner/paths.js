@@ -165,6 +165,32 @@
         ],
       },
     ],
+    taiwanese: [
+      {
+        title: "Characters and sounds",
+        steps: [
+          { id: "hanzi", title: "Meet the characters", text: "Browse hanzi by HSK level in traditional form, with Zhuyin and pinyin.", tools: tools(T.chars) },
+          { id: "greetings", title: "Greetings", text: "你好, 謝謝, 再見 — with 注音 and tones.", tools: tools(T.vocab), check: { vocab: "desk-greetings", min: 7 } },
+          { id: "numbers", title: "Numbers", text: "One to ten.", tools: tools(T.vocab), check: { vocab: "desk-numbers", min: 10 } },
+        ],
+      },
+      {
+        title: "First sentences",
+        steps: [
+          { id: "people", title: "People and questions", text: "我, 你, 他, and 什麼, 誰, 哪裡.", tools: tools(T.vocab), check: { vocab: "desk-people", min: 10 } },
+          { id: "verbs", title: "Verbs and time", text: "是, 有, 去, 吃 and today/tomorrow/yesterday.", tools: tools(T.vocab), check: { vocab: "desk-verbs", min: 15 } },
+          { id: "gr-basics", title: "是, 很 and saying no", text: "是 between nouns, 很 with adjectives, and the two negatives 不 and 沒.", tools: tools(T.grammar), check: { grammar: ["shi", "hen", "bu-mei"] } },
+        ],
+      },
+      {
+        title: "Asking and describing",
+        steps: [
+          { id: "gr-questions", title: "Questions, 的 and measure words", text: "嗎 questions, 我的 and 老師的, and counting things with 個, 本 and 杯.", tools: tools(T.grammar), check: { grammar: ["ma", "de", "measure"] } },
+          { id: "food", title: "Food and drink", text: "Order tea, rice and noodles.", tools: tools(T.vocab), check: { vocab: "desk-food", min: 12 } },
+          { id: "mine", title: "Collect ten words of your own", text: "Add words from your textbook or shows to My words.", tools: tools(T.vocab, T.resources), check: { mine: 10 } },
+        ],
+      },
+    ],
     arabic: alphabetPath("arabic", "SquirrelGo Alphabets", [
       { id: "gr-basics", title: "“The”, gender and sentences without “is”", text: "ال and the sun letters, feminine ة, and how البيت كبير differs from البيت الكبير.", lessons: ["al", "gender", "nominal"] },
       { id: "gr-this-my", title: "This, my, in and from", text: "هذا and هذه, possessive endings like كتابي, and the prepositions في, على, من, إلى.", lessons: ["demonstratives", "possessive", "prepositions"] },

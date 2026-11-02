@@ -25,6 +25,9 @@ window.LSD_RESOURCES = {
   chinese: [
     { title: "Pleco", meta: "Dictionary and flashcards", tags: ["dictionary", "SRS"], stars: 5 },
   ],
+  taiwanese: [
+    { title: "Pleco", url: "https://www.pleco.com", meta: "Dictionary and flashcards with traditional characters and Zhuyin", tags: ["dictionary", "SRS", "traditional"], stars: 5 },
+  ],
   hindi: [
     { title: "A Door Into Hindi", url: "https://tajhindi.unc.edu", meta: "24 video lessons by Afroz Taj (UNC), with a Devanagari script module · Free", tags: ["beginner", "video", "script"], stars: 5 },
     { title: "Oxford Hindi-English Dictionary (McGregor)", url: "https://dsal.uchicago.edu/dictionaries/mcgregor/", meta: "Searchable online at Digital Dictionaries of South Asia · Free", tags: ["dictionary", "Devanagari"], stars: 5 },
