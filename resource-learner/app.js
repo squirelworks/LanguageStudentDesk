@@ -28,11 +28,6 @@
     $("refLink").href = LSD.toolUrl("reference-learner/index.html", meta && meta.id);
 
     const nat = (m) => (m.nativeName && m.nativeName !== m.name && m.font !== "pIqaD" ? m.nativeName : "");
-    $("side").innerHTML =
-      '<button data-id=""' + (meta ? "" : ' class="active"') + '><span class="nm">All</span></button><hr>' +
-      metas.map((m) => '<button data-id="' + esc(m.id) + '"' + (meta === m ? ' class="active"' : "") + '><span class="nm">' + esc(m.name) + (nat(m) ? ' <span class="nat">' + esc(nat(m)) + "</span>" : "") + "</span></button>").join("");
-    $("side").querySelectorAll("button").forEach((b) => (b.onclick = () => show(b.dataset.id || null)));
-
     const shown = meta ? [meta] : metas;
     $("lists").innerHTML = shown.map((m) => list(m.name, nat(m), DATA[m.id], m.id)).join("") + list("General", "", DATA.general || [], null);
   }
