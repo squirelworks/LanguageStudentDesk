@@ -22,6 +22,9 @@
     { id: "kana", name: "SquirrelGo Kana", icon: "あ", blurb: "Hiragana and katakana: lessons, charts, quizzes, writing pad.",
       pkg: "com.squirelworks.squirrelgokana", tag: "squirrelgo-kana-latest", apk: "SquirrelGoKana-debug.apk",
       web: "squirrelgo-characters/squirrelgo-kana/www/index.html", langs: ["japanese"] },
+    { id: "bopomofo", name: "SquirrelGo Bopomofo", icon: "注", blurb: "Taiwan Zhuyin: initials, finals, tone marks, chart and quizzes.",
+      pkg: "com.squirelworks.squirrelgobopomofo", tag: "", apk: "",
+      web: "squirrelgo-characters/squirrelgo-bopomofo/www/index.html", langs: ["taiwanese"] },
     { id: "kanji", name: "SquirrelGo Kanji", icon: "漢", blurb: "Kanji lessons, topic and JLPT quizzes, on-yomi groups, stroke order.",
       pkg: "com.squirelworks.squirrelgokanji", tag: "squirrelgo-kanji-latest", apk: "SquirrelGoKanji-debug.apk",
       web: "squirrelgo-characters/squirrelgo-kanji/www/index.html", langs: ["japanese"] },
@@ -42,7 +45,7 @@
       web: "squirrelgo-orthodox-bible/www/index.html", langs: [] },
   ];
 
-  const LANG_NAMES = { japanese: "Japanese", korean: "Korean", russian: "Russian", hindi: "Hindi", arabic: "Arabic", klingon: "Klingon" };
+  const LANG_NAMES = { japanese: "Japanese", taiwanese: "Taiwanese Mandarin", korean: "Korean", russian: "Russian", hindi: "Hindi", arabic: "Arabic", klingon: "Klingon" };
 
   // Quick facts, from the desk's reference-learner plus a few per alphabet.
   const NOTES = {

@@ -12,7 +12,7 @@ C=squirrelgo-characters
 # (plain lists, so this also runs on the bash 3.2 that macOS ships)
 users() {
   case "$1" in
-    suite.js) echo "$C/squirrelgo-kana $C/squirrelgo-alphabets $C/squirrelgo-kanji $C/squirrelgo-klingon squirrelgo-dictionary squirrelgo-phrasebook squirrelgo-orthodox-bible" ;;
+    suite.js) echo "$C/squirrelgo-kana $C/squirrelgo-bopomofo $C/squirrelgo-alphabets $C/squirrelgo-kanji $C/squirrelgo-klingon squirrelgo-dictionary squirrelgo-phrasebook squirrelgo-orthodox-bible" ;;
     # Stroke player and checked writing pad. Kanji has its own KanjiVG player.
     strokes.js | writepad.js) echo "$C/squirrelgo-kana $C/squirrelgo-alphabets $C/squirrelgo-klingon" ;;
     pad.js) echo "$C/squirrelgo-kana $C/squirrelgo-alphabets" ;;

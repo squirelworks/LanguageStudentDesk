@@ -83,7 +83,7 @@ def check_launcher():
         return
 
     suite = (SG / "shared" / "suite.js").read_text(encoding="utf-8")
-    apps = re.findall(r'\{ id: "([^"]+)".*?tag: "([^"]+)", apk: "([^"]+)",\s*web: "([^"]+)"', suite, re.S)
+    apps = re.findall(r'\{ id: "([^"]+)".*?tag: "([^"]*)", apk: "([^"]*)",\s*web: "([^"]+)"', suite, re.S)
     if not apps:
         problems.append("shared/suite.js: no APPS entries found")
 
@@ -109,9 +109,10 @@ def check_launcher():
         else:
             if t[2] != "SquirrelGo apps":
                 problems.append(f"TOOLS {folder.name}: group is {t[2]!r}, expected 'SquirrelGo apps'")
-            if t[4] != (tag, apk):
+            suite_release = (tag, apk) if tag else None
+            if t[4] != suite_release:
                 problems.append(f"TOOLS {folder.name}: APK {t[4]} does not match suite.js ({tag}, {apk})")
-        if workflows.get(tag, (None,))[0] != apk:
+        if tag and workflows.get(tag, (None,))[0] != apk:
             problems.append(f"suite.js {app_id}: no APK workflow publishes {apk} to {tag}")
     for name, t in tools.items():
         if t[2] == "SquirrelGo apps" and name not in in_suite:
