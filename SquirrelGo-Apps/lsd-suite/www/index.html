@@ -18,9 +18,35 @@
   }
   header h1 { margin: 0; color: #ffd54f; font-size: 1.55rem; letter-spacing: -0.02em; }
   header p { margin: 0.35rem 0 0; color: #aaa; line-height: 1.4; }
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
+    margin: 1rem 0 0.75rem;
+  }
+  .tab-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.45rem 0.65rem;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #aaa;
+    background: #16161c;
+    border: 1px solid #2a2a32;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .tab-btn[aria-selected="true"] {
+    color: #ffd54f;
+    background: #2a2410;
+    border-color: #ffd54f;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
   .picker {
-    position: sticky; top: 0; z-index: 2;
-    margin: 1rem 0;
+    margin: 0 0 0.75rem;
     padding: 0.75rem 0.85rem;
     background: #16161c;
     border: 1px solid #2a2a32;
@@ -37,13 +63,13 @@
     background: #0f0f12;
     border: 1px solid #3a3a44;
     border-radius: 8px;
+    min-height: 44px;
   }
   .hint { margin: 0.45rem 0 0; color: #8e8e93; font-size: 0.82rem; }
-  .favorites { margin: 0 0 1rem; padding: 0.75rem 0.85rem; background: #16161c; border: 1px solid #2a2a32; border-radius: 12px; }
-  .favorites h2 { margin: 0; font-size: 0.8rem; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; }
-  .fav-list { list-style: none; margin: 0.55rem 0 0; padding: 0; }
+  .fav-intro { margin: 0 0 0.65rem; }
+  .fav-list { list-style: none; margin: 0; padding: 0; }
   .fav-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.35rem 0; min-height: 44px; }
-  .fav-row span { flex: 1; font-size: 0.95rem; }
+  .fav-row span { flex: 1; font-size: 0.95rem; min-width: 0; }
   .fav-row button {
     flex: 0 0 auto;
     width: 44px; height: 44px;
@@ -77,17 +103,22 @@
   <h1>Language Student Desk</h1>
   <p>Grammar, vocabulary, language, programming, legalese, translation, reference, resource, character, and Klingon. Each one opens inside this app.</p>
 </header>
-<section class="favorites" aria-labelledby="fav-title">
-  <h2 id="fav-title">Favorite languages</h2>
-  <p class="hint">Star a language to pin it at the top of every language menu on this device.</p>
+<nav class="tabs" role="tablist" aria-label="Home">
+  <button type="button" class="tab-btn" role="tab" id="tab-tools" aria-selected="true" aria-controls="panel-tools">Tools</button>
+  <button type="button" class="tab-btn" role="tab" id="tab-favorites" aria-selected="false" aria-controls="panel-favorites">Favorites</button>
+</nav>
+<section class="tab-panel active" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools">
+  <div class="picker">
+    <label for="lang">Open scoped tools in</label>
+    <select id="lang"><option value="">All languages</option></select>
+    <p class="hint">Passed as ?lang=. Klingon and Legalese do not use it. Back returns to this menu.</p>
+  </div>
+  <ul id="list"></ul>
+</section>
+<section class="tab-panel" id="panel-favorites" role="tabpanel" aria-labelledby="tab-favorites" hidden>
+  <p class="hint fav-intro">Star a language to pin it at the top of every language menu on this device.</p>
   <ul class="fav-list" id="favList"></ul>
 </section>
-<div class="picker">
-  <label for="lang">Open scoped tools in</label>
-  <select id="lang"><option value="">All languages</option></select>
-  <p class="hint">Passed as ?lang=. Klingon and Legalese do not use it. Back returns to this menu.</p>
-</div>
-<ul id="list"></ul>
 <footer>Progress stays on this device. The separate SquirrelGo apps (Kana, Kanji, Dictionary, Phrasebook, Orthodox Bible) are not this app; Character and Vocabulary use the script and deck data packed with it.</footer>
 <script src="../../../languages/registry.js"></script>
 <script src="../../../languages/lsd-lang.js"></script>
@@ -117,6 +148,10 @@
       desc: "Flashcards, spaced review and Anki export.", scoped: true }
   ];
 
+  var tabTools = document.getElementById("tab-tools");
+  var tabFavorites = document.getElementById("tab-favorites");
+  var panelTools = document.getElementById("panel-tools");
+  var panelFavorites = document.getElementById("panel-favorites");
   var lang = document.getElementById("lang");
   var list = document.getElementById("list");
   var favList = document.getElementById("favList");
@@ -128,6 +163,18 @@
     if (m.nativeName) label += " · " + m.nativeName;
     return label;
   }
+
+  function setTab(which) {
+    var tools = which === "tools";
+    tabTools.setAttribute("aria-selected", tools ? "true" : "false");
+    tabFavorites.setAttribute("aria-selected", tools ? "false" : "true");
+    panelTools.classList.toggle("active", tools);
+    panelFavorites.classList.toggle("active", !tools);
+    panelTools.hidden = !tools;
+    panelFavorites.hidden = tools;
+  }
+  tabTools.onclick = function () { setTab("tools"); };
+  tabFavorites.onclick = function () { setTab("favorites"); };
 
   function fillLangSelect() {
     var sorted = LSD.sortMetas(metas);
