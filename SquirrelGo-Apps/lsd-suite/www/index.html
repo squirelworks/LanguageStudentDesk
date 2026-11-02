@@ -97,9 +97,17 @@
 
   var lang = document.getElementById("lang");
   var list = document.getElementById("list");
+  var PINNED = ["taiwanese"];
   var registry = window.LSD_LANGUAGE_REGISTRY || {};
   var metas = Object.keys(registry).map(function (id) { return registry[id]; });
   metas.sort(function (a, b) {
+    var ap = PINNED.indexOf(a.id);
+    var bp = PINNED.indexOf(b.id);
+    if (ap >= 0 || bp >= 0) {
+      if (ap < 0) return 1;
+      if (bp < 0) return -1;
+      return ap - bp;
+    }
     return String(a.name || a.id).localeCompare(String(b.name || b.id), "en", { sensitivity: "base" });
   });
   var languages = document.createElement("optgroup");
