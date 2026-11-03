@@ -32,11 +32,6 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
-      - name: Sync web assets into the APK
-        run: |
-          rm -rf android/app/src/main/assets/www
-          mkdir -p android/app/src/main/assets
-          cp -a www android/app/src/main/assets/www
       - name: Build debug APK
         working-directory: SquirrelGo-Apps/squirrelgo-orthodox-bible/android
         run: |

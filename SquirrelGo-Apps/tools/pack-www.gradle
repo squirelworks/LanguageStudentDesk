@@ -27,8 +27,10 @@ tasks.configureEach { task ->
     }
 }
 
+// Use only packDeskAssets for www/. Default src/main/assets is ignored so a CI
+// or manual copy under android/app/src/main/assets/www cannot duplicate generated files.
 android.sourceSets {
     main {
-        assets.srcDir packedAssets
+        assets.setSrcDirs([packedAssets])
     }
 }
