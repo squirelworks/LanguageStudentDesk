@@ -15414,8 +15414,8 @@ window.LSD_REFERENCE = {
             "e": "What is your name?"
           },
           {
-            "t": "廁所在{哪兒}？",
-            "r": "ㄘㄜˋ ㄙㄨㄛˇ ㄗㄞˋ ㄋㄚˇ ㄦ˙? · Cèsuǒ zài nǎr?",
+            "t": "廁所在{哪裡}？",
+            "r": "ㄘㄜˋ ㄙㄨㄛˇ ㄗㄞˋ ㄋㄚˇ ㄌㄧˇ? · Cèsuǒ zài nǎlǐ?",
             "e": "Where is the toilet?"
           }
         ],
@@ -15602,7 +15602,7 @@ window.LSD_REFERENCE = {
         "id": "bi",
         "topic": "grammar",
         "title": "Comparisons with 比",
-        "body": "A 比 B + adjective: A is more … than B. Don't add 很 before the adjective. Add 一點兒 (a bit) or 得多 (much) after it to say how much.",
+        "body": "A 比 B + adjective: A is more … than B. Don't add 很 before the adjective. Add 一點 (a bit) or 得多 (much) after it to say how much.",
         "examples": [
           {
             "t": "他{比}我高。",
@@ -15610,8 +15610,8 @@ window.LSD_REFERENCE = {
             "e": "He is taller than me."
           },
           {
-            "t": "今天{比}昨天冷{一點兒}。",
-            "r": "ㄐㄧㄣ ㄊㄧㄢ ㄅㄧˇ ㄗㄨㄛˊ ㄊㄧㄢ ㄌㄥˇ ㄧˋ ㄉㄧㄢˇ ㄦ˙. · Jīntiān bǐ zuótiān lěng yìdiǎnr.",
+            "t": "今天{比}昨天冷{一點}。",
+            "r": "ㄐㄧㄣ ㄊㄧㄢ ㄅㄧˇ ㄗㄨㄛˊ ㄊㄧㄢ ㄌㄥˇ ㄧˋ ㄉㄧㄢˇ. · Jīntiān bǐ zuótiān lěng yìdiǎn.",
             "e": "Today is a bit colder than yesterday."
           },
           {

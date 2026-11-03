@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private static final String HOME =
-            "file:///android_asset/www/SquirrelGo-Apps/lsd-suite/www/index.html";
+            "file:///android_asset/www/index.html";
 
     // Desk learners call speechSynthesis. WebView often has none, so this
     // stands in for it and speaks through the system text-to-speech engine.

@@ -8,6 +8,7 @@
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body {
     margin: 0 auto;
     max-width: 720px;
@@ -18,9 +19,36 @@
   }
   header h1 { margin: 0; color: #ffd54f; font-size: 1.55rem; letter-spacing: -0.02em; }
   header p { margin: 0.35rem 0 0; color: #aaa; line-height: 1.4; }
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
+    margin: 1rem 0 0.75rem;
+  }
+  .tab-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.45rem 0.65rem;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #aaa;
+    background: #16161c;
+    border: 1px solid #2a2a32;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .tab-btn[aria-selected="true"] {
+    color: #ffd54f;
+    background: #2a2410;
+    border-color: #ffd54f;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  #panel-favorites.active { max-height: min(42vh, 320px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .picker {
-    position: sticky; top: 0; z-index: 2;
-    margin: 1rem 0;
+    margin: 0 0 0.75rem;
     padding: 0.75rem 0.85rem;
     background: #16161c;
     border: 1px solid #2a2a32;
@@ -37,8 +65,24 @@
     background: #0f0f12;
     border: 1px solid #3a3a44;
     border-radius: 8px;
+    min-height: 44px;
   }
   .hint { margin: 0.45rem 0 0; color: #8e8e93; font-size: 0.82rem; }
+  .fav-intro { margin: 0 0 0.65rem; }
+  .fav-list { list-style: none; margin: 0; padding: 0; }
+  .fav-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.35rem 0; min-height: 44px; }
+  .fav-row span { flex: 1; font-size: 0.95rem; min-width: 0; }
+  .fav-row button {
+    flex: 0 0 auto;
+    width: 44px; height: 44px;
+    border: 1px solid #3a3a44;
+    border-radius: 10px;
+    background: #0f0f12;
+    color: #ffd54f;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+  .fav-row button.on { background: #2a2410; border-color: #ffd54f; }
   ul { list-style: none; margin: 0; padding: 0; }
   a.card {
     display: block;
@@ -59,16 +103,27 @@
 <body>
 <header>
   <h1>Language Student Desk</h1>
-  <p>Pick a Desk learner below. The language or course you choose above applies to the tools that use it.</p>
+  <p>Grammar, vocabulary, language, programming, legalese, translation, reference, resource, character, and Klingon. Each one opens inside this app.</p>
 </header>
-<div class="picker">
-  <label for="lang">Open scoped tools in</label>
-  <select id="lang"><option value="">All languages</option></select>
-  <p class="hint">Klingon and Legalese ignore the picker. Back returns to this menu.</p>
-</div>
-<ul id="list"></ul>
-<footer>Language Student Desk<br>Back returns to this menu. Progress stays on this device.</footer>
+<nav class="tabs" role="tablist" aria-label="Home">
+  <button type="button" class="tab-btn" role="tab" id="tab-tools" aria-selected="true" aria-controls="panel-tools">Tools</button>
+  <button type="button" class="tab-btn" role="tab" id="tab-favorites" aria-selected="false" aria-controls="panel-favorites">Favorites</button>
+</nav>
+<section class="tab-panel active" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools">
+  <div class="picker">
+    <label for="lang">Open scoped tools in</label>
+    <select id="lang"><option value="">All languages</option></select>
+    <p class="hint">Passed as ?lang=. Klingon and Legalese do not use it. Back returns to this menu.</p>
+  </div>
+  <ul id="list"></ul>
+</section>
+<section class="tab-panel" id="panel-favorites" role="tabpanel" aria-labelledby="tab-favorites" hidden>
+  <p class="hint fav-intro">Star a language to pin it at the top of every language menu on this device.</p>
+  <ul class="fav-list" id="favList"></ul>
+</section>
+<footer>Progress stays on this device. The separate SquirrelGo apps (Kana, Kanji, Dictionary, Phrasebook, Orthodox Bible) are not this app; Character and Vocabulary use the script and deck data packed with it.</footer>
 <script src="../../../languages/registry.js"></script>
+<script src="../../../languages/lsd-lang.js"></script>
 <script src="../../../programming-learner/data/catalog.js"></script>
 <script>
 (function () {
@@ -84,7 +139,7 @@
     { href: "../../../translation-learner/index.html", title: "Translation Learner",
       desc: "Sentence translation checked by meaning, a meaning matrix, and top-1,000 word practice.", scoped: true },
     { href: "../../../programming-learner/index.html", title: "Programming Learner",
-      desc: "Syntax, concepts and practice, from Python and Slick to the esolangs.", scoped: true },
+      desc: "Syntax, concepts and practice, from Python, Slick and Chisel to the esolangs.", scoped: true },
     { href: "../../../legalese-learner/index.html", title: "Legalese Learner",
       desc: "How the heavy words in a contract work. Reading practice, not legal advice.", scoped: false },
     { href: "../../../language-learner/index.html", title: "Language Learner",
@@ -95,31 +150,81 @@
       desc: "Flashcards, spaced review and Anki export.", scoped: true }
   ];
 
+  var tabTools = document.getElementById("tab-tools");
+  var tabFavorites = document.getElementById("tab-favorites");
+  var panelTools = document.getElementById("panel-tools");
+  var panelFavorites = document.getElementById("panel-favorites");
   var lang = document.getElementById("lang");
   var list = document.getElementById("list");
+  var favList = document.getElementById("favList");
   var registry = window.LSD_LANGUAGE_REGISTRY || {};
   var metas = Object.keys(registry).map(function (id) { return registry[id]; });
-  metas.sort(function (a, b) {
-    return String(a.name || a.id).localeCompare(String(b.name || b.id), "en", { sensitivity: "base" });
-  });
-  var languages = document.createElement("optgroup");
-  languages.label = "Languages";
-  metas.forEach(function (m) {
+
+  function labelFor(m) {
     var label = m.name || m.id;
     if (m.nativeName) label += " · " + m.nativeName;
-    languages.appendChild(new Option(label, m.id));
-  });
-  lang.appendChild(languages);
-  var courses = document.createElement("optgroup");
-  courses.label = "Programming courses";
-  (window.PROGRAMMING_CATALOG || []).slice().sort(function (a, b) {
-    return String(a.name).localeCompare(String(b.name), "en", { sensitivity: "base" });
-  }).forEach(function (c) {
-    courses.appendChild(new Option(c.name, c.id));
-  });
-  lang.appendChild(courses);
+    return label;
+  }
 
-  try { lang.value = localStorage.getItem("lsd-suite-lang") || ""; } catch (e) {}
+  function setTab(which) {
+    var tools = which === "tools";
+    tabTools.setAttribute("aria-selected", tools ? "true" : "false");
+    tabFavorites.setAttribute("aria-selected", tools ? "false" : "true");
+    panelTools.classList.toggle("active", tools);
+    panelFavorites.classList.toggle("active", !tools);
+    panelTools.hidden = !tools;
+    panelFavorites.hidden = tools;
+  }
+  tabTools.onclick = function () { setTab("tools"); };
+  tabFavorites.onclick = function () { setTab("favorites"); };
+
+  function fillLangSelect() {
+    var sorted = LSD.sortMetas(metas);
+    var keep = lang.value;
+    lang.innerHTML = "";
+    lang.appendChild(new Option("All languages", ""));
+    var languages = document.createElement("optgroup");
+    languages.label = "Languages";
+    sorted.forEach(function (m) {
+      languages.appendChild(new Option(labelFor(m), m.id));
+    });
+    lang.appendChild(languages);
+    var courses = document.createElement("optgroup");
+    courses.label = "Programming courses";
+    (window.PROGRAMMING_CATALOG || []).slice().sort(function (a, b) {
+      return String(a.name).localeCompare(String(b.name), "en", { sensitivity: "base" });
+    }).forEach(function (c) {
+      courses.appendChild(new Option(c.name, c.id));
+    });
+    lang.appendChild(courses);
+    try { lang.value = keep || localStorage.getItem("lsd-suite-lang") || ""; } catch (e) { lang.value = keep || ""; }
+  }
+
+  function renderFavorites() {
+    favList.innerHTML = "";
+    LSD.sortMetas(metas).forEach(function (m) {
+      var li = document.createElement("li");
+      li.className = "fav-row";
+      var name = document.createElement("span");
+      name.textContent = labelFor(m);
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.setAttribute("aria-label", LSD.isFavorite(m.id) ? "Remove favorite" : "Add favorite");
+      btn.textContent = LSD.isFavorite(m.id) ? "★" : "☆";
+      if (LSD.isFavorite(m.id)) btn.className = "on";
+      btn.onclick = function () {
+        LSD.toggleFavorite(m.id);
+        renderFavorites();
+        fillLangSelect();
+      };
+      li.appendChild(name);
+      li.appendChild(btn);
+      favList.appendChild(li);
+    });
+  }
+
+  fillLangSelect();
+  renderFavorites();
 
   function hrefFor(item) {
     if (!item.scoped || !lang.value) return item.href;

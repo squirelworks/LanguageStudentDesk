@@ -1609,5 +1609,54 @@ window.LSD_DECKS.taiwanese = [
         ""
       ]
     ]
+  },
+  {
+    "id": "media",
+    "title": "Screens and software",
+    "words": [
+      ["影片", "ㄧㄥˇ ㄆㄧㄢˋ · yǐngpiàn", "video", "The usual word in Taiwan. 視頻 is mainland usage."],
+      ["電影", "ㄉㄧㄢˋ ㄧㄥˇ · diànyǐng", "film, movie", ""],
+      ["軟體", "ㄖㄨㄢˇ ㄊㄧˇ · ruǎntǐ", "software", "軟件 is the mainland word."],
+      ["資訊", "ㄗ ㄒㄩㄣˋ · zīxùn", "information", "Often 資訊 where mainland usage has 信息."],
+      ["手機", "ㄕㄡˇ ㄐㄧ · shǒujī", "mobile phone", ""],
+      ["網路", "ㄨㄤˇ ㄌㄨˋ · wǎnglù", "the internet", ""],
+      ["新聞", "ㄒㄧㄣ ㄨㄣˊ · xīnwén", "news", ""],
+      ["節目", "ㄐㄧㄝˊ ㄇㄨˋ · jiémù", "programme", ""]
+    ]
+  },
+  {
+    "id": "news",
+    "title": "News and formal words",
+    "words": [
+      ["根據", "ㄍㄣ ㄐㄩˋ · gēnjù", "according to", ""],
+      ["表示", "ㄅㄧㄠˇ ㄕˋ · biǎoshì", "to state, to say (formal)", ""],
+      ["指出", "ㄓˇ ㄔㄨ · zhǐchū", "to point out", ""],
+      ["認為", "ㄖㄣˋ ㄨㄟˊ · rènwéi", "to believe, to hold that", ""],
+      ["因此", "ㄧㄣ ㄘˇ · yīncǐ", "therefore", ""],
+      ["然而", "ㄖㄢˊ ㄦˊ · rán'ér", "however", ""],
+      ["此外", "ㄘˇ ㄨㄞˋ · cǐwài", "in addition", ""],
+      ["對於", "ㄉㄨㄟˋ ㄩˊ · duìyú", "regarding", ""],
+      ["將", "ㄐㄧㄤ · jiāng", "will (written)", ""],
+      ["已", "ㄧˇ · yǐ", "already (written)", ""],
+      ["於", "ㄩˊ · yú", "at, on (written)", ""],
+      ["品質", "ㄆㄧㄣˇ ㄓˊ · pǐnzhí", "quality", "In Taiwan 質 is zhí. 質量 is mass, not quality."],
+      ["政策", "ㄓㄥˋ ㄘㄜˋ · zhèngcè", "policy", ""],
+      ["乘客", "ㄔㄥˊ ㄎㄜˋ · chéngkè", "passenger", ""]
+    ]
+  },
+  {
+    "id": "particles",
+    "title": "Spoken particles",
+    "words": [
+      ["喔", "ㄛ · ō", "softener, friendly ok", "好喔. Not a question by itself."],
+      ["啦", "ㄌㄚ˙ · la", "casual urging or a new state", "來啦."],
+      ["耶", "ㄧㄝ˙ · ye", "mild surprise or shared feeling", "真的耶."],
+      ["嘛", "ㄇㄚ˙ · ma", "obviousness, or coaxing", "Same sound as 嗎, different job. 嗎 asks yes/no."],
+      ["齁", "ㄏㄡ · hōu", "right?, you know", "Very common in Taiwan: 對齁."],
+      ["您", "ㄋㄧㄣˊ · nín", "you (polite)", ""],
+      ["請問", "ㄑㄧㄥˇ ㄨㄣˋ · qǐngwèn", "may I ask", "The polite way to start a question."],
+      ["便當", "ㄅㄧㄢˋ ㄉㄤ · biàndāng", "boxed meal", ""],
+      ["機車", "ㄐㄧ ㄔㄜ · jīchē", "scooter", "騎機車 is a normal way to get around."]
+    ]
   }
 ];

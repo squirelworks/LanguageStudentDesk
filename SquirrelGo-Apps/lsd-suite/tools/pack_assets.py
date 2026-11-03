@@ -3,11 +3,12 @@
 
 The WebView opens
 
-    file:///android_asset/www/SquirrelGo-Apps/lsd-suite/www/index.html
+    file:///android_asset/www/index.html
 
 and every learner keeps the relative paths it already uses in the repo
-(``../languages/...``, ``../SquirrelGo-Apps/...``). The asset root is a
-mirror of the paths those links need, not a second copy checked into git.
+(``../languages/...``, ``../SquirrelGo-Apps/...``). The suite menu in git lives
+under ``SquirrelGo-Apps/lsd-suite/www/``; pack_assets copies it to ``www/index.html``
+with paths rooted at the asset ``www/`` tree.
 
 Phrasebook recordings are left out: the learners read packs.js, not the
 clips. Generated JMdict shards are not in the repo, so they are not packed.
@@ -44,6 +45,7 @@ TREES = [
 
 # Present after a successful pack. Paths are under <dest>/www/.
 REQUIRED = [
+    "index.html",
     "SquirrelGo-Apps/lsd-suite/www/index.html",
     "grammar-learner/index.html",
     "vocabulary-learner/index.html",
@@ -100,6 +102,22 @@ def copy_tree(rel, www):
     shutil.copytree(src, dst, ignore=ignore, dirs_exist_ok=True)
 
 
+def install_desk_menu(www):
+    """Copy the suite menu to www/index.html with asset-root relative paths."""
+    src = www / "SquirrelGo-Apps/lsd-suite/www/index.html"
+    if not src.is_file():
+        sys.exit("pack_assets: missing suite menu " + str(src))
+    text = src.read_text(encoding="utf-8")
+    # The git menu climbs three levels from lsd-suite/www/ to the shared www/ root.
+    text = text.replace('"../../../', '"')
+    dst = www / "index.html"
+    dst.write_text(text, encoding="utf-8")
+    if 'src="languages/registry.js"' not in text:
+        sys.exit("pack_assets: desk menu missing languages/registry.js")
+    if "LEARNERS" not in text or 'id="list"' not in text:
+        sys.exit("pack_assets: desk menu missing tool list markup")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dest", type=Path, required=True, help="Asset source dir (www/ is created inside it)")
@@ -111,6 +129,7 @@ def main():
     www.mkdir(parents=True)
     for rel in TREES:
         copy_tree(rel, www)
+    install_desk_menu(www)
     missing = [rel for rel in REQUIRED if not (www / rel).exists()]
     if missing:
         sys.exit("pack_assets: packed tree is incomplete:\n  " + "\n  ".join(missing))
