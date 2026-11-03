@@ -74,7 +74,7 @@ TOOLS = {
                         "Hiragana and katakana: lessons, charts, quizzes, flashcards, writing pad, audio.",
                         "SquirrelGo apps", False, ("squirrelgo-kana-latest", "SquirrelGoKana-debug.apk")),
     "squirrelgo-bopomofo": ("SquirrelGo Bopomofo",
-                            "Taiwan Zhuyin (Bopomofo): initials, medials, finals, tone marks, stroke animations, writing pad, chart and quizzes.",
+                            "Taiwan Zhuyin (Bopomofo): initials, medials, finals, tone marks, chart and quizzes.",
                             "SquirrelGo apps", False, None),
     "squirrelgo-alphabets": ("SquirrelGo Alphabets",
                              "The world's alphabets, Latin and Greek to Thai and Tibetan: lessons, stroke order, writing pad, sounds.",

@@ -580,6 +580,28 @@ window.LSD_LANGUAGE_REGISTRY = {
       "reference": "reference.json"
     }
   },
+  "taiwanese": {
+    "id": "taiwanese",
+    "name": "Taiwanese",
+    "nativeName": "台灣華語",
+    "writingSystems": [
+      "hanzi"
+    ],
+    "characterKeys": [
+      "hanzi"
+    ],
+    "notes": "Traditional Chinese characters as used in Taiwan, with Zhuyin (Bopomofo) and pinyin readings.",
+    "speech": "zh-TW",
+    "data": {
+      "characters": [
+        "../cjk/characters.js",
+        "../chinese/hanzi.js"
+      ],
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
+  },
   "tamazight": {
     "id": "tamazight",
     "name": "Tamazight",
