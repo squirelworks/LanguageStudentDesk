@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.webkit.JavascriptInterface;
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        // Always read packaged assets; cached file:// pages survive APK updates and
+        // hid new script tags (stroke player) after 1.0.2.
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setTextZoom(100);
 
         webView.addJavascriptInterface(new Bridge(), "AndroidTTS");
@@ -51,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         // Cross-app links for the SquirrelGo suite (www/js/suite.js).
         pendingQuery = queryOf(getIntent());
         webView.addJavascriptInterface(new SuiteBridge(), "SquirrelGo");
-        webView.loadUrl("file:///android_asset/www/index.html");
+        SharedPreferences prefs = getSharedPreferences("squirrelgo-bopomofo", MODE_PRIVATE);
+        int lastVc = prefs.getInt("webVersionCode", 0);
+        if (lastVc != BuildConfig.VERSION_CODE) {
+            webView.clearCache(true);
+            prefs.edit().putInt("webVersionCode", BuildConfig.VERSION_CODE).apply();
+        }
+        webView.loadUrl("file:///android_asset/www/index.html?v=" + BuildConfig.VERSION_CODE);
     }
 
     private boolean hasLanguage(String lang) {

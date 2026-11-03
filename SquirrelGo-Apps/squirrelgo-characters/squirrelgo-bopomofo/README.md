@@ -4,7 +4,7 @@ Offline Zhuyin (注音, Bopomofo) trainer for Android and desktop browsers, part
 
 Teaches Taiwan's phonetic alphabet the way textbooks mark readers: **聲母** initials, **介音** medials ㄧ ㄨ ㄩ, **韻母** finals, the four tone marks plus neutral **˙**, then short reading practice (for example 你好 as ㄋㄧˇ ㄏㄠˇ). Charts, lesson groups, quizzes and flashcards reuse the SquirrelGo Kana trainer shell; hints and examples are original.
 
-There is **no writing pad**: Zhuyin stroke-order data is not bundled (unlike kana in SquirrelGo Kana). Audio uses the device's **zh-TW** text-to-speech voice in the WebView shell; no recorded clips.
+Stroke-order animations and a checked writing pad cover every standalone Zhuyin symbol in the chart (initials, medials, finals, and drawable tone marks). Paths live in `www/data/strokes/zhuyin.js` (regenerate with `tools/gen_zhuyin_strokes.py`). Audio uses the device's **zh-TW** text-to-speech voice in the WebView shell; no recorded clips.
 
 ## Web / desktop
 
@@ -19,13 +19,14 @@ export ANDROID_HOME=$HOME/android-sdk
 echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 # Optional Play signing (gitignored): upload.storeFile, upload.storePassword,
 # upload.keyAlias, upload.keyPassword — or the UPLOAD_* environment variables.
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android && ./gradlew bundleRelease
+cd android && ./gradlew bundleRelease assembleRelease
 ```
+
+Release builds run `syncWwwAssets` automatically (copies `www/` into `android/app/src/main/assets/www` before packaging).
 
 ## Layout
 
 - `www/data/bopomofo.js` — lessons, chart groups and articles
-- `www/js/app.js` — trainer UI (fork of SquirrelGo Kana without stroke or writing modules)
+- `www/data/strokes/zhuyin.js` — stroke paths for chart symbols
+- `www/js/app.js`, `js/strokes.js`, `js/pad.js`, `js/writepad.js` — trainer UI (SquirrelGo Kana shell)
 - `android/` — WebView shell with native TTS bridge (API 36)

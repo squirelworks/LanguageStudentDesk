@@ -10,8 +10,12 @@ android {
         applicationId "com.squirelworks.squirrelgobopomofo"
         minSdk 24
         targetSdk 36
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     // A fixed debug key, so new builds install over old ones and keep your data.
@@ -66,3 +70,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
 }
+
+// Ship the same www/ tree Gradle merges into assets (avoids stale android/app/.../assets/www).
+def wwwRoot = file("${rootProject.projectDir}/../www")
+def assetsWww = file("src/main/assets/www")
+
+tasks.register("syncWwwAssets", Sync) {
+    from wwwRoot
+    into assetsWww
+}
+
+tasks.named("preBuild").configure { dependsOn("syncWwwAssets") }
