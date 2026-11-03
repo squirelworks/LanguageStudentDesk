@@ -30,13 +30,41 @@
   }
   header {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
-    padding: 1.2rem;
-    text-align: center;
+    padding: 0.85rem 1rem;
     border-bottom: 3px solid var(--accent);
     flex-shrink: 0;
   }
+  .header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .header-titles { flex: 1; text-align: center; min-width: 0; }
   header h1 { margin: 0; font-size: 1.6rem; }
   header p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.9rem; }
+  .scripts-toggle {
+    display: none;
+    flex-shrink: 0;
+    background: #2a2a32;
+    color: var(--text);
+    border: 1px solid #555;
+    padding: 0.45rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .scripts-toggle:hover { border-color: var(--accent); }
+  .scripts-toggle[aria-expanded="true"] { background: var(--accent); border-color: var(--accent); }
+  .drawer-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 40;
+  }
+  .drawer-backdrop.visible { display: block; }
   .app-body {
     display: flex;
     flex: 1;
@@ -235,6 +263,21 @@
     padding: 1rem;
   }
 
+  body.drawer-layout .scripts-toggle { display: inline-block; }
+  body.drawer-layout .scripts-toggle.hidden-by-scope { display: none; }
+  body.drawer-layout .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(280px, 85vw);
+    z-index: 50;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+  }
+  body.drawer-layout .sidebar.drawer-open { transform: translateX(0); }
+  body.drawer-layout .sidebar.hidden { display: none !important; }
 
   @font-face {
     font-family: 'pIqaD';
@@ -319,10 +362,16 @@
 </head>
 <body>
 <header>
-  <h1 id="appTitle">Character Learner</h1>
-  <p id="appSubtitle">Modular script trainer — Language Student Desk</p>
+  <div class="header-row">
+    <button type="button" class="scripts-toggle" id="scriptsToggle" aria-expanded="false" aria-controls="sidebar">Scripts</button>
+    <div class="header-titles">
+      <h1 id="appTitle">Character Learner</h1>
+      <p id="appSubtitle">Modular script trainer — Language Student Desk</p>
+    </div>
+  </div>
 </header>
 <div class="app-body" >
+  <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
   <aside class="sidebar" id="sidebar">
     <h3 id="sidebarTitle">Scripts</h3>
     <div class="script-select" id="scriptSelect"></div>
@@ -572,6 +621,54 @@ let currentDetailChar = null;
 let scopedLang = null;
 let kanaLayout = 'gojuon';
 
+const drawerMq = window.matchMedia('(max-width: 480px)');
+function isDrawerLayout() {
+  return drawerMq.matches && !document.getElementById('sidebar')?.classList.contains('hidden');
+}
+function syncDrawerLayoutClass() {
+  document.body.classList.toggle('drawer-layout', drawerMq.matches);
+}
+function setScriptsDrawer(open) {
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('drawerBackdrop');
+  const toggle = document.getElementById('scriptsToggle');
+  if (!sidebar || !backdrop || !toggle || !isDrawerLayout()) {
+    sidebar?.classList.remove('drawer-open');
+    backdrop?.classList.remove('visible');
+    backdrop?.setAttribute('aria-hidden', 'true');
+    toggle?.setAttribute('aria-expanded', 'false');
+    return;
+  }
+  sidebar.classList.toggle('drawer-open', open);
+  backdrop.classList.toggle('visible', open);
+  backdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
+  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function openScriptsDrawer() { setScriptsDrawer(true); }
+function closeScriptsDrawer() { setScriptsDrawer(false); }
+function toggleScriptsDrawer() { setScriptsDrawer(!document.getElementById('sidebar')?.classList.contains('drawer-open')); }
+
+function bindScriptsDrawer() {
+  syncDrawerLayoutClass();
+  const toggle = document.getElementById('scriptsToggle');
+  const backdrop = document.getElementById('drawerBackdrop');
+  const sidebar = document.getElementById('sidebar');
+  toggle.onclick = () => toggleScriptsDrawer();
+  backdrop.onclick = () => closeScriptsDrawer();
+  drawerMq.addEventListener('change', () => {
+    syncDrawerLayoutClass();
+    setScriptsDrawer(false);
+  });
+  let touchStartX = null;
+  sidebar.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  sidebar.addEventListener('touchend', (e) => {
+    if (touchStartX == null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx < -40) closeScriptsDrawer();
+    touchStartX = null;
+  }, { passive: true });
+}
+
 // ?lang= scopes come from the shared languages/ registry: a language's
 // characterKeys, else any of its writingSystems this tool has (English and
 // Latin list "latin"), else a script id given directly (?lang=greek).
@@ -691,7 +788,10 @@ function init() {
     document.getElementById('appTitle').textContent = 'Character Learner — ' + label;
     document.getElementById('appSubtitle').textContent = 'Scoped to ' + label;
     document.getElementById('sidebarTitle').textContent = 'Writing systems';
-    if (allowed.length <= 1) document.getElementById('sidebar').classList.add('hidden');
+    if (allowed.length <= 1) {
+      document.getElementById('sidebar').classList.add('hidden');
+      document.getElementById('scriptsToggle').classList.add('hidden-by-scope');
+    }
   }
   const scriptsToShow = scopedLang ? allowed : Object.keys(SCRIPTS);
   scriptsToShow.forEach(key => {
@@ -709,11 +809,17 @@ function init() {
     });
   });
   document.getElementById('nextBtn').onclick = nextQuestion;
-  if (scopedLang && allowed.length) selectScript(allowed[0]);
+  bindScriptsDrawer();
+  if (scopedLang && allowed.length) {
+    selectScript(allowed[0]);
+  } else if (isDrawerLayout()) {
+    openScriptsDrawer();
+  }
 }
 
 function selectScript(key) {
   currentScript = key;
+  closeScriptsDrawer();
   currentData = SCRIPTS[key].chars;
   document.querySelectorAll('.script-select button').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.script-select button').forEach(b => {
