@@ -4,15 +4,6 @@
   "ر": "coverage 0.746",
   "ق": "coverage 0.735"
  },
- "armenian": {
-  "Գ": "coverage 0.579; precision 0.684",
-  "Ժ": "coverage 0.65; precision 0.765",
-  "Ղ": "coverage 0.383; precision 0.488",
-  "Մ": "coverage 0.536; precision 0.712",
-  "Վ": "coverage 0.48; precision 0.542",
-  "ղ": "coverage 0.571; precision 0.678",
-  "ռ": "coverage 0.73"
- },
  "bengali": {
   "এ": "coverage 0.678"
  },
