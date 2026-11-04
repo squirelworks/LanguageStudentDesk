@@ -49,7 +49,8 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `tools/conceptnet/edges.tsv` | The ConceptNet links that touch a Desk word (cached, about 2 MB) |
 | `tools/export_sources.js` | Hands the Desk's data to the trainer as JSON |
 | `tools/wordlists/<lang>.txt` | The cached top-1,000 frequency lists |
-| `check.js` | `node translation-learner/check.js` validates every column and the network's close/not-close line; run it after any data change |
+| `tests/<language>-english.json` | Accepted and rejected translations for one language pair |
+| `check.js` | `node translation-learner/check.js` validates every column, the network's close/not-close line and the language-pair tests; run it after any data change |
 | `app.js`, `index.html` | The page |
 
 ## The meaning matrix
@@ -88,6 +89,34 @@ window.TL_LANGS.hangul = {
 - A meaning the language leaves to context (Japanese and Korean often drop "I") goes in `implied`. Learners may leave it out of their English.
 - `reading` is the romanization, or kana for Japanese (romaji is generated from it). Leave it `""` when the text is already romanized, as for Klingon, or is already Latin script with macrons, as for Latin. Greek uses modern pronunciation with a stress accent on the reading. Hebrew is written without vowel points; its article ה- and one-letter prepositions glue like Arabic ال. Thai is written without spaces (`sep: ""`); its romanization has no tone marks, matching `languages/thai`. Bengali uses the same simplified romanization as `languages/bengali`. Tamil uses the same simplified romanization as `languages/tamil`. Georgian uses the national romanization; an apostrophe marks an ejective. Armenian uses the Desk romanization (ë for ը; an apostrophe marks an aspirate); sentences end with ։.
 - Each column must carry exactly its row's `m`: `check.js` reports any meaning a rendering drops or adds, and checks that the row's own English passes the translation checker.
+
+## Equivalent phrasings
+
+One sentence often has several right English versions, because the source leaves things out that
+English has to say. バスで学校に行きます is "I go to school by bus", "I take the bus to school" or "took a
+bus to school". The checker accepts them by matching meanings, not strings, with these rules:
+
+- **Dropped subjects and pronouns.** A meaning in the rendering's `implied` list may be left out.
+- **Articles and helpers.** "a", "the", forms of "be" and "do", and tense helpers ("will", "have")
+  never count as added meaning.
+- **Tense and aspect.** Left open unless the rendering marks it: a rendering with an `@past` token needs
+  a past answer ("came", "did come", "have come"); otherwise "take", "took", "am taking" and "will take"
+  all pass. Irregular past forms ("took", "went") match their base word.
+- **Word order.** Meanings are found anywhere in the answer, so "By bus, I go to school" passes.
+- **Phrasings tied to other meanings.** `TL_PHRASINGS` in `data/matrix.js` lets English carry a meaning
+  only next to certain others: "take", "ride" or "catch" carry *go* when the row also has *bus*, *train*,
+  *car* or *ship*.
+- **Other natural English per row.** A row's `also` list holds other right versions. They are shown after
+  a check, and `check.js` makes sure every one passes in every language that renders the row.
+
+This is not machine translation: an answer passes only when it carries every meaning of the sentence and
+adds none.
+
+### Language-pair tests
+
+`tests/<language>-english.json` lists, per sentence, translations that must be accepted and ones that must
+be rejected. `check.js` runs them all (CI runs it too). The Translation Learner stays marked
+**(alpha)** until a pair passes its tests; the label comes off pair by pair.
 
 ## The meaning network
 

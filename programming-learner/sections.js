@@ -1,8 +1,9 @@
 // How the Programming Learner lays out its languages, shared by the Desk page
 // and the Programming Student Desk menu so both show the same list.
 //
-// Every catalog entry has a group (modern, older or joke) and, outside the
-// joke group, one or more category tags. The default view lists the groups in
+// Every catalog entry has a group (modern, older or joke, or tracks for a
+// topic taught across several languages) and, for languages outside the joke
+// group, one or more category tags. The default view lists the groups in
 // order, each sorted by name, with nothing pinned. The A–Z view is one list of
 // everything. A tag filter keeps only the languages with that tag.
 //
@@ -13,6 +14,7 @@
     { id: "modern", title: "Modern and popular", sub: "Current languages in wide use today." },
     { id: "older", title: "Older and legacy", sub: "Earlier versions and long-lived languages, many still running real systems." },
     { id: "joke", title: "Joke and esoteric", sub: "Languages made for fun, puzzles and curiosity." },
+    { id: "tracks", title: "Cross-language tracks", sub: "Advanced topics worked through side by side in several languages." },
   ];
   var KEY = "lsd-programming-view-v1";
 

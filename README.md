@@ -43,6 +43,12 @@ python3 LanguageStudentDesk.py --file     # GUI, but open tools as file:// pages
 
 If `tkinter` is missing (some Linux installs: `sudo apt install python3-tk`), the Desk falls back to `--browser` mode.
 
+### Settings
+
+The menu starts simple: standard modern languages and the core learners. **Settings** has three levels (Simple, More, Everything) and a Customize list of single switches, such as regional varieties, historical stages and alpha features. A "What's in the app" section lists everything that's turned off and the switch that turns it on. The first run shows a welcome card with a few languages to try. The Desk window, its browser tabs and the Android suite use the same switches, and the Desk remembers them between sessions.
+
+The switches are defined once in the shared language data ([squirrel-lang-data](https://github.com/squirelworks/squirrel-lang-data), checked out at `data/`): clone with `git clone --recursive`, or run `git submodule update --init` in an existing clone. `languages/features.js` is generated from it with `python3 data/tools/gen_features.py languages/features.js`.
+
 ### Language-scoped launch
 
 Select a tool that supports it and choose a language from the dropdown. This opens the tool with `?lang=<id>`. The list comes from `languages/*/meta.json` plus a few extra ids.

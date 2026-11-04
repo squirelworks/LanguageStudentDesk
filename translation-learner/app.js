@@ -45,7 +45,7 @@
   }
 
   function matrix() {
-    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES };
+    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
   }
 
   async function deckEntries(id) {
@@ -297,6 +297,7 @@
       if (r.dropped) parts.push(r.dropped + (r.dropped === 1 ? " meaning" : " meanings") + " missing");
       if (r.close) parts.push(r.close + (r.close === 1 ? " close word" : " close words"));
       if (r.added.length) parts.push(r.added.length + (r.added.length === 1 ? " word adds" : " words add") + " meaning");
+      if (r.tenseWrong) parts.push("wrong time");
       html += parts.join(", ") + ". Meaning score " + Math.round(r.score * 100) + "%.";
     }
     html += "</div>";
@@ -309,8 +310,10 @@
     html += "</div>";
     if (r.typos) html += '<p class="small">Spelling: ' + r.units.filter((u) => u.typo).map((u) => "“" + esc(u.matched[0]) + "” is spelt “" + esc(u.typo) + "”").join(", ") + ".</p>";
     if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(T.closeCredit(u.sim, state.net.close) * 100) + "% credit)").join(", ") + ".</p>";
+    if (r.tenseWrong) html += '<p class="added">The original says this already happened. Put your English in the past.</p>';
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";
+    if (s.also.length) html += '<p class="small muted">Also right: ' + s.also.map((a) => "“" + esc(a) + "”").join(", ") + "</p>";
     html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-close">close</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
     html += '<div class="row" style="margin-top:0.8rem"><button class="primary" id="enNext">Next</button>' + (honest ? "" : '<button id="enOverride">My translation means the same</button>') + "</div>";
     $("enResult").innerHTML = html;
