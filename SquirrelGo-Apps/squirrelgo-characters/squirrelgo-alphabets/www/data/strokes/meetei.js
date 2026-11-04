@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data adda648 strokes/meetei.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 985d066 strokes/meetei.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Meetei Mayek, drafted by SquirrelGo-Apps/tools/strokegen
 // from Noto Sans Meetei Mayek (SIL Open Font License) and checked by hand.
 // Paths sit in a 100 x 100 box; see www/js/strokes.js.

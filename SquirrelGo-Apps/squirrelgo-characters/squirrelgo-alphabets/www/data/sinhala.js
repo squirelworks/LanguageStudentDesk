@@ -1,23 +1,24 @@
-// Sinhala for SquirrelGo Alphabets.
-// Each character is [letter, romanization, sound hint, example, example romanization, meaning, text to speak, IPA].
-// Romanization is a simplified ISO 15919. Hints, groupings and articles are original.
+// Generated from squirrel-lang-data 985d066 alphabets/sinhala.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Sinhala for SquirrelGo Alphabets. Romanization is a simplified ISO 15919.
+// Hints, groupings and articles are original.
+// Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.
 window.SG_SCRIPTS = window.SG_SCRIPTS || [];
 window.SG_SCRIPTS.push({
-  id: "sinhala",
-  title: "Sinhala",
-  native: "සිංහල",
-  lang: "si-LK",
-  langName: "Sinhala",
-  font: '"Noto Sans Sinhala", "Sinhala Sangam MN", "Iskoola Pota", "Nirmala UI", sans-serif',
-  blurb: "The script of Sri Lanka, all curves and loops. It has letters for æ and for nasal-plus-stop sounds like nd.",
-  writeTip: "Most letters start with a small loop on the left and swing round in one stroke. Vowel signs and the hal mark come last.",
-  lessons: [
+  "id": "sinhala",
+  "title": "Sinhala",
+  "native": "සිංහල",
+  "lang": "si-LK",
+  "langName": "Sinhala",
+  "font": "\"Noto Sans Sinhala\", \"Sinhala Sangam MN\", \"Iskoola Pota\", \"Nirmala UI\", sans-serif",
+  "blurb": "The script of Sri Lanka, all curves and loops. It has letters for æ and for nasal-plus-stop sounds like nd.",
+  "writeTip": "Most letters start with a small loop on the left and swing round in one stroke. Vowel signs and the hal mark come last.",
+  "lessons": [
     {
-      title: "Vowels",
-      note: "Sinhala keeps short and long vowels apart, and has two vowels most Indian scripts lack: ඇ æ and ඈ ǣ.",
-      group: "Vowels",
-      cols: 4,
-      chars: [
+      "title": "Vowels",
+      "note": "Sinhala keeps short and long vowels apart, and has two vowels most Indian scripts lack: ඇ æ and ඈ ǣ.",
+      "group": "Vowels",
+      "cols": 4,
+      "chars": [
         ["අ", "a", "short a, like u in but", "අම්මා", "ammā", "mother", "", "a"],
         ["ආ", "ā", "long a, as in father", "ආච්චි", "ācci", "grandmother", "", "aː"],
         ["ඇ", "æ", "a as in cat", "ඇස", "æsa", "eye", "", "æ"],
@@ -31,15 +32,15 @@ window.SG_SCRIPTS.push({
         ["ඔ", "o", "short o", "ඔරුව", "oruva", "canoe", "", "o"],
         ["ඕ", "ō", "long o, as in go without the glide", "ඕනෑ", "ōnǣ", "need, want", "", "oː"],
         ["ඓ", "ai", "ai as in aisle; in Sanskrit words", "ඓතිහාසික", "aitihāsika", "historic", "", "ai"],
-        ["ඖ", "au", "ow as in cow; in Sanskrit words", "ඖෂධ", "auṣadha", "medicine", "", "au"],
-      ],
+        ["ඖ", "au", "ow as in cow; in Sanskrit words", "ඖෂධ", "auṣadha", "medicine", "", "au"]
+      ]
     },
     {
-      title: "Vowel signs on ක",
-      note: "The e and o signs (ෙ) are written before the consonant. ා, ැ and ෑ attach on the right; ු and ූ hang below.",
-      group: "Vowel signs",
-      cols: 4,
-      chars: [
+      "title": "Vowel signs on ක",
+      "note": "The e and o signs (ෙ) are written before the consonant. ා, ැ and ෑ attach on the right; ු and ූ hang below.",
+      "group": "Vowel signs",
+      "cols": 4,
+      "chars": [
         ["කා", "kā", "ා: long ā", "කාමරය", "kāmaraya", "room", "", "kaː"],
         ["කැ", "kæ", "ැ: æ", "කැඩපත", "kæḍapata", "mirror", "", "kæ"],
         ["කෑ", "kǣ", "ෑ: long ǣ", "කෑම", "kǣma", "food", "", "kæː"],
@@ -51,15 +52,15 @@ window.SG_SCRIPTS.push({
         ["කේ", "kē", "ේ: long ē, with a mark on top", "කේක්", "kēk", "cake", "", "keː"],
         ["කො", "ko", "ො: o, both sides", "කොළ", "koḷa", "leaf", "", "ko"],
         ["කෝ", "kō", "ෝ: long ō", "කෝප්පය", "kōppaya", "cup", "", "koː"],
-        ["ක්", "k", "් hal kirīma: removes the built-in a", "", "", "", "", "k"],
-      ],
+        ["ක්", "k", "් hal kirīma: removes the built-in a", "", "", "", "", "k"]
+      ]
     },
     {
-      title: "Stops",
-      note: "The everyday consonants, in voiceless and voiced pairs. Sinhala has no aspiration in speech.",
-      group: "Consonants",
-      cols: 2,
-      chars: [
+      "title": "Stops",
+      "note": "The everyday consonants, in voiceless and voiced pairs. Sinhala has no aspiration in speech.",
+      "group": "Consonants",
+      "cols": 2,
+      "chars": [
         ["ක", "ka", "k", "කකුල", "kakula", "leg", "", "ka"],
         ["ග", "ga", "g", "ගස", "gasa", "tree", "", "ɡa"],
         ["ච", "ca", "ch", "චූටි", "cūṭi", "tiny", "", "tʃa"],
@@ -69,15 +70,15 @@ window.SG_SCRIPTS.push({
         ["ත", "ta", "t with the tongue on the teeth", "තාත්තා", "tāttā", "father", "", "t̪a"],
         ["ද", "da", "d with the tongue on the teeth", "දත", "data", "tooth", "", "d̪a"],
         ["ප", "pa", "p", "පොත", "pota", "book", "", "pa"],
-        ["බ", "ba", "b", "බල්ලා", "ballā", "dog", "", "ba"],
-      ],
+        ["බ", "ba", "b", "බල්ලා", "ballā", "dog", "", "ba"]
+      ]
     },
     {
-      title: "Nasals and half-nasals",
-      note: "The half-nasal letters stand for a quick n or m sound fused onto a voiced stop, all in one sound.",
-      group: "Consonants",
-      cols: 4,
-      chars: [
+      "title": "Nasals and half-nasals",
+      "note": "The half-nasal letters stand for a quick n or m sound fused onto a voiced stop, all in one sound.",
+      "group": "Consonants",
+      "cols": 4,
+      "chars": [
         ["න", "na", "n", "නංගී", "naṁgī", "younger sister", "", "na"],
         ["ම", "ma", "m", "මල", "mala", "flower", "", "ma"],
         ["ණ", "ṇa", "said n in everyday speech", "ගණන", "gaṇana", "count, amount", "", "na"],
@@ -85,14 +86,14 @@ window.SG_SCRIPTS.push({
         ["ඬ", "n̆ḍa", "a short n + curled-back d", "", "", "", "", "ᶯɖa"],
         ["ඳ", "n̆da", "a short n + d", "හඳ", "han̆da", "moon", "", "ⁿd̪a"],
         ["ඹ", "m̆ba", "a short m + b", "අඹ", "am̆ba", "mango", "", "ᵐba"],
-        ["අං", "aṁ", "binduva: ng after a vowel", "සිංහයා", "siṁhayā", "lion", "", "aŋ"],
-      ],
+        ["අං", "aṁ", "binduva: ng after a vowel", "සිංහයා", "siṁhayā", "lion", "", "aŋ"]
+      ]
     },
     {
-      title: "Other consonants",
-      group: "More consonants",
-      cols: 4,
-      chars: [
+      "title": "Other consonants",
+      "group": "More consonants",
+      "cols": 4,
+      "chars": [
         ["ය", "ya", "y", "යතුර", "yatura", "key", "", "ja"],
         ["ර", "ra", "a tapped r", "රජ", "raja", "king", "", "ɾa"],
         ["ල", "la", "l", "ලුණු", "luṇu", "salt", "", "la"],
@@ -100,15 +101,15 @@ window.SG_SCRIPTS.push({
         ["ස", "sa", "s", "සතා", "satā", "animal", "", "sa"],
         ["හ", "ha", "h", "හාවා", "hāvā", "hare", "", "ha"],
         ["ළ", "ḷa", "said l in everyday speech", "කොළ", "koḷa", "leaf", "", "la"],
-        ["ෆ", "fa", "f, in borrowed words", "", "", "", "", "fa"],
-      ],
+        ["ෆ", "fa", "f, in borrowed words", "", "", "", "", "fa"]
+      ]
     },
     {
-      title: "Letters for Sanskrit and Pali words",
-      note: "These letters spell words from Sanskrit and Pali. In everyday speech most are said like a plain letter: ධ like ද, භ like බ.",
-      group: "More consonants",
-      cols: 4,
-      chars: [
+      "title": "Letters for Sanskrit and Pali words",
+      "note": "These letters spell words from Sanskrit and Pali. In everyday speech most are said like a plain letter: ධ like ද, භ like බ.",
+      "group": "More consonants",
+      "cols": 4,
+      "chars": [
         ["ඛ", "kha", "said k", "", "", "", "", "ka"],
         ["ඝ", "gha", "said g", "", "", "", "", "ɡa"],
         ["ඡ", "cha", "said ch", "", "", "", "", "tʃa"],
@@ -118,25 +119,22 @@ window.SG_SCRIPTS.push({
         ["භ", "bha", "said b", "භාෂාව", "bhāṣāva", "language", "", "ba"],
         ["ශ", "śa", "sh", "", "", "", "", "ʃa"],
         ["ෂ", "ṣa", "sh", "", "", "", "", "ʃa"],
-        ["ඤ", "ña", "ny", "", "", "", "", "ɲa"],
-      ],
-    },
+        ["ඤ", "ña", "ny", "", "", "", "", "ɲa"]
+      ]
+    }
   ],
-  articles: [
+  "articles": [
     {
-      title: "How Sinhala works",
-      body: `<p>Sinhala is an <i>abugida</i>, like the scripts of India: each consonant carries a built-in a, and other vowels are signs written around it. A small flick on top, the <i>hal kirīma</i> (<span lang="si">ක්</span>), removes the vowel.</p>
-<p>The script is almost all curves. Many letters begin with the same small loop on the left and differ only in the swing that follows, so look carefully at <span lang="si">ට ඩ</span>, <span lang="si">ග භ</span> and <span lang="si">ම ඹ</span>.</p>`,
+      "title": "How Sinhala works",
+      "body": "<p>Sinhala is an <i>abugida</i>, like the scripts of India: each consonant carries a built-in a, and other vowels are signs written around it. A small flick on top, the <i>hal kirīma</i> (<span lang=\"si\">ක්</span>), removes the vowel.</p>\n<p>The script is almost all curves. Many letters begin with the same small loop on the left and differ only in the swing that follows, so look carefully at <span lang=\"si\">ට ඩ</span>, <span lang=\"si\">ග භ</span> and <span lang=\"si\">ම ඹ</span>.</p>"
     },
     {
-      title: "Pure and mixed alphabets",
-      body: `<p>Sinhala grammar sorts its letters into two sets. The <i>śuddha</i> or 'pure' alphabet has the letters needed for native Sinhala words. The <i>miśra</i> or 'mixed' alphabet adds the aspirated and other letters used to spell words from Sanskrit and Pali, the language of Theravada Buddhist scripture.</p>
-<p>In everyday speech the extra letters are mostly said like their plain partners, so <span lang="si">ධනය</span> sounds like danaya. Learn the pure alphabet first; the mixed letters can come later.</p>`,
+      "title": "Pure and mixed alphabets",
+      "body": "<p>Sinhala grammar sorts its letters into two sets. The <i>śuddha</i> or 'pure' alphabet has the letters needed for native Sinhala words. The <i>miśra</i> or 'mixed' alphabet adds the aspirated and other letters used to spell words from Sanskrit and Pali, the language of Theravada Buddhist scripture.</p>\n<p>In everyday speech the extra letters are mostly said like their plain partners, so <span lang=\"si\">ධනය</span> sounds like danaya. Learn the pure alphabet first; the mixed letters can come later.</p>"
     },
     {
-      title: "Half-nasal letters",
-      body: `<p>Sinhala has four letters found in no other major Indian script: <span lang="si">ඟ ඬ ඳ ඹ</span>. Each is a very short nasal sound joined to a voiced stop, counted as a single sound. In <span lang="si">හඳ</span> (moon) the nd is one quick sound at the start of the second syllable: ha-n̆da, not han-da.</p>
-<p>A full nasal before a stop is written with the hal mark instead, as in <span lang="si">ම්බ</span> (m + b), and takes longer to say.</p>`,
-    },
-  ],
+      "title": "Half-nasal letters",
+      "body": "<p>Sinhala has four letters found in no other major Indian script: <span lang=\"si\">ඟ ඬ ඳ ඹ</span>. Each is a very short nasal sound joined to a voiced stop, counted as a single sound. In <span lang=\"si\">හඳ</span> (moon) the nd is one quick sound at the start of the second syllable: ha-n̆da, not han-da.</p>\n<p>A full nasal before a stop is written with the hal mark instead, as in <span lang=\"si\">ම්බ</span> (m + b), and takes longer to say.</p>"
+    }
+  ]
 });

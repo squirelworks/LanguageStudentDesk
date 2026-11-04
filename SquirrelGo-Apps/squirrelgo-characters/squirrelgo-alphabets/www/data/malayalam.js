@@ -1,23 +1,24 @@
-// Malayalam for SquirrelGo Alphabets.
-// Each character is [letter, romanization, sound hint, example, example romanization, meaning, text to speak, IPA].
-// Romanization is a simplified ISO 15919. Hints, groupings and articles are original.
+// Generated from squirrel-lang-data 985d066 alphabets/malayalam.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Malayalam for SquirrelGo Alphabets. Romanization is a simplified ISO 15919.
+// Hints, groupings and articles are original.
+// Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.
 window.SG_SCRIPTS = window.SG_SCRIPTS || [];
 window.SG_SCRIPTS.push({
-  id: "malayalam",
-  title: "Malayalam",
-  native: "മലയാളം",
-  lang: "ml-IN",
-  langName: "Malayalam",
-  font: '"Noto Sans Malayalam", "Malayalam Sangam MN", "Kartika", "Nirmala UI", sans-serif',
-  blurb: "The script of Kerala, made of loops and curls. It has special letters for consonants at the end of a syllable.",
-  writeTip: "Most letters are one long looping stroke. Start at the left and work clockwise; vowel signs and the chandrakkala come last.",
-  lessons: [
+  "id": "malayalam",
+  "title": "Malayalam",
+  "native": "മലയാളം",
+  "lang": "ml-IN",
+  "langName": "Malayalam",
+  "font": "\"Noto Sans Malayalam\", \"Malayalam Sangam MN\", \"Kartika\", \"Nirmala UI\", sans-serif",
+  "blurb": "The script of Kerala, made of loops and curls. It has special letters for consonants at the end of a syllable.",
+  "writeTip": "Most letters are one long looping stroke. Start at the left and work clockwise; vowel signs and the chandrakkala come last.",
+  "lessons": [
     {
-      title: "Vowels",
-      note: "Malayalam keeps short and long vowels apart, including e and o.",
-      group: "Vowels",
-      cols: 4,
-      chars: [
+      "title": "Vowels",
+      "note": "Malayalam keeps short and long vowels apart, including e and o.",
+      "group": "Vowels",
+      "cols": 4,
+      "chars": [
         ["അ", "a", "short a, like u in but", "അമ്മ", "amma", "mother", "", "a"],
         ["ആ", "ā", "long a, as in father", "ആന", "āna", "elephant", "", "aː"],
         ["ഇ", "i", "short i, as in bit", "ഇല", "ila", "leaf", "", "i"],
@@ -31,15 +32,15 @@ window.SG_SCRIPTS.push({
         ["ഒ", "o", "short o", "ഒട്ടകം", "oṭṭakam", "camel", "", "o"],
         ["ഓ", "ō", "long o, as in go without the glide", "ഓടം", "ōṭam", "boat", "", "oː"],
         ["ഔ", "au", "ow as in cow", "ഔഷധം", "auṣadham", "medicine", "", "au"],
-        ["അം", "aṁ", "anusvaram: m at the end of a syllable", "", "", "", "", "am"],
-      ],
+        ["അം", "aṁ", "anusvaram: m at the end of a syllable", "", "", "", "", "am"]
+      ]
     },
     {
-      title: "Vowel signs on ക",
-      note: "െ, േ and ൈ are written before the consonant but said after it. ൊ, ോ and ൌ go on both sides.",
-      group: "Vowel signs",
-      cols: 4,
-      chars: [
+      "title": "Vowel signs on ക",
+      "note": "െ, േ and ൈ are written before the consonant but said after it. ൊ, ോ and ൌ go on both sides.",
+      "group": "Vowel signs",
+      "cols": 4,
+      "chars": [
         ["കാ", "kā", "ാ: long ā", "കാക്ക", "kākka", "crow", "", "kaː"],
         ["കി", "ki", "ി: i", "കിളി", "kiḷi", "parrot", "", "ki"],
         ["കീ", "kī", "ീ: ī", "കീരി", "kīri", "mongoose", "", "kiː"],
@@ -52,73 +53,73 @@ window.SG_SCRIPTS.push({
         ["കൊ", "ko", "ൊ: short o, both sides", "കൊക്ക്", "kokkŭ", "stork", "", "ko"],
         ["കോ", "kō", "ോ: long ō, both sides", "കോഴി", "kōḻi", "hen", "", "koː"],
         ["കൗ", "kau", "ൗ: au", "കൗതുകം", "kautukam", "curiosity", "", "kau"],
-        ["ക്", "k", "് chandrakkala: removes the vowel, or leaves a short ŭ", "", "", "", "", "k"],
-      ],
+        ["ക്", "k", "് chandrakkala: removes the vowel, or leaves a short ŭ", "", "", "", "", "k"]
+      ]
     },
     {
-      title: "Velar consonants (back of the mouth)",
-      note: "Each row of five follows the same pattern: plain, aspirated, voiced, voiced aspirated, nasal.",
-      group: "Consonants",
-      chars: [
+      "title": "Velar consonants (back of the mouth)",
+      "note": "Each row of five follows the same pattern: plain, aspirated, voiced, voiced aspirated, nasal.",
+      "group": "Consonants",
+      "chars": [
         ["ക", "ka", "k, no puff of air", "കപ്പൽ", "kappal", "ship", "", "ka"],
         ["ഖ", "kha", "k with a puff of air", "ഖനി", "khani", "mine", "", "kʰa"],
         ["ഗ", "ga", "g", "ഗുഹ", "guha", "cave", "", "ɡa"],
         ["ഘ", "gha", "g with a breathy release", "ഘടികാരം", "ghaṭikāram", "clock", "", "ɡʱa"],
-        ["ങ", "ṅa", "ng; usually doubled", "മാങ്ങ", "māṅṅa", "mango", "", "ŋa"],
-      ],
+        ["ങ", "ṅa", "ng; usually doubled", "മാങ്ങ", "māṅṅa", "mango", "", "ŋa"]
+      ]
     },
     {
-      title: "Palatal consonants",
-      group: "Consonants",
-      chars: [
+      "title": "Palatal consonants",
+      "group": "Consonants",
+      "chars": [
         ["ച", "ca", "ch, no puff of air", "ചക്ക", "cakka", "jackfruit", "", "tʃa"],
         ["ഛ", "cha", "ch with a puff of air", "ഛായ", "chāya", "shade, likeness", "", "tʃʰa"],
         ["ജ", "ja", "j", "ജനൽ", "janal", "window", "", "dʒa"],
         ["ഝ", "jha", "j with a breathy release; rare", "", "", "", "", "dʒʱa"],
-        ["ഞ", "ña", "ny", "ഞണ്ട്", "ñaṇṭŭ", "crab", "", "ɲa"],
-      ],
+        ["ഞ", "ña", "ny", "ഞണ്ട്", "ñaṇṭŭ", "crab", "", "ɲa"]
+      ]
     },
     {
-      title: "Retroflex consonants",
-      note: "Curl the tongue tip back and touch the roof of the mouth.",
-      group: "Consonants",
-      chars: [
+      "title": "Retroflex consonants",
+      "note": "Curl the tongue tip back and touch the roof of the mouth.",
+      "group": "Consonants",
+      "chars": [
         ["ട", "ṭa", "t with the tongue curled back", "ടയർ", "ṭayar", "tyre", "", "ʈa"],
         ["ഠ", "ṭha", "curled-back t with a puff of air; rare", "", "", "", "", "ʈʰa"],
         ["ഡ", "ḍa", "d with the tongue curled back", "", "", "", "", "ɖa"],
         ["ഢ", "ḍha", "curled-back d, breathy; rare", "", "", "", "", "ɖʱa"],
-        ["ണ", "ṇa", "n with the tongue curled back", "മണി", "maṇi", "bell", "", "ɳa"],
-      ],
+        ["ണ", "ṇa", "n with the tongue curled back", "മണി", "maṇi", "bell", "", "ɳa"]
+      ]
     },
     {
-      title: "Dental consonants",
-      note: "Tongue tip against the back of the upper teeth: softer than English t and d.",
-      group: "Consonants",
-      chars: [
+      "title": "Dental consonants",
+      "note": "Tongue tip against the back of the upper teeth: softer than English t and d.",
+      "group": "Consonants",
+      "chars": [
         ["ത", "ta", "t with the tongue on the teeth", "തവള", "tavaḷa", "frog", "", "t̪a"],
         ["ഥ", "tha", "dental t with a puff of air (not th as in thin)", "രഥം", "ratham", "chariot", "", "t̪ʰa"],
         ["ദ", "da", "d with the tongue on the teeth", "ദോശ", "dōśa", "dosa", "", "d̪a"],
         ["ധ", "dha", "dental d, breathy", "ധനം", "dhanam", "wealth", "", "d̪ʱa"],
-        ["ന", "na", "n", "നായ", "nāya", "dog", "", "na"],
-      ],
+        ["ന", "na", "n", "നായ", "nāya", "dog", "", "na"]
+      ]
     },
     {
-      title: "Labial consonants (lips)",
-      group: "Consonants",
-      chars: [
+      "title": "Labial consonants (lips)",
+      "group": "Consonants",
+      "chars": [
         ["പ", "pa", "p, no puff of air", "പശു", "paśu", "cow", "", "pa"],
         ["ഫ", "pha", "p with a puff of air; often said f", "ഫലം", "phalam", "fruit, result", "", "pʰa"],
         ["ബ", "ba", "b", "ബസ്", "basŭ", "bus", "", "ba"],
         ["ഭ", "bha", "b with a breathy release", "ഭൂമി", "bhūmi", "earth", "", "bʱa"],
-        ["മ", "ma", "m", "മരം", "maram", "tree", "", "ma"],
-      ],
+        ["മ", "ma", "m", "മരം", "maram", "tree", "", "ma"]
+      ]
     },
     {
-      title: "Other consonants",
-      note: "Malayalam has two r's, two l's and the famous ḻ.",
-      group: "More consonants",
-      cols: 4,
-      chars: [
+      "title": "Other consonants",
+      "note": "Malayalam has two r's, two l's and the famous ḻ.",
+      "group": "More consonants",
+      "cols": 4,
+      "chars": [
         ["യ", "ya", "y", "യന്ത്രം", "yantram", "machine", "", "ja"],
         ["ര", "ra", "a light tapped r", "രാജാവ്", "rājāvŭ", "king", "", "ɾa"],
         ["ല", "la", "l", "ലഡ്ഡു", "laḍḍu", "laddu (a sweet)", "", "la"],
@@ -129,36 +130,34 @@ window.SG_SCRIPTS.push({
         ["ഹ", "ha", "h", "ഹൃദയം", "hṛdayam", "heart", "", "ɦa"],
         ["ള", "ḷa", "l with the tongue curled back", "കുളം", "kuḷam", "pond", "", "ɭa"],
         ["ഴ", "ḻa", "curl the tongue far back without touching: between r and l", "മഴ", "maḻa", "rain", "", "ɻa"],
-        ["റ", "ṟa", "a stronger r; ṯṯ when doubled", "റോഡ്", "ṟōḍŭ", "road", "", "ra"],
-      ],
+        ["റ", "ṟa", "a stronger r; ṯṯ when doubled", "റോഡ്", "ṟōḍŭ", "road", "", "ra"]
+      ]
     },
     {
-      title: "Chillu letters",
-      note: "A consonant with no vowel after it at the end of a syllable is written as a chillu, a short special form.",
-      group: "Chillu",
-      chars: [
+      "title": "Chillu letters",
+      "note": "A consonant with no vowel after it at the end of a syllable is written as a chillu, a short special form.",
+      "group": "Chillu",
+      "chars": [
         ["ൻ", "n", "chillu n", "അവൻ", "avan", "he", "", "n"],
         ["ർ", "r", "chillu r", "കാർ", "kār", "car", "", "r"],
         ["ൽ", "l", "chillu l", "കപ്പൽ", "kappal", "ship", "", "l"],
         ["ൾ", "ḷ", "chillu ḷ", "അവൾ", "avaḷ", "she", "", "ɭ"],
-        ["ൺ", "ṇ", "chillu ṇ", "കൺ", "kaṇ", "eye", "", "ɳ"],
-      ],
-    },
+        ["ൺ", "ṇ", "chillu ṇ", "കൺ", "kaṇ", "eye", "", "ɳ"]
+      ]
+    }
   ],
-  articles: [
+  "articles": [
     {
-      title: "How Malayalam works",
-      body: `<p>Malayalam is an <i>abugida</i> like its neighbours: each consonant carries a short a, and other vowels are signs written around it. It has the largest letter set of the Indian scripts, because it keeps the Sanskrit letters and adds its own sounds: <span lang="ml">ഴ റ</span> and the chillu letters.</p>
-<p>The letters are built from loops, written mostly in one stroke. Many pairs differ only by an extra loop or a tail, so compare them side by side in the chart: <span lang="ml">ബ വ</span>, <span lang="ml">ന ണ</span>, <span lang="ml">ഭ ദ</span>.</p>`,
+      "title": "How Malayalam works",
+      "body": "<p>Malayalam is an <i>abugida</i> like its neighbours: each consonant carries a short a, and other vowels are signs written around it. It has the largest letter set of the Indian scripts, because it keeps the Sanskrit letters and adds its own sounds: <span lang=\"ml\">ഴ റ</span> and the chillu letters.</p>\n<p>The letters are built from loops, written mostly in one stroke. Many pairs differ only by an extra loop or a tail, so compare them side by side in the chart: <span lang=\"ml\">ബ വ</span>, <span lang=\"ml\">ന ണ</span>, <span lang=\"ml\">ഭ ദ</span>.</p>"
     },
     {
-      title: "The chandrakkala and the half-u",
-      body: `<p>The small curve <span lang="ml">്</span>, the <i>chandrakkala</i>, removes the built-in a. At the end of a word it does not leave silence: it leaves a short, unrounded u (written ŭ here). <span lang="ml">ബസ്</span> is said basŭ, and <span lang="ml">ശംഖ്</span> śaṅkhŭ.</p>
-<p>Where a consonant truly ends a syllable, Malayalam uses a chillu letter instead: <span lang="ml">അവൻ</span> avan (he), <span lang="ml">അവൾ</span> avaḷ (she).</p>`,
+      "title": "The chandrakkala and the half-u",
+      "body": "<p>The small curve <span lang=\"ml\">്</span>, the <i>chandrakkala</i>, removes the built-in a. At the end of a word it does not leave silence: it leaves a short, unrounded u (written ŭ here). <span lang=\"ml\">ബസ്</span> is said basŭ, and <span lang=\"ml\">ശംഖ്</span> śaṅkhŭ.</p>\n<p>Where a consonant truly ends a syllable, Malayalam uses a chillu letter instead: <span lang=\"ml\">അവൻ</span> avan (he), <span lang=\"ml\">അവൾ</span> avaḷ (she).</p>"
     },
     {
-      title: "Old and new spelling",
-      body: `<p>In 1971 Kerala introduced a reformed script for typewriters and printing. It split many vowel signs off the consonant, so that u and ū became separate marks (<span lang="ml">കു</span>) and r after a consonant became a mark on the left (<span lang="ml">ക്ര</span>). Older books and many modern fonts still use the traditional joined forms, and today both are read everywhere. You will see the same word printed both ways.</p>`,
-    },
-  ],
+      "title": "Old and new spelling",
+      "body": "<p>In 1971 Kerala introduced a reformed script for typewriters and printing. It split many vowel signs off the consonant, so that u and ū became separate marks (<span lang=\"ml\">കു</span>) and r after a consonant became a mark on the left (<span lang=\"ml\">ക്ര</span>). Older books and many modern fonts still use the traditional joined forms, and today both are read everywhere. You will see the same word printed both ways.</p>"
+    }
+  ]
 });

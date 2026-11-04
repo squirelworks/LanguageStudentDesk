@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data adda648 strokes/zhuyin.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 985d066 strokes/zhuyin.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Zhuyin (Bopomofo) stroke order for SquirrelGo Bopomofo, drawn over Noto Sans
 // TC and made by tools/gen_zhuyin_strokes.py. Paths sit in a 100×100 box (M/L/Q
 // only); see www/js/strokes.js.
