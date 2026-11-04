@@ -236,7 +236,20 @@ App Store isn't wanted for now.
   target and its screens, not on a long-lived iOS branch, which would drift from
   `main` and break the no-stacked-PRs rule.
 
-## Open questions for the user
+## Desktop download size (estimate)
 
-1. Is a desktop build of a few tens of MB larger than today acceptable, in
-   exchange for native apps on desktop?
+The user asked for the order of magnitude. Today's Desk downloads are about
+50 to 60 MB per OS (the v0.0.3 to v0.0.5 release assets). Most of that is the
+apps' content and audio, and about 10 to 15 MB is the bundled Python and Tk.
+
+A Compose desktop build replaces Python and Tk with a trimmed Java runtime
+(`jlink`, about 25 to 35 MB compressed), the Skia graphics library (about
+10 MB) and Compose itself (about 5 MB). The content stays the same size.
+
+- **Estimate:** about 80 to 110 MB per OS download, so roughly 30 to 50 MB more
+  than today. Tens of MB, not hundreds.
+- Phone APKs aren't expected to grow, since Android already has the runtime and
+  Compose adds a few MB at most.
+- These are estimates from typical Compose desktop builds, not measurements.
+  The pilot's desktop build (migration step 6) measures the real numbers, and
+  they go in this record.
