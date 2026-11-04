@@ -116,6 +116,7 @@ EXTRA_LANGS = [
     "typescript",
     "basic",
     "sql",
+    "html",
 ]
 
 
