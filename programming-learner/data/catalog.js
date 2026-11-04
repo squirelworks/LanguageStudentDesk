@@ -2,8 +2,9 @@
 // sorts by name inside each group (see ../sections.js).
 // Each id has a course in data/<id>.js and matches a ?lang= value the Desk passes in.
 // group: "modern" (current languages), "older" (earlier versions and legacy
-// languages) or "joke" (esoteric). tags: category tags for the filter, given
-// for the modern and older groups.
+// languages), "joke" (esoteric) or "tracks" (one topic in several
+// languages). tags: category tags for the filter, given for the modern and
+// older groups.
 window.PROGRAMMING_CATALOG = [
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
@@ -14,6 +15,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "intercal", name: "INTERCAL", era: "Esoteric · 1972", blurb: "The first joke language: politeness is mandatory and numbers come out in Roman numerals.", group: "joke" },
   { id: "lolcode", name: "LOLCODE", era: "Esoteric · 2007", blurb: "A real, working language written in lolcat speak. HAI to KTHXBYE.", group: "joke" },
   { id: "malbolge", name: "Malbolge", era: "Esoteric · 1998", blurb: "Built to be nearly impossible to program, and it rewrites itself as it runs.", group: "joke" },
+  { id: "numerical", name: "Numerical methods", era: "Track · Python, C and Fortran", blurb: "How computers find roots, areas and solutions when there is no formula. Each method explained, then built and tested in several languages.", group: "tracks" },
   { id: "piet", name: "Piet", era: "Esoteric · 2001", blurb: "Programs are pictures. Colour changes between blocks are the instructions.", group: "joke" },
   { id: "python", name: "Python", era: "1991 · general purpose", blurb: "A friendly, readable language used everywhere from web servers to science. The full beginner course.", group: "modern", tags: ["Scripting"] },
   { id: "quickbasic", name: "QuickBASIC", era: "1985 · DOS", blurb: "Microsoft's structured BASIC with a full-screen editor. Where many people wrote their first game.", group: "older", tags: ["Compiled programs"] },
