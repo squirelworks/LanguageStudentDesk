@@ -30,7 +30,7 @@ BIBLES = [
     },
     {
         "id": "grc-antoniades",
-        "name": "Πατριαρχικὸν Κείμενον (Patriarchal Text, Antoniades 1904/1912)",
+        "name": "Πατριαρχικὸν Κείμενον (Patriarchal Text, Antoniades 1904/1912, unaccented)",
         "lang": "grc", "script": "Grek", "dir": "ltr", "versification": "kjv",
         "license": "Public Domain",
         "source": "https://github.com/byztxt/greektext-antoniades",
