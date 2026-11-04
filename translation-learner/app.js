@@ -8,7 +8,7 @@
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
   const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
-  // Stays until a language pair passes its translation tests (issue #194).
+  // Shown for a language until its translation tests pass (data/tested.js).
   const ALPHA = '<span class="alpha">(alpha)</span>';
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
@@ -105,7 +105,9 @@
       byReading: id === "japanese",
       caseSensitive: !!state.col.caseSensitive,
     });
-    $("title").innerHTML = "Translation Learner " + ALPHA + " <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
+    // A language whose translation tests all pass loses the label.
+    const tested = (window.TL_TESTED || []).includes(id);
+    $("title").innerHTML = "Translation Learner " + (tested ? "" : ALPHA + " ") + "<small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
     $("subtitle").textContent = "Every piece of meaning carried over, nothing added.";
     $("toTargetTab").textContent = "Into " + name;
     $("wordsTab").hidden = !BANKS.includes(id);
