@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 985d066 alphabets/devanagari.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 69e747c alphabets/devanagari.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Devanagari (as used for Hindi) for SquirrelGo Alphabets. Romanization is a
 // simplified IAST. Hints, groupings and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

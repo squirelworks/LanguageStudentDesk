@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 985d066 alphabets/gurmukhi.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 69e747c alphabets/gurmukhi.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Gurmukhi (as used for Punjabi) for SquirrelGo Alphabets. Romanization is a
 // simplified scholarly one. Hints, groupings and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

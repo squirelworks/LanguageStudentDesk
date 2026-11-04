@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 985d066 strokes/kana.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 69e747c strokes/kana.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for hiragana and katakana in SquirrelGo Kanji's format, from
 // KanjiVG (https://kanjivg.tagaini.net), © Ulrich Apel, CC BY-SA 3.0. Made by
 // tools/build_strokes.py. Each entry is [stroke paths in order, stroke-number

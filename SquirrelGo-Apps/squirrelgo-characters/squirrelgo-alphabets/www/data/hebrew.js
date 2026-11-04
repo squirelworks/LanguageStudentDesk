@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 985d066 alphabets/hebrew.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 69e747c alphabets/hebrew.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Hebrew alphabet (Modern Israeli Hebrew values) for SquirrelGo Alphabets.
 // Examples are written with vowel points, as in books for learners. The example
 // IPA is what the recordings are made from, since eSpeak NG spells pointed

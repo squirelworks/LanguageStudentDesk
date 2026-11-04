@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Japanese, romaji, English, note]. Written for this project.
 // Words are written the usual way; the note gives the kana reading of words
 // with kanji.
@@ -291,7 +291,6 @@ window.LSD_DECKS.japanese = [
       ["ええ", "ee", "yes", ""],
       ["エレベーター", "erebētā", "elevator", ""],
       ["鉛筆", "enpitsu", "pencil", "えんぴつ"],
-      ["おいしい", "oishii", "delicious", ""],
       ["多い", "ōi", "many", "おおい"],
       ["大きな", "ōkina", "big", "おおきな"],
       ["大勢", "ōzei", "great number of people", "おおぜい"],
@@ -799,7 +798,9 @@ window.LSD_DECKS.japanese = [
       ["渡す", "watasu", "to hand over", "わたす"],
       ["渡る", "wataru", "to go across", "わたる"],
       ["より", "yori", "Used for comparison.", ""],
-      ["方", "hō", "Used for comparison.", "ほう"]
+      ["方", "hō", "Used for comparison.", "ほう"],
+      ["ありがとう", "arigatō", "(conj; exp; int) Thank you", ""],
+      ["おはよう", "ohayō", "(abbr) Good morning", ""]
     ]
   },
   {
@@ -1489,7 +1490,6 @@ window.LSD_DECKS.japanese = [
       ["現す", "arawasu", "to show; to indicate; to display", "あらわす"],
       ["現れ", "araware", "embodiment; materialization", "あらわれ"],
       ["現れる", "arawareru", "(1) to appear; to come in sight; to become visible; (2) to express oneself", "あらわれる"],
-      ["ありがとう", "arigatō", "(conj; exp; int) Thank you", ""],
       ["或", "aru", "a certain...; some...", "ある"],
       ["あるいは", "aruiha", "or; possibly", ""],
       ["アルバム", "arubamu", "album", ""],
@@ -3358,7 +3358,6 @@ window.LSD_DECKS.japanese = [
       ["おねがいします", "onegaishimasu", "please", ""],
       ["各々", "onōno", "each; every; either; respectively; severally", "おのおの"],
       ["叔母さん", "obasan", "(1) aunt; (2) middle-aged lady", "おばさん"],
-      ["おはよう", "ohayō", "(abbr) Good morning", ""],
       ["お参り", "omairi", "worship; shrine visit", "おまいり"],
       ["おまたせしました", "omataseshimashita", "Sorry to have kept you waiting", ""],
       ["おまちどおさま", "omachidōsama", "Sorry to have kept you waiting", ""],
@@ -6060,8 +6059,8 @@ window.LSD_DECKS.japanese = [
       ["昆虫", "konchū", "insect; bug", "こんちゅう"],
       ["根底", "kontei", "root; basis; foundation", "こんてい"],
       ["混同", "kondō", "confusion; mixing; merger", "こんどう"],
-      ["今日は", "konnichiha", "hello; good day (daytime greeting id)", "こんにちは"],
-      ["今晩は", "konbanha", "good evening", "こんばんは"],
+      ["今日は", "konnichiwa", "hello; good day (daytime greeting id)", "こんにちは"],
+      ["今晩は", "konbanwa", "good evening", "こんばんは"],
       ["根本", "konpon", "origin; source; foundation; root; base; principle", "こんぽん"],
       ["御", "go", "go-; honourable", "ご"],
       ["語彙", "goi", "vocabulary; glossary", "ごい"],

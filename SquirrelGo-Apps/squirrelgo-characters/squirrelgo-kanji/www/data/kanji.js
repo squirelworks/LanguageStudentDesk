@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/japanese/characters/kanji.jsonl and cjk/characters.jsonl by: python3 data/tools/gen_characters.py --kanji-app www/data/kanji.js
+// Generated from squirrel-lang-data 69e747c languages/japanese/characters/kanji.jsonl and cjk/characters.jsonl by: python3 data/tools/gen_characters.py --kanji-app www/data/kanji.js
 // The full Jōyō set, in frequency order, with on'yomi, kun'yomi, meaning
 // (info), JLPT level, school grade and frequency rank.
 // Moved from LanguageStudentDesk's Jōyō table, which SquirrelGo Kanji shares;
@@ -856,7 +856,7 @@ SCRIPTS.kanji = {
     {"char":"悲","roman":"ヒ","info":"sad","level":"N3","on":"ヒ","kun":"かな-しい / かな-しむ","radical":"心","strokes":"12","grade":"3","frequency":"1841"},
     {"char":"留","roman":"リュウ（ル）","info":"detain","level":"N3","on":"リュウ（ル）","kun":"と-める / と-まる","radical":"田","strokes":"10","grade":"5","frequency":"1846"},
     {"char":"概","roman":"ガイ","info":"outline","level":"N1","on":"ガイ","kun":"","radical":"木","strokes":"14","grade":"S","frequency":"1847"},
-    {"char":"巨","roman":"キョ","info":"gigantic","level":"N2","on":"キョ","kun":"","radical":"工","strokes":"4","grade":"S","frequency":"1852"},
+    {"char":"巨","roman":"キョ","info":"gigantic","level":"N2","on":"キョ","kun":"","radical":"工","strokes":"5","grade":"S","frequency":"1852"},
     {"char":"抵","roman":"テイ","info":"resist","level":"N1","on":"テイ","kun":"","radical":"手","strokes":"8","grade":"S","frequency":"1866"},
     {"char":"青","roman":"セイ（ショウ）","info":"blue","level":"N4","on":"セイ（ショウ）","kun":"あお / あお-い","radical":"靑","strokes":"8","grade":"1","frequency":"1868"},
     {"char":"充","roman":"ジュウ","info":"allot","level":"N1","on":"ジュウ","kun":"あ-てる","radical":"儿","strokes":"6","grade":"S","frequency":"1871"},

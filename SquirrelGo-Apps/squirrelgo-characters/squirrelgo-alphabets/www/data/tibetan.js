@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 985d066 alphabets/tibetan.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 69e747c alphabets/tibetan.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Tibetan alphabet for SquirrelGo Alphabets. Romanization is Wylie, which
 // follows the spelling; the hints and IPA give the Lhasa pronunciation, with á
 // for a high tone and à for a low one. eSpeak NG has no Tibetan voice, so the
