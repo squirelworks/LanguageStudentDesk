@@ -453,7 +453,7 @@ console.log("2026-11-04".replace(/(\\d+)-(\\d+)-(\\d+)/, "$3/$2/$1"));`,
       ],
     },
     {
-      id: "collections",
+      id: "mapset",
       title: "Map, Set and iteration",
       summary: "Better collections than plain objects, and generators.",
       sections: [
