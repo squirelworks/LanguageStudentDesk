@@ -6,7 +6,7 @@ This is a **new open implementation** inspired by the discontinued TenguGo Kanji
 
 ## Install the APK
 
-Download [`SquirrelGoKanji-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kanji-latest/SquirrelGoKanji-debug.apk) from the **SquirrelGo Kanji (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-kanji-latest)) and sideload it. The `SquirrelGo Kanji APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download [`SquirrelGoKanji.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKanji.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
 
 - Package id: `com.squirelworks.squirrelgokanji.debug`
 - Min Android: 7.0 (API 24)

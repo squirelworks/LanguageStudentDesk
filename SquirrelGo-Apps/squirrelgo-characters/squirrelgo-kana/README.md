@@ -20,7 +20,7 @@ Recorded clips play first; anything without one uses the device's Japanese text-
 
 ## Install the APK
 
-Download [`SquirrelGoKana-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-kana-latest/SquirrelGoKana-debug.apk) from the **SquirrelGo Kana (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-kana-latest)) and sideload it. The `SquirrelGo Kana APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download [`SquirrelGoKana.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKana.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
 
 - Package id: `com.squirelworks.squirrelgokana.debug`
 - Min Android: 7.0 (API 24)

@@ -1,20 +1,23 @@
 name: SquirrelGo Japanese-English Dictionary APK
 
+# Compile only: proves the app still builds on every PR and push to main,
+# but uploads nothing. For a test APK, run "SquirrelGo test APK" by hand;
+# release APKs come from the release workflow.
 on:
   push:
+    branches: [main]
     paths:
       - "SquirrelGo-Apps/squirrelgo-dictionary/**"
       - ".github/workflows/squirrelgo-dictionary-apk.yml"
-  workflow_dispatch:
-    inputs:
-      data_tag:
-        description: "jmdict-simplified release tag (blank = latest)"
-        required: false
+  pull_request:
+    paths:
+      - "SquirrelGo-Apps/squirrelgo-dictionary/**"
+      - ".github/workflows/squirrelgo-dictionary-apk.yml"
 
 permissions:
-  contents: write
+  contents: read
 
-# Two runs replacing the same release at once would race; let the newest win.
+# A newer push to the same branch or PR supersedes the running build.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -34,7 +37,7 @@ jobs:
       - name: Download dictionary data (JMdict, KANJIDIC2, RADKFILE, KRADFILE)
         env:
           GH_TOKEN: ${{ github.token }}
-        run: tools/fetch_data.sh ${{ inputs.data_tag }}
+        run: tools/fetch_data.sh
       # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
         run: |
@@ -47,20 +50,3 @@ jobs:
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease
           cp app/build/outputs/apk/release/app-release.apk ../SquirrelGoDictionary.apk
-      - uses: actions/upload-artifact@v4
-        with:
-          name: SquirrelGoDictionary-apk
-          path: SquirrelGo-Apps/squirrelgo-dictionary/SquirrelGoDictionary.apk
-      # A rolling pre-release, so the APK can be downloaded straight to a phone.
-      # Only builds from main are published; other branches just keep the run artifact.
-      - name: Publish pre-release
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          TAG=squirrelgo-dictionary-latest
-          DATE=$(grep -o '"jmdictDate":"[^"]*"' www/data/meta.js | cut -d'"' -f4)
-          gh release delete "$TAG" --yes --cleanup-tag || true
-          gh release create "$TAG" SquirrelGoDictionary.apk --prerelease --target "$GITHUB_SHA" \
-            --title "SquirrelGo Japanese-English Dictionary (latest build)" \
-            --notes "Offline Japanese–English dictionary. Data: JMdict $DATE. Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}."
