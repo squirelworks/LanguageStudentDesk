@@ -42,4 +42,6 @@ them out of the baseline (`--write-baseline` rewrites it from a full run).
 
 Add an entry to `sets.json`: the stroke files (relative to `SquirrelGo-Apps/`),
 the key or global they assign, the `@fontsource` font packages that cover the
-script and, if one exists, a reference count source.
+script and, if one exists, a reference count source. A script written top to
+bottom whose font lays its glyphs on their side (Mongolian) sets `"vertical": true`,
+so the reference glyph is stood upright as strokegen does.

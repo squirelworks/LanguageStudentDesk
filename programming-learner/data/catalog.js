@@ -11,6 +11,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
   { id: "cobol", name: "COBOL", era: "1959 · business data", blurb: "Records, money and plain-English statements. Still runs payments and payroll at banks, insurers and government agencies.", group: "older", tags: ["Compiled programs"] },
   { id: "delphi", name: "Delphi 5/6/7", era: "1999–2002 · Windows", blurb: "Object Pascal with drag-and-drop forms. Fast to build real Windows programs.", group: "older", tags: ["Compiled programs"] },
+  { id: "fortran", name: "Fortran", era: "1957 · science and engineering", blurb: "The first high-level language, now modern and array-friendly. Still behind weather models, physics codes and fast maths libraries.", group: "older", tags: ["Compiled programs"] },
   { id: "go", name: "Go", era: "2009 · servers", blurb: "A small language for services and tools. One looping keyword, and slices instead of a pile of collection types.", group: "modern", tags: ["Compiled programs"] },
   { id: "intercal", name: "INTERCAL", era: "Esoteric · 1972", blurb: "The first joke language: politeness is mandatory and numbers come out in Roman numerals.", group: "joke" },
   { id: "lolcode", name: "LOLCODE", era: "Esoteric · 2007", blurb: "A real, working language written in lolcat speak. HAI to KTHXBYE.", group: "joke" },
