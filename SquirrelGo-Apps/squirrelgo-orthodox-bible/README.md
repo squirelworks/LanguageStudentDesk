@@ -17,9 +17,9 @@ It is a **new open implementation** meant to fill the gap left by the Orthodox S
 
 ## Texts
 
-The app is one offline package with **English, Greek and Latin built in**: Brenton's English Septuagint and the King James Version with Apocrypha, the Greek Septuagint, the Patriarchal and Byzantine Greek New Testaments, Vamvas's modern Greek, and the Clementine Vulgate, plus English commentary from about 40 Church Fathers (Eastern, early and Western Fathers from before the schism).
+The app is one offline package with these Bibles built in: English (Brenton's Septuagint and the King James Version with Apocrypha), Greek (the Septuagint, the Patriarchal and Byzantine New Testaments and Vamvas's modern Greek), Latin (the Clementine Vulgate), Russian Synodal, Church Slavonic, Serbian, French and Arabic, plus English commentary from about 40 Church Fathers (Eastern, early and Western Fathers from before the schism).
 
-**Content expansion.** Everything else (Russian, Church Slavonic, Serbian, French, Arabic, Syriac, Coptic and about 70 more Bibles, and further Fathers in English, Greek, Latin and Russian) downloads on request from the **latest SquirrelGo release on GitHub**. In Translations & settings, **Check for new texts** asks GitHub for the latest release and lists every pack it carries, including texts added after your copy of the app was built; **Download** fetches one from that release. A downloaded pack is kept on the device, so the app stays offline afterwards. Nothing is fetched unless you tap one of those buttons.
+**Content expansion.** Everything else (Syriac, Coptic, Hebrew and about 70 more Bibles, and further Fathers in English, Greek, Latin and Russian) downloads on request from the **latest SquirrelGo release on GitHub**. In Translations & settings, **Check for new texts** asks GitHub for the latest release and lists every pack it carries, including texts added after your copy of the app was built; **Download** fetches one from that release. A downloaded pack is kept on the device, so the app stays offline afterwards. Nothing is fetched unless you tap one of those buttons.
 
 All texts are public domain or openly licensed. The full list of sources and licenses, and the scripts that build the data files, are in [`tools/texts/`](tools/texts/README.md).
 

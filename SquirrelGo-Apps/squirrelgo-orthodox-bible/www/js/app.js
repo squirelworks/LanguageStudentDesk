@@ -897,7 +897,7 @@
     }).join("");
     const relNote = release
       ? `From SquirrelGo ${esc(release.tag)}, checked ${esc(new Date(release.checked).toLocaleDateString())}`
-      : "English, Greek and Latin are built in. Other languages and more Fathers download from the latest SquirrelGo release and then work offline.";
+      : "More languages and Fathers download from the latest SquirrelGo release, then work offline.";
     main.innerHTML = `
       <p class="muted">Pick the main text, then tick any others to read beside it, verse by verse.</p>
       <div class="setting"><span class="what">More Bibles and commentary<small>${relNote}</small></span>

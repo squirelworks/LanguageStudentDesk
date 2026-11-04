@@ -47,6 +47,42 @@ BIBLES = [
         "format": "byzcsv",
     },
     {
+        "id": "rus-synodal",
+        "name": "Синодальный перевод (Russian Synodal, 1876)",
+        "lang": "ru", "script": "Cyrl", "dir": "ltr", "versification": "rso",
+        "license": "Public Domain",
+        "source": "https://github.com/scrollmapper/bible_databases (formats/json/RusSynodal.json, from the CrossWire SWORD module)",
+        "notes": "The Russian Orthodox Church's standard Russian Bible.",
+        "format": "scrollmapper", "file": "RusSynodal",
+    },
+    {
+        "id": "csl-elizabeth",
+        "name": "Елизаветинская Библия (Church Slavonic Elizabeth Bible, 1757)",
+        "lang": "cu", "script": "Cyrl", "dir": "ltr", "versification": "rso",
+        "license": "Public Domain",
+        "source": "https://github.com/scrollmapper/bible_databases (formats/json/CSlElizabeth.json, from the CrossWire SWORD module)",
+        "notes": "The liturgical Bible of the Slavic Orthodox Churches, shown in civil (modern Cyrillic) spelling.",
+        "format": "scrollmapper", "file": "CSlElizabeth",
+    },
+    {
+        "id": "srp-danicic-karadzic",
+        "name": "Свето писмо (Serbian, Vuk Karadžić & Đura Daničić, 1847/1865)",
+        "lang": "sr", "script": "Cyrl", "dir": "ltr", "versification": "kjv",
+        "license": "Public Domain",
+        "source": "https://github.com/scrollmapper/bible_databases (formats/json/SrKDIjekav.json, from the CrossWire SWORD module)",
+        "notes": "The classic Serbian Bible used in the Serbian Orthodox Church, in its original ijekavian form. Translated from the Hebrew canon, so it has no deuterocanonical books.",
+        "format": "scrollmapper", "file": "SrKDIjekav",
+    },
+    {
+        "id": "fra-giguet",
+        "name": "La Sainte Bible selon les Septante (French Septuagint, Pierre Giguet, 1872)",
+        "lang": "fr", "script": "Latn", "dir": "ltr", "versification": "lxx",
+        "license": "Public Domain",
+        "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreLXXGiguet.json, from the CrossWire SWORD module)",
+        "notes": "French translation of the whole Septuagint. Old Testament only.",
+        "format": "scrollmapper", "file": "FreLXXGiguet",
+    },
+    {
         "id": "ell-vamvas",
         "name": "Η Αγία Γραφή (Modern Greek, Neophytos Vamvas, 1850)",
         "lang": "el", "script": "Grek", "dir": "ltr", "versification": "kjv",
@@ -54,6 +90,15 @@ BIBLES = [
         "source": "https://github.com/scrollmapper/bible_databases (formats/json/GreVamvas.json, from the CrossWire SWORD module)",
         "notes": "Modern Greek translation from the Hebrew Old Testament and Greek New Testament. Widely read but never the Church of Greece's official text.",
         "format": "scrollmapper", "file": "GreVamvas",
+    },
+    {
+        "id": "arb-vandyck",
+        "name": "الكتاب المقدس (Arabic, Smith–Van Dyck, 1865)",
+        "lang": "ar", "script": "Arab", "dir": "rtl", "versification": "kjv",
+        "license": "Public Domain",
+        "source": "https://ebible.org/details.php?id=arb-vd",
+        "notes": "The standard Arabic Bible, widely read in the Antiochian and other Arabic-speaking Orthodox churches. Translated from the Hebrew canon.",
+        "format": "ebible", "ebible": "arb-vd",
     },
     {
         "id": "kjva",
@@ -77,7 +122,8 @@ BIBLES = [
 
 # --- Downloadable packs -------------------------------------------------------
 #
-# These are too large to bundle in the APK. build_bibles.py writes them to
+# These are not bundled in the APK; the app downloads them from the latest
+# GitHub release (or this branch) when the reader asks. build_bibles.py writes them to
 # packs/bibles/<id>.js (same format as www/data/bibles) and records them in
 # packs.json; the "SquirrelGo Orthodox Bible text packs" workflow publishes
 # packs/ to the data-only branch below, and build_catalog.py lists them in
@@ -110,53 +156,6 @@ def _eb(id, ebible, name, lang, script, versification, notes, license="Public Do
 # verses, Malachi in three chapters), "vul" the Vulgate's, "lxx" the
 # Septuagint's; see README.md.
 PACKS = [
-    # Built in until the app shipped only English, Greek and Latin; now
-    # downloadable from the latest release like the rest.
-    {
-        "id": "rus-synodal",
-        "name": "Синодальный перевод (Russian Synodal, 1876)",
-        "lang": "ru", "script": "Cyrl", "dir": "ltr", "versification": "rso",
-        "license": "Public Domain",
-        "source": "https://github.com/scrollmapper/bible_databases (formats/json/RusSynodal.json, from the CrossWire SWORD module)",
-        "notes": "The Russian Orthodox Church's standard Russian Bible.",
-        "format": "scrollmapper", "file": "RusSynodal", "pack": True,
-    },
-    {
-        "id": "csl-elizabeth",
-        "name": "Елизаветинская Библия (Church Slavonic Elizabeth Bible, 1757)",
-        "lang": "cu", "script": "Cyrl", "dir": "ltr", "versification": "rso",
-        "license": "Public Domain",
-        "source": "https://github.com/scrollmapper/bible_databases (formats/json/CSlElizabeth.json, from the CrossWire SWORD module)",
-        "notes": "The liturgical Bible of the Slavic Orthodox Churches, shown in civil (modern Cyrillic) spelling.",
-        "format": "scrollmapper", "file": "CSlElizabeth", "pack": True,
-    },
-    {
-        "id": "srp-danicic-karadzic",
-        "name": "Свето писмо (Serbian, Vuk Karadžić & Đura Daničić, 1847/1865)",
-        "lang": "sr", "script": "Cyrl", "dir": "ltr", "versification": "kjv",
-        "license": "Public Domain",
-        "source": "https://github.com/scrollmapper/bible_databases (formats/json/SrKDIjekav.json, from the CrossWire SWORD module)",
-        "notes": "The classic Serbian Bible used in the Serbian Orthodox Church, in its original ijekavian form. Translated from the Hebrew canon, so it has no deuterocanonical books.",
-        "format": "scrollmapper", "file": "SrKDIjekav", "pack": True,
-    },
-    {
-        "id": "fra-giguet",
-        "name": "La Sainte Bible selon les Septante (French Septuagint, Pierre Giguet, 1872)",
-        "lang": "fr", "script": "Latn", "dir": "ltr", "versification": "lxx",
-        "license": "Public Domain",
-        "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreLXXGiguet.json, from the CrossWire SWORD module)",
-        "notes": "French translation of the whole Septuagint. Old Testament only.",
-        "format": "scrollmapper", "file": "FreLXXGiguet", "pack": True,
-    },
-    {
-        "id": "arb-vandyck",
-        "name": "الكتاب المقدس (Arabic, Smith–Van Dyck, 1865)",
-        "lang": "ar", "script": "Arab", "dir": "rtl", "versification": "kjv",
-        "license": "Public Domain",
-        "source": "https://ebible.org/details.php?id=arb-vd",
-        "notes": "The standard Arabic Bible, widely read in the Antiochian and other Arabic-speaking Orthodox churches. Translated from the Hebrew canon.",
-        "format": "ebible", "ebible": "arb-vd", "pack": True,
-    },
     # Ancient and liturgical languages of the Orthodox and Oriental churches
     _sm("syc-peshitta", "Peshitta", "ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament)", "syc", "Syrc", "kjv",
         "The Peshitta, the Bible of the Syriac churches since the 5th century. New Testament (27 books).",

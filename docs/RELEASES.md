@@ -91,8 +91,7 @@ anything else.
      Orthodox Bible release packs" workflow attaches the Orthodox Bible's
      downloadable Bibles and commentary (`orthodox-bible-content.json` plus
      one `orthodox-bible-*.js` or `orthodox-commentary-*.js` per pack). The
-     app ships English, Greek and Latin and downloads the rest from the latest
-     release when the reader asks. These are data, not builds, so they're
+     app downloads them from the latest release when the reader asks. These are data, not builds, so they're
      allowed on the release.
    - **Notes:** written in plain language from the merged PR titles since the last
      release, with no implementation notes. They include a generated table of each
