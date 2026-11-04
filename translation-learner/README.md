@@ -9,9 +9,9 @@ the language list comes from the shared registry in `languages/`.
 |---|---|
 | Into English | Shows a sentence; you type English. Each token lights up green when your words carry its meaning, red when a meaning is missing, and any word that no meaning accounts for is listed as added. |
 | Into the language | Shows English; you build the sentence from tiles. Some tiles carry meanings from other sentences, so picking one adds meaning. Right pieces in another order are reported separately from wrong pieces. |
-| Break down a sentence | Splits any text into the longest known pieces, using the lesson sentences plus the Vocabulary Learner decks, and marks pieces with no known meaning. |
+| Break down a sentence | Splits any text into the longest known pieces, using the lesson sentences plus the Vocabulary Learner decks, and marks pieces with no known meaning. A deck word linked to meaning units (`data/vocab-links.js`) is glossed with those units, like the sentences' own pieces. |
 | Meaning matrix | Every sentence (row) in the languages you pick (columns), side by side. Add or remove languages and move them left or right; the choice is kept in the browser (`lsd-translation-compare-v1`). The meaning column and the header stay pinned, and the table scrolls inside its own box so its scroll bars stay on screen. On a phone each sentence is a card with one line per language. Tap a cell to see which piece carries which meaning. |
-| Meaning web | One meaning in the middle, its word in each language branching off it, and the four meanings nearest to it (by the meaning network, or by shared sentences without it) around the edge, linked to each other when they are close too. Choose a word to list its sentences, or a nearby meaning to move to it. On a phone the words sit in two columns either side of the meaning. |
+| Meaning web | One meaning in the middle, its word in each language branching off it, and the four meanings nearest to it (by the meaning network, or by shared sentences without it) around the edge, linked to each other when they are close too. Vocabulary Learner cards linked to the meaning join their language's branch, even before a sentence uses them. Choose a word to list its sentences and cards, or a nearby meaning to move to it. `?lang=<id>&meaning=<id>` opens the web on that meaning. On a phone the words sit in two columns either side of the meaning. |
 | Top 1,000 words | The language's most frequent words, what the Desk knows of each, the same meaning in the other Desk languages, and rank-weighted practice. |
 
 When an English answer misses a meaning but uses a word the **meaning network** places right next to it
@@ -40,6 +40,7 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `data/<lang>.js` | One column per language: how it renders the rows, token by token (generated) |
 | `tokens.js` | Builds and checks columns against the matrix, checks translations, breaks down text. No DOM, so it runs under node |
 | `net.js` | Reads the meaning network's vectors and compares them |
+| `data/vocab-links.js` | `TL_VOCAB_LINKS`: which meanings each Vocabulary Learner card carries, by language and `<deck>/<word>` (generated from `meaning/vocab-links/` in squirrel-lang-data) |
 | `data/network.js` | The trained meaning network (generated) |
 | `data/wordbank/<lang>.js` | Each word bank with what the network knows of it (generated) |
 | `tools/build_network.py` | Fetches the word banks and ConceptNet links, and trains the network |

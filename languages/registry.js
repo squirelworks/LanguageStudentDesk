@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
 // Do not edit; change the data repo and run it again.
 window.LSD_LANGUAGE_REGISTRY = {
   "amharic": {
@@ -39,6 +39,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "aramaic": {
@@ -77,6 +80,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "bengali": {
@@ -96,6 +102,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "burmese": {
@@ -157,6 +166,10 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before",
+      "@possessive": "after"
     }
   },
   "cyrillic": {
@@ -177,6 +190,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "english": {
@@ -192,6 +208,10 @@ window.LSD_LANGUAGE_REGISTRY = {
     "code": "eng",
     "data": {
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before",
+      "@possessive": "after"
     }
   },
   "french": {
@@ -230,6 +250,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "german": {
@@ -268,6 +291,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "gujarati": {
@@ -313,6 +339,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "hebrew": {
@@ -333,6 +362,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "hindi": {
@@ -353,6 +385,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "inuktitut": {
@@ -419,6 +454,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "kannada": {
@@ -477,6 +515,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "lao": {
@@ -515,6 +556,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "malayalam": {
@@ -690,6 +734,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "after"
     }
   },
   "telugu": {
@@ -728,6 +775,9 @@ window.LSD_LANGUAGE_REGISTRY = {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"
+    },
+    "markers": {
+      "default": "before"
     }
   },
   "tibetan": {

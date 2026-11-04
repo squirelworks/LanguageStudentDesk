@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/tamazight/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/tamazight/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Tifinagh, Latin transcription, English, note]. Written for this
 // project. In the transcription c is sh, x is kh, ɣ is a throaty r, and a dot
 // marks an emphatic sound.  Sources (attested forms only; leave out if unsure):

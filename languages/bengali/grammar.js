@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/bengali/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/bengali/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Bengali first grammar for the Grammar Learner. Written for this project.
 // Examples are [Bengali, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
