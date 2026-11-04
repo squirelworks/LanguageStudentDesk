@@ -108,6 +108,7 @@ EXTRA_LANGS = [
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
     "win16", "z80", "cobol", "fortran", "moderndelphi", "numerical",
     "javascript", "turbopascal",
+    "perl",
 ]
 
 
