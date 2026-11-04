@@ -1,0 +1,45 @@
+name: Stroke check
+
+# Final-frame and stroke-count checks for every stroke set (roadmap #188).
+# Fails on a character that newly fails, or on a baselined character that now
+# passes and should leave SquirrelGo-Apps/tools/strokecheck/baseline.json.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "SquirrelGo-Apps/squirrelgo-characters/*/www/data/strokes/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/*/www/data/strokes.js"
+      - "SquirrelGo-Apps/squirrelgo-characters/*/www/data/kana-strokes.js"
+      - "SquirrelGo-Apps/tools/strokecheck/**"
+      - "languages/cjk/characters.js"
+      - ".github/workflows/stroke-check.yml"
+  push:
+    branches: [main]
+    paths:
+      - "SquirrelGo-Apps/squirrelgo-characters/*/www/data/strokes/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/*/www/data/strokes.js"
+      - "SquirrelGo-Apps/tools/strokecheck/**"
+
+permissions:
+  contents: read
+
+jobs:
+  strokes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Cache reference fonts
+        uses: actions/cache@v4
+        with:
+          path: SquirrelGo-Apps/tools/strokecheck/fonts
+          key: strokecheck-fonts-${{ hashFiles('SquirrelGo-Apps/tools/strokecheck/sets.json') }}
+      - run: pip install numpy pillow fonttools
+      - name: Check stroke data
+        run: python3 SquirrelGo-Apps/tools/strokecheck/strokecheck.py --sheet strokecheck-sheets
