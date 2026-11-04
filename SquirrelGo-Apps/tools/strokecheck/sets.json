@@ -310,7 +310,9 @@
    "key": "zhuyin",
    "fonts": [
     "noto-sans-tc"
-   ]
+   ],
+   "min_coverage": 0.6,
+   "min_precision": 0.8
   }
  }
 }

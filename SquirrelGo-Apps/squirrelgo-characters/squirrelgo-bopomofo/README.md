@@ -4,7 +4,7 @@ Offline Zhuyin (注音, Bopomofo) trainer for Android and desktop browsers, part
 
 Teaches Taiwan's phonetic alphabet the way textbooks mark readers: **聲母** initials, **介音** medials ㄧ ㄨ ㄩ, **韻母** finals, the four tone marks plus neutral **˙**, then short reading practice (for example 你好 as ㄋㄧˇ ㄏㄠˇ). Charts, lesson groups, quizzes and flashcards reuse the SquirrelGo Kana trainer shell; hints and examples are original.
 
-Stroke-order animations and a checked writing pad cover every standalone Zhuyin symbol in the chart (initials, medials, finals, and drawable tone marks). Paths live in `www/data/strokes/zhuyin.js` (regenerate with `tools/gen_zhuyin_strokes.py`). Audio uses the device's **zh-TW** text-to-speech voice in the WebView shell; no recorded clips.
+Stroke-order animations and a checked writing pad cover every standalone Zhuyin symbol in the chart (initials, medials, finals, and drawable tone marks). Paths live in `www/data/strokes/zhuyin.js`, made by `tools/gen_zhuyin_strokes.py` from the Bopomofo drawings in [AnimCJK](https://github.com/parsimonhi/animCJK) (© FM-SH, [GNU LGPL 3.0 or later](https://www.gnu.org/licenses/lgpl-3.0.html)); that file stays under the LGPL. The tone marks are drawn by hand. Audio uses the device's **zh-TW** text-to-speech voice in the WebView shell; no recorded clips.
 
 ## Web / desktop
 
