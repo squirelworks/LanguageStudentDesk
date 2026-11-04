@@ -106,7 +106,7 @@ TOOL_REQUIRES = {}
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
-    "win16", "z80", "cobol", "fortran", "numerical",
+    "win16", "z80", "cobol", "fortran", "moderndelphi", "numerical",
 ]
 
 
