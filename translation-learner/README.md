@@ -116,7 +116,9 @@ adds none.
 
 `tests/<language>-english.json` lists, per sentence, translations that must be accepted and ones that must
 be rejected. `check.js` runs them all (CI runs it too). The Translation Learner stays marked
-**(alpha)** until a pair passes its tests; the label comes off pair by pair.
+**(alpha)** until a pair passes its tests; the label comes off pair by pair. `data/tested.js` lists the
+languages whose tests pass, and their page shows no label. `check.js` fails if a listed language has no
+test file or fails a case, so a language is added there only together with its passing tests.
 
 ## The meaning network
 
