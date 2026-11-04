@@ -432,6 +432,18 @@
         "The て-form joins actions (and then…), makes requests with ください, and builds -ている (doing now, or a lasting state). Ichidan verbs swap る for て. Godan verbs follow the ending of the dictionary form.",
         "The one exception: 行く (go) becomes 行って."
       ],
+      "examples": [
+        {
+          "t": "ちょっと待{って}ください。",
+          "r": "chotto matte kudasai",
+          "e": "Please wait a moment."
+        },
+        {
+          "t": "今、本を読{んでいます}。",
+          "r": "ima, hon o yonde imasu",
+          "e": "I'm reading a book now."
+        }
+      ],
       "table": {
         "head": [
           "Ending",
@@ -471,18 +483,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "ちょっと待{って}ください。",
-          "r": "chotto matte kudasai",
-          "e": "Please wait a moment."
-        },
-        {
-          "t": "今、本を読{んでいます}。",
-          "r": "ima, hon o yonde imasu",
-          "e": "I'm reading a book now."
-        }
-      ],
       "tags": [
         "verbs",
         "te-form"

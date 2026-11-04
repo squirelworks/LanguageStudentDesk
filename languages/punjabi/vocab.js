@@ -1,11 +1,12 @@
-// Punjabi starter words for the Vocabulary Learner.
-// Each word is [Punjabi in Gurmukhi, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/punjabi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Punjabi in Gurmukhi, transliteration, English, note]. Written
+// for this project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.punjabi = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ਸਤ ਸ੍ਰੀ ਅਕਾਲ", "sat srii akaal", "hello; goodbye", "The Sikh greeting, used by most Punjabis in India."],
       ["ਨਮਸਤੇ", "namaste", "hello", ""],
       ["ਧੰਨਵਾਦ", "dhannvaad", "thank you", "Also ਸ਼ੁਕਰੀਆ, shukriaa."],
@@ -17,13 +18,13 @@ window.LSD_DECKS.punjabi = [
       ["ਮੈਂ ਠੀਕ ਹਾਂ", "main thiik haan", "I'm fine", ""],
       ["ਮੇਰਾ ਨਾਮ … ਹੈ", "meraa naam … hai", "my name is …", ""],
       ["ਫਿਰ ਮਿਲਾਂਗੇ", "phir milaange", "see you again", ""],
-      ["ਜੀ ਆਇਆਂ ਨੂੰ", "jii aaiaan nuun", "welcome", ""],
-    ],
+      ["ਜੀ ਆਇਆਂ ਨੂੰ", "jii aaiaan nuun", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ਮੈਂ", "main", "I", ""],
       ["ਤੂੰ", "tuun", "you (intimate)", ""],
       ["ਤੁਸੀਂ", "tusiin", "you (polite, or plural)", ""],
@@ -37,13 +38,13 @@ window.LSD_DECKS.punjabi = [
       ["ਪਿਤਾ", "pitaa", "father", "In speech ਪਿਓ or ਡੈਡੀ."],
       ["ਭਰਾ", "bharaa", "brother", ""],
       ["ਭੈਣ", "bhain", "sister", ""],
-      ["ਪਰਿਵਾਰ", "parivaar", "family", ""],
-    ],
+      ["ਪਰਿਵਾਰ", "parivaar", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ਸਿਫ਼ਰ", "sifar", "zero", "Gurmukhi digit ੦."],
       ["ਇੱਕ", "ikk", "one", "੧"],
       ["ਦੋ", "do", "two", "੨"],
@@ -57,13 +58,13 @@ window.LSD_DECKS.punjabi = [
       ["ਦਸ", "das", "ten", "੧੦"],
       ["ਵੀਹ", "viih", "twenty", ""],
       ["ਸੌ", "sau", "a hundred", ""],
-      ["ਹਜ਼ਾਰ", "hazaar", "a thousand", ""],
-    ],
+      ["ਹਜ਼ਾਰ", "hazaar", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ਪਾਣੀ", "paanii", "water", ""],
       ["ਚਾਹ", "chaah", "tea", ""],
       ["ਦੁੱਧ", "duddh", "milk", ""],
@@ -77,13 +78,13 @@ window.LSD_DECKS.punjabi = [
       ["ਫਲ", "phal", "fruit", ""],
       ["ਖਾਣਾ", "khaanaa", "food; to eat", ""],
       ["ਮਿੱਠਾ", "mitthaa", "sweet", ""],
-      ["ਸੁਆਦ", "suaad", "tasty; taste", ""],
-    ],
+      ["ਸੁਆਦ", "suaad", "tasty; taste", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ਖਾਣਾ", "khaanaa", "to eat", ""],
       ["ਪੀਣਾ", "piinaa", "to drink", ""],
       ["ਜਾਣਾ", "jaanaa", "to go", ""],
@@ -98,13 +99,13 @@ window.LSD_DECKS.punjabi = [
       ["ਵੇਖਣਾ", "vekhnaa", "to see", ""],
       ["ਜਾਣਨਾ", "jaannaa", "to know", ""],
       ["ਸਮਝਣਾ", "samajhnaa", "to understand", ""],
-      ["ਕਰਨਾ", "karnaa", "to do", ""],
-    ],
+      ["ਕਰਨਾ", "karnaa", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ਵੱਡਾ", "vaddaa", "big", "Feminine ਵੱਡੀ."],
       ["ਛੋਟਾ", "chhotaa", "small", ""],
       ["ਚੰਗਾ", "changaa", "good", ""],
@@ -118,13 +119,13 @@ window.LSD_DECKS.punjabi = [
       ["ਮਹਿੰਗਾ", "mahingaa", "expensive", ""],
       ["ਸੌਖਾ", "saukhaa", "easy", ""],
       ["ਔਖਾ", "aukhaa", "difficult", ""],
-      ["ਖੁਸ਼", "khush", "happy", ""],
-    ],
+      ["ਖੁਸ਼", "khush", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ਘਰ", "ghar", "house; home", ""],
       ["ਸ਼ਹਿਰ", "shahir", "city", ""],
       ["ਪਿੰਡ", "pind", "village", ""],
@@ -136,13 +137,13 @@ window.LSD_DECKS.punjabi = [
       ["ਗੁਰਦੁਆਰਾ", "gurduaaraa", "gurdwara (Sikh temple)", ""],
       ["ਖੇਤ", "khet", "field", ""],
       ["ਬਾਥਰੂਮ", "baathruum", "bathroom", ""],
-      ["ਸਟੇਸ਼ਨ", "sateshan", "station", ""],
-    ],
+      ["ਸਟੇਸ਼ਨ", "sateshan", "station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ਕੀ?", "kii?", "what?; yes/no question word", ""],
       ["ਕੌਣ?", "kaun?", "who?", ""],
       ["ਕਿੱਥੇ?", "kitthe?", "where?", ""],
@@ -151,13 +152,13 @@ window.LSD_DECKS.punjabi = [
       ["ਕਿਉਂ?", "kion?", "why?", ""],
       ["ਕਿਵੇਂ?", "kiven?", "how?", ""],
       ["ਕਿੰਨਾ?", "kinnaa?", "how much?", ""],
-      ["ਕਿਹੜਾ?", "kihraa?", "which?", ""],
-    ],
+      ["ਕਿਹੜਾ?", "kihraa?", "which?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ਅੱਜ", "ajj", "today", ""],
       ["ਕੱਲ੍ਹ", "kallh", "tomorrow; yesterday", "The verb's tense tells you which."],
       ["ਹੁਣ", "hun", "now", ""],
@@ -167,7 +168,7 @@ window.LSD_DECKS.punjabi = [
       ["ਦਿਨ", "din", "day", ""],
       ["ਹਫ਼ਤਾ", "haftaa", "week", ""],
       ["ਮਹੀਨਾ", "mahiinaa", "month", ""],
-      ["ਸਾਲ", "saal", "year", ""],
-    ],
-  },
+      ["ਸਾਲ", "saal", "year", ""]
+    ]
+  }
 ];

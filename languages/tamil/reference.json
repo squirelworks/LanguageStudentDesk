@@ -252,6 +252,7 @@
       "id": "numbers",
       "topic": "numbers",
       "title": "Numbers",
+      "body": "Tamil has its own numerals (௧ ௨ ௩ …) but they are rarely used today; everyday writing uses 0–9.",
       "table": {
         "head": [
           "",
@@ -321,7 +322,6 @@
           ]
         ]
       },
-      "body": "Tamil has its own numerals (௧ ௨ ௩ …) but they are rarely used today; everyday writing uses 0–9.",
       "tags": [
         "numbers"
       ]

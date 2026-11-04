@@ -239,6 +239,18 @@
       "topic": "grammar",
       "title": "Set A prefixes on “is speaking”",
       "body": "Most Cherokee verbs need a bound pronoun on the front. Set A prefixes mark who is doing the action on verbs like ᎦᏬᏂᎭ (gawoniha) “is speaking”. The independent pronouns ᎠᏴ (ayv) “I” and ᏂᎯ (nihi) “you” are only added for emphasis.",
+      "examples": [
+        {
+          "t": "Ꮎ ᎠᏍᎦᏯ {ᎦᏬᏂᎭ}.",
+          "r": "Na asgaya gawoniha.",
+          "e": "That man is speaking."
+        },
+        {
+          "t": "{Ꮵ} ᏣᎳᎩ.",
+          "r": "Tsi tsalagi.",
+          "e": "I am Cherokee."
+        }
+      ],
       "table": {
         "head": [
           "Person",
@@ -267,18 +279,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "Ꮎ ᎠᏍᎦᏯ {ᎦᏬᏂᎭ}.",
-          "r": "Na asgaya gawoniha.",
-          "e": "That man is speaking."
-        },
-        {
-          "t": "{Ꮵ} ᏣᎳᎩ.",
-          "r": "Tsi tsalagi.",
-          "e": "I am Cherokee."
-        }
-      ],
       "tags": [
         "Set A",
         "prefixes"

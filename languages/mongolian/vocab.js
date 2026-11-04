@@ -1,12 +1,13 @@
-// Mongolian starter words for the Vocabulary Learner.
-// Each word is [Mongolian (Cyrillic), romanization, English, note]. Written for this project.
-// The Cyrillic spelling is the one used in Mongolia; see the Reference cards for the traditional script.
+// Generated from squirrel-lang-data bd56e84 languages/mongolian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Mongolian (Cyrillic), romanization, English, note]. Written for
+// this project. The Cyrillic spelling is the one used in Mongolia; see the
+// Reference cards for the traditional script.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.mongolian = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["Сайн байна уу?", "sain baina uu?", "hello", "Literally “are you well?”. Polite: Та сайн байна уу?"],
       ["Сайн, сайн байна уу?", "sain, sain baina uu?", "fine, and you?", "The usual answer."],
       ["Сайн уу?", "sain uu?", "hi", "Casual."],
@@ -20,13 +21,13 @@ window.LSD_DECKS.mongolian = [
       ["Миний нэр …", "minii ner …", "my name is …", ""],
       ["Баяртай", "bayartai", "goodbye", ""],
       ["Дараа уулзъя", "daraa uulzya", "see you later", ""],
-      ["Сайхан амраарай", "saikhan amraarai", "have a good rest; good night", ""],
-    ],
+      ["Сайхан амраарай", "saikhan amraarai", "have a good rest; good night", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["би", "bi", "I", ""],
       ["чи", "chi", "you", ""],
       ["та", "ta", "you (polite)", ""],
@@ -42,13 +43,13 @@ window.LSD_DECKS.mongolian = [
       ["аав", "aav", "father", ""],
       ["ах", "akh", "older brother", ""],
       ["эгч", "egch", "older sister", ""],
-      ["гэр бүл", "ger bül", "family", ""],
-    ],
+      ["гэр бүл", "ger bül", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["тэг", "teg", "zero", ""],
       ["нэг", "neg", "one", ""],
       ["хоёр", "khoyor", "two", ""],
@@ -62,13 +63,13 @@ window.LSD_DECKS.mongolian = [
       ["арав", "arav", "ten", ""],
       ["хорь", "khori", "twenty", ""],
       ["зуу", "zuu", "a hundred", ""],
-      ["мянга", "myanga", "a thousand", ""],
-    ],
+      ["мянга", "myanga", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ус", "us", "water", ""],
       ["цай", "tsai", "tea", ""],
       ["сүүтэй цай", "süütei tsai", "milk tea", "Salty milk tea, served everywhere."],
@@ -83,13 +84,13 @@ window.LSD_DECKS.mongolian = [
       ["өндөг", "öndög", "egg", ""],
       ["ногоо", "nogoo", "vegetables", ""],
       ["жимс", "jims", "fruit", ""],
-      ["амттай", "amttai", "tasty", ""],
-    ],
+      ["амттай", "amttai", "tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["идэх", "idekh", "to eat", "Би иднэ: I'll eat."],
       ["уух", "uukh", "to drink", ""],
       ["явах", "yavakh", "to go", ""],
@@ -104,13 +105,13 @@ window.LSD_DECKS.mongolian = [
       ["бичих", "bichikh", "to write", ""],
       ["харах", "kharakh", "to see; to look", ""],
       ["мэдэх", "medekh", "to know", "Мэдэхгүй: I don't know."],
-      ["ойлгох", "oilgokh", "to understand", "Ойлгохгүй байна: I don't understand."],
-    ],
+      ["ойлгох", "oilgokh", "to understand", "Ойлгохгүй байна: I don't understand."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["том", "tom", "big", ""],
       ["жижиг", "jijig", "small", ""],
       ["сайн", "sain", "good", ""],
@@ -125,13 +126,13 @@ window.LSD_DECKS.mongolian = [
       ["амархан", "amarkhan", "easy", ""],
       ["хэцүү", "khetsüü", "difficult", ""],
       ["баяртай", "bayartai", "happy", "Also means “goodbye”."],
-      ["ядарсан", "yadarsan", "tired", ""],
-    ],
+      ["ядарсан", "yadarsan", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["гэр", "ger", "home; ger (felt tent)", ""],
       ["байр", "bair", "flat; apartment", ""],
       ["хот", "khot", "city", ""],
@@ -145,13 +146,13 @@ window.LSD_DECKS.mongolian = [
       ["хийд", "khiid", "monastery", ""],
       ["хөдөө", "khödöö", "countryside", ""],
       ["бие засах газар", "biye zasakh gazar", "toilet", ""],
-      ["зочид буудал", "zochid buudal", "hotel", ""],
-    ],
+      ["зочид буудал", "zochid buudal", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["юу", "yuu", "what", ""],
       ["хэн", "khen", "who", "Also used to ask a name."],
       ["хаана", "khaana", "where", ""],
@@ -163,13 +164,13 @@ window.LSD_DECKS.mongolian = [
       ["аль", "ali", "which", ""],
       ["Энэ хэд вэ?", "ene khed ve?", "how much is this?", ""],
       ["… байна уу?", "… baina uu?", "is there …? do you have …?", ""],
-      ["Болох уу?", "bolokh uu?", "is it OK? may I?", ""],
-    ],
+      ["Болох уу?", "bolokh uu?", "is it OK? may I?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["өнөөдөр", "önöödör", "today", ""],
       ["маргааш", "margaash", "tomorrow", ""],
       ["өчигдөр", "öchigdör", "yesterday", ""],
@@ -183,13 +184,13 @@ window.LSD_DECKS.mongolian = [
       ["сар", "sar", "month; moon", ""],
       ["жил", "jil", "year", ""],
       ["даваа", "davaa", "Monday", ""],
-      ["ням", "nyam", "Sunday", ""],
-    ],
+      ["ням", "nyam", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["автобус", "avtobus", "bus", ""],
       ["галт тэрэг", "galt tereg", "train", "Literally “fire cart”."],
       ["такси", "taksi", "taxi", ""],
@@ -203,7 +204,7 @@ window.LSD_DECKS.mongolian = [
       ["чигээрээ", "chigeeree", "straight on", ""],
       ["ойрхон", "oirkhon", "near", ""],
       ["хол", "khol", "far", ""],
-      ["Туслаарай!", "tuslaarai!", "help!", ""],
-    ],
-  },
+      ["Туслаарай!", "tuslaarai!", "help!", ""]
+    ]
+  }
 ];

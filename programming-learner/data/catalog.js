@@ -8,6 +8,7 @@
 window.PROGRAMMING_CATALOG = [
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
+  { id: "cpp", name: "C++", era: "1985 · systems and games", blurb: "C with classes grown up: references, the standard library, RAII and modern C++20.", group: "modern", tags: ["Compiled programs"] },
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
   { id: "cobol", name: "COBOL", era: "1959 · business data", blurb: "Records, money and plain-English statements. Still runs payments and payroll at banks, insurers and government agencies.", group: "older", tags: ["Compiled programs"] },
   { id: "moderndelphi", name: "Delphi", era: "Today · Embarcadero", blurb: "Current Object Pascal: Unicode strings, generics, records with methods and anonymous methods, for Windows, macOS, Linux and phones.", group: "modern", tags: ["Compiled programs"] },
@@ -15,6 +16,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "fortran", name: "Fortran", era: "1957 · science and engineering", blurb: "The first high-level language, now modern and array-friendly. Still behind weather models, physics codes and fast maths libraries.", group: "older", tags: ["Compiled programs"] },
   { id: "go", name: "Go", era: "2009 · servers", blurb: "A small language for services and tools. One looping keyword, and slices instead of a pile of collection types.", group: "modern", tags: ["Compiled programs"] },
   { id: "intercal", name: "INTERCAL", era: "Esoteric · 1972", blurb: "The first joke language: politeness is mandatory and numbers come out in Roman numerals.", group: "joke" },
+  { id: "java", name: "Java", era: "1995 · business and Android", blurb: "Classes, strong types and a huge standard library. Runs bank systems, Android apps and countless university courses.", group: "modern", tags: ["Compiled programs"] },
   { id: "javascript", name: "JavaScript", era: "1995 · the web", blurb: "The language every web browser runs, and with Node.js, servers and tools too. Modern syntax, closures, classes and async.", group: "modern", tags: ["Scripting", "Web"] },
   { id: "lolcode", name: "LOLCODE", era: "Esoteric · 2007", blurb: "A real, working language written in lolcat speak. HAI to KTHXBYE.", group: "joke" },
   { id: "malbolge", name: "Malbolge", era: "Esoteric · 1998", blurb: "Built to be nearly impossible to program, and it rewrites itself as it runs.", group: "joke" },
