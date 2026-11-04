@@ -2,9 +2,18 @@
   "id": "tamil",
   "name": "Tamil",
   "nativeName": "தமிழ்",
-  "writingSystems": ["tamil"],
-  "characterKeys": ["tamil"],
+  "writingSystems": [
+    "tamil"
+  ],
+  "characterKeys": [
+    "tamil"
+  ],
   "notes": "Tamil in the Tamil script, spoken in Tamil Nadu and Sri Lanka.",
   "speech": "ta-IN",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "tam",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

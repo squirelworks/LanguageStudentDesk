@@ -2,9 +2,18 @@
   "id": "amharic",
   "name": "Amharic",
   "nativeName": "አማርኛ",
-  "writingSystems": ["ethiopic"],
-  "characterKeys": ["ethiopic"],
+  "writingSystems": [
+    "ethiopic"
+  ],
+  "characterKeys": [
+    "ethiopic"
+  ],
   "notes": "Amharic in the Ethiopic fidel, where each letter has seven vowel orders.",
   "speech": "am-ET",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "amh",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

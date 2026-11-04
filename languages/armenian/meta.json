@@ -2,9 +2,18 @@
   "id": "armenian",
   "name": "Armenian",
   "nativeName": "Հայերեն",
-  "writingSystems": ["armenian"],
-  "characterKeys": ["armenian"],
+  "writingSystems": [
+    "armenian"
+  ],
+  "characterKeys": [
+    "armenian"
+  ],
   "notes": "Eastern Armenian in the Armenian alphabet.",
   "speech": "hy-AM",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "hye",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Rebuild the generated scripts in languages/ from the per-language JSON.
+"""Rebuild the generated files in languages/.
 
-    registry.js   <- languages/*/meta.json
-    reference.js  <- languages/*/reference.json
+    registry.js, */meta.json  <- data/languages/*/meta.json (squirrel-lang-data,
+                                 by data/tools/gen_registry.py)
+    reference.js              <- languages/*/reference.json
 
-It also checks each meta.json's "data" list against the files in its folder,
-and the shared CJK table (cjk/characters.js) against each tradition's readings.
+Language meta lives in the squirrel-lang-data submodule at data/; edit it there,
+bump the submodule, and run this. It also checks each generated meta.json's
+"data" list against the files in its folder, and the shared CJK table
+(cjk/characters.js) against each tradition's readings.
 
 The tools read the JSON with fetch() when the Desk serves them over http://.
 Browsers block fetch() of local files, so for file:// pages they fall back to
@@ -16,10 +19,12 @@ or reference.json:
     python3 languages/build_registry.py --check  # exit 1 if one is stale
 """
 import json
+import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+GEN_REGISTRY = HERE.parent / "data" / "tools" / "gen_registry.py"
 
 TOPICS = {"overview", "script", "sounds", "grammar", "verbs", "numbers", "phrases", "culture"}
 
@@ -144,12 +149,23 @@ def build():
     problems += [p for m in metas for p in check_data(m)]
     problems += check_cjk()
     return {
-        "registry.js": script("languages/*/meta.json", "LSD_LANGUAGE_REGISTRY", {m["id"]: m for m in metas}),
         "reference.js": script("languages/*/reference.json", "LSD_REFERENCE", {r["id"]: r for r in refs}),
     }, problems
 
 
+def gen_registry(check):
+    """registry.js and every */meta.json, from the data submodule."""
+    if not GEN_REGISTRY.is_file():
+        print("data/ is empty; run: git submodule update --init")
+        return 1
+    cmd = [sys.executable, str(GEN_REGISTRY), "--out", str(HERE)] + (["--check"] if check else [])
+    return subprocess.run(cmd).returncode
+
+
 def main():
+    status = gen_registry("--check" in sys.argv)
+    if status:
+        return status
     outputs, problems = build()
     for p in problems:
         print(p)

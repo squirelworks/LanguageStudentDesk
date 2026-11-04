@@ -11,7 +11,7 @@ The asset root is a mirror of the paths those links need, not a second copy
 checked into git.
 
 Only the learner page, its course scripts, and the shared JS/CSS those pages
-load are packed. The rest of the Desk stays out.
+load (including the feature switches) are packed. The rest of the Desk stays out.
 """
 
 import argparse
@@ -30,6 +30,9 @@ PATHS = [
     "programming-learner/data",
     "languages/learners.css",
     "languages/lsd-lang.js",
+    "languages/features.js",
+    "languages/lsd-features.js",
+    "languages/lsd-features.css",
     "SquirrelGo-Apps/programming-student-desk/www/index.html",
 ]
 
@@ -44,6 +47,9 @@ REQUIRED = [
     "programming-learner/data/chisel.js",
     "languages/learners.css",
     "languages/lsd-lang.js",
+    "languages/features.js",
+    "languages/lsd-features.js",
+    "languages/lsd-features.css",
 ]
 
 

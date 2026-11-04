@@ -2,9 +2,18 @@
   "id": "tamazight",
   "name": "Tamazight",
   "nativeName": "ⵜⴰⵎⴰⵣⵉⵖⵜ",
-  "writingSystems": ["tifinagh"],
-  "characterKeys": ["tifinagh"],
+  "writingSystems": [
+    "tifinagh"
+  ],
+  "characterKeys": [
+    "tifinagh"
+  ],
   "notes": "Standard Moroccan Tamazight in Tifinagh, the geometric alphabet of the Amazigh (Berber) languages.",
   "speech": "zgh",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "zgh",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

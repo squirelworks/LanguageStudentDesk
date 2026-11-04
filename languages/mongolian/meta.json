@@ -2,9 +2,18 @@
   "id": "mongolian",
   "name": "Mongolian",
   "nativeName": "ᠮᠣᠩᠭᠣᠯ",
-  "writingSystems": ["mongolian"],
-  "characterKeys": ["mongolian"],
+  "writingSystems": [
+    "mongolian"
+  ],
+  "characterKeys": [
+    "mongolian"
+  ],
   "notes": "Mongolian in the traditional vertical script used in Inner Mongolia.",
   "speech": "mn",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "mon",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

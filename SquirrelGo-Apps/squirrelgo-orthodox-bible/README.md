@@ -17,14 +17,18 @@ It is a **new open implementation** meant to fill the gap left by the Orthodox S
 
 ## Texts
 
-Bibles in English, Greek (Koine and modern), Russian, Church Slavonic, Serbian, French and more, plus commentary from about 40 Church Fathers (Eastern, early and Western Fathers from before the schism), all public domain or openly licensed. The full list of sources and licenses, and the scripts that build the data files, are in [`tools/texts/`](tools/texts/README.md).
+The app is one offline package with these Bibles built in: English (Brenton's Septuagint and the King James Version with Apocrypha), Greek (the Septuagint, the Patriarchal and Byzantine New Testaments and Vamvas's modern Greek), Latin (the Clementine Vulgate), Russian Synodal, Church Slavonic, Serbian, French and Arabic, plus English commentary from about 40 Church Fathers (Eastern, early and Western Fathers from before the schism).
+
+**Content expansion.** Everything else (Syriac, Coptic, Hebrew and about 70 more Bibles, and further Fathers in English, Greek, Latin and Russian) downloads on request from the **latest SquirrelGo release on GitHub**. In Translations & settings, **Check for new texts** asks GitHub for the latest release and lists every pack it carries, including texts added after your copy of the app was built; **Download** fetches one from that release. A downloaded pack is kept on the device, so the app stays offline afterwards. Nothing is fetched unless you tap one of those buttons.
+
+All texts are public domain or openly licensed. The full list of sources and licenses, and the scripts that build the data files, are in [`tools/texts/`](tools/texts/README.md).
 
 ## Data format
 
 All data files are plain scripts (no `fetch`), so the app works from `file://` and inside the Android WebView. The app loads a Bible or commentary file only when it is first used.
 
 - `www/data/books.js`: `SGO_BOOKS`, the book list in Orthodox order with USFM ids (`GEN`, `PSA`, `SIR`, `1MA`, `JHN`...). Owned by the app.
-- `www/data/catalog.js`: `SGO_CATALOG = { bibles: [{id, name, lang, dir, versification, license, source, testaments}], commentary: [{id, author, work, lang, license, source, books}] }`. The app lists only what is here.
+- `www/data/catalog.js`: `SGO_CATALOG = { bibles: [{id, name, lang, dir, versification, license, source, testaments}], commentary: [{id, author, work, lang, license, source, books}] }`. Downloadable packs also have `url` (the file on the `orthodox-bible-texts` branch) and `size`. The app lists what is here plus whatever the latest release's `orthodox-bible-content.json` adds (kept in localStorage).
 - `www/data/bibles/<id>.js`: `SGO_BIBLES.push({id, name, lang, script, dir, versification, license, source, books: {GEN: [[v1, v2, ...], [chapter 2...]], ...}})`. Chapters and verses are 1-based arrays (index 0 is chapter/verse 1); a missing verse is `null`. Numbered in the translation's own system.
 - `www/data/commentary/<id>.js`: `SGO_COMMENTARY.push({id, author, work, translator, lang, license, source, versification, notes: {"JHN.1.1": ["text..."], "MAT.5.3-12": ["text..."]}})`.
 - `www/data/lectionary.js`: `SGO_LECTIONARY`, the daily-readings tables (readings, day titles and saints' names for each day of the Paschal cycle, the fixed calendar and the floating feasts). Generated.

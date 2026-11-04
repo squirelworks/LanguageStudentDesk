@@ -2,9 +2,18 @@
   "id": "telugu",
   "name": "Telugu",
   "nativeName": "తెలుగు",
-  "writingSystems": ["telugu"],
-  "characterKeys": ["telugu"],
+  "writingSystems": [
+    "telugu"
+  ],
+  "characterKeys": [
+    "telugu"
+  ],
   "notes": "Telugu in the Telugu script, spoken in Andhra Pradesh and Telangana.",
   "speech": "te-IN",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "tel",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }
