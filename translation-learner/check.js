@@ -86,6 +86,7 @@ console.log(process.exitCode ? "network check failed" : "network ok");
   const tdir = path.join(__dirname, "tests");
   const files = fs.existsSync(tdir) ? fs.readdirSync(tdir).filter((f) => f.endsWith(".json")).sort() : [];
   let failed = 0;
+  const failedFiles = new Set();
   for (const f of files) {
     const t = JSON.parse(fs.readFileSync(path.join(tdir, f), "utf8"));
     const col = window.TL_LANGS[t.language];
@@ -108,6 +109,13 @@ console.log(process.exitCode ? "network check failed" : "network ok");
     }
     console.log(f.replace(/\.json$/, "") + ": " + (fails ? fails + " of " + n + " cases fail" : n + " cases pass"));
     failed += fails;
+    if (fails) failedFiles.add(f);
+  }
+  // A language shown without "(alpha)" must have a test file that passes.
+  for (const id of window.TL_TESTED || []) {
+    const f = id + "-english.json";
+    if (!files.includes(f)) { console.log("tested.js lists " + id + " but tests/" + f + " is missing"); failed++; }
+    else if (failedFiles.has(f)) { console.log("tested.js lists " + id + " but its tests fail"); failed++; }
   }
   if (failed) process.exitCode = 1;
   console.log(failed ? "pair tests failed" : "pairs ok");
