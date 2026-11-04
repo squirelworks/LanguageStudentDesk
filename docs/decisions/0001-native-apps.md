@@ -111,6 +111,42 @@ riskiest parts (strokes, writing pad) be proven in one app before anything else
 moves. Option C is the fallback if the pilot shows the cost is too high, since
 A's first steps (native strokes and speech in one app) are useful to C too.
 
+## One codebase, many builds
+
+The user wants every program, phone and desktop, to come from one codebase,
+with the platform being a build choice rather than a separate set of code. The
+target layout is one Gradle project:
+
+```
+native/
+  core/          commonMain only: content models and reader, strokes and
+                 matching, writing pad logic, quiz rules, speech interface
+  ui/            commonMain Compose screens, one module per app or learner
+                 (kana, kanji, dictionary, programming, ...)
+  android/       thin entry points: one application id per SquirrelGo app,
+                 each pulling in the ui modules it ships
+  desktop/       thin entry points: the Desk (every ui module behind one home
+                 screen) and any standalone desktop app
+```
+
+- **Platform code is small and fenced off.** Only speech, file saving and
+  opening sibling apps differ by platform. They sit behind interfaces in
+  `core`, with `androidMain` and `desktopMain` versions.
+- **Which app and which platform is a Gradle task**, not a code fork. For
+  example `:android:kana:assembleRelease` builds the Kana APK, and
+  `:desktop:desk:packageDistributionForCurrentOS` builds the Desk installer on
+  each OS's release runner.
+- **The Desk becomes a native desktop app** that hosts the same screens as the
+  phone apps. That makes Desk and phone twins by construction, since they run the
+  same code, and replaces the Python launcher and browser learners once each
+  learner has a native screen with parity and the user signs off.
+- **Programming Student Desk** gets both a phone and a desktop build from the
+  same `ui/programming` module. The Programming Learner is the largest learner,
+  so it ports late.
+- **squirrelator** lives in its own repo with its own threads. It can use
+  `core` the same way (as a published library or a build include) if it ever
+  gets a native desktop or Android version, but that's its own decision.
+
 ## Migration path
 
 Each step is its own PR, and nothing starts before #196 lands and the user signs
@@ -135,9 +171,10 @@ off on this record.
 5. **The other phone apps**, one at a time. The character apps come first,
    since they reuse the most. The Phrasebook, Dictionary and Orthodox Bible
    come after.
-6. **The Desk last.** Compose Multiplatform desktop builds of the same apps join
-   the Desk release. The Desk learners and the Python launcher stay as they are
-   until the user decides their future (see Open questions).
+6. **The Desk.** A desktop build of the pilot comes early, from the same code,
+   to measure size and start time. The native Desk then grows one learner at a
+   time, and the Python launcher and browser learners stay in the release until
+   every learner has a native screen and the user signs off on retiring them.
 
 ## What happens to the web versions
 
@@ -148,9 +185,9 @@ off on this record.
 - **After an app reaches parity** and the user signs off for that app, its `www/`
   stops being packed into the APK in a separate PR. The web pages stay on the
   Desk, since the Desk learners and Character Learner load them.
-- **The Desk keeps its browser learners** until the user decides otherwise. So
-  for the twin rule, a native phone app and its web Desk twin share content
-  (one source) and behaviour (the same shared module tests), not code.
+- **The Desk keeps its browser learners** until each one has a native screen.
+  Until then, for the twin rule, a native phone app and its web Desk twin share
+  content (one source) and behaviour (the same shared module tests), not code.
   `desk_twins.py` gets a check for that when the pilot lands.
 
 ## Risks
@@ -180,8 +217,5 @@ App Store isn't wanted for now.
 
 ## Open questions for the user
 
-1. For the Desk, should the long-term goal be native desktop apps that replace
-   the Python launcher and browser learners, or should the Desk stay web-based
-   with the phone apps going native?
-2. Is a desktop build of a few tens of MB larger than today acceptable, in
+1. Is a desktop build of a few tens of MB larger than today acceptable, in
    exchange for native apps on desktop?
