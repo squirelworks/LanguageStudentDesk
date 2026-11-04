@@ -19,18 +19,6 @@
  "burmese": {
   "ဝ": "coverage 0.741"
  },
- "cherokee": {
-  "Ꭵ": "coverage 0.644",
-  "Ꮂ": "coverage 0.684; precision 0.823",
-  "Ꮃ": "coverage 0.647; precision 0.795",
-  "Ꮋ": "coverage 0.748",
-  "Ꮍ": "coverage 0.591",
-  "Ꮏ": "coverage 0.39; precision 0.442",
-  "Ꮑ": "coverage 0.683",
-  "Ꮱ": "coverage 0.718; precision 0.835",
-  "Ꮵ": "coverage 0.637; precision 0.616",
-  "Ᏸ": "coverage 0.607; precision 0.507"
- },
  "ethiopic": {
   "ኀ": "coverage 0.411"
  },
