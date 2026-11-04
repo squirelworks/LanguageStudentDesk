@@ -36,8 +36,8 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 
 | File | |
 |---|---|
-| `data/matrix.js` | The meaning matrix: `TL_MEANINGS` (meaning id → English), `TL_SENTENCES` (rows), `TL_PACK_TITLES` |
-| `data/<lang>.js` | One column per language: how it renders the rows, token by token |
+| `data/matrix.js` | The meaning matrix: `TL_MEANINGS` (meaning id → English), `TL_SENTENCES` (rows), `TL_PACK_TITLES` (generated) |
+| `data/<lang>.js` | One column per language: how it renders the rows, token by token (generated) |
 | `tokens.js` | Builds and checks columns against the matrix, checks translations, breaks down text. No DOM, so it runs under node |
 | `net.js` | Reads the meaning network's vectors and compares them |
 | `data/network.js` | The trained meaning network (generated) |
@@ -103,7 +103,7 @@ bus to school". The checker accepts them by matching meanings, not strings, with
   a past answer ("came", "did come", "have come"); otherwise "take", "took", "am taking" and "will take"
   all pass. Irregular past forms ("took", "went") match their base word.
 - **Word order.** Meanings are found anywhere in the answer, so "By bus, I go to school" passes.
-- **Phrasings tied to other meanings.** `TL_PHRASINGS` in `data/matrix.js` lets English carry a meaning
+- **Phrasings tied to other meanings.** `TL_PHRASINGS` (from `meaning/phrasings.jsonl` in squirrel-lang-data) lets English carry a meaning
   only next to certain others: "take", "ride" or "catch" carry *go* when the row also has *bus*, *train*,
   *car* or *ship*. A phrasing marked `optional` lets English leave a meaning out in such a row: a request
   with *please* doesn't have to say *give* ("Water, please").
@@ -222,8 +222,8 @@ the same first step where the servers are reachable.
 ## Adding a language
 
 1. Make sure the language exists in `languages/<id>/meta.json` (and in `registry.js`, via `languages/build_registry.py`).
-2. Create `data/<id>.js` with `window.TL_LANGS.<id> = { sep, r: { ... } }`, rendering any rows of the matrix you like. You do not have to render every row.
-3. Need a sentence the matrix lacks? Add a row to `TL_SENTENCES` (and any new meanings to `TL_MEANINGS`); every other language can then render it too.
+2. In squirrel-lang-data, add `meaning/columns/<id>.jsonl`, rendering any rows of the matrix you like. You do not have to render every row.
+3. Need a sentence the matrix lacks? Add a row to `meaning/sentences.jsonl` (and any new meanings to `meaning/meanings.jsonl`); every other language can then render it too. Once that merges, bump `data/` here and run `python3 data/tools/gen_meaning.py --out translation-learner/data` to write `data/matrix.js` and `data/<id>.js`.
 4. Add the id to `COLUMNS` in `app.js`. If the Vocabulary Learner has a deck for it, add it to `DECKS` too so Break down knows more words.
 5. For a word bank, add the language to `BANKS` in `tools/build_network.py` (its wordfreq file name and
    the characters its words are written with), to `CN_CODES` (its ConceptNet language code) and to `BANKS` in
