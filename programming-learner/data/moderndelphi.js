@@ -559,5 +559,501 @@ end.`,
         { q: "What can an anonymous method use that a plain procedure cannot?", options: ["Local variables from where it was written", "More than three parameters", "Strings", "Exceptions"], answer: "Local variables from where it was written", why: "It captures the variables around it. In MakeAdder, the returned function keeps Amount after MakeAdder has returned." },
       ],
     },
+    {
+      id: "enums",
+      title: "Enumerations, sets and case",
+      summary: "Naming a fixed list of choices, and holding several at once.",
+      sections: [
+        {
+          p: "An <b>enumerated type</b> lists every value a variable may hold, with names instead of magic numbers. <code>Ord</code> gives a value's position (from 0), <code>Succ</code> and <code>Pred</code> step to the next and previous, and <code>Low</code>/<code>High</code> give the first and last, so a <code>for</code> loop can visit them all. A <code>case</code> statement picks a branch for each value.",
+          code: `program Seasons;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+type
+  TSeason = (Spring, Summer, Autumn, Winter);
+const
+  Names: array[TSeason] of string = ('spring', 'summer', 'autumn', 'winter');
+var
+  S: TSeason;
+begin
+  for S := Low(TSeason) to High(TSeason) do
+  begin
+    Write(Ord(S), ' ', Names[S], ': ');
+    case S of
+      Spring, Summer: Writeln('find food');
+      Autumn: Writeln('bury nuts');
+      Winter: Writeln('dig them up');
+    end;
+  end;
+  Writeln('after autumn comes ', Names[Succ(Autumn)]);
+end.`,
+          out: "0 spring: find food\n1 summer: find food\n2 autumn: bury nuts\n3 winter: dig them up\nafter autumn comes winter",
+        },
+        {
+          h: "Sets",
+          p: "A <b>set</b> holds any combination of values from a small ordinal type, such as an enumeration or the letters. <code>in</code> tests membership, <code>+</code> joins two sets, <code>*</code> keeps what they share and <code>-</code> removes. <code>Include</code> and <code>Exclude</code> change a set in place. Pascal has had sets since the 1970s; they are a compact, readable way to keep flags.",
+          code: `program Sets;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+type
+  TNut = (Acorn, Hazelnut, Walnut, Chestnut, Beechnut);
+  TNuts = set of TNut;
+const
+  Names: array[TNut] of string = ('acorn', 'hazelnut', 'walnut', 'chestnut', 'beechnut');
+procedure Show(const Title: string; Nuts: TNuts);
+var
+  N: TNut;
+begin
+  Write(Title, ':');
+  for N in Nuts do
+    Write(' ', Names[N]);
+  Writeln;
+end;
+var
+  Sam, Pip: TNuts;
+begin
+  Sam := [Acorn, Walnut, Beechnut];
+  Pip := [Hazelnut, Walnut];
+  Show('both like', Sam * Pip);
+  Show('either likes', Sam + Pip);
+  Show('only Sam', Sam - Pip);
+  Include(Pip, Chestnut);
+  Writeln('Pip likes chestnuts: ', Chestnut in Pip);
+  Writeln('u is a vowel: ', 'u' in ['a', 'e', 'i', 'o', 'u']);
+end.`,
+          out: "both like: walnut\neither likes: acorn hazelnut walnut beechnut\nonly Sam: acorn beechnut\nPip likes chestnuts: TRUE\nu is a vowel: TRUE",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+type
+  TSize = (Small, Medium, Large);
+begin
+  Writeln(Ord(Large), ' ', Ord(Succ(Small)));
+end.`, options: ["2 1", "3 2", "2 0", "1 2"], answer: "2 1", why: "Positions start at 0, so Large is 2, and Succ(Small) is Medium, which is 1." },
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+var
+  A, B: set of 1..9;
+begin
+  A := [1, 2, 3, 4];
+  B := [3, 4, 5];
+  Writeln(3 in (A * B), ' ', 5 in (A - B));
+end.`, options: ["TRUE FALSE", "TRUE TRUE", "FALSE FALSE", "FALSE TRUE"], answer: "TRUE FALSE", why: "A * B is [3, 4], which holds 3. A - B is [1, 2], which does not hold 5." },
+        { q: "Why use an enumerated type instead of plain integers 0 to 3?", options: ["The names make the code readable and the compiler rejects values outside the list", "It runs faster", "Integers cannot be used in case statements", "Enumerations can hold any number"], answer: "The names make the code readable and the compiler rejects values outside the list", why: "TSeason can only ever be one of its four names, and the code says which." },
+      ],
+    },
+    {
+      id: "arrays",
+      title: "Dynamic arrays and open arrays",
+      summary: "Arrays whose size is set while the program runs.",
+      sections: [
+        {
+          p: "A <b>dynamic array</b>, declared as <code>array of Integer</code>, has no fixed size. <code>SetLength</code> gives it room (new elements start at 0) and can grow it later, keeping what is there. Indexes run from 0 to <code>High(A)</code>, and <code>Length</code> gives the count. Delphi frees the memory itself when the array is no longer used.",
+          code: `program Dyn;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+var
+  Days: array of Integer;
+  I, Total: Integer;
+begin
+  SetLength(Days, 3);
+  Days[0] := 4;
+  Days[1] := 9;
+  Days[2] := 2;
+  SetLength(Days, 5);
+  Days[4] := 7;
+  Total := 0;
+  for I := 0 to High(Days) do
+  begin
+    Write(Days[I], ' ');
+    Total := Total + Days[I];
+  end;
+  Writeln;
+  Writeln(Length(Days), ' days, ', Total, ' nuts');
+end.`,
+          out: "4 9 2 0 7\n5 days, 22 nuts",
+        },
+        {
+          h: "Open array parameters",
+          p: "A parameter written <code>const Values: array of Integer</code> is an <b>open array</b>: the routine accepts a static array, a dynamic array, or a list written in place in square brackets. Inside, it is indexed from 0 to <code>High(Values)</code>. That is how <code>Format</code> takes its list of arguments.",
+          code: `program OpenArr;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+function Largest(const Values: array of Integer): Integer;
+var
+  I: Integer;
+begin
+  Result := Values[0];
+  for I := 1 to High(Values) do
+    if Values[I] > Result then
+      Result := Values[I];
+end;
+var
+  Fixed: array[1..4] of Integer = (3, 8, 1, 6);
+begin
+  Writeln(Largest(Fixed));
+  Writeln(Largest([12, 40, 7]));
+  Writeln(Format('%s found %d nuts on day %d', ['Sam', Largest([5, 9]), 2]));
+end.`,
+          out: "8\n40\nSam found 9 nuts on day 2",
+        },
+        {
+          h: "Copying",
+          p: "Dynamic arrays are reference types: assigning one to another makes both names share the same elements. <code>Copy</code> makes an independent copy, and it can take just a slice: <code>Copy(A, 1, 2)</code> is two elements starting at index 1.",
+          code: `program CopyArr;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+var
+  A, B, C: array of Integer;
+begin
+  SetLength(A, 3);
+  A[0] := 1; A[1] := 2; A[2] := 3;
+  B := A;
+  C := Copy(A);
+  B[0] := 99;
+  Writeln(A[0], ' ', B[0], ' ', C[0]);
+  C := Copy(A, 1, 2);
+  Writeln(Length(C), ': ', C[0], ' ', C[1]);
+end.`,
+          out: "99 99 1\n2: 2 3",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+var
+  A: array of Integer;
+begin
+  SetLength(A, 2);
+  A[1] := 5;
+  SetLength(A, 4);
+  Writeln(A[0], ' ', A[1], ' ', High(A));
+end.`, options: ["0 5 3", "0 5 4", "5 0 3", "0 0 3"], answer: "0 5 3", why: "New elements start at 0, growing keeps A[1], and High of a 4-element array is 3." },
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+function Sum(const V: array of Integer): Integer;
+var
+  X: Integer;
+begin
+  Result := 0;
+  for X in V do
+    Result := Result + X;
+end;
+begin
+  Writeln(Sum([1, 2, 3, 4]));
+end.`, options: ["10", "4", "24", "1234"], answer: "10", why: "The open array takes the list in brackets, and the loop adds every element." },
+        { q: "After B := A with two dynamic arrays, what happens when you change B[0]?", options: ["A[0] changes too, because they share the elements", "Only B changes", "The program will not compile", "A is freed"], answer: "A[0] changes too, because they share the elements", why: "Use Copy(A) when you need an independent array." },
+      ],
+    },
+    {
+      id: "interfaces",
+      title: "Interfaces",
+      summary: "Promises a class keeps, and objects that free themselves.",
+      sections: [
+        {
+          p: "An <code>interface</code> lists methods without any code. A class that names the interface promises to provide them, and code written against the interface works with every such class. Classes that implement interfaces usually inherit from <code>TInterfacedObject</code>, which does the bookkeeping. <code>Describe</code> takes its parameter without <code>const</code> on purpose: a brand-new object passed straight into a <code>const</code> interface parameter is never counted, so it is never freed.",
+          code: `program Shapes;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+type
+  IStore = interface
+    function Name: string;
+    function Capacity: Integer;
+  end;
+  THollow = class(TInterfacedObject, IStore)
+    function Name: string;
+    function Capacity: Integer;
+  end;
+  TBurrow = class(TInterfacedObject, IStore)
+  private
+    FDepth: Integer;
+  public
+    constructor Create(Depth: Integer);
+    function Name: string;
+    function Capacity: Integer;
+  end;
+function THollow.Name: string;
+begin
+  Result := 'tree hollow';
+end;
+function THollow.Capacity: Integer;
+begin
+  Result := 120;
+end;
+constructor TBurrow.Create(Depth: Integer);
+begin
+  inherited Create;
+  FDepth := Depth;
+end;
+function TBurrow.Name: string;
+begin
+  Result := Format('burrow %d cm deep', [FDepth]);
+end;
+function TBurrow.Capacity: Integer;
+begin
+  Result := FDepth * 2;
+end;
+procedure Describe(S: IStore);
+begin
+  Writeln(S.Name, ' holds ', S.Capacity);
+end;
+begin
+  Describe(THollow.Create);
+  Describe(TBurrow.Create(30));
+end.`,
+          out: "tree hollow holds 120\nburrow 30 cm deep holds 60",
+        },
+        {
+          h: "Reference counting",
+          p: "Objects used through an interface variable are <b>reference counted</b>: Delphi counts how many interface variables point at the object and frees it when the count drops to zero. So, unlike ordinary objects, you do not call <code>Free</code> and need no <code>try ... finally</code>. Do not mix the two styles for one object: keep it in interface variables only.",
+          code: `program Counting;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+type
+  IGreeter = interface
+    procedure Hello;
+  end;
+  TGreeter = class(TInterfacedObject, IGreeter)
+  private
+    FName: string;
+  public
+    constructor Create(const Name: string);
+    destructor Destroy; override;
+    procedure Hello;
+  end;
+constructor TGreeter.Create(const Name: string);
+begin
+  inherited Create;
+  FName := Name;
+  Writeln('create ', FName);
+end;
+destructor TGreeter.Destroy;
+begin
+  Writeln('free ', FName);
+  inherited;
+end;
+procedure TGreeter.Hello;
+begin
+  Writeln('hello from ', FName);
+end;
+procedure Run;
+var
+  A, B: IGreeter;
+begin
+  A := TGreeter.Create('Sam');
+  B := A;
+  A := nil;
+  Writeln('A cleared');
+  B.Hello;
+  B := nil;
+  Writeln('B cleared');
+end;
+begin
+  Run;
+end.`,
+          out: "create Sam\nA cleared\nhello from Sam\nfree Sam\nB cleared",
+        },
+      ],
+      practice: [
+        { q: "When is an object used only through interface variables freed?", options: ["When the last interface variable pointing at it is cleared or goes out of scope", "Only when you call Free", "When the program ends", "Never"], answer: "When the last interface variable pointing at it is cleared or goes out of scope", why: "TInterfacedObject counts the references and frees itself at zero." },
+        { q: "What does an interface declaration contain?", options: ["Method headings only, with no code", "Fields and their starting values", "A full class with code", "Only constants"], answer: "Method headings only, with no code", why: "The classes that implement it supply the code." },
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+type
+  INum = interface
+    function Value: Integer;
+  end;
+  TTwo = class(TInterfacedObject, INum)
+    function Value: Integer;
+  end;
+function TTwo.Value: Integer;
+begin
+  Result := 2;
+end;
+var
+  N: INum;
+begin
+  N := TTwo.Create;
+  Writeln(N.Value * 21);
+end.`, options: ["42", "2", "21", "221"], answer: "42", why: "N.Value calls TTwo's method, which returns 2." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Text and files with TStringList",
+      summary: "Lists of lines that can be sorted, saved and loaded.",
+      sections: [
+        {
+          p: "<code>TStringList</code> from <code>System.Classes</code> is a list of strings with handy extras: <code>Sort</code>, <code>IndexOf</code>, <code>SaveToFile</code> and <code>LoadFromFile</code>. It is a class, so create it, use it inside <code>try</code>, and free it in <code>finally</code>.",
+          code: `program Lines;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils, System.Classes;
+var
+  Trees, Again: TStringList;
+  I: Integer;
+begin
+  Trees := TStringList.Create;
+  Again := TStringList.Create;
+  try
+    Trees.Add('oak');
+    Trees.Add('hazel');
+    Trees.Add('beech');
+    Trees.Sort;
+    Writeln('sorted: ', Trees.CommaText);
+    Writeln('hazel is at ', Trees.IndexOf('hazel'));
+    Trees.SaveToFile('trees.txt');
+    Again.LoadFromFile('trees.txt');
+    for I := 0 to Again.Count - 1 do
+      Writeln(I + 1, '. ', Again[I]);
+  finally
+    Again.Free;
+    Trees.Free;
+  end;
+end.`,
+          out: "sorted: beech,hazel,oak\nhazel is at 1\n1. beech\n2. hazel\n3. oak",
+        },
+        {
+          h: "Name=value pairs",
+          p: "A <code>TStringList</code> also understands lines of the form <code>name=value</code>, which makes a simple settings file. <code>Values['name']</code> reads or sets a value, and an unknown name gives an empty string. <code>StrToIntDef</code> converts text to a number with a fallback for bad input.",
+          code: `program Settings;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils, System.Classes;
+var
+  Cfg: TStringList;
+begin
+  Cfg := TStringList.Create;
+  try
+    Cfg.Add('name=Sam');
+    Cfg.Add('nuts=42');
+    Cfg.Values['nuts'] := '50';
+    Cfg.Values['tree'] := 'oak';
+    Writeln(Cfg.Values['name'], ' keeps ', StrToIntDef(Cfg.Values['nuts'], 0), ' nuts');
+    Writeln('missing: "', Cfg.Values['colour'], '"');
+    Writeln(StrToIntDef('lots', -1));
+    Writeln(Cfg.Text.Trim);
+  finally
+    Cfg.Free;
+  end;
+end.`,
+          out: "Sam keeps 50 nuts\nmissing: \"\"\n-1\nname=Sam\nnuts=50\ntree=oak",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils, System.Classes;
+var
+  L: TStringList;
+begin
+  L := TStringList.Create;
+  try
+    L.Add('pine');
+    L.Add('ash');
+    L.Sort;
+    Writeln(L[0], ' ', L.Count);
+  finally
+    L.Free;
+  end;
+end.`, options: ["ash 2", "pine 2", "ash 1", "pine 1"], answer: "ash 2", why: "Sort puts \"ash\" first, and the list holds two lines." },
+        { q: "Why is a TStringList freed in a finally block?", options: ["It is a class, so it must be freed even if an exception happens", "finally makes it sort", "Strings are freed only in finally", "It is reference counted"], answer: "It is a class, so it must be freed even if an exception happens", why: "Ordinary objects are not reference counted; try ... finally guarantees Free runs." },
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+begin
+  Writeln(StrToIntDef('12', 0) + StrToIntDef('x', 5));
+end.`, options: ["17", "12", "5", "An exception"], answer: "17", why: "'12' converts to 12; 'x' is not a number, so the default 5 is used." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut report",
+      summary: "Records, enums, dynamic arrays and Format in one program.",
+      sections: [
+        {
+          p: "This program stores a season of finds as an array of records, adds them up per kind of nut with an array indexed by an enumeration, finds the best day, and prints a report with <code>Format</code>. In <code>Format</code>, <code>%-9s</code> left-aligns text in 9 columns and <code>%4d</code> right-aligns a number in 4; <code>%5.1f</code> prints a real number with one decimal.",
+          code: `program NutReport;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+type
+  TNut = (Acorn, Hazelnut, Walnut);
+  TFind = record
+    Day: Integer;
+    Nut: TNut;
+    Count: Integer;
+  end;
+const
+  Names: array[TNut] of string = ('acorn', 'hazelnut', 'walnut');
+var
+  Finds: array of TFind;
+  Totals: array[TNut] of Integer;
+  N: TNut;
+  I, All, BestDay, BestCount: Integer;
+procedure AddFind(Day: Integer; Nut: TNut; Count: Integer);
+begin
+  SetLength(Finds, Length(Finds) + 1);
+  Finds[High(Finds)].Day := Day;
+  Finds[High(Finds)].Nut := Nut;
+  Finds[High(Finds)].Count := Count;
+end;
+begin
+  AddFind(1, Acorn, 6);
+  AddFind(1, Hazelnut, 2);
+  AddFind(2, Walnut, 1);
+  AddFind(3, Acorn, 9);
+  AddFind(3, Hazelnut, 4);
+  AddFind(4, Acorn, 3);
+  for N := Low(TNut) to High(TNut) do
+    Totals[N] := 0;
+  All := 0;
+  BestDay := 0;
+  BestCount := 0;
+  for I := 0 to High(Finds) do
+  begin
+    Inc(Totals[Finds[I].Nut], Finds[I].Count);
+    Inc(All, Finds[I].Count);
+    if Finds[I].Count > BestCount then
+    begin
+      BestCount := Finds[I].Count;
+      BestDay := Finds[I].Day;
+    end;
+  end;
+  for N := Low(TNut) to High(TNut) do
+    Writeln(Format('%-9s%4d %5.1f%%', [Names[N], Totals[N], 100 * Totals[N] / All]));
+  Writeln(Format('%-9s%4d', ['total', All]));
+  Writeln(Format('best single find: %d on day %d', [BestCount, BestDay]));
+end.`,
+          out: "acorn      18  72.0%\nhazelnut    6  24.0%\nwalnut      1   4.0%\ntotal      25\nbest single find: 9 on day 3",
+        },
+        {
+          h: "Ideas to try",
+          p: "Save the finds to a file with a <code>TStringList</code> (one <code>day,nut,count</code> line each) and load them back, turn <code>TFind</code> into a record with a <code>ToString</code> method, or replace the array of totals with a <code>TDictionary&lt;string, Integer&gt;</code> so new kinds of nut need no change to the type.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program P;
+{$APPTYPE CONSOLE}
+uses
+  System.SysUtils;
+begin
+  Writeln(Format('[%-4s][%3d]', ['ab', 7]));
+end.`, options: ["[ab  ][  7]", "[  ab][7  ]", "[ab][7]", "[ab  ][7  ]"], answer: "[ab  ][  7]", why: "A minus sign left-aligns; without it the value is right-aligned in the width." },
+        { q: "Why can Totals be declared as array[TNut] of Integer?", options: ["An enumeration can be used as an array's index type", "TNut is an integer", "Arrays need an enumeration", "It makes the array dynamic"], answer: "An enumeration can be used as an array's index type", why: "There is exactly one element per kind of nut, and Totals[Walnut] reads naturally." },
+        { q: "What does Inc(X, N) do?", options: ["Adds N to X", "Sets X to N", "Adds 1 to X and N", "Compares X and N"], answer: "Adds N to X", why: "Inc(X) adds 1, and Inc(X, N) adds N." },
+      ],
+    },
   ],
 };
