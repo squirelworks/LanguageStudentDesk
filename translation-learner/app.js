@@ -8,6 +8,8 @@
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
   const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
+  // Stays until a language pair passes its translation tests (issue #194).
+  const ALPHA = '<span class="alpha">(alpha)</span>';
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
   // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
@@ -73,7 +75,7 @@
     if (!id || !COLUMNS.includes(id)) {
       $("tabs").hidden = true;
       ["toEnglish", "toTarget", "breakdown", "matrix", "words"].forEach((s) => ($(s).hidden = true));
-      $("title").textContent = "Translation Learner";
+      $("title").innerHTML = "Translation Learner " + ALPHA;
       $("subtitle").textContent = id
         ? state.meta
           ? "No translation sentences for " + name + " yet. Pick another language."
@@ -102,7 +104,7 @@
       byReading: id === "japanese",
       caseSensitive: !!state.col.caseSensitive,
     });
-    $("title").innerHTML = "Translation Learner <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
+    $("title").innerHTML = "Translation Learner " + ALPHA + " <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
     $("subtitle").textContent = "Every piece of meaning carried over, nothing added.";
     $("toTargetTab").textContent = "Into " + name;
     $("wordsTab").hidden = !BANKS.includes(id);
