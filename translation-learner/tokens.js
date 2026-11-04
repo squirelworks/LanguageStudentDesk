@@ -252,6 +252,11 @@
       if (x.status !== "dropped") continue;
       for (const p of sentence.phrasings || []) {
         if (p.m !== x.meaning.id) continue;
+        // English may leave the meaning out next to these ("Water, please").
+        if (p.optional) {
+          x.status = "implied";
+          break;
+        }
         let hit = null;
         for (const alt of p.en.split("|")) if ((hit = findAlt(words, used, alt))) break;
         if (!hit) continue;
