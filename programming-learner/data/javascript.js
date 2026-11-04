@@ -334,5 +334,334 @@ console.log("first");`, options: ["first\n6", "6\nfirst", "first\n5", "6"], answ
         { q: "What does await do?", options: ["Pauses the async function until the promise settles", "Stops the whole program", "Makes code run faster", "Turns a number into a promise"], answer: "Pauses the async function until the promise settles", why: "Only that function waits. The rest of the program keeps running." },
       ],
     },
+    {
+      id: "errors",
+      title: "Errors",
+      summary: "throw, try...catch...finally, and your own error types.",
+      sections: [
+        {
+          p: "When something goes wrong, JavaScript <b>throws</b> an error object, and the script stops unless a <code>try</code> block catches it. The error has a <code>name</code> and a <code>message</code>. A <code>finally</code> block runs whether or not anything was thrown. <code>JSON.parse</code> throws a <code>SyntaxError</code> for text that isn't valid JSON.",
+          code: `for (const text of ['{"nuts": 4}', "{nuts: 4}"]) {
+  try {
+    const data = JSON.parse(text);
+    console.log("parsed", data.nuts);
+  } catch (err) {
+    console.log("could not parse:", err.name);
+  } finally {
+    console.log("checked", text);
+  }
+}`,
+          out: "parsed 4\nchecked {\"nuts\": 4}\ncould not parse: SyntaxError\nchecked {nuts: 4}",
+        },
+        {
+          h: "Throwing your own",
+          p: "You can <code>throw</code> any value, but throw an <code>Error</code> (or a subclass) so you get a message and a stack trace. A class that <code>extends Error</code> lets callers tell kinds of failure apart with <code>instanceof</code>. Errors you don't expect should usually be re-thrown, not swallowed.",
+          code: `class NotEnoughNuts extends Error {
+  constructor(asked, stored) {
+    super(\`asked for \${asked}, only \${stored} stored\`);
+    this.name = "NotEnoughNuts";
+  }
+}
+
+function take(stored, asked) {
+  if (!Number.isInteger(asked) || asked < 0) {
+    throw new TypeError("asked must be a whole number");
+  }
+  if (asked > stored) {
+    throw new NotEnoughNuts(asked, stored);
+  }
+  return stored - asked;
+}
+
+for (const asked of [3, 12, -1]) {
+  try {
+    console.log("left:", take(10, asked));
+  } catch (err) {
+    if (err instanceof NotEnoughNuts) {
+      console.log("refused:", err.message);
+    } else {
+      console.log(\`\${err.name}: \${err.message}\`);
+    }
+  }
+}`,
+          out: "left: 7\nrefused: asked for 12, only 10 stored\nTypeError: asked must be a whole number",
+        },
+        {
+          h: "Optional chaining and ??",
+          p: "Many errors come from reading a property of <code>undefined</code>. <code>?.</code> stops and gives <code>undefined</code> if the value before it is <code>null</code> or <code>undefined</code>, and <code>??</code> supplies a default only for those two (unlike <code>||</code>, which also replaces <code>0</code> and <code>\"\"</code>).",
+          code: `const squirrels = [
+  { name: "Sam", store: { nuts: 12 } },
+  { name: "Pip" },
+  { name: "Ada", store: { nuts: 0 } },
+];
+for (const s of squirrels) {
+  const nuts = s.store?.nuts;
+  console.log(s.name, nuts ?? "no store", nuts || "none");
+}`,
+          out: "Sam 12 12\nPip no store none\nAda 0 none",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `try {
+  console.log("a");
+  null.length;
+  console.log("b");
+} catch (e) {
+  console.log(e.name);
+} finally {
+  console.log("c");
+}`, options: ["a\nTypeError\nc", "a\nb\nc", "a\nc", "TypeError\nc"], answer: "a\nTypeError\nc", why: "Reading a property of null throws a TypeError, which skips \"b\"; finally always runs." },
+        { kind: "output", q: "What does this print?", code: `const a = 0;
+console.log(a ?? 5, a || 5);`, options: ["0 5", "5 5", "0 0", "5 0"], answer: "0 5", why: "?? only replaces null and undefined; || replaces every falsy value, including 0." },
+        { q: "Why extend Error rather than throwing a plain string?", options: ["You get a message and stack trace, and callers can test the type with instanceof", "Strings cannot be thrown", "It makes the code run faster", "catch only receives Error objects"], answer: "You get a message and stack trace, and callers can test the type with instanceof", why: "Any value can be thrown, but Error objects carry much more useful information." },
+      ],
+    },
+    {
+      id: "strings",
+      title: "Strings and regular expressions",
+      summary: "Everyday string methods, and patterns for finding text.",
+      sections: [
+        {
+          p: "Strings can't be changed in place; methods return new strings. The everyday ones are <code>includes</code>, <code>startsWith</code>, <code>slice</code>, <code>split</code>, <code>trim</code>, <code>padStart</code>/<code>padEnd</code> and <code>replaceAll</code>. <code>join</code> on an array is the opposite of <code>split</code>.",
+          code: `const line = "  oak, beech, hazel  ";
+const trees = line.trim().split(", ");
+console.log(trees, trees.length);
+console.log(trees.join(" / "));
+console.log("hazelnut".slice(0, 5), "hazelnut".slice(-3));
+console.log("acorn".includes("cor"), "acorn".startsWith("ac"));
+console.log("7".padStart(3, "0"), "[" + "ok".padEnd(5) + "]");
+console.log("a-b-c".replaceAll("-", "+"));`,
+          out: "[ 'oak', 'beech', 'hazel' ] 3\noak / beech / hazel\nhazel nut\ntrue true\n007 [ok   ]\na+b+c",
+        },
+        {
+          h: "Regular expressions",
+          p: "A <b>regular expression</b> describes a pattern of text, written between slashes. <code>\\d+</code> means one or more digits, <code>\\w</code> a letter, digit or underscore, and brackets <code>( )</code> capture parts. <code>test</code> asks whether a string matches, <code>match</code> with the <code>g</code> flag finds every match, and <code>replace</code> can use the captured parts as <code>$1</code>, <code>$2</code>.",
+          code: `const log = "day 3: 9 acorns, day 4: 12 hazelnuts, day 5: 2 acorns";
+console.log(/\\d+ acorns/.test(log));
+console.log(log.match(/\\d+/g));
+for (const m of log.matchAll(/day (\\d+): (\\d+) (\\w+)/g)) {
+  console.log(\`day \${m[1]} -> \${m[2]} \${m[3]}\`);
+}
+console.log("2026-11-04".replace(/(\\d+)-(\\d+)-(\\d+)/, "$3/$2/$1"));`,
+          out: "true\n[ '3', '9', '4', '12', '5', '2' ]\nday 3 -> 9 acorns\nday 4 -> 12 hazelnuts\nday 5 -> 2 acorns\n04/11/2026",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `console.log("a,b,,c".split(",").length);`, options: ["4", "3", "5", "6"], answer: "4", why: "Splitting on every comma gives \"a\", \"b\", \"\" and \"c\"." },
+        { kind: "output", q: "What does this print?", code: `console.log("room 12, row 7".match(/\\d+/g).join("+"));`, options: ["12+7", "12", "127", "1+2+7"], answer: "12+7", why: "\\d+ matches each run of digits, and g finds them all." },
+        { q: "Why does s.toUpperCase() not change s?", options: ["Strings are immutable, so the method returns a new string", "It only works on the first letter", "It needs to be called twice", "It changes s only inside functions"], answer: "Strings are immutable, so the method returns a new string", why: "Assign the result: s = s.toUpperCase()." },
+      ],
+    },
+    {
+      id: "mapset",
+      title: "Map, Set and iteration",
+      summary: "Better collections than plain objects, and generators.",
+      sections: [
+        {
+          p: "A <code>Map</code> is a dictionary whose keys can be anything, which remembers the order keys were added and knows its <code>size</code>. A <code>Set</code> holds each value at most once, so it is the quickest way to remove duplicates. Both work with <code>for...of</code> and spread.",
+          code: `const finds = ["acorn", "hazelnut", "acorn", "walnut", "acorn"];
+const counts = new Map();
+for (const f of finds) {
+  counts.set(f, (counts.get(f) ?? 0) + 1);
+}
+console.log(counts.get("acorn"), counts.size, counts.has("pine"));
+for (const [nut, n] of counts) {
+  console.log(nut, n);
+}
+const kinds = new Set(finds);
+console.log([...kinds], kinds.size);`,
+          out: "3 3 false\nacorn 3\nhazelnut 1\nwalnut 1\n[ 'acorn', 'hazelnut', 'walnut' ] 3",
+        },
+        {
+          h: "Sorting",
+          p: "<code>sort</code> changes the array, and without a comparison it sorts as <b>text</b>, so 10 comes before 9. Pass a function that returns a negative number when <code>a</code> should come first: <code>(a, b) =&gt; a - b</code> for numbers. <code>toSorted</code> returns a sorted copy and leaves the original alone.",
+          code: `const days = [9, 10, 1, 25];
+console.log(days.toSorted());
+console.log(days.toSorted((a, b) => a - b));
+const trees = [
+  { name: "oak", nuts: 40 },
+  { name: "beech", nuts: 75 },
+  { name: "hazel", nuts: 40 },
+];
+trees.sort((a, b) => b.nuts - a.nuts || a.name.localeCompare(b.name));
+console.log(trees.map((t) => \`\${t.name}:\${t.nuts}\`).join(" "));
+console.log(days);`,
+          out: "[ 1, 10, 25, 9 ]\n[ 1, 9, 10, 25 ]\nbeech:75 hazel:40 oak:40\n[ 9, 10, 1, 25 ]",
+        },
+        {
+          h: "Generators",
+          p: "A <b>generator</b> function, written <code>function*</code>, can <code>yield</code> values one at a time, pausing in between. Its result works with <code>for...of</code> and spread. Values are produced only when asked for, so a generator can even run forever.",
+          code: `function* countdown(n) {
+  while (n > 0) {
+    yield n;
+    n--;
+  }
+  yield "go!";
+}
+console.log([...countdown(3)].join(" "));
+
+function* fibonacci() {
+  let [a, b] = [0, 1];
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+const first = [];
+for (const f of fibonacci()) {
+  if (f > 50) break;
+  first.push(f);
+}
+console.log(first.join(","));`,
+          out: "3 2 1 go!\n0,1,1,2,3,5,8,13,21,34",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `console.log([3, 20, 100].toSorted().join(" "));`, options: ["100 20 3", "3 20 100", "100 3 20", "20 3 100"], answer: "100 20 3", why: "Without a comparison, the numbers are compared as text: \"1\" < \"2\" < \"3\"." },
+        { kind: "output", q: "What does this print?", code: `const s = new Set([1, 2, 2, 3, 3, 3]);
+s.add(2);
+console.log(s.size);`, options: ["3", "6", "7", "4"], answer: "3", why: "A Set keeps one copy of each value." },
+        { q: "What does yield do in a generator?", options: ["Hands out one value and pauses until the next is requested", "Ends the generator", "Returns all values at once", "Waits for a promise"], answer: "Hands out one value and pauses until the next is requested", why: "That is why an endless generator is fine as long as the loop breaks." },
+      ],
+    },
+    {
+      id: "async",
+      title: "Async in depth",
+      summary: "Promise.all, errors with await, and when callbacks run.",
+      sections: [
+        {
+          p: "JavaScript runs one piece of code at a time. Waiting (for a timer, a file, the network) is handed off, and the code that continues afterwards is queued. A <code>setTimeout</code> callback, even with a delay of 0, runs only after the current code has finished, and after any promise reactions already queued.",
+          code: `console.log("1 start");
+setTimeout(() => console.log("4 timer"), 0);
+Promise.resolve().then(() => console.log("3 promise"));
+console.log("2 end of script");`,
+          out: "1 start\n2 end of script\n3 promise\n4 timer",
+        },
+        {
+          h: "Running things side by side",
+          p: "<code>await</code> in a loop waits for each task before starting the next. <code>Promise.all</code> starts them together and waits for all, so three 100 ms tasks take about 100 ms, not 300. If any of them fails, <code>Promise.all</code> fails; <code>Promise.allSettled</code> instead reports every result.",
+          code: `const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function fetchNuts(tree, ms, fail = false) {
+  await sleep(ms);
+  if (fail) throw new Error(\`\${tree} is guarded by an owl\`);
+  return \`\${tree}: \${ms / 10} nuts\`;
+}
+
+async function main() {
+  let t = Date.now();
+  for (const tree of ["oak", "beech", "hazel"]) {
+    await fetchNuts(tree, 100);
+  }
+  console.log("one by one took at least 300 ms:", Date.now() - t >= 300);
+
+  t = Date.now();
+  const all = await Promise.all([fetchNuts("oak", 100), fetchNuts("beech", 100), fetchNuts("hazel", 100)]);
+  console.log(all.join(", "));
+  console.log("together took under 250 ms:", Date.now() - t < 250);
+
+  const results = await Promise.allSettled([fetchNuts("oak", 50), fetchNuts("pine", 50, true)]);
+  for (const r of results) {
+    console.log(r.status, r.value ?? r.reason.message);
+  }
+}
+
+main();`,
+          out: "one by one took at least 300 ms: true\noak: 10 nuts, beech: 10 nuts, hazel: 10 nuts\ntogether took under 250 ms: true\nfulfilled oak: 5 nuts\nrejected pine is guarded by an owl",
+        },
+        {
+          h: "Errors with await",
+          p: "When an awaited promise is rejected, <code>await</code> throws, so ordinary <code>try...catch</code> works. Forgetting to <code>await</code> (or to add <code>.catch</code>) leaves an <b>unhandled rejection</b>, which Node reports and which ends the program.",
+          code: `async function risky(n) {
+  if (n > 2) throw new RangeError(\`\${n} is too many\`);
+  return n * 10;
+}
+
+async function main() {
+  for (const n of [1, 5]) {
+    try {
+      console.log("ok", await risky(n));
+    } catch (err) {
+      console.log("caught", err.message);
+    }
+  }
+  const value = await risky(9).catch(() => -1);
+  console.log("with .catch:", value);
+}
+
+main();`,
+          out: "ok 10\ncaught 5 is too many\nwith .catch: -1",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `setTimeout(() => console.log("c"), 0);
+Promise.resolve().then(() => console.log("b"));
+console.log("a");`, options: ["a\nb\nc", "c\nb\na", "a\nc\nb", "b\na\nc"], answer: "a\nb\nc", why: "The script finishes first, then queued promise reactions, then timers." },
+        { kind: "output", q: "What does this print?", code: `async function f() {
+  return 5;
+}
+f().then((v) => console.log(v + 1));
+console.log("first");`, options: ["first\n6", "6\nfirst", "first\n5", "Promise\nfirst"], answer: "first\n6", why: "An async function returns a promise, and .then runs after the current script." },
+        { q: "When is Promise.allSettled better than Promise.all?", options: ["When you want every result even if some tasks fail", "When the tasks must run one at a time", "When there is only one task", "Never; they are the same"], answer: "When you want every result even if some tasks fail", why: "Promise.all rejects as soon as any task fails." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "Strings, regular expressions, Map, sorting and errors together.",
+      sections: [
+        {
+          p: "This script reads a small ledger written as text, one entry per line such as <code>day 3: acorn x9</code>. A regular expression with named groups, <code>(?&lt;day&gt;\\d+)</code>, pulls each line apart; lines that don't match are reported and skipped. Totals go in a <code>Map</code>, are sorted, and are printed as a table with <code>padEnd</code> and <code>padStart</code>.",
+          code: `const ledger = \`day 1: acorn x6
+day 1: hazelnut x2
+day 2: walnut x1
+day two: acorn x3
+day 3: acorn x9
+day 3: hazelnut x4
+day 4 acorn x5\`;
+
+const pattern = /^day (?<day>\\d+): (?<nut>[a-z]+) x(?<count>\\d+)$/;
+
+function parse(line, number) {
+  const m = line.match(pattern);
+  if (!m) throw new SyntaxError(\`line \${number}: cannot read "\${line}"\`);
+  return { day: Number(m.groups.day), nut: m.groups.nut, count: Number(m.groups.count) };
+}
+
+const entries = [];
+ledger.split("\\n").forEach((line, i) => {
+  try {
+    entries.push(parse(line, i + 1));
+  } catch (err) {
+    console.log("skipped", err.message);
+  }
+});
+
+const totals = new Map();
+for (const e of entries) {
+  totals.set(e.nut, (totals.get(e.nut) ?? 0) + e.count);
+}
+const all = entries.reduce((sum, e) => sum + e.count, 0);
+const rows = [...totals].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+for (const [nut, n] of rows) {
+  const share = ((100 * n) / all).toFixed(1);
+  console.log(nut.padEnd(9) + String(n).padStart(3) + share.padStart(6) + "%");
+}
+const best = entries.reduce((a, b) => (b.count > a.count ? b : a));
+console.log(\`best find: \${best.count} \${best.nut} on day \${best.day}\`);`,
+          out: "skipped line 4: cannot read \"day two: acorn x3\"\nskipped line 7: cannot read \"day 4 acorn x5\"\nacorn     15  68.2%\nhazelnut   6  27.3%\nwalnut     1   4.5%\nbest find: 9 acorn on day 3",
+        },
+        {
+          h: "Ideas to try",
+          p: "Read the ledger from a file with <code>fs.readFileSync</code> from <code>node:fs</code>, add a per-day total, or turn the report into an HTML table and open it in a browser.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `const m = "x12".match(/x(?<n>\\d+)/);
+console.log(Number(m.groups.n) + 1);`, options: ["13", "121", "x13", "NaN"], answer: "13", why: "The named group captures \"12\", and Number turns it into 12 before adding 1." },
+        { kind: "output", q: "What does this print?", code: `console.log([1, 2, 3, 4].reduce((sum, n) => sum + n, 0));`, options: ["10", "1234", "0", "24"], answer: "10", why: "reduce carries the running total from 0 through every element." },
+        { q: "Why spread the Map into an array with [...totals] before sorting?", options: ["A Map has no sort method, but an array of [key, value] pairs does", "Maps cannot be looped over", "Spreading removes duplicates", "It converts the counts to strings"], answer: "A Map has no sort method, but an array of [key, value] pairs does", why: "The Map keeps insertion order; the array can be put in any order." },
+      ],
+    },
   ],
 };
