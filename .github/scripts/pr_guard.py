@@ -17,6 +17,10 @@ Checks, all against the merge base with main (the same diff GitHub squashes):
    branch's own commits touched (reported, not enforced).
 3. Mass deletion. Deleting more than DELETE_LIMIT files needs the
    "deletions-ok" label.
+4. Submodule pins. A submodule (data/) pinned at a different commit than
+   main's needs the "data-pin" label. Check 1 misses a stale pin when the
+   branch's own commits touched it, e.g. a "keep data at main's pin" commit
+   made before main moved on (#283 put data back at v0.1.0 that way).
 
 Usage: pr_guard.py --base <main ref> --head <branch ref> [--body-file F] [--labels a,b]
 Locally: python3 .github/scripts/pr_guard.py --base origin/main --head HEAD
@@ -121,6 +125,23 @@ def main():
         print(f"\nFAIL: the PR deletes {len(deletions)} files (limit {DELETE_LIMIT}). "
               "If that is intended, add the 'deletions-ok' label.")
         show("Deleted", deletions)
+
+    pins = {}
+    for ref in (a.base, a.head):
+        for line in git("ls-tree", "-r", ref).splitlines():
+            meta, path = line.split("\t", 1)
+            mode, _, sha = meta.split()
+            if mode == "160000":
+                pins.setdefault(path, {})[ref] = sha
+    moved = sorted(p for p, v in pins.items() if v.get(a.base) != v.get(a.head))
+    if moved and "data-pin" not in labels:
+        failed = True
+        print("\nFAIL: the PR pins a submodule at a different commit than main does. If that "
+              "is a deliberate bump, add the 'data-pin' label; otherwise it is a stale pin.")
+        show("Pins that differ from main", [f"{p}: main {pins[p].get(a.base, 'none')[:10]}, "
+                                              f"PR {pins[p].get(a.head, 'none')[:10]}" for p in moved])
+        print("\nFix: git fetch origin main && git checkout origin/main -- " + " ".join(moved) +
+              ", commit, and push.")
 
     print("\nPR guard: " + ("FAILED" if failed else "passed"))
     return 1 if failed else 0
