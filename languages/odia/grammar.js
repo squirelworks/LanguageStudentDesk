@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/odia/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/odia/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Odia first grammar for the Grammar Learner. Written for this project.
 // Examples are [Odia, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

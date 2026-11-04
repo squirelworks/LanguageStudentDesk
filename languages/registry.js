@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
 // Do not edit; change the data repo and run it again.
 window.LSD_LANGUAGE_REGISTRY = {
   "amharic": {

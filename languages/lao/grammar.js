@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/lao/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/lao/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Lao first grammar for the Grammar Learner. Written for this project.
 // Examples are [Lao, romanization, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
