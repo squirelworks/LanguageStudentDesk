@@ -19,6 +19,7 @@ on:
       - "programming-learner/**"
       - "data"
       - ".gitmodules"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/**/data/kanji.js"
       - ".github/workflows/desk-data-check.yml"
   pull_request:
     paths:
@@ -33,6 +34,7 @@ on:
       - "programming-learner/**"
       - "data"
       - ".gitmodules"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/**/data/kanji.js"
       - ".github/workflows/desk-data-check.yml"
 
 jobs:
@@ -52,7 +54,7 @@ jobs:
         run: |
           python3 languages/build_registry.py
           # Also catches a language added in data/ whose meta.json isn't committed.
-          changed=$(git status --porcelain languages)
+          changed=$(git status --porcelain languages SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji)
           if [ -n "$changed" ]; then
             echo "Generated files are stale; run python3 languages/build_registry.py and commit:"
             echo "$changed"

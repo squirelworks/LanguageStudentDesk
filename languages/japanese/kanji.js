@@ -1,7 +1,8 @@
-// Kanji readings for the shared CJK table (languages/cjk/characters.js): the
-// full Jōyō set, in frequency order, with on'yomi, kun'yomi, meaning (info),
-// JLPT level, school grade and frequency rank, plus the on'yomi groups.
-// Same data as SquirrelGo Kanji. See languages/README.md.
+// Generated from squirrel-lang-data a7658d1 languages/japanese/characters/kanji.jsonl by: python3 data/tools/gen_characters.py --out languages
+// The full Jōyō set, in frequency order, with on'yomi, kun'yomi, meaning
+// (info), JLPT level, school grade and frequency rank.
+// Moved from LanguageStudentDesk's Jōyō table, which SquirrelGo Kanji shares;
+// that table doesn't record where its readings first came from.
 window.LSD_CJK_READINGS = window.LSD_CJK_READINGS || {};
 window.LSD_CJK_READINGS.kanji = {
   "name": "Kanji",
