@@ -4,6 +4,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "python", name: "Python", era: "1991 · general purpose", blurb: "A friendly, readable language used everywhere from web servers to science. The full beginner course." },
   { id: "quickbasic", name: "QuickBASIC", era: "1985 · DOS", blurb: "Microsoft's structured BASIC with a full-screen editor. Where many people wrote their first game." },
   { id: "delphi", name: "Delphi 5/6/7", era: "1999–2002 · Windows", blurb: "Object Pascal with drag-and-drop forms. Fast to build real Windows programs." },
+  { id: "moderndelphi", name: "Delphi", era: "Today · Embarcadero", blurb: "Current Object Pascal: Unicode strings, generics, records with methods and anonymous methods, for Windows, macOS, Linux and phones.", group: "modern", tags: ["Compiled programs"] },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions." },
   { id: "rust", name: "Rust", era: "2015 · systems", blurb: "A modern systems language. The compiler keeps track of who owns each value." },
   { id: "go", name: "Go", era: "2009 · servers", blurb: "A small language for services and tools. One looping keyword, and slices instead of a pile of collection types." },

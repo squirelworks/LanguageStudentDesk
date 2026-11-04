@@ -102,7 +102,7 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
-    "win16", "z80",
+    "win16", "z80", "moderndelphi",
 ]
 
 
