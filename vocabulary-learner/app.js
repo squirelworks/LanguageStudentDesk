@@ -90,6 +90,7 @@
     document.title = "Vocabulary · " + meta.name + " — Language Student Desk";
     $("loading").hidden = false;
     const { decks: loaded, errors } = await loadVocabDecks(lang);
+    await loadMeaningLinks();
     if (lang !== meta.id) return; // switched again while loading
     $("loading").hidden = true;
     decks = loaded.map(prepare);
@@ -132,6 +133,39 @@
     $("dueBadge").textContent = n;
   }
 
+  // ---------- meaning links ----------
+
+  // The Translation Learner's meaning units and which cards carry them
+  // (translation-learner/data/vocab-links.js, generated from the data repo).
+  // Without them a card simply shows no meaning link.
+  async function loadMeaningLinks() {
+    try {
+      await LSD.loadScript("../translation-learner/data/matrix.js");
+      await LSD.loadScript("../translation-learner/data/vocab-links.js");
+    } catch (e) {
+      /* the links are optional */
+    }
+  }
+
+  function cardMeanings(card) {
+    const links = (window.TL_VOCAB_LINKS || {})[lang];
+    if (!links || !card.vocab) return [];
+    if (links[card.vocab]) return links[card.vocab];
+    const other = Object.keys(links).find((k) => k.startsWith(card.vocab + "/"));
+    return other ? links[other] : [];
+  }
+
+  function meaningHtml(card) {
+    const ids = cardMeanings(card).filter((m) => window.TL_MEANINGS && window.TL_MEANINGS[m] != null);
+    if (!ids.length) return "";
+    const links = ids.map((m) => {
+      const label = window.TL_MEANINGS[m].split("|")[0] || m;
+      const href = LSD.toolUrl("translation-learner/index.html", lang) + "&meaning=" + encodeURIComponent(m);
+      return '<a href="' + esc(href) + '">' + esc(label) + "</a>";
+    });
+    return '<div class="note">Meaning web: ' + links.join(", ") + "</div>";
+  }
+
   // ---------- card faces ----------
 
   function wordHtml(card) {
@@ -148,8 +182,9 @@
     const meaning = '<div class="back">' + esc(card.back) + "</div>";
     const note = card.note ? '<div class="note">' + esc(card.note) + "</div>" : "";
     const top = '<div class="deck">' + esc(deck.title) + "</div>";
-    if (askWord) return top + word + (revealed ? "<hr>" + reading + meaning + note : "");
-    return top + '<div class="front english">' + esc(card.back) + "</div>" + (revealed ? "<hr>" + word + reading + note : "");
+    const web = revealed ? meaningHtml(card) : "";
+    if (askWord) return top + word + (revealed ? "<hr>" + reading + meaning + note + web : "");
+    return top + '<div class="front english">' + esc(card.back) + "</div>" + (revealed ? "<hr>" + word + reading + note + web : "");
   }
 
   function speakCard(card) {

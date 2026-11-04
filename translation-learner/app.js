@@ -40,12 +40,31 @@
 
   async function loadColumn(id) {
     await LSD.loadScript("data/matrix.js");
+    await LSD.loadScript("data/vocab-links.js").catch(() => null); // without it, cards keep their own English
     await LSD.loadScript("data/" + id + ".js");
     return window.TL_LANGS[id];
   }
 
   function matrix() {
     return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
+  }
+
+  // The meanings a Vocabulary Learner card carries (data/vocab-links.js), by
+  // its vocab id "<deck>/<word>". A word written two ways in one deck has its
+  // reading after a second slash.
+  function cardMeanings(lang, deck, word) {
+    const links = (window.TL_VOCAB_LINKS || {})[lang];
+    if (!links) return [];
+    const key = deck + "/" + word;
+    if (links[key]) return links[key];
+    const other = Object.keys(links).find((k) => k.startsWith(key + "/"));
+    return other ? links[other] : [];
+  }
+
+  // Every card linked to meaning id in one language, as vocab ids.
+  function cardsFor(lang, id) {
+    const links = (window.TL_VOCAB_LINKS || {})[lang] || {};
+    return Object.keys(links).filter((k) => links[k].includes(id));
   }
 
   async function deckEntries(id) {
@@ -60,7 +79,10 @@
       for (const w of d.words) {
         const english = DECKS[id] ? w[2] : w[1];
         const reading = DECKS[id] ? w[1] : "";
-        out.push([w[0], reading, english.split(/[;/]/)[0].replace(/\([^)]*\)/g, "").trim()]);
+        // A card linked to meaning units is glossed with them, like the
+        // sentences' own pieces; any other card with its first English sense.
+        const linked = cardMeanings(id, d.id, w[0]).map((m) => T.meaning(m, window.TL_MEANINGS)).filter(Boolean);
+        out.push([w[0], reading, linked.length ? linked.map(unitLabel).join(" + ") : english.split(/[;/]/)[0].replace(/\([^)]*\)/g, "").trim()]);
       }
     }
     return out;
@@ -809,6 +831,21 @@
     return [...found.values()];
   }
 
+  // Adds the Vocabulary Learner cards linked to meaning id: each card joins
+  // the word it spells, or comes after the sentence words when no sentence
+  // uses it yet.
+  function withCards(col, words, id) {
+    const norm = (t) => (col.caseSensitive ? t : t.toLowerCase());
+    words.forEach((w) => (w.cards = []));
+    for (const card of cardsFor(col.id, id)) {
+      const text = card.split("/")[1];
+      let w = words.find((x) => norm(x.text) === norm(text));
+      if (!w) words.push((w = { text, reading: "", sentences: [], cards: [] }));
+      w.cards.push(card);
+    }
+    return words;
+  }
+
   // The meanings nearest to id: by the meaning network when it is loaded,
   // otherwise by how often they share a sentence.
   function nearMeanings(id, k) {
@@ -861,7 +898,7 @@
     const centre = T.meaning(web.id, window.TL_MEANINGS);
     // The open language goes first, at the top of the web.
     const branches = cols
-      .map((c) => ({ col: c, words: wordsFor(c, web.id) }))
+      .map((c) => ({ col: c, words: withCards(c, wordsFor(c, web.id), web.id) }))
       .filter((b) => b.words.length)
       .sort((a, b) => (b.col.id === state.lang) - (a.col.id === state.lang));
     const near = nearMeanings(web.id, 4);
@@ -948,10 +985,24 @@
     box.append(g);
   }
 
-  function showWebWords(b) {
+  async function showWebWords(b) {
+    let titles = {};
+    if (b.words.some((w) => w.cards.length)) {
+      try {
+        for (const d of (await LSD.load(b.col.id, "vocab")) || []) titles[d.id] = d.title;
+      } catch (e) {
+        titles = {};
+      }
+    }
     let html = "<h3>" + esc(b.col.name) + "</h3>";
     for (const w of b.words) {
-      html += '<p><b class="' + (["japanese", "chinese", "hangul"].includes(b.col.id) ? "target" : "") + '">' + esc(w.text) + "</b></p><ul>";
+      html += '<p><b class="' + (["japanese", "chinese", "hangul"].includes(b.col.id) ? "target" : "") + '">' + esc(w.text) + "</b>";
+      if (w.cards.length) {
+        const decks = [...new Set(w.cards.map((c) => c.split("/")[0]))].map((d) => titles[d] || d);
+        html += ' <span class="small muted">Vocabulary card in ' + esc(decks.join(", ")) + ' · <a href="' + esc(LSD.toolUrl("vocabulary-learner/index.html", b.col.id)) + '">Vocabulary Learner</a></span>';
+      }
+      html += "</p><ul>";
+      if (!w.sentences.length) html += '<li class="muted small">No sentence uses it yet.</li>';
       for (const s of w.sentences) {
         const rtl = b.col.id === "arabic" || b.col.id === "hebrew" ? ' dir="rtl"' : "";
         html += "<li><span" + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + '</span> <span class="muted">' + esc(s.en) + "</span></li>";
@@ -1043,6 +1094,12 @@
   (async () => {
     metas = (await LSD.all()).filter((m) => COLUMNS.includes(m.id));
     const start = LSD.param();
+    // ?meaning=<id> (from a Vocabulary Learner card) opens the Meaning web there.
+    const wanted = new URLSearchParams(location.search).get("meaning");
+    if (wanted && start && COLUMNS.includes(start)) {
+      state.tab = "web";
+      web.id = wanted;
+    }
     LSD.picker($("langSelect"), metas, start, (id) => openLanguage(id), "Choose…");
     $("langGrid").innerHTML = "";
     for (const m of metas) {
