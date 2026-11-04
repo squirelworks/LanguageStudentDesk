@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data adda648 strokes/burmese.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Burmese, drafted by SquirrelGo-Apps/tools/strokegen from
 // Noto Sans Myanmar (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["burmese"] = {
   "က": ["M49,43 L58,36 L66,35 L74,39 L77,44 L78,52 L75,60 L69,64 L58,65", "M27,64 L22,54 L23,43 L29,37 L38,35 L44,37 L49,44 L49,57 L45,65"],

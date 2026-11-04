@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data adda648 strokes/tifinagh.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Tifinagh, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Tifinagh (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Sans Tifinagh (SIL Open Font License) and checked by hand. Paths sit in
+// a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["tifinagh"] = {
   "ⴰ": ["M55,30 L40,32 L34,37 L31,45 L31,55 L33,63 L38,67 L45,70 L55,70 L62,67 L67,61 L69,53 L65,37 L55,30"],

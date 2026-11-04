@@ -1,6 +1,8 @@
-// Stroke order for the Armenian alphabet, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Armenian (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/armenian.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Armenian alphabet, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Armenian (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["armenian"] = {
   "Ա": ["M12,11 L13,71 L16,78 L22,85 L37,89 L55,85 L61,81 L65,72 L67,67 L67,12", "M67,69 L83,72 L87,79 L88,87"],

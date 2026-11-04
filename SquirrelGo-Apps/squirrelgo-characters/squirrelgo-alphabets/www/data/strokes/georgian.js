@@ -1,6 +1,8 @@
-// Stroke order for the Georgian alphabet, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Georgian (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/georgian.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Georgian alphabet, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Georgian (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["georgian"] = {
   "ა": ["M47,19 L70,49 L72,58 L70,70 L66,76 L59,80 L47,81 L37,78 L31,72 L28,65 L28,56 L33,52"],

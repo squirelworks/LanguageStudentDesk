@@ -1,6 +1,8 @@
-// Stroke order for the Greek alphabet, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/greek.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Greek alphabet, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans (SIL Open Font License) and checked by
+// hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["greek"] = {
   "Α": ["M50,15 L33,57 L18,85", "M50,15 L67,57 L82,85", "M31,61 L69,61"],

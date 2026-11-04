@@ -1,6 +1,8 @@
-// Stroke order for Odia, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Oriya (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/odia.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Odia, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Oriya (SIL Open Font License) and checked by hand. Paths sit in a 100 x
+// 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["odia"] = {
   "ଅ": ["M43,28 L49,24 L56,25 L59,32 L58,39 L51,46 L31,55 L28,62 L30,70 L35,75 L46,76 L56,74 L72,66", "M31,38 L27,35 L27,30 L32,24 L42,27 L42,35", "M73,24 L73,76"],

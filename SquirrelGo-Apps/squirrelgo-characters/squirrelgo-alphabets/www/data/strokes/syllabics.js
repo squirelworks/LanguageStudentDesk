@@ -1,6 +1,9 @@
-// Stroke order for Canadian syllabics, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Canadian Aboriginal (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/syllabics.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Canadian syllabics, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Canadian Aboriginal (SIL Open Font
+// License) and checked by hand. Paths sit in a 100 x 100 box; see
+// www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["syllabics"] = {
   "ᐃ": ["M50,11 L50,22", "M50,22 L46,26 L23,76 L21,84 L13,89", "M50,22 L54,25 L79,84 L87,89", "M21,85 L79,85"],

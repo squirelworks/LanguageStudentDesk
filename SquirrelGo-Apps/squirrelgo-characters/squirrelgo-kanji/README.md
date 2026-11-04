@@ -29,6 +29,8 @@ On your phone: enable install from unknown sources / “Install unknown apps” 
 
 `www/data/strokes.js` is generated from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0): the stroke paths and number positions for each kanji, with coordinates rounded to one decimal. `tools/build_strokes.py` regenerates it (and the Android copy) from a pinned KanjiVG release. That file stays under CC BY-SA 3.0.
 
+The stroke files are generated from squirrel-lang-data (`data/strokes/kanji.jsonl`) by `python3 languages/build_registry.py`, so a fix goes into the data repo; `tools/build_strokes.py` only drafts new strokes, which are then copied there.
+
 ## Words, sentences and topics
 
 - `www/data/words.js` — up to four common words for 2,080 kanji and an example sentence for 1,903, made by `tools/build_words.py` from [jmdict-simplified](https://github.com/scriptin/jmdict-simplified)'s JSON of JMdict (EDRDG, CC BY-SA 4.0) and the Tatoeba sentences JMdict links to (CC BY 2.0 FR). Words are picked so their kanji are no harder than the kanji being studied, most used first.

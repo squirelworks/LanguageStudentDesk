@@ -1,6 +1,8 @@
-// Stroke order for the Cherokee syllabary, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Cherokee (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/cherokee.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Cherokee syllabary, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Cherokee (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["cherokee"] = {
   "Ꭰ": ["M27,17 L26,19 L26,82", "M27,17 L55,18 L65,23 L70,30 L74,44 L73,61 L68,72 L60,80 L48,83 L26,82"],

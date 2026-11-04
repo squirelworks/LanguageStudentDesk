@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data adda648 strokes/gurmukhi.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Gurmukhi, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Gurmukhi (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Sans Gurmukhi (SIL Open Font License) and checked by hand. Paths sit in
+// a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["gurmukhi"] = {
   "ਅ": ["M13,20 L22,21 L25,29 L26,41 L21,54", "M27,37 L41,31 L48,31", "M48,31 L52,53 L47,65", "M87,21 L76,22 L76,80", "M52,49 L76,42"],

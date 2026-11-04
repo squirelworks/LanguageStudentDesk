@@ -1,6 +1,8 @@
-// Stroke order for Meetei Mayek, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Meetei Mayek (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data adda648 strokes/meetei.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Meetei Mayek, drafted by SquirrelGo-Apps/tools/strokegen
+// from Noto Sans Meetei Mayek (SIL Open Font License) and checked by hand.
+// Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["meetei"] = {
   "ꯀ": ["M11,22 L89,22", "M19,22 L19,78 L80,78", "M39,22 L39,78", "M59,22 L59,78", "M80,22 L80,78", "M21,73 L78,29"],

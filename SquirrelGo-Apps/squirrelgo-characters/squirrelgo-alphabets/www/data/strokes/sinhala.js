@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data adda648 strokes/sinhala.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Sinhala, drafted by SquirrelGo-Apps/tools/strokegen from
 // Noto Sans Sinhala (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["sinhala"] = {
   "අ": ["M40,31 L44,26 L50,25 L55,27 L58,31 L58,75", "M58,31 L65,28 L69,39 L66,43 L58,43", "M58,36 L44,36 L35,39 L31,44 L31,52 L36,59 L45,62 L57,62 L64,60 L66,57"],

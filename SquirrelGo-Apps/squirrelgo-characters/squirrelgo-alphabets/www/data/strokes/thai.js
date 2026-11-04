@@ -1,6 +1,8 @@
-// Stroke order for Thai, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Thai Looped (SIL Open Font License) and checked by hand. Paths sit in a
+// Generated from squirrel-lang-data adda648 strokes/thai.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Thai, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Thai Looped (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["thai"] = {
   "ก": ["M33,73 L35,54 L42,46 L33,42 L33,35 L39,29 L49,27 L60,29 L66,36 L67,73"],
