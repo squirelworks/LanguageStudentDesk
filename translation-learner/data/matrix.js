@@ -12,7 +12,8 @@
 //               for the row; check.js makes sure each one passes.
 // TL_PHRASINGS  English that carries a meaning only next to certain others:
 //               { m, with, en } lets en ("take") carry m ("go") in a row that
-//               also has one of the with meanings ("bus").
+//               also has one of the with meanings ("bus"). optional: true
+//               instead of en lets English leave m out in such a row.
 window.TL_MEANINGS = {
   // People
   i: "I|me|my|mine|myself",
@@ -270,4 +271,6 @@ window.TL_PHRASINGS = [
   // Going by a vehicle: "take the bus", "ride the train", "catch a bus".
   { m: "go", with: ["bus", "train", "car", "ship"], en: "take|ride|catch" },
   { m: "come", with: ["bus", "train", "car", "ship"], en: "take|ride|catch" },
+  // A request: "Water, please" asks for it without saying "give".
+  { m: "give", with: ["please"], optional: true },
 ];
