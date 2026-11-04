@@ -108,6 +108,7 @@ EXTRA_LANGS = [
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
     "win16", "z80", "cobol", "fortran", "moderndelphi", "numerical",
     "javascript", "turbopascal",
+    "cpp",
     "typescript",
 ]
 
@@ -640,7 +641,8 @@ def run_gui(tools, server):
 
     def featured():
         reg = load_registry()
-        return [reg[i] for i in FEATURES.get("featured", []) if i in reg]
+        # Shipped means the Desk has content for it, not just its name.
+        return [reg[i] for i in FEATURES.get("featured", []) if reg.get(i, {}).get("data")]
 
     def lang_label(m):
         return m.get("name", m["id"]) + (f" · {m['nativeName']}" if m.get("nativeName") else "")
