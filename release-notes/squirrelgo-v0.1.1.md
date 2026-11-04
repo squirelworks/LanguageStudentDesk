@@ -36,7 +36,8 @@ turned up.
 
 - New Kotlin, Swift and Visual Basic .NET courses.
 - The numerical methods track adds integration with the trapezoid and
-  Simpson rules, and linear systems with Gaussian elimination.
+  Simpson rules, linear systems with Gaussian elimination, and
+  interpolation with Newton's divided differences.
 
 ## SquirrelGo apps
 
