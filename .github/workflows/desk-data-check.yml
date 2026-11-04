@@ -17,6 +17,8 @@ on:
       - "translation-learner/**"
       - "language-learner/**"
       - "programming-learner/**"
+      - "data"
+      - ".gitmodules"
       - ".github/workflows/desk-data-check.yml"
   pull_request:
     paths:
@@ -29,6 +31,8 @@ on:
       - "translation-learner/**"
       - "language-learner/**"
       - "programming-learner/**"
+      - "data"
+      - ".gitmodules"
       - ".github/workflows/desk-data-check.yml"
 
 jobs:
@@ -36,10 +40,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Data submodule is a commit on squirrel-lang-data main
+        run: |
+          pinned=$(git -C data rev-parse HEAD)
+          git -C data fetch -q --depth=1000 origin main
+          git -C data merge-base --is-ancestor "$pinned" FETCH_HEAD \
+            || { echo "data/ is pinned to $pinned, which is not on squirrel-lang-data main"; exit 1; }
       - name: Registry is committed and complete
         run: |
           python3 languages/build_registry.py
-          git diff --exit-code languages/registry.js languages/reference.js
+          # Also catches a language added in data/ whose meta.json isn't committed.
+          changed=$(git status --porcelain languages)
+          if [ -n "$changed" ]; then
+            echo "Generated files are stale; run python3 languages/build_registry.py and commit:"
+            echo "$changed"
+            exit 1
+          fi
       - name: Desk and learner scripts parse
         run: |
           set -euo pipefail
@@ -60,6 +78,10 @@ jobs:
             -name '*.js' -print0 | sort -z)
       - name: Programming packs check out
         run: python3 programming-learner/tools/check_packs.py
+      - name: Translation Learner matrix and language-pair tests
+        run: node translation-learner/check.js
+      - name: Numerical methods track matches known results
+        run: python3 programming-learner/tools/test_numerical.py
       # Informational: print coverage + threshold warnings. Drill validation still
       # fails this step (answer not in options / duplicate options). Threshold
       # misses via --min-* only warn; do not fail CI on them yet (P0.2).

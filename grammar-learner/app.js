@@ -25,8 +25,26 @@
   let meta = null;
   let course = null;
   let lessonId = null;
+  let level = null;    // the level tab shown, when the course's lessons have levels
+
+  // Lesson levels, easiest first, from the shared list (languages/lsd-levels.js).
+  // A course whose lessons carry "level" gets a tab per level, and the list
+  // shows one level at a time.
+  const LEVEL_NAME = Object.fromEntries(LSD.levels.BANDS.map((b) => [b.id, b.name]));
+  const courseLevels = () => LSD.levels.BANDS.map((b) => b.id).filter((id) => course.lessons.some((l) => l.level === id));
+  const lessonLevel = (id) => {
+    const l = course.lessons.find((x) => x.id === id);
+    return l && l.level;
+  };
+  const levelPrefs = LSD.store("lsd-grammar-levels", {});
 
   async function init() {
+    // On a phone, the lesson replaces the list; this button brings the list back.
+    const back = document.createElement("button");
+    back.className = "back-lessons";
+    back.textContent = "← Lessons";
+    back.onclick = () => $("course").classList.remove("show-lesson");
+    $("course").insertBefore(back, $("lesson"));
     const metas = (await LSD.all()).filter((m) => LSD.has(m, "grammar"));
     LSD.picker($("langSelect"), metas, null, open, "Choose…");
     $("langGrid").innerHTML = metas
@@ -68,6 +86,7 @@
     $("course").hidden = !course;
     $("piqadOpt").hidden = !(meta && meta.font === "pIqaD");
     document.body.className = meta ? "lang-" + meta.id : "";
+    $("course").classList.remove("with-levels", "show-lesson");
     $("vocabLink").href = LSD.toolUrl("vocabulary-learner/index.html", meta && meta.id);
     if (!course) {
       $("title").textContent = "Grammar Learner";
@@ -81,9 +100,57 @@
     const saved = progress[meta.id] || {};
     // Start at the first lesson not yet passed.
     lessonId = (course.lessons.find((l) => !(saved[l.id] && saved[l.id].done)) || course.lessons[0]).id;
-    if (location.hash.slice(1) && course.lessons.some((l) => l.id === location.hash.slice(1))) lessonId = location.hash.slice(1);
+    const linked = location.hash.slice(1) && course.lessons.some((l) => l.id === location.hash.slice(1));
+    if (linked) lessonId = location.hash.slice(1);
+    const levels = courseLevels();
+    level = null;
+    if (levels.length) {
+      // Open on the linked lesson's level, else the level picked last time, else the first lesson not yet passed.
+      const last = levelPrefs.load()[meta.id];
+      level = (linked && lessonLevel(lessonId)) || (levels.includes(last) ? last : null) || lessonLevel(lessonId) || levels[0];
+      if (lessonLevel(lessonId) !== level) lessonId = firstOf(level);
+      $("course").classList.add("with-levels");
+      document.body.classList.add("levels-phone");
+      if (linked) $("course").classList.add("show-lesson");
+    }
+    renderTabs();
     renderList();
     renderLesson();
+  }
+
+  // First lesson of a level not yet passed, else the level's first lesson.
+  function firstOf(lv) {
+    const saved = progress[meta.id] || {};
+    const list = course.lessons.filter((l) => l.level === lv);
+    return (list.find((l) => !(saved[l.id] && saved[l.id].done)) || list[0]).id;
+  }
+
+  function renderTabs() {
+    const tabs = $("levelTabs");
+    tabs.hidden = !level;
+    if (!level) return (tabs.innerHTML = "");
+    const saved = progress[meta.id] || {};
+    tabs.innerHTML = courseLevels().map((id) => {
+      const list = course.lessons.filter((l) => l.level === id);
+      const done = list.filter((l) => saved[l.id] && saved[l.id].done).length;
+      const on = id === level;
+      return '<button role="tab" data-level="' + id + '" aria-selected="' + on + '"' + (on ? ' class="active"' : "") + ' title="' + done + " of " + list.length + ' passed">' + esc(LEVEL_NAME[id]) + "</button>";
+    }).join("");
+    tabs.querySelectorAll("[data-level]").forEach((b) => (b.onclick = () => {
+      level = b.dataset.level;
+      const all = levelPrefs.load();
+      all[meta.id] = level;
+      levelPrefs.save(all);
+      if (lessonLevel(lessonId) !== level) {
+        lessonId = firstOf(level);
+        history.replaceState(null, "", "#" + lessonId);
+        renderLesson();
+      }
+      renderTabs();
+      renderList();
+    }));
+    const active = tabs.querySelector(".active");
+    if (active) tabs.scrollLeft = Math.max(0, active.offsetLeft - tabs.offsetLeft - 8);
   }
 
   function renderList() {
@@ -93,6 +160,7 @@
       '<button data-id="intro"' + (lessonId === "intro" ? ' class="active"' : "") + '><span class="tick">ℹ</span><span class="lt">About this course</span></button><hr>' +
       course.lessons
         .map((l, i) => {
+          if (level && l.level !== level) return "";
           const p = saved[l.id];
           return '<button data-id="' + l.id + '"' + (l.id === lessonId ? ' class="active"' : "") + '><span class="tick">' + (p && p.done ? "✓" : i + 1) + '</span><span class="lt">' + esc(l.title) + "</span>" + (p ? '<span class="score">' + p.best + "/" + p.total + "</span>" : "") + "</button>";
         })
@@ -101,6 +169,7 @@
     $("lessonList").querySelectorAll("[data-id]").forEach((b) => (b.onclick = () => {
       lessonId = b.dataset.id;
       history.replaceState(null, "", "#" + lessonId);
+      if (level) $("course").classList.add("show-lesson"); // a phone shows the lesson in place of the list
       renderList();
       renderLesson();
       window.scrollTo(0, 0);
@@ -127,7 +196,12 @@
     }
     if (lessonId === "mixed") return startDrill(mixedDrills(), "Mixed review", null);
     const l = course.lessons.find((x) => x.id === lessonId);
-    let html = '<div class="card lesson"><h2>' + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>";
+    let html = '<div class="card lesson">';
+    if (level && l.level) {
+      const list = course.lessons.filter((x) => x.level === l.level);
+      html += '<p class="level-kicker">' + esc(LEVEL_NAME[l.level] || l.level) + " · lesson " + (list.indexOf(l) + 1) + " of " + list.length + "</p>";
+    }
+    html += '<h2>' + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>";
     for (const s of l.sections) {
       if (s.h) html += "<h3>" + esc(s.h) + "</h3>";
       if (s.p) html += "<p>" + s.p.replace(/\{([^}]*)\}/g, "<mark>$1</mark>") + "</p>"; // lesson text is trusted, written in languages/*/grammar.js
@@ -226,6 +300,7 @@
       const best = Math.max(drill.right, prev ? Math.round((prev.best / prev.total) * total) : 0);
       all[drill.lesson.id] = { best, total, done: !!(passed || (prev && prev.done)), date: new Date().toLocaleDateString("sv") };
       store.save(progress);
+      renderTabs();
       renderList();
       msg = passed ? "Lesson passed." : "Get " + Math.ceil(PASS * total) + " right to pass this lesson.";
     }
@@ -238,6 +313,10 @@
     if ($("nextL")) $("nextL").onclick = () => {
       lessonId = next.id;
       history.replaceState(null, "", "#" + lessonId);
+      if (level && next.level && next.level !== level) {
+        level = next.level;
+        renderTabs();
+      }
       renderList();
       renderLesson();
       window.scrollTo(0, 0);

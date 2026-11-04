@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Runs the C course's programs (../data/c.js) with gcc.
 
-Each example is a complete program. It is compiled as C11 and run; what it
+Each example is a complete program. It is compiled as C11 (linked with the maths library) and run; what it
 prints is the result. Without gcc, AVAILABLE is False and check_packs.py
 skips this course instead of failing.
 """
@@ -25,7 +25,7 @@ def run(src):
         with open(path, "w", encoding="utf-8") as f:
             f.write(src)
         c = subprocess.run(
-            [GCC, "-std=c11", "-Wall", "-Wextra", "-o", exe, path],
+            [GCC, "-std=c11", "-Wall", "-Wextra", "-o", exe, path, "-lm"],
             capture_output=True, text=True, cwd=tmp, timeout=30,
         )
         if c.returncode != 0 or not os.path.exists(exe):

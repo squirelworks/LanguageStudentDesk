@@ -3,7 +3,8 @@
 
 Every pack: answers are among their options and options are unique.
 Packs with a runner (Python and brainFOOD below, and any tools/run_<id>.py): every example with `out` and
-every practice question of kind "output" is run, and what it prints must match exactly.
+every practice question of kind "output" is run, and what it prints must match exactly. In a track, an
+example or question with a `lang` is run with that language's runner instead.
 
     python3 programming-learner/tools/check_packs.py
 
@@ -101,8 +102,9 @@ def main():
         for lesson in pack["lessons"]:
             where = f"{pid}/{lesson['id']}"
             for i, sec in enumerate(lesson["sections"]):
-                if runner and "out" in sec:
-                    got, err = runner(sec["code"])
+                run = RUNNERS.get(sec["lang"]) if "lang" in sec else runner
+                if run and "out" in sec:
+                    got, err = run(sec["code"])
                     checked += 1
                     if got != sec["out"]:
                         problems.append(f"{where} section {i + 1}: printed {got!r}, data says {sec['out']!r} {err}")
@@ -111,9 +113,10 @@ def main():
                     problems.append(f"{where} question {i + 1}: answer not among options")
                 if len(q["options"]) != len(set(q["options"])):
                     problems.append(f"{where} question {i + 1}: duplicate options")
-                if runner and q.get("kind") == "output":
+                run = RUNNERS.get(q["lang"]) if "lang" in q else runner
+                if run and q.get("kind") == "output":
                     want = q.get("check", q["answer"])
-                    got, err = runner(q["code"])
+                    got, err = run(q["code"])
                     checked += 1
                     if got != want:
                         problems.append(f"{where} question {i + 1}: printed {got!r}, expected {want!r} {err}")

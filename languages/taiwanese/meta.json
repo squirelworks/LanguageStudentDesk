@@ -2,12 +2,20 @@
   "id": "taiwanese",
   "name": "Taiwanese",
   "nativeName": "台灣華語",
-  "writingSystems": ["hanzi"],
-  "characterKeys": ["hanzi"],
+  "writingSystems": [
+    "hanzi"
+  ],
+  "characterKeys": [
+    "hanzi"
+  ],
   "notes": "Traditional Chinese characters as used in Taiwan, with Zhuyin (Bopomofo) and pinyin readings.",
   "speech": "zh-TW",
+  "code": "cmn",
   "data": {
-    "characters": ["../cjk/characters.js", "../chinese/hanzi.js"],
+    "characters": [
+      "../cjk/characters.js",
+      "../chinese/hanzi.js"
+    ],
     "grammar": "grammar.js",
     "vocab": "vocab.js",
     "reference": "reference.json"

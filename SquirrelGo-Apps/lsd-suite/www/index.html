@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f0f12">
 <title>Language Student Desk</title>
+<link rel="stylesheet" href="../../../languages/lsd-features.css">
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -108,12 +109,15 @@
 <nav class="tabs" role="tablist" aria-label="Home">
   <button type="button" class="tab-btn" role="tab" id="tab-tools" aria-selected="true" aria-controls="panel-tools">Tools</button>
   <button type="button" class="tab-btn" role="tab" id="tab-favorites" aria-selected="false" aria-controls="panel-favorites">Favorites</button>
+  <button type="button" class="tab-btn" role="tab" id="tab-settings" aria-selected="false" aria-controls="panel-settings">Settings</button>
 </nav>
+<div id="welcome" hidden></div>
+<div id="notice" hidden></div>
 <section class="tab-panel active" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools">
   <div class="picker">
     <label for="lang">Open scoped tools in</label>
     <select id="lang"><option value="">All languages</option></select>
-    <p class="hint">Passed as ?lang=. Klingon and Legalese do not use it. Back returns to this menu.</p>
+    <p class="hint">Klingon and Legalese open the same whatever you pick. Back returns to this menu.</p>
   </div>
   <ul id="list"></ul>
 </section>
@@ -121,9 +125,12 @@
   <p class="hint fav-intro">Star a language to pin it at the top of every language menu on this device.</p>
   <ul class="fav-list" id="favList"></ul>
 </section>
+<section class="tab-panel" id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" hidden></section>
 <footer>Progress stays on this device. The separate SquirrelGo apps (Kana, Kanji, Dictionary, Phrasebook, Orthodox Bible) are not this app; Character and Vocabulary use the script and deck data packed with it.</footer>
 <script src="../../../languages/registry.js"></script>
 <script src="../../../languages/lsd-lang.js"></script>
+<script src="../../../languages/features.js"></script>
+<script src="../../../languages/lsd-features.js"></script>
 <script src="../../../programming-learner/data/catalog.js"></script>
 <script>
 (function () {
@@ -154,11 +161,16 @@
   var tabFavorites = document.getElementById("tab-favorites");
   var panelTools = document.getElementById("panel-tools");
   var panelFavorites = document.getElementById("panel-favorites");
+  var tabSettings = document.getElementById("tab-settings");
+  var panelSettings = document.getElementById("panel-settings");
   var lang = document.getElementById("lang");
   var list = document.getElementById("list");
   var favList = document.getElementById("favList");
   var registry = window.LSD_LANGUAGE_REGISTRY || {};
-  var metas = Object.keys(registry).map(function (id) { return registry[id]; });
+  var allMetas = Object.keys(registry).map(function (id) { return registry[id]; });
+  var metas = [];
+  function filterMetas() { metas = allMetas.filter(LSDFeatures.allows); }
+  filterMetas();
 
   function labelFor(m) {
     var label = m.name || m.id;
@@ -166,17 +178,23 @@
     return label;
   }
 
+  var TABS = { tools: [tabTools, panelTools], favorites: [tabFavorites, panelFavorites], settings: [tabSettings, panelSettings] };
   function setTab(which) {
-    var tools = which === "tools";
-    tabTools.setAttribute("aria-selected", tools ? "true" : "false");
-    tabFavorites.setAttribute("aria-selected", tools ? "false" : "true");
-    panelTools.classList.toggle("active", tools);
-    panelFavorites.classList.toggle("active", !tools);
-    panelTools.hidden = !tools;
-    panelFavorites.hidden = tools;
+    Object.keys(TABS).forEach(function (k) {
+      var on = k === which;
+      TABS[k][0].setAttribute("aria-selected", on ? "true" : "false");
+      TABS[k][1].classList.toggle("active", on);
+      TABS[k][1].hidden = !on;
+    });
   }
   tabTools.onclick = function () { setTab("tools"); };
   tabFavorites.onclick = function () { setTab("favorites"); };
+  tabSettings.onclick = function () { setTab("settings"); };
+
+  // A featured language opens its guided path, whatever the Settings level.
+  function openLanguage(id) {
+    location.href = "../../../language-learner/index.html?lang=" + encodeURIComponent(id);
+  }
 
   function fillLangSelect() {
     var sorted = LSD.sortMetas(metas);
@@ -232,7 +250,7 @@
   }
   function render() {
     list.innerHTML = "";
-    LEARNERS.forEach(function (item) {
+    LEARNERS.filter(LSDFeatures.allows).forEach(function (item) {
       var li = document.createElement("li");
       var a = document.createElement("a");
       a.className = "card";
@@ -252,6 +270,16 @@
     render();
   };
   render();
+
+  LSDFeatures.renderWelcome(document.getElementById("welcome"), openLanguage, registry);
+  LSDFeatures.renderNotice(document.getElementById("notice"), function () { setTab("settings"); });
+  LSDFeatures.renderSettings(panelSettings, openLanguage, registry);
+  LSDFeatures.onChange(function () {
+    filterMetas();
+    fillLangSelect();
+    renderFavorites();
+    render();
+  });
 })();
 </script>
 </body>

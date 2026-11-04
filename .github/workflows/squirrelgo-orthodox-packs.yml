@@ -7,10 +7,15 @@ name: SquirrelGo Orthodox Bible text packs
 # raw.githubusercontent.com), and commits packs.json, commentary_packs.json,
 # catalog.js and versification.js back to the branch that ran it. Run it from
 # the Actions tab, or push a change to this file, sources.py or
-# build_commentary.py.
+# build_commentary.py on main. It also writes orthodox-bible-content.json, the
+# pack list that "SquirrelGo Orthodox Bible release packs" attaches to each
+# GitHub release together with the packs, so the app can find them in the
+# latest release.
 on:
   workflow_dispatch:
   push:
+    # Only main: this force-pushes the data branch the released app reads.
+    branches: [main]
     paths:
       - ".github/workflows/squirrelgo-orthodox-packs.yml"
       - "SquirrelGo-Apps/squirrelgo-orthodox-bible/tools/texts/sources.py"
@@ -45,6 +50,7 @@ jobs:
           if grep -q -- "--packs" build_commentary.py; then python3 build_commentary.py --packs; fi
           python3 build_versification.py --check
           python3 build_catalog.py
+          python3 build_content_index.py packs/orthodox-bible-content.json --source-commit "$GITHUB_SHA"
       - name: Publish packs to the orthodox-bible-texts branch
         env:
           TOKEN: ${{ github.token }}
@@ -58,6 +64,8 @@ jobs:
           Each bibles/<id>.js is a public-domain or openly licensed Bible and each
           commentary/<id>.js a Father's commentary; its
           license and source are in the file's first lines and in tools/texts/README.md.
+          orthodox-bible-content.json lists them all; the release packs workflow
+          attaches them to each GitHub release.
           This branch is force-pushed on every build; do not commit to it.
           MD
           git init -q -b orthodox-bible-texts

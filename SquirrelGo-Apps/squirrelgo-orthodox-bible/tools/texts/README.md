@@ -24,6 +24,7 @@ its notes are copyrighted by Thomas Nelson) or from the Catena app.
 | `ell-vamvas` | Neophytos Vamvas (1850) | Modern Greek | kjv | scrollmapper `GreVamvas` (CrossWire) | Public domain |
 | `arb-vandyck` | Smith–Van Dyck Arabic Bible (1865) | Arabic | kjv | [eBible.org arb-vd](https://ebible.org/details.php?id=arb-vd) | Public domain |
 | `kjva` | King James Version with Apocrypha (1769) | English | kjv | scrollmapper `KJVA` | Public domain |
+| `lat-vulgate-clementine` | Biblia Sacra Vulgata, St Jerome's Latin Bible in the Clementine edition (1592), with the deuterocanonical books | Latin | vul | scrollmapper `VulgClementine` (CrossWire) | Public domain |
 
 scrollmapper/bible_databases is MIT licensed; the license of each text is the
 one its source module declares (`sources/<lang>/<id>/README.md` there).
@@ -43,13 +44,27 @@ the url is
 raw.githubusercontent.com allows cross-origin reads (a GitHub release asset
 does not), and the app parses the file as JSON rather than running it.
 
+**From the latest GitHub release.** Each published release also carries the
+packs as assets (the **SquirrelGo Orthodox Bible release packs** workflow
+attaches them): `orthodox-bible-content.json` lists every pack, and each pack
+is `orthodox-bible-<id>.js` or `orthodox-commentary-<id>.js`.
+`build_content_index.py` writes that list from `packs.json` and
+`commentary_packs.json`. When the reader taps **Check for new texts** or
+**Download**, the app asks the GitHub API for the latest release
+(`api.github.com/repos/squirelworks/LanguageStudentDesk/releases/latest`,
+which allows cross-origin reads), reads its content list, adds any pack it
+didn't know about to Translations & settings, and downloads from the
+release. The Android app reads release assets directly; a desktop browser
+can't (no cross-origin headers on release downloads), so there it falls back
+to the same file on the `orthodox-bible-texts` branch. Once downloaded, a
+pack lives in IndexedDB and the app stays offline.
+
 <!-- packs table: regenerate from sources.PACKS and packs.json -->
 | id | Text | Language | Books | Numbering | Source | License |
 | --- | --- | --- | --- | --- | --- | --- |
 | `syc-peshitta` | ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament) | syc | NT | kjv | scrollmapper `Peshitta` (CrossWire) | Public Domain |
 | `cop-sahidic` | ⲧⲅⲣⲁⲫⲏ ⲉⲧⲟⲩⲁⲁⲃ (Coptic Sahidic Bible) | cop | OT, NT, deuterocanon | lxx | scrollmapper `CopSahBible2` (CrossWire) | CC BY-SA (CrossWire CopSahBible2 module; share alike) |
 | `hye-eastern` | Աստվածաշունչ (Eastern Armenian, partial) | hy | OT, NT | kjv | scrollmapper `ArmEastern` (CrossWire) | Public Domain |
-| `lat-vulgate-clementine` | Biblia Sacra Vulgata (Clementine Vulgate, 1592) | la | OT, NT, deuterocanon | vul | scrollmapper `VulgClementine` (CrossWire) | Public Domain |
 | `got-wulfila` | 𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions) | got | OT, NT | kjv | scrollmapper `Wulfila` (CrossWire) | Public Domain |
 | `heb-wlc` | תנ״ך (Hebrew Masoretic Text, Westminster Leningrad Codex) | he | OT | org | scrollmapper `WLC` (CrossWire) | Public Domain |
 | `rus-makarij` | Пятикнижие Моисея (Russian, Archimandrite Makarius Glukharev) | ru | OT | kjv | scrollmapper `RusMakarij` (CrossWire) | Public Domain |

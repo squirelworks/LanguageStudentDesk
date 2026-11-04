@@ -74,7 +74,13 @@
       const extra = carried.filter((mid) => !row.m.includes(mid));
       if (missing.length) problems.push(id + ": drops " + missing.join(", "));
       if (extra.length) problems.push(id + ": adds " + extra.join(", "));
-      sentences.push({ id, pack: row.pack, en: row.en, end: r.end || "", tokens, implied, sep: lang.sep });
+      // Other ways to put the same English, and phrasings that carry a
+      // meaning only next to certain others ("take" is "go" with a bus).
+      const has = new Set(row.m);
+      const phrasings = (matrix.phrasings || []).filter((p) => has.has(p.m) && p.with.some((w) => has.has(w)));
+      // Tense is left open unless the rendering marks it ("ました" is past).
+      const past = tokens.some((t) => t.units.some((u) => u.id === "@past"));
+      sentences.push({ id, pack: row.pack, en: row.en, also: row.also || [], end: r.end || "", tokens, implied, sep: lang.sep, phrasings, tense: past ? "past" : "open" });
     }
     return { sentences, problems };
   }
@@ -89,6 +95,7 @@
     "i've": "i have", "you've": "you have", "we've": "we have", "they've": "they have",
     "i'll": "i will", "you'll": "you will", "we'll": "we will", "it'll": "it will",
     "i'd": "i would", "you'd": "you would",
+    wanna: "want to", gonna: "going to", gotta: "got to",
     "can't": "can not", "cannot": "can not", "won't": "will not", "don't": "do not",
     "doesn't": "does not", "didn't": "did not", "isn't": "is not", "aren't": "are not",
     "wasn't": "was not", "weren't": "were not", "haven't": "have not", "hasn't": "has not",
@@ -100,6 +107,29 @@
   const FUNCTION_WORDS = new Set(
     "a an the is am are was were be been being do does did it there".split(" ")
   );
+
+  // Helpers English uses for tense and aspect ("will go", "have eaten").
+  // When no meaning claims them, they only say when, so they are not added
+  // meaning either; the tense check below decides whether "when" is right.
+  const TENSE_WORDS = new Set("will shall has have had".split(" "));
+
+  // Irregular past forms and participles, so "took" matches "take" and
+  // "went" matches "go". Regular ones ("walked") are handled by stem().
+  const IRREGULAR = {};
+  (
+    "took:take taken:take went:go gone:go ate:eat eaten:eat drank:drink drunk:drink came:come saw:see seen:see " +
+    "knew:know known:know met:meet gave:give given:give slept:sleep fought:fight spoke:speak spoken:speak " +
+    "understood:understand said:say sat:sit wrote:write written:write got:get gotten:get rode:ride ridden:ride " +
+    "caught:catch bought:buy thought:think made:make left:leave felt:feel found:find told:tell taught:teach " +
+    "brought:bring ran:run began:begin begun:begin drove:drive driven:drive flew:fly flown:fly"
+  )
+    .split(" ")
+    .forEach((pair) => {
+      const [form, base] = pair.split(":");
+      IRREGULAR[form] = base;
+    });
+  // Past forms that say "this happened before now" on their own.
+  const PAST_WORDS = new Set("did was were had".split(" "));
 
   // Light stemming so "books" matches "book" and "eating" matches "eat".
   // Both sides go through the same function, so a stem only has to be
@@ -129,7 +159,12 @@
       w = w.replace(/^'+|'+$/g, "");
       if (!w) continue;
       const expanded = CONTRACTIONS[w] || (w.endsWith("n't") ? w.slice(0, -3) + " not" : w.endsWith("'s") ? w.slice(0, -2) : w);
-      for (const part of expanded.split(" ")) out.push({ word: part, stem: stem(part) });
+      for (const part of expanded.split(" ")) {
+        const base = IRREGULAR[part];
+        const st = stem(base || part);
+        const past = PAST_WORDS.has(part) || (!!base && !/(en|own|wn|ne)$/.test(part)) || (part.endsWith("ed") && st !== part);
+        out.push({ word: part, stem: st, past });
+      }
     }
     return out;
   }
@@ -211,8 +246,29 @@
         x.status = x.meaning.grammar ? "grammar" : x.token < 0 ? "implied" : "dropped";
       }
     }
+    // A meaning still missing may be carried by a phrasing that fits this
+    // sentence ("take the bus" for go + bus).
+    for (const x of units) {
+      if (x.status !== "dropped") continue;
+      for (const p of sentence.phrasings || []) {
+        if (p.m !== x.meaning.id) continue;
+        // English may leave the meaning out next to these ("Water, please").
+        if (p.optional) {
+          x.status = "implied";
+          break;
+        }
+        let hit = null;
+        for (const alt of p.en.split("|")) if ((hit = findAlt(words, used, alt))) break;
+        if (!hit) continue;
+        hit.forEach((k) => (used[k] = true));
+        x.matched = hit.map((k) => words[k].word);
+        x.status = "kept";
+        x.phrasing = true;
+        break;
+      }
+    }
     const model = new Set(englishWords(sentence.en).map((w) => w.stem));
-    const spare = (k) => !used[k] && !FUNCTION_WORDS.has(words[k].word) && !model.has(words[k].stem);
+    const spare = (k) => !used[k] && !FUNCTION_WORDS.has(words[k].word) && !TENSE_WORDS.has(words[k].word) && !model.has(words[k].stem);
     // A missing meaning whose one-word English is misspelt in the answer
     // ("recieve") is carried over; the spelling is pointed out.
     for (const x of units) {
@@ -256,6 +312,12 @@
     words.forEach((w, k) => {
       if (spare(k)) added.push(w.word);
     });
+    // Tense: open unless the original marks it. A past original needs a past
+    // answer ("came", "did come", "have come"); its past marker is then shown.
+    // "have come" is past too: a helper "have" that no meaning claimed.
+    const saysPast = words.some((w, k) => w.past || ((w.word === "have" || w.word === "has") && !used[k] && k + 1 < words.length));
+    const tenseWrong = sentence.tense === "past" && !saysPast;
+    if (sentence.tense === "past" && saysPast) units.forEach((x) => x.meaning.id === "@past" && (x.status = "shown"));
     const dropped = units.filter((x) => x.status === "dropped").length;
     const closeUnits = units.filter((x) => x.status === "close");
     const close = closeUnits.length;
@@ -266,7 +328,8 @@
     // close; each added word costs as much as a missing meaning.
     const closeScore = closeUnits.filter((x) => x.token >= 0).reduce((sum, x) => sum + closeCredit(x.sim, net.close), 0);
     const score = content ? Math.max(0, (kept + closeScore - added.length) / content) : 1;
-    return { units, added, dropped, close, typos, score, honest: dropped === 0 && close === 0 && added.length === 0 };
+    const finalScore = tenseWrong ? score * 0.5 : score;
+    return { units, added, dropped, close, typos, tenseWrong, score: finalScore, honest: dropped === 0 && close === 0 && added.length === 0 && !tenseWrong };
   }
 
   // ---- Target-language side ----

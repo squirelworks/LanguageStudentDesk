@@ -8,7 +8,12 @@
 //               English often shows with word order or not at all. They have a
 //               label and, optionally, English words that may show them.
 // TL_SENTENCES  the rows. m lists the content meanings every rendering must
-//               carry, no more and no fewer.
+//               carry, no more and no fewer. also lists other natural English
+//               for the row; check.js makes sure each one passes.
+// TL_PHRASINGS  English that carries a meaning only next to certain others:
+//               { m, with, en } lets en ("take") carry m ("go") in a row that
+//               also has one of the with meanings ("bus"). optional: true
+//               instead of en lets English leave m out in such a row.
 window.TL_MEANINGS = {
   // People
   i: "I|me|my|mine|myself",
@@ -62,6 +67,7 @@ window.TL_MEANINGS = {
   ship: "ship|vessel",
   table: "table",
   train: "train",
+  bus: "bus",
   // Places
   station: "station",
   toilet: "toilet|restroom|bathroom|lavatory",
@@ -238,8 +244,10 @@ window.TL_SENTENCES = [
   { id: "how-much-cost", pack: "travel", en: "How much does it cost?", m: ["how-much", "cost"] },
   { id: "bill-please", pack: "travel", en: "The bill, please.", m: ["bill", "please"] },
   { id: "go-school", pack: "travel", en: "I go to school.", m: ["i", "school", "go"] },
+  { id: "bus-school", pack: "travel", en: "I go to school by bus.", m: ["i", "bus", "school", "go"],
+    also: ["I take the bus to school.", "I'm going to school by bus.", "I ride the bus to school."] },
   { id: "go-tokyo", pack: "travel", en: "I want to go to Tokyo.", m: ["i", "tokyo", "go", "want"] },
-  { id: "came-train", pack: "travel", en: "I came by train.", m: ["i", "train", "come"] },
+  { id: "came-train", pack: "travel", en: "I came by train.", m: ["i", "train", "come"], also: ["I came on the train."] },
   { id: "where-going", pack: "travel", en: "Where are you going?", m: ["you", "where", "go"] },
   { id: "going-home", pack: "travel", en: "I'm going home.", m: ["i", "home", "go"] },
   { id: "we-going-home", pack: "travel", en: "We are going home.", m: ["we", "go", "home"] },
@@ -257,4 +265,12 @@ window.TL_SENTENCES = [
   { id: "officer-sees-child", pack: "actions", en: "The officer sees the child.", m: ["officer", "see", "child"] },
   { id: "captain-sees-ship", pack: "actions", en: "The captain sees the ship.", m: ["captain", "see", "ship"] },
   { id: "i-see-ship", pack: "actions", en: "I see the ship.", m: ["i", "see", "ship"] },
+];
+
+window.TL_PHRASINGS = [
+  // Going by a vehicle: "take the bus", "ride the train", "catch a bus".
+  { m: "go", with: ["bus", "train", "car", "ship"], en: "take|ride|catch" },
+  { m: "come", with: ["bus", "train", "car", "ship"], en: "take|ride|catch" },
+  // A request: "Water, please" asks for it without saying "give".
+  { m: "give", with: ["please"], optional: true },
 ];

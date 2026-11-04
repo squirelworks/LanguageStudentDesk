@@ -39,6 +39,24 @@ for file in suite.js strokes.js writepad.js pad.js speech.js; do
   done
 done
 
+# shared/android/SafeArea.java goes into every Android wrapper, next to its
+# MainActivity, with the package line set to that app's package.
+for main in $(find . -path '*/android/app/src/main/java/*/MainActivity.java' | sort); do
+  dir=$(dirname "$main")
+  pkg=$(sed -n 's/^package \(.*\);$/\1/p' "$main")
+  dest="$dir/SafeArea.java"
+  want=$(sed "1s/^package .*;$/package $pkg;/" shared/android/SafeArea.java)
+  if (( check )); then
+    if [[ "$want" != "$(cat "$dest" 2>/dev/null)" ]]; then
+      echo "out of date: ${dest#./} (run SquirrelGo-Apps/tools/sync-shared.sh)"
+      stale=1
+    fi
+  else
+    printf '%s\n' "$want" > "$dest"
+    echo "synced ${dest#./}"
+  fi
+done
+
 # The desk side: Character Learner's list of Alphabets scripts, and the
 # launcher's TOOLS against suite.js and the APK workflows.
 if (( check )); then

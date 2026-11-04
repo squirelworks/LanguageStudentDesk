@@ -2,9 +2,18 @@
   "id": "latin",
   "name": "Latin",
   "nativeName": "Lingua Latina",
-  "writingSystems": ["latin"],
-  "characterKeys": ["latin"],
+  "writingSystems": [
+    "latin"
+  ],
+  "characterKeys": [
+    "latin"
+  ],
   "notes": "Classical Latin in the Latin alphabet, long vowels marked with macrons.",
   "speech": "la",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "lat",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

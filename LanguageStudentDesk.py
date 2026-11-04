@@ -97,13 +97,112 @@ TOOLS = {
 }
 GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 
+# Tools that only show when a feature switch is on (see FEATURES below). Only
+# obscure content is hidden at the Simple level; being in alpha isn't a reason.
+TOOL_REQUIRES = {}
+
 # ?lang= values the scoped tools understand that are not languages in
 # languages/registry.js: the Programming Learner's courses.
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
-    "win16", "z80", "cobol", "fortran",
+    "win16", "z80", "cobol", "fortran", "moderndelphi", "numerical",
+    "javascript",
 ]
+
+
+def load_features():
+    """The feature switches and Settings levels: languages/features.js, which
+    squirrel-lang-data's tools/gen_features.py generates from its features.json."""
+    try:
+        text = (BASE / "languages" / "features.js").read_text(encoding="utf-8")
+        body = text.split("window.LSD_FEATURES =", 1)[1].strip().rstrip(";")
+        return json.loads(body)
+    except (OSError, ValueError, IndexError):
+        return {"levels": [], "features": [], "featured": [], "text": {}, "defaultLevel": "simple"}
+
+
+FEATURES = load_features()
+LEVEL_IDS = [lv["id"] for lv in FEATURES.get("levels", [])]
+
+
+def settings_path():
+    """Where the Desk remembers Settings between sessions (shared with its browser tabs)."""
+    if sys.platform == "win32":
+        root = Path(os.environ.get("APPDATA") or Path.home() / "AppData" / "Roaming")
+    elif sys.platform == "darwin":
+        root = Path.home() / "Library" / "Application Support"
+    else:
+        root = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+    return root / "LanguageStudentDesk" / "settings.json"
+
+
+def clean_settings(raw):
+    """The same shape lsd-features.js keeps: level, switches (when Custom),
+    and whether the notice and the welcome card were dismissed."""
+    out = {"level": FEATURES.get("defaultLevel") or (LEVEL_IDS[0] if LEVEL_IDS else "simple"),
+           "switches": {}, "noticeDismissed": False, "welcomeDone": False}
+    if isinstance(raw, dict):
+        if raw.get("level") == "custom" or raw.get("level") in LEVEL_IDS:
+            out["level"] = raw["level"]
+        ids = {f["id"] for f in FEATURES.get("features", [])}
+        sw = raw.get("switches") if isinstance(raw.get("switches"), dict) else {}
+        out["switches"] = {k: v for k, v in sw.items() if k in ids and isinstance(v, bool)}
+        out["noticeDismissed"] = bool(raw.get("noticeDismissed"))
+        out["welcomeDone"] = bool(raw.get("welcomeDone"))
+    return out
+
+
+def load_settings():
+    try:
+        return clean_settings(json.loads(settings_path().read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        return clean_settings(None)
+
+
+def save_settings(settings):
+    path = settings_path()
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(clean_settings(settings), indent=2), encoding="utf-8")
+    except OSError:
+        pass
+
+
+def _rank(level):
+    return LEVEL_IDS.index(level) if level in LEVEL_IDS else 0
+
+
+def feature_on(settings, fid):
+    f = next((f for f in FEATURES.get("features", []) if f["id"] == fid), None)
+    if not f:
+        return False
+    if settings["level"] == "custom":
+        return settings["switches"].get(fid) is True
+    return _rank(f["level"]) <= _rank(settings["level"])
+
+
+def set_level(settings, level):
+    settings["level"], settings["switches"] = level, {}
+
+
+def set_feature(settings, fid, on):
+    """One switch changed: keep the others, and show the level it now matches, or Custom."""
+    feats = FEATURES.get("features", [])
+    now = {f["id"]: feature_on(settings, f["id"]) for f in feats}
+    now[fid] = bool(on)
+    match = next((lv for lv in LEVEL_IDS
+                  if all(now[f["id"]] == (_rank(f["level"]) <= _rank(lv)) for f in feats)), None)
+    if match:
+        set_level(settings, match)
+    else:
+        settings["level"], settings["switches"] = "custom", now
+
+
+def allows(settings, requires):
+    if not requires:
+        return True
+    return all(feature_on(settings, r) for r in ([requires] if isinstance(requires, str) else requires))
 
 
 class Tool:
@@ -113,6 +212,7 @@ class Tool:
         title, desc, group, scoped, apk = TOOLS.get(
             folder.name, (folder.name, "Found next to the Desk.", "Other", False, None))
         self.title, self.desc, self.group, self.scoped, self.apk = title, desc, group, scoped, apk
+        self.requires = TOOL_REQUIRES.get(folder.name)
 
     @property
     def rel(self):
@@ -156,10 +256,13 @@ def load_registry():
         return {}
 
 
-def load_languages():
+def load_languages(settings=None):
     """(id, label) pairs for the ?lang= dropdown: every language in the
-    registry, by name, then the Programming Learner's courses by id."""
-    metas = sorted(load_registry().values(), key=lambda m: m.get("name", m["id"]).lower())
+    registry that Settings allows, by name, then the Programming Learner's
+    courses by id."""
+    metas = sorted((m for m in load_registry().values()
+                    if settings is None or allows(settings, m.get("requires"))),
+                   key=lambda m: m.get("name", m["id"]).lower())
     langs = [(m["id"], m.get("name", m["id"]) + (f" · {m['nativeName']}" if m.get("nativeName") else ""))
              for m in metas]
     ids = {i for i, _ in langs}
@@ -168,7 +271,9 @@ def load_languages():
 
 
 def home_page(tools):
-    """The Desk home page served at / for --browser mode."""
+    """The Desk home page served at / for --browser mode. Settings, the notice
+    and the welcome card come from languages/lsd-features.js, the same code the
+    phone app's menu uses."""
     rows = []
     for group in GROUPS:
         items = [t for t in tools if t.group == group]
@@ -178,22 +283,37 @@ def home_page(tools):
         for t in items:
             apk = f' · <a href="{t.apk_url}">Android APK</a>' if t.apk else ""
             scoped = ' data-scoped="1"' if t.scoped else ""
-            rows.append(f'<li><a href="/{quote(t.rel)}"{scoped}><strong>{html.escape(t.title)}</strong></a>'
+            req = f' data-requires="{html.escape(t.requires)}"' if t.requires else ""
+            rows.append(f'<li{req}><a href="/{quote(t.rel)}"{scoped}><strong>{html.escape(t.title)}</strong></a>'
                         f'<br><span>{html.escape(t.desc)}{apk}</span></li>')
         rows.append("</ul>")
-    options = "".join(f'<option value="{html.escape(i)}">{html.escape(label)}</option>' for i, label in load_languages())
-    picker = (f'<p><label>Language <select id="lang"><option value="">Any</option>{options}</select></label>'
-              ' <span>Tools that teach one language at a time open in this one.</span></p>')
+    registry = load_registry()
+    options = []
+    for i, label in load_languages():
+        req = registry.get(i, {}).get("requires")
+        attr = f' data-requires="{html.escape(json.dumps(req))}"' if req else ""
+        options.append(f'<option value="{html.escape(i)}"{attr}>{html.escape(label)}</option>')
+    picker = (f'<p><label>Language <select id="lang"><option value="">Any</option>{"".join(options)}</select></label>'
+              ' <span>Tools that teach one language at a time open in this one.</span>'
+              ' <button type="button" id="open-settings">Settings</button></p>')
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Language Student Desk</title>
+<link rel="stylesheet" href="/languages/lsd-features.css">
 <style>body{{font-family:system-ui,sans-serif;background:#0f0f12;color:#e8e8e8;margin:0 auto;max-width:760px;padding:1.5rem}}
 h1{{color:#ffd54f}}h2{{color:#aaa;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}}
 ul{{list-style:none;padding:0}}li{{background:#1a1a20;border-radius:8px;padding:.8rem 1rem;margin:.5rem 0}}
-a{{color:#ffd54f}}span{{color:#aaa;font-size:.9rem}}
-select{{background:#1a1a20;color:#e8e8e8;border:1px solid #333;border-radius:6px;padding:.3rem .5rem;margin-left:.4rem}}</style></head><body>
-<h1>Language Student Desk</h1>{picker}{''.join(rows)}
+a{{color:#ffd54f}}span{{color:#aaa;font-size:.9rem}}[hidden]{{display:none!important}}
+select,#open-settings{{background:#1a1a20;color:#e8e8e8;border:1px solid #333;border-radius:6px;padding:.3rem .5rem;margin-left:.4rem;font:inherit}}
+#open-settings{{cursor:pointer}}</style></head><body>
+<h1>Language Student Desk</h1><div id="welcome" hidden></div><div id="notice" hidden></div>{picker}
+<section id="settings" hidden></section><div id="tools">{''.join(rows)}</div>
+<script src="/languages/registry.js"></script>
+<script src="/languages/features.js"></script>
+<script src="/desk-settings.js"></script>
+<script src="/languages/lsd-features.js"></script>
 <script>
 const pick = document.getElementById("lang");
+const settings = document.getElementById("settings");
 pick.value = localStorage.getItem("lsd-desk-lang") || "";
 function scope() {{
   localStorage.setItem("lsd-desk-lang", pick.value);
@@ -203,7 +323,28 @@ function scope() {{
     a.href = u.pathname + u.search;
   }});
 }}
+function filter() {{
+  document.querySelectorAll("[data-requires]").forEach((el) => {{
+    let req = el.dataset.requires;
+    try {{ req = JSON.parse(req); }} catch (e) {{}}
+    el.hidden = !LSDFeatures.allows({{ requires: req }});
+  }});
+  if (pick.selectedOptions[0] && pick.selectedOptions[0].hidden) {{ pick.value = ""; scope(); }}
+}}
+function toggleSettings(show) {{
+  settings.hidden = show === undefined ? !settings.hidden : !show;
+  document.getElementById("open-settings").textContent = settings.hidden ? "Settings" : "Close Settings";
+  if (!settings.hidden) settings.scrollIntoView({{ behavior: "smooth" }});
+}}
+// A featured language opens its guided path, whatever the Settings level.
+function openLanguage(id) {{ location.href = "/language-learner/index.html?lang=" + encodeURIComponent(id); }}
 pick.onchange = scope;
+document.getElementById("open-settings").onclick = () => toggleSettings();
+LSDFeatures.renderWelcome(document.getElementById("welcome"), openLanguage);
+LSDFeatures.renderNotice(document.getElementById("notice"), () => toggleSettings(true));
+LSDFeatures.renderSettings(settings, openLanguage);
+LSDFeatures.onChange(filter);
+filter();
 scope();
 </script></body></html>"""
 
@@ -215,7 +356,33 @@ class DeskServer:
         tools_ref = tools
 
         class Handler(SimpleHTTPRequestHandler):
+            def send_body(self, body, ctype):
+                self.send_response(200)
+                self.send_header("Content-Type", ctype)
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_POST(self):
+                # Settings changed in a browser tab: remember them for the Desk window too.
+                if urlsplit(self.path).path != "/desk-settings":
+                    self.send_error(404)
+                    return
+                try:
+                    size = int(self.headers.get("Content-Length") or 0)
+                    if size > 65536:
+                        raise ValueError("too large")
+                    save_settings(json.loads(self.rfile.read(size) or b"{}"))
+                except ValueError:
+                    self.send_error(400)
+                    return
+                self.send_body(b"{}", "application/json")
+
             def do_GET(self):
+                if urlsplit(self.path).path == "/desk-settings.js":
+                    body = ("window.LSD_DESK_SETTINGS = " + json.dumps(load_settings()) + ";\n").encode("utf-8")
+                    self.send_body(body, "text/javascript; charset=utf-8")
+                    return
                 if urlsplit(self.path).path in ("/", "/index.html"):
                     body = home_page(tools_ref).encode("utf-8")
                     self.send_response(200)
@@ -312,10 +479,27 @@ def run_gui(tools, server):
     header = ttk.Frame(root)
     header.pack(fill="x", padx=16, pady=(14, 6))
     ttk.Label(header, text="Language Student Desk", style="Title.TLabel").pack(side="left")
+    settings = load_settings()
+    text = FEATURES.get("text", {})
+    settings_btn = ttk.Button(header, text="Settings")
+    settings_btn.pack(side="right", padx=(12, 0))
     search_var = tk.StringVar()
     search = ttk.Entry(header, textvariable=search_var, width=28)
     search.pack(side="right")
     ttk.Label(header, text="Search:").pack(side="right", padx=6)
+
+    # The "more is available" notice, until it's dismissed.
+    notice = ttk.Frame(root)
+    if text.get("notice") and not settings["noticeDismissed"]:
+        notice.pack(fill="x", padx=16, pady=(0, 4))
+        ttk.Label(notice, text=text["notice"], style="Muted.TLabel").pack(side="left")
+
+        def dismiss_notice():
+            settings.update(load_settings(), noticeDismissed=True)
+            save_settings(settings)
+            notice.pack_forget()
+        ttk.Button(notice, text="Dismiss", command=dismiss_notice).pack(side="right")
+        ttk.Button(notice, text="Open Settings", command=lambda: open_settings()).pack(side="right", padx=6)
 
     body = ttk.PanedWindow(root, orient="horizontal")
     body.pack(fill="both", expand=True, padx=16, pady=6)
@@ -344,11 +528,18 @@ def run_gui(tools, server):
     lang_frame.pack(anchor="w", pady=4)
     ttk.Label(lang_frame, text="Language:").pack(side="left")
     lang_var = tk.StringVar()
-    languages = load_languages()
-    lang_ids = {label: lang_id for lang_id, label in languages}
-    lang_combo = ttk.Combobox(lang_frame, textvariable=lang_var, width=28, state="readonly",
-                              values=[""] + [label for _, label in languages])
+    lang_ids = {}
+    lang_combo = ttk.Combobox(lang_frame, textvariable=lang_var, width=28, state="readonly")
     lang_combo.pack(side="left", padx=8)
+
+    def fill_languages():
+        languages = load_languages(settings)
+        lang_ids.clear()
+        lang_ids.update({label: lang_id for lang_id, label in languages})
+        lang_combo.config(values=[""] + [label for _, label in languages])
+        if lang_var.get() not in lang_ids:
+            lang_var.set("")
+    fill_languages()
     lang_note = ttk.Label(lang_frame, text="", style="Muted.TLabel")
     lang_note.pack(side="left")
 
@@ -376,7 +567,7 @@ def run_gui(tools, server):
         by_iid.clear()
         shown = 0
         for group in GROUPS:
-            items = [t for t in tools if t.group == group
+            items = [t for t in tools if t.group == group and allows(settings, t.requires)
                      and (not query or query in f"{t.title} {t.desc} {t.folder.name}".lower())]
             if not items:
                 continue
@@ -393,7 +584,7 @@ def run_gui(tools, server):
             tree.selection_set(first)
             tree.see(first)
         where = f"served at {server.url()}" if server else "opened as local files"
-        status.config(text=f"{shown} of {len(tools)} tools shown · {where}")
+        status.config(text=f"{shown} of {len([t for t in tools if allows(settings, t.requires)])} tools shown · {where}")
 
     def show(*_):
         t = selected()
@@ -437,6 +628,143 @@ def run_gui(tools, server):
             root.clipboard_append(tool_url(t, server, lang_ids.get(lang_var.get(), "")))
             status.config(text="Link copied. It works while the Desk is open.")
 
+    by_folder = {t.folder.name: t for t in tools}
+
+    def open_language(lang_id):
+        """A featured language opens its guided path, whatever the Settings level."""
+        t = by_folder.get("language-learner")
+        if t:
+            webbrowser.open(tool_url(t, server, lang_id))
+            status.config(text=f"Opened {t.title} in browser (lang={lang_id})")
+
+    def featured():
+        reg = load_registry()
+        return [reg[i] for i in FEATURES.get("featured", []) if i in reg]
+
+    def lang_label(m):
+        return m.get("name", m["id"]) + (f" · {m['nativeName']}" if m.get("nativeName") else "")
+
+    def featured_buttons(parent, after=None):
+        row = ttk.Frame(parent)
+        for m in featured():
+            def go(i=m["id"]):
+                if after:
+                    after()
+                open_language(i)
+            ttk.Button(row, text=lang_label(m), command=go).pack(side="left", padx=(0, 8))
+        return row
+
+    def settings_changed():
+        save_settings(settings)
+        fill_languages()
+        fill()
+        show()
+
+    settings_win = [None]
+
+    def open_settings():
+        """Levels, Customize and "What's in the app", the same as the phone's Settings tab."""
+        if settings_win[0] is not None and settings_win[0].winfo_exists():
+            settings_win[0].lift()
+            return
+        settings.update(load_settings())  # a browser tab may have changed them
+        win = tk.Toplevel(root)
+        settings_win[0] = win
+        win.title("Settings")
+        win.geometry(f"{max(560, int(sw * 0.4))}x{max(520, int(sh * 0.7))}")
+        canvas = tk.Canvas(win, highlightthickness=0)
+        bar = ttk.Scrollbar(win, orient="vertical", command=canvas.yview)
+        inner = ttk.Frame(canvas, padding=16)
+        inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0, 0), window=inner, anchor="nw")
+        canvas.configure(yscrollcommand=bar.set)
+        bar.pack(side="right", fill="y")
+        canvas.pack(side="left", fill="both", expand=True)
+        win.bind("<MouseWheel>", lambda e: canvas.yview_scroll(-1 if e.delta > 0 else 1, "units"))
+        win.bind("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
+        win.bind("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
+
+        level_var = tk.StringVar(value=settings["level"])
+        switch_vars = {}
+        whats = ttk.Frame(inner)
+
+        def refresh():
+            level_var.set(settings["level"])
+            custom_lbl.config(text=text.get("custom", "Custom") if settings["level"] == "custom" else "")
+            for fid, var in switch_vars.items():
+                var.set(feature_on(settings, fid))
+            draw_whats()
+            settings_changed()
+
+        def pick_level():
+            set_level(settings, level_var.get())
+            refresh()
+
+        levels = ttk.LabelFrame(inner, text="Show", padding=10)
+        levels.pack(fill="x", pady=(0, 10))
+        for lv in FEATURES.get("levels", []):
+            ttk.Radiobutton(levels, text=lv["label"], value=lv["id"], variable=level_var,
+                            command=pick_level).pack(anchor="w")
+            ttk.Label(levels, text=lv["description"], style="Muted.TLabel", wraplength=480).pack(anchor="w", padx=(24, 0))
+        custom_lbl = ttk.Label(levels, text="")
+        custom_lbl.pack(anchor="w", pady=(4, 0))
+
+        custom = ttk.LabelFrame(inner, text=text.get("customize", "Customize"), padding=10)
+        custom.pack(fill="x", pady=(0, 10))
+        # Newest first, so a new switch shows up at the top.
+        order = sorted(FEATURES.get("features", []), key=lambda f: f["label"])
+        order.sort(key=lambda f: f.get("added", ""), reverse=True)
+        for f in order:
+            var = tk.BooleanVar(value=feature_on(settings, f["id"]))
+            switch_vars[f["id"]] = var
+
+            def flip(fid=f["id"], v=var):
+                set_feature(settings, fid, v.get())
+                refresh()
+            ttk.Checkbutton(custom, text=f["label"], variable=var, command=flip).pack(anchor="w")
+            ttk.Label(custom, text=f["description"], style="Muted.TLabel", wraplength=480).pack(anchor="w", padx=(24, 0))
+
+        ttk.Label(inner, text=text.get("whatsInApp", "What's in the app"), style="Name.TLabel").pack(anchor="w", pady=(6, 4))
+        whats.pack(fill="x")
+
+        def draw_whats():
+            for w in whats.winfo_children():
+                w.destroy()
+            if featured():
+                ttk.Label(whats, text=text.get("welcomeBody", "")).pack(anchor="w")
+                featured_buttons(whats).pack(anchor="w", pady=(4, 10))
+            hidden = [m for m in load_registry().values() if not allows(settings, m.get("requires"))]
+            for f in sorted(FEATURES.get("features", []), key=lambda f: f["label"]):
+                on = feature_on(settings, f["id"])
+                extra = [lang_label(m) for m in hidden
+                         if f["id"] in ([m["requires"]] if isinstance(m["requires"], str) else m["requires"])]
+                state = "on" if on else f"off: turn on {f['label']} in Customize"
+                ttk.Label(whats, text=f"{f['label']} ({state})", font=(family, 11, "bold")).pack(anchor="w")
+                desc = f["description"] + (" " + ", ".join(extra) + "." if extra else "")
+                ttk.Label(whats, text=desc, style="Muted.TLabel", wraplength=480).pack(anchor="w", pady=(0, 6))
+        refresh()
+
+    def welcome():
+        """First run: suggest the featured languages that have shipped."""
+        if settings["welcomeDone"] or not featured():
+            return
+        win = tk.Toplevel(root)
+        win.title(text.get("welcomeTitle", "Welcome"))
+        win.transient(root)
+        frame = ttk.Frame(win, padding=20)
+        frame.pack(fill="both", expand=True)
+
+        def done():
+            settings.update(load_settings(), welcomeDone=True)
+            save_settings(settings)
+            win.destroy()
+        ttk.Label(frame, text=text.get("welcomeTitle", "Welcome"), style="Name.TLabel").pack(anchor="w")
+        ttk.Label(frame, text=text.get("welcomeBody", "")).pack(anchor="w", pady=(6, 12))
+        featured_buttons(frame, after=done).pack(anchor="w")
+        ttk.Button(frame, text="Not now", command=done).pack(anchor="e", pady=(16, 0))
+        win.protocol("WM_DELETE_WINDOW", done)
+
+    settings_btn.config(command=open_settings)
     open_btn.config(command=open_selected)
     folder_btn.config(command=lambda: selected() and open_folder(selected().folder))
     apk_btn.config(command=open_apk)
@@ -450,6 +778,7 @@ def run_gui(tools, server):
     fill()
     show()
     tree.focus_set()
+    root.after(200, welcome)
     root.mainloop()
 
 

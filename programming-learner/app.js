@@ -20,8 +20,8 @@
   const TAGS = SECTIONS.tags(CATALOG);
   const layout = SECTIONS.load();
   if (layout.tag && !TAGS.includes(layout.tag)) layout.tag = "";
-  // Which groups are shown. Both are on until Settings offers the switches.
-  const show = { older: true, joke: true };
+  // Which groups are shown: the older and joke switches (also in Settings).
+  let show = SECTIONS.shown();
   const PASS = 0.8;
   const store = LSD.store("lsd-programming-v1", {});
   const progress = store.load();
@@ -59,9 +59,16 @@
     return out + esc(code.slice(last));
   }
 
-  function codeBlock(code, out) {
+  // A track (one topic in several languages) tags each example with its
+  // language; pack.langs holds that language's name and colouring words.
+  function langOf(id) {
+    return id && pack.langs && pack.langs[id] ? pack.langs[id] : null;
+  }
+
+  function codeBlock(code, out, lang) {
+    const l = langOf(lang);
     return (
-      '<div class="code"><button class="copy" title="Copy code">Copy</button><pre><code>' + highlight(code, pack) + "</code></pre>" +
+      '<div class="code">' + (l ? '<span class="lang">' + esc(l.name) + "</span>" : "") + '<button class="copy" title="Copy code">Copy</button><pre><code>' + highlight(code, l || pack) + "</code></pre>" +
       (out != null ? '<div class="out"><span class="lbl">Output</span><pre>' + esc(out) + "</pre></div>" : "") +
       "</div>"
     );
@@ -111,6 +118,7 @@
 
   function renderHome() {
     renderControls();
+    SECTIONS.renderSwitches($("homeSwitches"));
     const blocks = SECTIONS.arrange(CATALOG, { view: layout.view, tag: layout.tag, show });
     $("langGrid").innerHTML = blocks.length
       ? blocks.map((b) =>
@@ -210,7 +218,7 @@
     const l = pack.lessons[idx];
     el.innerHTML =
       '<div class="card lesson"><h2>' + (idx + 1) + ". " + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>" +
-      l.sections.map((s) => (s.h ? "<h3>" + esc(s.h) + "</h3>" : "") + (s.p ? "<p>" + s.p + "</p>" : "") + (s.code != null ? codeBlock(s.code, s.out) : "")).join("") +
+      l.sections.map((s) => (s.h ? "<h3>" + esc(s.h) + "</h3>" : "") + (s.p ? "<p>" + s.p + "</p>" : "") + (s.code != null ? codeBlock(s.code, s.out, s.lang) : "")).join("") +
       "</div>" +
       (l.practice && l.practice.length ? '<div class="card practice" id="practice"></div>' : "") +
       '<div class="row nav">' +
@@ -238,7 +246,7 @@
     box.innerHTML =
       '<div class="scorebar"><span>' + esc(quiz.label) + " · question " + (quiz.i + 1) + " of " + quiz.items.length + "</span><span>" + quiz.right + " right</span></div>" +
       '<p class="q">' + esc(q.q) + "</p>" +
-      (q.code ? '<div class="code"><pre><code>' + highlight(q.code, pack) + "</code></pre></div>" : "") +
+      (q.code ? '<div class="code">' + (langOf(q.lang) ? '<span class="lang">' + esc(langOf(q.lang).name) + "</span>" : "") + "<pre><code>" + highlight(q.code, langOf(q.lang) || pack) + "</code></pre></div>" : "") +
       '<div class="opts' + (multi ? " tall" : "") + '">' + shuffle(q.options.slice()).map((o) => '<button data-o="' + esc(o) + '"><pre>' + esc(o) + "</pre></button>").join("") + "</div>" +
       '<div id="why"></div>';
     box.querySelectorAll("[data-o]").forEach((b) => (b.onclick = () => answer(b)));
@@ -307,6 +315,11 @@
     sel.value = current;
   }
   fillSelect();
+  SECTIONS.onSwitch(() => {
+    show = SECTIONS.shown();
+    fillSelect();
+    if (!pack) renderHome();
+  });
   sel.onchange = () => {
     LSD.setParam(sel.value || null);
     history.replaceState(null, "", location.search);

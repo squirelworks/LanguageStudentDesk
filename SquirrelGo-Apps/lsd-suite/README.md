@@ -8,16 +8,7 @@ This APK is not published. There is no rolling GitHub release and no Actions wor
 
 ## What's in the menu
 
-- Klingon (tlhIngan Hol) — pIqaD alphabet, handwriting, numbers, vocabulary, grammar, reader and quizzes.
-- Character Learner — Kana, kanji, hanzi, hanja, pIqaD and the Alphabets scripts: stroke order and a writing pad.
-- Resource Learner — Curated learning resources, general and per language.
-- Reference Learner — Quick lookup for language facts and notes.
-- Translation Learner — Sentence translation checked by meaning, a meaning matrix, and top-1,000 word practice.
-- Programming Learner — Syntax, concepts and practice, from Python, Slick and Chisel to the esolangs.
-- Legalese Learner — How the heavy words in a contract work. Reading practice, not legal advice.
-- Language Learner — A guided path per language: script, first words, grammar, then practice.
-- Grammar Learner — Short grammar lessons with explained drills.
-- Vocabulary Learner — Flashcards, spaced review and Anki export.
+Every Desk learner, each opening inside the app; the full list is in the app's menu. The menu shows standard languages and the core learners by default. Settings has the same levels (Simple, More, Everything) and Customize switches as the Desk, read from the shared feature list, and a "What's in the app" page that lists everything turned off with the switch that turns it on. The first run shows a welcome card with a few languages to try.
 
 Pick a language or a programming course on the menu before opening a scoped tool. The system Back button returns to the menu. `https` links (resource lists) open in the browser. Recorded character audio is packed with the app. Where a learner asks the WebView to speak, the device text-to-speech engine is used if that language is installed.
 

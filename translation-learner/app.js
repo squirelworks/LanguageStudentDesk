@@ -8,7 +8,7 @@
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
   const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
-  // Stays until a language pair passes its translation tests (issue #194).
+  // Shown for a language until its translation tests pass (data/tested.js).
   const ALPHA = '<span class="alpha">(alpha)</span>';
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
@@ -45,7 +45,7 @@
   }
 
   function matrix() {
-    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES };
+    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
   }
 
   async function deckEntries(id) {
@@ -105,7 +105,9 @@
       byReading: id === "japanese",
       caseSensitive: !!state.col.caseSensitive,
     });
-    $("title").innerHTML = "Translation Learner " + ALPHA + " <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
+    // A language whose translation tests all pass loses the label.
+    const tested = (window.TL_TESTED || []).includes(id);
+    $("title").innerHTML = "Translation Learner " + (tested ? "" : ALPHA + " ") + "<small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
     $("subtitle").textContent = "Every piece of meaning carried over, nothing added.";
     $("toTargetTab").textContent = "Into " + name;
     $("wordsTab").hidden = !BANKS.includes(id);
@@ -297,6 +299,7 @@
       if (r.dropped) parts.push(r.dropped + (r.dropped === 1 ? " meaning" : " meanings") + " missing");
       if (r.close) parts.push(r.close + (r.close === 1 ? " close word" : " close words"));
       if (r.added.length) parts.push(r.added.length + (r.added.length === 1 ? " word adds" : " words add") + " meaning");
+      if (r.tenseWrong) parts.push("wrong time");
       html += parts.join(", ") + ". Meaning score " + Math.round(r.score * 100) + "%.";
     }
     html += "</div>";
@@ -309,8 +312,10 @@
     html += "</div>";
     if (r.typos) html += '<p class="small">Spelling: ' + r.units.filter((u) => u.typo).map((u) => "“" + esc(u.matched[0]) + "” is spelt “" + esc(u.typo) + "”").join(", ") + ".</p>";
     if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(T.closeCredit(u.sim, state.net.close) * 100) + "% credit)").join(", ") + ".</p>";
+    if (r.tenseWrong) html += '<p class="added">The original says this already happened. Put your English in the past.</p>';
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";
+    if (s.also.length) html += '<p class="small muted">Also right: ' + s.also.map((a) => "“" + esc(a) + "”").join(", ") + "</p>";
     html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-close">close</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
     html += '<div class="row" style="margin-top:0.8rem"><button class="primary" id="enNext">Next</button>' + (honest ? "" : '<button id="enOverride">My translation means the same</button>') + "</div>";
     $("enResult").innerHTML = html;
