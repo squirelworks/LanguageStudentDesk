@@ -1,22 +1,22 @@
-// Inuktitut starter words for the Vocabulary Learner.
-// Each word is [Inuktitut syllabics, romanization, English, note]. Written for this project.
-// Inuktitut builds long words from a root and many endings, so these decks keep to words and set phrases.
-// Romanization follows the Inuit Cultural Institute (ICI) standard used in Nunavut materials.
-// Verb cards use a common third-person form (“he/she …”) as the citation shape unless noted.
-//
-// Sources (attested forms only; leave out if unsure):
-// - Existing Desk Inuktitut decks in this file
-// - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca) glossary and lessons (South Qikiqtaaluk
-//   learner forms; e.g. colours, body, verbs, family, clothing, land and weather)
-// - Inuit Uqausinginnik Taiguusiliuqtiit materials and Inuktut learner word lists
-// - Wiktionary Inuktitut lemmas / Appendix:Eskimo-Aleut basic vocabulary (CC BY-SA)
-// - This repo’s languages/inuktitut/reference.json (numbers, greetings, place names)
+// Generated from squirrel-lang-data bd56e84 languages/inuktitut/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Inuktitut syllabics, romanization, English, note]. Written for
+// this project. Inuktitut builds long words from a root and many endings, so
+// these decks keep to words and set phrases. Romanization follows the Inuit
+// Cultural Institute (ICI) standard used in Nunavut materials. Verb cards use a
+// common third-person form (“he/she …”) as the citation shape unless noted.
+// Sources (attested forms only; leave out if unsure): - Existing Desk Inuktitut
+// decks in this file - Inuktut Tusaalanga (Pirurvik / tusaalanga.ca) glossary
+// and lessons (South Qikiqtaaluk learner forms; e.g. colours, body, verbs,
+// family, clothing, land and weather) - Inuit Uqausinginnik Taiguusiliuqtiit
+// materials and Inuktut learner word lists - Wiktionary Inuktitut lemmas /
+// Appendix:Eskimo-Aleut basic vocabulary (CC BY-SA) - This repo’s
+// languages/inuktitut/reference.json (numbers, greetings, place names)
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.inuktitut = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ᐊᐃ", "ai", "hello", ""],
       ["ᐅᓪᓛᒃᑯᑦ", "ullaakkut", "good morning", ""],
       ["ᐅᓐᓄᓴᒃᑯᑦ", "unnusakkut", "good afternoon; good evening", ""],
@@ -30,13 +30,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᑐᙵᓱᒋᑦ", "tunngasugit", "welcome (to one person)", "Tusaalanga lesson 1. To more than two: ᑐᙵᓱᒋᑦᓯ, tunngasugitsi."],
       ["ᐃᓛᓕ", "ilaali", "you're welcome", "Tusaalanga glossary."],
       ["ᐅᓪᓗᖃᑦᓯᐊᕆᑦ", "ulluqatsiarit", "have a good day (to one person)", "Tusaalanga glossary."],
-      ["ᑐᑭᓯᕕᑦ?", "tukisivit?", "do you understand?", "Tusaalanga glossary."],
-    ],
+      ["ᑐᑭᓯᕕᑦ?", "tukisivit?", "do you understand?", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ᐃᓄᒃ", "inuk", "person", "Plural ᐃᓄᐃᑦ, Inuit: the people."],
       ["ᐊᓈᓇ", "anaana", "mother", ""],
       ["ᐊᑖᑕ", "ataata", "father", ""],
@@ -53,13 +53,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᐊᓂᒃ", "anik", "brother (of a female)", "Tusaalanga glossary."],
       ["ᓇᔭᒃ", "najak", "sister (of a male)", "Tusaalanga glossary."],
       ["ᓄᑲᖅ", "nukaq", "younger sibling (same sex)", "Tusaalanga glossary."],
-      ["ᐱᖃᑎ", "piqati", "friend", "Tusaalanga glossary."],
-    ],
+      ["ᐱᖃᑎ", "piqati", "friend", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ᐊᑕᐅᓯᖅ", "atausiq", "one", ""],
       ["ᒪᕐᕉᒃ", "marruuk", "two", ""],
       ["ᐱᖓᓱᑦ", "pingasut", "three", ""],
@@ -70,13 +70,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᓯᑕᒪᐅᔪᙱᒐᖅᑐᑦ", "sitamaujunngigaqtut", "seven", "South Qikiqtaaluk compound form (Tusaalanga)."],
       ["ᓯᑕᒪᐅᔪᖅᑐᑦ", "sitamaujuqtut", "eight", "South Qikiqtaaluk compound form (Tusaalanga)."],
       ["ᖁᓕᐅᙱᒐᖅᑐᑦ", "quliunngigaqtut", "nine", "South Qikiqtaaluk compound form (Tusaalanga)."],
-      ["ᐊᕙᑎᑦ", "avatit", "twenty", "Traditional base; Tusaalanga glossary."],
-    ],
+      ["ᐊᕙᑎᑦ", "avatit", "twenty", "Traditional base; Tusaalanga glossary."]
+    ]
   },
   {
-    id: "land",
-    title: "Land, sea and sky",
-    words: [
+    "id": "land",
+    "title": "Land, sea and sky",
+    "words": [
       ["ᓄᓇ", "nuna", "land", "ᓄᓇᕗᑦ, Nunavut: “our land”."],
       ["ᐃᒪᖅ", "imaq", "sea; water", ""],
       ["ᐃᒥᖅ", "imiq", "drinking water", ""],
@@ -95,13 +95,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᓯᓚᓗᑦᑐᖅ", "silaluttuq", "it is raining", "Tusaalanga glossary."],
       ["ᓂᓪᓚᓱᒃᑐᖅ", "nillasuktuq", "it is cold (weather)", "Tusaalanga glossary."],
       ["ᓄᓇᕗᑦ", "nunavut", "Nunavut; our land", "Territory name; also “our land”."],
-      ["ᐃᖃᓗᐃᑦ", "Iqaluit", "Iqaluit", "Capital of Nunavut; “many fish”."],
-    ],
+      ["ᐃᖃᓗᐃᑦ", "Iqaluit", "Iqaluit", "Capital of Nunavut; “many fish”."]
+    ]
   },
   {
-    id: "animals",
-    title: "Animals and food",
-    words: [
+    "id": "animals",
+    "title": "Animals and food",
+    "words": [
       ["ᓇᓄᖅ", "nanuq", "polar bear", ""],
       ["ᑐᒃᑐ", "tuktu", "caribou", ""],
       ["ᓇᑦᑎᖅ", "nattiq", "ringed seal", ""],
@@ -116,13 +116,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᑎᕆᒐᓂᐊᖅ", "tiriganiaq", "Arctic fox", "Tusaalanga glossary."],
       ["ᐅᑲᓕᖅ", "ukaliq", "Arctic hare", "Tusaalanga glossary."],
       ["ᐊᕕᙵᖅ", "avinngaq", "lemming", "Tusaalanga glossary / Wiktionary."],
-      ["ᐊᖅᐱᒃ", "aqpik", "cloudberry", "Tusaalanga glossary."],
-    ],
+      ["ᐊᖅᐱᒃ", "aqpik", "cloudberry", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "home-time",
-    title: "Home and time",
-    words: [
+    "id": "home-time",
+    "title": "Home and time",
+    "words": [
       ["ᐃᒡᓗ", "iglu", "house; any home", "Not only a snow house: that is ᐃᒡᓗᕕᒐᖅ, igluvigaq."],
       ["ᖃᒧᑏᒃ", "qamutiik", "sled", ""],
       ["ᖃᔭᖅ", "qajaq", "kayak", ""],
@@ -139,13 +139,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᐅᓪᓗᖅ", "ulluq", "day", "Tusaalanga glossary."],
       ["ᓇᓂ?", "nani?", "where? (at / in)", "Locative question; Tusaalanga / IUT grammar materials."],
       ["ᓇᒧᑦ?", "namut?", "to where?", "Tusaalanga / IUT grammar materials."],
-      ["ᓇᑭᑦ?", "nakit?", "from where?", "Tusaalanga glossary."],
-    ],
+      ["ᓇᑭᑦ?", "nakit?", "from where?", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "colours",
-    title: "Colours",
-    words: [
+    "id": "colours",
+    "title": "Colours",
+    "words": [
       ["ᐊᒥᐊᑦ", "amiat", "colours", "Tusaalanga glossary."],
       ["ᐊᐅᐸᖅᑐᖅ", "aupaqtuq", "red", "South Qikiqtaaluk (Tusaalanga); other dialects may say aupaluktuq."],
       ["ᖃᑯᖅᑕᖅ", "qakuqtaq", "white", "Tusaalanga glossary."],
@@ -153,13 +153,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᑐᖑᔪᖅᑕᖅ", "tungujuqtaq", "blue", "Tusaalanga glossary."],
       ["ᖁᖅᓱᖅᑕᖅ", "quqsuqtaq", "yellow", "Tusaalanga glossary."],
       ["ᐆᔭᐅᔭᖅ", "uujaujaq", "green", "Tusaalanga glossary."],
-      ["ᑲᔪᖅ", "kajuq", "brown", "Tusaalanga glossary."],
-    ],
+      ["ᑲᔪᖅ", "kajuq", "brown", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "body",
-    title: "Body",
-    words: [
+    "id": "body",
+    "title": "Body",
+    "words": [
       ["ᓂᐊᖁᖅ", "niaquq", "head", "Tusaalanga glossary."],
       ["ᐊᒡᒐᑦ", "aggat", "hand", "Tusaalanga glossary."],
       ["ᑕᓕᖅ", "taliq", "arm", "Tusaalanga glossary."],
@@ -169,13 +169,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᑐᐃ", "tui", "shoulder", "Tusaalanga glossary."],
       ["ᓴᓂᕋᖅ", "saniraq", "side (of the body)", "Tusaalanga glossary."],
       ["ᐊᒡᒐᐅᑦ", "aggaut", "forearm", "Tusaalanga glossary."],
-      ["ᐃᒡᒑᒃ", "iggaak", "eyeglasses", "Tusaalanga glossary."],
-    ],
+      ["ᐃᒡᒑᒃ", "iggaak", "eyeglasses", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ᓂᕆᔪᖅ", "nirijuq", "he/she is eating", "From niri-; Tusaalanga lesson 1."],
       ["ᐃᒥᖅᑐᖅ", "imiqtuq", "he/she is drinking", "Tusaalanga glossary."],
       ["ᓯᓂᑦᑐᖅ", "sinittuq", "he/she is sleeping", "Tusaalanga glossary."],
@@ -190,13 +190,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᖃᐃᒋᑦ", "qaigit", "come! (to one person)", "Command; Tusaalanga glossary."],
       ["ᐱᙳᐊᖅᑐᖅ", "pinnguaqtuq", "he/she plays", "Tusaalanga glossary."],
       ["ᐅᖃᓕᒫᖅᑐᖅ", "uqalimaaqtuq", "he/she is reading", "Tusaalanga glossary."],
-      ["ᖁᕕᐊᓱᑦᑐᖅ", "quviasuttuq", "he/she is happy", "Tusaalanga glossary."],
-    ],
+      ["ᖁᕕᐊᓱᑦᑐᖅ", "quviasuttuq", "he/she is happy", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "clothing",
-    title: "Clothing and gear",
-    words: [
+    "id": "clothing",
+    "title": "Clothing and gear",
+    "words": [
       ["ᑲᒦᒃ", "kamiik", "skin boots (pair)", "Dual; Tusaalanga glossary."],
       ["ᐊᒪᐅᑎ", "amauti", "parka with a child pouch", "Tusaalanga glossary."],
       ["ᐊᑎᒋ", "atigi", "caribou parka (fur inside)", "Tusaalanga glossary."],
@@ -206,13 +206,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᐅᒥᐊᖅ", "umiaq", "boat", "Stem in Tusaalanga umiaqtuqtuq “is boating”."],
       ["ᖁᓪᓕᖅ", "qulliq", "seal-oil lamp", "Tusaalanga glossary."],
       ["ᓴᕕᒃ", "savik", "knife", "Tusaalanga glossary."],
-      ["ᐱᙳᐊᖅ", "pinnguaq", "toy; game", "Tusaalanga glossary."],
-    ],
+      ["ᐱᙳᐊᖅ", "pinnguaq", "toy; game", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ᐊᖏᔪᖅ", "angijuq", "it is big", "Tusaalanga glossary."],
       ["ᒥᑭᔪᖅ", "mikijuq", "it is small", "Tusaalanga glossary."],
       ["ᐊᑲᐅᔪᖅ", "akaujuq", "good; convenient", "Tusaalanga glossary."],
@@ -220,13 +220,13 @@ window.LSD_DECKS.inuktitut = [
       ["ᑖᖅᑐᖅ", "taaqtuq", "it is dark", "Tusaalanga glossary."],
       ["ᖃᐅᒪᔪᖅ", "qaumajuq", "it gives off light", "Tusaalanga glossary."],
       ["ᑕᖃᔪᖅ", "taqajuq", "he/she is tired", "Tusaalanga glossary."],
-      ["ᐅᖁᒪᐃᑦᑐᖅ", "uqumaittuq", "it is heavy", "Tusaalanga glossary."],
-    ],
+      ["ᐅᖁᒪᐃᑦᑐᖅ", "uqumaittuq", "it is heavy", "Tusaalanga glossary."]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ᐃᒻᒧᒃ", "immuk", "milk", "Tusaalanga glossary."],
       ["ᐸᓚᐅᒑᖅ", "palaugaaq", "bannock", "Tusaalanga glossary."],
       ["ᓂᒃᑯ", "nikku", "dried meat", "Tusaalanga glossary."],
@@ -234,7 +234,7 @@ window.LSD_DECKS.inuktitut = [
       ["ᓇᓄᒥᓂᖅ", "nanuminiq", "polar bear meat", "Tusaalanga glossary."],
       ["ᑐᑦᑐᒥᓂᖅ", "tuttuminiq", "caribou meat", "Tusaalanga glossary."],
       ["ᓇᑦᓯᒥᓂᖅ", "natsiminiq", "ringed seal meat", "Tusaalanga glossary."],
-      ["ᐃᒍᓇᖅ", "igunaq", "fermented walrus meat", "Tusaalanga glossary."],
-    ],
-  },
+      ["ᐃᒍᓇᖅ", "igunaq", "fermented walrus meat", "Tusaalanga glossary."]
+    ]
+  }
 ];

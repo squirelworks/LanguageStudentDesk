@@ -1,11 +1,12 @@
-// Modern Standard Arabic starter words for the Vocabulary Learner.
-// Each word is [Arabic, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/arabic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Arabic, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.arabic = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["مرحبا", "marḥaban", "hello", ""],
       ["السلام عليكم", "as-salāmu ʿalaykum", "peace be upon you (greeting)", "Reply: وعليكم السلام wa-ʿalaykumu s-salām."],
       ["صباح الخير", "ṣabāḥ al-khayr", "good morning", "Reply: صباح النور ṣabāḥ an-nūr."],
@@ -18,13 +19,13 @@ window.LSD_DECKS.arabic = [
       ["مع السلامة", "maʿa s-salāma", "goodbye", ""],
       ["كيف حالك؟", "kayfa ḥāluk?", "how are you?", ""],
       ["بخير", "bi-khayr", "fine, well", ""],
-      ["آسف", "āsif", "sorry", "آسفة āsifa when a woman says it."],
-    ],
+      ["آسف", "āsif", "sorry", "آسفة āsifa when a woman says it."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["أنا", "anā", "I", ""],
       ["أنت", "anta", "you (to a man)", "Same letters, anti, to a woman."],
       ["هو", "huwa", "he", ""],
@@ -43,13 +44,13 @@ window.LSD_DECKS.arabic = [
       ["عائلة", "ʿāʾila", "family", ""],
       ["معلم", "muʿallim", "teacher", ""],
       ["طالب", "ṭālib", "student", ""],
-      ["اسم", "ism", "name", ""],
-    ],
+      ["اسم", "ism", "name", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["صفر", "ṣifr", "zero", "The root of the English words 'cipher' and 'zero'."],
       ["واحد", "wāḥid", "one", "Digit ١"],
       ["اثنان", "ithnān", "two", "Digit ٢"],
@@ -62,13 +63,13 @@ window.LSD_DECKS.arabic = [
       ["تسعة", "tisʿa", "nine", "Digit ٩"],
       ["عشرة", "ʿashara", "ten", "Digits ١٠"],
       ["مئة", "miʾa", "hundred", ""],
-      ["ألف", "alf", "thousand", ""],
-    ],
+      ["ألف", "alf", "thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ماء", "māʾ", "water", ""],
       ["خبز", "khubz", "bread", ""],
       ["قهوة", "qahwa", "coffee", ""],
@@ -82,13 +83,13 @@ window.LSD_DECKS.arabic = [
       ["تفاحة", "tuffāḥa", "apple", ""],
       ["طعام", "ṭaʿām", "food", ""],
       ["أكل", "akala", "he ate (to eat)", "Arabic verbs are listed in the past 'he' form."],
-      ["شرب", "shariba", "he drank (to drink)", ""],
-    ],
+      ["شرب", "shariba", "he drank (to drink)", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Verbs",
-    words: [
+    "id": "verbs",
+    "title": "Verbs",
+    "words": [
       ["ذهب", "dhahaba", "to go", "Listed in the 'he did' form, as dictionaries do."],
       ["جاء", "jāʾa", "to come", ""],
       ["كتب", "kataba", "to write", "Root k-t-b: كتاب book, مكتب office."],
@@ -104,13 +105,13 @@ window.LSD_DECKS.arabic = [
       ["أحب", "aḥabba", "to love, like", ""],
       ["أراد", "arāda", "to want", ""],
       ["اشترى", "ishtarā", "to buy", ""],
-      ["سكن", "sakana", "to live (reside)", ""],
-    ],
+      ["سكن", "sakana", "to live (reside)", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["كبير", "kabīr", "big; old (of people)", ""],
       ["صغير", "ṣaghīr", "small; young", ""],
       ["جميل", "jamīl", "beautiful", ""],
@@ -129,13 +130,13 @@ window.LSD_DECKS.arabic = [
       ["أسود", "aswad", "black", ""],
       ["أخضر", "akhḍar", "green", ""],
       ["أزرق", "azraq", "blue", ""],
-      ["جدا", "jiddan", "very", "Comes after the word: كبير جدا very big."],
-    ],
+      ["جدا", "jiddan", "very", "Comes after the word: كبير جدا very big."]
+    ]
   },
   {
-    id: "places",
-    title: "Places and time",
-    words: [
+    "id": "places",
+    "title": "Places and time",
+    "words": [
       ["بيت", "bayt", "house, home", ""],
       ["مدرسة", "madrasa", "school", ""],
       ["مدينة", "madīna", "city", ""],
@@ -152,13 +153,13 @@ window.LSD_DECKS.arabic = [
       ["أمس", "ams", "yesterday", ""],
       ["الآن", "al-ān", "now", ""],
       ["هنا", "hunā", "here", ""],
-      ["هناك", "hunāk", "there", ""],
-    ],
+      ["هناك", "hunāk", "there", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Question words",
-    words: [
+    "id": "questions",
+    "title": "Question words",
+    "words": [
       ["ما", "mā", "what", "Before a noun; ماذا mādhā before a verb."],
       ["من", "man", "who", "Same letters as مِن min 'from'."],
       ["أين", "ayna", "where", ""],
@@ -166,13 +167,13 @@ window.LSD_DECKS.arabic = [
       ["لماذا", "limādhā", "why", ""],
       ["كيف", "kayfa", "how", ""],
       ["كم", "kam", "how many, how much", "بكم؟ bikam? How much does it cost?"],
-      ["هل", "hal", "(starts a yes/no question)", ""],
-    ],
+      ["هل", "hal", "(starts a yes/no question)", ""]
+    ]
   },
   {
-    id: "time2",
-    title: "Days and time",
-    words: [
+    "id": "time2",
+    "title": "Days and time",
+    "words": [
       ["يوم الأحد", "yawm al-aḥad", "Sunday", "Literally 'day one': the week starts on Sunday."],
       ["يوم الاثنين", "yawm al-ithnayn", "Monday", "'Day two'."],
       ["يوم الثلاثاء", "yawm ath-thulāthāʾ", "Tuesday", ""],
@@ -192,13 +193,13 @@ window.LSD_DECKS.arabic = [
       ["دائما", "dāʾiman", "always", ""],
       ["أحيانا", "aḥyānan", "sometimes", ""],
       ["بعد", "baʿda", "after", "بعد الظهر: afternoon."],
-      ["قبل", "qabla", "before", ""],
-    ],
+      ["قبل", "qabla", "before", ""]
+    ]
   },
   {
-    id: "body",
-    title: "Body and health",
-    words: [
+    "id": "body",
+    "title": "Body and health",
+    "words": [
       ["رأس", "raʾs", "head", "عندي صداع: I have a headache."],
       ["عين", "ʿayn", "eye; spring (of water)", "Also the name of the letter ع."],
       ["أنف", "anf", "nose", ""],
@@ -214,13 +215,13 @@ window.LSD_DECKS.arabic = [
       ["طبيب", "ṭabīb", "doctor", ""],
       ["دواء", "dawāʾ", "medicine", ""],
       ["صيدلية", "ṣaydaliyya", "pharmacy", ""],
-      ["ساعدني!", "sāʿidnī!", "help me!", ""],
-    ],
+      ["ساعدني!", "sāʿidnī!", "help me!", ""]
+    ]
   },
   {
-    id: "home",
-    title: "Home and things",
-    words: [
+    "id": "home",
+    "title": "Home and things",
+    "words": [
       ["غرفة", "ghurfa", "room", ""],
       ["مطبخ", "maṭbakh", "kitchen", "Root ṭ-b-kh 'cook'."],
       ["نافذة", "nāfidha", "window", ""],
@@ -239,13 +240,13 @@ window.LSD_DECKS.arabic = [
       ["قطة", "qiṭṭa", "cat", ""],
       ["كلب", "kalb", "dog", ""],
       ["حصان", "ḥiṣān", "horse", ""],
-      ["جمل", "jamal", "camel", ""],
-    ],
+      ["جمل", "jamal", "camel", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["طريق", "ṭarīq", "road, way", ""],
       ["شارع", "shāriʿ", "street", ""],
       ["حافلة", "ḥāfila", "bus", "Often باص bāṣ."],
@@ -269,13 +270,13 @@ window.LSD_DECKS.arabic = [
       ["نهر", "nahr", "river", ""],
       ["جبل", "jabal", "mountain", ""],
       ["شمس", "shams", "sun", ""],
-      ["قمر", "qamar", "moon", ""],
-    ],
+      ["قمر", "qamar", "moon", ""]
+    ]
   },
   {
-    id: "verbs2",
-    title: "More verbs",
-    words: [
+    "id": "verbs2",
+    "title": "More verbs",
+    "words": [
       ["فتح", "fataḥa", "to open", "Listed in the 'he did' form."],
       ["أغلق", "aghlaqa", "to close", ""],
       ["جلس", "jalasa", "to sit", "تفضل اجلس: please, sit down."],
@@ -302,13 +303,13 @@ window.LSD_DECKS.arabic = [
       ["طبخ", "ṭabakha", "to cook", ""],
       ["لعب", "laʿiba", "to play", ""],
       ["استطاع", "istaṭāʿa", "to be able", ""],
-      ["احتاج", "iḥtāja", "to need", ""],
-    ],
+      ["احتاج", "iḥtāja", "to need", ""]
+    ]
   },
   {
-    id: "food2",
-    title: "More food",
-    words: [
+    "id": "food2",
+    "title": "More food",
+    "words": [
       ["فطور", "fuṭūr", "breakfast", "إفطار ifṭār: the meal breaking a fast."],
       ["غداء", "ghadāʾ", "lunch", ""],
       ["عشاء", "ʿashāʾ", "dinner", ""],
@@ -324,13 +325,13 @@ window.LSD_DECKS.arabic = [
       ["لذيذ", "ladhīdh", "delicious", "الأكل لذيذ: the food is delicious."],
       ["جائع", "jāʾiʿ", "hungry", ""],
       ["عطشان", "ʿaṭshān", "thirsty", ""],
-      ["الحساب", "al-ḥisāb", "the bill", "الحساب من فضلك: the bill, please."],
-    ],
+      ["الحساب", "al-ḥisāb", "the bill", "الحساب من فضلك: the bill, please."]
+    ]
   },
   {
-    id: "describing2",
-    title: "More describing words",
-    words: [
+    "id": "describing2",
+    "title": "More describing words",
+    "words": [
       ["طويل", "ṭawīl", "long; tall", ""],
       ["قصير", "qaṣīr", "short", ""],
       ["سهل", "sahl", "easy", ""],
@@ -349,13 +350,13 @@ window.LSD_DECKS.arabic = [
       ["أصفر", "aṣfar", "yellow", ""],
       ["لون", "lawn", "colour", ""],
       ["عربي", "ʿarabī", "Arab; Arabic", "اللغة العربية: the Arabic language."],
-      ["إنجليزي", "injilīzī", "English", ""],
-    ],
+      ["إنجليزي", "injilīzī", "English", ""]
+    ]
   },
   {
-    id: "little",
-    title: "Little words",
-    words: [
+    "id": "little",
+    "title": "Little words",
+    "words": [
       ["و", "wa", "and", "Written joined to the next word: وأنت wa-anta 'and you'."],
       ["أو", "aw", "or", ""],
       ["لكن", "lākin", "but", ""],
@@ -377,13 +378,13 @@ window.LSD_DECKS.arabic = [
       ["شيء", "shayʾ", "thing", "لا شيء: nothing."],
       ["إن شاء الله", "in shāʾa llāh", "God willing", "Said of anything planned for the future."],
       ["الحمد لله", "al-ḥamdu lillāh", "praise be to God", "Common reply to 'how are you?'."],
-      ["ما شاء الله", "mā shāʾa llāh", "what God has willed", "Said to admire something without envy."],
-    ],
+      ["ما شاء الله", "mā shāʾa llāh", "what God has willed", "Said to admire something without envy."]
+    ]
   },
   {
-    id: "work",
-    title: "Study and work",
-    words: [
+    "id": "work",
+    "title": "Study and work",
+    "words": [
       ["عمل", "ʿamal", "work, job", "أين تعمل؟ Where do you work?"],
       ["شركة", "sharika", "company", ""],
       ["مكتب", "maktab", "office; desk", "Root k-t-b 'write'."],
@@ -401,7 +402,7 @@ window.LSD_DECKS.arabic = [
       ["مهندس", "muhandis", "engineer", ""],
       ["موظف", "muwaẓẓaf", "employee", ""],
       ["فهمت", "fahimtu", "I understood", "ما فهمت / لم أفهم: I didn't understand."],
-      ["مرة أخرى", "marra ukhrā", "again, once more", "قلها مرة أخرى من فضلك: say it again, please."],
-    ],
-  },
+      ["مرة أخرى", "marra ukhrā", "again, once more", "قلها مرة أخرى من فضلك: say it again, please."]
+    ]
+  }
 ];

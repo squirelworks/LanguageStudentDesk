@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Rebuild the generated files in languages/.
 
-    registry.js, */meta.json  <- data/languages/*/meta.json (squirrel-lang-data,
-                                 by data/tools/gen_registry.py)
+    */vocab.js                <- data/languages/*/vocab.jsonl     (gen_vocab.py)
+    */grammar.js              <- data/languages/*/grammar.json    (gen_grammar.py)
+    */reference.json          <- data/languages/*/reference.json  (gen_reference.py)
+    registry.js, */meta.json  <- data/languages/*/meta.json       (gen_registry.py)
     reference.js              <- languages/*/reference.json
 
-Language meta lives in the squirrel-lang-data submodule at data/; edit it there,
-bump the submodule, and run this. It also checks each generated meta.json's
+The gen_*.py tools live in the squirrel-lang-data submodule at data/tools/.
+
+Language meta, vocabulary, grammar and reference cards live in the
+squirrel-lang-data submodule at data/; edit them there, bump the submodule,
+and run this. It also checks each generated meta.json's
 "data" list against the files in its folder, and the shared CJK table
 (cjk/characters.js) against each tradition's readings.
 
@@ -24,7 +29,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-GEN_REGISTRY = HERE.parent / "data" / "tools" / "gen_registry.py"
+DATA_TOOLS = HERE.parent / "data" / "tools"
+# Content first, so the registry's "data" lists see the files they write.
+GENERATORS = ["gen_vocab.py", "gen_grammar.py", "gen_reference.py", "gen_registry.py"]
 
 TOPICS = {"overview", "script", "sounds", "grammar", "verbs", "numbers", "phrases", "culture"}
 
@@ -153,17 +160,20 @@ def build():
     }, problems
 
 
-def gen_registry(check):
-    """registry.js and every */meta.json, from the data submodule."""
-    if not GEN_REGISTRY.is_file():
+def generate(check):
+    """Every file generated from the data submodule."""
+    if not (DATA_TOOLS / "gen_registry.py").is_file():
         print("data/ is empty; run: git submodule update --init")
         return 1
-    cmd = [sys.executable, str(GEN_REGISTRY), "--out", str(HERE)] + (["--check"] if check else [])
-    return subprocess.run(cmd).returncode
+    status = 0
+    for tool in GENERATORS:
+        cmd = [sys.executable, str(DATA_TOOLS / tool), "--out", str(HERE)] + (["--check"] if check else [])
+        status |= subprocess.run(cmd).returncode
+    return status
 
 
 def main():
-    status = gen_registry("--check" in sys.argv)
+    status = generate("--check" in sys.argv)
     if status:
         return status
     outputs, problems = build()

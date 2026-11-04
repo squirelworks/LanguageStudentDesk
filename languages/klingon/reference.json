@@ -133,6 +133,20 @@
       "topic": "verbs",
       "title": "Verb prefixes",
       "body": "One prefix on the verb says who does what to whom. The subject and the object are both packed into it, so a single verb can be a whole sentence. No prefix (—) means a third-person subject with a third-person object or none.",
+      "examples": [
+        {
+          "t": "{jI}Qong",
+          "e": "I sleep."
+        },
+        {
+          "t": "{qa}legh",
+          "e": "I see you."
+        },
+        {
+          "t": "{mu}legh",
+          "e": "He / she sees me."
+        }
+      ],
       "table": {
         "head": [
           "Subject",
@@ -207,20 +221,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{jI}Qong",
-          "e": "I sleep."
-        },
-        {
-          "t": "{qa}legh",
-          "e": "I see you."
-        },
-        {
-          "t": "{mu}legh",
-          "e": "He / she sees me."
-        }
-      ],
       "tags": [
         "verbs",
         "prefixes"
@@ -346,6 +346,12 @@
       "topic": "grammar",
       "title": "Possession and location suffixes",
       "body": "Nouns take suffixes where English uses my, your, at, from or for. They go in a fixed order, with possession before location.",
+      "examples": [
+        {
+          "t": "juH{wIjDaq}",
+          "e": "at my home"
+        }
+      ],
       "table": {
         "head": [
           "Suffix",
@@ -390,12 +396,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "juH{wIjDaq}",
-          "e": "at my home"
-        }
-      ],
       "tags": [
         "nouns",
         "suffixes"
@@ -406,6 +406,16 @@
       "topic": "grammar",
       "title": "Question words",
       "body": "Yes-no questions use the suffix -'a' on the verb. Question words take the place of what they ask about.",
+      "examples": [
+        {
+          "t": "{nuqDaq} 'oH puchpa''e'?",
+          "e": "Where is the bathroom?"
+        },
+        {
+          "t": "bIyaj{'a'}?",
+          "e": "Do you understand?"
+        }
+      ],
       "table": {
         "head": [
           "Word",
@@ -442,16 +452,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{nuqDaq} 'oH puchpa''e'?",
-          "e": "Where is the bathroom?"
-        },
-        {
-          "t": "bIyaj{'a'}?",
-          "e": "Do you understand?"
-        }
-      ],
       "tags": [
         "questions"
       ]
@@ -587,6 +587,20 @@
       "topic": "verbs",
       "title": "Commands",
       "body": "Commands use their own prefixes. Klingon commands are blunt; there is no please.",
+      "examples": [
+        {
+          "t": "{yI}jatlh!",
+          "e": "Speak!"
+        },
+        {
+          "t": "{pe}jatlh!",
+          "e": "Speak, all of you!"
+        },
+        {
+          "t": "{yI}Qong!",
+          "e": "Sleep!"
+        }
+      ],
       "table": {
         "head": [
           "Prefix",
@@ -621,20 +635,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{yI}jatlh!",
-          "e": "Speak!"
-        },
-        {
-          "t": "{pe}jatlh!",
-          "e": "Speak, all of you!"
-        },
-        {
-          "t": "{yI}Qong!",
-          "e": "Sleep!"
-        }
-      ],
       "tags": [
         "verbs",
         "imperative"
