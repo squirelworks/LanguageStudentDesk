@@ -787,5 +787,170 @@ x = (7 - y) / 2
 print(x, y)`, options: ["2.0 3.0", "3.0 2.0", "3.5 3.0", "2.0 9.0"], answer: "2.0 3.0", why: "The last equation gives y = 3; putting it into the first gives 2x = 4, so x = 2." },
       ],
     },
+    {
+      id: "interpolation",
+      title: "Interpolation: Newton's divided differences",
+      summary: "Fitting one polynomial through given points, evaluating it quickly, and why more points can make it worse.",
+      sections: [
+        {
+          p: "Often a function is known only at some points: measurements, a table, or values that are expensive to compute. <b>Interpolation</b> finds a function that passes exactly through those points, so you can estimate the values in between. The classic choice is a polynomial: through <i>n</i> + 1 points with different <i>x</i> values there is exactly one polynomial of degree at most <i>n</i>.",
+        },
+        {
+          h: "Newton's form",
+          p: "Newton writes that polynomial as <i>c</i><sub>0</sub> + <i>c</i><sub>1</sub>(<i>x</i> − <i>x</i><sub>0</sub>) + <i>c</i><sub>2</sub>(<i>x</i> − <i>x</i><sub>0</sub>)(<i>x</i> − <i>x</i><sub>1</sub>) + …. The coefficients are <b>divided differences</b>: <i>c</i><sub>1</sub> is the slope between the first two points, <i>c</i><sub>2</sub> is how fast that slope changes, and so on, each built from the level before. They fit in a single list that is updated in place. Adding a new point only adds one new coefficient, and the polynomial can be evaluated by <b>nesting</b>, like Horner's rule, with one multiplication per coefficient.",
+        },
+        {
+          h: "The method",
+          p: "Below, four points come from <i>x</i>² + <i>x</i> + 1, though the code is never told that. The coefficients come out as 1, 2, 1 and 0. The last one is zero because the points really lie on a parabola, so the interpolating polynomial is that parabola, and its values in between are exact: <i>p</i>(3) = 13 and <i>p</i>(2.5) = 9.75.",
+          lang: "python",
+          known: [13.0, 9.75],
+          impl: "interpolation",
+          code: `def divided_differences(xs, ys):
+    """Returns Newton's coefficients c0, c1, ... for the points (xs, ys)."""
+    n = len(xs)
+    c = ys[:]
+    for level in range(1, n):
+        # Work from the bottom up so each c[i] still holds the previous level.
+        for i in range(n - 1, level - 1, -1):
+            c[i] = (c[i] - c[i - 1]) / (xs[i] - xs[i - level])
+    return c
+
+def newton_value(xs, c, x):
+    """Evaluates c0 + c1(x - x0) + c2(x - x0)(x - x1) + ... by nesting."""
+    result = c[-1]
+    for i in range(len(c) - 2, -1, -1):
+        result = result * (x - xs[i]) + c[i]
+    return result
+
+xs = [0.0, 1.0, 2.0, 4.0]
+ys = [1.0, 3.0, 7.0, 21.0]      # from x*x + x + 1, but the code doesn't know that
+c = divided_differences(xs, ys)
+print("coefficients:", " ".join(f"{v:.6f}" for v in c))
+for x in (3.0, 2.5):
+    print(f"p({x:.1f}) = {newton_value(xs, c, x):.6f}")`,
+          out: "coefficients: 1.000000 2.000000 1.000000 0.000000\np(3.0) = 13.000000\np(2.5) = 9.750000",
+        },
+        {
+          p: "In C the coefficients overwrite the array of <i>y</i> values, which is how the method is usually written when memory matters.",
+          lang: "c",
+          known: [13.0, 9.75],
+          impl: "interpolation",
+          code: `#include <stdio.h>
+
+#define N 4
+
+/* Replaces c (which starts as the y values) with Newton's coefficients. */
+void divided_differences(const double xs[N], double c[N]) {
+    for (int level = 1; level < N; level++)
+        for (int i = N - 1; i >= level; i--)
+            c[i] = (c[i] - c[i - 1]) / (xs[i] - xs[i - level]);
+}
+
+/* Evaluates the Newton form by nesting, from the last coefficient back. */
+double newton_value(const double xs[N], const double c[N], double x) {
+    double result = c[N - 1];
+    for (int i = N - 2; i >= 0; i--)
+        result = result * (x - xs[i]) + c[i];
+    return result;
+}
+
+int main(void) {
+    double xs[N] = {0, 1, 2, 4};
+    double c[N] = {1, 3, 7, 21};    /* from x*x + x + 1, but the code doesn't know that */
+    divided_differences(xs, c);
+    printf("coefficients:");
+    for (int i = 0; i < N; i++)
+        printf(" %.6f", c[i]);
+    printf("\\n");
+    double points[] = {3.0, 2.5};
+    for (int k = 0; k < 2; k++)
+        printf("p(%.1f) = %.6f\\n", points[k], newton_value(xs, c, points[k]));
+    return 0;
+}`,
+          out: "coefficients: 1.000000 2.000000 1.000000 0.000000\np(3.0) = 13.000000\np(2.5) = 9.750000",
+        },
+        {
+          p: "In Fortran the arrays start at 1, so the loops run one higher. Assumed-shape arguments such as <code>xs(:)</code> let the same routines work for any number of points.",
+          lang: "fortran",
+          known: [13.0, 9.75],
+          impl: "interpolation",
+          code: `program interpolation
+  use iso_fortran_env, only: real64
+  implicit none
+  real(real64) :: xs(4), c(4), points(2)
+  integer :: k
+
+  xs = [0.0_real64, 1.0_real64, 2.0_real64, 4.0_real64]
+  c = [1.0_real64, 3.0_real64, 7.0_real64, 21.0_real64]   ! from x*x + x + 1
+  call divided_differences(xs, c)
+  print '(a, 4(1x, f8.6))', 'coefficients:', c
+  points = [3.0_real64, 2.5_real64]
+  do k = 1, 2
+    print '(a, f3.1, a, f0.6)', 'p(', points(k), ') = ', newton_value(xs, c, points(k))
+  end do
+contains
+  ! Replaces c (which starts as the y values) with Newton's coefficients.
+  subroutine divided_differences(xs, c)
+    real(real64), intent(in) :: xs(:)
+    real(real64), intent(inout) :: c(:)
+    integer :: level, i, n
+    n = size(xs)
+    do level = 1, n - 1
+      do i = n, level + 1, -1
+        c(i) = (c(i) - c(i - 1)) / (xs(i) - xs(i - level))
+      end do
+    end do
+  end subroutine divided_differences
+
+  ! Evaluates the Newton form by nesting, from the last coefficient back.
+  function newton_value(xs, c, x) result(total)
+    real(real64), intent(in) :: xs(:), c(:), x
+    real(real64) :: total
+    integer :: i
+    total = c(size(c))
+    do i = size(c) - 1, 1, -1
+      total = total * (x - xs(i)) + c(i)
+    end do
+  end function newton_value
+end program interpolation`,
+          out: "coefficients: 1.000000 2.000000 1.000000 0.000000\np(3.0) = 13.000000\np(2.5) = 9.750000",
+        },
+        {
+          h: "More points is not always better",
+          p: "It seems that more points must give a better fit, but with <b>equally spaced</b> points a high-degree polynomial can swing wildly near the ends of the interval. This is called <b>Runge's phenomenon</b>, after Carl Runge, who showed it with 1 / (1 + 25<i>x</i>²) on [−1, 1]. The cure is to bunch the points towards the ends: <b>Chebyshev points</b>, cos((2<i>i</i> + 1)π / (2<i>n</i> + 2)), keep the error small as <i>n</i> grows. In practice it is often better still to use many low-degree pieces joined smoothly, called <b>splines</b>, rather than one high-degree polynomial.",
+          lang: "python",
+          code: `import math
+
+def interpolate(xs, ys, x):
+    """Lagrange form: the sum of ys[i] times a polynomial that is 1 at xs[i] and 0 at the others."""
+    total = 0.0
+    for i in range(len(xs)):
+        term = ys[i]
+        for j in range(len(xs)):
+            if j != i:
+                term *= (x - xs[j]) / (xs[i] - xs[j])
+        total += term
+    return total
+
+f = lambda x: 1 / (1 + 25 * x * x)
+test = [-1 + k / 500 for k in range(1001)]
+for n in (5, 10, 20):
+    even = [-1 + 2 * i / n for i in range(n + 1)]
+    cheb = [math.cos((2 * i + 1) * math.pi / (2 * n + 2)) for i in range(n + 1)]
+    worst_even = max(abs(interpolate(even, [f(x) for x in even], t) - f(t)) for t in test)
+    worst_cheb = max(abs(interpolate(cheb, [f(x) for x in cheb], t) - f(t)) for t in test)
+    print(f"{n + 1:2d} points: equally spaced {worst_even:6.2f}, Chebyshev {worst_cheb:4.2f}")`,
+          out: " 6 points: equally spaced   0.43, Chebyshev 0.56\n11 points: equally spaced   1.92, Chebyshev 0.11\n21 points: equally spaced  59.77, Chebyshev 0.02",
+        },
+      ],
+      practice: [
+        { q: "Through how many points does a polynomial of degree 3 pass, in general?", options: ["4", "3", "6", "As many as you like"], answer: "4", why: "A degree-3 polynomial has four coefficients, so four points fix it." },
+        { q: "The highest divided difference of some points comes out exactly 0. What does that tell you?", options: ["The points lie on a polynomial of lower degree", "The points are equally spaced", "There was a rounding error", "Two x values are equal"], answer: "The points lie on a polynomial of lower degree", why: "The last coefficient multiplies the highest power, so if it's 0 a lower-degree polynomial already fits every point." },
+        { q: "Interpolating 1 / (1 + 25x²) at 21 equally spaced points gives huge errors near ±1. What helps most?", options: ["Using Chebyshev points, bunched towards the ends", "Using even more equally spaced points", "Using double precision", "Using Newton's form instead of Lagrange's"], answer: "Using Chebyshev points, bunched towards the ends", why: "The swings come from where the points are placed, not from rounding or the form of the polynomial; more equally spaced points make it worse." },
+        { kind: "output", lang: "python", q: "The first divided difference between (1, 4) and (3, 10). What does it print?", code: `x0, y0 = 1.0, 4.0
+x1, y1 = 3.0, 10.0
+print((y1 - y0) / (x1 - x0))`, options: ["3.0", "6.0", "2.0", "7.0"], answer: "3.0", why: "It is the slope between the points: a rise of 6 over a run of 2." },
+      ],
+    },
   ],
 };
