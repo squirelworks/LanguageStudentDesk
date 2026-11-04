@@ -22,6 +22,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "intercal", name: "INTERCAL", era: "Esoteric · 1972", blurb: "The first joke language: politeness is mandatory and numbers come out in Roman numerals.", group: "joke" },
   { id: "java", name: "Java", era: "1995 · business and Android", blurb: "Classes, strong types and a huge standard library. Runs bank systems, Android apps and countless university courses.", group: "modern", tags: ["Compiled programs"] },
   { id: "javascript", name: "JavaScript", era: "1995 · the web", blurb: "The language every web browser runs, and with Node.js, servers and tools too. Modern syntax, closures, classes and async.", group: "modern", tags: ["Scripting", "Web"] },
+  { id: "kotlin", name: "Kotlin", era: "2016 · Android and the JVM", blurb: "Google's preferred language for Android apps. Null safety, data classes, lambdas and far less typing than Java.", group: "modern", tags: ["Compiled programs"] },
   { id: "lolcode", name: "LOLCODE", era: "Esoteric · 2007", blurb: "A real, working language written in lolcat speak. HAI to KTHXBYE.", group: "joke" },
   { id: "malbolge", name: "Malbolge", era: "Esoteric · 1998", blurb: "Built to be nearly impossible to program, and it rewrites itself as it runs.", group: "joke" },
   { id: "numerical", name: "Numerical methods", era: "Track · Python, C and Fortran", blurb: "How computers find roots, areas and solutions when there is no formula. Each method explained, then built and tested in several languages.", group: "tracks" },
