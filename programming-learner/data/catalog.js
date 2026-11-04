@@ -11,6 +11,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
   { id: "cpp", name: "C++", era: "1985 · systems and games", blurb: "C with classes grown up: references, the standard library, RAII and modern C++20.", group: "modern", tags: ["Compiled programs"] },
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
+  { id: "basic", name: "Classic BASIC", era: "1964 · home computers", blurb: "Numbered lines, PRINT and GOTO: the BASIC that home computers of the late 1970s and 1980s switched on into.", group: "older", tags: ["Scripting"] },
   { id: "cobol", name: "COBOL", era: "1959 · business data", blurb: "Records, money and plain-English statements. Still runs payments and payroll at banks, insurers and government agencies.", group: "older", tags: ["Compiled programs"] },
   { id: "moderndelphi", name: "Delphi", era: "Today · Embarcadero", blurb: "Current Object Pascal: Unicode strings, generics, records with methods and anonymous methods, for Windows, macOS, Linux and phones.", group: "modern", tags: ["Compiled programs"] },
   { id: "delphi", name: "Delphi 5/6/7", era: "1999–2002 · Windows", blurb: "Object Pascal with drag-and-drop forms. Fast to build real Windows programs.", group: "older", tags: ["Compiled programs"] },
