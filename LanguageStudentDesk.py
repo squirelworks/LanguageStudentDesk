@@ -115,6 +115,7 @@ EXTRA_LANGS = [
     "bash",
     "typescript",
     "basic",
+    "sql",
 ]
 
 
