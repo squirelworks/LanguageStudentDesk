@@ -110,6 +110,7 @@ EXTRA_LANGS = [
     "javascript", "turbopascal",
     "cpp",
     "java",
+    "php",
     "sql",
 ]
 

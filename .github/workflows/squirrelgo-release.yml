@@ -1,0 +1,202 @@
+name: SquirrelGo release (draft)
+
+# Started by hand after the release PR merges (docs/RELEASE_PLAN.md).
+# Builds a release APK of every app and makes, or refreshes, a DRAFT
+# GitHub Release with them and SHA256SUMS.txt. It never publishes and never
+# creates, moves or deletes a tag: the owner clicks Publish, which creates
+# the tag and starts the desktop-build and content-pack workflows.
+# No AAB is built or uploaded here.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Platform version, e.g. squirrelgo-v0.1.0"
+        required: true
+      ref:
+        description: "Branch or commit to release (default: main)"
+        required: false
+        default: main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: squirrelgo-release-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - id: sha
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: The version is new
+        run: |
+          echo "$VERSION" | grep -Eq '^(squirrelgo-)?v[0-9]+\.[0-9]+\.[0-9]+$' \
+            || { echo "version must look like squirrelgo-v1.2.3"; exit 1; }
+          if git ls-remote --exit-code --tags origin "refs/tags/$VERSION" >/dev/null; then
+            echo "tag $VERSION already exists; tags are never reused or moved"; exit 1
+          fi
+          if gh release view "$VERSION" --json isDraft -q .isDraft 2>/dev/null | grep -q false; then
+            echo "release $VERSION is already published"; exit 1
+          fi
+
+  apk:
+    needs: check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { app: alphabets,        dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets, name: SquirrelGoAlphabets }
+          - { app: bopomofo,         dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo,  name: SquirrelGoBopomofo }
+          - { app: kana,             dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana,      name: SquirrelGoKana }
+          - { app: kanji,            dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji,     name: SquirrelGoKanji }
+          - { app: klingon,          dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon,   name: SquirrelGoKlingon }
+          - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary,                      name: SquirrelGoDictionary }
+          - { app: orthodox-bible,   dir: SquirrelGo-Apps/squirrelgo-orthodox-bible,                  name: SquirrelGoOrthodoxBible }
+          - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook,                      name: SquirrelGoPhrasebook }
+          - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite,                                  name: LanguageStudentDesk }
+          - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk,                   name: ProgrammingStudentDesk }
+    env:
+      DIR: ${{ matrix.dir }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      # The same preparation as each app's compile-only workflow.
+      - name: Check audio coverage
+        if: matrix.app == 'phrasebook'
+        run: cd "$DIR" && python3 tools/phrasebook_audio.py --check
+      - name: Download dictionary data
+        if: matrix.app == 'dictionary'
+        run: cd "$DIR" && tools/fetch_data.sh
+      - name: Sync web assets into the APK
+        if: matrix.app == 'kanji' || matrix.app == 'phrasebook'
+        run: |
+          rm -rf "$DIR/android/app/src/main/assets/www"
+          mkdir -p "$DIR/android/app/src/main/assets"
+          cp -a "$DIR/www" "$DIR/android/app/src/main/assets/www"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      # With an APK signing key in secrets the APK is release-signed; without
+      # it, each app's build.gradle falls back to its fixed debug key. This is
+      # not the Play upload key, which stays out of this repo's CI (RELEASES.md).
+      - name: APK signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.APK_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.APK_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.APK_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.APK_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/apk.keystore"
+            {
+              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/apk.keystore"
+              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
+              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
+            } >> "$GITHUB_ENV"
+            echo "signing with the APK signing key"
+          else
+            echo "no APK signing key in secrets; signing with the app's debug key"
+            # Programming Student Desk doesn't commit its debug key; all apps share one.
+            K="$DIR/android/app/debug.keystore"
+            [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
+          fi
+      - name: Build release APK
+        run: |
+          cd "$DIR/android"
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/apk/${{ matrix.name }}.apk"
+          VN=$(grep -m1 -E '^\s*versionName' app/build.gradle | sed -E 's/.*"(.*)".*/\1/')
+          VC=$(grep -m1 -E '^\s*versionCode' app/build.gradle | grep -oE '[0-9]+')
+          PKG=$(grep -m1 -E '^\s*applicationId' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
+          echo "| ${{ matrix.name }} | $PKG | $VN | $VC |" > "$RUNNER_TEMP/apk/${{ matrix.name }}.row"
+      - name: Remove the signing key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/apk.keystore"
+      # Passed to the draft job only; kept for one day.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.app }}
+          path: ${{ runner.temp }}/apk/
+          retention-days: 1
+          if-no-files-found: error
+
+  draft:
+    needs: [check, apk]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+      SHA: ${{ needs.check.outputs.sha }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: apk-*
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        run: cd dist && sha256sum *.apk > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - name: Notes
+        env:
+          HAS_KEY: ${{ secrets.APK_KEYSTORE_BASE64 != '' }}
+        run: |
+          DATA=$(git ls-tree HEAD data | awk '{print $3}')
+          {
+            if [ -f "release-notes/$VERSION.md" ]; then
+              cat "release-notes/$VERSION.md"
+            else
+              echo "Notes for $VERSION haven't been written yet."
+            fi
+            echo
+            echo "## App versions"
+            echo
+            echo "| App | Package | versionName | versionCode |"
+            echo "| --- | --- | --- | --- |"
+            cat dist/*.row
+            echo
+            echo "Built from \`$SHA\`, with squirrel-lang-data at \`${DATA:-none}\`."
+            echo
+            if [ "$HAS_KEY" = true ]; then
+              echo "APKs are signed with the SquirrelGo APK signing key."
+            else
+              echo "APKs are signed with each app's fixed debug key, so they install over earlier builds."
+            fi
+            echo "The Linux, Windows and macOS Desk builds and the Orthodox Bible content packs are attached when this release is published."
+          } > notes.md
+          rm -f dist/*.row
+      - name: Make or refresh the draft release
+        run: |
+          TITLE="SquirrelGo $VERSION"
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            gh release edit "$VERSION" --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
+            gh release upload "$VERSION" dist/* --clobber
+          else
+            gh release create "$VERSION" dist/* --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
+          fi
+          gh release view "$VERSION" --json url -q .url
