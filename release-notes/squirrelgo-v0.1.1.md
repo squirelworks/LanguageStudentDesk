@@ -24,11 +24,19 @@ turned up.
 - The character tables are now generated from the shared data instead of
   kept separately in the Desk.
 
+## Meaning and vocabulary
+
+- Vocabulary and meanings are now connected. In the Vocabulary Learner, a
+  Desk card shows its meanings once you turn it over, and each one links to
+  the Meaning web. The Meaning web lists the vocabulary cards for each
+  meaning, and the Translation Learner breaks linked words down into their
+  meanings.
+
 ## Programming Learner
 
-- A new Visual Basic .NET course.
+- New Kotlin and Visual Basic .NET courses.
 - The numerical methods track adds integration with the trapezoid and
-  Simpson rules.
+  Simpson rules, and linear systems with Gaussian elimination.
 
 ## SquirrelGo apps
 
