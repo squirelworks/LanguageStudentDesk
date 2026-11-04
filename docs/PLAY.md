@@ -63,9 +63,9 @@ Add these four repository secrets:
 | `UPLOAD_KEY_ALIAS` | the key's alias |
 | `UPLOAD_KEY_PASSWORD` | the key's password |
 
-These are the same names the apps' `build.gradle` already reads. The
-draft-release workflow uses them too, so release APKs come out signed with
-the upload key.
+These are the same names the apps' `build.gradle` already reads. Only this
+Play workflow uses them. The draft-release workflow signs APKs with a
+separate APK signing key (`APK_*` secrets) and never touches the upload key.
 
 If all the apps use one upload key, these four secrets cover all of them. If
 the key is lost, or you'd rather start a new one, Play Console can reset it
