@@ -60,5 +60,16 @@ jobs:
               sys.exit("Packs listed but not built: " + ", ".join(missing))
           print("%d Bibles, %d commentary packs" % (len(index["bibles"]), len(index["commentary"])))
           PY
+      # One file at a time: gh uploads a batch in parallel, and with ~100
+      # files a retried upload can collide with itself ("ReleaseAsset.name
+      # already exists") even with --clobber.
       - name: Attach to the release
-        run: gh release upload "$TAG" assets/* --clobber --repo "$GITHUB_REPOSITORY"
+        run: |
+          for f in assets/*; do
+            for try in 1 2 3; do
+              gh release upload "$TAG" "$f" --clobber --repo "$GITHUB_REPOSITORY" && break
+              [ "$try" = 3 ] && { echo "::error::Could not attach $f"; exit 1; }
+              sleep $((try * 5))
+            done
+          done
+          echo "Attached $(ls assets | wc -l) files to $TAG"
