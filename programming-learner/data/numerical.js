@@ -1329,6 +1329,148 @@ print(round(a, 3), round(b, 3))`, options: ["0.0 2.472", "1.528 4.0", "0.0 1.528
       ],
     },
     {
+      id: "random",
+      title: "Random numbers and Monte Carlo",
+      summary: "How a computer makes numbers that look random, how to test one, and using them to estimate π.",
+      sections: [
+        {
+          p: "Computers follow instructions exactly, so they can't produce true randomness on their own. Instead, a <b>pseudo-random number generator</b> keeps a hidden number, its <b>state</b>, and each call scrambles the state into a new one and hands out the result. The sequence looks random but is completely determined by the starting state, the <b>seed</b>. That is a feature: a simulation started from the same seed gives exactly the same results, which makes bugs repeatable.",
+        },
+        {
+          h: "A linear congruential generator",
+          p: "The oldest kind multiplies the state by a constant and keeps the remainder: <i>state</i> ← <i>a</i> × <i>state</i> mod <i>m</i>. With <i>m</i> = 2³¹ − 1 (a prime) and <i>a</i> = 16807, every state from 1 to <i>m</i> − 1 appears once before the sequence repeats. Stephen Park and Keith Miller proposed this in 1988 as a <b>minimal standard</b>, and published a check: starting from 1, the 10000th state must be 1043618065. Dividing the state by <i>m</i> gives a number between 0 and 1. Because the generator uses only whole-number arithmetic, every language gives exactly the same sequence, so the same check works everywhere.",
+        },
+        {
+          h: "Monte Carlo",
+          p: "<b>Monte Carlo</b> methods, named after the casino, answer questions by random sampling. Throw random points into the unit square: the fraction that lands inside the quarter circle <i>x</i>² + <i>y</i>² &lt; 1 is about π/4. The error shrinks only like 1/√<i>N</i>, so 100 times more points buy just one more correct digit. For a smooth one-dimensional integral the methods in the integration lesson are far better, but for integrals in many dimensions Monte Carlo is often the only practical method.",
+          lang: "python",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `M = 2147483647      # 2**31 - 1, a prime
+A = 16807           # 7**5, the "minimal standard" multiplier
+
+def next_state(state):
+    return A * state % M
+
+# The published check: starting from 1, the 10000th state is 1043618065.
+state = 1
+for _ in range(10000):
+    state = next_state(state)
+print(f"state after 10000 steps: {state}, as a fraction {state / M:.10f}")
+
+# Monte Carlo: the fraction of random points in the unit square that land
+# inside the quarter circle x*x + y*y < 1 is about pi / 4.
+inside = 0
+trials = 100000
+for _ in range(trials):
+    state = next_state(state)
+    x = state / M
+    state = next_state(state)
+    y = state / M
+    if x * x + y * y < 1:
+        inside += 1
+print(f"pi is about {4 * inside / trials:.4f}")`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          p: "In C, <i>a</i> × <i>state</i> can be as large as about 2⁴⁵, which overflows a 32-bit <code>int</code>, so the state is an <code>int64_t</code>. Python's integers never overflow, so it needs no such care.",
+          lang: "c",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `#include <stdint.h>
+#include <stdio.h>
+
+#define M 2147483647      /* 2^31 - 1, a prime */
+#define A 16807           /* 7^5, the "minimal standard" multiplier */
+
+/* A * state can reach about 2^45, so it needs a 64-bit integer. */
+int64_t next_state(int64_t state) {
+    return A * state % M;
+}
+
+int main(void) {
+    /* The published check: starting from 1, the 10000th state is 1043618065. */
+    int64_t state = 1;
+    for (int i = 0; i < 10000; i++)
+        state = next_state(state);
+    printf("state after 10000 steps: %lld, as a fraction %.10f\\n",
+           (long long)state, (double)state / M);
+
+    /* Monte Carlo: points in the unit square inside the quarter circle. */
+    int inside = 0;
+    const int trials = 100000;
+    for (int i = 0; i < trials; i++) {
+        state = next_state(state);
+        double x = (double)state / M;
+        state = next_state(state);
+        double y = (double)state / M;
+        if (x * x + y * y < 1)
+            inside++;
+    }
+    printf("pi is about %.4f\\n", 4.0 * inside / trials);
+    return 0;
+}`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          p: "Fortran asks for a 64-bit integer kind with <code>int64</code> from <code>iso_fortran_env</code>, and <code>real(state, real64)</code> converts it to a double before dividing.",
+          lang: "fortran",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `program random_numbers
+  use iso_fortran_env, only: int64, real64
+  implicit none
+  integer(int64), parameter :: m = 2147483647_int64   ! 2**31 - 1, a prime
+  integer(int64), parameter :: a = 16807_int64        ! 7**5, the "minimal standard" multiplier
+  integer(int64) :: state
+  real(real64) :: x, y
+  integer :: i, inside
+  integer, parameter :: trials = 100000
+
+  ! The published check: starting from 1, the 10000th state is 1043618065.
+  state = 1
+  do i = 1, 10000
+    state = next_state(state)
+  end do
+  print '(a, i0, a, f12.10)', 'state after 10000 steps: ', state, ', as a fraction ', &
+        real(state, real64) / m
+
+  ! Monte Carlo: points in the unit square inside the quarter circle.
+  inside = 0
+  do i = 1, trials
+    state = next_state(state)
+    x = real(state, real64) / m
+    state = next_state(state)
+    y = real(state, real64) / m
+    if (x * x + y * y < 1) inside = inside + 1
+  end do
+  print '(a, f6.4)', 'pi is about ', 4.0_real64 * inside / trials
+contains
+  ! a * state can reach about 2**45, so it needs a 64-bit integer.
+  function next_state(s) result(n)
+    integer(int64), intent(in) :: s
+    integer(int64) :: n
+    n = mod(a * s, m)
+  end function next_state
+end program random_numbers`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          h: "In real programs",
+          p: "The minimal standard is good for learning and for checking code, but it is weak by modern standards: its period of about two billion is used up in seconds, and neighbouring values are related in ways careful tests can detect. Use your language's library instead. Python's <code>random</code> uses the Mersenne Twister, and newer generators such as PCG and xoshiro are fast and pass much stronger tests. None of these are safe for passwords or keys, because their next output can be predicted from earlier ones; for that use a cryptographic source such as Python's <code>secrets</code> module.",
+        },
+      ],
+      practice: [
+        { q: "Two runs of a simulation use the same pseudo-random generator and the same seed. What happens?", options: ["They produce exactly the same numbers", "They produce different numbers", "The second run fails", "Only the first number matches"], answer: "They produce exactly the same numbers", why: "The sequence is fully determined by the seed, which is what makes runs repeatable." },
+        { q: "A Monte Carlo estimate with 10,000 points has an error of about 0.01. Roughly how many points bring it down to 0.001?", options: ["1,000,000", "100,000", "20,000", "10,000,000"], answer: "1,000,000", why: "The error falls like 1/√N, so a tenth of the error needs 100 times as many points." },
+        { q: "Which of these should you use to make a password?", options: ["A cryptographic source such as Python's secrets module", "The minimal standard generator", "Python's random module", "Any generator, seeded with the time"], answer: "A cryptographic source such as Python's secrets module", why: "Ordinary generators are predictable from their earlier outputs; cryptographic sources are designed not to be." },
+        { kind: "output", lang: "python", q: "Three steps of the minimal standard from seed 1. What does it print?", code: `state = 1
+for _ in range(3):
+    state = 16807 * state % 2147483647
+print(state)`, options: ["1622650073", "282475249", "16807", "50421"], answer: "1622650073", why: "The states are 16807, then 16807² = 282475249, then 16807³ mod (2³¹ − 1) = 1622650073." },
+      ],
+    },
+    {
       id: "eigen",
       title: "Eigenvalues: power iteration",
       summary: "Finding the direction a matrix stretches most, by multiplying again and again.",
