@@ -1,7 +1,11 @@
-// Shared CJK character table, keyed by character. uses lists every tradition
-// the character belongs to: hanzi (Chinese), kanji (Japanese), hanja (Korean).
-// Readings and meanings live in each language: japanese/kanji.js,
-// chinese/hanzi.js, hangul/hanja.js. See languages/README.md.
+// Generated from squirrel-lang-data a7658d1 cjk/characters.jsonl by: python3 data/tools/gen_characters.py --out languages
+// The shared CJK table, keyed by character. uses lists every tradition the
+// character belongs to: hanzi (Chinese), kanji (Japanese), hanja (Korean).
+// Readings and meanings are in japanese/kanji.js, chinese/hanzi.js and
+// hangul/hanja.js.
+// Kanji keep the radicals and stroke counts of LanguageStudentDesk's Jōyō
+// table. Characters that are not kanji take theirs from the Unihan database
+// (kRSUnicode, kTotalStrokes), through tools/importers/cjk_unihan.py.
 window.LSD_CJK = {
   "事": {"uses":["hanzi","kanji","hanja"],"radical":"亅","strokes":8},
   "成": {"uses":["hanzi","kanji","hanja"],"radical":"戈","strokes":6},
