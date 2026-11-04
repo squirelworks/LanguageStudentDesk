@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 cjk/characters.jsonl by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 3b1e99d cjk/characters.jsonl by: python3 data/tools/gen_characters.py --out languages
 // The shared CJK table, keyed by character. uses lists every tradition the
 // character belongs to: hanzi (Chinese), kanji (Japanese), hanja (Korean).
 // Readings and meanings are in japanese/kanji.js, chinese/hanzi.js and

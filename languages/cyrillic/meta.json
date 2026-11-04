@@ -16,5 +16,8 @@
     "grammar": "grammar.js",
     "vocab": "vocab.js",
     "reference": "reference.json"
+  },
+  "markers": {
+    "default": "before"
   }
 }
