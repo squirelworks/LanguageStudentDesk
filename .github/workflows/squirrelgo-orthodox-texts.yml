@@ -28,7 +28,7 @@ jobs:
         run: |
           ./fetch_sources.sh ebible
           mkdir -p .cache/vrs
-          for f in org lxx rso eng; do
+          for f in org lxx rso vul eng; do
             curl -fsSL -o .cache/vrs/$f.vrs https://raw.githubusercontent.com/BibleNLP/ebible/main/metadata/$f.vrs
           done
       - name: Build Bibles, verse check and catalog
