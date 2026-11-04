@@ -325,9 +325,11 @@
     const content = units.filter((x) => !x.meaning.grammar && x.token >= 0).length;
     const kept = units.filter((x) => x.status === "kept" && x.token >= 0).length;
     // Meaning score: a close word earns 0.5 to 0.9 of an exact one, by how
-    // close; each added word costs as much as a missing meaning.
+    // close. Added words count against it by joining the total, so carrying
+    // everything plus three extra words scores 3 of 6, not 0: an added phrase
+    // costs about what a dropped one does.
     const closeScore = closeUnits.filter((x) => x.token >= 0).reduce((sum, x) => sum + closeCredit(x.sim, net.close), 0);
-    const score = content ? Math.max(0, (kept + closeScore - added.length) / content) : 1;
+    const score = content ? (kept + closeScore) / (content + added.length) : 1;
     const finalScore = tenseWrong ? score * 0.5 : score;
     return { units, added, dropped, close, typos, tenseWrong, score: finalScore, honest: dropped === 0 && close === 0 && added.length === 0 && !tenseWrong };
   }
