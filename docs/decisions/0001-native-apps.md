@@ -163,13 +163,25 @@ off on this record.
 - **Effort.** Each port is a rewrite of that app's screens. The pilot gives a
   real cost per app before anything else is committed.
 
+## iOS (answered by the user, 2026-11-04)
+
+iOS is scaffolded but not built. There's no way to test it, and shipping to the
+App Store isn't wanted for now.
+
+- Shared logic (content models, stroke geometry and matching, quiz rules) goes
+  in the multiplatform `commonMain` source set from the start, with no Android
+  or JVM imports. That's what keeps iOS possible later.
+- Only `android` and `desktop` (JVM) targets are declared. No iOS target, no
+  Xcode project and no macOS CI job for it, so nothing untested ships and CI
+  stays the same.
+- If iOS work starts later, it lands on `main` as its own PRs that add the iOS
+  target and its screens, not on a long-lived iOS branch, which would drift from
+  `main` and break the no-stacked-PRs rule.
+
 ## Open questions for the user
 
-1. Is iOS ever a target? It doesn't change the choice (A and B both cover it),
-   but it changes how much of the code should live in the shared multiplatform
-   part from the start.
-2. For the Desk, should the long-term goal be native desktop apps that replace
+1. For the Desk, should the long-term goal be native desktop apps that replace
    the Python launcher and browser learners, or should the Desk stay web-based
    with the phone apps going native?
-3. Is a desktop build of a few tens of MB larger than today acceptable, in
+2. Is a desktop build of a few tens of MB larger than today acceptable, in
    exchange for native apps on desktop?
