@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/mongolian/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/mongolian/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Mongolian first grammar for the Grammar Learner. Written for this project.
 // Examples are in Cyrillic, the script used in Mongolia, as [Mongolian, romanization, English];
 // {braces} mark the point of the lesson. Drills are { q, en, options, answer, why }; ＿ is the blank.

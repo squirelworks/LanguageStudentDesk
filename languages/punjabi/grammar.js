@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/punjabi/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/punjabi/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Punjabi first grammar for the Grammar Learner. Written for this project.
 // Examples are [Punjabi in Gurmukhi, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

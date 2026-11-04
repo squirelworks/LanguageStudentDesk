@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/klingon/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/klingon/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 // Actual pIqaD glyphs (PUA, rendered via embedded font).

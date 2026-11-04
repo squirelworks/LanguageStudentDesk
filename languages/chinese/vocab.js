@@ -1,13 +1,13 @@
-// Generated from squirrel-lang-data 69e747c languages/chinese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/chinese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [characters, pinyin, English, note]. Written for this project.
 // The decks Most common words and Common words are imported by
 // tools/importers/cedict.py: wordfreq's most frequent Chinese words (CC BY-SA
 // 4.0), with pinyin and meanings from CC-CEDICT (MDBG, CC BY-SA 4.0).
-// HSK levels are estimates, not the official list (no HSK list with a reuse
-// license exists): a word's frequency rank is placed against the official
-// cumulative word counts per band (2025 syllabus: 300, 500, 1,000, 2,000,
-// 3,600, 5,400, 11,000), and a word near a boundary gets both bands, as in 2/3.
 // Frequency tags come from wordfreq (CC BY-SA 4.0).
+// HSK levels on the hand-written decks are estimates placed by hand against the
+// official level descriptions of the 2021 Chinese Proficiency Grading Standards
+// (GF0025-2021): the level a word probably falls under, not a copy of the
+// official word list.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.chinese = [
   {

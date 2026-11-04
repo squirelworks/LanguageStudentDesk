@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/klingon/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/klingon/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Klingon (romanized), English, note]. pIqaD is generated from
 // the romanization at runtime. A short list of common words with glosses
 // written for this project; it is not taken from any published dictionary.

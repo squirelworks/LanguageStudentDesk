@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/tibetan/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/tibetan/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Tibetan first grammar for the Grammar Learner. Written for this project.
 // Spoken Lhasa (Central) Tibetan in Uchen script. Examples are [Tibetan, romanization, English];
 // {braces} mark the point of the lesson. Drills are { q, en, options, answer, why }; ＿ is the blank.
