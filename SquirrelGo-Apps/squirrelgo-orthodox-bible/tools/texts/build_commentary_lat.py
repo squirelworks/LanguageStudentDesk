@@ -15,8 +15,8 @@ The Luke commentary prints the verse each section discusses in the margin
 are divided by Psalm (Latin numbering; for Psalm 118 by letter, eight verses
 each) and by numbered section, and quote the verses as they go, so each
 section is keyed to the verse of that Psalm whose words it shares most, matched
-against the Clementine Vulgate pack (built by build_bibles.py --packs, or
-downloaded into packs/bibles/). Notes use the Vulgate numbering (vul).
+against the Clementine Vulgate (bundled in www/data/bibles/ since the app
+ships Latin; older checkouts have it as a pack in packs/bibles/). Notes use the Vulgate numbering (vul).
 
 build_commentary.py calls build() and lists the result in commentary_packs.json.
 """
@@ -26,11 +26,14 @@ import re
 import unicodedata
 
 from build_commentary_grc import LICENSE, write
-from common import CACHE, PACKS_DIR
+from common import CACHE, DATA, PACKS_DIR
 
 SRC = os.path.join(CACHE, "csel", "data")
 CSEL = "https://github.com/OpenGreekAndLatin/csel-dev"
-VULGATE = os.path.join(PACKS_DIR, "bibles", "lat-vulgate-clementine.js")
+# Bundled in the app now; fall back to a pack built by build_bibles.py --packs.
+VULGATE = next((p for p in (os.path.join(DATA, "bibles", "lat-vulgate-clementine.js"),
+                            os.path.join(PACKS_DIR, "bibles", "lat-vulgate-clementine.js"))
+                if os.path.exists(p)), os.path.join(DATA, "bibles", "lat-vulgate-clementine.js"))
 LETTERS = ("aleph beth gimel daleth he vau zain heth teth iod caph lamed mem nun samech ain phe zade koph "
            "resch sin tau").split()
 
@@ -206,7 +209,7 @@ def build(order):
         return []
     vul = load_vulgate() if os.path.exists(VULGATE) else None
     if vul is None:
-        print("    no Vulgate pack at %s: Psalm commentaries left out" % VULGATE)
+        print("    no Vulgate at %s: Psalm commentaries left out" % VULGATE)
     meta = dict(lang="la", source=CSEL,
                 translator="Latin original, from the Open Greek and Latin CSEL (csel-dev), " + LICENSE,
                 header="(Latin). " + LICENSE + ", Open Greek and Latin CSEL. "
