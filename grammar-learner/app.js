@@ -27,18 +27,11 @@
   let lessonId = null;
   let level = null;    // the level tab shown, when the course's lessons have levels
 
-  // Lesson levels, easiest first. A course whose lessons carry "level" gets a
-  // tab per level, and the list shows one level at a time.
-  const LEVELS = [
-    ["absolute-beginner", "Absolute beginner"],
-    ["beginner", "Beginner"],
-    ["beginner-intermediate", "Beginner–intermediate"],
-    ["intermediate", "Intermediate"],
-    ["advanced-intermediate", "Advanced–intermediate"],
-    ["advanced", "Advanced"],
-  ];
-  const LEVEL_NAME = Object.fromEntries(LEVELS);
-  const courseLevels = () => LEVELS.map(([id]) => id).filter((id) => course.lessons.some((l) => l.level === id));
+  // Lesson levels, easiest first, from the shared list (languages/lsd-levels.js).
+  // A course whose lessons carry "level" gets a tab per level, and the list
+  // shows one level at a time.
+  const LEVEL_NAME = Object.fromEntries(LSD.levels.BANDS.map((b) => [b.id, b.name]));
+  const courseLevels = () => LSD.levels.BANDS.map((b) => b.id).filter((id) => course.lessons.some((l) => l.level === id));
   const lessonLevel = (id) => {
     const l = course.lessons.find((x) => x.id === id);
     return l && l.level;
