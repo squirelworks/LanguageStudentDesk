@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/tamazight/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/tamazight/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Tamazight first grammar for the Grammar Learner. Written for this project.
 // Standard Moroccan Tamazight in Tifinagh. Examples are [Tifinagh, Latin transcription, English];
 // {braces} mark the point of the lesson. Drills are { q, en, options, answer, why }; ＿ is the blank.

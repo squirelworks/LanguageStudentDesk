@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/hangul/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/hangul/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 window.SCRIPTS.hangul = {
@@ -49,7 +49,7 @@ window.SCRIPTS.hangul = {
     {"char":"ㅆ","roman":"ss","info":"complex consonant (tense)","example":"싸"},
     {"char":"ㅉ","roman":"jj","info":"complex consonant (tense)","example":"짜"},
     // Complex consonants (clusters)
-    {"char":"ㄳ","roman":"gs","info":"complex consonant","example":"값"},
+    {"char":"ㄳ","roman":"gs","info":"complex consonant","example":"몫"},
     {"char":"ㄵ","roman":"nj","info":"complex consonant","example":"앉"},
     {"char":"ㄶ","roman":"nh","info":"complex consonant","example":"많"},
     {"char":"ㄺ","roman":"lg","info":"complex consonant","example":"닭"},

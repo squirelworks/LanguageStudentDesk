@@ -53,6 +53,8 @@ Recordings are made with eSpeak NG by `SquirrelGo-Apps/tools/alphabet_audio.py` 
 
 Stroke paths live in `www/data/strokes/<script>.js`, in a 100 × 100 box. They are drafted by `SquirrelGo-Apps/tools/strokegen` from the outlines of the Noto fonts (SIL Open Font License): the glyph is thinned to its centre line and walked into pen strokes, which start where a hand would (top first, then left, or right for right-to-left scripts), split at sharp corners and draw dots and accents last. Thai and Lao letters start at their head, the small loop, and are drawn in one stroke where the shape allows; Tibetan, Khmer and Burmese drafts follow the font's centre line and are rougher. Letters where the draft did not match how people write them are drawn by hand in `tools/strokegen/overrides/`; accented letters reuse the hand-drawn base letter. Where a script has no fixed standard, the orders are suggestions for smooth handwriting.
 
+The stroke files are generated from squirrel-lang-data (`data/strokes/<script>.jsonl`) by `python3 languages/build_registry.py`, so a fix goes into the data repo; `strokegen` only drafts new strokes, which are then copied there.
+
 ## Install the APK
 
 Download [`SquirrelGoAlphabets.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoAlphabets.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.

@@ -1,7 +1,10 @@
-// Stroke order for every pIqaD letter and numeral, drawn for SquirrelGo Klingon.
-// Paths sit in a 100 x 100 box and use only M, L and Q commands so js/strokes.js
-// can sample them without the DOM. They follow the shapes of the pIqaD qolqoS
-// font; the order and direction of the strokes are this app's own suggestion.
+// Generated from squirrel-lang-data 69e747c strokes/klingon.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for every pIqaD letter and numeral, drawn for SquirrelGo
+// Klingon. Paths sit in a 100 x 100 box and use only M, L and Q commands so
+// js/strokes.js can sample them without the DOM. They follow the shapes of the
+// pIqaD qolqoS font; the order and direction of the strokes are this app's own
+// suggestion.
+// Source: Written for this project (CC BY-SA 4.0).
 window.SG_STROKES = {
   "a": ["M63,12 L45,42 Q33,62 20,86", "M43,53 L60,53 L70,48", "M28,82 L75,83 L81,79"],
   "b": ["M33,18 L37,28 L48,31 L66,21 L69,14", "M48,31 Q48,55 61,84"],

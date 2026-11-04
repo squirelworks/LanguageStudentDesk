@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/gujarati.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Gujarati, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Gujarati (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Sans Gujarati (SIL Open Font License) and checked by hand. Paths sit in
+// a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["gujarati"] = {
   "અ": ["M11,30 L13,27 L16,26 L28,26 L33,30 L35,38 L33,46 L29,50 L20,54 L14,52", "M21,54 L23,59 L29,65 L38,67 L47,65 L53,60 L56,52 L56,42 L54,38", "M77,24 L78,27 L79,71 L83,76 L89,75", "M56,52 L67,54 L78,52"],

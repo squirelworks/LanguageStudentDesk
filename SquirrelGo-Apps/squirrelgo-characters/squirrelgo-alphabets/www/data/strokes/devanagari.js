@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/devanagari.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Devanagari, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Devanagari (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Sans Devanagari (SIL Open Font License) and checked by hand. Paths sit
+// in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["devanagari"] = {
   "अ": ["M23,25 L25,22 L30,20 L45,20 L49,25 L50,30 L49,37 L45,43 L46,47 L51,50 L74,49", "M15,45 L14,50 L21,64 L29,71 L37,73 L44,72 L50,68 L52,61 L51,50", "M75,20 L74,80", "M32,48 L35,45 L44,43", "M66,20 L86,20"],

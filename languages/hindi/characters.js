@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/hindi/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/hindi/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 window.SCRIPTS.devanagari = {

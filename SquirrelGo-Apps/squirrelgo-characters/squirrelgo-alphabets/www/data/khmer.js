@@ -1,27 +1,27 @@
-// The Khmer alphabet for SquirrelGo Alphabets.
-// Each character is [letter, romanization, sound hint, example, example romanization,
-// meaning, text to speak, IPA, example language, example IPA]. A consonant's
-// romanization is its name: ka for the first series (built-in vowel aa), ko for the
-// second (built-in vowel oo). Example romanizations are a simplified UNGEGN style.
+// Generated from squirrel-lang-data 69e747c alphabets/khmer.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// The Khmer alphabet for SquirrelGo Alphabets. A consonant's romanization is
+// its name: ka for the first series (built-in vowel aa), ko for the second
+// (built-in vowel oo). Example romanizations are a simplified UNGEGN style.
 // eSpeak NG has no Khmer voice, so the sounds are made from the IPA. Hints,
 // groupings and articles are original.
+// Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.
 window.SG_SCRIPTS = window.SG_SCRIPTS || [];
 window.SG_SCRIPTS.push({
-  id: "khmer",
-  title: "Khmer",
-  native: "ខ្មែរ",
-  lang: "km-KH",
-  langName: "Khmer",
-  font: '"Noto Sans Khmer", "Khmer OS", "Khmer UI", "Leelawadee UI", sans-serif',
-  blurb: "33 consonants in two series that change how every vowel is said, the script of Cambodia.",
-  writeTip: "Most Khmer letters are drawn in one stroke, starting at the top left. Letters of the second series often carry a small 'hair' on top: draw it last.",
-  lessons: [
+  "id": "khmer",
+  "title": "Khmer",
+  "native": "ខ្មែរ",
+  "lang": "km-KH",
+  "langName": "Khmer",
+  "font": "\"Noto Sans Khmer\", \"Khmer OS\", \"Khmer UI\", \"Leelawadee UI\", sans-serif",
+  "blurb": "33 consonants in two series that change how every vowel is said, the script of Cambodia.",
+  "writeTip": "Most Khmer letters are drawn in one stroke, starting at the top left. Letters of the second series often carry a small 'hair' on top: draw it last.",
+  "lessons": [
     {
-      title: "The ka and ca rows",
-      group: "Consonants",
-      cols: 5,
-      note: "The chart is read in rows of five. Letters alternate between the first series (said with aa, like ka) and the second (said with oo, like ko).",
-      chars: [
+      "title": "The ka and ca rows",
+      "note": "The chart is read in rows of five. Letters alternate between the first series (said with aa, like ka) and the second (said with oo, like ko).",
+      "group": "Consonants",
+      "cols": 5,
+      "chars": [
         ["ក", "ka", "k, no puff of air; first series", "កូន", "kon", "child", "", "kɑː", "", "koun"],
         ["ខ", "kha", "k with a puff of air; first series", "ខ្មែរ", "khmae", "Khmer", "", "kʰɑː", "", "kʰmae"],
         ["គ", "ko", "k, no puff of air; second series", "គោ", "ko", "cow", "", "kɔː", "", "kou"],
@@ -31,15 +31,15 @@ window.SG_SCRIPTS.push({
         ["ឆ", "chha", "ch with a puff of air; first series", "ឆ្មា", "chhma", "cat", "", "cʰɑː", "", "cʰmaː"],
         ["ជ", "cho", "between ch and j, no puff of air; second series", "ជើង", "cheung", "foot, leg", "", "cɔː", "", "cəːŋ"],
         ["ឈ", "chho", "ch with a puff of air; second series", "ឈើ", "chheu", "wood, tree", "", "cʰɔː", "", "cʰəː"],
-        ["ញ", "nho", "ny, like the ñ in Spanish", "ញ៉ាំ", "nham", "to eat", "", "ɲɔː", "", "ɲam"],
-      ],
+        ["ញ", "nho", "ny, like the ñ in Spanish", "ញ៉ាំ", "nham", "to eat", "", "ɲɔː", "", "ɲam"]
+      ]
     },
     {
-      title: "The da and ta rows",
-      group: "Consonants",
-      cols: 5,
-      note: "The first row came from letters for Sanskrit sounds made with the tongue curled back. In Khmer they sound like the second row, and ឋ, ឌ and ឍ are rare.",
-      chars: [
+      "title": "The da and ta rows",
+      "note": "The first row came from letters for Sanskrit sounds made with the tongue curled back. In Khmer they sound like the second row, and ឋ, ឌ and ឍ are rare.",
+      "group": "Consonants",
+      "cols": 5,
+      "chars": [
         ["ដ", "da", "d, with a little catch in the throat; first series", "ដៃ", "dai", "hand, arm", "", "ɗɑː", "", "ɗaj"],
         ["ឋ", "tha", "t with a puff of air; first series, rare", "ឋាន", "than", "place, realm", "", "tʰɑː", "", "tʰaːn"],
         ["ឌ", "do", "d; second series, rare", "មណ្ឌល", "mondol", "centre", "", "ɗɔː", "", "mɔndɑl"],
@@ -49,15 +49,15 @@ window.SG_SCRIPTS.push({
         ["ថ", "tha", "t with a puff of air; first series", "ថ្ងៃ", "thngai", "day, sun", "", "tʰɑː", "", "tʰŋaj"],
         ["ទ", "to", "t, no puff of air; second series", "ទឹក", "tuek", "water", "", "tɔː", "", "tɨk"],
         ["ធ", "tho", "t with a puff of air; second series", "ធំ", "thom", "big", "", "tʰɔː", "", "tʰom"],
-        ["ន", "no", "n as in no; second series", "នំ", "num", "cake, snack", "", "nɔː", "", "nom"],
-      ],
+        ["ន", "no", "n as in no; second series", "នំ", "num", "cake, snack", "", "nɔː", "", "nom"]
+      ]
     },
     {
-      title: "The ba row and the rest",
-      group: "Consonants",
-      cols: 5,
-      note: "The last letters are not in pairs. ប, ស, ហ, ឡ and អ are first series; យ, រ, ល and វ are second.",
-      chars: [
+      "title": "The ba row and the rest",
+      "note": "The last letters are not in pairs. ប, ស, ហ, ឡ and អ are first series; យ, រ, ល and វ are second.",
+      "group": "Consonants",
+      "cols": 5,
+      "chars": [
         ["ប", "ba", "b, with a little catch in the throat; first series", "បាយ", "bay", "cooked rice", "", "ɓɑː", "", "ɓaːj"],
         ["ផ", "pha", "p with a puff of air; first series", "ផ្ទះ", "phteah", "house", "", "pʰɑː", "", "pʰteəh"],
         ["ព", "po", "p, no puff of air; second series", "ពេល", "pel", "time", "", "pɔː", "", "peːl"],
@@ -71,15 +71,15 @@ window.SG_SCRIPTS.push({
         ["ស", "sa", "s as in sun; first series", "សួស្ដី", "suostei", "hello", "", "sɑː", "", "suəsɗəj"],
         ["ហ", "ha", "h as in hat; first series", "ហូប", "hob", "to eat (casual)", "", "hɑː", "", "houp"],
         ["ឡ", "la", "l; first series", "ឡាន", "lan", "car", "", "lɑː", "", "laːn"],
-        ["អ", "a", "a catch in the throat before the vowel; first series", "អរគុណ", "arkun", "thank you", "", "ʔɑː", "", "ʔɑːkun"],
-      ],
+        ["អ", "a", "a catch in the throat before the vowel; first series", "អរគុណ", "arkun", "thank you", "", "ʔɑː", "", "ʔɑːkun"]
+      ]
     },
     {
-      title: "Vowels on ក",
-      group: "Vowels",
-      cols: 4,
-      note: "Each vowel sign has two sounds: one after a first-series consonant, one after a second-series consonant. They are shown on ក (first series); the hint gives the second-series sound too.",
-      chars: [
+      "title": "Vowels on ក",
+      "note": "Each vowel sign has two sounds: one after a first-series consonant, one after a second-series consonant. They are shown on ក (first series); the hint gives the second-series sound too.",
+      "group": "Vowels",
+      "cols": 4,
+      "chars": [
         ["កា", "kaa", "aa as in father; ea after second series", "ការ", "kar", "work", "", "kaː", "", "kaː"],
         ["កិ", "ke", "a short e; i after second series", "ពិត", "pit", "true", "", "ke", "", "pit"],
         ["កី", "kei", "ei as in eight; ii after second series", "ស្រី", "srei", "woman", "", "kəj", "", "srəj"],
@@ -98,26 +98,22 @@ window.SG_SCRIPTS.push({
         ["កុំ", "kom", "om; um after second series", "កុំ", "kom", "don't", "", "kom", "", "kom"],
         ["កំ", "kam", "am; um after second series", "ធំ", "thom", "big", "", "kam", "", "tʰom"],
         ["កាំ", "kam", "am; oam after second series", "ចាំ", "cham", "to wait; to remember", "", "kam", "", "cam"],
-        ["កះ", "kah", "ah; eah after second series", "ផ្ទះ", "phteah", "house", "", "kah", "", "pʰteəh"],
-      ],
-    },
+        ["កះ", "kah", "ah; eah after second series", "ផ្ទះ", "phteah", "house", "", "kah", "", "pʰteəh"]
+      ]
+    }
   ],
-  articles: [
+  "articles": [
     {
-      title: "Two series of consonants",
-      body: `<p>Khmer consonants come in two series. A first-series letter is named with aa (<span lang="km">ក</span> ka), a second-series letter with oo (<span lang="km">គ</span> ko). Long ago the two series stood for different consonants, voiceless and voiced; over time the consonants merged and the difference moved into the vowel.</p>
-<p>That is why each vowel sign has two readings. <span lang="km">កា</span> is kaa, but <span lang="km">គា</span> is kea. When you learn a letter, learn its series with it.</p>
-<p>Two small marks swap the series of a letter: <span lang="km">៉</span> (musĕkâtônd) moves a second-series letter to the first, and <span lang="km">៊</span> (treisâpt) moves a first-series letter to the second. This lets Khmer spell sounds that one of the pair is missing, as in <span lang="km">ញ៉ាំ</span> (nham, to eat).</p>`,
+      "title": "Two series of consonants",
+      "body": "<p>Khmer consonants come in two series. A first-series letter is named with aa (<span lang=\"km\">ក</span> ka), a second-series letter with oo (<span lang=\"km\">គ</span> ko). Long ago the two series stood for different consonants, voiceless and voiced; over time the consonants merged and the difference moved into the vowel.</p>\n<p>That is why each vowel sign has two readings. <span lang=\"km\">កា</span> is kaa, but <span lang=\"km\">គា</span> is kea. When you learn a letter, learn its series with it.</p>\n<p>Two small marks swap the series of a letter: <span lang=\"km\">៉</span> (musĕkâtônd) moves a second-series letter to the first, and <span lang=\"km\">៊</span> (treisâpt) moves a first-series letter to the second. This lets Khmer spell sounds that one of the pair is missing, as in <span lang=\"km\">ញ៉ាំ</span> (nham, to eat).</p>"
     },
     {
-      title: "Letters under letters",
-      body: `<p>Khmer has no spaces between words, and it stacks consonants. When two consonants come together with no vowel between them, the second is written below the first as a small subscript form called a <i>cheung</i> (foot): <span lang="km">ខ្មែរ</span> (Khmer) has <span lang="km">ម</span> written under <span lang="km">ខ</span>.</p>
-<p>Most subscripts look like small copies of their letter. A few look quite different: the subscript of <span lang="km">រ</span> is a stroke written to the left of the letter it attaches to, as in <span lang="km">ក្រ</span>, and the subscripts of <span lang="km">ដ</span> and <span lang="km">ត</span> are the same shape.</p>`,
+      "title": "Letters under letters",
+      "body": "<p>Khmer has no spaces between words, and it stacks consonants. When two consonants come together with no vowel between them, the second is written below the first as a small subscript form called a <i>cheung</i> (foot): <span lang=\"km\">ខ្មែរ</span> (Khmer) has <span lang=\"km\">ម</span> written under <span lang=\"km\">ខ</span>.</p>\n<p>Most subscripts look like small copies of their letter. A few look quite different: the subscript of <span lang=\"km\">រ</span> is a stroke written to the left of the letter it attaches to, as in <span lang=\"km\">ក្រ</span>, and the subscripts of <span lang=\"km\">ដ</span> and <span lang=\"km\">ត</span> are the same shape.</p>"
     },
     {
-      title: "Vowels that stand alone",
-      body: `<p>Besides the vowel signs, Khmer has a set of independent vowels that are full letters of their own, such as <span lang="km">ឥ</span> (e), <span lang="km">ឪ</span> (au) and <span lang="km">ឱ</span> (ao). They are used in a small number of words, most of them from Pali and Sanskrit, like <span lang="km">ឪពុក</span> (âupuk, father).</p>
-<p>A syllable with no vowel sign carries the letter's own vowel: aa for the first series, oo for the second. A consonant that ends a word is said with no vowel at all: <span lang="km">ពេល</span> is pel, and a final <span lang="km">រ</span> is not said, so <span lang="km">ការ</span> is kaa.</p>`,
-    },
-  ],
+      "title": "Vowels that stand alone",
+      "body": "<p>Besides the vowel signs, Khmer has a set of independent vowels that are full letters of their own, such as <span lang=\"km\">ឥ</span> (e), <span lang=\"km\">ឪ</span> (au) and <span lang=\"km\">ឱ</span> (ao). They are used in a small number of words, most of them from Pali and Sanskrit, like <span lang=\"km\">ឪពុក</span> (âupuk, father).</p>\n<p>A syllable with no vowel sign carries the letter's own vowel: aa for the first series, oo for the second. A consonant that ends a word is said with no vowel at all: <span lang=\"km\">ពេល</span> is pel, and a final <span lang=\"km\">រ</span> is not said, so <span lang=\"km\">ការ</span> is kaa.</p>"
+    }
+  ]
 });

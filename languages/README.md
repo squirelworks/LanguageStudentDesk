@@ -15,7 +15,8 @@ bump the submodule and rerun the script. So far that's every `meta.json`,
 `vocab.js`, `grammar.js`, `reference.json` and `characters.js`, the shared CJK
 table and its readings (`cjk/characters.js`, `japanese/kanji.js`,
 `chinese/hanzi.js`, `hangul/hanja.js`), and `registry.js`. The script also
-writes SquirrelGo Kanji's `www/data/kanji.js` from the same kanji data.
+writes SquirrelGo Kanji's `www/data/kanji.js` from the same kanji data, and
+every SquirrelGo app's stroke files from `data/strokes/`.
 
 ```
 languages/

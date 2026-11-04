@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/bengali.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Bengali, drafted by SquirrelGo-Apps/tools/strokegen from
 // Noto Sans Bengali (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["bengali"] = {
   "অ": ["M12,38 L16,40 L23,58 L32,66 L46,68 L60,62 L78,74", "M41,27 L44,38 L53,39 L59,45 L60,62", "M79,27 L78,74", "M11,26 L89,26"],
