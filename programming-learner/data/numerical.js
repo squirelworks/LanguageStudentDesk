@@ -1131,5 +1131,212 @@ y = y + h * (2 * y)
 print(y)`, options: ["6.0", "4.5", "9.0", "3.0"], answer: "6.0", why: "The slope at the start is 2 × 3 = 6, and moving for 0.5 adds 3." },
       ],
     },
+    {
+      id: "fft",
+      title: "The fast Fourier transform",
+      summary: "Taking a signal apart into the waves it is made of, in n log n steps.",
+      sections: [
+        {
+          p: "A sound, a day of temperatures or a row of pixels is a list of <i>n</i> samples. The <b>discrete Fourier transform</b> (DFT) rewrites that list as a sum of waves: for each frequency <i>k</i> (<i>k</i> full cycles across the samples) it gives a complex number <i>X</i>(<i>k</i>) = Σ<sub><i>j</i></sub> <i>x<sub>j</sub></i> e<sup>−2π<i>ijk</i>/<i>n</i></sup>. Its size |<i>X</i>(<i>k</i>)| says how much of that wave is in the signal, and its angle says where the wave starts. This is how an equalizer shows bass and treble, how MP3 and JPEG decide what detail to drop, and how a tuner hears which note you play.",
+        },
+        {
+          h: "From n² to n log n",
+          p: "Computing every <i>X</i>(<i>k</i>) straight from the formula takes <i>n</i> multiplications for each of <i>n</i> frequencies: <i>n</i>² in all. The <b>fast Fourier transform</b> (FFT) notices that the transform of <i>n</i> samples can be built from the transforms of the even-numbered and the odd-numbered samples, each of size <i>n</i>/2, with one extra multiplication per pair. Splitting again and again down to single samples leaves log₂ <i>n</i> levels of <i>n</i> operations each. Gauss used the idea in 1805; James Cooley and John Tukey published it in 1965, and it became one of the most used algorithms in computing. For a million samples it is the difference between a trillion steps and twenty million:",
+          lang: "python",
+          code: `print("     n    direct n*n    FFT n*log2(n)")
+for p in [3, 10, 20]:
+    n = 2 ** p
+    print(f"{n:7d}  {n * n:14d}  {n * p:12d}")`,
+          out: "     n    direct n*n    FFT n*log2(n)\n      8              64            24\n   1024         1048576         10240\n1048576   1099511627776      20971520",
+        },
+        {
+          h: "Bit reversal and butterflies",
+          p: "Instead of splitting recursively, the version below works in place. It first reorders the samples so that index <i>i</i> moves to the index whose binary digits are those of <i>i</i> backwards (with 16 samples, 0001 swaps with 1000); after that, the halves that the splitting would produce sit next to each other. Then it combines neighbours in pairs, pairs into fours, fours into eights, and so on. Each combining step, called a <b>butterfly</b>, takes two values <i>u</i> and <i>t</i> (the second already multiplied by a <i>twiddle factor</i> <i>w</i> = e<sup>−2π<i>ik</i>/size</sup>) and replaces them by <i>u</i> + <i>t</i> and <i>u</i> − <i>t</i>. The signal is 1 + sin(2 cycles) + 0.5 cos(5 cycles), and the transform finds exactly those parts: 16 at <i>k</i> = 0 (the constant 1, added up 16 times), 8 at <i>k</i> = 2 and 4 at <i>k</i> = 5 (a wave of height <i>A</i> shows up as <i>A</i>·<i>n</i>/2).",
+          lang: "python",
+          known: [16.0, 0.0, 8.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0],
+          impl: "fft",
+          code: `import math
+
+PI = math.acos(-1.0)
+
+
+def fft(a):
+    """Replace the list a (length a power of 2) by its discrete Fourier transform."""
+    n = len(a)
+    # 1. put the samples in bit-reversed order
+    j = 0
+    for i in range(1, n):
+        bit = n // 2
+        while j & bit:
+            j ^= bit
+            bit //= 2
+        j |= bit
+        if i < j:
+            a[i], a[j] = a[j], a[i]
+    # 2. combine pairs, then fours, then eights, ... (butterflies)
+    span = 2
+    while span <= n:
+        half = span // 2
+        for start in range(0, n, span):
+            for k in range(half):
+                angle = -2 * PI * k / span
+                w = complex(math.cos(angle), math.sin(angle))
+                t = w * a[start + k + half]
+                u = a[start + k]
+                a[start + k] = u + t
+                a[start + k + half] = u - t
+        span *= 2
+
+
+# 16 samples of 1 + sin(2 cycles) + 0.5 cos(5 cycles)
+n = 16
+x = [complex(1 + math.sin(2 * PI * 2 * j / n)
+             + 0.5 * math.cos(2 * PI * 5 * j / n), 0) for j in range(n)]
+fft(x)
+print("  k      |X(k)|")
+for k in range(n // 2 + 1):
+    print(f"{k:3d}  {abs(x[k]):10.6f}")`,
+          out: "  k      |X(k)|\n  0   16.000000\n  1    0.000000\n  2    8.000000\n  3    0.000000\n  4    0.000000\n  5    4.000000\n  6    0.000000\n  7    0.000000\n  8    0.000000",
+        },
+        {
+          p: "C99 has complex numbers built in through <code>&lt;complex.h&gt;</code>: <code>double complex</code> is the type, <code>I</code> is the imaginary unit, and <code>cabs</code> gives the size. The loops are the same as in Python.",
+          lang: "c",
+          known: [16.0, 0.0, 8.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0],
+          impl: "fft",
+          code: `#include <complex.h>
+#include <math.h>
+#include <stdio.h>
+
+/* Replace a[0..n-1] (n a power of 2) by its discrete Fourier transform. */
+void fft(double complex *a, int n) {
+    const double pi = acos(-1.0);
+    /* 1. put the samples in bit-reversed order */
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n / 2;
+        while (j & bit) {
+            j ^= bit;
+            bit /= 2;
+        }
+        j |= bit;
+        if (i < j) {
+            double complex tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
+    }
+    /* 2. combine pairs, then fours, then eights, ... (butterflies) */
+    for (int span = 2; span <= n; span *= 2) {
+        int half = span / 2;
+        for (int start = 0; start < n; start += span) {
+            for (int k = 0; k < half; k++) {
+                double angle = -2 * pi * k / span;
+                double complex w = cos(angle) + sin(angle) * I;
+                double complex t = w * a[start + k + half];
+                double complex u = a[start + k];
+                a[start + k] = u + t;
+                a[start + k + half] = u - t;
+            }
+        }
+    }
+}
+
+int main(void) {
+    enum { N = 16 };
+    const double pi = acos(-1.0);
+    double complex x[N];
+    /* 16 samples of 1 + sin(2 cycles) + 0.5 cos(5 cycles) */
+    for (int j = 0; j < N; j++)
+        x[j] = 1 + sin(2 * pi * 2 * j / N) + 0.5 * cos(2 * pi * 5 * j / N);
+    fft(x, N);
+    printf("  k      |X(k)|\\n");
+    for (int k = 0; k <= N / 2; k++)
+        printf("%3d  %10.6f\\n", k, cabs(x[k]));
+    return 0;
+}`,
+          out: "  k      |X(k)|\n  0   16.000000\n  1    0.000000\n  2    8.000000\n  3    0.000000\n  4    0.000000\n  5    4.000000\n  6    0.000000\n  7    0.000000\n  8    0.000000",
+        },
+        {
+          p: "Fortran has had a <code>complex</code> type since the 1960s, and arrays can start at 0 with <code>a(0:)</code>, which keeps the index arithmetic the same as in C and Python. One trap: a variable called <code>size</code> would hide the built-in <code>size</code> function, so this version calls the block width <code>span</code>.",
+          lang: "fortran",
+          known: [16.0, 0.0, 8.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0],
+          impl: "fft",
+          code: `module fourier
+  implicit none
+contains
+  ! Replace a (its size a power of 2) by its discrete Fourier transform.
+  subroutine fft(a)
+    complex(kind(1d0)), intent(inout) :: a(0:)
+    complex(kind(1d0)) :: w, t, u, tmp
+    double precision :: pi, angle
+    integer :: n, i, j, bit, span, half, start, k
+    pi = acos(-1d0)
+    n = size(a)
+    ! 1. put the samples in bit-reversed order
+    j = 0
+    do i = 1, n - 1
+      bit = n / 2
+      do while (iand(j, bit) /= 0)
+        j = ieor(j, bit)
+        bit = bit / 2
+      end do
+      j = ior(j, bit)
+      if (i < j) then
+        tmp = a(i)
+        a(i) = a(j)
+        a(j) = tmp
+      end if
+    end do
+    ! 2. combine pairs, then fours, then eights, ... (butterflies)
+    span = 2
+    do while (span <= n)
+      half = span / 2
+      do start = 0, n - 1, span
+        do k = 0, half - 1
+          angle = -2 * pi * k / span
+          w = cmplx(cos(angle), sin(angle), kind(1d0))
+          t = w * a(start + k + half)
+          u = a(start + k)
+          a(start + k) = u + t
+          a(start + k + half) = u - t
+        end do
+      end do
+      span = span * 2
+    end do
+  end subroutine fft
+end module fourier
+
+program main
+  use fourier
+  implicit none
+  integer, parameter :: n = 16
+  complex(kind(1d0)) :: x(0:n-1)
+  double precision :: pi
+  integer :: j, k
+  pi = acos(-1d0)
+  ! 16 samples of 1 + sin(2 cycles) + 0.5 cos(5 cycles)
+  do j = 0, n - 1
+    x(j) = cmplx(1 + sin(2 * pi * 2 * j / n) + 0.5d0 * cos(2 * pi * 5 * j / n), 0d0, kind(1d0))
+  end do
+  call fft(x)
+  print '(a)', '  k      |X(k)|'
+  do k = 0, n / 2
+    print '(i3, 2x, f10.6)', k, abs(x(k))
+  end do
+end program main`,
+          out: "  k      |X(k)|\n  0   16.000000\n  1    0.000000\n  2    8.000000\n  3    0.000000\n  4    0.000000\n  5    4.000000\n  6    0.000000\n  7    0.000000\n  8    0.000000",
+        },
+        {
+          h: "Using it for real",
+          p: "In practice you call a library: <code>numpy.fft</code> in Python, or FFTW from C and Fortran, which handle any length (not only powers of 2) and real-valued input at half the cost. A few things to know when reading a spectrum: only frequencies up to <i>n</i>/2 can be told apart, and a wave faster than that <b>aliases</b>, showing up as a slower one, which is why audio is sampled at more than twice the highest pitch we hear. A wave that does not fit a whole number of cycles in the window leaks into neighbouring frequencies, so signals are often tapered at the ends first (a <i>window function</i>). The FFT also makes <b>convolution</b> fast, since convolving is just multiplying transforms, which speeds up blurring images, filtering sound and even multiplying huge integers.",
+        },
+      ],
+      practice: [
+        { q: "How many operations does the FFT need for n samples, compared with n² for the direct formula?", options: ["About n log₂ n", "About n", "About n²/2", "About 2ⁿ"], answer: "About n log₂ n", why: "There are log₂ n levels of splitting, each doing work proportional to n." },
+        { q: "A signal is 3 cos(4 cycles) sampled 32 times. What is |X(4)|?", options: ["48", "3", "96", "12"], answer: "48", why: "A wave of height A appears as A·n/2 = 3 × 32 / 2 = 48." },
+        { q: "With 16 samples, which index does 3 (binary 0011) swap with in the bit-reversal step?", options: ["12 (binary 1100)", "3, it stays put", "13 (binary 1101)", "6 (binary 0110)"], answer: "12 (binary 1100)", why: "Reading 0011 backwards gives 1100, which is 12." },
+        { kind: "output", lang: "python", q: "One butterfly with u = 3 and t = 1. What does it print?", code: `u, t = 3, 1
+print(u + t, u - t)`, options: ["4 2", "2 4", "3 1", "4 -2"], answer: "4 2", why: "A butterfly replaces the pair by their sum and their difference." },
+      ],
+    },
   ],
 };
