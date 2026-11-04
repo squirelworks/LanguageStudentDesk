@@ -101,6 +101,8 @@
   // Decks written for the Desk itself, in languages/<lang>/vocab.js (data.vocab
   // in its meta.json). A word is [word, reading, English, note], or
   // [word, English, note] for languages written without a separate reading.
+  // vocab is the card's id in the data repo, "<deck>/<word>", which the
+  // meaning links use.
   function deskLoader(lang) {
     return async () => {
       const decks = (await LSD.load(lang, "vocab")) || [];
@@ -110,8 +112,8 @@
         group: "Desk starter words",
         cards: d.words.map((w) =>
           w.length >= 4
-            ? { front: w[0], reading: w[1], back: w[2], note: w[3] || "", speak: w[0] }
-            : { front: w[0], reading: "", back: w[1], note: w[2] || "", speak: "" }
+            ? { front: w[0], reading: w[1], back: w[2], note: w[3] || "", speak: w[0], vocab: d.id + "/" + w[0] }
+            : { front: w[0], reading: "", back: w[1], note: w[2] || "", speak: "", vocab: d.id + "/" + w[0] }
         ),
       }));
     };
