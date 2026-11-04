@@ -229,7 +229,8 @@
    "key": "mongolian",
    "fonts": [
     "noto-sans-mongolian"
-   ]
+   ],
+   "vertical": true
   },
   "odia": {
    "files": [

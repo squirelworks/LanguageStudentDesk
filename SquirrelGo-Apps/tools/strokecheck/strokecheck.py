@@ -207,13 +207,17 @@ def fit(bbox):
     return s, PAD + ((SIZE - 2 * PAD) - w * s) / 2 - x0 * s, PAD + ((SIZE - 2 * PAD) - h * s) / 2 - y0 * s
 
 
-def glyph_mask(text, font):
+def glyph_mask(text, font, vertical=False):
     img = Image.new("L", (1200, 900), 0)
     ImageDraw.Draw(img).text((200, 150), text, font=font, fill=255)
     bbox = img.getbbox()
     if not bbox:
         return None
     crop = img.crop(bbox)
+    if vertical:
+        # Vertical scripts (Mongolian) are shaped lying on their side, as in
+        # strokegen; stand the glyph upright.
+        crop = crop.transpose(Image.Transpose.ROTATE_270)
     s, ox, oy = fit((0, 0, crop.width, crop.height))
     crop = crop.resize((max(1, round(crop.width * s)), max(1, round(crop.height * s))), Image.LANCZOS)
     out = Image.new("L", (SIZE, SIZE), 0)
@@ -259,8 +263,8 @@ def dilate(mask, r):
     return np.array(img) > 127
 
 
-def score(text, paths, font):
-    g = glyph_mask(text, font)
+def score(text, paths, font, vertical=False):
+    g = glyph_mask(text, font, vertical)
     if g is None:
         return None
     hw = half_width(g)
@@ -344,7 +348,7 @@ def main():
                 problems.append("no reference glyph")
             else:
                 try:
-                    r = score(ch, paths, font)
+                    r = score(ch, paths, font, spec.get("vertical", False))
                 except (IndexError, ValueError) as e:
                     r = None
                     problems.append(f"malformed path ({e.__class__.__name__})")
