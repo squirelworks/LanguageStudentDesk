@@ -2,9 +2,19 @@
   "id": "cyrillic",
   "name": "Russian",
   "nativeName": "русский",
-  "writingSystems": ["cyrillic"],
-  "characterKeys": ["cyrillic"],
-  "speech": "ru-RU",
+  "writingSystems": [
+    "cyrillic"
+  ],
+  "characterKeys": [
+    "cyrillic"
+  ],
   "notes": "Russian in the Cyrillic alphabet. The id matches the Character Learner's ?lang=cyrillic.",
-  "data": { "characters": "characters.js", "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "speech": "ru-RU",
+  "code": "rus",
+  "data": {
+    "characters": "characters.js",
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

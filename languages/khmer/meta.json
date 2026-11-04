@@ -2,9 +2,18 @@
   "id": "khmer",
   "name": "Khmer",
   "nativeName": "ខ្មែរ",
-  "writingSystems": ["khmer"],
-  "characterKeys": ["khmer"],
+  "writingSystems": [
+    "khmer"
+  ],
+  "characterKeys": [
+    "khmer"
+  ],
   "notes": "Khmer, the language of Cambodia, with consonants in two series.",
   "speech": "km-KH",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "khm",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }
