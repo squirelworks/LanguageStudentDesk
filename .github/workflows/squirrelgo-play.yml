@@ -26,6 +26,11 @@ on:
         default: completed
         type: choice
         options: [completed, draft]
+      check_only:
+        description: "Only check the secrets: unlock the upload key and open (then discard) a Play edit for each app. Builds and uploads nothing."
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -35,9 +40,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' && inputs.check_only
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: The upload key opens with its passwords
+        env:
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          [ -n "$KEYSTORE_B64" ] || { echo "::error::UPLOAD_KEYSTORE_BASE64 is missing"; exit 1; }
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          trap 'rm -f "$RUNNER_TEMP/upload.keystore" "$RUNNER_TEMP/probe.jar"' EXIT
+          keytool -list -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$STORE_PW" -alias "$KEY_ALIAS" > /dev/null \
+            || { echo "::error::the store password or alias is wrong"; exit 1; }
+          # Signing a throwaway file proves the key password too.
+          echo probe > "$RUNNER_TEMP/probe.txt" && (cd "$RUNNER_TEMP" && jar cf probe.jar probe.txt)
+          jarsigner -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$STORE_PW" -keypass "$KEY_PW" \
+            "$RUNNER_TEMP/probe.jar" "$KEY_ALIAS" > /dev/null \
+            || { echo "::error::the key password is wrong"; exit 1; }
+          keytool -list -v -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$STORE_PW" -alias "$KEY_ALIAS" \
+            | grep -E "Owner:|SHA256:" | head -2
+          echo "upload key: OK"
+      - name: Play can be reached for every app
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python -m pip install -q google-api-python-client google-auth
+          python .github/scripts/play_upload.py --check \
+            com.squirelworks.lsd com.squirelworks.programmingstudentdesk \
+            com.squirelworks.squirrelgoalphabets com.squirelworks.squirrelgobopomofo \
+            com.squirelworks.squirrelgokana com.squirelworks.squirrelgokanji \
+            com.squirelworks.squirrelgoklingon com.squirelworks.squirrelgodictionary \
+            com.squirelworks.squirrelgoorthodoxbible com.squirelworks.squirrelgophrasebook
+
   play:
     # Only platform releases, not the rolling *-latest pre-releases.
-    if: github.event_name == 'workflow_dispatch' || (!github.event.release.prerelease && !github.event.release.draft)
+    if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
