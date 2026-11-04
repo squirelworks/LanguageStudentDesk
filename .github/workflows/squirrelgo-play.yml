@@ -1,0 +1,164 @@
+name: SquirrelGo Play closed testing
+
+# After the owner publishes a release, builds each app's AAB from that tag and
+# sends it straight to its Google Play closed testing track. The AAB never
+# leaves the runner: no artifact, no release asset, no commit (RELEASES.md).
+# Needs the PLAY_SERVICE_ACCOUNT_JSON secret, and the UPLOAD_* secrets unless
+# the apps' Play upload key is the committed debug key. See docs/PLAY.md.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Published release tag to send, e.g. squirrelgo-v0.1.0"
+        required: true
+      apps:
+        description: "Apps to send, comma-separated (blank = all), e.g. kana,kanji"
+        required: false
+      track:
+        description: "Play track ('alpha' is the default closed testing track)"
+        required: false
+        default: alpha
+      status:
+        description: "completed rolls out to testers; draft for an app never published"
+        required: false
+        default: completed
+        type: choice
+        options: [completed, draft]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: squirrelgo-play-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  play:
+    # Only platform releases, not the rolling *-latest pre-releases.
+    if: github.event_name == 'workflow_dispatch' || (!github.event.release.prerelease && !github.event.release.draft)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { app: alphabets,        dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets }
+          - { app: bopomofo,         dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo }
+          - { app: kana,             dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana }
+          - { app: kanji,            dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji }
+          - { app: klingon,          dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon }
+          - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary }
+          - { app: orthodox-bible,   dir: SquirrelGo-Apps/squirrelgo-orthodox-bible }
+          - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook }
+          - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite }
+          - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk }
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      DIR: ${{ matrix.dir }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Is this app selected?
+        id: pick
+        env:
+          APPS: ${{ inputs.apps }}
+        run: |
+          if [ -z "$APPS" ] || echo ",$APPS," | tr -d ' ' | grep -q ",${{ matrix.app }},"; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"; echo "skipped: not in '$APPS'"
+          fi
+      - name: Play access is set up
+        if: steps.pick.outputs.go == 'true'
+        env:
+          HAS_PLAY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          [ "$HAS_PLAY" = true ] || { echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is missing; see docs/PLAY.md"; exit 1; }
+      - uses: actions/checkout@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          ref: ${{ env.TAG }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          distribution: temurin
+          java-version: "17"
+      # The same preparation as each app's compile-only workflow.
+      - name: Check audio coverage
+        if: steps.pick.outputs.go == 'true' && matrix.app == 'phrasebook'
+        run: cd "$DIR" && python3 tools/phrasebook_audio.py --check
+      - name: Download dictionary data
+        if: steps.pick.outputs.go == 'true' && matrix.app == 'dictionary'
+        run: cd "$DIR" && tools/fetch_data.sh
+      - name: Sync web assets into the AAB
+        if: steps.pick.outputs.go == 'true' && (matrix.app == 'kanji' || matrix.app == 'phrasebook')
+        run: |
+          rm -rf "$DIR/android/app/src/main/assets/www"
+          mkdir -p "$DIR/android/app/src/main/assets"
+          cp -a "$DIR/www" "$DIR/android/app/src/main/assets/www"
+      - name: Install Android SDK packages
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Upload key
+        if: steps.pick.outputs.go == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+            {
+              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/upload.keystore"
+              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
+              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
+            } >> "$GITHUB_ENV"
+            echo "signing with the upload key from secrets"
+          else
+            echo "::warning::no upload key in secrets; Play refuses debug-signed bundles (see docs/PLAY.md)"
+            # Programming Student Desk doesn't commit its debug key; all apps share one.
+            K="$DIR/android/app/debug.keystore"
+            [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
+          fi
+      - name: Build AAB
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          cd "$DIR/android"
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon bundleRelease
+          PKG=$(grep -m1 -E '^\s*applicationId' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
+          echo "PKG=$PKG" >> "$GITHUB_ENV"
+          echo "AAB=$PWD/app/build/outputs/bundle/release/app-release.aab" >> "$GITHUB_ENV"
+      - name: Release notes
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          if [ -f "release-notes/$TAG.md" ]; then
+            # Plain text for Play: drop headings, links and tables.
+            sed -E -e '/^\|/d' -e 's/^#+ *//' -e 's/\[([^]]*)\]\([^)]*\)/\1/g' -e 's/[*`]//g' "release-notes/$TAG.md" \
+              | grep -v '^\s*$' | head -c 500 > "$RUNNER_TEMP/notes.txt"
+          else
+            echo "SquirrelGo $TAG" > "$RUNNER_TEMP/notes.txt"
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.pick.outputs.go == 'true'
+        with:
+          python-version: "3.12"
+      - name: Send to Google Play
+        if: steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python -m pip install -q google-api-python-client google-auth
+          python .github/scripts/play_upload.py --package "$PKG" --aab "$AAB" \
+            --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
+            --status "${{ inputs.status || 'completed' }}" \
+            --name "$TAG" --notes-file "$RUNNER_TEMP/notes.txt"
+      - name: Remove the key and the AAB
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"

@@ -112,6 +112,12 @@ anything else.
    - the version table
    - anything left out, and why
 
+8. **Google Play closed testing.** When the owner publishes the release,
+   `squirrelgo-play.yml` builds each app's AAB from the tag on the runner and
+   sends it straight to the app's closed testing track through the Play
+   Developer API, without an artifact or a release asset. Setup and the
+   secrets it needs are in `PLAY.md`.
+
 ### What the user does
 
 1. Says "release" (and OKs the version number if Claude proposed it).
