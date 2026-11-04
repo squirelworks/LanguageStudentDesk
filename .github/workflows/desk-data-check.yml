@@ -19,6 +19,7 @@ on:
       - "programming-learner/**"
       - "data"
       - ".gitmodules"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/**/data/kanji.js"
       - ".github/workflows/desk-data-check.yml"
   pull_request:
     paths:
@@ -33,6 +34,7 @@ on:
       - "programming-learner/**"
       - "data"
       - ".gitmodules"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/**/data/kanji.js"
       - ".github/workflows/desk-data-check.yml"
 
 jobs:
@@ -52,7 +54,7 @@ jobs:
         run: |
           python3 languages/build_registry.py
           # Also catches a language added in data/ whose meta.json isn't committed.
-          changed=$(git status --porcelain languages)
+          changed=$(git status --porcelain languages SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji)
           if [ -n "$changed" ]; then
             echo "Generated files are stale; run python3 languages/build_registry.py and commit:"
             echo "$changed"
@@ -78,6 +80,8 @@ jobs:
             -name '*.js' -print0 | sort -z)
       - name: Programming packs check out
         run: python3 programming-learner/tools/check_packs.py
+      - name: Translation Learner matrix matches the pinned data
+        run: python3 data/tools/gen_meaning.py --out translation-learner/data --check
       - name: Translation Learner matrix and language-pair tests
         run: node translation-learner/check.js
       - name: Numerical methods track matches known results

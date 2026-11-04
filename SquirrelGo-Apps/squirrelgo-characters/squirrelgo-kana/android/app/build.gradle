@@ -18,8 +18,8 @@ android {
         applicationId "com.squirelworks.squirrelgokana"
         minSdk 24
         targetSdk 36
-        versionCode 8
-        versionName "1.1.6"
+        versionCode 9
+        versionName "1.1.7"
     }
 
     // A fixed debug key, so new builds install over old ones and keep your data.

@@ -115,6 +115,10 @@ EXTRA_LANGS = [
     "bash",
     "typescript",
     "basic",
+    "sql",
+    "html",
+    "csharp",
+    "vbnet",
 ]
 
 

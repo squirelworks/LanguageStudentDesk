@@ -397,5 +397,189 @@ print(x)`, options: ["3.4", "3.0", "4.6", "2.5"], answer: "3.4", why: "f(5) = 16
         { q: "What does the secant method use instead of the derivative?", options: ["The slope through the last two guesses", "The midpoint of a bracket", "A random number", "The second derivative"], answer: "The slope through the last two guesses", why: "It needs no derivative formula, and still converges faster than bisection." },
       ],
     },
+    {
+      id: "integration",
+      title: "Integration: trapezoids and Simpson's rule",
+      summary: "Adding up thin slices to find the area under a curve, and how fast the error shrinks.",
+      sections: [
+        {
+          p: "The integral of <i>f</i> from <i>a</i> to <i>b</i> is the area under its curve. Many integrals have no formula, so we cut the interval into <i>n</i> thin slices of width <i>h</i> = (<i>b</i> − <i>a</i>) / <i>n</i>, estimate the area of each slice, and add them up. This is called <b>quadrature</b>.",
+        },
+        {
+          h: "The trapezoid rule",
+          p: "Join the curve's values at the ends of each slice with a straight line, so each slice becomes a trapezoid with area <i>h</i> × (<i>f</i>(left) + <i>f</i>(right)) / 2. Adding them up, every inside point is counted twice and the two end points once, which gives <i>h</i> × (<i>f</i>(<i>a</i>)/2 + <i>f</i>(<i>x</i><sub>1</sub>) + … + <i>f</i>(<i>x</i><sub><i>n</i>−1</sub>) + <i>f</i>(<i>b</i>)/2). The error shrinks like <i>h</i>²: twice as many slices make it about four times smaller.",
+        },
+        {
+          h: "Simpson's rule",
+          p: "Fit a parabola through each pair of slices instead of a straight line. That works out to the weights 1, 4, 2, 4, 2, …, 4, 1, times <i>h</i>/3, and needs an even number of slices. Its error shrinks like <i>h</i>⁴: twice as many slices make it about sixteen times smaller, for the same number of function evaluations. Below, both rules integrate sin <i>x</i> from 0 to π, whose exact area is 2. Each time <i>n</i> grows four times, the trapezoid error falls about 16 times and Simpson's about 256 times. The last line also finds π as the integral of 4 / (1 + <i>x</i>²) from 0 to 1.",
+        },
+        {
+          lang: "python",
+          known: [2.0, 3.141592653589793],
+          impl: "integration",
+          code: `import math
+
+def trapezoid(f, a, b, n):
+    h = (b - a) / n
+    total = (f(a) + f(b)) / 2
+    for i in range(1, n):
+        total += f(a + i * h)
+    return total * h
+
+def simpson(f, a, b, n):    # n must be even
+    h = (b - a) / n
+    total = f(a) + f(b)
+    for i in range(1, n):
+        weight = 4 if i % 2 == 1 else 2
+        total += weight * f(a + i * h)
+    return total * h / 3
+
+print("   n  trapezoid error  Simpson error")
+for n in (4, 16, 64):
+    t = abs(trapezoid(math.sin, 0.0, math.pi, n) - 2)
+    s = abs(simpson(math.sin, 0.0, math.pi, n) - 2)
+    print(f"{n:4d}  {t:.10f}     {s:.10f}")
+area = simpson(math.sin, 0.0, math.pi, 256)
+pi = simpson(lambda x: 4 / (1 + x * x), 0.0, 1.0, 256)
+print(f"{area:.8f} {pi:.8f}")`,
+          out: "   n  trapezoid error  Simpson error\n   4  0.1038811021     0.0045597550\n  16  0.0064296562     0.0000165910\n  64  0.0004016114     0.0000000645\n2.00000000 3.14159265",
+        },
+        {
+          p: "In C, <code>sin</code> from the maths library can be passed straight in as a function pointer. C has no π constant in the standard, so <code>acos(-1.0)</code> gives it.",
+          lang: "c",
+          known: [2.0, 3.141592653589793],
+          impl: "integration",
+          code: `#include <math.h>
+#include <stdio.h>
+
+typedef double (*func)(double);
+
+double trapezoid(func f, double a, double b, int n) {
+    double h = (b - a) / n;
+    double total = (f(a) + f(b)) / 2;
+    for (int i = 1; i < n; i++)
+        total += f(a + i * h);
+    return total * h;
+}
+
+double simpson(func f, double a, double b, int n) {  /* n must be even */
+    double h = (b - a) / n;
+    double total = f(a) + f(b);
+    for (int i = 1; i < n; i++) {
+        int weight = (i % 2 == 1) ? 4 : 2;
+        total += weight * f(a + i * h);
+    }
+    return total * h / 3;
+}
+
+double quarter_circle(double x) { return 4 / (1 + x * x); }
+
+int main(void) {
+    const double pi = acos(-1.0);
+    int sizes[] = {4, 16, 64};
+    printf("   n  trapezoid error  Simpson error\\n");
+    for (int k = 0; k < 3; k++) {
+        int n = sizes[k];
+        double t = fabs(trapezoid(sin, 0.0, pi, n) - 2);
+        double s = fabs(simpson(sin, 0.0, pi, n) - 2);
+        printf("%4d  %.10f     %.10f\\n", n, t, s);
+    }
+    double area = simpson(sin, 0.0, pi, 256);
+    double p = simpson(quarter_circle, 0.0, 1.0, 256);
+    printf("%.8f %.8f\\n", area, p);
+    return 0;
+}`,
+          out: "   n  trapezoid error  Simpson error\n   4  0.1038811021     0.0045597550\n  16  0.0064296562     0.0000165910\n  64  0.0004016114     0.0000000645\n2.00000000 3.14159265",
+        },
+        {
+          p: "Fortran can't pass the generic <code>sin</code> intrinsic as an argument, so a small <code>sine</code> function wraps it. <code>i * h</code> mixes an integer and a real, and Fortran converts the integer first, just as C and Python do.",
+          lang: "fortran",
+          known: [2.0, 3.141592653589793],
+          impl: "integration",
+          code: `program integration
+  use iso_fortran_env, only: real64
+  implicit none
+  abstract interface
+    function fn(x) result(y)
+      import :: real64
+      real(real64), intent(in) :: x
+      real(real64) :: y
+    end function fn
+  end interface
+  real(real64), parameter :: pi = acos(-1.0_real64)
+  integer, parameter :: sizes(3) = [4, 16, 64]
+  real(real64) :: t, s
+  integer :: k
+
+  print '(a)', '   n  trapezoid error  Simpson error'
+  do k = 1, 3
+    t = abs(trapezoid(sine, 0.0_real64, pi, sizes(k)) - 2)
+    s = abs(simpson(sine, 0.0_real64, pi, sizes(k)) - 2)
+    print '(i4, 2x, f12.10, 5x, f12.10)', sizes(k), t, s
+  end do
+  print '(f10.8, 1x, f10.8)', simpson(sine, 0.0_real64, pi, 256), &
+                              simpson(quarter_circle, 0.0_real64, 1.0_real64, 256)
+contains
+  function trapezoid(f, a, b, n) result(total)
+    procedure(fn) :: f
+    real(real64), intent(in) :: a, b
+    integer, intent(in) :: n
+    real(real64) :: h, total
+    integer :: i
+    h = (b - a) / n
+    total = (f(a) + f(b)) / 2
+    do i = 1, n - 1
+      total = total + f(a + i * h)
+    end do
+    total = total * h
+  end function trapezoid
+
+  function simpson(f, a, b, n) result(total)   ! n must be even
+    procedure(fn) :: f
+    real(real64), intent(in) :: a, b
+    integer, intent(in) :: n
+    real(real64) :: h, total
+    integer :: i, weight
+    h = (b - a) / n
+    total = f(a) + f(b)
+    do i = 1, n - 1
+      if (mod(i, 2) == 1) then
+        weight = 4
+      else
+        weight = 2
+      end if
+      total = total + weight * f(a + i * h)
+    end do
+    total = total * h / 3
+  end function simpson
+
+  function sine(x) result(y)
+    real(real64), intent(in) :: x
+    real(real64) :: y
+    y = sin(x)
+  end function sine
+
+  function quarter_circle(x) result(y)
+    real(real64), intent(in) :: x
+    real(real64) :: y
+    y = 4 / (1 + x * x)
+  end function quarter_circle
+end program integration`,
+          out: "   n  trapezoid error  Simpson error\n   4  0.1038811021     0.0045597550\n  16  0.0064296562     0.0000165910\n  64  0.0004016114     0.0000000645\n2.00000000 3.14159265",
+        },
+        {
+          h: "Choosing n",
+          p: "In practice you rarely know the error in advance. A common approach is to double <i>n</i> until two answers agree to the accuracy you need; with the trapezoid rule, each doubling can reuse every point already computed. Both rules assume a smooth function: a corner, a jump or an infinite value inside the interval spoils the error estimates, and the interval should be split at that point.",
+        },
+      ],
+      practice: [
+        { q: "With the trapezoid rule, you double the number of slices. Roughly what happens to the error?", options: ["It becomes about 4 times smaller", "It halves", "It becomes about 16 times smaller", "It stays the same"], answer: "It becomes about 4 times smaller", why: "The trapezoid error shrinks like h², and halving h divides h² by 4." },
+        { q: "What weights does Simpson's rule give the points, before multiplying by h/3?", options: ["1, 4, 2, 4, …, 2, 4, 1", "1, 2, 2, …, 2, 1", "1, 1, 1, …, 1", "4, 1, 4, …, 1, 4"], answer: "1, 4, 2, 4, …, 2, 4, 1", why: "Each parabola over two slices weighs its ends 1 and its middle 4. Neighbouring parabolas share an end, which gives the inner 2s." },
+        { q: "Why does Simpson's rule need an even number of slices?", options: ["Each parabola covers two slices", "It divides by n", "Odd numbers give negative weights", "It doesn't; any n works"], answer: "Each parabola covers two slices", why: "The slices are taken in pairs, one parabola per pair, so they must pair up exactly." },
+        { kind: "output", lang: "python", q: "The trapezoid rule with one slice on f(x) = x² from 0 to 2. What does it print?", code: `f = lambda x: x * x
+a, b = 0.0, 2.0
+print((b - a) * (f(a) + f(b)) / 2)`, options: ["4.0", "2.6666666666666665", "8.0", "2.0"], answer: "4.0", why: "One trapezoid: width 2 times the average of f(0) = 0 and f(2) = 4. The true area is 8/3, so one slice overshoots badly." },
+      ],
+    },
   ],
 };

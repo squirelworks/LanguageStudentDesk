@@ -12,8 +12,10 @@ checked out here as a submodule at `data/` (clone with `--recursive`, or run
 `git submodule update --init`). Content that has moved is generated into this
 folder by `python3 languages/build_registry.py`; edit it in the data repo, then
 bump the submodule and rerun the script. So far that's every `meta.json`,
-`vocab.js`, `grammar.js` and `reference.json`, and `registry.js`. Character
-tables (`characters.js`, the CJK readings) are still edited here until they move.
+`vocab.js`, `grammar.js`, `reference.json` and `characters.js`, the shared CJK
+table and its readings (`cjk/characters.js`, `japanese/kanji.js`,
+`chinese/hanzi.js`, `hangul/hanja.js`), and `registry.js`. The script also
+writes SquirrelGo Kanji's `www/data/kanji.js` from the same kanji data.
 
 ```
 languages/
@@ -113,8 +115,12 @@ window.LSD_CJK_READINGS.kanji = { "name": "Kanji", "chars": { "日": { "roman": 
 together into a Character Learner script, and `LSD.load(id, "characters")` does
 this for any `characterKeys` entry named `hanzi`, `kanji` or `hanja`.
 `LSD.cjk(char)` returns the shared entry with every loaded tradition's reading.
-`build_registry.py` fails when a tradition has an entry the table doesn't tag
-with it, or the table tags a character a tradition has no entry for.
+All four files are generated from the data repo: the table from
+`data/cjk/characters.jsonl` and the readings from
+`data/languages/<id>/characters/<tradition>.jsonl`. `uses` and the kanji
+on'yomi `groups` are worked out from the readings, and the data repo's
+`check_characters.py` checks that every character a tradition reads is in the
+table.
 
 ### Sources
 
@@ -136,13 +142,9 @@ Learner reuses KanjiVG for glyphs that match Jōyō kanji. See
 (KanjiVG CC BY-SA vs Make Me a Hanzi / AnimCJK Arphic PL), and the
 recommended HSK 1 follow-up.
 
-`cjk/build_cjk.py` rebuilds the hanzi and hanja files and their tags in the
-table from those sources:
-
-```
-python3 languages/cjk/build_cjk.py --unihan <folder with Unihan_*.txt> --hsk complete.json
-python3 languages/build_registry.py --check
-```
+The hanzi and hanja readings are imported by the data repo's
+`tools/importers/cjk_unihan.py` (it replaces `cjk/build_cjk.py`, which used to
+live here).
 
 ## meta.json schema (initial)
 
