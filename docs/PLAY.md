@@ -107,3 +107,13 @@ job's log says why Play refused it:
   account wasn't given access to it.
 - **version code already used:** the release PR didn't raise that app's
   `versionCode`.
+
+## "Changes not yet sent for review" with no button
+
+After the SquirrelGo v0.1.1 upload, SquirrelGo Kana showed "Changes not yet
+sent for review", but Play Console had no "Send changes for review" button
+anywhere. This was a Play Console glitch, not our upload: the log showed the
+release reached the track as completed.
+
+What fixed it: **discard the pending changes, then submit them again.** Do
+that first if it happens again; don't go looking for the button.
