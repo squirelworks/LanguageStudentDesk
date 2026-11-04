@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ef2ee91 languages/french/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/french/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [French, English, note]. Nouns are given with the article.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.french = [

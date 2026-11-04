@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ef2ee91 languages/hangul/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/hangul/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Korean grammar for the Grammar Learner, one level on every lesson. Written for this project.
 // Examples are [Korean, romanization, English]; {braces} mark the particle or ending.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

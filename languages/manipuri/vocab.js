@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ef2ee91 languages/manipuri/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/manipuri/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Meetei Mayek, romanization, English, note]. Written for this
 // project. Verbs are given in their dictionary form, which ends in -ba (-ꯕꯥ /
 // -ꯄꯥ). Romanization matches the Desk style (plain letters; no tone marks).

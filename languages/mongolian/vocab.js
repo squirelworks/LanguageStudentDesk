@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ef2ee91 languages/mongolian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/mongolian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Mongolian (Cyrillic), romanization, English, note]. Written for
 // this project. The Cyrillic spelling is the one used in Mongolia; see the
 // Reference cards for the traditional script.
