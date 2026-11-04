@@ -139,6 +139,7 @@
     }
     $("home").hidden = !!pack;
     $("course").hidden = !pack;
+    $("courseNote").hidden = true;
     if (!pack) {
       $("title").textContent = "Programming Learner";
       $("subtitle").textContent = id && !entry ? "No course called “" + id + "” here yet. Pick one below." : "Short lessons with worked examples, then practice that explains every answer.";
@@ -147,6 +148,8 @@
       return;
     }
     $("title").innerHTML = "Programming Learner <small>" + esc(pack.name) + "</small>";
+    $("courseNote").hidden = !pack.note;
+    $("courseNote").innerHTML = pack.note || "";
     $("subtitle").textContent = pack.title;
     document.title = "Programming · " + pack.name + " — Language Student Desk";
     const saved = progress[pack.id] || {};
