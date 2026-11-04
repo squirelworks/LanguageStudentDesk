@@ -108,10 +108,15 @@ def simplify(pts, eps):
         return pts
     (x0, y0), (x1, y1) = pts[0], pts[-1]
     dx, dy = x1 - x0, y1 - y0
-    norm = math.hypot(dx, dy) or 1e-9
+    norm = math.hypot(dx, dy)
     far, idx = 0, 0
     for k, (x, y) in enumerate(pts[1:-1], 1):
-        dist = abs(dy * x - dx * y + x1 * y0 - y1 * x0) / norm
+        if norm < 1e-6:
+            # A closed loop (the handakuten ゜) starts and ends at the same
+            # point, so measure from that point instead of a zero-length chord.
+            dist = math.hypot(x - x0, y - y0)
+        else:
+            dist = abs(dy * x - dx * y + x1 * y0 - y1 * x0) / norm
         if dist > far:
             far, idx = dist, k
     if far <= eps:
