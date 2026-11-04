@@ -44,46 +44,6 @@ window.SGO_CATALOG = {
       "testaments": "NT"
     },
     {
-      "id": "rus-synodal",
-      "name": "Синодальный перевод (Russian Synodal, 1876)",
-      "lang": "ru",
-      "dir": "ltr",
-      "versification": "rso",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/RusSynodal.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT,DC"
-    },
-    {
-      "id": "csl-elizabeth",
-      "name": "Елизаветинская Библия (Church Slavonic Elizabeth Bible, 1757)",
-      "lang": "cu",
-      "dir": "ltr",
-      "versification": "rso",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/CSlElizabeth.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT,DC"
-    },
-    {
-      "id": "srp-danicic-karadzic",
-      "name": "Свето писмо (Serbian, Vuk Karadžić & Đura Daničić, 1847/1865)",
-      "lang": "sr",
-      "dir": "ltr",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/SrKDIjekav.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT"
-    },
-    {
-      "id": "fra-giguet",
-      "name": "La Sainte Bible selon les Septante (French Septuagint, Pierre Giguet, 1872)",
-      "lang": "fr",
-      "dir": "ltr",
-      "versification": "lxx",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreLXXGiguet.json, from the CrossWire SWORD module)",
-      "testaments": "OT,DC"
-    },
-    {
       "id": "ell-vamvas",
       "name": "Η Αγία Γραφή (Modern Greek, Neophytos Vamvas, 1850)",
       "lang": "el",
@@ -91,16 +51,6 @@ window.SGO_CATALOG = {
       "versification": "kjv",
       "license": "Public Domain",
       "source": "https://github.com/scrollmapper/bible_databases (formats/json/GreVamvas.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT"
-    },
-    {
-      "id": "arb-vandyck",
-      "name": "الكتاب المقدس (Arabic, Smith–Van Dyck, 1865)",
-      "lang": "ar",
-      "dir": "rtl",
-      "versification": "kjv",
-      "license": "Public Domain",
-      "source": "https://ebible.org/details.php?id=arb-vd",
       "testaments": "OT,NT"
     },
     {
@@ -112,6 +62,76 @@ window.SGO_CATALOG = {
       "license": "Public Domain",
       "source": "https://github.com/scrollmapper/bible_databases (formats/json/KJVA.json)",
       "testaments": "OT,NT,DC"
+    },
+    {
+      "id": "lat-vulgate-clementine",
+      "name": "Biblia Sacra Vulgata (Clementine Vulgate, 1592)",
+      "lang": "la",
+      "dir": "ltr",
+      "versification": "vul",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/VulgClementine.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT,DC"
+    },
+    {
+      "id": "rus-synodal",
+      "name": "Синодальный перевод (Russian Synodal, 1876)",
+      "lang": "ru",
+      "dir": "ltr",
+      "versification": "rso",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/RusSynodal.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/rus-synodal.js",
+      "size": 7327636
+    },
+    {
+      "id": "csl-elizabeth",
+      "name": "Елизаветинская Библия (Church Slavonic Elizabeth Bible, 1757)",
+      "lang": "cu",
+      "dir": "ltr",
+      "versification": "rso",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/CSlElizabeth.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/csl-elizabeth.js",
+      "size": 6670043
+    },
+    {
+      "id": "srp-danicic-karadzic",
+      "name": "Свето писмо (Serbian, Vuk Karadžić & Đura Daničić, 1847/1865)",
+      "lang": "sr",
+      "dir": "ltr",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/SrKDIjekav.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/srp-danicic-karadzic.js",
+      "size": 5819643
+    },
+    {
+      "id": "fra-giguet",
+      "name": "La Sainte Bible selon les Septante (French Septuagint, Pierre Giguet, 1872)",
+      "lang": "fr",
+      "dir": "ltr",
+      "versification": "lxx",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/FreLXXGiguet.json, from the CrossWire SWORD module)",
+      "testaments": "OT,DC",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/fra-giguet.js",
+      "size": 4132828
+    },
+    {
+      "id": "arb-vandyck",
+      "name": "الكتاب المقدس (Arabic, Smith–Van Dyck, 1865)",
+      "lang": "ar",
+      "dir": "rtl",
+      "versification": "kjv",
+      "license": "Public Domain",
+      "source": "https://ebible.org/details.php?id=arb-vd",
+      "testaments": "OT,NT",
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/arb-vandyck.js",
+      "size": 7516305
     },
     {
       "id": "syc-peshitta",
@@ -148,18 +168,6 @@ window.SGO_CATALOG = {
       "testaments": "OT,NT",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/hye-eastern.js",
       "size": 1301497
-    },
-    {
-      "id": "lat-vulgate-clementine",
-      "name": "Biblia Sacra Vulgata (Clementine Vulgate, 1592)",
-      "lang": "la",
-      "dir": "ltr",
-      "versification": "vul",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/VulgClementine.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT,DC",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/lat-vulgate-clementine.js",
-      "size": 4114723
     },
     {
       "id": "got-wulfila",

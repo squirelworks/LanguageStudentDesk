@@ -17,21 +17,21 @@ its notes are copyrighted by Thomas Nelson) or from the Catena app.
 | `eng-brenton` | Brenton's English Septuagint (1851) | English | lxx | [eBible.org eng-Brenton](https://ebible.org/details.php?id=eng-Brenton) | Public domain |
 | `grc-antoniades` | Patriarchal Text of the New Testament, Antoniades 1904/1912, the official text of the Ecumenical Patriarchate (unaccented transcription by M. A. Robinson) | Koine Greek | kjv | [byztxt/greektext-antoniades](https://github.com/byztxt/greektext-antoniades) | Public domain dedication |
 | `grc-byz` | Byzantine Textform NT, Robinson–Pierpont (accented) | Koine Greek | kjv | [byztxt/byzantine-majority-text](https://github.com/byztxt/byzantine-majority-text) | Public domain dedication |
-| `rus-synodal` | Russian Synodal Bible (1876) | Russian | rso | [scrollmapper](https://github.com/scrollmapper/bible_databases) `RusSynodal` (CrossWire SWORD module) | Public domain |
-| `csl-elizabeth` | Elizabeth Bible (1757), in civil Cyrillic spelling | Church Slavonic | rso | scrollmapper `CSlElizabeth` (CrossWire) | Public domain |
-| `srp-danicic-karadzic` | Vuk Karadžić NT (1847) and Đura Daničić OT (1865), ijekavian | Serbian (Cyrillic) | kjv | scrollmapper `SrKDIjekav` (CrossWire) | Public domain |
-| `fra-giguet` | Pierre Giguet's French Septuagint (1872), OT only | French | lxx (approximate, see below) | scrollmapper `FreLXXGiguet` (CrossWire) | Public domain |
 | `ell-vamvas` | Neophytos Vamvas (1850) | Modern Greek | kjv | scrollmapper `GreVamvas` (CrossWire) | Public domain |
-| `arb-vandyck` | Smith–Van Dyck Arabic Bible (1865) | Arabic | kjv | [eBible.org arb-vd](https://ebible.org/details.php?id=arb-vd) | Public domain |
 | `kjva` | King James Version with Apocrypha (1769) | English | kjv | scrollmapper `KJVA` | Public domain |
+| `lat-vulgate-clementine` | Biblia Sacra Vulgata, St Jerome's Latin Bible in the Clementine edition (1592), with the deuterocanonical books | Latin | vul | scrollmapper `VulgClementine` (CrossWire) | Public domain |
 
 scrollmapper/bible_databases is MIT licensed; the license of each text is the
 one its source module declares (`sources/<lang>/<id>/README.md` there).
 
+The app ships with English, Greek and Latin only (the table above). Every
+other Bible, including the Russian, Church Slavonic, Serbian, French and
+Arabic ones that used to be bundled, is a downloadable pack.
+
 ### Downloadable packs
 
-These are too large to ship inside the APK (the bundled Bibles above already
-take most of its size), so the app downloads them on request. They are listed
+These are not shipped inside the APK, so the app stays one small offline
+package; it downloads them on request. They are listed
 as `PACKS` in `sources.py`. `build_bibles.py --packs` writes them to
 `packs/bibles/<id>.js` (not committed; same format as `www/data/bibles/`) and
 records them in `packs.json`, which `build_catalog.py` merges into
@@ -43,13 +43,32 @@ the url is
 raw.githubusercontent.com allows cross-origin reads (a GitHub release asset
 does not), and the app parses the file as JSON rather than running it.
 
+**From the latest GitHub release.** Each published release also carries the
+packs as assets (the **SquirrelGo Orthodox Bible release packs** workflow
+attaches them): `orthodox-bible-content.json` lists every pack, and each pack
+is `orthodox-bible-<id>.js` or `orthodox-commentary-<id>.js`.
+`build_content_index.py` writes that list from `packs.json` and
+`commentary_packs.json`. When the reader taps **Check for new texts** or
+**Download**, the app asks the GitHub API for the latest release
+(`api.github.com/repos/squirelworks/LanguageStudentDesk/releases/latest`,
+which allows cross-origin reads), reads its content list, adds any pack it
+didn't know about to Translations & settings, and downloads from the
+release. The Android app reads release assets directly; a desktop browser
+can't (no cross-origin headers on release downloads), so there it falls back
+to the same file on the `orthodox-bible-texts` branch. Once downloaded, a
+pack lives in IndexedDB and the app stays offline.
+
 <!-- packs table: regenerate from sources.PACKS and packs.json -->
 | id | Text | Language | Books | Numbering | Source | License |
 | --- | --- | --- | --- | --- | --- | --- |
+| `rus-synodal` | Синодальный перевод (Russian Synodal, 1876) | ru | OT, NT, deuterocanon | rso | scrollmapper `RusSynodal` (CrossWire) | Public Domain |
+| `csl-elizabeth` | Елизаветинская Библия (Church Slavonic Elizabeth Bible, 1757), in civil Cyrillic spelling | cu | OT, NT, deuterocanon | rso | scrollmapper `CSlElizabeth` (CrossWire) | Public Domain |
+| `srp-danicic-karadzic` | Свето писмо (Serbian, Vuk Karadžić NT 1847 and Đura Daničić OT 1865, ijekavian) | sr | OT, NT | kjv | scrollmapper `SrKDIjekav` (CrossWire) | Public Domain |
+| `fra-giguet` | La Sainte Bible selon les Septante (Pierre Giguet's French Septuagint, 1872) | fr | OT, deuterocanon | lxx (approximate, see below) | scrollmapper `FreLXXGiguet` (CrossWire) | Public Domain |
+| `arb-vandyck` | الكتاب المقدس (Smith–Van Dyck Arabic Bible, 1865) | ar | OT, NT | kjv | [eBible.org arb-vd](https://ebible.org/details.php?id=arb-vd) | Public Domain |
 | `syc-peshitta` | ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament) | syc | NT | kjv | scrollmapper `Peshitta` (CrossWire) | Public Domain |
 | `cop-sahidic` | ⲧⲅⲣⲁⲫⲏ ⲉⲧⲟⲩⲁⲁⲃ (Coptic Sahidic Bible) | cop | OT, NT, deuterocanon | lxx | scrollmapper `CopSahBible2` (CrossWire) | CC BY-SA (CrossWire CopSahBible2 module; share alike) |
 | `hye-eastern` | Աստվածաշունչ (Eastern Armenian, partial) | hy | OT, NT | kjv | scrollmapper `ArmEastern` (CrossWire) | Public Domain |
-| `lat-vulgate-clementine` | Biblia Sacra Vulgata (Clementine Vulgate, 1592) | la | OT, NT, deuterocanon | vul | scrollmapper `VulgClementine` (CrossWire) | Public Domain |
 | `got-wulfila` | 𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions) | got | OT, NT | kjv | scrollmapper `Wulfila` (CrossWire) | Public Domain |
 | `heb-wlc` | תנ״ך (Hebrew Masoretic Text, Westminster Leningrad Codex) | he | OT | org | scrollmapper `WLC` (CrossWire) | Public Domain |
 | `rus-makarij` | Пятикнижие Моисея (Russian, Archimandrite Makarius Glukharev) | ru | OT | kjv | scrollmapper `RusMakarij` (CrossWire) | Public Domain |
@@ -370,7 +389,7 @@ Downloadable packs: run the **SquirrelGo Orthodox Bible text packs**
 workflow (it also runs when `sources.py` changes); it publishes `packs/` and
 commits `packs.json`, `catalog.js` and `versification.js`.
 
-Bundled eBible.org texts (`grc-brenton`, `eng-brenton`, `arb-vandyck`): run
+Bundled eBible.org texts (`grc-brenton`, `eng-brenton`): run
 `./fetch_sources.sh ebible` first, or run the **SquirrelGo Orthodox Bible
 texts (eBible.org)** workflow from the Actions tab, which builds them and
 commits the result to the branch.
