@@ -112,6 +112,7 @@ EXTRA_LANGS = [
     "java",
     "php",
     "perl",
+    "bash",
 ]
 
 
