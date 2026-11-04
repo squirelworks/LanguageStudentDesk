@@ -20,8 +20,8 @@
   const TAGS = SECTIONS.tags(CATALOG);
   const layout = SECTIONS.load();
   if (layout.tag && !TAGS.includes(layout.tag)) layout.tag = "";
-  // Which groups are shown. Both are on until Settings offers the switches.
-  const show = { older: true, joke: true };
+  // Which groups are shown: the older and joke switches (also in Settings).
+  let show = SECTIONS.shown();
   const PASS = 0.8;
   const store = LSD.store("lsd-programming-v1", {});
   const progress = store.load();
@@ -118,6 +118,7 @@
 
   function renderHome() {
     renderControls();
+    SECTIONS.renderSwitches($("homeSwitches"));
     const blocks = SECTIONS.arrange(CATALOG, { view: layout.view, tag: layout.tag, show });
     $("langGrid").innerHTML = blocks.length
       ? blocks.map((b) =>
@@ -314,6 +315,11 @@
     sel.value = current;
   }
   fillSelect();
+  SECTIONS.onSwitch(() => {
+    show = SECTIONS.shown();
+    fillSelect();
+    if (!pack) renderHome();
+  });
   sel.onchange = () => {
     LSD.setParam(sel.value || null);
     history.replaceState(null, "", location.search);
