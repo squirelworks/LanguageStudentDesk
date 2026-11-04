@@ -48,6 +48,7 @@ Each `data/<id>.js` sets `window.PROGRAMMING.<id>`:
 ```js
 {
   id, name, title, intro,          // intro is HTML
+  note: "...",                     // optional HTML, shown at the top of every page of the course
   comment: "#",                    // optional: line-comment marker, for colouring
   keywords: [...], builtins: [...],// optional: words to colour
   caseInsensitive: true,           // optional: BASIC, Pascal, assembly

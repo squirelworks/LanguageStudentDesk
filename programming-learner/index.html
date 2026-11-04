@@ -40,6 +40,7 @@
   .code .s { color: #ffcc80; }
   .code .n { color: #f48fb1; }
   .code .c { color: #78909c; font-style: italic; }
+  .coursenote { margin: 0 0 1rem; padding: 0.6rem 0.9rem; border-left: 3px solid #26a69a; border-radius: 6px; background: #17171d; }
   .practice { border-top: 2px solid #26a69a; }
   .practice .q { font-size: 1.1rem; margin: 0.3rem 0 0.5rem; }
   .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; margin-top: 0.7rem; }
@@ -74,6 +75,7 @@
     <h2>Pick a language</h2>
     <div class="grid" id="langGrid"></div>
   </section>
+  <p class="coursenote" id="courseNote" hidden></p>
   <section id="course" class="layout" hidden>
     <nav class="lessons" id="lessonList"></nav>
     <div id="lesson"></div>
