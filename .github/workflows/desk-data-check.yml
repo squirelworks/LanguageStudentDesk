@@ -86,6 +86,8 @@ jobs:
         run: node translation-learner/check.js
       - name: Numerical methods track matches known results
         run: python3 programming-learner/tools/test_numerical.py
+      - name: Vocabulary links match the pinned data
+        run: python3 data/tools/gen_vocab_links.py --out translation-learner/data --check
       # Informational: print coverage + threshold warnings. Drill validation still
       # fails this step (answer not in options / duplicate options). Threshold
       # misses via --min-* only warn; do not fail CI on them yet (P0.2).

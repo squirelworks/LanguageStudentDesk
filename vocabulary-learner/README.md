@@ -23,6 +23,10 @@ Vocabulary Learner holds UI and logic only. Each Desk deck lives in its language
 `languages/<id>/vocab.js` (`window.LSD_DECKS.<id> = [{ id, title, words }]`) and is listed under `data.vocab`
 in that language's `meta.json`; the learner offers every language that lists one.
 
+A Desk card linked to meaning units in the data repo (`meaning/vocab-links/`, generated into
+`translation-learner/data/vocab-links.js`) shows them once turned over, each a link to that meaning in the
+Translation Learner's Meaning web, so cards, sentences and the meaning network share one set of meanings.
+
 The SquirrelGo data files are loaded straight from `SquirrelGo-Apps/`, so the apps and the Desk share one copy.
 Dictionary search needs the dictionary data, which is generated rather than committed: run
 `SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh` once.

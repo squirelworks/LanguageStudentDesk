@@ -11,5 +11,9 @@
   "code": "eng",
   "data": {
     "reference": "reference.json"
+  },
+  "markers": {
+    "default": "before",
+    "@possessive": "after"
   }
 }
