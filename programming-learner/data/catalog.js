@@ -35,6 +35,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "sql", name: "SQL", era: "1974 · databases", blurb: "Ask questions of a database: SELECT, filtering, grouping, joins and changes, on a small sample database.", group: "modern", tags: ["Data", "Web"] },
   { id: "turbopascal", name: "Turbo Pascal", era: "1983 · DOS", blurb: "Borland's fast, friendly Pascal with the blue IDE. Where structured programming was learned for a decade.", group: "older", tags: ["Compiled programs"] },
   { id: "typescript", name: "TypeScript", era: "2012 · large web apps", blurb: "JavaScript with types checked before it runs. Interfaces, unions, generics and typed async code.", group: "modern", tags: ["Scripting", "Web"] },
+  { id: "vbnet", name: "Visual Basic .NET", era: "2002 · .NET and Windows", blurb: "The BASIC of the .NET platform: English-like blocks, Option Strict, classes, LINQ queries and the whole .NET library.", group: "modern", tags: ["Compiled programs"] },
   { id: "whitespace", name: "Whitespace", era: "Esoteric · 2003", blurb: "Only spaces, tabs and newlines mean anything. Everything you can see is a comment.", group: "joke" },
   { id: "win16", name: "Win16", era: "1990–1995 · Windows 3.x", blurb: "C and the 16-bit Windows API: WinMain, the message loop and window procedures.", group: "older", tags: ["Compiled programs"] },
   { id: "z80", name: "Z80 Assembly", era: "1976 · 8-bit CPUs", blurb: "Talk to the processor directly: registers, flags, loops and the stack.", group: "older", tags: ["Assembly"] },
