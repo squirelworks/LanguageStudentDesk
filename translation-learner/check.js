@@ -7,7 +7,7 @@ const T = require("./tokens.js");
 global.window = {};
 const dir = path.join(__dirname, "data");
 for (const f of fs.readdirSync(dir)) if (f.endsWith(".js")) new Function(fs.readFileSync(path.join(dir, f), "utf8"))();
-const matrix = { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES };
+const matrix = { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
 let bad = 0;
 const ids = new Set();
 for (const s of matrix.sentences) {
@@ -27,6 +27,13 @@ for (const [lang, col] of Object.entries(window.TL_LANGS)) {
     if (!r.honest) {
       bad++;
       console.log(lang + ": " + s.id + ": model English fails (" + r.units.filter((u) => u.status === "dropped").map((u) => u.meaning.id).concat(r.added).join(", ") + ")");
+    }
+    for (const alt of s.also) {
+      const a = T.checkEnglish(s, alt);
+      if (!a.honest) {
+        bad++;
+        console.log(lang + ": " + s.id + ": other English \"" + alt + "\" fails (" + a.units.filter((u) => u.status === "dropped").map((u) => u.meaning.id).concat(a.added).join(", ") + (a.tenseWrong ? ", tense" : "") + ")");
+      }
     }
   }
   console.log(lang + ": " + sentences.length + " sentences");
@@ -71,3 +78,37 @@ if (near < ref.share * ref.near.length) {
   }
 }
 console.log(process.exitCode ? "network check failed" : "network ok");
+
+// Language pairs: each tests/<language>-english.json lists, per sentence,
+// translations that must be accepted and ones that must be rejected. A pair
+// keeps its "(alpha)" label in the app until every case here passes.
+{
+  const tdir = path.join(__dirname, "tests");
+  const files = fs.existsSync(tdir) ? fs.readdirSync(tdir).filter((f) => f.endsWith(".json")).sort() : [];
+  let failed = 0;
+  for (const f of files) {
+    const t = JSON.parse(fs.readFileSync(path.join(tdir, f), "utf8"));
+    const col = window.TL_LANGS[t.language];
+    if (!col) { console.log(f + ": no column for " + t.language); failed++; continue; }
+    const built = T.build(matrix, col).sentences;
+    let n = 0, fails = 0;
+    for (const c of t.cases) {
+      const s = built.find((x) => x.id === c.sentence);
+      if (!s) { console.log(f + ": " + t.language + " has no sentence " + c.sentence); fails++; continue; }
+      const why = (r) => r.units.filter((u) => u.status === "dropped" || u.status === "close").map((u) => u.status + " " + u.meaning.id).concat(r.added.map((w) => "added " + w)).concat(r.tenseWrong ? ["tense"] : []).join(", ");
+      for (const a of c.accept || []) {
+        n++;
+        const r = T.checkEnglish(s, a, net);
+        if (!r.honest) { fails++; console.log(f + ": " + c.sentence + ": should accept \"" + a + "\" (" + why(r) + ")"); }
+      }
+      for (const a of c.reject || []) {
+        n++;
+        if (T.checkEnglish(s, a, net).honest) { fails++; console.log(f + ": " + c.sentence + ": should reject \"" + a + "\""); }
+      }
+    }
+    console.log(f.replace(/\.json$/, "") + ": " + (fails ? fails + " of " + n + " cases fail" : n + " cases pass"));
+    failed += fails;
+  }
+  if (failed) process.exitCode = 1;
+  console.log(failed ? "pair tests failed" : "pairs ok");
+}
