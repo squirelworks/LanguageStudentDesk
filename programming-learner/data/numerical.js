@@ -1329,6 +1329,328 @@ print(round(a, 3), round(b, 3))`, options: ["0.0 2.472", "1.528 4.0", "0.0 1.528
       ],
     },
     {
+      id: "random",
+      title: "Random numbers and Monte Carlo",
+      summary: "How a computer makes numbers that look random, how to test one, and using them to estimate π.",
+      sections: [
+        {
+          p: "Computers follow instructions exactly, so they can't produce true randomness on their own. Instead, a <b>pseudo-random number generator</b> keeps a hidden number, its <b>state</b>, and each call scrambles the state into a new one and hands out the result. The sequence looks random but is completely determined by the starting state, the <b>seed</b>. That is a feature: a simulation started from the same seed gives exactly the same results, which makes bugs repeatable.",
+        },
+        {
+          h: "A linear congruential generator",
+          p: "The oldest kind multiplies the state by a constant and keeps the remainder: <i>state</i> ← <i>a</i> × <i>state</i> mod <i>m</i>. With <i>m</i> = 2³¹ − 1 (a prime) and <i>a</i> = 16807, every state from 1 to <i>m</i> − 1 appears once before the sequence repeats. Stephen Park and Keith Miller proposed this in 1988 as a <b>minimal standard</b>, and published a check: starting from 1, the 10000th state must be 1043618065. Dividing the state by <i>m</i> gives a number between 0 and 1. Because the generator uses only whole-number arithmetic, every language gives exactly the same sequence, so the same check works everywhere.",
+        },
+        {
+          h: "Monte Carlo",
+          p: "<b>Monte Carlo</b> methods, named after the casino, answer questions by random sampling. Throw random points into the unit square: the fraction that lands inside the quarter circle <i>x</i>² + <i>y</i>² &lt; 1 is about π/4. The error shrinks only like 1/√<i>N</i>, so 100 times more points buy just one more correct digit. For a smooth one-dimensional integral the methods in the integration lesson are far better, but for integrals in many dimensions Monte Carlo is often the only practical method.",
+          lang: "python",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `M = 2147483647      # 2**31 - 1, a prime
+A = 16807           # 7**5, the "minimal standard" multiplier
+
+def next_state(state):
+    return A * state % M
+
+# The published check: starting from 1, the 10000th state is 1043618065.
+state = 1
+for _ in range(10000):
+    state = next_state(state)
+print(f"state after 10000 steps: {state}, as a fraction {state / M:.10f}")
+
+# Monte Carlo: the fraction of random points in the unit square that land
+# inside the quarter circle x*x + y*y < 1 is about pi / 4.
+inside = 0
+trials = 100000
+for _ in range(trials):
+    state = next_state(state)
+    x = state / M
+    state = next_state(state)
+    y = state / M
+    if x * x + y * y < 1:
+        inside += 1
+print(f"pi is about {4 * inside / trials:.4f}")`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          p: "In C, <i>a</i> × <i>state</i> can be as large as about 2⁴⁵, which overflows a 32-bit <code>int</code>, so the state is an <code>int64_t</code>. Python's integers never overflow, so it needs no such care.",
+          lang: "c",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `#include <stdint.h>
+#include <stdio.h>
+
+#define M 2147483647      /* 2^31 - 1, a prime */
+#define A 16807           /* 7^5, the "minimal standard" multiplier */
+
+/* A * state can reach about 2^45, so it needs a 64-bit integer. */
+int64_t next_state(int64_t state) {
+    return A * state % M;
+}
+
+int main(void) {
+    /* The published check: starting from 1, the 10000th state is 1043618065. */
+    int64_t state = 1;
+    for (int i = 0; i < 10000; i++)
+        state = next_state(state);
+    printf("state after 10000 steps: %lld, as a fraction %.10f\\n",
+           (long long)state, (double)state / M);
+
+    /* Monte Carlo: points in the unit square inside the quarter circle. */
+    int inside = 0;
+    const int trials = 100000;
+    for (int i = 0; i < trials; i++) {
+        state = next_state(state);
+        double x = (double)state / M;
+        state = next_state(state);
+        double y = (double)state / M;
+        if (x * x + y * y < 1)
+            inside++;
+    }
+    printf("pi is about %.4f\\n", 4.0 * inside / trials);
+    return 0;
+}`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          p: "Fortran asks for a 64-bit integer kind with <code>int64</code> from <code>iso_fortran_env</code>, and <code>real(state, real64)</code> converts it to a double before dividing.",
+          lang: "fortran",
+          known: [0.4859725318318105],
+          impl: "random",
+          code: `program random_numbers
+  use iso_fortran_env, only: int64, real64
+  implicit none
+  integer(int64), parameter :: m = 2147483647_int64   ! 2**31 - 1, a prime
+  integer(int64), parameter :: a = 16807_int64        ! 7**5, the "minimal standard" multiplier
+  integer(int64) :: state
+  real(real64) :: x, y
+  integer :: i, inside
+  integer, parameter :: trials = 100000
+
+  ! The published check: starting from 1, the 10000th state is 1043618065.
+  state = 1
+  do i = 1, 10000
+    state = next_state(state)
+  end do
+  print '(a, i0, a, f12.10)', 'state after 10000 steps: ', state, ', as a fraction ', &
+        real(state, real64) / m
+
+  ! Monte Carlo: points in the unit square inside the quarter circle.
+  inside = 0
+  do i = 1, trials
+    state = next_state(state)
+    x = real(state, real64) / m
+    state = next_state(state)
+    y = real(state, real64) / m
+    if (x * x + y * y < 1) inside = inside + 1
+  end do
+  print '(a, f6.4)', 'pi is about ', 4.0_real64 * inside / trials
+contains
+  ! a * state can reach about 2**45, so it needs a 64-bit integer.
+  function next_state(s) result(n)
+    integer(int64), intent(in) :: s
+    integer(int64) :: n
+    n = mod(a * s, m)
+  end function next_state
+end program random_numbers`,
+          out: "state after 10000 steps: 1043618065, as a fraction 0.4859725318\npi is about 3.1406",
+        },
+        {
+          h: "In real programs",
+          p: "The minimal standard is good for learning and for checking code, but it is weak by modern standards: its period of about two billion is used up in seconds, and neighbouring values are related in ways careful tests can detect. Use your language's library instead. Python's <code>random</code> uses the Mersenne Twister, and newer generators such as PCG and xoshiro are fast and pass much stronger tests. None of these are safe for passwords or keys, because their next output can be predicted from earlier ones; for that use a cryptographic source such as Python's <code>secrets</code> module.",
+        },
+      ],
+      practice: [
+        { q: "Two runs of a simulation use the same pseudo-random generator and the same seed. What happens?", options: ["They produce exactly the same numbers", "They produce different numbers", "The second run fails", "Only the first number matches"], answer: "They produce exactly the same numbers", why: "The sequence is fully determined by the seed, which is what makes runs repeatable." },
+        { q: "A Monte Carlo estimate with 10,000 points has an error of about 0.01. Roughly how many points bring it down to 0.001?", options: ["1,000,000", "100,000", "20,000", "10,000,000"], answer: "1,000,000", why: "The error falls like 1/√N, so a tenth of the error needs 100 times as many points." },
+        { q: "Which of these should you use to make a password?", options: ["A cryptographic source such as Python's secrets module", "The minimal standard generator", "Python's random module", "Any generator, seeded with the time"], answer: "A cryptographic source such as Python's secrets module", why: "Ordinary generators are predictable from their earlier outputs; cryptographic sources are designed not to be." },
+        { kind: "output", lang: "python", q: "Three steps of the minimal standard from seed 1. What does it print?", code: `state = 1
+for _ in range(3):
+    state = 16807 * state % 2147483647
+print(state)`, options: ["1622650073", "282475249", "16807", "50421"], answer: "1622650073", why: "The states are 16807, then 16807² = 282475249, then 16807³ mod (2³¹ − 1) = 1622650073." },
+      ],
+    },
+    {
+      id: "eigen",
+      title: "Eigenvalues: power iteration",
+      summary: "Finding the direction a matrix stretches most, by multiplying again and again.",
+      sections: [
+        {
+          p: "Multiplying a vector by a matrix usually turns it and stretches it. But for most square matrices there are special directions that only get stretched: <i>A</i><i>v</i> = λ<i>v</i>. Such a <i>v</i> is an <b>eigenvector</b> and the stretch factor λ is its <b>eigenvalue</b>. They describe how a system behaves on its own: the ways a bridge or a guitar string vibrates and at what frequencies, which web pages a random surfer ends up on (the idea behind PageRank), and the main directions of variation in a cloud of data points.",
+        },
+        {
+          h: "Multiply, normalize, repeat",
+          p: "Start with almost any vector and keep multiplying it by <i>A</i>. Each multiplication stretches the part along each eigenvector by that eigenvector's eigenvalue, so the part with the largest eigenvalue (in size) grows fastest and soon dominates. Dividing by the vector's length after each step stops the numbers from overflowing. Once the direction settles, the stretch tells us the eigenvalue. For a symmetric matrix the best estimate is the <b>Rayleigh quotient</b> <i>v</i> · <i>A</i><i>v</i>, which is accurate to twice as many digits as the direction itself. The matrix below, with 2 on the diagonal and −1 beside it, describes a chain of three masses joined by springs; its largest eigenvalue is 2 + √2.",
+          lang: "python",
+          known: [3.414213562373095, 0.5, -0.7071067811865476, 0.5],
+          impl: "eigen",
+          code: `import math
+
+A = [[2.0, -1.0, 0.0],
+     [-1.0, 2.0, -1.0],
+     [0.0, -1.0, 2.0]]
+
+
+def times(A, v):
+    return [sum(A[i][j] * v[j] for j in range(len(v))) for i in range(len(A))]
+
+
+def dot(u, v):
+    return sum(a * b for a, b in zip(u, v))
+
+
+v = [1.0, 0.0, 0.0]
+estimate = 0.0
+for step in range(1, 101):
+    w = times(A, v)
+    new = dot(v, w)                      # Rayleigh quotient, since v has length 1
+    size = math.sqrt(dot(w, w))
+    v = [x / size for x in w]
+    if step in (1, 2, 5, 10, 20):
+        print(f"step {step:2d}: {new:.10f}")
+    if abs(new - estimate) < 1e-13:
+        break
+    estimate = new
+print(f"after {step} steps the largest eigenvalue is {new:.10f}")
+print("eigenvector:" + "".join(f"{x:10.6f}" for x in v))`,
+          out: "step  1: 2.0000000000\nstep  2: 2.8000000000\nstep  5: 3.3760539629\nstep 10: 3.4140270123\nstep 20: 3.4142135581\nafter 31 steps the largest eigenvalue is 3.4142135624\neigenvector:  0.500000 -0.707107  0.500000",
+        },
+        {
+          p: "In C the matrix is a fixed-size two-dimensional array, and the result vector is passed in for the function to fill, since C functions cannot return arrays.",
+          lang: "c",
+          known: [3.414213562373095, 0.5, -0.7071067811865476, 0.5],
+          impl: "eigen",
+          code: `#include <math.h>
+#include <stdio.h>
+
+#define N 3
+
+/* w = A v */
+void times(double A[N][N], const double v[N], double w[N]) {
+    for (int i = 0; i < N; i++) {
+        w[i] = 0.0;
+        for (int j = 0; j < N; j++) w[i] += A[i][j] * v[j];
+    }
+}
+
+double dot(const double u[N], const double v[N]) {
+    double s = 0.0;
+    for (int i = 0; i < N; i++) s += u[i] * v[i];
+    return s;
+}
+
+int main(void) {
+    double A[N][N] = {{2, -1, 0}, {-1, 2, -1}, {0, -1, 2}};
+    double v[N] = {1, 0, 0}, w[N];
+    double estimate = 0.0, now = 0.0;
+    int step;
+    for (step = 1; step <= 100; step++) {
+        times(A, v, w);
+        now = dot(v, w);               /* Rayleigh quotient, since v has length 1 */
+        double size = sqrt(dot(w, w));
+        for (int i = 0; i < N; i++) v[i] = w[i] / size;
+        if (step == 1 || step == 2 || step == 5 || step == 10 || step == 20)
+            printf("step %2d: %.10f\\n", step, now);
+        if (fabs(now - estimate) < 1e-13) break;
+        estimate = now;
+    }
+    printf("after %d steps the largest eigenvalue is %.10f\\n", step, now);
+    printf("eigenvector:");
+    for (int i = 0; i < N; i++) printf("%10.6f", v[i]);
+    printf("\\n");
+    return 0;
+}`,
+          out: "step  1: 2.0000000000\nstep  2: 2.8000000000\nstep  5: 3.3760539629\nstep 10: 3.4140270123\nstep 20: 3.4142135581\nafter 31 steps the largest eigenvalue is 3.4142135624\neigenvector:  0.500000 -0.707107  0.500000",
+        },
+        {
+          p: "Fortran has whole-array operations, so <code>v = w / size</code> divides every element at once. It also has <code>matmul</code> and <code>dot_product</code> built in; we write the loops out here so the sums happen in exactly the same order as in Python and C, and the three print identical digits.",
+          lang: "fortran",
+          known: [3.414213562373095, 0.5, -0.7071067811865476, 0.5],
+          impl: "eigen",
+          code: `program power
+  implicit none
+  integer, parameter :: n = 3
+  double precision :: a(n, n), v(n), w(n), estimate, now, size
+  integer :: step
+  ! Fortran fills arrays column by column; A is symmetric, so it reads the same.
+  a = reshape([2d0, -1d0, 0d0, -1d0, 2d0, -1d0, 0d0, -1d0, 2d0], [n, n])
+  v = [1d0, 0d0, 0d0]
+  estimate = 0d0
+  do step = 1, 100
+    w = times(a, v)
+    now = dot(v, w)              ! Rayleigh quotient, since v has length 1
+    size = sqrt(dot(w, w))
+    v = w / size
+    if (any(step == [1, 2, 5, 10, 20])) print '(a, i2, a, f12.10)', 'step ', step, ': ', now
+    if (abs(now - estimate) < 1d-13) exit
+    estimate = now
+  end do
+  print '(a, i0, a, f12.10)', 'after ', step, ' steps the largest eigenvalue is ', now
+  print '(a, 3f10.6)', 'eigenvector:', v
+contains
+  ! w = A v, with the sums in the same order as the other languages
+  function times(a, v) result(w)
+    double precision, intent(in) :: a(n, n), v(n)
+    double precision :: w(n)
+    integer :: i, j
+    do i = 1, n
+      w(i) = 0d0
+      do j = 1, n
+        w(i) = w(i) + a(i, j) * v(j)
+      end do
+    end do
+  end function times
+
+  function dot(u, v) result(s)
+    double precision, intent(in) :: u(n), v(n)
+    double precision :: s
+    integer :: i
+    s = 0d0
+    do i = 1, n
+      s = s + u(i) * v(i)
+    end do
+  end function dot
+end program power`,
+          out: "step  1: 2.0000000000\nstep  2: 2.8000000000\nstep  5: 3.3760539629\nstep 10: 3.4140270123\nstep 20: 3.4142135581\nafter 31 steps the largest eigenvalue is 3.4142135624\neigenvector:  0.500000 -0.707107  0.500000",
+        },
+        {
+          h: "When it is slow",
+          p: "Each step shrinks the unwanted part by the ratio of the second-largest eigenvalue to the largest. When the two are far apart that ratio is small and a few dozen steps are enough; when they are close, the method crawls. In this demo the largest eigenvalue is always 3 and only the second one changes.",
+          lang: "python",
+          code: `import math
+
+
+def steps_needed(second):
+    # A = [[3, 0], [0, second]] has eigenvalues 3 and second
+    v = [1.0, 1.0]
+    for step in range(1, 100000):
+        w = [3 * v[0], second * v[1]]
+        size = math.sqrt(w[0] ** 2 + w[1] ** 2)
+        v = [w[0] / size, w[1] / size]
+        if abs(v[1]) < 1e-10:            # the second direction has died out
+            return step
+
+
+for second in [1.0, 2.0, 2.7, 2.97]:
+    print(f"eigenvalues 3 and {second}: {steps_needed(second)} steps")`,
+          out: "eigenvalues 3 and 1.0: 21 steps\neigenvalues 3 and 2.0: 57 steps\neigenvalues 3 and 2.7: 219 steps\neigenvalues 3 and 2.97: 2292 steps",
+        },
+        {
+          h: "Beyond the largest eigenvalue",
+          p: "Two small changes reach the other eigenvalues. <b>Inverse iteration</b> multiplies by <i>A</i><sup>−1</sup> instead (in practice, solving a linear system each step, as in the linear systems lesson), which finds the eigenvalue <i>smallest</i> in size. Shifting first, by working with <i>A</i> − σ<i>I</i>, finds the eigenvalue closest to any guess σ, and updating σ from the Rayleigh quotient each step converges extremely fast. To get every eigenvalue at once, libraries use the <b>QR algorithm</b> (or Jacobi rotations for small symmetric matrices); in Python that is <code>numpy.linalg.eigh</code> for symmetric matrices and <code>numpy.linalg.eig</code> otherwise, both built on LAPACK.",
+        },
+      ],
+      practice: [
+        { q: "What does A v = λ v say about the vector v?", options: ["Multiplying by A only stretches v, without turning it", "v is perpendicular to every row of A", "A has no inverse", "v has length λ"], answer: "Multiplying by A only stretches v, without turning it", why: "An eigenvector keeps its direction; the eigenvalue λ is the stretch factor." },
+        { q: "Which eigenvalue does plain power iteration find?", options: ["The one largest in size", "The smallest one", "The one closest to zero", "All of them"], answer: "The one largest in size", why: "Repeated multiplication makes the part with the largest |λ| grow fastest until it dominates." },
+        { q: "What decides how fast power iteration converges?", options: ["The ratio of the second-largest eigenvalue to the largest", "The size of the matrix", "The length of the starting vector", "How many zeros the matrix has"], answer: "The ratio of the second-largest eigenvalue to the largest", why: "Each step shrinks the unwanted part by that ratio, so close eigenvalues mean slow progress." },
+        { kind: "output", lang: "python", q: "One multiplication of v = [1, 0] by A = [[2, 1], [1, 2]]. What does it print?", code: `A = [[2, 1], [1, 2]]
+v = [1, 0]
+w = [A[0][0] * v[0] + A[0][1] * v[1], A[1][0] * v[0] + A[1][1] * v[1]]
+print(w)`, options: ["[2, 1]", "[1, 2]", "[2, 0]", "[3, 3]"], answer: "[2, 1]", why: "Multiplying by [1, 0] picks out the first column of A, which is [2, 1]." },
+      ],
+    },
+    {
       id: "fft",
       title: "The fast Fourier transform",
       summary: "Taking a signal apart into the waves it is made of, in n log n steps.",
