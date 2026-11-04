@@ -124,10 +124,15 @@
     listeners.push(fn);
   }
 
+  // A language has shipped once the app has content for it, not just its name.
+  function shipped(m) {
+    return !!(m && m.data && Object.keys(m.data).length);
+  }
+
   // Featured languages that have shipped, in the order features.json lists them.
   function featured(registry) {
     const reg = registry || window.LSD_LANGUAGE_REGISTRY || {};
-    return (DATA.featured || []).map((id) => reg[id]).filter(Boolean);
+    return (DATA.featured || []).map((id) => reg[id]).filter(shipped);
   }
 
   function el(tag, attrs, children) {
