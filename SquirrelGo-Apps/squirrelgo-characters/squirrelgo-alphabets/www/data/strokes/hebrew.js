@@ -1,6 +1,8 @@
-// Stroke order for the Hebrew alphabet, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Hebrew (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/hebrew.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Hebrew alphabet, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Hebrew (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["hebrew"] = {
   "א": ["M84,13 L79,17 L76,35 L72,42 L59,53", "M17,11 L27,16 L39,31 L41,37", "M41,37 L31,45 L27,51 L20,83 L14,88", "M41,37 L46,39 L59,53 L60,59 L76,84 L86,89"],

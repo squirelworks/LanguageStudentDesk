@@ -1,6 +1,8 @@
-// Stroke order for hiragana, from KanjiVG (https://kanjivg.tagaini.net,
-// © Ulrich Apel, CC BY-SA 3.0), made by tools/build_strokes.py. Paths sit
-// in a 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/hiragana.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for hiragana, from KanjiVG (https://kanjivg.tagaini.net, ©
+// Ulrich Apel, CC BY-SA 3.0), made by tools/build_strokes.py. Paths sit in a
+// 100 x 100 box; see www/js/strokes.js.
+// Source: KanjiVG (CC BY-SA 3.0).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["hiragana"] = {
   "あ": ["M28.4,30.3 L31.4,31.7 L35.7,31.8 L46.5,30.6 L62.5,27.6 L66.4,27.5", "M45.7,16.2 L46.7,18.2 L47,20.4 L43.5,40.8 L42,61.1 L42.5,73.2 L43.7,78.7 L45.3,82.7", "M60.2,40.5 L60.9,43.1 L60.7,46.1 L54.4,59.3 L47.3,69.1 L37.4,78.9 L33.5,81.2 L29.5,81.7 L27.7,81.2 L24.7,78.8 L23.6,76.8 L22.5,71.2 L22.8,68.2 L25.5,62.1 L30.7,56.5 L38,51.6 L47.1,47.9 L55.7,46.2 L62.7,46.3 L69.3,47.8 L74.9,50.8 L78.9,55.5 L81,62 L80.6,69 L77.9,75.5 L72.8,80.9 L65.5,85 L61,86.3"],

@@ -1,6 +1,8 @@
-// Stroke order for the Ethiopic script, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Ethiopic (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/ethiopic.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Ethiopic script, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Ethiopic (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["ethiopic"] = {
   "ለ": ["M44,11 L50,16 L72,85 L77,89", "M53,31 L42,35 L35,45 L31,55 L26,85 L23,88"],

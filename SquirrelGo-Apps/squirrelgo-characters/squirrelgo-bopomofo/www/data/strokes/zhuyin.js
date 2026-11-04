@@ -1,6 +1,8 @@
-// Zhuyin (Bopomofo) stroke order for SquirrelGo Bopomofo, drawn over Noto Sans TC
-// and made by tools/gen_zhuyin_strokes.py. Paths sit in a 100×100 box (M/L/Q only);
-// see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/zhuyin.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Zhuyin (Bopomofo) stroke order for SquirrelGo Bopomofo, drawn over Noto Sans
+// TC and made by tools/gen_zhuyin_strokes.py. Paths sit in a 100×100 box (M/L/Q
+// only); see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["zhuyin"] = {
   "ㄅ": ["M35,17 L27,37", "M27,37 L74,37 L72,55 L68,72 L62,79 L45,80"],

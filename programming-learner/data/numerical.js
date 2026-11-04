@@ -953,6 +953,185 @@ print((y1 - y0) / (x1 - x0))`, options: ["3.0", "6.0", "2.0", "7.0"], answer: "3
       ],
     },
     {
+      id: "odes",
+      title: "Differential equations: Euler and Runge–Kutta",
+      summary: "Following a quantity through time from the rule for how fast it changes.",
+      sections: [
+        {
+          p: "An <b>ordinary differential equation</b> (ODE) gives the rate of change of something in terms of its current value and the time: <i>y</i>′ = <i>f</i>(<i>t</i>, <i>y</i>). A population that grows in proportion to its size obeys <i>y</i>′ = <i>y</i>; a cooling cup of tea obeys <i>y</i>′ = −<i>k</i>(<i>y</i> − room temperature). Given a starting value <i>y</i>(<i>t</i><sub>0</sub>), we want <i>y</i> at later times. Most ODEs have no formula for the answer, so we step forward in small time steps of size <i>h</i>.",
+        },
+        {
+          h: "Euler's method",
+          p: "The simplest step uses the slope at the start of the step as if it stayed the same: <i>y</i><sub>new</sub> = <i>y</i> + <i>h</i> <i>f</i>(<i>t</i>, <i>y</i>). It is easy to understand but crude. Its error is proportional to <i>h</i>, so halving the step only halves the error, and getting six correct digits can take a million steps.",
+        },
+        {
+          h: "The classic Runge–Kutta method",
+          p: "<b>RK4</b>, from Carl Runge and Wilhelm Kutta around 1900, samples the slope four times per step: at the start (<i>k</i><sub>1</sub>), twice at the middle (<i>k</i><sub>2</sub> and <i>k</i><sub>3</sub>, each using the slope just found), and at the end (<i>k</i><sub>4</sub>). It then moves with the weighted average (<i>k</i><sub>1</sub> + 2<i>k</i><sub>2</sub> + 2<i>k</i><sub>3</sub> + <i>k</i><sub>4</sub>) / 6. Its error is proportional to <i>h</i>⁴, so halving the step makes it 16 times smaller. Below, both methods solve <i>y</i>′ = <i>y</i> with <i>y</i>(0) = 1 up to <i>t</i> = 1, where the exact answer is <i>e</i>. Each time the number of steps doubles, Euler's error halves while RK4's drops 16 times, even though RK4 does four times the work per step.",
+          lang: "python",
+          known: [2.718281828459045],
+          impl: "odes",
+          code: `import math
+
+def euler(f, t, y, h, steps):
+    for _ in range(steps):
+        y = y + h * f(t, y)
+        t = t + h
+    return y
+
+def rk4(f, t, y, h, steps):
+    for _ in range(steps):
+        k1 = f(t, y)
+        k2 = f(t + h / 2, y + h / 2 * k1)
+        k3 = f(t + h / 2, y + h / 2 * k2)
+        k4 = f(t + h, y + h * k3)
+        y = y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        t = t + h
+    return y
+
+growth = lambda t, y: y        # y' = y with y(0) = 1, so y(1) = e
+print("  steps  Euler error   RK4 error")
+for steps in (10, 20, 40):
+    h = 1.0 / steps
+    e1 = abs(euler(growth, 0.0, 1.0, h, steps) - math.e)
+    e4 = abs(rk4(growth, 0.0, 1.0, h, steps) - math.e)
+    print(f"{steps:7d}  {e1:.10f}  {e4:.10f}")
+print(f"RK4 with 100 steps: {rk4(growth, 0.0, 1.0, 0.01, 100):.8f}")`,
+          out: "  steps  Euler error   RK4 error\n     10  0.1245393684  0.0000020843\n     20  0.0649841233  0.0000001358\n     40  0.0332179901  0.0000000087\nRK4 with 100 steps: 2.71828183",
+        },
+        {
+          p: "In C the right-hand side <i>f</i>(<i>t</i>, <i>y</i>) is passed as a function pointer, just as in the root-finding lessons. <code>(void)t;</code> tells the compiler that ignoring <code>t</code> is deliberate.",
+          lang: "c",
+          known: [2.718281828459045],
+          impl: "odes",
+          code: `#include <math.h>
+#include <stdio.h>
+
+typedef double (*deriv)(double t, double y);
+
+double euler(deriv f, double t, double y, double h, int steps) {
+    for (int i = 0; i < steps; i++) {
+        y = y + h * f(t, y);
+        t = t + h;
+    }
+    return y;
+}
+
+double rk4(deriv f, double t, double y, double h, int steps) {
+    for (int i = 0; i < steps; i++) {
+        double k1 = f(t, y);
+        double k2 = f(t + h / 2, y + h / 2 * k1);
+        double k3 = f(t + h / 2, y + h / 2 * k2);
+        double k4 = f(t + h, y + h * k3);
+        y = y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+        t = t + h;
+    }
+    return y;
+}
+
+/* y' = y with y(0) = 1, so y(1) = e */
+double growth(double t, double y) { (void)t; return y; }
+
+int main(void) {
+    const double e = exp(1.0);
+    int sizes[] = {10, 20, 40};
+    printf("  steps  Euler error   RK4 error\\n");
+    for (int k = 0; k < 3; k++) {
+        int steps = sizes[k];
+        double h = 1.0 / steps;
+        double e1 = fabs(euler(growth, 0.0, 1.0, h, steps) - e);
+        double e4 = fabs(rk4(growth, 0.0, 1.0, h, steps) - e);
+        printf("%7d  %.10f  %.10f\\n", steps, e1, e4);
+    }
+    printf("RK4 with 100 steps: %.8f\\n", rk4(growth, 0.0, 1.0, 0.01, 100));
+    return 0;
+}`,
+          out: "  steps  Euler error   RK4 error\n     10  0.1245393684  0.0000020843\n     20  0.0649841233  0.0000001358\n     40  0.0332179901  0.0000000087\nRK4 with 100 steps: 2.71828183",
+        },
+        {
+          p: "In Fortran an <code>abstract interface</code> describes the right-hand side, and the step size and number of steps are passed in, so the same routines work for any equation.",
+          lang: "fortran",
+          known: [2.718281828459045],
+          impl: "odes",
+          code: `program odes
+  use iso_fortran_env, only: real64
+  implicit none
+  abstract interface
+    function deriv(t, y) result(dy)
+      import :: real64
+      real(real64), intent(in) :: t, y
+      real(real64) :: dy
+    end function deriv
+  end interface
+  real(real64), parameter :: e = exp(1.0_real64)
+  integer, parameter :: sizes(3) = [10, 20, 40]
+  real(real64) :: h, e1, e4
+  integer :: k
+
+  print '(a)', '  steps  Euler error   RK4 error'
+  do k = 1, 3
+    h = 1.0_real64 / sizes(k)
+    e1 = abs(euler(growth, 0.0_real64, 1.0_real64, h, sizes(k)) - e)
+    e4 = abs(rk4(growth, 0.0_real64, 1.0_real64, h, sizes(k)) - e)
+    print '(i7, 2x, f12.10, 2x, f12.10)', sizes(k), e1, e4
+  end do
+  print '(a, f10.8)', 'RK4 with 100 steps: ', rk4(growth, 0.0_real64, 1.0_real64, 0.01_real64, 100)
+contains
+  function euler(f, t0, y0, h, steps) result(y)
+    procedure(deriv) :: f
+    real(real64), intent(in) :: t0, y0, h
+    integer, intent(in) :: steps
+    real(real64) :: t, y
+    integer :: i
+    t = t0
+    y = y0
+    do i = 1, steps
+      y = y + h * f(t, y)
+      t = t + h
+    end do
+  end function euler
+
+  function rk4(f, t0, y0, h, steps) result(y)
+    procedure(deriv) :: f
+    real(real64), intent(in) :: t0, y0, h
+    integer, intent(in) :: steps
+    real(real64) :: t, y, k1, k2, k3, k4
+    integer :: i
+    t = t0
+    y = y0
+    do i = 1, steps
+      k1 = f(t, y)
+      k2 = f(t + h / 2, y + h / 2 * k1)
+      k3 = f(t + h / 2, y + h / 2 * k2)
+      k4 = f(t + h, y + h * k3)
+      y = y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+      t = t + h
+    end do
+  end function rk4
+
+  ! y' = y with y(0) = 1, so y(1) = e
+  function growth(t, y) result(dy)
+    real(real64), intent(in) :: t, y
+    real(real64) :: dy
+    dy = y
+  end function growth
+end program odes`,
+          out: "  steps  Euler error   RK4 error\n     10  0.1245393684  0.0000020843\n     20  0.0649841233  0.0000001358\n     40  0.0332179901  0.0000000087\nRK4 with 100 steps: 2.71828183",
+        },
+        {
+          h: "Beyond one equation",
+          p: "The same steps work for several quantities at once: make <i>y</i> a list (a vector) and <i>f</i> return a list of rates, such as predators and prey that depend on each other. A second-order equation such as a swinging pendulum, θ″ = −(<i>g</i>/<i>L</i>) sin θ, becomes two first-order ones by tracking both the angle and its speed. Real solvers, such as <code>scipy.integrate.solve_ivp</code>, also change <i>h</i> as they go, taking big steps where the solution is smooth and small ones where it changes fast. Some equations, called <b>stiff</b>, mix very fast and very slow changes, and need special <i>implicit</i> methods to stay stable.",
+        },
+      ],
+      practice: [
+        { q: "With Euler's method you halve the step size. Roughly what happens to the error at the end?", options: ["It halves", "It becomes 16 times smaller", "It becomes 4 times smaller", "It doubles"], answer: "It halves", why: "Euler's error is proportional to h, so it shrinks in step with h." },
+        { q: "How many times does RK4 evaluate f in each step?", options: ["4", "1", "2", "6"], answer: "4", why: "k1 at the start, k2 and k3 at the middle, and k4 at the end." },
+        { q: "How do you solve a second-order equation such as θ″ = −sin θ with these methods?", options: ["Track θ and θ′ together as a pair of first-order equations", "Apply Euler twice in a row", "Use a smaller step size", "They can't solve second-order equations"], answer: "Track θ and θ′ together as a pair of first-order equations", why: "θ′ = ω and ω′ = −sin θ is a first-order system, and the methods work on vectors as well as single numbers." },
+        { kind: "output", lang: "python", q: "One Euler step of y′ = 2y from y(0) = 3 with h = 0.5. What does it print?", code: `y, h = 3.0, 0.5
+y = y + h * (2 * y)
+print(y)`, options: ["6.0", "4.5", "9.0", "3.0"], answer: "6.0", why: "The slope at the start is 2 × 3 = 6, and moving for 0.5 adds 3." },
+      ],
+    },
+    {
       id: "random",
       title: "Random numbers and Monte Carlo",
       summary: "How a computer makes numbers that look random, how to test one, and using them to estimate π.",

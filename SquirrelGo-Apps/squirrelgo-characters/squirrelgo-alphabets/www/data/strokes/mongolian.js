@@ -1,6 +1,8 @@
-// Stroke order for the Mongolian script, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Mongolian (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/mongolian.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Mongolian script, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Sans Mongolian (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["mongolian"] = {
   "ᠠ": ["M18,32 L36,32 L59,28 L63,22 L61,13 L58,11", "M37,32 L43,41 L44,53", "M44,53 L34,55 L25,59 L21,64 L20,70", "M20,70 L46,71 L62,75 L79,83 L82,89"],

@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/tibetan.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Tibetan, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Serif Tibetan (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Serif Tibetan (SIL Open Font License) and checked by hand. Paths sit in
+// a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["tibetan"] = {
   "ཀ": ["M49,11 L67,11", "M49,11 L52,43", "M49,11 L37,11 L36,20 L31,30 L31,35", "M67,12 L68,86 L69,89"],

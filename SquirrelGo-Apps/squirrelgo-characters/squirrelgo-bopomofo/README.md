@@ -6,6 +6,8 @@ Teaches Taiwan's phonetic alphabet the way textbooks mark readers: **聲母** in
 
 Stroke-order animations and a checked writing pad cover every standalone Zhuyin symbol in the chart (initials, medials, finals, and drawable tone marks). Paths live in `www/data/strokes/zhuyin.js`, made by `tools/gen_zhuyin_strokes.py`; they are drawn by hand over the Noto Sans TC glyphs, so each animation finishes as the printed symbol. Audio uses the device's **zh-TW** text-to-speech voice in the WebView shell; no recorded clips.
 
+The stroke files are generated from squirrel-lang-data (`data/strokes/zhuyin.jsonl`) by `python3 languages/build_registry.py`, so a fix goes into the data repo; `tools/gen_zhuyin_strokes.py` only drafts new strokes, which are then copied there.
+
 ## Web / desktop
 
 Open `www/index.html` in a browser. The top-level `index.html` redirects there for the Desk launcher.

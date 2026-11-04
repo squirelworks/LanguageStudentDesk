@@ -1,6 +1,8 @@
-// Stroke order for Telugu, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Telugu (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/telugu.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Telugu, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Telugu (SIL Open Font License) and checked by hand. Paths sit in a 100 x
+// 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["telugu"] = {
   "అ": ["M40,33 L42,39 L38,46 L20,46", "M40,33 L34,30 L26,32 L21,39 L20,49 L22,58 L26,63 L33,68 L43,70 L61,69 L72,65 L79,57 L80,43 L75,33 L65,30 L60,32 L58,37 L62,52 L45,52 L39,46"],

@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/malayalam.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Malayalam, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Malayalam (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Noto Sans Malayalam (SIL Open Font License) and checked by hand. Paths sit in
+// a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["malayalam"] = {
   "അ": ["M35,38 L30,46 L29,54 L32,61", "M35,38 L24,37 L16,43 L15,54 L21,64", "M35,38 L48,36 L57,41 L57,62", "M42,37 L45,44 L42,51 L46,58 L44,62 L39,63 L32,61", "M58,42 L66,37 L74,36 L81,40 L84,46 L85,56 L81,62 L73,63 L70,59 L69,51 L72,46 L77,45 L85,48"],

@@ -1,6 +1,8 @@
-// Stroke order for Tamil, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Tamil (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/tamil.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Tamil, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Tamil (SIL Open Font License) and checked by hand. Paths sit in a 100 x
+// 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["tamil"] = {
   "அ": ["M51,35 L44,36 L41,40 L42,44 L46,46 L50,45 L52,41 L51,35 L60,41 L61,52", "M30,54 L28,56 L30,60 L40,64 L53,61 L60,54 L30,54", "M72,35 L71,65", "M61,52 L71,53"],
