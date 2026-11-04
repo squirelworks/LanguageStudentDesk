@@ -69,7 +69,9 @@
     const l = langOf(lang);
     return (
       '<div class="code">' + (l ? '<span class="lang">' + esc(l.name) + "</span>" : "") + '<button class="copy" title="Copy code">Copy</button><pre><code>' + highlight(code, l || pack) + "</code></pre>" +
-      (out != null ? '<div class="out"><span class="lbl">Output</span><pre>' + esc(out) + "</pre></div>" : "") +
+      ((l || pack).preview
+        ? '<div class="out"><span class="lbl">Result</span><iframe class="preview" sandbox="" title="Result" srcdoc="' + esc(code) + '"></iframe></div>'
+        : out != null ? '<div class="out"><span class="lbl">Output</span><pre>' + esc(out) + "</pre></div>" : "") +
       "</div>"
     );
   }
