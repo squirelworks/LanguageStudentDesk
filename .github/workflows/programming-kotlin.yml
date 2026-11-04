@@ -1,0 +1,67 @@
+name: Programming Learner Kotlin examples
+
+# Compiles and runs every Kotlin example in programming-learner/data/kotlin.js
+# with a pinned kotlinc, so the course is checked even where the main data
+# check runs without a Kotlin compiler.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "programming-learner/data/kotlin.js"
+      - "programming-learner/tools/run_kotlin.py"
+      - "programming-learner/tools/check_packs.py"
+      - ".github/workflows/programming-kotlin.yml"
+  pull_request:
+    paths:
+      - "programming-learner/data/kotlin.js"
+      - "programming-learner/tools/run_kotlin.py"
+      - "programming-learner/tools/check_packs.py"
+      - ".github/workflows/programming-kotlin.yml"
+
+env:
+  KOTLIN_VERSION: "2.1.0"
+
+jobs:
+  kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install kotlinc ${{ env.KOTLIN_VERSION }}
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/kotlin.zip" \
+            "https://github.com/JetBrains/kotlin/releases/download/v${KOTLIN_VERSION}/kotlin-compiler-${KOTLIN_VERSION}.zip"
+          unzip -q "$RUNNER_TEMP/kotlin.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/kotlinc/bin" >> "$GITHUB_PATH"
+      - name: Run the Kotlin examples
+        run: |
+          kotlinc -version
+          python3 - <<'PY'
+          import json, pathlib, subprocess, sys
+          sys.dont_write_bytecode = True
+          tools = pathlib.Path("programming-learner/tools").resolve()
+          sys.path.insert(0, str(tools))
+          import run_kotlin
+          if not run_kotlin.AVAILABLE:
+              sys.exit("kotlinc or java not found")
+          js = str(tools.parent / "data" / "kotlin.js")
+          dump = "global.window={};require(process.argv[1]);process.stdout.write(JSON.stringify(window.PROGRAMMING.kotlin))"
+          pack = json.loads(subprocess.run(["node", "-e", dump, js], capture_output=True, text=True, check=True).stdout)
+          bad = n = 0
+          for lesson in pack["lessons"]:
+              items = [(f"section {i + 1}", s["code"], s["out"]) for i, s in enumerate(lesson["sections"]) if "out" in s]
+              items += [(f"question {i + 1}", q["code"], q.get("check", q["answer"]))
+                        for i, q in enumerate(lesson.get("practice", [])) if q.get("kind") == "output"]
+              for where, code, want in items:
+                  got, err = run_kotlin.run(code)
+                  n += 1
+                  ok = got == want
+                  bad += not ok
+                  print(("ok  " if ok else "FAIL"), f"{lesson['id']} {where}", "" if ok else f"printed {got!r}, expected {want!r} {err}", flush=True)
+          print(f"{n} Kotlin examples run, {bad} problems")
+          sys.exit(1 if bad or not n else 0)
+          PY

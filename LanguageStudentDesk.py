@@ -119,6 +119,7 @@ EXTRA_LANGS = [
     "html",
     "csharp",
     "vbnet",
+    "kotlin",
 ]
 
 

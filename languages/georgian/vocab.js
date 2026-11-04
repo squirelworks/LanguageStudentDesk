@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/georgian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/georgian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Georgian, romanization, English, note]. Written for this
 // project. An apostrophe in the romanization marks an ejective consonant (k',
 // p', t', ts', ch', q').

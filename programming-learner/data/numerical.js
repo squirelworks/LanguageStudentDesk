@@ -581,5 +581,211 @@ a, b = 0.0, 2.0
 print((b - a) * (f(a) + f(b)) / 2)`, options: ["4.0", "2.6666666666666665", "8.0", "2.0"], answer: "4.0", why: "One trapezoid: width 2 times the average of f(0) = 0 and f(2) = 4. The true area is 8/3, so one slice overshoots badly." },
       ],
     },
+    {
+      id: "linear",
+      title: "Linear systems: Gaussian elimination",
+      summary: "Solving several equations at once by elimination, back substitution and pivoting.",
+      sections: [
+        {
+          p: "A <b>linear system</b> is a set of equations such as 2<i>x</i> + <i>y</i> − <i>z</i> = 8, where each unknown is only multiplied by a number and added. Written as a table of coefficients, it becomes <i>A</i><b>x</b> = <b>b</b>: the matrix <i>A</i> holds the numbers in front of the unknowns, <b>x</b> is the list of unknowns, and <b>b</b> is the right-hand sides. Systems like this are everywhere: circuits, structures, statistics, and inside most other numerical methods.",
+        },
+        {
+          h: "Elimination and back substitution",
+          p: "Take the first equation and subtract a multiple of it from every row below, chosen so that the first unknown disappears from them. Repeat with the second row on the rows below it, and so on. What is left is <b>upper triangular</b>: the last equation has one unknown, the one above it two, and so on. Solve the last equation, put that value into the one above, and work upwards. This is <b>back substitution</b>. For <i>n</i> equations elimination takes about <i>n</i>³/3 multiplications, so doubling the size makes it about eight times slower.",
+        },
+        {
+          h: "Why pivoting matters",
+          p: "Each step divides by the number on the diagonal, the <b>pivot</b>. If the pivot is zero the method stops, and if it is merely tiny, the multipliers become huge and rounding errors swamp the answer. <b>Partial pivoting</b> fixes this cheaply: before clearing a column, swap in the row whose entry in that column is largest in size. Below, a system whose answer is almost exactly <i>x</i> = 1, <i>y</i> = 1 comes out completely wrong without the swap.",
+          lang: "python",
+          code: `def solve2(A, b, pivot):
+    A = [row[:] for row in A]
+    b = b[:]
+    if pivot and abs(A[1][0]) > abs(A[0][0]):
+        A[0], A[1] = A[1], A[0]
+        b[0], b[1] = b[1], b[0]
+    m = A[1][0] / A[0][0]
+    A[1][1] -= m * A[0][1]
+    b[1] -= m * b[0]
+    y = b[1] / A[1][1]
+    x = (b[0] - A[0][1] * y) / A[0][0]
+    return x, y
+
+# 0.00000000000000000001 x + y = 1
+#                      x + y = 2     (the answer is very close to x = 1, y = 1)
+A = [[1e-20, 1.0], [1.0, 1.0]]
+b = [1.0, 2.0]
+print("without pivoting:", solve2(A, b, pivot=False))
+print("with pivoting:   ", solve2(A, b, pivot=True))`,
+          out: "without pivoting: (0.0, 1.0)\nwith pivoting:    (1.0, 1.0)",
+        },
+        {
+          h: "The full method",
+          p: "Here is elimination with partial pivoting for any size, solving 2<i>x</i> + <i>y</i> − <i>z</i> = 8, −3<i>x</i> − <i>y</i> + 2<i>z</i> = −11, −2<i>x</i> + <i>y</i> + 2<i>z</i> = −3, whose answer is <i>x</i> = 2, <i>y</i> = 3, <i>z</i> = −1. The function works on copies so the caller's matrix is left alone.",
+          lang: "python",
+          known: [2.0, 3.0, -1.0],
+          impl: "linear",
+          code: `def solve(A, b):
+    n = len(b)
+    A = [row[:] for row in A]   # work on copies
+    b = b[:]
+    for k in range(n):
+        # Partial pivoting: bring the row with the largest entry in column k up to row k.
+        p = max(range(k, n), key=lambda i: abs(A[i][k]))
+        if A[p][k] == 0:
+            raise ValueError("the matrix is singular")
+        A[k], A[p] = A[p], A[k]
+        b[k], b[p] = b[p], b[k]
+        # Elimination: clear column k below the pivot.
+        for i in range(k + 1, n):
+            m = A[i][k] / A[k][k]
+            for j in range(k, n):
+                A[i][j] -= m * A[k][j]
+            b[i] -= m * b[k]
+    # Back substitution, from the last row up.
+    x = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        s = b[i]
+        for j in range(i + 1, n):
+            s -= A[i][j] * x[j]
+        x[i] = s / A[i][i]
+    return x
+
+A = [[2.0, 1.0, -1.0],
+     [-3.0, -1.0, 2.0],
+     [-2.0, 1.0, 2.0]]
+b = [8.0, -11.0, -3.0]
+for i, value in enumerate(solve(A, b)):
+    print(f"x{i + 1} = {value:.10f}")`,
+          out: "x1 = 2.0000000000\nx2 = 3.0000000000\nx3 = -1.0000000000",
+        },
+        {
+          p: "In C the size is fixed with <code>#define</code> to keep the code short, and the function reports a singular matrix by returning −1 rather than stopping the program.",
+          lang: "c",
+          known: [2.0, 3.0, -1.0],
+          impl: "linear",
+          code: `#include <math.h>
+#include <stdio.h>
+
+#define N 3
+
+/* Solves A x = b. A and b are changed; returns 0, or -1 if A is singular. */
+int solve(double A[N][N], double b[N], double x[N]) {
+    for (int k = 0; k < N; k++) {
+        /* Partial pivoting: find the largest entry in column k, from row k down. */
+        int p = k;
+        for (int i = k + 1; i < N; i++)
+            if (fabs(A[i][k]) > fabs(A[p][k]))
+                p = i;
+        if (A[p][k] == 0)
+            return -1;
+        for (int j = 0; j < N; j++) {
+            double t = A[k][j]; A[k][j] = A[p][j]; A[p][j] = t;
+        }
+        double t = b[k]; b[k] = b[p]; b[p] = t;
+        /* Elimination: clear column k below the pivot. */
+        for (int i = k + 1; i < N; i++) {
+            double m = A[i][k] / A[k][k];
+            for (int j = k; j < N; j++)
+                A[i][j] -= m * A[k][j];
+            b[i] -= m * b[k];
+        }
+    }
+    /* Back substitution, from the last row up. */
+    for (int i = N - 1; i >= 0; i--) {
+        double s = b[i];
+        for (int j = i + 1; j < N; j++)
+            s -= A[i][j] * x[j];
+        x[i] = s / A[i][i];
+    }
+    return 0;
+}
+
+int main(void) {
+    double A[N][N] = {{2, 1, -1}, {-3, -1, 2}, {-2, 1, 2}};
+    double b[N] = {8, -11, -3};
+    double x[N];
+    if (solve(A, b, x) != 0) {
+        printf("the matrix is singular\\n");
+        return 1;
+    }
+    for (int i = 0; i < N; i++)
+        printf("x%d = %.10f\\n", i + 1, x[i]);
+    return 0;
+}`,
+          out: "x1 = 2.0000000000\nx2 = 3.0000000000\nx3 = -1.0000000000",
+        },
+        {
+          p: "Fortran was built for this kind of work. Whole rows can be swapped with array sections such as <code>A(k, :)</code>, and <code>maxloc</code> finds the pivot. Fortran stores matrices column by column, so <code>reshape</code> takes the numbers a column at a time.",
+          lang: "fortran",
+          known: [2.0, 3.0, -1.0],
+          impl: "linear",
+          code: `program linear_system
+  use iso_fortran_env, only: real64
+  implicit none
+  integer, parameter :: n = 3
+  real(real64) :: A(n, n), b(n), x(n)
+  integer :: i
+
+  ! Fortran fills arrays column by column, so reshape takes the columns.
+  A = reshape([2.0_real64, -3.0_real64, -2.0_real64, &
+               1.0_real64, -1.0_real64, 1.0_real64, &
+               -1.0_real64, 2.0_real64, 2.0_real64], [n, n])
+  b = [8.0_real64, -11.0_real64, -3.0_real64]
+  call solve(A, b, x)
+  do i = 1, n
+    print '(a, i0, a, f0.10)', 'x', i, ' = ', x(i)
+  end do
+contains
+  subroutine solve(A, b, x)
+    real(real64), intent(inout) :: A(:, :), b(:)
+    real(real64), intent(out) :: x(:)
+    real(real64) :: row(size(b)), t, m, s
+    integer :: k, p, i, j, n
+    n = size(b)
+    do k = 1, n
+      ! Partial pivoting: the largest entry in column k, from row k down.
+      p = k - 1 + maxloc(abs(A(k:n, k)), dim=1)
+      if (A(p, k) == 0) error stop 'the matrix is singular'
+      row = A(k, :)
+      A(k, :) = A(p, :)
+      A(p, :) = row
+      t = b(k)
+      b(k) = b(p)
+      b(p) = t
+      ! Elimination: clear column k below the pivot.
+      do i = k + 1, n
+        m = A(i, k) / A(k, k)
+        do j = k, n
+          A(i, j) = A(i, j) - m * A(k, j)
+        end do
+        b(i) = b(i) - m * b(k)
+      end do
+    end do
+    ! Back substitution, from the last row up.
+    do i = n, 1, -1
+      s = b(i)
+      do j = i + 1, n
+        s = s - A(i, j) * x(j)
+      end do
+      x(i) = s / A(i, i)
+    end do
+  end subroutine solve
+end program linear_system`,
+          out: "x1 = 2.0000000000\nx2 = 3.0000000000\nx3 = -1.0000000000",
+        },
+        {
+          h: "In real programs",
+          p: "Writing elimination yourself is the best way to understand it, but for real work use a tested library such as LAPACK, which <code>numpy.linalg.solve</code> and most languages' maths libraries call underneath. They are faster and handle the awkward cases. Two warnings carry over to every library. A matrix can be <b>singular</b> (no unique answer) or nearly so (<b>ill-conditioned</b>), and then tiny changes in <b>b</b> cause huge changes in <b>x</b>. And to solve <i>A</i><b>x</b> = <b>b</b>, don't compute the inverse of <i>A</i> and multiply: elimination is cheaper and more accurate.",
+        },
+      ],
+      practice: [
+        { q: "What shape is the matrix after elimination, before back substitution?", options: ["Upper triangular: zeros below the diagonal", "Diagonal: zeros everywhere off the diagonal", "Lower triangular: zeros above the diagonal", "All ones"], answer: "Upper triangular: zeros below the diagonal", why: "Each step clears one column below the diagonal, so only the diagonal and the entries above it are left." },
+        { q: "Partial pivoting swaps rows so that the pivot is…", options: ["the largest in size in its column, from the current row down", "the smallest non-zero entry", "always 1", "the first entry of the row"], answer: "the largest in size in its column, from the current row down", why: "A large pivot keeps the multipliers at 1 or below, so rounding errors can't grow out of control." },
+        { q: "Solving a 100-equation system takes 1 second. Roughly how long does a 200-equation system take?", options: ["8 seconds", "2 seconds", "4 seconds", "100 seconds"], answer: "8 seconds", why: "Elimination costs about n³/3 operations, and 2³ = 8." },
+        { kind: "output", lang: "python", q: "Back substitution on 2x + y = 7 and 3y = 9. What does it print?", code: `y = 9 / 3
+x = (7 - y) / 2
+print(x, y)`, options: ["2.0 3.0", "3.0 2.0", "3.5 3.0", "2.0 9.0"], answer: "2.0 3.0", why: "The last equation gives y = 3; putting it into the first gives 2x = 4, so x = 2." },
+      ],
+    },
   ],
 };

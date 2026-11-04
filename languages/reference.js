@@ -3928,6 +3928,63 @@ window.LSD_REFERENCE = {
         ]
       },
       {
+        "id": "cefr-levels",
+        "topic": "overview",
+        "title": "CEFR levels: what the official descriptions say",
+        "body": [
+          "Russian courses and exams use the Common European Framework of Reference (CEFR), which has six levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user). The table quotes the first sentence of each level from the Council of Europe's global scale.",
+          "The state Test of Russian as a Foreign Language (TORFL, ТРКИ) maps onto the same levels: ТЭУ is A1, ТБУ A2, ТРКИ-1 B1, ТРКИ-2 B2, ТРКИ-3 C1 and ТРКИ-4 C2.",
+          "The CEFR describes what a learner can do with the language, not which grammar or words to learn, so the grammar column and the levels on this app's grammar are estimates. A range such as A2–B1 means a point commonly turns up at both levels.",
+          "Source: Council of Europe, Common European Framework of Reference for Languages (2001), global scale. The copyright of the scale belongs to the Council of Europe."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official global scale (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "A1 (basic user)",
+              "\"Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.\"",
+              "это, gender, the present, accusative and prepositional, plurals, у меня есть, the past"
+            ],
+            [
+              "A2 (basic user)",
+              "\"Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment).\"",
+              "нет + genitive, motion verbs, the dative and instrumental, aspect pairs, -ся verbs, the imperative"
+            ],
+            [
+              "B1 (independent user)",
+              "\"Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc.\"",
+              "prefixed motion verbs, который, чтобы, бы, comparatives, numbers with cases"
+            ],
+            [
+              "B2 (independent user)",
+              "\"Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation.\"",
+              "participles, verbal adverbs, the passive, short forms"
+            ],
+            [
+              "C1 (proficient user)",
+              "\"Can understand a wide range of demanding, longer texts, and recognise implicit meaning.\"",
+              "aspect in the imperative and under negation, participles in formal writing"
+            ],
+            [
+              "C2 (proficient user)",
+              "\"Can understand with ease virtually everything heard or read.\"",
+              "register and word order for emphasis"
+            ]
+          ]
+        },
+        "tags": [
+          "CEFR",
+          "levels"
+        ],
+        "sources": [
+          "CEFR global scale"
+        ]
+      },
+      {
         "id": "false-friends",
         "topic": "script",
         "title": "Letters that look Latin but aren't",
@@ -5299,6 +5356,63 @@ window.LSD_REFERENCE = {
         ]
       },
       {
+        "id": "cefr-levels",
+        "topic": "overview",
+        "title": "CEFR levels: what the official descriptions say",
+        "body": [
+          "French courses and exams use the Common European Framework of Reference (CEFR), which has six levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user). The table quotes the first sentence of each level from the Council of Europe's global scale.",
+          "DELF covers A1 to B2 and DALF covers C1 and C2, both from France Éducation international, which also runs the TCF.",
+          "The CEFR describes what a learner can do with the language, not which grammar or words to learn, so the grammar column and the levels on this app's grammar are estimates. A range such as A2–B1 means a point commonly turns up at both levels.",
+          "Source: Council of Europe, Common European Framework of Reference for Languages (2001), global scale. The copyright of the scale belongs to the Council of Europe."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official global scale (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "A1 (basic user)",
+              "\"Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.\"",
+              "être, avoir, articles, -er verbs, ne…pas, aller + infinitive, possessives"
+            ],
+            [
+              "A2 (basic user)",
+              "\"Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment).\"",
+              "passé composé with avoir and être, reflexive verbs, le/lui/leur, the imparfait begins, comparatives"
+            ],
+            [
+              "B1 (independent user)",
+              "\"Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc.\"",
+              "imparfait vs passé composé, futur simple, y and en, qui/que/où, conditionnel, si clauses, subjonctif after il faut que"
+            ],
+            [
+              "B2 (independent user)",
+              "\"Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation.\"",
+              "dont and lequel, the passive, reported speech, gérondif, conditionnel passé, bien que and pour que"
+            ],
+            [
+              "C1 (proficient user)",
+              "\"Can understand a wide range of demanding, longer texts, and recognise implicit meaning.\"",
+              "passé simple in writing, nuanced subjunctive, stylistic inversion"
+            ],
+            [
+              "C2 (proficient user)",
+              "\"Can understand with ease virtually everything heard or read.\"",
+              "imparfait du subjonctif and ne explétif (recognising them in formal writing)"
+            ]
+          ]
+        },
+        "tags": [
+          "CEFR",
+          "levels"
+        ],
+        "sources": [
+          "CEFR global scale"
+        ]
+      },
+      {
         "id": "sounds",
         "topic": "sounds",
         "title": "Accents and silent letters",
@@ -6035,6 +6149,63 @@ window.LSD_REFERENCE = {
         ]
       },
       {
+        "id": "cefr-levels",
+        "topic": "overview",
+        "title": "CEFR levels: what the official descriptions say",
+        "body": [
+          "German courses and exams use the Common European Framework of Reference (CEFR), which has six levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user). The table quotes the first sentence of each level from the Council of Europe's global scale.",
+          "The Goethe-Institut's Goethe-Zertifikat has an exam at each level from A1 to C2; telc and ÖSD exams follow the same levels, and TestDaF is set at B2 to C1.",
+          "The CEFR describes what a learner can do with the language, not which grammar or words to learn, so the grammar column and the levels on this app's grammar are estimates. A range such as A2–B1 means a point commonly turns up at both levels.",
+          "Source: Council of Europe, Common European Framework of Reference for Languages (2001), global scale. The copyright of the scale belongs to the Council of Europe."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official global scale (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "A1 (basic user)",
+              "\"Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.\"",
+              "sein and haben, the present, der/die/das, verb second, the accusative, nicht and kein, modal verbs, separable verbs"
+            ],
+            [
+              "A2 (basic user)",
+              "\"Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment).\"",
+              "Perfekt, the dative, two-way prepositions, weil and dass with the verb last, comparison"
+            ],
+            [
+              "B1 (independent user)",
+              "\"Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc.\"",
+              "adjective endings, Präteritum, genitive, relative clauses, Konjunktiv II (würde, hätte, wäre), zu + infinitive"
+            ],
+            [
+              "B2 (independent user)",
+              "\"Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation.\"",
+              "the passive in all tenses, weak nouns, Konjunktiv II in the past, Konjunktiv I begins"
+            ],
+            [
+              "C1 (proficient user)",
+              "\"Can understand a wide range of demanding, longer texts, and recognise implicit meaning.\"",
+              "Konjunktiv I for reported speech, extended participle phrases, Nominalstil"
+            ],
+            [
+              "C2 (proficient user)",
+              "\"Can understand with ease virtually everything heard or read.\"",
+              "fine register choice, sein + zu and sich lassen as passive alternatives"
+            ]
+          ]
+        },
+        "tags": [
+          "CEFR",
+          "levels"
+        ],
+        "sources": [
+          "CEFR global scale"
+        ]
+      },
+      {
         "id": "sounds",
         "topic": "sounds",
         "title": "Umlauts, ß and ch",
@@ -6258,6 +6429,63 @@ window.LSD_REFERENCE = {
           "Indo-European",
           "gender",
           "cases"
+        ]
+      },
+      {
+        "id": "cefr-levels",
+        "topic": "overview",
+        "title": "CEFR levels: what the official descriptions say",
+        "body": [
+          "Modern Greek courses and exams use the Common European Framework of Reference (CEFR), which has six levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user). The table quotes the first sentence of each level from the Council of Europe's global scale.",
+          "The Centre for the Greek Language runs the Certificate of Attainment in Greek (Ellinomatheia) at every level from A1 to C2.",
+          "The CEFR describes what a learner can do with the language, not which grammar or words to learn, so the grammar column and the levels on this app's grammar are estimates. A range such as A2–B1 means a point commonly turns up at both levels.",
+          "Source: Council of Europe, Common European Framework of Reference for Languages (2001), global scale. The copyright of the scale belongs to the Council of Europe."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official global scale (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "A1 (basic user)",
+              "\"Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.\"",
+              "είμαι, articles, the present, δεν, the accusative, plurals, μου and σου, έχω, θα"
+            ],
+            [
+              "A2 (basic user)",
+              "\"Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment).\"",
+              "the aorist, object clitics, να clauses, the genitive, imperfect, comparatives, imperative"
+            ],
+            [
+              "B1 (independent user)",
+              "\"Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc.\"",
+              "perfective and imperfective future, -ομαι verbs, που and ο οποίος, perfect tenses, αν clauses, passive aorist"
+            ],
+            [
+              "B2 (independent user)",
+              "\"Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation.\"",
+              "participles, counterfactuals, indirect speech, ας"
+            ],
+            [
+              "C1 (proficient user)",
+              "\"Can understand a wide range of demanding, longer texts, and recognise implicit meaning.\"",
+              "learned forms in formal writing"
+            ],
+            [
+              "C2 (proficient user)",
+              "\"Can understand with ease virtually everything heard or read.\"",
+              "Katharevousa leftovers in set phrases and official texts"
+            ]
+          ]
+        },
+        "tags": [
+          "CEFR",
+          "levels"
+        ],
+        "sources": [
+          "CEFR global scale"
         ]
       },
       {
@@ -9523,6 +9751,63 @@ window.LSD_REFERENCE = {
         "tags": [
           "verbs",
           "spelling"
+        ]
+      },
+      {
+        "id": "cefr-levels",
+        "topic": "overview",
+        "title": "CEFR levels: what the official descriptions say",
+        "body": [
+          "Italian courses and exams use the Common European Framework of Reference (CEFR), which has six levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user). The table quotes the first sentence of each level from the Council of Europe's global scale.",
+          "CILS (Università per Stranieri di Siena), CELI (Università per Stranieri di Perugia) and PLIDA (Società Dante Alighieri) all certify levels A1 to C2.",
+          "The CEFR describes what a learner can do with the language, not which grammar or words to learn, so the grammar column and the levels on this app's grammar are estimates. A range such as A2–B1 means a point commonly turns up at both levels.",
+          "Source: Council of Europe, Common European Framework of Reference for Languages (2001), global scale. The copyright of the scale belongs to the Council of Europe."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official global scale (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "A1 (basic user)",
+              "\"Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.\"",
+              "essere, avere, articles, -are/-ere/-ire verbs, non, agreement, mi piace"
+            ],
+            [
+              "A2 (basic user)",
+              "\"Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment).\"",
+              "passato prossimo, reflexive verbs, object pronouns, imperfetto, futuro, comparatives"
+            ],
+            [
+              "B1 (independent user)",
+              "\"Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc.\"",
+              "ci and ne, combined pronouns, condizionale, che/cui, congiuntivo presente, trapassato"
+            ],
+            [
+              "B2 (independent user)",
+              "\"Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation.\"",
+              "periodo ipotetico, congiuntivo imperfetto, passive and si passivante, reported speech, passato remoto"
+            ],
+            [
+              "C1 (proficient user)",
+              "\"Can understand a wide range of demanding, longer texts, and recognise implicit meaning.\"",
+              "concordanza dei tempi, gerundio and participio as clauses"
+            ],
+            [
+              "C2 (proficient user)",
+              "\"Can understand with ease virtually everything heard or read.\"",
+              "literary and bureaucratic registers"
+            ]
+          ]
+        },
+        "tags": [
+          "CEFR",
+          "levels"
+        ],
+        "sources": [
+          "CEFR global scale"
         ]
       },
       {

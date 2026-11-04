@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/italian/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 3b1e99d languages/italian/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Italian first grammar for the Grammar Learner. Written for this project.
 // Examples are [Italian, word by word, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
@@ -8,16 +8,19 @@
 //   the article, -are verbs, non, and adjective agreement.
 // - Wiktionary Italian entries (CC BY-SA): essere, avere, parlare, il/lo/la, un/uno/una.
 // - Wikipedia “Italian grammar”, “Italian conjugation”, “Italian articles” (CC BY-SA).
+// CEFR levels are estimates written for this project. The CEFR describes what a learner can do, not which grammar to learn, so no official grammar list exists for it. The official CEFR global scale (Council of Europe, Common European Framework of Reference for Languages, 2001), first sentence of each level: A1 "Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type." A2 "Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment)." B1 "Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc." B2 "Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation." C1 "Can understand a wide range of demanding, longer texts, and recognise implicit meaning." C2 "Can understand with ease virtually everything heard or read." The copyright of the scales belongs to the Council of Europe; these are short quotations.
+// Each lesson's summary and each planned point's title ends with its estimated CEFR level; a range (A2–B1) means it's commonly taught at either. The level band is the earliest one: A1 absolute-beginner or beginner, A2 beginner-intermediate, B1 intermediate, B2 advanced-intermediate, C1 and C2 advanced.
 window.GRAMMAR = window.GRAMMAR || {};
 window.GRAMMAR.italian = {
   "title": "Italian first grammar",
-  "intro": "Italian usually keeps the subject pronoun out, because the verb ending already says who. These lessons cover essere, avere, the articles, regular -are verbs, non, and adjectives that agree. The written accent marks a stressed final vowel, as in è and città.",
+  "intro": "Italian usually keeps the subject pronoun out, because the verb ending already says who. These lessons cover essere, avere, the articles, regular -are verbs, non, and adjectives that agree. The written accent marks a stressed final vowel, as in è and città. The CEFR level after each point (A1 to C2) is an estimate, and a range like A2–B1 means it often comes up at both.",
   "lessons": [
     {
       "id": "essere",
       "title": "essere — “to be”",
       "particle": "essere",
-      "summary": "sono, sei, è.",
+      "summary": "sono, sei, è. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "<b>essere</b> is irregular. <b>sono</b> “I am”, <b>sei</b> “you are” (one person you know), <b>è</b> “he / she / it is” — the accent on è matters, because <b>e</b> without it means “and”. The pronoun is optional: <b>(io) sono Anna</b>.",
@@ -123,7 +126,8 @@ window.GRAMMAR.italian = {
       "id": "avere",
       "title": "avere — “to have”",
       "particle": "avere",
-      "summary": "ho, hai, ha.",
+      "summary": "ho, hai, ha. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "<b>avere</b>: <b>ho</b>, <b>hai</b>, <b>ha</b>, <b>abbiamo</b>, <b>avete</b>, <b>hanno</b>. The h is silent; it keeps ho and ha from looking like o and a. Age uses avere: <b>ho vent'anni</b> “I am twenty”.",
@@ -213,7 +217,8 @@ window.GRAMMAR.italian = {
       "id": "articles",
       "title": "il, la, un, una",
       "particle": "il la",
-      "summary": "The article that matches the noun.",
+      "summary": "The article that matches the noun. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "“The” is <b>il</b> for most masculine nouns and <b>la</b> for feminine ones. Plural: <b>i libri</b>, <b>le case</b>. Before s + consonant, z, gn, ps and a few others, masculine “the” is <b>lo</b> (plural <b>gli</b>): <b>lo studente</b>, <b>gli studenti</b>.",
@@ -319,7 +324,8 @@ window.GRAMMAR.italian = {
       "id": "are-verbs",
       "title": "Verbs in -are",
       "particle": "-are",
-      "summary": "parlare, abitare, amare.",
+      "summary": "parlare, abitare, amare. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "The largest group ends in -are. Drop -are and add: <b>parlo</b>, <b>parli</b>, <b>parla</b>, <b>parliamo</b>, <b>parlate</b>, <b>parlano</b>. The subject pronoun is usually left out.",
@@ -409,7 +415,8 @@ window.GRAMMAR.italian = {
       "id": "negation",
       "title": "non",
       "particle": "non",
-      "summary": "non sits right before the verb.",
+      "summary": "non sits right before the verb. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "<b>non</b> goes immediately before the verb: <b>non parlo</b> “I don't speak”, <b>non ho</b> “I don't have”. Nothing else is required — there is no second piece like French pas.",
@@ -505,7 +512,8 @@ window.GRAMMAR.italian = {
       "id": "agreement",
       "title": "Adjectives that agree",
       "particle": "-o -a",
-      "summary": "bello, bella, and where the adjective sits.",
+      "summary": "bello, bella, and where the adjective sits. (about A1)",
+      "level": "absolute-beginner",
       "sections": [
         {
           "p": "Most adjectives end in -o for masculine and -a for feminine, -i and -e in the plural: <b>bello, bella, belli, belle</b>. A few end in -e for both genders in the singular: <b>interessante</b>, plural <b>interessanti</b>.",
@@ -601,6 +609,138 @@ window.GRAMMAR.italian = {
           "why": "Most adjectives follow the noun."
         }
       ]
+    }
+  ],
+  "plan": [
+    {
+      "id": "possessives",
+      "title": "il mio, la mia: possessives with the article (about A1)",
+      "level": "beginner"
+    },
+    {
+      "id": "ere-ire-verbs",
+      "title": "Verbs in -ere and -ire, including -isc- (about A1)",
+      "level": "beginner"
+    },
+    {
+      "id": "irregular",
+      "title": "andare, fare, venire, stare (about A1)",
+      "level": "beginner"
+    },
+    {
+      "id": "piacere",
+      "title": "mi piace, mi piacciono (about A1)",
+      "level": "beginner"
+    },
+    {
+      "id": "c-e",
+      "title": "c'è and ci sono; del, della (about A1)",
+      "level": "beginner"
+    },
+    {
+      "id": "articulated-prepositions",
+      "title": "nel, sul, dal: prepositions joined to the article (about A1–A2)",
+      "level": "beginner"
+    },
+    {
+      "id": "passato-prossimo",
+      "title": "The passato prossimo with avere and essere (about A1–A2)",
+      "level": "beginner"
+    },
+    {
+      "id": "reflexive",
+      "title": "Reflexive verbs: mi chiamo, alzarsi (about A1–A2)",
+      "level": "beginner"
+    },
+    {
+      "id": "object-pronouns",
+      "title": "Object pronouns: lo, la, gli, le (about A2)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "imperfetto",
+      "title": "The imperfetto (about A2)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "futuro",
+      "title": "The futuro semplice (about A2)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "comparatives",
+      "title": "più, meno, come; migliore and meglio (about A2)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "imperativo",
+      "title": "The imperative, with pronouns attached (about A2–B1)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "ci-ne",
+      "title": "ci and ne (about A2–B1)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "condizionale",
+      "title": "The condizionale presente (about A2–B1)",
+      "level": "beginner-intermediate"
+    },
+    {
+      "id": "combined-pronouns",
+      "title": "Combined pronouns: glielo, me lo (about B1)",
+      "level": "intermediate"
+    },
+    {
+      "id": "relatives",
+      "title": "che, cui, il quale (about B1)",
+      "level": "intermediate"
+    },
+    {
+      "id": "trapassato",
+      "title": "The trapassato prossimo (about B1)",
+      "level": "intermediate"
+    },
+    {
+      "id": "congiuntivo",
+      "title": "The congiuntivo presente: penso che, voglio che (about B1)",
+      "level": "intermediate"
+    },
+    {
+      "id": "periodo-ipotetico",
+      "title": "se clauses: real, possible and unreal (about B1–B2)",
+      "level": "intermediate"
+    },
+    {
+      "id": "congiuntivo-imperfetto",
+      "title": "The congiuntivo imperfetto (about B1–B2)",
+      "level": "intermediate"
+    },
+    {
+      "id": "passive",
+      "title": "The passive with essere and venire, and the si passivante (about B1–B2)",
+      "level": "intermediate"
+    },
+    {
+      "id": "passato-remoto",
+      "title": "The passato remoto (about B1–B2)",
+      "level": "intermediate"
+    },
+    {
+      "id": "reported-speech",
+      "title": "Reported speech (about B2)",
+      "level": "advanced-intermediate"
+    },
+    {
+      "id": "gerundio-participio",
+      "title": "The gerundio and participio as clauses (about B2–C1)",
+      "level": "advanced-intermediate"
+    },
+    {
+      "id": "concordanza",
+      "title": "Sequence of tenses with the congiuntivo trapassato (about B2–C1)",
+      "level": "advanced-intermediate"
     }
   ]
 };
