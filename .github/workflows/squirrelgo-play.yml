@@ -179,6 +179,10 @@ jobs:
           ./gradlew --no-daemon bundleRelease
           PKG=$(grep -m1 -E '^\s*applicationId' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
           echo "PKG=$PKG" >> "$GITHUB_ENV"
+          # Play shows this as the release name: the app's own name and version.
+          VNAME=$(grep -m1 -E '^\s*versionName' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
+          LABEL=$(grep -o '<string name="app_name">[^<]*' app/src/main/res/values/strings.xml | sed 's/.*>//')
+          echo "RELEASE_NAME=${LABEL:-$PKG} $VNAME" >> "$GITHUB_ENV"
           echo "AAB=$PWD/app/build/outputs/bundle/release/app-release.aab" >> "$GITHUB_ENV"
       - name: Release notes
         if: steps.pick.outputs.go == 'true'
@@ -203,7 +207,7 @@ jobs:
           python .github/scripts/play_upload.py --package "$PKG" --aab "$AAB" \
             --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
             --status "${{ inputs.status || 'completed' }}" \
-            --name "$TAG" --notes-file "$RUNNER_TEMP/notes.txt"
+            --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
       - name: Remove the key and the AAB
         if: always()
         run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
