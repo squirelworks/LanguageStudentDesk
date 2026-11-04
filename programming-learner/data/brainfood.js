@@ -7,6 +7,8 @@ window.PROGRAMMING.brainfood = {
   id: "brainfood",
   name: "brainFOOD",
   title: "Eight commands and a row of boxes",
+  note:
+    "<b>About the name.</b> This language is better known by a name that contains a vulgar word. Here it is called brainFOOD, with “FOOD” in place of that word, so the course suits learners of every age. The eight commands and every program are exactly the same as in the original.",
   intro:
     "Picture a long row of boxes, each holding a number that starts at 0, and a pointer that sits under one box. brainFOOD has just eight commands to move the pointer, change the number in a box, read and print characters, and loop. That is enough to compute anything a bigger language can, just very slowly and with a lot of plus signs. Every other character is ignored, so you can write notes anywhere.",
   lessons: [

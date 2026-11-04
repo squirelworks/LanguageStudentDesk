@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Translation Learner — Language Student Desk</title>
+<title>Translation Learner (alpha) — Language Student Desk</title>
 <link rel="stylesheet" href="../languages/learners.css">
 <link rel="stylesheet" href="../languages/klingon/piqad.css">
 <style>
@@ -64,12 +64,39 @@
   textarea.free { width: 100%; min-height: 4.5rem; font-size: 1.1rem; }
   /* The CJK face only for scripts that need it; it spaces Cyrillic out. */
   .lang-cyrillic .target, .lang-hindi .target, .lang-arabic .target, .lang-greek .target, .lang-latin .target, .lang-hebrew .target, .lang-thai .target, .lang-bengali .target, .lang-tamil .target, .lang-georgian .target, .lang-armenian .target, table.matrix td.plain { font-family: inherit; }
-  .matrix-wrap { overflow-x: auto; }
-  table.matrix td, table.matrix th { white-space: nowrap; }
-  table.matrix td.target { font-size: 1.05rem; cursor: help; }
-  table.matrix .here { background: #1d1d2a; }
+  /* The table scrolls inside its own box, so both scroll bars stay on screen;
+     the header row and the meaning column stay pinned while it scrolls. */
+  .matrix-wrap { overflow: auto; max-height: 72vh; border: 1px solid var(--line); border-radius: 8px; }
+  table.matrix { border-collapse: separate; border-spacing: 0; width: 100%; }
+  table.matrix td, table.matrix th { vertical-align: top; text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line); background: var(--bg); }
+  table.matrix thead th { position: sticky; top: 0; z-index: 2; background: var(--card); }
+  table.matrix .mean { position: sticky; left: 0; z-index: 1; background: var(--card); min-width: 11rem; max-width: 16rem; font-weight: normal; border-right: 1px solid var(--line); }
+  table.matrix thead .mean { z-index: 3; }
+  table.matrix .mean .small { display: block; }
+  table.matrix td { min-width: 9rem; }
+  table.matrix td.target { font-size: 1.05rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  table.matrix td.target:hover, table.matrix td.target:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
+  table.matrix td .why { display: flex; flex-wrap: wrap; gap: 0.2rem 0.7rem; font-size: 0.8rem; margin-top: 0.3rem; font-family: inherit; }
+  table.matrix td .why[hidden] { display: none; }
+  table.matrix td.here { background: #1d1d2a; }
   table.matrix th.here { color: var(--gold); }
   table.matrix td.gap { background: repeating-linear-gradient(135deg, transparent 0 6px, #18181d 6px 12px); }
+  .compare { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-bottom: 0.6rem; }
+  .cmp { display: inline-flex; align-items: center; gap: 0.15rem; background: var(--card2); border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.3rem; }
+  .cmp.here { border-color: var(--gold); }
+  .cmp b { padding: 0 0.3rem; font-weight: 600; }
+  .cmp button { background: none; border: none; color: #9fa8da; padding: 0.15rem 0.35rem; font-size: 0.85rem; cursor: pointer; }
+  .cmp button:disabled { color: var(--line); cursor: default; }
+  /* On a phone each sentence becomes a card, with one line per language. */
+  @media (max-width: 640px) {
+    .matrix-wrap { max-height: none; overflow: visible; border: none; }
+    table.matrix, table.matrix tbody, table.matrix tr, table.matrix td, table.matrix th { display: block; width: auto; }
+    table.matrix thead { display: none; }
+    table.matrix tr { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 0.6rem; overflow: hidden; }
+    table.matrix .mean { position: static; max-width: none; border-right: none; }
+    table.matrix td { min-width: 0; }
+    table.matrix td::before { content: attr(data-lang); display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; font-family: inherit; }
+  }
   .wb-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.35rem; max-height: 520px; overflow: auto; }
   .wb-list button { text-align: left; display: flex; gap: 0.5rem; align-items: baseline; padding: 0.35rem 0.55rem; }
   .wb-list .n { color: var(--muted); font-size: 0.75rem; min-width: 2.2rem; }
@@ -80,6 +107,7 @@
   #wbDetail .say { font-size: 1.8rem; }
   .near { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.3rem 0; }
   .near span { background: #15151b; border: 1px solid var(--line); border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.9rem; }
+  .alpha { font-size: 0.6em; font-weight: normal; color: #ffb74d; vertical-align: middle; }
   .near span small { color: var(--muted); margin-left: 0.3rem; }
   #langHome .tile .big { font-family: var(--cjk); }
 </style>
@@ -87,7 +115,7 @@
 <body>
 <header class="top">
   <div class="grow">
-    <h1 id="title">Translation Learner</h1>
+    <h1 id="title">Translation Learner <span class="alpha">(alpha)</span></h1>
     <p id="subtitle">Translate sentence by sentence, one piece of meaning at a time: every piece carried over, nothing added.</p>
   </div>
   <label class="small muted">Language <select id="langSelect"></select></label>
@@ -173,8 +201,10 @@
   <section id="matrix" hidden>
     <div class="bar">
       <label class="small muted">Sentences <select class="packSelect"></select></label>
+      <span class="small muted" id="matrixCount"></span>
     </div>
-    <p class="muted small">Each row is one meaning; each column says it in one language. Hover a sentence to see which piece carries which meaning.</p>
+    <div class="compare" id="matrixCompare" aria-label="Languages to compare"></div>
+    <p class="muted small">Each row is one meaning; each column says it in one language. Pick the languages to put side by side and move them with the arrows. Tap a sentence to see which piece carries which meaning.</p>
     <div class="matrix-wrap" id="matrixTable"></div>
   </section>
   <section id="words" class="practice" hidden>
