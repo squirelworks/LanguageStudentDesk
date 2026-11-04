@@ -9,6 +9,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
   { id: "csharp", name: "C#", era: "2000 · .NET, Windows and Unity", blurb: "Microsoft's main language: properties, records, pattern matching, LINQ queries and async code.", group: "modern", tags: ["Compiled programs"] },
+  { id: "cpp", name: "C++", era: "1985 · systems and games", blurb: "C with classes grown up: references, the standard library, RAII and modern C++20.", group: "modern", tags: ["Compiled programs"] },
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
   { id: "cobol", name: "COBOL", era: "1959 · business data", blurb: "Records, money and plain-English statements. Still runs payments and payroll at banks, insurers and government agencies.", group: "older", tags: ["Compiled programs"] },
   { id: "moderndelphi", name: "Delphi", era: "Today · Embarcadero", blurb: "Current Object Pascal: Unicode strings, generics, records with methods and anonymous methods, for Windows, macOS, Linux and phones.", group: "modern", tags: ["Compiled programs"] },
