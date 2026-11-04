@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/armenian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/armenian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Armenian, romanization, English, note]. Written for this
 // project. In the romanization ë is the short “uh” sound and an apostrophe
 // marks a breathy consonant.
