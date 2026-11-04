@@ -34,7 +34,7 @@ turned up.
 
 ## Programming Learner
 
-- New Kotlin and Visual Basic .NET courses.
+- New Kotlin, Swift and Visual Basic .NET courses.
 - The numerical methods track adds integration with the trapezoid and
   Simpson rules, and linear systems with Gaussian elimination.
 
