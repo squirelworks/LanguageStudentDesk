@@ -1,0 +1,316 @@
+{
+ "_about": "Stroke sets strokecheck.py checks. files are relative to SquirrelGo-Apps/; fonts are @fontsource packages; counts names a reference count source (counts/<file>.json or cjk for the shared CJK table). min_coverage and min_precision override the default pass marks.",
+ "sets": {
+  "arabic": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/arabic.js"
+   ],
+   "key": "arabic",
+   "fonts": [
+    "noto-naskh-arabic"
+   ]
+  },
+  "armenian": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/armenian.js"
+   ],
+   "key": "armenian",
+   "fonts": [
+    "noto-sans-armenian"
+   ]
+  },
+  "bengali": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/bengali.js"
+   ],
+   "key": "bengali",
+   "fonts": [
+    "noto-sans-bengali"
+   ]
+  },
+  "burmese": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/burmese.js"
+   ],
+   "key": "burmese",
+   "fonts": [
+    "noto-sans-myanmar"
+   ]
+  },
+  "cherokee": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/cherokee.js"
+   ],
+   "key": "cherokee",
+   "fonts": [
+    "noto-sans-cherokee"
+   ]
+  },
+  "cyrillic": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/cyrillic.js"
+   ],
+   "key": "cyrillic",
+   "fonts": [
+    "noto-sans"
+   ]
+  },
+  "devanagari": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/devanagari.js"
+   ],
+   "key": "devanagari",
+   "fonts": [
+    "noto-sans-devanagari"
+   ]
+  },
+  "ethiopic": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/ethiopic.js"
+   ],
+   "key": "ethiopic",
+   "fonts": [
+    "noto-sans-ethiopic"
+   ]
+  },
+  "georgian": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/georgian.js"
+   ],
+   "key": "georgian",
+   "fonts": [
+    "noto-sans-georgian"
+   ]
+  },
+  "greek": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/greek.js"
+   ],
+   "key": "greek",
+   "fonts": [
+    "noto-sans"
+   ]
+  },
+  "gujarati": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/gujarati.js"
+   ],
+   "key": "gujarati",
+   "fonts": [
+    "noto-sans-gujarati"
+   ]
+  },
+  "gurmukhi": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/gurmukhi.js"
+   ],
+   "key": "gurmukhi",
+   "fonts": [
+    "noto-sans-gurmukhi"
+   ]
+  },
+  "hangul": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/hangul.js"
+   ],
+   "key": "hangul",
+   "fonts": [
+    "noto-sans-kr"
+   ]
+  },
+  "hebrew": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/hebrew.js"
+   ],
+   "key": "hebrew",
+   "fonts": [
+    "noto-sans-hebrew"
+   ]
+  },
+  "hiragana": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-kana/www/data/strokes/hiragana.js"
+   ],
+   "key": "hiragana",
+   "fonts": [
+    "noto-sans-jp"
+   ],
+   "min_coverage": 0.6,
+   "min_precision": 0.8
+  },
+  "kanji": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-kanji/www/data/strokes.js"
+   ],
+   "global": "KANJI_STROKES",
+   "box": 109,
+   "fonts": [
+    "noto-sans-jp"
+   ],
+   "counts": "cjk",
+   "min_coverage": 0.6,
+   "min_precision": 0.8
+  },
+  "kannada": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/kannada.js"
+   ],
+   "key": "kannada",
+   "fonts": [
+    "noto-sans-kannada"
+   ]
+  },
+  "katakana": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-kana/www/data/strokes/katakana.js"
+   ],
+   "key": "katakana",
+   "fonts": [
+    "noto-sans-jp"
+   ],
+   "min_coverage": 0.6,
+   "min_precision": 0.8
+  },
+  "khmer": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/khmer.js"
+   ],
+   "key": "khmer",
+   "fonts": [
+    "noto-sans-khmer"
+   ]
+  },
+  "klingon": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-klingon/www/data/strokes.js"
+   ],
+   "skip": "keys are romanized letters; needs the pIqaD mapping and font before it can be checked"
+  },
+  "lao": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/lao.js"
+   ],
+   "key": "lao",
+   "fonts": [
+    "noto-sans-lao-looped"
+   ]
+  },
+  "latin": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/latin.js"
+   ],
+   "key": "latin",
+   "fonts": [
+    "noto-sans"
+   ]
+  },
+  "malayalam": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/malayalam.js"
+   ],
+   "key": "malayalam",
+   "fonts": [
+    "noto-sans-malayalam"
+   ]
+  },
+  "meetei": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/meetei.js"
+   ],
+   "key": "meetei",
+   "fonts": [
+    "noto-sans-meetei-mayek"
+   ]
+  },
+  "mongolian": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/mongolian.js"
+   ],
+   "key": "mongolian",
+   "fonts": [
+    "noto-sans-mongolian"
+   ]
+  },
+  "odia": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/odia.js"
+   ],
+   "key": "odia",
+   "fonts": [
+    "noto-sans-oriya"
+   ]
+  },
+  "sinhala": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/sinhala.js"
+   ],
+   "key": "sinhala",
+   "fonts": [
+    "noto-sans-sinhala"
+   ]
+  },
+  "syllabics": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/syllabics.js"
+   ],
+   "key": "syllabics",
+   "fonts": [
+    "noto-sans-canadian-aboriginal"
+   ]
+  },
+  "tamil": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tamil.js"
+   ],
+   "key": "tamil",
+   "fonts": [
+    "noto-sans-tamil"
+   ]
+  },
+  "telugu": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/telugu.js"
+   ],
+   "key": "telugu",
+   "fonts": [
+    "noto-sans-telugu"
+   ]
+  },
+  "thai": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/thai.js"
+   ],
+   "key": "thai",
+   "fonts": [
+    "noto-sans-thai-looped"
+   ]
+  },
+  "tibetan": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tibetan.js"
+   ],
+   "key": "tibetan",
+   "fonts": [
+    "noto-serif-tibetan"
+   ]
+  },
+  "tifinagh": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tifinagh.js"
+   ],
+   "key": "tifinagh",
+   "fonts": [
+    "noto-sans-tifinagh"
+   ]
+  },
+  "zhuyin": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-bopomofo/www/data/strokes/zhuyin.js"
+   ],
+   "key": "zhuyin",
+   "fonts": [
+    "noto-sans-tc"
+   ]
+  }
+ }
+}

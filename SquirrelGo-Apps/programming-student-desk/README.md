@@ -1,6 +1,6 @@
 # Programming Student Desk (Android)
 
-The Programming Learner as its own offline Android app. A home menu lists every course (Slick and Chisel included) and opens one inside the app. The asset root mirrors just that learner and the shared `languages/learners.css` and `languages/lsd-lang.js` files it loads. The rest of the Desk is not in the app.
+The Programming Learner as its own offline Android app. A home menu lists every course in the same sections as the Desk (modern and popular, older and legacy, joke and esoteric), with the same A–Z view and category filter, and opens one inside the app. The asset root mirrors just that learner and the shared `languages/learners.css` and `languages/lsd-lang.js` files it loads. The rest of the Desk is not in the app.
 
 Package id: `com.squirelworks.programmingstudentdesk`. The debug build adds `.debug`; the release AAB does not. Store name: Programming Student Desk. Minimum Android: 7.0 (API 24). compileSdk and targetSdk: 36.
 
@@ -28,7 +28,7 @@ chmod +x gradlew
 # output: app/build/outputs/bundle/release/app-release.aab
 ```
 
-`bundleRelease` runs `tools/pack_assets.py` first. That copies `programming-learner` (the page, `app.js`, and `data/`, including `catalog.js`, `slick.js`, and `chisel.js`) plus `languages/learners.css` and `languages/lsd-lang.js` into `android/app/build/generated/deskAssets/`. Those copies are build output, not a second source tree. The pack fails if Slick or Chisel is missing from the catalog or if a catalog id has no `data/<id>.js`.
+`bundleRelease` runs `tools/pack_assets.py` first. That copies `programming-learner` (the page, `app.js`, `sections.js`, and `data/`, including `catalog.js`, `slick.js`, and `chisel.js`) plus `languages/learners.css` and `languages/lsd-lang.js` into `android/app/build/generated/deskAssets/`. Those copies are build output, not a second source tree. The pack fails if Slick or Chisel is missing from the catalog or if a catalog id has no `data/<id>.js`.
 
 `./gradlew assembleDebug` builds the debug APK. Its application id is `com.squirelworks.programmingstudentdesk.debug`.
 

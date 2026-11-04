@@ -10,8 +10,6 @@
 (() => {
   const BASE = new URL(".", document.currentScript.src); // .../languages/
   const REGISTRY = window.LSD_LANGUAGE_REGISTRY || {};
-  // Pinned first in language menus (LSD.all / LSD.picker); not alphabetical.
-  const PINNED = ["taiwanese"];
   const FAVORITES_KEY = "lsd-favorite-languages";
   const cache = {};
 
@@ -86,10 +84,10 @@
     return favs;
   }
 
+  // The learner's favorites first, then every language alphabetically by name.
+  // Nothing is pinned.
   function sortMetas(metas) {
     const favs = favoriteIds();
-    const favSet = new Set(favs);
-    const pinnedRest = PINNED.filter((id) => !favSet.has(id));
     const byId = Object.fromEntries(metas.filter(Boolean).map((m) => [m.id, m]));
     const shown = new Set();
     const out = [];
@@ -99,25 +97,15 @@
       out.push(m);
     };
     favs.forEach((id) => push(byId[id]));
-    pinnedRest.forEach((id) => push(byId[id]));
     metas
       .slice()
-      .sort((a, b) => {
-        const ap = PINNED.indexOf(a.id);
-        const bp = PINNED.indexOf(b.id);
-        if (ap >= 0 || bp >= 0) {
-          if (ap < 0) return 1;
-          if (bp < 0) return -1;
-          return ap - bp;
-        }
-        return byName(a, b);
-      })
+      .sort(byName)
       .forEach((m) => push(m));
     return out;
   }
 
   // Every language in the registry, with fresh meta where it can be fetched.
-  // Favorites and pinned ids first, then sorted by the name the language bar shows.
+  // Favorites first, then sorted by the name the language bar shows.
   async function all() {
     const ids = Object.keys(REGISTRY);
     const metas = await Promise.all(ids.map(get));

@@ -27,7 +27,7 @@ On your phone: enable install from unknown sources / “Install unknown apps” 
 
 ## Stroke data
 
-`www/data/strokes.js` is generated from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0): the stroke paths and number positions for each kanji, with coordinates rounded to one decimal. That file stays under CC BY-SA 3.0.
+`www/data/strokes.js` is generated from [KanjiVG](https://kanjivg.tagaini.net) (© Ulrich Apel, CC BY-SA 3.0): the stroke paths and number positions for each kanji, with coordinates rounded to one decimal. `tools/build_strokes.py` regenerates it (and the Android copy) from a pinned KanjiVG release. That file stays under CC BY-SA 3.0.
 
 ## Words, sentences and topics
 

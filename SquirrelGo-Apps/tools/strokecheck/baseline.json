@@ -1,0 +1,176 @@
+{
+ "arabic": {
+  "ذ": "coverage 0.68",
+  "ر": "coverage 0.746",
+  "ق": "coverage 0.735"
+ },
+ "armenian": {
+  "Գ": "coverage 0.579; precision 0.684",
+  "Ժ": "coverage 0.65; precision 0.765",
+  "Ղ": "coverage 0.383; precision 0.488",
+  "Մ": "coverage 0.536; precision 0.712",
+  "Վ": "coverage 0.48; precision 0.542",
+  "ղ": "coverage 0.571; precision 0.678",
+  "ռ": "coverage 0.73"
+ },
+ "bengali": {
+  "এ": "coverage 0.678"
+ },
+ "burmese": {
+  "ဝ": "coverage 0.741"
+ },
+ "cherokee": {
+  "Ꭵ": "coverage 0.644",
+  "Ꮂ": "coverage 0.684; precision 0.823",
+  "Ꮃ": "coverage 0.647; precision 0.795",
+  "Ꮋ": "coverage 0.748",
+  "Ꮍ": "coverage 0.591",
+  "Ꮏ": "coverage 0.39; precision 0.442",
+  "Ꮑ": "coverage 0.683",
+  "Ꮱ": "coverage 0.718; precision 0.835",
+  "Ꮵ": "coverage 0.637; precision 0.616",
+  "Ᏸ": "coverage 0.607; precision 0.507"
+ },
+ "ethiopic": {
+  "ኀ": "coverage 0.411"
+ },
+ "georgian": {
+  "ო": "coverage 0.663"
+ },
+ "hangul": {
+  "ㅇ": "coverage 0.697"
+ },
+ "hebrew": {
+  "ר": "coverage 0.724"
+ },
+ "hiragana": {
+  "う": "coverage 0.599",
+  "ぐ": "coverage 0.467; precision 0.794",
+  "ぶ": "coverage 0.535; precision 0.732",
+  "ぷ": "coverage 0.538",
+  "ぺ": "coverage 0.427",
+  "ぽ": "precision 0.785"
+ },
+ "kanji": {
+  "九": "precision 0.758",
+  "了": "precision 0.745",
+  "仁": "precision 0.704",
+  "今": "coverage 0.595",
+  "八": "coverage 0.486",
+  "古": "coverage 0.527; precision 0.655",
+  "合": "precision 0.777",
+  "含": "coverage 0.588",
+  "巨": "5 strokes, reference says 4",
+  "心": "coverage 0.34; precision 0.632",
+  "必": "coverage 0.498; precision 0.779",
+  "斗": "coverage 0.382; precision 0.498",
+  "比": "precision 0.748",
+  "礼": "precision 0.76"
+ },
+ "katakana": {
+  "ク": "coverage 0.431; precision 0.637",
+  "グ": "coverage 0.544; precision 0.734",
+  "ト": "coverage 0.544",
+  "ハ": "coverage 0.479",
+  "パ": "coverage 0.408; precision 0.732",
+  "プ": "coverage 0.559",
+  "ペ": "coverage 0.472"
+ },
+ "malayalam": {
+  "റ": "coverage 0.716"
+ },
+ "meetei": {
+  "ꯀ": "coverage 0.731; precision 0.841",
+  "ꯉ": "coverage 0.699; precision 0.844",
+  "ꯒ": "coverage 0.739",
+  "ꯛ": "coverage 0.61; precision 0.641",
+  "ꯟ": "coverage 0.737"
+ },
+ "mongolian": {
+  "ᠠ": "coverage 0.417; precision 0.447",
+  "ᠡ": "coverage 0.37; precision 0.383",
+  "ᠢ": "coverage 0.44; precision 0.509",
+  "ᠣ": "coverage 0.319; precision 0.412",
+  "ᠤ": "coverage 0.319; precision 0.412",
+  "ᠥ": "coverage 0.308; precision 0.378",
+  "ᠦ": "coverage 0.308; precision 0.378",
+  "ᠨ": "coverage 0.132; precision 0.167",
+  "ᠪ": "coverage 0.444; precision 0.536",
+  "ᠫ": "coverage 0.429; precision 0.515",
+  "ᠬ": "coverage 0.462; precision 0.58",
+  "ᠭ": "coverage 0.324; precision 0.425",
+  "ᠮ": "coverage 0.329; precision 0.312",
+  "ᠯ": "coverage 0.218; precision 0.289",
+  "ᠰ": "coverage 0.438; precision 0.622",
+  "ᠱ": "coverage 0.38; precision 0.453",
+  "ᠲ": "coverage 0.499; precision 0.608",
+  "ᠳ": "coverage 0.444; precision 0.578",
+  "ᠴ": "coverage 0.487; precision 0.417",
+  "ᠵ": "coverage 0.225; precision 0.264",
+  "ᠶ": "coverage 0.123; precision 0.194",
+  "ᠷ": "coverage 0.265; precision 0.347",
+  "ᠸ": "coverage 0.262; precision 0.335",
+  "ᠹ": "coverage 0.287; precision 0.402",
+  "ᠺ": "coverage 0.3; precision 0.369",
+  "ᠼ": "coverage 0.505; precision 0.617",
+  "ᠽ": "coverage 0.454; precision 0.522",
+  "ᠾ": "coverage 0.312; precision 0.388"
+ },
+ "odia": {
+  "ଇ": "coverage 0.68",
+  "ଯ": "coverage 0.734"
+ },
+ "syllabics": {
+  "ᓪ": "coverage 0.744"
+ },
+ "thai": {
+  "ษ": "coverage 0.705; precision 0.754"
+ },
+ "tibetan": {
+  "ཅ": "coverage 0.675",
+  "ཟ": "coverage 0.548; precision 0.754",
+  "ར": "coverage 0.48; precision 0.712"
+ },
+ "tifinagh": {
+  "ⴰ": "coverage 0.732"
+ },
+ "zhuyin": {
+  "ˇ": "coverage 0.232; precision 0.447",
+  "ㄅ": "coverage 0.355; precision 0.247",
+  "ㄆ": "coverage 0.204; precision 0.37",
+  "ㄇ": "precision 0.824",
+  "ㄈ": "precision 0.831",
+  "ㄉ": "coverage 0.307; precision 0.328",
+  "ㄊ": "coverage 0.269; precision 0.443",
+  "ㄋ": "coverage 0.456; precision 0.534",
+  "ㄌ": "coverage 0.267; precision 0.628",
+  "ㄍ": "coverage 0.136; precision 0.482",
+  "ㄎ": "coverage 0.392; precision 0.595",
+  "ㄏ": "coverage 0.247; precision 0.227",
+  "ㄐ": "coverage 0.346; precision 0.354",
+  "ㄑ": "coverage 0.185; precision 0.257",
+  "ㄒ": "coverage 0.57; precision 0.642",
+  "ㄓ": "coverage 0.434; precision 0.772",
+  "ㄔ": "coverage 0.402; precision 0.48",
+  "ㄕ": "coverage 0.073; precision 0.179",
+  "ㄖ": "coverage 0.67; precision 0.776",
+  "ㄗ": "coverage 0.428",
+  "ㄘ": "coverage 0.169; precision 0.383",
+  "ㄙ": "coverage 0.329; precision 0.777",
+  "ㄚ": "coverage 0.26; precision 0.363",
+  "ㄛ": "coverage 0.328; precision 0.666",
+  "ㄜ": "coverage 0.332; precision 0.671",
+  "ㄝ": "coverage 0.076; precision 0.27",
+  "ㄞ": "coverage 0.381; precision 0.669",
+  "ㄟ": "coverage 0.319; precision 0.31",
+  "ㄠ": "coverage 0.426; precision 0.692",
+  "ㄡ": "coverage 0.412; precision 0.675",
+  "ㄢ": "coverage 0.321; precision 0.714",
+  "ㄣ": "coverage 0.336; precision 0.264",
+  "ㄤ": "coverage 0.429; precision 0.662",
+  "ㄥ": "coverage 0.437; precision 0.453",
+  "ㄦ": "coverage 0.355; precision 0.433",
+  "ㄧ": "coverage 0.161; precision 0.209",
+  "ㄩ": "coverage 0.691; precision 0.779"
+ }
+}
