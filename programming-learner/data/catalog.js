@@ -24,6 +24,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "quickbasic", name: "QuickBASIC", era: "1985 · DOS", blurb: "Microsoft's structured BASIC with a full-screen editor. Where many people wrote their first game.", group: "older", tags: ["Compiled programs"] },
   { id: "rust", name: "Rust", era: "2015 · systems", blurb: "A modern systems language. The compiler keeps track of who owns each value.", group: "modern", tags: ["Compiled programs"] },
   { id: "slick", name: "Slick", era: "Experimental · Go in brackets", blurb: "Pascal Costanza's s-expression notation for Go. Same language underneath, Lisp-shaped on the page.", group: "modern", tags: ["Compiled programs"] },
+  { id: "sql", name: "SQL", era: "1974 · databases", blurb: "Ask questions of a database: SELECT, filtering, grouping, joins and changes, on a small sample database.", group: "modern", tags: ["Data", "Web"] },
   { id: "turbopascal", name: "Turbo Pascal", era: "1983 · DOS", blurb: "Borland's fast, friendly Pascal with the blue IDE. Where structured programming was learned for a decade.", group: "older", tags: ["Compiled programs"] },
   { id: "whitespace", name: "Whitespace", era: "Esoteric · 2003", blurb: "Only spaces, tabs and newlines mean anything. Everything you can see is a comment.", group: "joke" },
   { id: "win16", name: "Win16", era: "1990–1995 · Windows 3.x", blurb: "C and the 16-bit Windows API: WinMain, the message loop and window procedures.", group: "older", tags: ["Compiled programs"] },
