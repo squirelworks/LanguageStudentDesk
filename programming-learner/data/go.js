@@ -288,5 +288,540 @@ func main() {
 }`, options: ["hi\nhi", "hi", "greet\ngreet", "hi hi"], answer: "hi\nhi", why: "A function with no result type returns nothing. Each call prints one line." },
       ],
     },
+    {
+      id: "collections",
+      title: "Slices and maps in depth",
+      summary: "append, sharing, ranges and maps.",
+      sections: [
+        {
+          p: "A slice is a window onto an underlying array: it has a <b>length</b> (how many elements you can see) and a <b>capacity</b> (how far the array goes). <code>append</code> adds to the end and returns the slice, growing the array when it is full, so always write <code>s = append(s, x)</code>. <code>range</code> gives the index and the value of each element; use <code>_</code> for the one you don't need.",
+          code: `package main
+
+import "fmt"
+
+func main() {
+	var nuts []int
+	for i := 1; i <= 5; i++ {
+		nuts = append(nuts, i*i)
+	}
+	fmt.Println(nuts, len(nuts))
+	total := 0
+	for _, n := range nuts {
+		total += n
+	}
+	fmt.Println("total", total)
+	firstTwo := nuts[:2]
+	fmt.Println(firstTwo, nuts[3:])
+}`,
+          out: "[1 4 9 16 25] 5\ntotal 55\n[1 4] [16 25]",
+        },
+        {
+          h: "Slices share their array",
+          p: "Slicing does not copy. Two slices of the same array see each other's changes, which is fast but can surprise you. <code>copy</code> or <code>slices.Clone</code> makes an independent copy when you need one.",
+          code: `package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	days := []int{4, 9, 2, 7}
+	view := days[1:3]
+	view[0] = 99
+	fmt.Println(days)
+	own := slices.Clone(days)
+	own[0] = 0
+	fmt.Println(days[0], own[0])
+	slices.Sort(own)
+	fmt.Println(own, slices.Contains(own, 7))
+}`,
+          out: "[4 99 2 7]\n4 0\n[0 2 7 99] true",
+        },
+        {
+          h: "Maps",
+          p: "A map stores values by key: <code>map[string]int</code>. Reading a missing key gives the zero value; the two-value form <code>v, ok := m[k]</code> tells you whether it was there. <code>delete</code> removes a key. Go deliberately visits map entries in a random order, so sort the keys when the order matters.",
+          code: `package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	stores := map[string]int{"oak": 12, "beech": 7}
+	stores["hazel"] += 5
+	if n, ok := stores["pine"]; !ok {
+		fmt.Println("no pine, zero value is", n)
+	}
+	delete(stores, "beech")
+	var trees []string
+	for tree := range stores {
+		trees = append(trees, tree)
+	}
+	slices.Sort(trees)
+	for _, tree := range trees {
+		fmt.Println(tree, stores[tree])
+	}
+	fmt.Println(len(stores), "trees")
+}`,
+          out: "no pine, zero value is 0\nhazel 5\noak 12\n2 trees",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `package main
+
+import "fmt"
+
+func main() {
+	s := []int{1, 2, 3}
+	t := s[:2]
+	t[1] = 20
+	fmt.Println(s)
+}`, options: ["[1 20 3]", "[1 2 3]", "[1 20]", "[20 2 3]"], answer: "[1 20 3]", why: "t is a window onto the same array as s." },
+        { kind: "output", q: "What does this print?", code: `package main
+
+import "fmt"
+
+func main() {
+	m := map[string]int{"a": 1}
+	_, ok := m["b"]
+	fmt.Println(m["b"], ok, len(m))
+}`, options: ["0 false 1", "0 true 1", "1 false 2", "nil false 1"], answer: "0 false 1", why: "A missing key gives the zero value 0, ok is false, and reading does not add the key." },
+        { q: "Why write s = append(s, x) rather than just append(s, x)?", options: ["append may make a new, bigger array and returns the slice that points to it", "append prints the slice", "append only works on maps otherwise", "It is only a style rule"], answer: "append may make a new, bigger array and returns the slice that points to it", why: "Discarding the result loses the new element when the array had to grow." },
+      ],
+    },
+    {
+      id: "structs",
+      title: "Structs, methods and interfaces",
+      summary: "Your own types, and behaviour they share.",
+      sections: [
+        {
+          p: "A <code>struct</code> groups named fields. Methods are functions with a <b>receiver</b> written before the name. A pointer receiver, <code>(s *Squirrel)</code>, lets the method change the value; a value receiver works on a copy. Go has no classes or constructors; a function named <code>NewSomething</code> is the usual way to build a value.",
+          code: `package main
+
+import "fmt"
+
+type Squirrel struct {
+	Name string
+	Nuts int
+}
+
+func NewSquirrel(name string) *Squirrel {
+	return &Squirrel{Name: name}
+}
+
+func (s *Squirrel) Gather(n int) {
+	s.Nuts += n
+}
+
+func (s Squirrel) Report() string {
+	return fmt.Sprintf("%s has %d nuts", s.Name, s.Nuts)
+}
+
+func main() {
+	sam := NewSquirrel("Sam")
+	sam.Gather(4)
+	sam.Gather(6)
+	fmt.Println(sam.Report())
+	fmt.Printf("%+v\\n", *sam)
+}`,
+          out: "Sam has 10 nuts\n{Name:Sam Nuts:10}",
+        },
+        {
+          h: "Interfaces",
+          p: "An interface lists methods. Any type that has those methods satisfies the interface automatically; there is no <code>implements</code> keyword. The standard <code>fmt.Stringer</code> interface has one method, <code>String() string</code>, and <code>fmt</code> uses it whenever it prints a value of that type.",
+          code: `package main
+
+import "fmt"
+
+type Store interface {
+	Capacity() int
+}
+
+type Hollow struct{}
+
+type Burrow struct {
+	Depth int
+}
+
+func (Hollow) Capacity() int   { return 120 }
+func (b Burrow) Capacity() int { return b.Depth * 2 }
+func (b Burrow) String() string {
+	return fmt.Sprintf("burrow %d cm deep", b.Depth)
+}
+
+func main() {
+	stores := []Store{Hollow{}, Burrow{Depth: 30}}
+	total := 0
+	for _, s := range stores {
+		total += s.Capacity()
+	}
+	fmt.Println("room for", total)
+	fmt.Println(Burrow{Depth: 15})
+}`,
+          out: "room for 180\nburrow 15 cm deep",
+        },
+        {
+          h: "Type switches and embedding",
+          p: "A <b>type switch</b> runs different code depending on the concrete type inside an interface value. <b>Embedding</b> one struct in another, by naming only its type, promotes its fields and methods, which is how Go reuses behaviour instead of inheritance.",
+          code: `package main
+
+import "fmt"
+
+type Animal struct {
+	Name string
+}
+
+func (a Animal) Hello() string { return "I am " + a.Name }
+
+type Squirrel struct {
+	Animal
+	Nuts int
+}
+
+func describe(v any) string {
+	switch x := v.(type) {
+	case int:
+		return fmt.Sprintf("int %d", x)
+	case string:
+		return "string " + x
+	case Squirrel:
+		return x.Hello()
+	default:
+		return "something else"
+	}
+}
+
+func main() {
+	s := Squirrel{Animal{"Pip"}, 3}
+	fmt.Println(s.Name, s.Nuts)
+	for _, v := range []any{7, "oak", s, 2.5} {
+		fmt.Println(describe(v))
+	}
+}`,
+          out: "Pip 3\nint 7\nstring oak\nI am Pip\nsomething else",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `package main
+
+import "fmt"
+
+type Box struct{ N int }
+
+func (b Box) AddValue()    { b.N++ }
+func (b *Box) AddPointer() { b.N++ }
+
+func main() {
+	b := Box{}
+	b.AddValue()
+	b.AddPointer()
+	b.AddPointer()
+	fmt.Println(b.N)
+}`, options: ["2", "3", "1", "0"], answer: "2", why: "The value receiver changes a copy; only the two pointer-receiver calls count." },
+        { q: "How does a Go type satisfy an interface?", options: ["By having all the interface's methods; nothing else is needed", "By writing implements after the type", "By embedding the interface", "By registering it with the interface"], answer: "By having all the interface's methods; nothing else is needed", why: "Go interfaces are satisfied implicitly." },
+        { q: "What does a String() string method on a type change?", options: ["How fmt prints values of that type", "How the type is compared", "Nothing unless you call it", "How the type is stored in memory"], answer: "How fmt prints values of that type", why: "It satisfies fmt.Stringer, which fmt checks for." },
+      ],
+    },
+    {
+      id: "errors",
+      title: "Errors",
+      summary: "Errors are values you check.",
+      sections: [
+        {
+          p: "Go has no exceptions for ordinary failures. A function that can fail returns an <code>error</code> as its last result, and the caller checks it right away: <code>if err != nil</code>. <code>strconv.Atoi</code>, which turns text into an <code>int</code>, works like this. It is more typing, but you can always see where failures are handled.",
+          code: `package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	for _, text := range []string{"42", "forty-two"} {
+		n, err := strconv.Atoi(text)
+		if err != nil {
+			fmt.Println("error:", err)
+			continue
+		}
+		fmt.Println("got", n)
+	}
+}`,
+          out: "got 42\nerror: strconv.Atoi: parsing \"forty-two\": invalid syntax",
+        },
+        {
+          h: "Making and wrapping errors",
+          p: "<code>errors.New</code> makes a simple error, and <code>fmt.Errorf</code> builds one with a message. A <code>%w</code> in <code>fmt.Errorf</code> <b>wraps</b> another error, adding context while keeping the original inside. <code>errors.Is</code> then checks whether a particular error is anywhere in the chain.",
+          code: `package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+var ErrEmpty = errors.New("the store is empty")
+
+func take(stored, wanted int) (int, error) {
+	if stored == 0 {
+		return 0, ErrEmpty
+	}
+	if wanted > stored {
+		return stored, fmt.Errorf("asked for %d, only %d stored", wanted, stored)
+	}
+	return stored - wanted, nil
+}
+
+func takeFromOak(wanted int) (int, error) {
+	left, err := take(0, wanted)
+	if err != nil {
+		return 0, fmt.Errorf("oak: %w", err)
+	}
+	return left, nil
+}
+
+func main() {
+	left, err := take(10, 4)
+	fmt.Println(left, err)
+	_, err = take(3, 8)
+	fmt.Println(err)
+	_, err = takeFromOak(1)
+	fmt.Println(err)
+	fmt.Println(errors.Is(err, ErrEmpty))
+}`,
+          out: "6 <nil>\nasked for 8, only 3 stored\noak: the store is empty\ntrue",
+        },
+        {
+          h: "defer",
+          p: "<code>defer</code> schedules a call to run when the surrounding function returns, however it returns. It keeps clean-up, such as closing a file, right next to the code that opened it. Deferred calls run in reverse order, last one first.",
+          code: `package main
+
+import "fmt"
+
+func work() {
+	fmt.Println("open store")
+	defer fmt.Println("close store")
+	defer fmt.Println("count nuts")
+	fmt.Println("bury three nuts")
+}
+
+func main() {
+	work()
+	fmt.Println("done")
+}`,
+          out: "open store\nbury three nuts\ncount nuts\nclose store\ndone",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `package main
+
+import "fmt"
+
+func main() {
+	for i := 1; i <= 3; i++ {
+		defer fmt.Print(i)
+	}
+	fmt.Print("go ")
+}`, options: ["go 321", "go 123", "123go ", "321go "], answer: "go 321", why: "Deferred calls run when main returns, last one first." },
+        { kind: "output", q: "What does this print?", code: `package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	base := errors.New("no nuts")
+	err := fmt.Errorf("day 3: %w", base)
+	fmt.Println(err, errors.Is(err, base))
+}`, options: ["day 3: no nuts true", "day 3: no nuts false", "no nuts true", "day 3: %w true"], answer: "day 3: no nuts true", why: "%w puts the original error's text in the message and keeps it in the chain for errors.Is." },
+        { q: "How does a Go function usually report failure?", options: ["By returning an error as its last result", "By throwing an exception", "By returning -1", "By calling panic"], answer: "By returning an error as its last result", why: "panic is kept for bugs and truly unrecoverable situations." },
+      ],
+    },
+    {
+      id: "concurrency",
+      title: "Goroutines and channels",
+      summary: "Doing several things at once, safely.",
+      sections: [
+        {
+          p: "Writing <code>go f()</code> starts <code>f</code> in a new <b>goroutine</b>, a very lightweight thread; a program can run thousands. Goroutines talk through <b>channels</b>: <code>ch &lt;- v</code> sends a value and <code>v := &lt;-ch</code> receives one, waiting until a value arrives. \"Share memory by communicating\" is the Go motto.",
+          code: `package main
+
+import "fmt"
+
+func count(tree string, nuts []int, results chan<- string) {
+	total := 0
+	for _, n := range nuts {
+		total += n
+	}
+	results <- fmt.Sprintf("%s: %d", tree, total)
+}
+
+func main() {
+	results := make(chan string)
+	go count("oak", []int{3, 4, 5}, results)
+	go count("beech", []int{10, 2}, results)
+	a, b := <-results, <-results
+	if a > b {
+		a, b = b, a
+	}
+	fmt.Println(a)
+	fmt.Println(b)
+}`,
+          out: "beech: 12\noak: 12",
+        },
+        {
+          h: "WaitGroup and Mutex",
+          p: "<code>sync.WaitGroup</code> waits for a group of goroutines to finish. When several goroutines change the same variable, protect it with a <code>sync.Mutex</code>: only the goroutine holding the lock may touch the data. Without it, updates can be lost. <code>go run -race</code> finds such bugs.",
+          code: `package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func main() {
+	var (
+		mu    sync.Mutex
+		wg    sync.WaitGroup
+		total int
+	)
+	for squirrel := 1; squirrel <= 10; squirrel++ {
+		wg.Add(1)
+		go func(id int) {
+			defer wg.Done()
+			for i := 0; i < 1000; i++ {
+				mu.Lock()
+				total++
+				mu.Unlock()
+			}
+		}(squirrel)
+	}
+	wg.Wait()
+	fmt.Println("nuts counted:", total)
+}`,
+          out: "nuts counted: 10000",
+        },
+        {
+          h: "Pipelines",
+          p: "A goroutine can read from one channel and write to another, forming a pipeline. <code>close(ch)</code> says no more values are coming, and <code>for v := range ch</code> reads until the channel is closed. A buffered channel, <code>make(chan int, 3)</code>, holds a few values so the sender need not wait.",
+          code: `package main
+
+import "fmt"
+
+func main() {
+	days := make(chan int, 3)
+	doubled := make(chan int, 3)
+	go func() {
+		for _, n := range []int{4, 9, 2, 7} {
+			days <- n
+		}
+		close(days)
+	}()
+	go func() {
+		for n := range days {
+			doubled <- n * 2
+		}
+		close(doubled)
+	}()
+	for n := range doubled {
+		fmt.Print(n, " ")
+	}
+	fmt.Println()
+}`,
+          out: "8 18 4 14 ",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int, 2)
+	ch <- 5
+	ch <- 7
+	close(ch)
+	sum := 0
+	for v := range ch {
+		sum += v
+	}
+	fmt.Println(sum)
+}`, options: ["12", "5", "7", "It waits forever"], answer: "12", why: "The buffer holds both values, and range stops once the closed channel is empty." },
+        { q: "Why protect a shared counter with a sync.Mutex?", options: ["Without it, goroutines can overwrite each other's updates", "It makes goroutines start faster", "Channels require it", "Go will not compile otherwise"], answer: "Without it, goroutines can overwrite each other's updates", why: "total++ reads, adds and writes; two goroutines doing it at once can lose a count." },
+        { q: "What does close(ch) tell receivers?", options: ["No more values will be sent", "The channel is empty right now", "The program should stop", "The values should be discarded"], answer: "No more values will be sent", why: "range over the channel ends after the remaining values are read." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: counting words",
+      summary: "Strings, maps, sorting and formatting together.",
+      sections: [
+        {
+          p: "This program counts the words in a short text, ignoring case and punctuation, and prints the most common ones. It splits the text with <code>strings.FieldsFunc</code>, counts in a map, copies the counts into a slice of structs, and sorts that with <code>slices.SortFunc</code> and <code>cmp.Compare</code>: most frequent first, then alphabetically.",
+          code: `package main
+
+import (
+	"cmp"
+	"fmt"
+	"slices"
+	"strings"
+	"unicode"
+)
+
+type count struct {
+	word string
+	n    int
+}
+
+func main() {
+	text := "The squirrel hid a nut. Then the squirrel forgot the nut, " +
+		"and the nut became a tree. The tree grew nuts."
+
+	words := strings.FieldsFunc(strings.ToLower(text), func(r rune) bool {
+		return !unicode.IsLetter(r)
+	})
+	counts := map[string]int{}
+	for _, w := range words {
+		counts[w]++
+	}
+	var rows []count
+	for w, n := range counts {
+		rows = append(rows, count{w, n})
+	}
+	slices.SortFunc(rows, func(a, b count) int {
+		if c := cmp.Compare(b.n, a.n); c != 0 {
+			return c
+		}
+		return strings.Compare(a.word, b.word)
+	})
+	fmt.Printf("%d words, %d different\\n", len(words), len(counts))
+	for _, r := range rows[:4] {
+		fmt.Printf("%-9s%2d\\n", r.word, r.n)
+	}
+}`,
+          out: "21 words, 12 different\nthe       5\nnut       3\na         2\nsquirrel  2",
+        },
+        {
+          h: "Ideas to try",
+          p: "Read the text from a file with <code>os.ReadFile</code> (checking its error), skip stop words such as \"a\" and \"the\" with a <code>map[string]bool</code>, or count several files at once, one goroutine each, sending their maps down a channel to be merged.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	f := strings.Fields("  oak   beech hazel ")
+	fmt.Println(len(f), f[1])
+}`, options: ["3 beech", "5 beech", "3 oak", "4 beech"], answer: "3 beech", why: "Fields splits on runs of spaces and ignores spaces at the ends." },
+        { q: "Why copy the map into a slice before printing the top words?", options: ["Maps have no order, and a slice can be sorted", "Maps cannot be printed", "Slices use less memory", "range does not work on maps"], answer: "Maps have no order, and a slice can be sorted", why: "Go even randomizes map order on purpose so that code does not rely on it." },
+        { q: "In slices.SortFunc, what should the comparison return when a should come first?", options: ["A negative number", "A positive number", "Zero", "true"], answer: "A negative number", why: "cmp.Compare(b.n, a.n) is negative when a has the bigger count, so bigger counts come first." },
+      ],
+    },
   ],
 };
