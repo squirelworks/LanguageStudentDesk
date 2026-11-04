@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Keep pages clear of the camera cutout, status bar and gesture bar.
+        SafeArea.apply(this);
 
         // WebView has no speechSynthesis, so audio goes through the system
         // TextToSpeech engine via the AndroidTTS bridge below. Each script asks

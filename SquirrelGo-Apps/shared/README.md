@@ -3,7 +3,7 @@
 Code every SquirrelGo app uses. Edit it here, then copy it into the apps:
 
 ```bash
-SquirrelGo-Apps/tools/sync-shared.sh          # copy into each app's www/js/
+SquirrelGo-Apps/tools/sync-shared.sh          # copy into each app's www/js/ (and SafeArea.java into each android/)
 SquirrelGo-Apps/tools/sync-shared.sh --check  # what CI runs: fail if a copy is stale
 ```
 
@@ -16,6 +16,7 @@ Each app keeps a committed copy so its `www/` folder still runs on its own, in a
 | `writepad.js` | Kana, Alphabets, Klingon | The writing pad that checks each stroke, drawn in the page's `--accent` color |
 | `pad.js` | Kana, Alphabets | The freehand pad |
 | `speech.js` | Kana, Alphabets, Kanji | Recorded sounds with a browser-voice fallback |
+| `android/SafeArea.java` | every Android wrapper, next to `MainActivity` (package line rewritten) | Keeps the WebView clear of the camera cutout, status bar, gesture bar and keyboard in portrait and landscape. Each `MainActivity` calls `SafeArea.apply(this)` right after `setContentView` |
 
 The desk's own twins load these straight from the apps (Character Learner from Alphabets, the Desk Klingon page from SquirrelGo Klingon), so they follow without a copy. `sync-shared.sh` also runs `tools/desk_twins.py`, which:
 
