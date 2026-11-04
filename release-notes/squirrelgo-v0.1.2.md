@@ -31,8 +31,10 @@ it too.
 
 ## Programming Learner
 
-- The numerical methods track adds ordinary differential equations with the
-  Euler and Runge–Kutta methods.
+- The numerical methods track adds five lessons: ordinary differential
+  equations with the Euler and Runge–Kutta methods, minimization by
+  golden-section search, random numbers and Monte Carlo, eigenvalues by power
+  iteration, and the fast Fourier transform.
 
 ## SquirrelGo apps
 
