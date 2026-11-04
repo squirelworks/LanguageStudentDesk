@@ -1,6 +1,8 @@
 # 0001: Native apps instead of WebView shells
 
-- Status: **Proposed.** Waiting for the user's sign-off. No app changes until then.
+- Status: **Accepted** by the user on 2026-11-04 (Kotlin and Compose). The pilot
+  still waits for #196's content move, and no WebView app is removed or replaced
+  before the user signs off on that app.
 - Date: 2026-11-04
 - Roadmap: #197 (part of #199). Depends on #196, the shared content source.
 - Spike: `spikes/native-apps/`
@@ -100,7 +102,7 @@ of the same app.
 - It doesn't meet the goal of #197. The apps are still web pages in a WebView,
   and we'd maintain two drawing engines (native on phones, JS on the Desk).
 
-## Decision (proposed)
+## Decision
 
 **Option A: Kotlin and Compose, migrating screen by screen inside the existing
 Android apps, with Compose Multiplatform for desktop.**
@@ -149,8 +151,8 @@ native/
 
 ## Migration path
 
-Each step is its own PR, and nothing starts before #196 lands and the user signs
-off on this record.
+Each step is its own PR, and nothing starts before the content the pilot needs
+is in the shared source (#196).
 
 1. **Shared native module.** A Kotlin module next to `SquirrelGo-Apps/shared/`
    that ports `strokes.js`, `writepad.js`, `pad.js`, `speech.js` and `suite.js`.
@@ -199,6 +201,25 @@ off on this record.
   anything replaces the current Desk build.
 - **Effort.** Each port is a rewrite of that app's screens. The pilot gives a
   real cost per app before anything else is committed.
+
+## Screens, sizes and input
+
+Every app is built for phones, tablets and desktop from the same screens, so
+these are requirements for every screen, checked in the pilot:
+
+- **Safe areas.** Content never sits under a camera cutout, status bar, rounded
+  corner or gesture bar. Screens draw edge to edge but pad their content with
+  the system insets (`WindowInsets.safeDrawing`), in portrait and landscape.
+- **Window sizes.** Layouts adapt by window size class (compact, medium,
+  expanded): one column on phones, list and detail side by side on tablets and
+  desktop. Nothing assumes a phone-shaped screen.
+- **On-screen keyboards.** Text fields stay visible above the keyboard
+  (`imePadding`), each field asks for the right keyboard (search, text,
+  number), and typing in a script uses the system's keyboards and input methods.
+- **Physical keyboards** work on every platform, tablets and phones included:
+  Tab and arrow keys move focus, Enter submits, Escape goes back, and common
+  actions have shortcuts.
+- **Touch, mouse and pen** all work on the writing pads.
 
 ## iOS (answered by the user, 2026-11-04)
 
