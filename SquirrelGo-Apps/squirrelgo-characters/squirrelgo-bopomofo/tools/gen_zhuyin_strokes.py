@@ -1,86 +1,84 @@
 #!/usr/bin/env python3
 """Generate www/data/strokes/zhuyin.js: Bopomofo stroke paths in a 100 x 100 box.
 
-The Zhuyin symbols come from AnimCJK (https://github.com/parsimonhi/animCJK,
-© FM-SH), whose Bopomofo drawings are not derived from the Arphic fonts and are
-offered under the GNU LGPL 3.0 or later. Each AnimCJK stroke has a median line
-(the pen's centre path) on a 1024 grid; it is scaled into the 100 box and
-written as M/L commands. The output stays under the LGPL.
+The paths are drawn by hand over the Noto Sans TC glyphs (SIL Open Font
+License), the same font SquirrelGo-Apps/tools/strokecheck compares them with,
+so each finished animation matches the printed symbol. The stroke order
+follows the order of the Chinese components the symbols come from (勹 for ㄅ,
+厂 for ㄏ, 山 for ㄓ, 幺 for ㄠ, 又 for ㄡ, 儿 for ㄦ and so on): top before
+bottom, left before right, a crossing horizontal before the stroke it crosses.
 
-AnimCJK has no tone marks, so ˊ ˇ ˋ ˙ are drawn here.
-
-    python3 tools/gen_zhuyin_strokes.py              # fetch the pinned AnimCJK commit
-    python3 tools/gen_zhuyin_strokes.py path/to/dir  # or read local svgsZhHansZoo SVGs
-
-Fetched SVGs are cached in tools/.animcjk-<commit>/ (not committed).
+    python3 tools/gen_zhuyin_strokes.py
 """
-import re
-import sys
-import urllib.request
 from pathlib import Path
 
-COMMIT = "1c8c8ef45aa9dfe1e1129cb5462ddf59a50a65ce"
-URL = "https://raw.githubusercontent.com/parsimonhi/animCJK/{rev}/svgsZhHansZoo/{code}.svg"
-HERE = Path(__file__).resolve().parent
-OUT = HERE.parent / "www" / "data" / "strokes" / "zhuyin.js"
+OUT = Path(__file__).resolve().parents[1] / "www" / "data" / "strokes" / "zhuyin.js"
 
-SYMBOLS = (
-    "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙ"  # initials
-    "ㄧㄨㄩ"  # medials
-    "ㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ"  # finals
-)
-
-# Tone marks, drawn here because AnimCJK has none.
-TONES = {
+STROKES = {
+    # --- initials ---
+    "ㄅ": ["M35,17 L27,37", "M27,37 L74,37 L72,55 L68,72 L62,79 L45,80"],
+    "ㄆ": ["M37,17 L31,35", "M31,35 L75,35 L62,58 L45,72 L23,82", "M35,48 L77,82"],
+    "ㄇ": ["M19,16 L19,83", "M19,19 L81,19 L81,83"],
+    "ㄈ": ["M15,18 L83,18", "M15,18 L15,72 L18,78 L25,80 L85,80"],
+    "ㄉ": ["M39,17 L30,36", "M30,36 L79,36 L76,65 L71,78 L54,77", "M51,38 L48,55 L40,67 L22,80"],
+    "ㄊ": ["M17,38 L82,38", "M55,17 L26,78 L68,71", "M60,57 L78,81"],
+    "ㄋ": ["M20,20 L65,20 L38,43", "M38,42 L79,42 L76,62 L71,77 L54,80"],
+    "ㄌ": ["M33,17 L26,36", "M26,36 L79,36 L76,65 L72,78 L54,77", "M57,17 L52,48 L42,65 L22,80"],
+    "ㄍ": ["M42,17 L24,48 L48,82", "M73,17 L50,48 L75,82"],
+    "ㄎ": ["M14,18 L85,18", "M45,19 L32,41 L74,41 L71,62 L65,77 L58,80 L40,80"],
+    "ㄏ": ["M25,18 L87,18", "M25,18 L25,50 L22,65 L13,80"],
+    "ㄐ": ["M36,20 L36,62 L66,55", "M66,16 L66,83"],
+    "ㄑ": ["M63,17 L32,48 L66,81"],
+    "ㄒ": ["M14,18 L85,18", "M50,22 L50,83"],
+    "ㄓ": ["M48,16 L48,77", "M25,26 L25,59 L76,59", "M76,26 L76,62", "M14,80 L86,80"],
+    "ㄔ": ["M64,17 L27,42", "M75,28 L25,64", "M57,45 L57,83"],
+    "ㄕ": ["M26,18 L82,18 L82,43", "M29,43 L82,43", "M29,40 L29,55 L26,67 L17,81"],
+    "ㄖ": ["M27,17 L27,77", "M27,17 L78,17 L78,83", "M42,35 L59,58", "M27,77 L76,74"],
+    "ㄗ": ["M17,19 L81,19 L79,40 L76,52 L71,57 L58,57", "M44,20 L44,83"],
+    "ㄘ": ["M18,34 L82,34", "M51,17 L33,55 L70,53 L62,68 L56,82"],
+    "ㄙ": ["M48,17 L36,46 L20,77 L69,70", "M60,50 L80,81"],
+    # --- medials ---
+    "ㄧ": ["M18,50 L82,50"],
+    "ㄨ": ["M75,17 L60,40 L50,50 L38,62 L21,80", "M27,24 L80,81"],
+    "ㄩ": ["M23,16 L23,76 L75,75", "M77,16 L77,83"],
+    # --- finals ---
+    "ㄚ": ["M20,18 L50,44", "M79,18 L50,46", "M50,46 L50,83"],
+    "ㄛ": ["M12,19 L88,19", "M52,19 L52,44 L40,45 L25,50 L17,62 L20,72 L32,79 L50,80 L68,77 L84,67"],
+    "ㄜ": ["M16,31 L84,31", "M49,16 L49,51 L37,52 L25,57 L20,66 L23,74 L33,79 L50,80 L66,77 L81,67"],
+    "ㄝ": ["M14,41 L86,41", "M67,16 L67,42 L65,57 L60,69", "M33,17 L33,74 L37,80 L77,80"],
+    "ㄞ": ["M17,18 L83,18", "M31,25 L22,48 L79,48 L77,62 L70,82", "M55,19 L50,46 L42,64 L30,75 L18,80"],
+    "ㄟ": ["M16,32 L39,18 L48,38 L60,55 L86,80"],
+    "ㄠ": ["M50,17 L37,35 L22,48 L65,45", "M68,32 L50,55 L22,77 L69,71", "M62,57 L80,81"],
+    "ㄡ": ["M21,19 L79,19 L72,35 L58,55 L40,71 L18,82", "M31,36 L86,81"],
+    "ㄢ": ["M19,19 L74,19 L62,48", "M36,25 L25,48 L80,48 L74,65 L66,82"],
+    "ㄣ": ["M37,17 L24,47 L77,45 L72,62 L66,82"],
+    "ㄤ": ["M18,35 L82,35", "M49,16 L48,45 L40,63 L20,80", "M54,45 L54,74 L58,79 L83,78"],
+    "ㄥ": ["M55,17 L40,45 L20,78 L83,77"],
+    "ㄦ": ["M37,16 L37,50 L33,62 L25,72 L15,80", "M58,16 L58,72 L62,78 L85,78"],
+    # --- tone marks ---
     "ˊ": ["M34,68 L66,32"],
-    "ˇ": ["M22,22 L50,78 L78,22"],
+    "ˇ": ["M30,26 L50,70 L70,26"],
     "ˋ": ["M34,32 L66,68"],
     "˙": ["M46,50 Q50,46 54,50 Q50,54 46,50"],
 }
 
 
-def svg_for(ch, src):
-    path = Path(src) / f"{ord(ch)}.svg"
-    if not path.exists():
-        with urllib.request.urlopen(URL.format(rev=COMMIT, code=ord(ch)), timeout=60) as r:
-            path.write_bytes(r.read())
-    return path.read_text(encoding="utf-8")
-
-
-def num(v):
-    s = f"{v:.1f}".rstrip("0").rstrip(".")
-    return "0" if s == "-0" else s
-
-
-def medians(svg):
-    out = []
-    for d in re.findall(r'<path [^>]*clip-path="url\([^)]*\)"[^>]*\sd="([^"]+)"', svg):
-        pts = re.findall(r"(-?[\d.]+)[ ,](-?[\d.]+)", d)
-        out.append("M" + " L".join(f"{num(float(x) * 100 / 1024)},{num(float(y) * 100 / 1024)}" for x, y in pts))
-    if not out:
-        raise ValueError("no strokes found")
-    return out
-
-
-def main(src=None):
-    if src is None:
-        src = HERE / f".animcjk-{COMMIT[:7]}"
-        src.mkdir(exist_ok=True)
-    strokes = {ch: medians(svg_for(ch, src)) for ch in SYMBOLS}
-    strokes.update(TONES)
+def main() -> None:
     lines = [
-        "// Zhuyin (Bopomofo) stroke order for SquirrelGo Bopomofo, from AnimCJK",
-        "// (https://github.com/parsimonhi/animCJK, © FM-SH, GNU LGPL 3.0 or later), made by",
-        "// tools/gen_zhuyin_strokes.py. Paths sit in a 100×100 box; see www/js/strokes.js.",
+        "// Zhuyin (Bopomofo) stroke order for SquirrelGo Bopomofo, drawn over Noto Sans TC",
+        "// and made by tools/gen_zhuyin_strokes.py. Paths sit in a 100×100 box (M/L/Q only);",
+        "// see www/js/strokes.js.",
         "window.SG_STROKES = window.SG_STROKES || {};",
         'window.SG_STROKES["zhuyin"] = {',
     ]
-    lines += [f'  "{ch}": [{", ".join(chr(34) + p + chr(34) for p in paths)}],' for ch, paths in strokes.items()]
+    for ch, paths in STROKES.items():
+        inner = ", ".join(f'"{p}"' for p in paths)
+        lines.append(f'  "{ch}": [{inner}],')
     lines[-1] = lines[-1].rstrip(",")
     lines += ["};", ""]
     OUT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote {len(strokes)} symbols to {OUT}")
+    print(f"Wrote {len(STROKES)} symbols to {OUT}")
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:2])
+    main()

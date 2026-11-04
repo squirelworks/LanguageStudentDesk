@@ -82,13 +82,5 @@
  },
  "tifinagh": {
   "ⴰ": "coverage 0.732"
- },
- "zhuyin": {
-  "ㄈ": "precision 0.672",
-  "ㄏ": "coverage 0.587; precision 0.69",
-  "ㄐ": "coverage 0.471; precision 0.66",
-  "ㄕ": "coverage 0.556; precision 0.771",
-  "ㄝ": "precision 0.681",
-  "ㄣ": "coverage 0.572; precision 0.755"
  }
 }
