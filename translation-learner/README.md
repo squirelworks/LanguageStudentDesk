@@ -10,7 +10,7 @@ the language list comes from the shared registry in `languages/`.
 | Into English | Shows a sentence; you type English. Each token lights up green when your words carry its meaning, red when a meaning is missing, and any word that no meaning accounts for is listed as added. |
 | Into the language | Shows English; you build the sentence from tiles. Some tiles carry meanings from other sentences, so picking one adds meaning. Right pieces in another order are reported separately from wrong pieces. |
 | Break down a sentence | Splits any text into the longest known pieces, using the lesson sentences plus the Vocabulary Learner decks, and marks pieces with no known meaning. |
-| Meaning matrix | Every sentence (row) in every language (column). Hover a cell to see which piece carries which meaning. |
+| Meaning matrix | Every sentence (row) in the languages you pick (columns), side by side. Add or remove languages and move them left or right; the choice is kept in the browser (`lsd-translation-compare-v1`). The meaning column and the header stay pinned, and the table scrolls inside its own box so its scroll bars stay on screen. On a phone each sentence is a card with one line per language. Tap a cell to see which piece carries which meaning. |
 | Top 1,000 words | The language's most frequent words, what the Desk knows of each, the same meaning in the other Desk languages, and rank-weighted practice. |
 
 When an English answer misses a meaning but uses a word the **meaning network** places right next to it
