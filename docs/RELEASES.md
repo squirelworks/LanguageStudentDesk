@@ -139,9 +139,14 @@ anything else.
 
 - APK signing keys are stored as GitHub Actions secrets for the release workflow,
   and are never committed or printed in logs.
-- The Play upload key for the AABs is kept only in Claude's environment (or a
-  secret in a private place the user picks). It never goes into the public repo or
-  its artifacts.
+- The Play upload key for the AABs is stored as GitHub Actions secrets
+  (`UPLOAD_KEYSTORE_BASE64`, `UPLOAD_STORE_PASSWORD`, `UPLOAD_KEY_ALIAS`,
+  `UPLOAD_KEY_PASSWORD`). Only `squirrelgo-play.yml` reads them. This was the
+  user's decision on Nov 4, 2026, so that releases reach Play closed testing
+  without a manual upload. The user plans to rotate the key later. The key is
+  never committed, printed in logs or put in an artifact, and the APK workflows
+  use a separate APK signing key (`APK_*` secrets). The Play service account's
+  JSON key is the `PLAY_SERVICE_ACCOUNT_JSON` secret, under the same rules.
 - macOS and Windows builds start out unsigned. Signing them needs paid
   certificates (an Apple Developer account and a Windows code-signing
   certificate). Until the user decides on that, the release notes say how to open
