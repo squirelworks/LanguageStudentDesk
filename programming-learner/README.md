@@ -30,7 +30,7 @@ programming-learner/index.html?lang=python#loops
 - `sections.js` — lays the catalog out by section or A–Z and applies the tag filter; the Programming Student Desk menu uses the same file
 - `data/<id>.js` — one course per language, loaded on demand
 - `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
-- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode), `run_whitespace.py` is a Whitespace interpreter that reads the course's S/T/L notation, `run_piet.py` a Piet interpreter that reads the course's two-letter codel grids, and `run_malbolge.py` a Malbolge interpreter that also accepts normalized programs, `run_c.py` compiles the C course with gcc, `run_rust.py` compiles the Rust course with rustc, `run_go.py` runs the Go course with `go run`, and `run_cobol.py` compiles the COBOL course with GnuCOBOL (`cobc -x -free`). A runner whose tool is missing is skipped with a note
+- `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode), `run_whitespace.py` is a Whitespace interpreter that reads the course's S/T/L notation, `run_piet.py` a Piet interpreter that reads the course's two-letter codel grids, and `run_malbolge.py` a Malbolge interpreter that also accepts normalized programs, `run_c.py` compiles the C course with gcc, `run_rust.py` compiles the Rust course with rustc, `run_go.py` runs the Go course with `go run`, `run_cobol.py` compiles the COBOL course with GnuCOBOL (`cobc -x -free`), and `run_fortran.py` compiles the Fortran course with gfortran. A runner whose tool is missing is skipped with a note
 
 ## Course schema
 
@@ -66,4 +66,4 @@ literals where backslashes matter.
 3. If the Desk should offer it under `?lang=`, the id must be in `EXTRA_LANGS`
    in `LanguageStudentDesk.py`.
 4. Run `python3 programming-learner/tools/check_packs.py` (needs node and python3;
-   fpc to run the Delphi programs, and cobc for COBOL).
+   fpc to run the Delphi programs, cobc for COBOL, and gfortran for Fortran).
