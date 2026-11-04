@@ -90,6 +90,18 @@
         "Each vowel has a hard and a soft partner. The soft vowels make the consonant before them soft (palatalized), and at the start of a word they add a y sound.",
         "Two letters have no sound of their own: {ь} (the soft sign) softens the consonant before it, and {ъ} (the hard sign) keeps a consonant hard before a soft vowel."
       ],
+      "examples": [
+        {
+          "t": "мат · мат{ь}",
+          "r": "mat · mat'",
+          "e": "checkmate · mother"
+        },
+        {
+          "t": "под{ъ}езд",
+          "r": "pod'yezd",
+          "e": "entrance (of a building)"
+        }
+      ],
       "table": {
         "head": [
           "Hard",
@@ -124,18 +136,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "мат · мат{ь}",
-          "r": "mat · mat'",
-          "e": "checkmate · mother"
-        },
-        {
-          "t": "под{ъ}езд",
-          "r": "pod'yezd",
-          "e": "entrance (of a building)"
-        }
-      ],
       "tags": [
         "script",
         "vowels",
@@ -448,6 +448,23 @@
       "topic": "verbs",
       "title": "Aspect: imperfective and perfective",
       "body": "Most verbs come in pairs. The {imperfective} describes a process, a repeated action or the action in general. The {perfective} describes one completed action with a result. Perfective verbs have no present tense: their present-looking forms mean the future.",
+      "examples": [
+        {
+          "t": "Я {читал} книгу.",
+          "r": "Ya chital knigu.",
+          "e": "I was reading a book. / I read a book (at some point)."
+        },
+        {
+          "t": "Я {прочитал} книгу.",
+          "r": "Ya prochital knigu.",
+          "e": "I read the book (to the end)."
+        },
+        {
+          "t": "Я {прочитаю} книгу.",
+          "r": "Ya prochitayu knigu.",
+          "e": "I will read the book."
+        }
+      ],
       "table": {
         "head": [
           "Imperfective",
@@ -482,23 +499,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "Я {читал} книгу.",
-          "r": "Ya chital knigu.",
-          "e": "I was reading a book. / I read a book (at some point)."
-        },
-        {
-          "t": "Я {прочитал} книгу.",
-          "r": "Ya prochital knigu.",
-          "e": "I read the book (to the end)."
-        },
-        {
-          "t": "Я {прочитаю} книгу.",
-          "r": "Ya prochitayu knigu.",
-          "e": "I will read the book."
-        }
-      ],
       "tags": [
         "verbs",
         "aspect"
@@ -509,6 +509,23 @@
       "topic": "verbs",
       "title": "Verbs of motion",
       "body": "Going has separate verbs for on foot and by vehicle, and each comes in two forms: one for a single trip in one direction, one for round trips, habits and general movement.",
+      "examples": [
+        {
+          "t": "Я {иду} в школу.",
+          "r": "Ya idu v shkolu.",
+          "e": "I'm on my way to school."
+        },
+        {
+          "t": "Я {хожу} в школу каждый день.",
+          "r": "Ya khozhu v shkolu kazhdyy den'.",
+          "e": "I go to school every day."
+        },
+        {
+          "t": "Мы {едем} в Москву.",
+          "r": "My yedem v Moskvu.",
+          "e": "We're travelling to Moscow."
+        }
+      ],
       "table": {
         "head": [
           "",
@@ -528,23 +545,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "Я {иду} в школу.",
-          "r": "Ya idu v shkolu.",
-          "e": "I'm on my way to school."
-        },
-        {
-          "t": "Я {хожу} в школу каждый день.",
-          "r": "Ya khozhu v shkolu kazhdyy den'.",
-          "e": "I go to school every day."
-        },
-        {
-          "t": "Мы {едем} в Москву.",
-          "r": "My yedem v Moskvu.",
-          "e": "We're travelling to Moscow."
-        }
-      ],
       "tags": [
         "verbs",
         "motion"

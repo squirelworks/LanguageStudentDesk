@@ -30,6 +30,12 @@
         "Each consonant letter carries a built-in short a: क is ka. Other vowels are written with marks (mātrā) attached to the consonant; a separate vowel letter is used only at the start of a word or after another vowel.",
         "A line along the top (śirorekhā) joins the letters of a word. The virāma ् removes the built-in vowel, and two consonants with no vowel between them often merge into a conjunct."
       ],
+      "examples": [
+        {
+          "t": "क् + ष = क्ष · त् + र = त्र · ज् + ञ = ज्ञ",
+          "e": "three conjuncts with their own shapes"
+        }
+      ],
       "table": {
         "head": [
           "Vowel",
@@ -89,12 +95,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "क् + ष = क्ष · त् + र = त्र · ज् + ञ = ज्ञ",
-          "e": "three conjuncts with their own shapes"
-        }
-      ],
       "tags": [
         "script",
         "matras",
@@ -141,6 +141,18 @@
         "Hindi distinguishes plain and aspirated consonants: क ka and ख kha are different letters and change meaning. The h in transliteration is a puff of air, not a separate sound.",
         "It also has two kinds of t and d. {Dental} त थ द ध are made with the tongue on the teeth; {retroflex} ट ठ ड ढ with the tongue tip curled back. English t and d sound retroflex to Hindi ears."
       ],
+      "examples": [
+        {
+          "t": "काल · खाल",
+          "r": "kāl · khāl",
+          "e": "time · skin"
+        },
+        {
+          "t": "तीन · टीन",
+          "r": "tīn · ṭīn",
+          "e": "three · tin"
+        }
+      ],
       "table": {
         "head": [
           "Plain",
@@ -181,18 +193,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "काल · खाल",
-          "r": "kāl · khāl",
-          "e": "time · skin"
-        },
-        {
-          "t": "तीन · टीन",
-          "r": "tīn · ṭīn",
-          "e": "three · tin"
-        }
-      ],
       "tags": [
         "pronunciation",
         "aspiration",
@@ -608,6 +608,13 @@
       "topic": "verbs",
       "title": "Future tense",
       "body": "The future adds -ūngā / -egā / -enge (and -ī forms for feminine) straight to the stem.",
+      "examples": [
+        {
+          "t": "मैं कल दिल्ली {जाऊँगा}।",
+          "r": "main kal dillī jāūngā",
+          "e": "I will go to Delhi tomorrow. (कल means both yesterday and tomorrow)"
+        }
+      ],
       "table": {
         "head": [
           "Subject",
@@ -647,13 +654,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "मैं कल दिल्ली {जाऊँगा}।",
-          "r": "main kal dillī jāūngā",
-          "e": "I will go to Delhi tomorrow. (कल means both yesterday and tomorrow)"
-        }
-      ],
       "tags": [
         "verbs",
         "future"

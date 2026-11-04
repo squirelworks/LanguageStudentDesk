@@ -1,11 +1,12 @@
-// Bengali starter words for the Vocabulary Learner.
-// Each word is [Bengali, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/bengali/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Bengali, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.bengali = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["নমস্কার", "nomoshkar", "hello (Hindu usage, and in West Bengal)", ""],
       ["আসসালামু আলাইকুম", "assalamu alaikum", "hello (Muslim usage, and in Bangladesh)", "Answer: ওয়ালাইকুম আসসালাম."],
       ["ধন্যবাদ", "dhonnobad", "thank you", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.bengali = [
       ["ভালো আছি", "bhalo achhi", "I'm fine", ""],
       ["আমার নাম…", "amar nam…", "my name is…", ""],
       ["আবার দেখা হবে", "abar dekha hobe", "see you again", ""],
-      ["ঠিক আছে", "thik achhe", "okay", ""],
-    ],
+      ["ঠিক আছে", "thik achhe", "okay", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["আমি", "ami", "I", ""],
       ["তুমি", "tumi", "you (friendly)", ""],
       ["আপনি", "apni", "you (polite)", ""],
@@ -37,13 +38,13 @@ window.LSD_DECKS.bengali = [
       ["বাবা", "baba", "father", ""],
       ["ভাই", "bhai", "brother", ""],
       ["বোন", "bon", "sister", ""],
-      ["পরিবার", "poribar", "family", ""],
-    ],
+      ["পরিবার", "poribar", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["শূন্য", "shunno", "zero", "Bengali digit ০."],
       ["এক", "ek", "one", "১"],
       ["দুই", "dui", "two", "২"],
@@ -57,13 +58,13 @@ window.LSD_DECKS.bengali = [
       ["দশ", "dosh", "ten", "১০"],
       ["বিশ", "bish", "twenty", ""],
       ["একশো", "eksho", "a hundred", ""],
-      ["হাজার", "hajar", "a thousand", ""],
-    ],
+      ["হাজার", "hajar", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["জল", "jol", "water", "In Bangladesh usually পানি, pani."],
       ["চা", "cha", "tea", ""],
       ["দুধ", "dudh", "milk", ""],
@@ -77,13 +78,13 @@ window.LSD_DECKS.bengali = [
       ["মিষ্টি", "mishti", "sweets; sweet", ""],
       ["খাবার", "khabar", "food", ""],
       ["ঝাল", "jhal", "spicy", ""],
-      ["সুস্বাদু", "susbadu", "delicious", ""],
-    ],
+      ["সুস্বাদু", "susbadu", "delicious", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["খাওয়া", "khaoa", "to eat; to drink", "Bengali “eats” tea and water too."],
       ["যাওয়া", "jaoa", "to go", "আমি যাই."],
       ["আসা", "asha", "to come", "আমি আসি."],
@@ -97,13 +98,13 @@ window.LSD_DECKS.bengali = [
       ["দেখা", "dekha", "to see", ""],
       ["জানা", "jana", "to know", "জানি না: I don't know."],
       ["বোঝা", "bojha", "to understand", "বুঝি না: I don't understand."],
-      ["করা", "kora", "to do", ""],
-    ],
+      ["করা", "kora", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["বড়", "boro", "big", ""],
       ["ছোট", "chhoto", "small", ""],
       ["ভালো", "bhalo", "good", ""],
@@ -117,13 +118,13 @@ window.LSD_DECKS.bengali = [
       ["দামি", "dami", "expensive", ""],
       ["সহজ", "sohoj", "easy", ""],
       ["কঠিন", "kothin", "difficult", ""],
-      ["খুশি", "khushi", "happy", ""],
-    ],
+      ["খুশি", "khushi", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["বাড়ি", "bari", "house; home", ""],
       ["শহর", "shohor", "city", ""],
       ["গ্রাম", "gram", "village", ""],
@@ -135,13 +136,13 @@ window.LSD_DECKS.bengali = [
       ["স্টেশন", "steshon", "station", ""],
       ["নদী", "nodi", "river", ""],
       ["বাথরুম", "bathrum", "bathroom; toilet", ""],
-      ["হোটেল", "hotel", "hotel; small restaurant", ""],
-    ],
+      ["হোটেল", "hotel", "hotel; small restaurant", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["কী?", "ki?", "what?", ""],
       ["কে?", "ke?", "who?", ""],
       ["কোথায়?", "kothay?", "where?", ""],
@@ -151,13 +152,13 @@ window.LSD_DECKS.bengali = [
       ["কত?", "koto?", "how much? how many?", "দাম কত? What's the price?"],
       ["কোন?", "kon?", "which?", ""],
       ["কি", "ki", "yes/no question word", "আপনি কি…? Do you…?"],
-      ["আছে?", "achhe?", "is there? do you have?", ""],
-    ],
+      ["আছে?", "achhe?", "is there? do you have?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["আজ", "aj", "today", ""],
       ["কাল", "kal", "tomorrow; yesterday", "The tense of the verb tells you which."],
       ["এখন", "ekhon", "now", ""],
@@ -167,7 +168,7 @@ window.LSD_DECKS.bengali = [
       ["দিন", "din", "day", ""],
       ["সপ্তাহ", "shoptaho", "week", ""],
       ["মাস", "mash", "month", ""],
-      ["বছর", "bochhor", "year", ""],
-    ],
-  },
+      ["বছর", "bochhor", "year", ""]
+    ]
+  }
 ];
