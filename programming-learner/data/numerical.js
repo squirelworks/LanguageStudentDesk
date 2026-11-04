@@ -1131,5 +1131,202 @@ y = y + h * (2 * y)
 print(y)`, options: ["6.0", "4.5", "9.0", "3.0"], answer: "6.0", why: "The slope at the start is 2 × 3 = 6, and moving for 0.5 adds 3." },
       ],
     },
+    {
+      id: "minimize",
+      title: "Minimization: golden-section search",
+      summary: "Finding the lowest point of a function by squeezing a bracket around it.",
+      sections: [
+        {
+          p: "Many problems ask for the input that makes something as small as possible: the cheapest design, the shortest path, the model that fits data with the least error. For a function of one variable, <i>f</i>(<i>x</i>), we want the <i>x</i> where <i>f</i> is lowest. Root finding looked for where <i>f</i> crosses zero; here we look for where it bottoms out. The function below, <i>f</i>(<i>x</i>) = <i>x</i>² − 4 sin <i>x</i>, dips to a minimum somewhere between 0 and 3.",
+        },
+        {
+          h: "Bracketing a minimum",
+          p: "Bisection trapped a root between two points where <i>f</i> had opposite signs. A minimum needs three points instead: <i>a</i> &lt; <i>c</i> &lt; <i>b</i> with <i>f</i>(<i>c</i>) lower than both ends, which guarantees a dip in between (for a function without jumps). To shrink the bracket we try a fourth point <i>d</i> inside it. If <i>f</i>(<i>c</i>) &lt; <i>f</i>(<i>d</i>), the minimum is in [<i>a</i>, <i>d</i>]; otherwise it is in [<i>c</i>, <i>b</i>]. Either way one end is cut off and a lower inner point remains.",
+        },
+        {
+          h: "Why the golden ratio",
+          p: "Where should the inner points go? If they sit at fractions 0.382 and 0.618 of the way across the bracket, then after cutting, the surviving inner point lands exactly at 0.382 or 0.618 of the new, smaller bracket. So each step reuses one old value and needs only <b>one new evaluation</b> of <i>f</i>, and the bracket shrinks by the same factor 0.618 every time. That number is (√5 − 1)/2, the golden ratio minus one, which gives the method its name. Starting from a bracket 3 wide, 41 steps bring it below 10⁻⁸, since 3 × 0.618⁴¹ ≈ 10⁻⁸.",
+          lang: "python",
+          known: [1.0298665293222589, -2.368296005111775],
+          impl: "minimize",
+          code: `import math
+
+R = (math.sqrt(5) - 1) / 2   # 0.618..., the golden ratio minus one
+
+
+def golden(f, a, b, tol):
+    c = b - R * (b - a)
+    d = a + R * (b - a)
+    fc, fd = f(c), f(d)
+    steps = 0
+    while b - a > tol:
+        if fc < fd:          # the minimum is in [a, d]
+            b, d, fd = d, c, fc
+            c = b - R * (b - a)
+            fc = f(c)
+        else:                # the minimum is in [c, b]
+            a, c, fc = c, d, fd
+            d = a + R * (b - a)
+            fd = f(d)
+        steps += 1
+    return (a + b) / 2, steps
+
+
+def f(x):
+    return x * x - 4 * math.sin(x)
+
+
+x, steps = golden(f, 0.0, 3.0, 1e-8)
+print(f"{steps} steps")
+print(f"minimum at x = {x:.8f}")
+print(f"f(x) = {f(x):.8f}")`,
+          out: "41 steps\nminimum at x = 1.02986653\nf(x) = -2.36829601",
+        },
+        {
+          p: "The C version passes the function as a pointer and returns the number of steps through a pointer argument, since a C function can only return one value.",
+          lang: "c",
+          known: [1.0298665293222589, -2.368296005111775],
+          impl: "minimize",
+          code: `#include <math.h>
+#include <stdio.h>
+
+typedef double (*func)(double x);
+
+/* Golden-section search for a minimum of f in [a, b].
+   Returns the middle of the final bracket and stores the step count. */
+double golden(func f, double a, double b, double tol, int *steps) {
+    const double r = (sqrt(5.0) - 1.0) / 2.0;
+    double c = b - r * (b - a), d = a + r * (b - a);
+    double fc = f(c), fd = f(d);
+    *steps = 0;
+    while (b - a > tol) {
+        if (fc < fd) {            /* the minimum is in [a, d] */
+            b = d; d = c; fd = fc;
+            c = b - r * (b - a);
+            fc = f(c);
+        } else {                  /* the minimum is in [c, b] */
+            a = c; c = d; fc = fd;
+            d = a + r * (b - a);
+            fd = f(d);
+        }
+        (*steps)++;
+    }
+    return (a + b) / 2;
+}
+
+double f(double x) { return x * x - 4 * sin(x); }
+
+int main(void) {
+    int steps;
+    double x = golden(f, 0.0, 3.0, 1e-8, &steps);
+    printf("%d steps\\n", steps);
+    printf("minimum at x = %.8f\\n", x);
+    printf("f(x) = %.8f\\n", f(x));
+    return 0;
+}`,
+          out: "41 steps\nminimum at x = 1.02986653\nf(x) = -2.36829601",
+        },
+        {
+          p: "In Fortran an <code>abstract interface</code> describes the function to minimize, and <code>steps</code> is an <code>intent(out)</code> argument. The edit descriptors print the same digits as the other two versions.",
+          lang: "fortran",
+          known: [1.0298665293222589, -2.368296005111775],
+          impl: "minimize",
+          code: `module minimize
+  implicit none
+  abstract interface
+    function func(x) result(y)
+      double precision, intent(in) :: x
+      double precision :: y
+    end function func
+  end interface
+contains
+  ! Golden-section search for a minimum of f in [a, b].
+  function golden(f, a0, b0, tol, steps) result(x)
+    procedure(func) :: f
+    double precision, intent(in) :: a0, b0, tol
+    integer, intent(out) :: steps
+    double precision :: x, a, b, c, d, fc, fd, r
+    r = (sqrt(5d0) - 1d0) / 2d0
+    a = a0
+    b = b0
+    c = b - r * (b - a)
+    d = a + r * (b - a)
+    fc = f(c)
+    fd = f(d)
+    steps = 0
+    do while (b - a > tol)
+      if (fc < fd) then        ! the minimum is in [a, d]
+        b = d
+        d = c
+        fd = fc
+        c = b - r * (b - a)
+        fc = f(c)
+      else                     ! the minimum is in [c, b]
+        a = c
+        c = d
+        fc = fd
+        d = a + r * (b - a)
+        fd = f(d)
+      end if
+      steps = steps + 1
+    end do
+    x = (a + b) / 2
+  end function golden
+
+  function f(x) result(y)
+    double precision, intent(in) :: x
+    double precision :: y
+    y = x * x - 4 * sin(x)
+  end function f
+end module minimize
+
+program main
+  use minimize
+  implicit none
+  integer :: steps
+  double precision :: x
+  x = golden(f, 0d0, 3d0, 1d-8, steps)
+  print '(i0, a)', steps, ' steps'
+  print '(a, f10.8)', 'minimum at x = ', x
+  print '(a, f11.8)', 'f(x) = ', f(x)
+end program main`,
+          out: "41 steps\nminimum at x = 1.02986653\nf(x) = -2.36829601",
+        },
+        {
+          h: "How close can you get?",
+          p: "We stopped at a bracket of 10⁻⁸, not 10⁻¹⁶, and that is not laziness. Near a minimum a smooth function is shaped like a parabola, so moving a distance δ away only raises <i>f</i> by about δ². A step of 10⁻⁸ raises it by about 10⁻¹⁶, which is at the limit of what a double can tell apart from <i>f</i> itself (see the floating point lesson). Below that, comparing <i>f</i>(<i>c</i>) with <i>f</i>(<i>d</i>) is just comparing rounding errors. So a minimum can only be located to about the square root of the machine precision, roughly 8 digits, while its <i>value</i> <i>f</i>(<i>x</i>) is still good to nearly full precision.",
+          lang: "python",
+          code: `import math
+
+
+def f(x):
+    return x * x - 4 * math.sin(x)
+
+
+best = 1.0298665293222589    # the true minimum
+for dx in [1e-2, 1e-4, 1e-6, 1e-8]:
+    print(f"step {dx:.0e} away: f grows by {f(best + dx) - f(best):.1e}")`,
+          out: "step 1e-02 away: f grows by 2.7e-04\nstep 1e-04 away: f grows by 2.7e-08\nstep 1e-06 away: f grows by 2.7e-12\nstep 1e-08 away: f grows by 8.9e-16",
+        },
+        {
+          h: "Beyond golden sections",
+          p: "Golden-section search is slow but cannot fail once the minimum is bracketed. <b>Brent's method</b> speeds it up by fitting a parabola through the three points and jumping to its lowest point, falling back to a golden step when the parabola misbehaves; this is what <code>scipy.optimize.minimize_scalar</code> uses. If you can compute the derivative, you can instead find the root of <i>f</i>′ with Newton's method. With many variables, methods follow the downhill direction (gradient descent, the workhorse of machine learning) or move a small shape of points around (Nelder–Mead). All of these find a <b>local</b> minimum, the bottom of the nearest valley; finding the lowest point overall, the <b>global</b> minimum, is much harder and usually means trying many starting points.",
+        },
+      ],
+      practice: [
+        { q: "How many points does a bracket around a minimum need?", options: ["Three, with the middle one lowest", "Two, with opposite signs", "One, plus the derivative", "Four, evenly spaced"], answer: "Three, with the middle one lowest", why: "If f(c) is below f(a) and f(b), the function must dip somewhere between a and b." },
+        { q: "By what factor does golden-section search shrink the bracket each step?", options: ["About 0.618", "0.5", "About 0.382", "It depends on the function"], answer: "About 0.618", why: "The inner points are placed so that each step keeps 0.618 of the bracket and reuses one old point." },
+        { q: "Why can a minimum only be located to about 8 digits in double precision?", options: ["Near the minimum f changes by only about δ², which disappears in rounding below δ ≈ 10⁻⁸", "Golden-section search always stops after 41 steps", "Doubles only hold 8 digits", "The golden ratio is irrational"], answer: "Near the minimum f changes by only about δ², which disappears in rounding below δ ≈ 10⁻⁸", why: "The function is flat at the bottom, so differences in x of 10⁻⁸ give differences in f near 10⁻¹⁶, the limit of double precision." },
+        { kind: "output", lang: "python", q: "One golden-section step on f(x) = (x − 1)² with a = 0, b = 4. Which bracket is left?", code: `r = 0.618
+a, b = 0.0, 4.0
+c, d = b - r * (b - a), a + r * (b - a)
+f = lambda x: (x - 1) ** 2
+if f(c) < f(d):
+    b = d
+else:
+    a = c
+print(round(a, 3), round(b, 3))`, options: ["0.0 2.472", "1.528 4.0", "0.0 1.528", "2.472 4.0"], answer: "0.0 2.472", why: "c = 1.528 and d = 2.472; f(c) ≈ 0.28 is lower than f(d) ≈ 2.17, so the minimum is in [a, d]." },
+      ],
+    },
   ],
 };
