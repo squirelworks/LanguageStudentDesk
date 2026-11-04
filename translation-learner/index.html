@@ -110,6 +110,23 @@
   .alpha { font-size: 0.6em; font-weight: normal; color: #ffb74d; vertical-align: middle; }
   .near span small { color: var(--muted); margin-left: 0.3rem; }
   #langHome .tile .big { font-family: var(--cjk); }
+  .web-graph { border: 1px solid var(--line); border-radius: 8px; background: var(--card); overflow: hidden; }
+  .web-graph svg { display: block; width: 100%; height: auto; }
+  .web-graph line { stroke: var(--line); stroke-width: 1.5; }
+  .web-graph line.here { stroke: var(--gold); }
+  .web-graph line.near { stroke: #7e57c2; stroke-dasharray: 5 5; }
+  .web-graph text { fill: var(--text); font-size: 14px; paint-order: stroke; stroke: var(--card); stroke-width: 5px; stroke-linejoin: round; }
+  .web-graph text.w { font-size: 18px; }
+  .web-graph text.cjk { font-family: var(--cjk); }
+  .web-graph text.lang, .web-graph text.sub { fill: var(--muted); font-size: 11px; }
+  .web-graph .here text.lang { fill: var(--gold); }
+  .web-graph text.m { fill: #b39ddb; font-size: 15px; }
+  .web-graph .node[role=button] { cursor: pointer; outline: none; }
+  .web-graph .node[role=button]:hover text.w, .web-graph .node[role=button]:focus text.w, .web-graph .node[role=button]:hover text.m, .web-graph .node[role=button]:focus text.m { text-decoration: underline; }
+  .web-graph .centre ellipse { fill: var(--accent); }
+  .web-graph .centre text { font-size: 16px; font-weight: 600; stroke: var(--accent); }
+  .web-words ul { margin: 0.2rem 0 0.8rem; padding-left: 1.2rem; }
+  .web-words li { margin: 0.2rem 0; }
 </style>
 </head>
 <body>
@@ -125,6 +142,7 @@
   <button data-tab="toTarget" id="toTargetTab">Into the language</button>
   <button data-tab="breakdown">Break down a sentence</button>
   <button data-tab="matrix">Meaning matrix</button>
+  <button data-tab="web">Meaning web</button>
   <button data-tab="words" id="wordsTab">Top 1,000 words</button>
 </nav>
 <main>
@@ -237,6 +255,15 @@
       <div class="wb-list" id="wbList"></div>
       <p class="small muted" id="wbCredit"></p>
     </div>
+  </section>
+  <section id="web" hidden>
+    <div class="bar">
+      <label class="small muted">Meaning <select id="webMeaning"></select></label>
+      <button class="link small" id="webRandom">Another meaning</button>
+    </div>
+    <p class="muted small" id="webNote"></p>
+    <div class="web-graph" id="webGraph"></div>
+    <div class="web-words" id="webWords"></div>
   </section>
 </main>
 <footer class="foot">Part of Language Student Desk · sentences written for the Desk, with word lists shared with the Vocabulary Learner.</footer>
