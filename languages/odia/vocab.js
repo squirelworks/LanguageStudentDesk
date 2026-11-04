@@ -1,11 +1,12 @@
-// Odia starter words for the Vocabulary Learner.
-// Each word is [Odia, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/odia/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Odia, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.odia = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ନମସ୍କାର", "namaskaara", "hello", ""],
       ["ଧନ୍ୟବାଦ", "dhanyabaada", "thank you", ""],
       ["ଦୟାକରି", "dayaakari", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.odia = [
       ["ମୋ ନାମ…", "mo naama…", "my name is…", ""],
       ["ପୁଣି ଦେଖା ହେବ", "puni dekhaa heba", "see you again", ""],
       ["ଠିକ ଅଛି", "thika achhi", "okay", ""],
-      ["ସ୍ୱାଗତ", "swaagata", "welcome", ""],
-    ],
+      ["ସ୍ୱାଗତ", "swaagata", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ମୁଁ", "mun", "I", ""],
       ["ତୁମେ", "tume", "you (familiar)", ""],
       ["ଆପଣ", "apana", "you (polite)", ""],
@@ -38,13 +39,13 @@ window.LSD_DECKS.odia = [
       ["ବାପା", "baapaa", "father", ""],
       ["ଭାଇ", "bhaai", "brother", ""],
       ["ଭଉଣୀ", "bhauni", "sister", ""],
-      ["ପରିବାର", "paribaara", "family", ""],
-    ],
+      ["ପରିବାର", "paribaara", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ଶୂନ", "shuuna", "zero", "Odia digit ୦."],
       ["ଏକ", "eka", "one", "୧"],
       ["ଦୁଇ", "dui", "two", "୨"],
@@ -58,13 +59,13 @@ window.LSD_DECKS.odia = [
       ["ଦଶ", "dasha", "ten", "୧୦"],
       ["କୋଡ଼ିଏ", "kodie", "twenty", ""],
       ["ଶହେ", "shahe", "a hundred", ""],
-      ["ହଜାର", "hajaara", "a thousand", ""],
-    ],
+      ["ହଜାର", "hajaara", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ପାଣି", "paani", "water", ""],
       ["ଚା", "chaa", "tea", ""],
       ["କ୍ଷୀର", "khiira", "milk", ""],
@@ -78,13 +79,13 @@ window.LSD_DECKS.odia = [
       ["ଫଳ", "phala", "fruit", ""],
       ["ମିଠା", "mithaa", "sweets; sweet", "Rasagola is claimed by Odisha."],
       ["ଖାଦ୍ୟ", "khaadya", "food", ""],
-      ["ସୁଆଦିଆ", "suaadiaa", "tasty", ""],
-    ],
+      ["ସୁଆଦିଆ", "suaadiaa", "tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ଖାଇବା", "khaaibaa", "to eat", ""],
       ["ପିଇବା", "piibaa", "to drink", ""],
       ["ଯିବା", "jibaa", "to go", ""],
@@ -99,13 +100,13 @@ window.LSD_DECKS.odia = [
       ["ଦେଖିବା", "dekhibaa", "to see", ""],
       ["ଜାଣିବା", "jaanibaa", "to know", ""],
       ["ବୁଝିବା", "bujhibaa", "to understand", ""],
-      ["କରିବା", "karibaa", "to do", ""],
-    ],
+      ["କରିବା", "karibaa", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ବଡ଼", "bada", "big", ""],
       ["ଛୋଟ", "chhota", "small", ""],
       ["ଭଲ", "bhala", "good", ""],
@@ -119,13 +120,13 @@ window.LSD_DECKS.odia = [
       ["ମହଙ୍ଗା", "mahangaa", "expensive", ""],
       ["ସହଜ", "sahaja", "easy", ""],
       ["କଷ୍ଟ", "kashta", "hard; difficulty", ""],
-      ["ଖୁସି", "khusi", "happy", ""],
-    ],
+      ["ଖୁସି", "khusi", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ଘର", "ghara", "house; home", "ଘରେ: at home."],
       ["ସହର", "sahara", "city", ""],
       ["ଗାଁ", "gaan", "village", ""],
@@ -137,13 +138,13 @@ window.LSD_DECKS.odia = [
       ["ମନ୍ଦିର", "mandira", "temple", "The Jagannath temple at Puri is the most famous."],
       ["ସମୁଦ୍ର", "samudra", "sea", ""],
       ["ବାଥରୁମ", "baatharuma", "bathroom", ""],
-      ["ଷ୍ଟେସନ", "stesana", "station", ""],
-    ],
+      ["ଷ୍ଟେସନ", "stesana", "station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["କଣ?", "kana?", "what?", ""],
       ["କିଏ?", "kie?", "who?", ""],
       ["କେଉଁଠି?", "keunthi?", "where?", ""],
@@ -151,13 +152,13 @@ window.LSD_DECKS.odia = [
       ["କାହିଁକି?", "kaahinki?", "why?", ""],
       ["କେମିତି?", "kemiti?", "how?", ""],
       ["କେତେ?", "kete?", "how much? how many?", ""],
-      ["କେଉଁ?", "keun?", "which?", ""],
-    ],
+      ["କେଉଁ?", "keun?", "which?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ଆଜି", "aaji", "today", ""],
       ["କାଲି", "kaali", "tomorrow; yesterday", "The verb's tense tells you which."],
       ["ଏବେ", "ebe", "now", ""],
@@ -167,7 +168,7 @@ window.LSD_DECKS.odia = [
       ["ଦିନ", "dina", "day", ""],
       ["ସପ୍ତାହ", "saptaaha", "week", ""],
       ["ମାସ", "maasa", "month", ""],
-      ["ବର୍ଷ", "barsha", "year", ""],
-    ],
-  },
+      ["ବର୍ଷ", "barsha", "year", ""]
+    ]
+  }
 ];

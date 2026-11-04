@@ -1,11 +1,11 @@
-// French starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/french/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [French, English, note]. Nouns are given with the article.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.french = [
   {
-    id: "greetings",
-    title: "Greetings and phrases",
-    words: [
+    "id": "greetings",
+    "title": "Greetings and phrases",
+    "words": [
       ["bonjour", "hello; good day", ""],
       ["bonsoir", "good evening", ""],
       ["salut", "hi; bye", "Informal."],
@@ -17,13 +17,13 @@ window.LSD_DECKS.french = [
       ["pardon", "sorry; excuse me", ""],
       ["comment allez-vous?", "how are you? (polite)", "comment ça va? is informal."],
       ["ça va", "I'm fine; it's fine", ""],
-      ["enchanté", "pleased to meet you", "enchantée said by a woman."],
-    ],
+      ["enchanté", "pleased to meet you", "enchantée said by a woman."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["je", "I", "j' before a vowel."],
       ["tu", "you (one person, informal)", ""],
       ["vous", "you (polite, or several)", ""],
@@ -37,13 +37,13 @@ window.LSD_DECKS.french = [
       ["le père", "the father", ""],
       ["la mère", "the mother", ""],
       ["le frère", "the brother", ""],
-      ["la sœur", "the sister", ""],
-    ],
+      ["la sœur", "the sister", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["zéro", "zero", ""],
       ["un", "one", "une is the feminine."],
       ["deux", "two", ""],
@@ -57,13 +57,13 @@ window.LSD_DECKS.french = [
       ["dix", "ten", ""],
       ["vingt", "twenty", ""],
       ["cent", "hundred", ""],
-      ["mille", "thousand", ""],
-    ],
+      ["mille", "thousand", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["être", "to be", "je suis, tu es, il est."],
       ["avoir", "to have", "j'ai, tu as, il a."],
       ["parler", "to speak", "je parle."],
@@ -79,13 +79,13 @@ window.LSD_DECKS.french = [
       ["écrire", "to write", ""],
       ["travailler", "to work", ""],
       ["s'appeler", "to be called", "je m'appelle Anne."],
-      ["acheter", "to buy", ""],
-    ],
+      ["acheter", "to buy", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["l'eau", "the water", "feminine: de l'eau."],
       ["le café", "the coffee", ""],
       ["le thé", "the tea", ""],
@@ -97,13 +97,13 @@ window.LSD_DECKS.french = [
       ["l'addition", "the bill", "feminine."],
       ["l'addition, s'il vous plaît", "the bill, please", ""],
       ["bon", "good (masculine)", "bonne is feminine."],
-      ["délicieux", "delicious", "délicieuse is feminine."],
-    ],
+      ["délicieux", "delicious", "délicieuse is feminine."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["bon", "good", "bonne, bons, bonnes."],
       ["mauvais", "bad", "mauvaise."],
       ["grand", "big; tall", "grande."],
@@ -115,7 +115,7 @@ window.LSD_DECKS.french = [
       ["ici", "here", ""],
       ["aujourd'hui", "today", ""],
       ["demain", "tomorrow", ""],
-      ["intéressant", "interesting", "intéressante."],
-    ],
-  },
+      ["intéressant", "interesting", "intéressante."]
+    ]
+  }
 ];
