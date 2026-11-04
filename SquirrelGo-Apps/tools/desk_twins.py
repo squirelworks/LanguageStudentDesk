@@ -87,14 +87,6 @@ def check_launcher():
     if not apps:
         problems.append("shared/suite.js: no APPS entries found")
 
-    workflows = {}
-    for wf in (REPO / ".github" / "workflows").glob("*-apk.yml"):
-        y = wf.read_text(encoding="utf-8")
-        tag = re.search(r"TAG=(\S+)", y)
-        apk = re.search(r'gh release create "\$TAG" (\S+\.apk)', y)
-        if tag and apk:
-            workflows[tag.group(1)] = (apk.group(1), wf.name)
-
     in_suite = set()
     for app_id, tag, apk, web in apps:
         folder = Path(web).parent.parent
@@ -112,8 +104,12 @@ def check_launcher():
             suite_release = (tag, apk) if tag else None
             if t[4] != suite_release:
                 problems.append(f"TOOLS {folder.name}: APK {t[4]} does not match suite.js ({tag}, {apk})")
-        if tag and workflows.get(tag, (None,))[0] != apk:
-            problems.append(f"suite.js {app_id}: no APK workflow publishes {apk} to {tag}")
+        # APKs ship only with platform releases (docs/RELEASES.md), so download
+        # links follow the latest release rather than a per-app build.
+        if tag and tag != "latest":
+            problems.append(f"suite.js {app_id}: APK link uses tag {tag}; point it at the latest release (tag \"latest\")")
+        if tag and not apk.endswith(".apk"):
+            problems.append(f"suite.js {app_id}: APK name {apk!r} is not an .apk file")
     for name, t in tools.items():
         if t[2] == "SquirrelGo apps" and name not in in_suite:
             problems.append(f"TOOLS {name}: in 'SquirrelGo apps' but missing from suite.js APPS")

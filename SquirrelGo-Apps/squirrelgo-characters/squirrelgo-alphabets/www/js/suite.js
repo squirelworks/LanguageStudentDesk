@@ -17,31 +17,35 @@
 // (or its download page when it isn't installed). In a browser the sibling
 // app's www/index.html is opened with ?q=.
 (() => {
-  const RELEASES = "https://github.com/squirelworks/LanguageStudentDesk/releases/download/";
+  // APKs come from the platform's GitHub Releases. tag "latest" means the newest
+  // published release; any other tag pins that release.
+  const RELEASES = "https://github.com/squirelworks/LanguageStudentDesk/releases/";
+  const apkUrl = (a) => a.tag === "latest" ? RELEASES + "latest/download/" + a.apk
+                                           : RELEASES + "download/" + a.tag + "/" + a.apk;
   const APPS = [
     { id: "kana", name: "SquirrelGo Kana", icon: "あ", blurb: "Hiragana and katakana: lessons, charts, quizzes, writing pad.",
-      pkg: "com.squirelworks.squirrelgokana", tag: "squirrelgo-kana-latest", apk: "SquirrelGoKana-debug.apk",
+      pkg: "com.squirelworks.squirrelgokana", tag: "latest", apk: "SquirrelGoKana.apk",
       web: "squirrelgo-characters/squirrelgo-kana/www/index.html", langs: ["japanese"] },
     { id: "bopomofo", name: "SquirrelGo Bopomofo", icon: "注", blurb: "Taiwan Zhuyin: initials, finals, tone marks, chart and quizzes.",
       pkg: "com.squirelworks.squirrelgobopomofo", tag: "", apk: "",
       web: "squirrelgo-characters/squirrelgo-bopomofo/www/index.html", langs: ["taiwanese"] },
     { id: "kanji", name: "SquirrelGo Kanji", icon: "漢", blurb: "Kanji lessons, topic and JLPT quizzes, on-yomi groups, stroke order.",
-      pkg: "com.squirelworks.squirrelgokanji", tag: "squirrelgo-kanji-latest", apk: "SquirrelGoKanji-debug.apk",
+      pkg: "com.squirelworks.squirrelgokanji", tag: "latest", apk: "SquirrelGoKanji.apk",
       web: "squirrelgo-characters/squirrelgo-kanji/www/index.html", langs: ["japanese"] },
     { id: "dictionary", name: "SquirrelGo Dictionary", icon: "辞", blurb: "Offline Japanese–English dictionary: words, kanji, radicals.",
-      pkg: "com.squirelworks.squirrelgodictionary", tag: "squirrelgo-dictionary-latest", apk: "SquirrelGoDictionary.apk",
+      pkg: "com.squirelworks.squirrelgodictionary", tag: "latest", apk: "SquirrelGoJapaneseDictionary.apk",
       web: "squirrelgo-dictionary/www/index.html", langs: ["japanese"] },
     { id: "phrasebook", name: "SquirrelGo Phrasebook", icon: "話", blurb: "Japanese phrases with audio, favorites and flashcards.",
-      pkg: "com.squirelworks.squirrelgophrasebook", tag: "squirrelgo-phrasebook-latest", apk: "SquirrelGoPhrasebook-debug.apk",
+      pkg: "com.squirelworks.squirrelgophrasebook", tag: "latest", apk: "SquirrelGoPhrasebook.apk",
       web: "squirrelgo-phrasebook/www/index.html", langs: ["japanese"] },
     { id: "alphabets", name: "SquirrelGo Alphabets", icon: "한", blurb: "The world's alphabets: Latin, Greek, Cyrillic, Armenian, Georgian, Hangul, Devanagari, Bengali, Gurmukhi, Gujarati, Odia, Meetei Mayek, Tamil, Telugu, Kannada, Malayalam, Sinhala, Arabic, Hebrew, Ethiopic, Tifinagh, Cherokee, Inuktitut syllabics, Mongolian, Burmese, Thai, Lao, Khmer, Tibetan.",
-      pkg: "com.squirelworks.squirrelgoalphabets", tag: "squirrelgo-alphabets-latest", apk: "SquirrelGoAlphabets-debug.apk",
+      pkg: "com.squirelworks.squirrelgoalphabets", tag: "latest", apk: "SquirrelGoAlphabets.apk",
       web: "squirrelgo-characters/squirrelgo-alphabets/www/index.html", langs: ["korean", "russian", "hindi", "arabic"] },
     { id: "klingon", name: "SquirrelGo Klingon", icon: "tlh", blurb: "The pIqaD script: letters, writing practice, quizzes.",
-      pkg: "com.squirelworks.squirrelgoklingon", tag: "squirrelgo-klingon-latest", apk: "SquirrelGoKlingon-debug.apk",
+      pkg: "com.squirelworks.squirrelgoklingon", tag: "latest", apk: "SquirrelGoKlingon.apk",
       web: "squirrelgo-characters/squirrelgo-klingon/www/index.html", langs: ["klingon"] },
     { id: "orthodox-bible", name: "SquirrelGo Orthodox Bible", icon: "☦", blurb: "Septuagint-canon study Bible with parallel languages and commentary.",
-      pkg: "com.squirelworks.squirrelgoorthodoxbible", tag: "squirrelgo-orthodox-bible-latest", apk: "SquirrelGoOrthodoxBible-debug.apk",
+      pkg: "com.squirelworks.squirrelgoorthodoxbible", tag: "latest", apk: "SquirrelGoOrthodoxBible.apk",
       web: "squirrelgo-orthodox-bible/www/index.html", langs: [] },
   ];
 
@@ -125,7 +129,7 @@
     if (onAndroid) {
       if (bridge.open(a.pkg, q || "")) return true;
       notice(`${a.name} isn't installed yet. Opening its download page.`);
-      openUrl(RELEASES + a.tag + "/" + a.apk);
+      openUrl(apkUrl(a));
       return false;
     }
     location.href = webRoot + a.web + (q ? "?q=" + encodeURIComponent(q) : "");

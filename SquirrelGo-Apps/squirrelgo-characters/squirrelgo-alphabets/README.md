@@ -55,7 +55,7 @@ Stroke paths live in `www/data/strokes/<script>.js`, in a 100 × 100 box. They a
 
 ## Install the APK
 
-Download [`SquirrelGoAlphabets-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-alphabets-latest/SquirrelGoAlphabets-debug.apk) from the **SquirrelGo Alphabets (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-alphabets-latest)) and sideload it. The `SquirrelGo Alphabets APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download [`SquirrelGoAlphabets.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoAlphabets.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
 
 - Package id: `com.squirelworks.squirrelgoalphabets.debug`
 - Min Android: 7.0 (API 24)
