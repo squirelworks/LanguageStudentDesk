@@ -34,18 +34,28 @@
     $("side").querySelectorAll("button").forEach((b) => (b.onclick = () => show(b.dataset.id || null)));
 
     const shown = meta ? [meta] : metas;
-    $("lists").innerHTML = shown.map((m) => list(m.name, nat(m), DATA[m.id], m.id)).join("") + list("General", "", DATA.general || [], null);
+    const general = DATA.general || [];
+    // Level tabs: only the levels this page's resources are tagged with.
+    const level = LSD.levels.tabs($("levelTabs"), shown.flatMap((m) => DATA[m.id]).concat(general), meta ? meta.id : "", () => show(meta ? meta.id : id || null));
+    const pick = (items) => {
+      const list = items.filter((r) => LSD.levels.fits(r, level));
+      // Resources tagged for the picked level come before the ones for every level.
+      return level ? list.sort((a, b) => !LSD.levels.of(a).length - !LSD.levels.of(b).length) : list;
+    };
+    $("lists").innerHTML = shown.map((m) => list(m.name, nat(m), pick(DATA[m.id]), m.id, level)).join("") + list("General", "", pick(general), null, level);
   }
 
-  function list(name, nat, items, id) {
+  function list(name, nat, items, id, level) {
     const desk = id
       ? '<div class="desk"><a href="' + esc(LSD.toolUrl("language-learner/index.html", id)) + '">Language Learner path →</a><a href="' + esc(LSD.toolUrl("reference-learner/index.html", id)) + '">Reference cards →</a></div>'
       : '<p class="muted small">Useful whatever language you study.</p>';
-    return '<section class="card list"><h2>' + esc(name) + (nat ? "<small>" + esc(nat) + "</small>" : "") + "</h2>" + desk +
+    const none = level ? '<p class="muted small">Nothing here is marked for this level yet.</p>' : "";
+    return '<section class="card list"><h2>' + esc(name) + (nat ? "<small>" + esc(nat) + "</small>" : "") + "</h2>" + desk + (items.length ? "" : none) +
       items.map((r) => {
         const external = r.url && !r.url.startsWith("../");
         const title = r.url ? '<a href="' + esc(r.url) + '"' + (external ? ' target="_blank" rel="noopener"' : "") + ">" + esc(r.title) + "</a>" : esc(r.title);
         return '<div class="resource"><div><h3>' + title + '</h3><div class="meta">' + esc(r.meta) + "</div>" +
+          (LSD.levels.label(r) ? '<div class="tags"><span class="pill level">' + esc(LSD.levels.label(r)) + "</span></div>" : "") +
           (r.tags && r.tags.length ? '<div class="tags">' + r.tags.map((t) => '<span class="pill">' + esc(t) + "</span>").join("") + "</div>" : "") + "</div>" +
           (r.stars ? '<div class="stars" title="' + r.stars + ' of 5">' + "★".repeat(r.stars) + "☆".repeat(5 - r.stars) + "</div>" : "") + "</div>";
       }).join("") + "</section>";
