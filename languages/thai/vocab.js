@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/thai/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/thai/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Thai, romanization, English, note]. Written for this project.
 // The romanization has no tone marks; use text to speech to hear each tone.
 window.LSD_DECKS = window.LSD_DECKS || {};
