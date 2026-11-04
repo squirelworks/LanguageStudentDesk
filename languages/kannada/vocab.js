@@ -1,11 +1,12 @@
-// Kannada starter words for the Vocabulary Learner.
-// Each word is [Kannada, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/kannada/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Kannada, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.kannada = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ನಮಸ್ಕಾರ", "namaskaara", "hello", ""],
       ["ಧನ್ಯವಾದ", "dhanyavaada", "thank you", ""],
       ["ದಯವಿಟ್ಟು", "dayavittu", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.kannada = [
       ["ಚೆನ್ನಾಗಿದ್ದೇನೆ", "chennaagiddene", "I'm fine", ""],
       ["ನನ್ನ ಹೆಸರು…", "nanna hesaru…", "my name is…", ""],
       ["ಹೋಗಿ ಬರುತ್ತೇನೆ", "hogi baruttene", "goodbye (I'll go and come back)", ""],
-      ["ಸುಸ್ವಾಗತ", "susvaagata", "welcome", ""],
-    ],
+      ["ಸುಸ್ವಾಗತ", "susvaagata", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ನಾನು", "naanu", "I", ""],
       ["ನೀವು", "niivu", "you (polite)", "ನೀನು: you (intimate)."],
       ["ಅವನು", "avanu", "he", ""],
@@ -37,13 +38,13 @@ window.LSD_DECKS.kannada = [
       ["ಅಮ್ಮ", "amma", "mother", ""],
       ["ಅಪ್ಪ", "appa", "father", ""],
       ["ಅಣ್ಣ", "anna", "elder brother", "ತಮ್ಮ: younger brother."],
-      ["ಅಕ್ಕ", "akka", "elder sister", "ತಂಗಿ: younger sister."],
-    ],
+      ["ಅಕ್ಕ", "akka", "elder sister", "ತಂಗಿ: younger sister."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ಸೊನ್ನೆ", "sonne", "zero", "Kannada digit ೦."],
       ["ಒಂದು", "ondu", "one", "೧"],
       ["ಎರಡು", "eradu", "two", "೨"],
@@ -57,13 +58,13 @@ window.LSD_DECKS.kannada = [
       ["ಹತ್ತು", "hattu", "ten", "೧೦"],
       ["ಇಪ್ಪತ್ತು", "ippattu", "twenty", ""],
       ["ನೂರು", "nuuru", "a hundred", ""],
-      ["ಸಾವಿರ", "saavira", "a thousand", ""],
-    ],
+      ["ಸಾವಿರ", "saavira", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ನೀರು", "niiru", "water", ""],
       ["ಕಾಫಿ", "kaafi", "coffee", ""],
       ["ಟೀ", "tii", "tea", ""],
@@ -77,13 +78,13 @@ window.LSD_DECKS.kannada = [
       ["ತರಕಾರಿ", "tarakaari", "vegetables", ""],
       ["ಹಣ್ಣು", "hannu", "fruit", ""],
       ["ಊಟ", "uuta", "meal", ""],
-      ["ರುಚಿಯಾಗಿದೆ", "ruchiyaagide", "it's tasty", ""],
-    ],
+      ["ರುಚಿಯಾಗಿದೆ", "ruchiyaagide", "it's tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ತಿನ್ನು", "tinnu", "eat", "Verbs are listed by their stem."],
       ["ಕುಡಿ", "kudi", "drink", ""],
       ["ಹೋಗು", "hogu", "go", ""],
@@ -98,13 +99,13 @@ window.LSD_DECKS.kannada = [
       ["ನೋಡು", "nodu", "see; look", ""],
       ["ಗೊತ್ತು", "gottu", "known", "ನನಗೆ ಗೊತ್ತಿಲ್ಲ: I don't know."],
       ["ಅರ್ಥವಾಯಿತು", "arthavaayitu", "understood", "ಅರ್ಥವಾಗಲಿಲ್ಲ: I didn't understand."],
-      ["ಮಾಡು", "maadu", "do", ""],
-    ],
+      ["ಮಾಡು", "maadu", "do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ದೊಡ್ಡ", "dodda", "big", ""],
       ["ಚಿಕ್ಕ", "chikka", "small", ""],
       ["ಒಳ್ಳೆಯ", "olleya", "good", ""],
@@ -118,13 +119,13 @@ window.LSD_DECKS.kannada = [
       ["ದುಬಾರಿ", "dubaari", "expensive", ""],
       ["ಸುಲಭ", "sulabha", "easy", ""],
       ["ಕಷ್ಟ", "kashta", "difficult", ""],
-      ["ಖುಷಿ", "khushi", "happiness; happy", ""],
-    ],
+      ["ಖುಷಿ", "khushi", "happiness; happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ಮನೆ", "mane", "house; home", "ಮನೆಯಲ್ಲಿ: at home."],
       ["ನಗರ", "nagara", "city", ""],
       ["ಊರು", "uuru", "town; home town", ""],
@@ -136,13 +137,13 @@ window.LSD_DECKS.kannada = [
       ["ದೇವಸ್ಥಾನ", "devasthaana", "temple", ""],
       ["ಸಮುದ್ರ", "samudra", "sea", ""],
       ["ಶೌಚಾಲಯ", "shauchaalaya", "toilet", ""],
-      ["ಬಸ್ ನಿಲ್ದಾಣ", "bas nildaana", "bus stand", ""],
-    ],
+      ["ಬಸ್ ನಿಲ್ದಾಣ", "bas nildaana", "bus stand", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ಏನು?", "enu?", "what?", ""],
       ["ಯಾರು?", "yaaru?", "who?", ""],
       ["ಎಲ್ಲಿ?", "elli?", "where?", ""],
@@ -150,13 +151,13 @@ window.LSD_DECKS.kannada = [
       ["ಯಾಕೆ?", "yaake?", "why?", ""],
       ["ಹೇಗೆ?", "hege?", "how?", ""],
       ["ಎಷ್ಟು?", "eshtu?", "how much? how many?", ""],
-      ["ಯಾವುದು?", "yaavudu?", "which one?", ""],
-    ],
+      ["ಯಾವುದು?", "yaavudu?", "which one?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ಇವತ್ತು", "ivattu", "today", ""],
       ["ನಾಳೆ", "naale", "tomorrow", ""],
       ["ನಿನ್ನೆ", "ninne", "yesterday", ""],
@@ -167,7 +168,7 @@ window.LSD_DECKS.kannada = [
       ["ದಿನ", "dina", "day", ""],
       ["ವಾರ", "vaara", "week", ""],
       ["ತಿಂಗಳು", "tingalu", "month", ""],
-      ["ವರ್ಷ", "varsha", "year", ""],
-    ],
-  },
+      ["ವರ್ಷ", "varsha", "year", ""]
+    ]
+  }
 ];

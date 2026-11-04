@@ -1,13 +1,13 @@
-// Latin starter words for the Vocabulary Learner.
-// Each word is [Latin, English, note]. Written for this project.
-// Long vowels carry macrons. Nouns give the genitive and gender, verbs their
-// principal parts, so the note tells you which pattern the word follows.
+// Generated from squirrel-lang-data bd56e84 languages/latin/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Latin, English, note]. Written for this project. Long vowels
+// carry macrons. Nouns give the genitive and gender, verbs their principal
+// parts, so the note tells you which pattern the word follows.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.latin = [
   {
-    id: "greetings",
-    title: "Greetings and phrases",
-    words: [
+    "id": "greetings",
+    "title": "Greetings and phrases",
+    "words": [
       ["salvē", "hello (to one person)", "salvēte to several."],
       ["valē", "goodbye (to one person)", "valēte to several. Literally “be well”."],
       ["avē", "hail; greetings", ""],
@@ -21,13 +21,13 @@ window.LSD_DECKS.latin = [
       ["quid est nōmen tibi?", "what is your name?", "Nōmen mihi est Marcus."],
       ["optimē", "excellent", ""],
       ["euge!", "well done!", ""],
-      ["heu!", "alas!", ""],
-    ],
+      ["heu!", "alas!", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ego", "I", "mē me, mihi to me."],
       ["tū", "you (one person)", ""],
       ["nōs", "we", ""],
@@ -50,13 +50,13 @@ window.LSD_DECKS.latin = [
       ["rēx, rēgis m.", "king", ""],
       ["cīvis, cīvis m./f.", "citizen", ""],
       ["deus, deī m.", "god", "dea, deae f. goddess."],
-      ["nōmen, nōminis n.", "name", ""],
-    ],
+      ["nōmen, nōminis n.", "name", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ūnus", "one", "ūnus, ūna, ūnum. I"],
       ["duo", "two", "duo, duae, duo. II"],
       ["trēs", "three", "trēs, tria. III"],
@@ -74,13 +74,13 @@ window.LSD_DECKS.latin = [
       ["secundus", "second", "Also “following, favourable”."],
       ["tertius", "third", ""],
       ["nūllus", "no; none", ""],
-      ["omnis", "every; all", ""],
-    ],
+      ["omnis", "every; all", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["sum, esse, fuī", "to be", "sum, es, est, sumus, estis, sunt."],
       ["habeō, habēre, habuī, habitum", "to have; to hold", ""],
       ["amō, amāre, amāvī, amātum", "to love", "The model verb of the first conjugation."],
@@ -106,13 +106,13 @@ window.LSD_DECKS.latin = [
       ["volō, velle, voluī", "to want", "nōlō: not to want."],
       ["sciō, scīre, scīvī, scītum", "to know", ""],
       ["vīvō, vīvere, vīxī, vīctum", "to live", ""],
-      ["pugnō, pugnāre, pugnāvī, pugnātum", "to fight", ""],
-    ],
+      ["pugnō, pugnāre, pugnāvī, pugnātum", "to fight", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing things",
-    words: [
+    "id": "describing",
+    "title": "Describing things",
+    "words": [
       ["magnus, -a, -um", "big; great", ""],
       ["parvus, -a, -um", "small", ""],
       ["bonus, -a, -um", "good", "Comparative melior, superlative optimus."],
@@ -132,13 +132,13 @@ window.LSD_DECKS.latin = [
       ["albus, -a, -um", "white", ""],
       ["niger, nigra, nigrum", "black", ""],
       ["ruber, rubra, rubrum", "red", ""],
-      ["vērus, -a, -um", "true", ""],
-    ],
+      ["vērus, -a, -um", "true", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places and the world",
-    words: [
+    "id": "places",
+    "title": "Places and the world",
+    "words": [
       ["domus, domūs f.", "house; home", "domī at home, domum homeward."],
       ["urbs, urbis f.", "city", "Urbs alone often means Rome."],
       ["via, viae f.", "road; way", ""],
@@ -159,13 +159,13 @@ window.LSD_DECKS.latin = [
       ["aqua, aquae f.", "water", ""],
       ["ignis, ignis m.", "fire", ""],
       ["hīc", "here", ""],
-      ["ibi", "there", ""],
-    ],
+      ["ibi", "there", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions and little words",
-    words: [
+    "id": "questions",
+    "title": "Questions and little words",
+    "words": [
       ["quis? quid?", "who? what?", ""],
       ["ubi?", "where?", "Also “when” in a statement."],
       ["quō?", "where to?", ""],
@@ -187,13 +187,13 @@ window.LSD_DECKS.latin = [
       ["nunc", "now", ""],
       ["semper", "always", ""],
       ["numquam", "never", ""],
-      ["iam", "already; now", ""],
-    ],
+      ["iam", "already; now", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["hodiē", "today", ""],
       ["crās", "tomorrow", ""],
       ["herī", "yesterday", ""],
@@ -209,13 +209,13 @@ window.LSD_DECKS.latin = [
       ["hiems, hiemis f.", "winter", ""],
       ["māne", "in the morning", ""],
       ["vesper, vesperī m.", "evening", ""],
-      ["mox", "soon", ""],
-    ],
+      ["mox", "soon", ""]
+    ]
   },
   {
-    id: "body",
-    title: "Body and life",
-    words: [
+    "id": "body",
+    "title": "Body and life",
+    "words": [
       ["caput, capitis n.", "head", ""],
       ["oculus, oculī m.", "eye", ""],
       ["auris, auris f.", "ear", ""],
@@ -233,13 +233,13 @@ window.LSD_DECKS.latin = [
       ["liber, librī m.", "book", "Not to be confused with līber, “free”."],
       ["cibus, cibī m.", "food", ""],
       ["pānis, pānis m.", "bread", ""],
-      ["vīnum, vīnī n.", "wine", "In vīnō vēritās."],
-    ],
+      ["vīnum, vīnī n.", "wine", "In vīnō vēritās."]
+    ]
   },
   {
-    id: "war",
-    title: "War and the state",
-    words: [
+    "id": "war",
+    "title": "War and the state",
+    "words": [
       ["bellum, bellī n.", "war", ""],
       ["pāx, pācis f.", "peace", ""],
       ["mīles, mīlitis m.", "soldier", ""],
@@ -254,7 +254,7 @@ window.LSD_DECKS.latin = [
       ["lēx, lēgis f.", "law", ""],
       ["rēs pūblica, reī pūblicae f.", "the republic; the state", "Literally “the public thing”."],
       ["victōria, victōriae f.", "victory", ""],
-      ["vincō, vincere, vīcī, victum", "to conquer", ""],
-    ],
-  },
+      ["vincō, vincere, vīcī, victum", "to conquer", ""]
+    ]
+  }
 ];

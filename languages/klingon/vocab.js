@@ -1,13 +1,13 @@
-// Klingon starter words for the Vocabulary Learner.
-// Each word is [Klingon (romanized), English, note]. pIqaD is generated from the
-// romanization at runtime. A short list of common words with glosses written
-// for this project; it is not taken from any published dictionary.
+// Generated from squirrel-lang-data bd56e84 languages/klingon/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Klingon (romanized), English, note]. pIqaD is generated from
+// the romanization at runtime. A short list of common words with glosses
+// written for this project; it is not taken from any published dictionary.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.klingon = [
   {
-    id: "phrases",
-    title: "Everyday phrases",
-    words: [
+    "id": "phrases",
+    "title": "Everyday phrases",
+    "words": [
       ["nuqneH", "Hello (literally: what do you want?)", "The usual greeting: Klingons get straight to the point."],
       ["Qapla'", "Success! / Good luck!", "Also used as a farewell."],
       ["HIja'", "Yes.", "HISlaH means the same."],
@@ -22,13 +22,13 @@ window.LSD_DECKS.klingon = [
       ["nuqDaq 'oH puchpa''e'?", "Where is the bathroom?", "A famous phrasebook classic."],
       ["heghlu'meH QaQ jajvam", "Today is a good day to die.", ""],
       ["Qo'noS", "Qo'noS, the Klingon homeworld", "Proper name."],
-      ["batlh", "honor; with honor", ""],
-    ],
+      ["batlh", "honor; with honor", ""]
+    ]
   },
   {
-    id: "pronouns",
-    title: "Pronouns",
-    words: [
+    "id": "pronouns",
+    "title": "Pronouns",
+    "words": [
       ["jIH", "I, me", ""],
       ["SoH", "you (one person)", ""],
       ["ghaH", "he, she (a being able to speak)", ""],
@@ -36,26 +36,26 @@ window.LSD_DECKS.klingon = [
       ["maH", "we, us", ""],
       ["tlhIH", "you (more than one)", ""],
       ["chaH", "they (beings able to speak)", ""],
-      ["bIH", "they (things, animals)", ""],
-    ],
+      ["bIH", "they (things, animals)", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Question words",
-    words: [
+    "id": "questions",
+    "title": "Question words",
+    "words": [
       ["nuq", "what?", ""],
       ["'Iv", "who?", ""],
       ["nuqDaq", "where?", ""],
       ["ghorgh", "when?", ""],
       ["chay'", "how?", ""],
       ["qatlh", "why?", ""],
-      ["'ar", "how many? how much?", ""],
-    ],
+      ["'ar", "how many? how much?", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["wa'", "one", ""],
       ["cha'", "two", ""],
       ["wej", "three", "Also 'not yet'."],
@@ -67,13 +67,13 @@ window.LSD_DECKS.klingon = [
       ["Hut", "nine", ""],
       ["wa'maH", "ten", "wa' + -maH (ten)."],
       ["wa'vatlh", "one hundred", ""],
-      ["wa'SaD", "one thousand", ""],
-    ],
+      ["wa'SaD", "one thousand", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People and things",
-    words: [
+    "id": "people",
+    "title": "People and things",
+    "words": [
       ["tlhIngan", "Klingon (a person)", ""],
       ["Hol", "language", ""],
       ["loD", "man", ""],
@@ -96,24 +96,24 @@ window.LSD_DECKS.klingon = [
       ["betleH", "bat'leth (the curved blade)", ""],
       ["jaj", "day", ""],
       ["ram", "night", ""],
-      ["DIS", "year", ""],
-    ],
+      ["DIS", "year", ""]
+    ]
   },
   {
-    id: "body",
-    title: "Body",
-    words: [
+    "id": "body",
+    "title": "Body",
+    "words": [
       ["nach", "head", ""],
       ["mIn", "eye", ""],
       ["ghop", "hand", ""],
       ["qam", "foot", ""],
-      ["tIq", "heart", ""],
-    ],
+      ["tIq", "heart", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Verbs",
-    words: [
+    "id": "verbs",
+    "title": "Verbs",
+    "words": [
       ["legh", "see", "Practice the prefixes in the Grammar Learner: vIlegh, qalegh, mulegh..."],
       ["jatlh", "speak, say", ""],
       ["yaj", "understand", ""],
@@ -135,26 +135,26 @@ window.LSD_DECKS.klingon = [
       ["lo'", "use", ""],
       ["bom", "sing", ""],
       ["mev", "stop", ""],
-      ["Qagh", "make a mistake", ""],
-    ],
+      ["Qagh", "make a mistake", ""]
+    ]
   },
   {
-    id: "qualities",
-    title: "Describing verbs",
-    words: [
+    "id": "qualities",
+    "title": "Describing verbs",
+    "words": [
       ["QaQ", "be good", "Klingon has no separate adjectives: 'be good' is a verb."],
       ["tIn", "be big", ""],
       ["mach", "be small", ""],
       ["quv", "be honored", ""],
       ["Dun", "be great, be wonderful", ""],
       ["nIv", "be superior", ""],
-      ["maw'", "be crazy", ""],
-    ],
+      ["maw'", "be crazy", ""]
+    ]
   },
   {
-    id: "family",
-    title: "Family",
-    words: [
+    "id": "family",
+    "title": "Family",
+    "words": [
       ["vav", "father", ""],
       ["SoS", "mother", ""],
       ["puqloD", "son", "puq (child) + loD (man)."],
@@ -164,13 +164,13 @@ window.LSD_DECKS.klingon = [
       ["tuq", "house (family line)", "The family line a warrior belongs to, not the building."],
       ["qorDu'", "family", ""],
       ["loDnal", "husband", ""],
-      ["be'nal", "wife", ""],
-    ],
+      ["be'nal", "wife", ""]
+    ]
   },
   {
-    id: "body2",
-    title: "More body parts",
-    words: [
+    "id": "body2",
+    "title": "More body parts",
+    "words": [
       ["porgh", "body", ""],
       ["nuj", "mouth", ""],
       ["ghIch", "nose", ""],
@@ -187,13 +187,13 @@ window.LSD_DECKS.klingon = [
       ["chor", "belly", ""],
       ["Dub", "back", ""],
       ["Hom", "bone", ""],
-      ["'Iw", "blood", ""],
-    ],
+      ["'Iw", "blood", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["DaH", "now", ""],
       ["DaHjaj", "today", ""],
       ["wa'leS", "tomorrow", "wa' (one) + leS (days from now)."],
@@ -211,13 +211,13 @@ window.LSD_DECKS.klingon = [
       ["tugh", "soon", ""],
       ["SIbI'", "immediately", ""],
       ["qen", "recently", ""],
-      ["ghIq", "then, after that", ""],
-    ],
+      ["ghIq", "then, after that", ""]
+    ]
   },
   {
-    id: "small",
-    title: "Little words",
-    words: [
+    "id": "small",
+    "title": "Little words",
+    "words": [
       ["'ej", "and (joins sentences)", ""],
       ["je", "and (joins nouns); also", "Comes after the nouns it joins: tlhIngan Human je."],
       ["'ach", "but", ""],
@@ -234,25 +234,25 @@ window.LSD_DECKS.klingon = [
       ["nIteb", "alone", ""],
       ["chIch", "on purpose", ""],
       ["bong", "by accident", ""],
-      ["Do'", "luckily", ""],
-    ],
+      ["Do'", "luckily", ""]
+    ]
   },
   {
-    id: "colours",
-    title: "Colours",
-    words: [
+    "id": "colours",
+    "title": "Colours",
+    "words": [
       ["Doq", "be red, be orange", "Colours are verbs, like other qualities."],
       ["SuD", "be green, be blue, be yellow", "One word covers all three."],
       ["chIS", "be white", ""],
       ["qIj", "be black", ""],
       ["wov", "be light, be bright", ""],
-      ["Hurgh", "be dark", ""],
-    ],
+      ["Hurgh", "be dark", ""]
+    ]
   },
   {
-    id: "war",
-    title: "Ships and battle",
-    words: [
+    "id": "war",
+    "title": "Ships and battle",
+    "words": [
       ["'ejDo'", "starship", ""],
       ["yo'", "fleet", ""],
       ["may'", "battle", ""],
@@ -268,13 +268,13 @@ window.LSD_DECKS.klingon = [
       ["jonta'", "engine", ""],
       ["jol", "transporter beam", ""],
       ["Daqtagh", "knife, dagger", ""],
-      ["nuH", "weapon", ""],
-    ],
+      ["nuH", "weapon", ""]
+    ]
   },
   {
-    id: "world",
-    title: "World and places",
-    words: [
+    "id": "world",
+    "title": "World and places",
+    "words": [
       ["Daq", "place", ""],
       ["veng", "city", ""],
       ["chal", "sky", ""],
@@ -289,13 +289,13 @@ window.LSD_DECKS.klingon = [
       ["naH", "fruit, vegetable", ""],
       ["chab", "pie", ""],
       ["'Iw HIq", "bloodwine", "'Iw (blood) + HIq (liquor)."],
-      ["tach", "bar (for drinking)", ""],
-    ],
+      ["tach", "bar (for drinking)", ""]
+    ]
   },
   {
-    id: "verbs2",
-    title: "More verbs",
-    words: [
+    "id": "verbs2",
+    "title": "More verbs",
+    "words": [
       ["Qoy", "hear", ""],
       ["'Ij", "listen", ""],
       ["laD", "read", ""],
@@ -321,13 +321,13 @@ window.LSD_DECKS.klingon = [
       ["jegh", "surrender", ""],
       ["luj", "fail", ""],
       ["Qaw'", "destroy", ""],
-      ["ta'", "accomplish", ""],
-    ],
+      ["ta'", "accomplish", ""]
+    ]
   },
   {
-    id: "qualities2",
-    title: "More describing verbs",
-    words: [
+    "id": "qualities2",
+    "title": "More describing verbs",
+    "words": [
       ["Quch", "be happy", ""],
       ["QuchHa'", "be unhappy", "-Ha' undoes the verb."],
       ["bel", "be pleased", ""],
@@ -343,13 +343,13 @@ window.LSD_DECKS.klingon = [
       ["ngeD", "be easy", ""],
       ["'ugh", "be heavy", ""],
       ["tlhab", "be free", ""],
-      ["Huj", "be strange", ""],
-    ],
+      ["Huj", "be strange", ""]
+    ]
   },
   {
-    id: "ordinals",
-    title: "Counting further",
-    words: [
+    "id": "ordinals",
+    "title": "Counting further",
+    "words": [
       ["pagh", "zero", "Also 'none, nothing'."],
       ["cha'maH", "twenty", ""],
       ["wejmaH", "thirty", ""],
@@ -360,7 +360,7 @@ window.LSD_DECKS.klingon = [
       ["cha'logh", "twice", ""],
       ["wa'netlh", "ten thousand", ""],
       ["wa'bIp", "one hundred thousand", ""],
-      ["wa'uy'", "one million", ""],
-    ],
-  },
+      ["wa'uy'", "one million", ""]
+    ]
+  }
 ];

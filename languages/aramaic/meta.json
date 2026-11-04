@@ -1,0 +1,19 @@
+{
+  "id": "aramaic",
+  "name": "Aramaic",
+  "nativeName": "ארמית",
+  "writingSystems": [
+    "hebrew"
+  ],
+  "characterKeys": [
+    "hebrew"
+  ],
+  "notes": "Biblical and Imperial Aramaic, written right to left in the square script it shares with Hebrew. Classical Syriac and the modern Neo-Aramaic languages are its varieties.",
+  "direction": "rtl",
+  "code": "arc",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
+}

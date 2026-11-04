@@ -1,11 +1,11 @@
-// German starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/german/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [German, English, note]. Nouns are given with the article.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.german = [
   {
-    id: "greetings",
-    title: "Greetings and phrases",
-    words: [
+    "id": "greetings",
+    "title": "Greetings and phrases",
+    "words": [
       ["hallo", "hello", ""],
       ["guten Morgen", "good morning", ""],
       ["guten Tag", "good day", "Used through the afternoon."],
@@ -17,13 +17,13 @@ window.LSD_DECKS.german = [
       ["ja", "yes", ""],
       ["nein", "no", ""],
       ["entschuldigung", "excuse me; sorry", ""],
-      ["wie geht's?", "how are you?", "wie geht es Ihnen? is the polite form."],
-    ],
+      ["wie geht's?", "how are you?", "wie geht es Ihnen? is the polite form."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ich", "I", ""],
       ["du", "you (one person, informal)", ""],
       ["Sie", "you (polite)", "Always capitalized."],
@@ -37,13 +37,13 @@ window.LSD_DECKS.german = [
       ["die Mutter", "the mother", ""],
       ["der Bruder", "the brother", ""],
       ["die Schwester", "the sister", ""],
-      ["der Name", "the name", "Wie heißen Sie?"],
-    ],
+      ["der Name", "the name", "Wie heißen Sie?"]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["null", "zero", ""],
       ["eins", "one", "ein before a masculine or neuter noun."],
       ["zwei", "two", ""],
@@ -57,13 +57,13 @@ window.LSD_DECKS.german = [
       ["zehn", "ten", ""],
       ["zwanzig", "twenty", ""],
       ["hundert", "hundred", ""],
-      ["tausend", "thousand", ""],
-    ],
+      ["tausend", "thousand", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["sein", "to be", "ich bin, du bist, er ist."],
       ["haben", "to have", "ich habe, du hast, er hat."],
       ["machen", "to do; to make", ""],
@@ -79,13 +79,13 @@ window.LSD_DECKS.german = [
       ["schreiben", "to write", ""],
       ["arbeiten", "to work", "er arbeitet."],
       ["heißen", "to be called", "ich heiße Anna."],
-      ["kaufen", "to buy", ""],
-    ],
+      ["kaufen", "to buy", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["das Wasser", "the water", "neuter"],
       ["der Kaffee", "the coffee", "masculine"],
       ["der Tee", "the tea", ""],
@@ -97,13 +97,13 @@ window.LSD_DECKS.german = [
       ["das Essen", "the food; the meal", ""],
       ["die Rechnung", "the bill", ""],
       ["bitte zahlen", "the bill, please", "Literally “please pay”."],
-      ["lecker", "tasty", ""],
-    ],
+      ["lecker", "tasty", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["gut", "good", ""],
       ["schlecht", "bad", ""],
       ["groß", "big; tall", ""],
@@ -116,7 +116,7 @@ window.LSD_DECKS.german = [
       ["freundlich", "friendly", ""],
       ["hier", "here", ""],
       ["heute", "today", ""],
-      ["morgen", "tomorrow", "Also “morning”."],
-    ],
-  },
+      ["morgen", "tomorrow", "Also “morning”."]
+    ]
+  }
 ];

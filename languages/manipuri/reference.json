@@ -249,6 +249,13 @@
       "topic": "grammar",
       "title": "‑na, ‑da, ‑bu — who, where, whom",
       "body": "Noun endings mark role: ‑na for the one who does it, ‑gi for “of”, ‑da for “to / in / at”, ‑bu for the object. On ꯃꯤ (mi) “person”: mi-na, mi-gi, mi-bu. Places take ‑da: ꯀꯩꯊꯦꯜꯗꯥ (keithelda) “at / to the market”.",
+      "examples": [
+        {
+          "t": "{ꯑꯩꯅꯥ} ꯆꯥꯛ ꯆꯥꯏ.",
+          "r": "Eina chak chai.",
+          "e": "I (as subject) eat rice."
+        }
+      ],
       "table": {
         "head": [
           "Ending",
@@ -278,13 +285,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{ꯑꯩꯅꯥ} ꯆꯥꯛ ꯆꯥꯏ.",
-          "r": "Eina chak chai.",
-          "e": "I (as subject) eat rice."
-        }
-      ],
       "tags": [
         "cases"
       ]

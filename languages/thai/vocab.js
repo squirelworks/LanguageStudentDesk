@@ -1,12 +1,12 @@
-// Thai starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/thai/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Thai, romanization, English, note]. Written for this project.
 // The romanization has no tone marks; use text to speech to hear each tone.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.thai = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["สวัสดี", "sawatdi", "hello; goodbye", "Add ครับ (man) or ค่ะ (woman)."],
       ["ขอบคุณ", "khop khun", "thank you", "ขอบคุณมาก: thank you very much."],
       ["ขอโทษ", "kho thot", "sorry; excuse me", ""],
@@ -20,13 +20,13 @@ window.LSD_DECKS.thai = [
       ["ลาก่อน", "la kon", "goodbye (for a long time)", "Everyday goodbye is สวัสดี or ไปก่อนนะ."],
       ["โชคดี", "chok di", "good luck", ""],
       ["ครับ", "khrap", "polite ending (man)", ""],
-      ["ค่ะ", "kha", "polite ending (woman)", "คะ in questions."],
-    ],
+      ["ค่ะ", "kha", "polite ending (woman)", "คะ in questions."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ผม", "phom", "I (man)", ""],
       ["ฉัน", "chan", "I (woman, or casual)", ""],
       ["คุณ", "khun", "you", ""],
@@ -40,13 +40,13 @@ window.LSD_DECKS.thai = [
       ["พ่อ", "pho", "father", ""],
       ["พี่", "phi", "older brother or sister", "Also used to address someone a little older."],
       ["น้อง", "nong", "younger brother or sister", "Also used for waiters and anyone younger."],
-      ["ครอบครัว", "khropkhrua", "family", ""],
-    ],
+      ["ครอบครัว", "khropkhrua", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ศูนย์", "sun", "zero", "Thai digit ๐."],
       ["หนึ่ง", "nueng", "one", "๑"],
       ["สอง", "song", "two", "๒"],
@@ -60,13 +60,13 @@ window.LSD_DECKS.thai = [
       ["สิบ", "sip", "ten", "๑๐"],
       ["ยี่สิบ", "yi sip", "twenty", "Not สองสิบ."],
       ["ร้อย", "roi", "a hundred", ""],
-      ["พัน", "phan", "a thousand", ""],
-    ],
+      ["พัน", "phan", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["น้ำ", "nam", "water", ""],
       ["กาแฟ", "kafae", "coffee", ""],
       ["ชา", "cha", "tea", ""],
@@ -81,13 +81,13 @@ window.LSD_DECKS.thai = [
       ["ผัก", "phak", "vegetables", ""],
       ["เผ็ด", "phet", "spicy", "ไม่เผ็ด: not spicy."],
       ["อร่อย", "aroi", "delicious", ""],
-      ["เช็คบิล", "chek bin", "the bill, please", "From English “check bill”."],
-    ],
+      ["เช็คบิล", "chek bin", "the bill, please", "From English “check bill”."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["กิน", "kin", "to eat", "Verbs never change form."],
       ["ดื่ม", "duem", "to drink", ""],
       ["ไป", "pai", "to go", ""],
@@ -103,13 +103,13 @@ window.LSD_DECKS.thai = [
       ["เขียน", "khian", "to write", ""],
       ["ดู", "du", "to look; to watch", ""],
       ["รู้", "ru", "to know", "ไม่รู้: I don't know."],
-      ["เข้าใจ", "khao chai", "to understand", ""],
-    ],
+      ["เข้าใจ", "khao chai", "to understand", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ใหญ่", "yai", "big", ""],
       ["เล็ก", "lek", "small", ""],
       ["ดี", "di", "good", ""],
@@ -124,13 +124,13 @@ window.LSD_DECKS.thai = [
       ["ง่าย", "ngai", "easy", ""],
       ["ยาก", "yak", "difficult", ""],
       ["สนุก", "sanuk", "fun", ""],
-      ["เหนื่อย", "nueai", "tired", ""],
-    ],
+      ["เหนื่อย", "nueai", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["บ้าน", "ban", "house; home", ""],
       ["เมือง", "mueang", "town; city", ""],
       ["ถนน", "thanon", "road", ""],
@@ -144,13 +144,13 @@ window.LSD_DECKS.thai = [
       ["วัด", "wat", "temple", ""],
       ["ห้องน้ำ", "hong nam", "toilet; bathroom", ""],
       ["โรงแรม", "rong raem", "hotel", ""],
-      ["สนามบิน", "sanam bin", "airport", ""],
-    ],
+      ["สนามบิน", "sanam bin", "airport", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["อะไร", "arai", "what", "Goes where the answer would be."],
       ["ใคร", "khrai", "who", ""],
       ["ที่ไหน", "thi nai", "where", ""],
@@ -162,13 +162,13 @@ window.LSD_DECKS.thai = [
       ["ไหน", "nai", "which", ""],
       ["ไหม", "mai", "yes/no question word", "At the end of the sentence."],
       ["มี…ไหม", "mi … mai?", "do you have…?", ""],
-      ["ได้ไหม", "dai mai?", "can I? is it OK?", ""],
-    ],
+      ["ได้ไหม", "dai mai?", "can I? is it OK?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["วันนี้", "wan ni", "today", ""],
       ["พรุ่งนี้", "phrung ni", "tomorrow", ""],
       ["เมื่อวาน", "muea wan", "yesterday", ""],
@@ -180,13 +180,13 @@ window.LSD_DECKS.thai = [
       ["เดือน", "duean", "month; moon", ""],
       ["ปี", "pi", "year", ""],
       ["วันจันทร์", "wan chan", "Monday", "Each day has its own colour; Monday's is yellow."],
-      ["วันอาทิตย์", "wan athit", "Sunday", ""],
-    ],
+      ["วันอาทิตย์", "wan athit", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["รถเมล์", "rot me", "bus", ""],
       ["รถไฟ", "rot fai", "train", "Literally “fire vehicle”."],
       ["แท็กซี่", "thaeksi", "taxi", ""],
@@ -199,7 +199,7 @@ window.LSD_DECKS.thai = [
       ["ตรงไป", "trong pai", "straight on", ""],
       ["ใกล้", "klai", "near", "Tone sets it apart from ไกล, far."],
       ["ไกล", "klai", "far", ""],
-      ["ช่วยด้วย", "chuai duai!", "help!", ""],
-    ],
-  },
+      ["ช่วยด้วย", "chuai duai!", "help!", ""]
+    ]
+  }
 ];
