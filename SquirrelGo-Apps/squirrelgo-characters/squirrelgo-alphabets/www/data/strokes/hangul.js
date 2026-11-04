@@ -1,6 +1,8 @@
-// Stroke order for Hangul, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans KR (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/hangul.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Hangul, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans KR (SIL Open Font License) and checked by hand. Paths sit in a 100 x 100
+// box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["hangul"] = {
   "ㅏ": ["M40,11 L39,89", "M40,46 L61,45"],

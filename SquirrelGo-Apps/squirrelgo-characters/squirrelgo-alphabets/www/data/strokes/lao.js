@@ -1,6 +1,8 @@
-// Stroke order for Lao, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Lao Looped (SIL Open Font License) and checked by hand. Paths sit in a
+// Generated from squirrel-lang-data 69e747c strokes/lao.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Lao, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Lao Looped (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["lao"] = {
   "ກ": ["M40,59 L31,61 L29,67 L36,71 L40,70 L42,65 L40,57 L41,33 L37,29 L31,31 L29,34 L31,39 L39,41 L44,35 L50,31 L63,30 L68,33 L71,39 L71,69"],

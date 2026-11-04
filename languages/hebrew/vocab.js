@@ -1,7 +1,8 @@
-// Generated from squirrel-lang-data 3b1e99d languages/hebrew/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/hebrew/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Hebrew, transliteration, English, note]. Written for this
 // project. Hebrew is written without vowel points; (m) and (f) mark masculine
 // and feminine forms.
+// Frequency tags come from wordfreq (CC BY-SA 4.0).
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.hebrew = [
   {

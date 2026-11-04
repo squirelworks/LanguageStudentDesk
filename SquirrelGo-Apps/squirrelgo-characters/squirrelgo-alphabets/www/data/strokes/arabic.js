@@ -1,6 +1,8 @@
-// Stroke order for the Arabic alphabet, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Naskh Arabic (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/arabic.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for the Arabic alphabet, drafted by SquirrelGo-
+// Apps/tools/strokegen from Noto Naskh Arabic (SIL Open Font License) and
+// checked by hand. Paths sit in a 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["arabic"] = {
   "ا": ["M51,13 L49,23 L51,83 L49,87"],

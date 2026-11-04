@@ -1,6 +1,8 @@
-// Stroke order for katakana, from KanjiVG (https://kanjivg.tagaini.net,
-// © Ulrich Apel, CC BY-SA 3.0), made by tools/build_strokes.py. Paths sit
-// in a 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/katakana.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for katakana, from KanjiVG (https://kanjivg.tagaini.net, ©
+// Ulrich Apel, CC BY-SA 3.0), made by tools/build_strokes.py. Paths sit in a
+// 100 x 100 box; see www/js/strokes.js.
+// Source: KanjiVG (CC BY-SA 3.0).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["katakana"] = {
   "ア": ["M21.6,24.1 L23.4,25 L26.3,25.2 L73.7,18.6 L77.2,18.8 L78.7,20.4 L77.3,23 L54.7,38.8", "M48.7,37.7 L49.4,40 L49.3,42.6 L46.8,52.2 L43.9,61 L38.3,73 L31,84.3"],

@@ -1,6 +1,8 @@
+// Generated from squirrel-lang-data 69e747c strokes/kannada.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Kannada, drafted by SquirrelGo-Apps/tools/strokegen from
 // Noto Sans Kannada (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["kannada"] = {
   "ಅ": ["M37,31 L30,32 L24,39 L24,45 L34,47 L41,45 L43,39 L41,33 L37,31", "M23,46 L25,57 L33,66 L46,69 L63,67 L73,61 L77,48 L75,37 L68,31 L62,32 L58,35 L62,50 L48,50"],

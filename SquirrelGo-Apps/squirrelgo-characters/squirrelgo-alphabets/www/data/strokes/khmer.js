@@ -1,6 +1,8 @@
-// Stroke order for Khmer, drafted by SquirrelGo-Apps/tools/strokegen from
-// Noto Sans Khmer (SIL Open Font License) and checked by hand. Paths sit in a
-// 100 x 100 box; see www/js/strokes.js.
+// Generated from squirrel-lang-data 69e747c strokes/khmer.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Stroke order for Khmer, drafted by SquirrelGo-Apps/tools/strokegen from Noto
+// Sans Khmer (SIL Open Font License) and checked by hand. Paths sit in a 100 x
+// 100 box; see www/js/strokes.js.
+// Source: Noto fonts (SIL Open Font License 1.1).
 window.SG_STROKES = window.SG_STROKES || {};
 window.SG_STROKES["khmer"] = {
   "ក": ["M32,76 L33,45 L38,40 L46,38 L58,39 L66,44 L68,76", "M30,24 L70,24"],

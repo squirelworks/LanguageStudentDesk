@@ -9,6 +9,10 @@
                                                                   (gen_characters.py)
     SquirrelGo Kanji's www/data/kanji.js, and its Android asset copy
                               <- the same kanji readings and table (gen_characters.py)
+    the SquirrelGo apps' stroke files (Alphabets, Kana, Kanji, Bopomofo, Klingon)
+                              <- data/strokes/*.jsonl              (gen_strokes.py)
+    the courses of SquirrelGo Alphabets, Kana, Bopomofo and Klingon
+                              <- data/alphabets/*.json             (gen_alphabets.py)
     registry.js, */meta.json  <- data/languages/*/meta.json       (gen_registry.py)
     reference.js              <- languages/*/reference.json
 
@@ -128,6 +132,9 @@ def generate(check):
     for tool in GENERATORS:
         cmd = [sys.executable, str(DATA_TOOLS / tool), "--out", str(HERE)] + (["--check"] if check else [])
         status |= subprocess.run(cmd).returncode
+    for tool in ("gen_strokes.py", "gen_alphabets.py"):
+        cmd = [sys.executable, str(DATA_TOOLS / tool), "--apps", str(HERE.parent / "SquirrelGo-Apps")]
+        status |= subprocess.run(cmd + (["--check"] if check else [])).returncode
     for app in KANJI_APP:
         cmd = [sys.executable, str(DATA_TOOLS / "gen_characters.py"), "--kanji-app", str(app)] + (["--check"] if check else [])
         status |= subprocess.run(cmd).returncode

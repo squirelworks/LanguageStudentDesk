@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d cjk/characters.jsonl by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 69e747c cjk/characters.jsonl by: python3 data/tools/gen_characters.py --out languages
 // The shared CJK table, keyed by character. uses lists every tradition the
 // character belongs to: hanzi (Chinese), kanji (Japanese), hanja (Korean).
 // Readings and meanings are in japanese/kanji.js, chinese/hanzi.js and
@@ -856,7 +856,7 @@ window.LSD_CJK = {
   "悲": {"uses":["hanzi","kanji","hanja"],"radical":"心","strokes":12},
   "留": {"uses":["hanzi","kanji","hanja"],"radical":"田","strokes":10},
   "概": {"uses":["hanzi","kanji"],"radical":"木","strokes":14},
-  "巨": {"uses":["hanzi","kanji","hanja"],"radical":"工","strokes":4},
+  "巨": {"uses":["hanzi","kanji","hanja"],"radical":"工","strokes":5},
   "抵": {"uses":["hanzi","kanji","hanja"],"radical":"手","strokes":8},
   "青": {"uses":["hanzi","kanji"],"radical":"靑","strokes":8},
   "充": {"uses":["hanzi","kanji","hanja"],"radical":"儿","strokes":6},

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/cyrillic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/cyrillic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Russian first grammar for the Grammar Learner. Written for this project.
 // Examples are [Russian, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

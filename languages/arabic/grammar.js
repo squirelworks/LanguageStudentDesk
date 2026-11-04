@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/arabic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/arabic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Arabic sentence basics (Modern Standard Arabic) for the Grammar Learner. Written for this project.
 // Examples are [Arabic, transliteration, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

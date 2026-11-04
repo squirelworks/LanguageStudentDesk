@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d languages/french/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data 69e747c languages/french/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // French first grammar for the Grammar Learner. Written for this project.
 // Examples are [French, word by word, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.
