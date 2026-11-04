@@ -24,7 +24,7 @@ python3 ../../tools/ipa_audio.py /tmp/clips.json www/audio
 
 ## Install the APK
 
-Download [`SquirrelGoKlingon-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-klingon-latest/SquirrelGoKlingon-debug.apk) from the **SquirrelGo Klingon (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-klingon-latest)) and sideload it. The `SquirrelGo Klingon APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download [`SquirrelGoKlingon.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKlingon.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
 
 - Package id: `com.squirelworks.squirrelgoklingon.debug`
 - Min Android: 7.0 (API 24)

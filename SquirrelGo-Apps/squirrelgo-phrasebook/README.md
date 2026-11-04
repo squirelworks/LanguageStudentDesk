@@ -53,7 +53,7 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 ## Install the APK
 
-Download [`SquirrelGoPhrasebook-debug.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/download/squirrelgo-phrasebook-latest/SquirrelGoPhrasebook-debug.apk) from the **SquirrelGo Phrasebook (latest build)** pre-release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-phrasebook-latest)) and sideload it. The `SquirrelGo Phrasebook APK` GitHub Actions workflow rebuilds and republishes it on every push to `main` that touches this folder; builds on other branches are only uploaded as run artifacts.
+Download [`SquirrelGoPhrasebook.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoPhrasebook.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
 
 - Package id: `com.squirelworks.squirrelgophrasebook.debug`
 - Min Android: 7.0 (API 24)

@@ -72,28 +72,28 @@ TOOLS = {
                   "Desk tools", False, None),
     "squirrelgo-kana": ("SquirrelGo Kana",
                         "Hiragana and katakana: lessons, charts, quizzes, flashcards, writing pad, audio.",
-                        "SquirrelGo apps", False, ("squirrelgo-kana-latest", "SquirrelGoKana-debug.apk")),
+                        "SquirrelGo apps", False, ("latest", "SquirrelGoKana.apk")),
     "squirrelgo-bopomofo": ("SquirrelGo Bopomofo",
                             "Taiwan Zhuyin (Bopomofo): initials, medials, finals, tone marks, chart and quizzes.",
                             "SquirrelGo apps", False, None),
     "squirrelgo-alphabets": ("SquirrelGo Alphabets",
                              "The world's alphabets, Latin and Greek to Thai and Tibetan: lessons, stroke order, writing pad, sounds.",
-                             "SquirrelGo apps", False, ("squirrelgo-alphabets-latest", "SquirrelGoAlphabets-debug.apk")),
+                             "SquirrelGo apps", False, ("latest", "SquirrelGoAlphabets.apk")),
     "squirrelgo-kanji": ("SquirrelGo Kanji",
                          "Kanji lessons, JLPT quizzes, dictionary, on-yomi groups and stroke order.",
-                         "SquirrelGo apps", False, ("squirrelgo-kanji-latest", "SquirrelGoKanji-debug.apk")),
+                         "SquirrelGo apps", False, ("latest", "SquirrelGoKanji.apk")),
     "squirrelgo-klingon": ("SquirrelGo Klingon",
                            "The pIqaD script on the phone: letters, stroke order, writing pad and quizzes.",
-                           "SquirrelGo apps", False, ("squirrelgo-klingon-latest", "SquirrelGoKlingon-debug.apk")),
+                           "SquirrelGo apps", False, ("latest", "SquirrelGoKlingon.apk")),
     "squirrelgo-dictionary": ("SquirrelGo Japanese-English Dictionary",
                               "Offline JMdict and KANJIDIC2 dictionary with radicals and example sentences.",
-                              "SquirrelGo apps", False, ("squirrelgo-dictionary-latest", "SquirrelGoDictionary.apk")),
+                              "SquirrelGo apps", False, ("latest", "SquirrelGoJapaneseDictionary.apk")),
     "squirrelgo-phrasebook": ("SquirrelGo Phrasebook",
                               "Japanese phrase packs with audio, search, favorites and flashcards.",
-                              "SquirrelGo apps", False, ("squirrelgo-phrasebook-latest", "SquirrelGoPhrasebook-debug.apk")),
+                              "SquirrelGo apps", False, ("latest", "SquirrelGoPhrasebook.apk")),
     "squirrelgo-orthodox-bible": ("SquirrelGo Orthodox Bible",
                                   "Septuagint canon, verses side by side in many languages, patristic commentary.",
-                                  "SquirrelGo apps", False, ("squirrelgo-orthodox-bible-latest", "SquirrelGoOrthodoxBible-debug.apk")),
+                                  "SquirrelGo apps", False, ("latest", "SquirrelGoOrthodoxBible.apk")),
 }
 GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 
@@ -120,7 +120,11 @@ class Tool:
 
     @property
     def apk_url(self):
-        return f"{RELEASES}/download/{self.apk[0]}/{self.apk[1]}" if self.apk else None
+        if not self.apk:
+            return None
+        tag, name = self.apk
+        # "latest" is the newest published platform release; any other tag pins one.
+        return f"{RELEASES}/latest/download/{name}" if tag == "latest" else f"{RELEASES}/download/{tag}/{name}"
 
 
 def scan_tools():
