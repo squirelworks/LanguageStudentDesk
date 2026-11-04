@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3b1e99d meaning/vocab-links/ by: python3 data/tools/gen_vocab_links.py --out translation-learner/data
+// Generated from squirrel-lang-data 69e747c meaning/vocab-links/ by: python3 data/tools/gen_vocab_links.py --out translation-learner/data
 // Which meaning units (TL_MEANINGS ids) each vocabulary card carries, by
 // language and vocab id ("<deck>/<word>").
 window.TL_VOCAB_LINKS = {
@@ -626,7 +626,7 @@ window.TL_VOCAB_LINKS = {
     "jlpt-n5/猫": ["cat"],
     "jlpt-n5/本": ["book"],
     "jlpt-n5/私": ["i"],
-    "jlpt-n3/ありがとう": ["thanks"],
+    "jlpt-n5/ありがとう": ["thanks"],
     "jlpt-n3/行き": ["go"],
     "jlpt-n3/行き/ゆき": ["go"],
     "jlpt-n3/今日": ["today"],
