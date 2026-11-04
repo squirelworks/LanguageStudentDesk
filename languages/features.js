@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data features.json (last changed in 6a24ad3) by tools/gen_features.py. Don't edit; change features.json and regenerate.
+// Generated from squirrel-lang-data features.json (last changed in d2abfa8) by tools/gen_features.py. Don't edit; change features.json and regenerate.
 window.LSD_FEATURES = {
   "schema": "features@1",
   "levels": [
@@ -15,7 +15,7 @@ window.LSD_FEATURES = {
     {
       "id": "everything",
       "label": "Everything",
-      "description": "Adds historical stages, reconstructions and features still in alpha."
+      "description": "Adds historical stages and reconstructions."
     }
   ],
   "defaultLevel": "simple",
@@ -23,8 +23,8 @@ window.LSD_FEATURES = {
     {
       "id": "alpha",
       "label": "Alpha features",
-      "description": "Features still being tested, such as the translation learner and language pairs that are still in alpha.",
-      "level": "everything",
+      "description": "Features still being tested, such as language pairs that are still in alpha. They're labeled alpha wherever they appear.",
+      "level": "simple",
       "added": "2026-11-04"
     },
     {
