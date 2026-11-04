@@ -109,6 +109,7 @@ EXTRA_LANGS = [
     "win16", "z80", "cobol", "fortran", "moderndelphi", "numerical",
     "javascript", "turbopascal",
     "cpp",
+    "java",
     "html",
 ]
 

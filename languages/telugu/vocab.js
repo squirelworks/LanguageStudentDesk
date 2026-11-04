@@ -1,11 +1,12 @@
-// Telugu starter words for the Vocabulary Learner.
-// Each word is [Telugu, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/telugu/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Telugu, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.telugu = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["నమస్కారం", "namaskaaram", "hello", "Also నమస్తే."],
       ["ధన్యవాదాలు", "dhanyavaadaalu", "thank you", ""],
       ["దయచేసి", "dayachesi", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.telugu = [
       ["నేను బాగున్నాను", "nenu baagunnaanu", "I'm well", ""],
       ["నా పేరు…", "naa peru…", "my name is…", ""],
       ["వెళ్ళొస్తాను", "vellostaanu", "goodbye (I'll go and come back)", ""],
-      ["స్వాగతం", "svaagatam", "welcome", ""],
-    ],
+      ["స్వాగతం", "svaagatam", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["నేను", "nenu", "I", ""],
       ["మీరు", "miiru", "you (polite)", "నువ్వు: you (intimate)."],
       ["అతను", "atanu", "he", "ఆయన: he (respectful)."],
@@ -37,13 +38,13 @@ window.LSD_DECKS.telugu = [
       ["అమ్మ", "amma", "mother", ""],
       ["నాన్న", "naanna", "father", ""],
       ["అన్నయ్య", "annayya", "elder brother", "తమ్ముడు: younger brother."],
-      ["అక్క", "akka", "elder sister", "చెల్లెలు: younger sister."],
-    ],
+      ["అక్క", "akka", "elder sister", "చెల్లెలు: younger sister."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["సున్నా", "sunnaa", "zero", ""],
       ["ఒకటి", "okati", "one", ""],
       ["రెండు", "rendu", "two", ""],
@@ -57,13 +58,13 @@ window.LSD_DECKS.telugu = [
       ["పది", "padi", "ten", ""],
       ["ఇరవై", "iravai", "twenty", ""],
       ["వంద", "vanda", "a hundred", ""],
-      ["వెయ్యి", "veyyi", "a thousand", ""],
-    ],
+      ["వెయ్యి", "veyyi", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["నీళ్ళు", "niillu", "water", ""],
       ["కాఫీ", "kaafii", "coffee", ""],
       ["టీ", "tii", "tea", ""],
@@ -78,13 +79,13 @@ window.LSD_DECKS.telugu = [
       ["పండు", "pandu", "fruit", ""],
       ["భోజనం", "bhojanam", "meal", ""],
       ["కారం", "kaaram", "spicy", "Andhra food is famous for it."],
-      ["రుచిగా ఉంది", "ruchigaa undi", "it's tasty", ""],
-    ],
+      ["రుచిగా ఉంది", "ruchigaa undi", "it's tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["తిను", "tinu", "eat", "Verbs are listed by their stem."],
       ["తాగు", "taagu", "drink", ""],
       ["వెళ్ళు", "vellu", "go", ""],
@@ -99,13 +100,13 @@ window.LSD_DECKS.telugu = [
       ["చూడు", "chuudu", "see; look", ""],
       ["తెలుసు", "telusu", "know", "నాకు తెలియదు: I don't know."],
       ["అర్థమైంది", "arthamaindi", "understood", "అర్థం కాలేదు: I didn't understand."],
-      ["చేయు", "cheyu", "do", ""],
-    ],
+      ["చేయు", "cheyu", "do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["పెద్ద", "pedda", "big", ""],
       ["చిన్న", "chinna", "small", ""],
       ["మంచి", "manchi", "good", ""],
@@ -119,13 +120,13 @@ window.LSD_DECKS.telugu = [
       ["ఖరీదైన", "khariidaina", "expensive", ""],
       ["సులభం", "sulabham", "easy", ""],
       ["కష్టం", "kashtam", "difficult", ""],
-      ["సంతోషం", "santosham", "happiness; happy", ""],
-    ],
+      ["సంతోషం", "santosham", "happiness; happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ఇల్లు", "illu", "house; home", "ఇంట్లో: at home."],
       ["నగరం", "nagaram", "city", ""],
       ["ఊరు", "uuru", "town; home town", ""],
@@ -137,13 +138,13 @@ window.LSD_DECKS.telugu = [
       ["గుడి", "gudi", "temple", ""],
       ["సముద్రం", "samudram", "sea", ""],
       ["బాత్రూమ్", "baatruum", "bathroom", ""],
-      ["రైల్వే స్టేషన్", "railve steshan", "railway station", ""],
-    ],
+      ["రైల్వే స్టేషన్", "railve steshan", "railway station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ఏమిటి?", "emiti?", "what?", "In speech ఏంటి or ఏం."],
       ["ఎవరు?", "evaru?", "who?", ""],
       ["ఎక్కడ?", "ekkada?", "where?", ""],
@@ -152,13 +153,13 @@ window.LSD_DECKS.telugu = [
       ["ఎలా?", "elaa?", "how?", ""],
       ["ఎంత?", "enta?", "how much?", ""],
       ["ఎన్ని?", "enni?", "how many?", ""],
-      ["ఏది?", "edi?", "which one?", ""],
-    ],
+      ["ఏది?", "edi?", "which one?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ఈరోజు", "iiroju", "today", ""],
       ["రేపు", "repu", "tomorrow", ""],
       ["నిన్న", "ninna", "yesterday", ""],
@@ -169,7 +170,7 @@ window.LSD_DECKS.telugu = [
       ["రోజు", "roju", "day", ""],
       ["వారం", "vaaram", "week", ""],
       ["నెల", "nela", "month", ""],
-      ["సంవత్సరం", "samvatsaram", "year", ""],
-    ],
-  },
+      ["సంవత్సరం", "samvatsaram", "year", ""]
+    ]
+  }
 ];

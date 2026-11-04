@@ -1,11 +1,12 @@
-// Malayalam starter words for the Vocabulary Learner.
-// Each word is [Malayalam, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/malayalam/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Malayalam, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.malayalam = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["നമസ്കാരം", "namaskaaram", "hello", ""],
       ["നന്ദി", "nandi", "thank you", "വളരെ നന്ദി: thank you very much."],
       ["ദയവായി", "dayavaayi", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.malayalam = [
       ["സുഖമാണ്", "sukhamaanu", "I'm well", ""],
       ["എന്റെ പേര്…", "ente peru…", "my name is…", ""],
       ["പോയി വരാം", "poyi varaam", "goodbye (I'll go and come back)", ""],
-      ["സ്വാഗതം", "swaagatham", "welcome", ""],
-    ],
+      ["സ്വാഗതം", "swaagatham", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ഞാൻ", "njaan", "I", ""],
       ["നിങ്ങൾ", "ningal", "you (polite)", "നീ: you (intimate)."],
       ["അവൻ", "avan", "he", ""],
@@ -37,13 +38,13 @@ window.LSD_DECKS.malayalam = [
       ["അമ്മ", "amma", "mother", ""],
       ["അച്ഛൻ", "achan", "father", ""],
       ["ചേട്ടൻ", "chettan", "elder brother", "അനിയൻ: younger brother."],
-      ["ചേച്ചി", "chechi", "elder sister", "അനിയത്തി: younger sister."],
-    ],
+      ["ചേച്ചി", "chechi", "elder sister", "അനിയത്തി: younger sister."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["പൂജ്യം", "puujyam", "zero", ""],
       ["ഒന്ന്", "onnu", "one", ""],
       ["രണ്ട്", "randu", "two", ""],
@@ -57,13 +58,13 @@ window.LSD_DECKS.malayalam = [
       ["പത്ത്", "pathu", "ten", ""],
       ["ഇരുപത്", "irupathu", "twenty", ""],
       ["നൂറ്", "nuuru", "a hundred", ""],
-      ["ആയിരം", "aayiram", "a thousand", ""],
-    ],
+      ["ആയിരം", "aayiram", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["വെള്ളം", "vellam", "water", ""],
       ["കാപ്പി", "kaappi", "coffee", ""],
       ["ചായ", "chaaya", "tea", ""],
@@ -78,13 +79,13 @@ window.LSD_DECKS.malayalam = [
       ["പഴം", "pazham", "fruit; banana", ""],
       ["ഭക്ഷണം", "bhakshanam", "food", ""],
       ["എരിവ്", "erivu", "spicy heat", ""],
-      ["രുചി", "ruchi", "taste", "നല്ല രുചി: tasty."],
-    ],
+      ["രുചി", "ruchi", "taste", "നല്ല രുചി: tasty."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["കഴിക്കുക", "kazhikkuka", "to eat", ""],
       ["കുടിക്കുക", "kudikkuka", "to drink", ""],
       ["പോകുക", "pokuka", "to go", ""],
@@ -99,13 +100,13 @@ window.LSD_DECKS.malayalam = [
       ["കാണുക", "kaanuka", "to see", ""],
       ["അറിയുക", "ariyuka", "to know", "എനിക്ക് അറിയില്ല: I don't know."],
       ["മനസ്സിലാവുക", "manassilaavuka", "to understand", "മനസ്സിലായില്ല: I didn't understand."],
-      ["ചെയ്യുക", "cheyyuka", "to do", ""],
-    ],
+      ["ചെയ്യുക", "cheyyuka", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["വലിയ", "valiya", "big", ""],
       ["ചെറിയ", "cheriya", "small", ""],
       ["നല്ല", "nalla", "good", ""],
@@ -119,13 +120,13 @@ window.LSD_DECKS.malayalam = [
       ["വില കൂടിയ", "vila kuudiya", "expensive", ""],
       ["എളുപ്പം", "eluppam", "easy", ""],
       ["ബുദ്ധിമുട്ട്", "budhimuttu", "difficult; difficulty", ""],
-      ["സന്തോഷം", "santhosham", "happiness; happy", ""],
-    ],
+      ["സന്തോഷം", "santhosham", "happiness; happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["വീട്", "viidu", "house; home", "വീട്ടിൽ: at home."],
       ["നഗരം", "nagaram", "city", ""],
       ["നാട്", "naadu", "home place; country", ""],
@@ -137,13 +138,13 @@ window.LSD_DECKS.malayalam = [
       ["അമ്പലം", "ambalam", "temple", "പള്ളി: church or mosque."],
       ["കടൽ", "kadal", "sea", ""],
       ["കായൽ", "kaayal", "backwater; lagoon", ""],
-      ["ശുചിമുറി", "shuchimuri", "toilet", ""],
-    ],
+      ["ശുചിമുറി", "shuchimuri", "toilet", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["എന്ത്?", "enthu?", "what?", ""],
       ["ആര്?", "aaru?", "who?", ""],
       ["എവിടെ?", "evide?", "where?", ""],
@@ -151,13 +152,13 @@ window.LSD_DECKS.malayalam = [
       ["എന്തിന്?", "enthinu?", "why?", ""],
       ["എങ്ങനെ?", "engane?", "how?", ""],
       ["എത്ര?", "ethra?", "how much? how many?", ""],
-      ["ഏത്?", "ethu?", "which?", ""],
-    ],
+      ["ഏത്?", "ethu?", "which?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ഇന്ന്", "innu", "today", ""],
       ["നാളെ", "naale", "tomorrow", ""],
       ["ഇന്നലെ", "innale", "yesterday", ""],
@@ -168,7 +169,7 @@ window.LSD_DECKS.malayalam = [
       ["ദിവസം", "divasam", "day", ""],
       ["ആഴ്ച", "aazhcha", "week", ""],
       ["മാസം", "maasam", "month", ""],
-      ["വർഷം", "varsham", "year", ""],
-    ],
-  },
+      ["വർഷം", "varsham", "year", ""]
+    ]
+  }
 ];

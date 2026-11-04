@@ -1,11 +1,12 @@
-// Tamil starter words for the Vocabulary Learner.
-// Each word is [Tamil, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/tamil/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Tamil, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.tamil = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["வணக்கம்", "vanakkam", "hello; goodbye", "With palms together."],
       ["நன்றி", "nandri", "thank you", "ரொம்ப நன்றி: thank you very much."],
       ["தயவுசெய்து", "dhayavuseydhu", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.tamil = [
       ["நன்றாக இருக்கிறேன்", "nandraaga irukkiren", "I'm well", ""],
       ["என் பெயர்…", "en peyar…", "my name is…", ""],
       ["போய் வருகிறேன்", "poi varugiren", "goodbye (I'll go and come back)", ""],
-      ["வாருங்கள்", "vaarungal", "welcome; please come in", ""],
-    ],
+      ["வாருங்கள்", "vaarungal", "welcome; please come in", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["நான்", "naan", "I", ""],
       ["நீங்கள்", "neengal", "you (polite)", "நீ: you (intimate)."],
       ["அவன்", "avan", "he", ""],
@@ -38,13 +39,13 @@ window.LSD_DECKS.tamil = [
       ["அம்மா", "ammaa", "mother", ""],
       ["அப்பா", "appaa", "father", ""],
       ["அண்ணன்", "annan", "elder brother", "தம்பி: younger brother."],
-      ["அக்கா", "akkaa", "elder sister", "தங்கை: younger sister."],
-    ],
+      ["அக்கா", "akkaa", "elder sister", "தங்கை: younger sister."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["பூஜ்யம்", "poojyam", "zero", ""],
       ["ஒன்று", "ondru", "one", ""],
       ["இரண்டு", "irandu", "two", ""],
@@ -58,13 +59,13 @@ window.LSD_DECKS.tamil = [
       ["பத்து", "paththu", "ten", ""],
       ["இருபது", "irubadhu", "twenty", ""],
       ["நூறு", "nooru", "a hundred", ""],
-      ["ஆயிரம்", "aayiram", "a thousand", ""],
-    ],
+      ["ஆயிரம்", "aayiram", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["தண்ணீர்", "thanneer", "water", ""],
       ["காபி", "kaapi", "coffee", "Filter coffee is the South Indian favourite."],
       ["டீ", "tee", "tea", ""],
@@ -79,13 +80,13 @@ window.LSD_DECKS.tamil = [
       ["பழம்", "pazham", "fruit; banana", ""],
       ["சாப்பாடு", "saappaadu", "meal; food", ""],
       ["காரம்", "kaaram", "spicy heat", ""],
-      ["ருசி", "rusi", "taste; tasty", ""],
-    ],
+      ["ருசி", "rusi", "taste; tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["சாப்பிடு", "saappidu", "eat", "Verbs are listed by their command form."],
       ["குடி", "kudi", "drink", ""],
       ["போ", "po", "go", ""],
@@ -100,13 +101,13 @@ window.LSD_DECKS.tamil = [
       ["பார்", "paar", "see; look", ""],
       ["தெரியும்", "theriyum", "know", "தெரியாது: I don't know."],
       ["புரிகிறது", "purigiradhu", "understand", "புரியவில்லை: I don't understand."],
-      ["செய்", "sey", "do", ""],
-    ],
+      ["செய்", "sey", "do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["பெரிய", "periya", "big", ""],
       ["சின்ன", "chinna", "small", ""],
       ["நல்ல", "nalla", "good", ""],
@@ -120,13 +121,13 @@ window.LSD_DECKS.tamil = [
       ["விலை உயர்ந்த", "vilai uyarndha", "expensive", ""],
       ["எளிதான", "elidhaana", "easy", ""],
       ["கடினமான", "kadinamaana", "difficult", ""],
-      ["சந்தோஷமான", "sandhoshamaana", "happy", ""],
-    ],
+      ["சந்தோஷமான", "sandhoshamaana", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["வீடு", "veedu", "house; home", "வீட்டில்: at home."],
       ["நகரம்", "nagaram", "city", ""],
       ["ஊர்", "oor", "town; home town", ""],
@@ -138,13 +139,13 @@ window.LSD_DECKS.tamil = [
       ["கோயில்", "koyil", "temple", ""],
       ["கடல்", "kadal", "sea", ""],
       ["கழிப்பறை", "kazhipparai", "toilet", ""],
-      ["ரயில் நிலையம்", "rayil nilaiyam", "railway station", ""],
-    ],
+      ["ரயில் நிலையம்", "rayil nilaiyam", "railway station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["என்ன?", "enna?", "what?", ""],
       ["யார்?", "yaar?", "who?", ""],
       ["எங்கே?", "enge?", "where?", ""],
@@ -153,13 +154,13 @@ window.LSD_DECKS.tamil = [
       ["எப்படி?", "eppadi?", "how?", ""],
       ["எவ்வளவு?", "evvalavu?", "how much?", ""],
       ["எத்தனை?", "eththanai?", "how many?", ""],
-      ["எது?", "edhu?", "which one?", ""],
-    ],
+      ["எது?", "edhu?", "which one?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["இன்று", "indru", "today", ""],
       ["நாளை", "naalai", "tomorrow", ""],
       ["நேற்று", "netru", "yesterday", ""],
@@ -170,7 +171,7 @@ window.LSD_DECKS.tamil = [
       ["நாள்", "naal", "day", ""],
       ["வாரம்", "vaaram", "week", ""],
       ["மாதம்", "maadham", "month", ""],
-      ["வருடம்", "varudam", "year", ""],
-    ],
-  },
+      ["வருடம்", "varudam", "year", ""]
+    ]
+  }
 ];

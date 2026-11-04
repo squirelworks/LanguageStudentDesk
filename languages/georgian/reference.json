@@ -307,6 +307,13 @@
       "topic": "verbs",
       "title": "“To be”",
       "body": "In the present, “to be” is very regular. In speech არის (is) often shrinks to -ა on the end of the word before it.",
+      "examples": [
+        {
+          "t": "ეს ჩემი სახლი{ა}.",
+          "r": "Es chemi sakhlia.",
+          "e": "This is my house."
+        }
+      ],
       "table": {
         "head": [
           "",
@@ -331,13 +338,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "ეს ჩემი სახლი{ა}.",
-          "r": "Es chemi sakhlia.",
-          "e": "This is my house."
-        }
-      ],
       "tags": [
         "verbs",
         "to be"

@@ -1,12 +1,13 @@
-// Amharic starter words for the Vocabulary Learner.
-// Each word is [Amharic, romanization, English, note]. Written for this project.
-// In the romanization e is the short vowel of “the” and gn is the ny of “canyon”.
+// Generated from squirrel-lang-data bd56e84 languages/amharic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Amharic, romanization, English, note]. Written for this
+// project. In the romanization e is the short vowel of “the” and gn is the ny
+// of “canyon”.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.amharic = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ሰላም", "selam", "hello; peace", "The everyday greeting."],
       ["ጤና ይስጥልኝ", "tena yistilign", "hello (polite)", "Literally “may he give you health for me”."],
       ["እንደምን አደርክ", "indemin aderk?", "good morning (to a man)", "To a woman: እንደምን አደርሽ, indemin adersh?"],
@@ -21,13 +22,13 @@ window.LSD_DECKS.amharic = [
       ["እሺ", "ishi", "OK", ""],
       ["ስሜ … ነው", "sime … new", "my name is …", ""],
       ["ደህና ሁን", "dehna hun", "goodbye (to a man)", "To a woman: ደህና ሁኚ, dehna hugni."],
-      ["እንኳን ደህና መጣህ", "inkwan dehna metah", "welcome (to a man)", ""],
-    ],
+      ["እንኳን ደህና መጣህ", "inkwan dehna metah", "welcome (to a man)", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["እኔ", "ine", "I", ""],
       ["አንተ", "ante", "you (to a man)", ""],
       ["አንቺ", "anchi", "you (to a woman)", ""],
@@ -44,13 +45,13 @@ window.LSD_DECKS.amharic = [
       ["ጓደኛ", "gwadegna", "friend", ""],
       ["እናት", "inat", "mother", ""],
       ["አባት", "abat", "father", ""],
-      ["ቤተሰብ", "beteseb", "family", ""],
-    ],
+      ["ቤተሰብ", "beteseb", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ዜሮ", "zero", "zero", ""],
       ["አንድ", "and", "one", "Ethiopic numeral ፩."],
       ["ሁለት", "hulet", "two", "፪"],
@@ -64,13 +65,13 @@ window.LSD_DECKS.amharic = [
       ["አሥር", "asir", "ten", "፲"],
       ["ሃያ", "haya", "twenty", "፳"],
       ["መቶ", "meto", "a hundred", "፻"],
-      ["ሺህ", "shih", "a thousand", ""],
-    ],
+      ["ሺህ", "shih", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ውሃ", "wiha", "water", ""],
       ["ቡና", "buna", "coffee", "Coffee is said to come from Ethiopia."],
       ["ሻይ", "shay", "tea", ""],
@@ -85,13 +86,13 @@ window.LSD_DECKS.amharic = [
       ["አትክልት", "atkilt", "vegetables", ""],
       ["ፍራፍሬ", "frafre", "fruit", ""],
       ["ጣፋጭ ነው", "tafach new", "it's delicious", ""],
-      ["ሂሳብ", "hisab", "the bill", "ሂሳብ እባክህ: the bill, please."],
-    ],
+      ["ሂሳብ", "hisab", "the bill", "ሂሳብ እባክህ: the bill, please."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["መብላት", "meblat", "to eat", "እበላለሁ: I eat."],
       ["መጠጣት", "metetat", "to drink", "እጠጣለሁ: I drink."],
       ["መሄድ", "mehed", "to go", "እሄዳለሁ: I go."],
@@ -106,13 +107,13 @@ window.LSD_DECKS.amharic = [
       ["መጻፍ", "metsaf", "to write", ""],
       ["ማየት", "mayet", "to see", ""],
       ["ማወቅ", "mawek", "to know", "አላውቅም: I don't know."],
-      ["መረዳት", "meredat", "to understand", "አልገባኝም, algebagnim: I don't understand."],
-    ],
+      ["መረዳት", "meredat", "to understand", "አልገባኝም, algebagnim: I don't understand."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ትልቅ", "tilik", "big", ""],
       ["ትንሽ", "tinish", "small; a little", ""],
       ["ጥሩ", "tiru", "good", ""],
@@ -127,13 +128,13 @@ window.LSD_DECKS.amharic = [
       ["ቀላል", "kelal", "easy; light", ""],
       ["ከባድ", "kebad", "difficult; heavy", ""],
       ["ደስተኛ", "desitegna", "happy", ""],
-      ["ደክሞኛል", "dekmognal", "I'm tired", ""],
-    ],
+      ["ደክሞኛል", "dekmognal", "I'm tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ቤት", "bet", "house; home", ""],
       ["ከተማ", "ketema", "city; town", ""],
       ["መንገድ", "menged", "road; way", ""],
@@ -147,13 +148,13 @@ window.LSD_DECKS.amharic = [
       ["ቤተ ክርስቲያን", "bete kristiyan", "church", ""],
       ["መስጊድ", "mesgid", "mosque", ""],
       ["ሽንት ቤት", "shint bet", "toilet", ""],
-      ["ሆቴል", "hotel", "hotel", ""],
-    ],
+      ["ሆቴል", "hotel", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ምን", "min", "what", ""],
       ["ማን", "man", "who", "Also used to ask a name."],
       ["የት", "yet", "where", ""],
@@ -165,13 +166,13 @@ window.LSD_DECKS.amharic = [
       ["የትኛው", "yetignaw", "which", ""],
       ["ዋጋው ስንት ነው", "wagaw sint new?", "how much does it cost?", ""],
       ["… አለ", "… alle?", "is there …? do you have …?", ""],
-      ["ይቻላል", "yichalal?", "is it possible? may I?", ""],
-    ],
+      ["ይቻላል", "yichalal?", "is it possible? may I?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["ዛሬ", "zare", "today", ""],
       ["ነገ", "nege", "tomorrow", ""],
       ["ትናንት", "tinant", "yesterday", ""],
@@ -185,13 +186,13 @@ window.LSD_DECKS.amharic = [
       ["ወር", "wer", "month", "The Ethiopian calendar has 12 months of 30 days and a short 13th month."],
       ["ዓመት", "amet", "year", ""],
       ["ሰኞ", "segno", "Monday", ""],
-      ["እሑድ", "ihud", "Sunday", ""],
-    ],
+      ["እሑድ", "ihud", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["አውቶቡስ", "autobus", "bus", ""],
       ["ባቡር", "babur", "train", ""],
       ["ታክሲ", "taksi", "taxi; minibus taxi", ""],
@@ -204,7 +205,7 @@ window.LSD_DECKS.amharic = [
       ["ቀጥታ", "kettita", "straight on", ""],
       ["ቅርብ", "kirb", "near", ""],
       ["ሩቅ", "ruk", "far", ""],
-      ["እርዳታ", "irdata!", "help!", ""],
-    ],
-  },
+      ["እርዳታ", "irdata!", "help!", ""]
+    ]
+  }
 ];
