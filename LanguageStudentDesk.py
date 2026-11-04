@@ -97,8 +97,9 @@ TOOLS = {
 }
 GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 
-# Tools that only show when a feature switch is on (see FEATURES below).
-TOOL_REQUIRES = {"translation-learner": "alpha"}
+# Tools that only show when a feature switch is on (see FEATURES below). Only
+# obscure content is hidden at the Simple level; being in alpha isn't a reason.
+TOOL_REQUIRES = {}
 
 # ?lang= values the scoped tools understand that are not languages in
 # languages/registry.js: the Programming Learner's courses.
