@@ -25,7 +25,7 @@ window.SGO_CATALOG = {
     },
     {
       "id": "grc-antoniades",
-      "name": "Πατριαρχικὸν Κείμενον (Patriarchal Text, Antoniades 1904/1912)",
+      "name": "Πατριαρχικὸν Κείμενον (Patriarchal Text, Antoniades 1904/1912, unaccented)",
       "lang": "grc",
       "dir": "ltr",
       "versification": "kjv",
