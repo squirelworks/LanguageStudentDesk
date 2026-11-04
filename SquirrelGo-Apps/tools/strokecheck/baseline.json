@@ -30,9 +30,6 @@
   "ト": "coverage 0.544",
   "ハ": "coverage 0.479"
  },
- "syllabics": {
-  "ᓪ": "coverage 0.744"
- },
  "thai": {
   "ษ": "coverage 0.705; precision 0.754"
  },
