@@ -19,9 +19,6 @@
  "hangul": {
   "ㅇ": "coverage 0.697"
  },
- "hebrew": {
-  "ר": "coverage 0.724"
- },
  "hiragana": {
   "う": "coverage 0.599",
   "ぐ": "coverage 0.467; precision 0.794",
