@@ -1,12 +1,12 @@
-// Russian starter words for the Vocabulary Learner.
-// Each word is [Cyrillic, romanization with the stressed vowel marked, English, note].
-// Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/cyrillic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Cyrillic, romanization with the stressed vowel marked, English,
+// note]. Written for this project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.cyrillic = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["здравствуйте", "zdrávstvuyte", "hello (polite)", "The first в is silent."],
       ["привет", "privét", "hi", "Casual."],
       ["спасибо", "spasíbo", "thank you", ""],
@@ -19,13 +19,13 @@ window.LSD_DECKS.cyrillic = [
       ["хорошо", "khoroshó", "good, well; okay", ""],
       ["доброе утро", "dóbroye útro", "good morning", ""],
       ["добрый вечер", "dóbryy vécher", "good evening", ""],
-      ["как дела?", "kak delá?", "how are you?", ""],
-    ],
+      ["как дела?", "kak delá?", "how are you?", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["я", "ya", "I", ""],
       ["ты", "ty", "you (one person, familiar)", ""],
       ["вы", "vy", "you (polite, or more than one)", ""],
@@ -44,13 +44,13 @@ window.LSD_DECKS.cyrillic = [
       ["ребёнок", "rebyónok", "child", "Plural: дети."],
       ["мужчина", "muzhchína", "man", ""],
       ["женщина", "zhénshchina", "woman", ""],
-      ["учитель", "uchítel'", "teacher", ""],
-    ],
+      ["учитель", "uchítel'", "teacher", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ноль", "nol'", "zero", ""],
       ["один", "odín", "one", ""],
       ["два", "dva", "two", ""],
@@ -65,13 +65,13 @@ window.LSD_DECKS.cyrillic = [
       ["двадцать", "dvádtsat'", "twenty", ""],
       ["сто", "sto", "hundred", ""],
       ["тысяча", "týsyacha", "thousand", ""],
-      ["рубль", "rubl'", "rouble", ""],
-    ],
+      ["рубль", "rubl'", "rouble", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["вода", "vodá", "water", ""],
       ["хлеб", "khleb", "bread", ""],
       ["чай", "chay", "tea", ""],
@@ -84,13 +84,13 @@ window.LSD_DECKS.cyrillic = [
       ["сыр", "syr", "cheese", ""],
       ["есть", "yest'", "to eat", "Also 'there is'."],
       ["пить", "pit'", "to drink", ""],
-      ["вкусно", "vkúsno", "tasty", ""],
-    ],
+      ["вкусно", "vkúsno", "tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Verbs",
-    words: [
+    "id": "verbs",
+    "title": "Verbs",
+    "words": [
       ["быть", "byt'", "to be", "Usually left out in the present: я студент."],
       ["иметь", "imét'", "to have", "Everyday speech uses у меня есть."],
       ["идти", "idtí", "to go (on foot)", ""],
@@ -108,13 +108,13 @@ window.LSD_DECKS.cyrillic = [
       ["смотреть", "smotrét'", "to watch, look", ""],
       ["слушать", "slúshat'", "to listen", ""],
       ["купить", "kupít'", "to buy", ""],
-      ["можно", "mózhno", "it's allowed; may I?", ""],
-    ],
+      ["можно", "mózhno", "it's allowed; may I?", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["большой", "bol'shóy", "big", ""],
       ["маленький", "málen'kiy", "small", ""],
       ["хороший", "khoróshiy", "good", ""],
@@ -131,13 +131,13 @@ window.LSD_DECKS.cyrillic = [
       ["чёрный", "chyórnyy", "black", ""],
       ["синий", "síniy", "dark blue", "Russian has a separate word for light blue: голубой."],
       ["зелёный", "zelyónyy", "green", ""],
-      ["очень", "óchen'", "very", ""],
-    ],
+      ["очень", "óchen'", "very", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places and time",
-    words: [
+    "id": "places",
+    "title": "Places and time",
+    "words": [
       ["дом", "dom", "house; home", "Дома means 'at home'."],
       ["город", "górod", "city, town", ""],
       ["улица", "úlitsa", "street", ""],
@@ -155,13 +155,13 @@ window.LSD_DECKS.cyrillic = [
       ["ночь", "noch'", "night", ""],
       ["год", "god", "year", ""],
       ["здесь", "zdes'", "here", ""],
-      ["там", "tam", "there", ""],
-    ],
+      ["там", "tam", "there", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Question words",
-    words: [
+    "id": "questions",
+    "title": "Question words",
+    "words": [
       ["что", "chto", "what", "Said shto."],
       ["кто", "kto", "who", ""],
       ["где", "gde", "where", ""],
@@ -169,13 +169,13 @@ window.LSD_DECKS.cyrillic = [
       ["когда", "kogdá", "when", ""],
       ["почему", "pochemú", "why", ""],
       ["как", "kak", "how", ""],
-      ["сколько", "skól'ko", "how much, how many", "Сколько стоит? How much does it cost?"],
-    ],
+      ["сколько", "skól'ko", "how much, how many", "Сколько стоит? How much does it cost?"]
+    ]
   },
   {
-    id: "time2",
-    title: "Days, months and seasons",
-    words: [
+    "id": "time2",
+    "title": "Days, months and seasons",
+    "words": [
       ["понедельник", "ponedél'nik", "Monday", "Days aren't capitalised in Russian. В понедельник: on Monday."],
       ["вторник", "vtórnik", "Tuesday", "From второй 'second'."],
       ["среда", "sredá", "Wednesday", "Literally 'middle'."],
@@ -200,13 +200,13 @@ window.LSD_DECKS.cyrillic = [
       ["потом", "potóm", "then, later", ""],
       ["уже", "uzhé", "already", ""],
       ["ещё", "yeshchó", "still; more", "Ещё чаю? More tea?"],
-      ["скоро", "skóro", "soon", ""],
-    ],
+      ["скоро", "skóro", "soon", ""]
+    ]
   },
   {
-    id: "body",
-    title: "Body and health",
-    words: [
+    "id": "body",
+    "title": "Body and health",
+    "words": [
       ["голова", "golová", "head", "У меня болит голова. I have a headache."],
       ["глаз", "glaz", "eye", ""],
       ["нос", "nos", "nose", ""],
@@ -222,13 +222,13 @@ window.LSD_DECKS.cyrillic = [
       ["врач", "vrach", "doctor", ""],
       ["аптека", "aptéka", "pharmacy", ""],
       ["лекарство", "lekárstvo", "medicine", ""],
-      ["помогите!", "pomogíte!", "help!", ""],
-    ],
+      ["помогите!", "pomogíte!", "help!", ""]
+    ]
   },
   {
-    id: "home",
-    title: "Home and things",
-    words: [
+    "id": "home",
+    "title": "Home and things",
+    "words": [
       ["квартира", "kvartíra", "flat, apartment", ""],
       ["комната", "kómnata", "room", ""],
       ["дверь", "dver'", "door", ""],
@@ -248,13 +248,13 @@ window.LSD_DECKS.cyrillic = [
       ["подарок", "podárok", "present, gift", ""],
       ["машина", "mashína", "car", "Also 'machine'."],
       ["кошка", "kóshka", "cat", ""],
-      ["собака", "sobáka", "dog", ""],
-    ],
+      ["собака", "sobáka", "dog", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["автобус", "avtóbus", "bus", ""],
       ["метро", "metró", "underground railway", "Never changes its ending."],
       ["поезд", "póyezd", "train", ""],
@@ -274,13 +274,13 @@ window.LSD_DECKS.cyrillic = [
       ["море", "móre", "sea", ""],
       ["река", "reká", "river", ""],
       ["лес", "les", "forest", ""],
-      ["гора", "gorá", "mountain", ""],
-    ],
+      ["гора", "gorá", "mountain", ""]
+    ]
   },
   {
-    id: "food2",
-    title: "More food",
-    words: [
+    "id": "food2",
+    "title": "More food",
+    "words": [
       ["завтрак", "závtrak", "breakfast", ""],
       ["обед", "obéd", "lunch", "The main midday meal."],
       ["ужин", "úzhin", "dinner, supper", ""],
@@ -298,13 +298,13 @@ window.LSD_DECKS.cyrillic = [
       ["ресторан", "restorán", "restaurant", ""],
       ["меню", "menyú", "menu", ""],
       ["счёт", "shchyot", "bill", "Счёт, пожалуйста. The bill, please."],
-      ["голодный", "golódnyy", "hungry", "Я голоден (man) / голодна (woman). I'm hungry."],
-    ],
+      ["голодный", "golódnyy", "hungry", "Я голоден (man) / голодна (woman). I'm hungry."]
+    ]
   },
   {
-    id: "verbs2",
-    title: "More verbs",
-    words: [
+    "id": "verbs2",
+    "title": "More verbs",
+    "words": [
       ["делать", "délat'", "to do, make", "Что ты делаешь? What are you doing?"],
       ["давать", "davát'", "to give", ""],
       ["брать", "brat'", "to take", ""],
@@ -328,13 +328,13 @@ window.LSD_DECKS.cyrillic = [
       ["стоить", "stóit'", "to cost", ""],
       ["мочь", "moch'", "to be able, can", "Я не могу. I can't."],
       ["надо", "nádo", "it's necessary, must", "Мне надо идти. I have to go."],
-      ["нравиться", "nrávit'sya", "to be pleasing (to like)", "Мне нравится Москва. I like Moscow."],
-    ],
+      ["нравиться", "nrávit'sya", "to be pleasing (to like)", "Мне нравится Москва. I like Moscow."]
+    ]
   },
   {
-    id: "describing2",
-    title: "More describing words",
-    words: [
+    "id": "describing2",
+    "title": "More describing words",
+    "words": [
       ["длинный", "dlínnyy", "long", ""],
       ["короткий", "korótkiy", "short", ""],
       ["высокий", "vysókiy", "tall, high", ""],
@@ -356,13 +356,13 @@ window.LSD_DECKS.cyrillic = [
       ["английский", "anglíyskiy", "English", ""],
       ["правильно", "právil'no", "correct, right", ""],
       ["тепло", "tepló", "it's warm", ""],
-      ["холодно", "khólodno", "it's cold", "Мне холодно. I'm cold."],
-    ],
+      ["холодно", "khólodno", "it's cold", "Мне холодно. I'm cold."]
+    ]
   },
   {
-    id: "little",
-    title: "Little words",
-    words: [
+    "id": "little",
+    "title": "Little words",
+    "words": [
       ["и", "i", "and", ""],
       ["а", "a", "and, but (contrast)", "Я русский, а она англичанка. I'm Russian, and she's English."],
       ["но", "no", "but", ""],
@@ -386,7 +386,7 @@ window.LSD_DECKS.cyrillic = [
       ["немного", "nemnógo", "a little", "Я немного говорю по-русски. I speak a little Russian."],
       ["всё", "vsyo", "everything; all", ""],
       ["ничего", "nichevó", "nothing; it's alright", ""],
-      ["по-русски", "po-rússki", "in Russian", "Вы говорите по-английски? Do you speak English?"],
-    ],
-  },
+      ["по-русски", "po-rússki", "in Russian", "Вы говорите по-английски? Do you speak English?"]
+    ]
+  }
 ];

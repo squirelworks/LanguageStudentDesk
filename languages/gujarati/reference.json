@@ -30,6 +30,12 @@
         "The Gujarati script grew out of Devanagari and is easy to compare with it: most letters have the same structure, but Gujarati drops the line along the top. Each consonant carries a short a, other vowels are marks around it, and full vowel letters start a word.",
         "Unlike Hindi, Gujarati uses the ordinary full stop and comma rather than the danda।"
       ],
+      "examples": [
+        {
+          "t": "क · ક   म · મ   ग · ગ",
+          "e": "Devanagari and Gujarati side by side"
+        }
+      ],
       "table": {
         "head": [
           "Vowel",
@@ -89,12 +95,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "क · ક   म · મ   ग · ગ",
-          "e": "Devanagari and Gujarati side by side"
-        }
-      ],
       "tags": [
         "script",
         "abugida"
@@ -211,6 +211,7 @@
       "id": "postpositions",
       "topic": "grammar",
       "title": "Postpositions",
+      "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
       "table": {
         "head": [
           "Ending",
@@ -250,7 +251,6 @@
           ]
         ]
       },
-      "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
       "tags": [
         "postpositions"
       ]

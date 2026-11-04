@@ -1,11 +1,12 @@
-// Sinhala starter words for the Vocabulary Learner (everyday spoken forms).
-// Each word is [Sinhala, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/sinhala/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Sinhala, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.sinhala = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ආයුබෝවන්", "aayubovan", "hello; goodbye", "Literally “may you live long”."],
       ["ස්තූතියි", "stuutiyi", "thank you", "බොහොම ස්තූතියි: thank you very much."],
       ["කරුණාකරලා", "karunaakaralaa", "please", ""],
@@ -17,13 +18,13 @@ window.LSD_DECKS.sinhala = [
       ["හොඳින්", "hondin", "well; fine", ""],
       ["මගේ නම…", "mage nama…", "my name is…", ""],
       ["ගිහින් එන්නම්", "gihin ennam", "goodbye (I'll go and come back)", ""],
-      ["සුබ උදෑසනක්", "suba udaesanak", "good morning", ""],
-    ],
+      ["සුබ උදෑසනක්", "suba udaesanak", "good morning", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["මම", "mama", "I", ""],
       ["ඔයා", "oyaa", "you", "Formal and written: ඔබ."],
       ["එයා", "eyaa", "he; she", ""],
@@ -37,13 +38,13 @@ window.LSD_DECKS.sinhala = [
       ["තාත්තා", "thaaththaa", "father", ""],
       ["අයියා", "ayiyaa", "elder brother", "මල්ලි: younger brother."],
       ["අක්කා", "akkaa", "elder sister", "නංගී: younger sister."],
-      ["පවුල", "pavula", "family", ""],
-    ],
+      ["පවුල", "pavula", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["බිංදුව", "binduva", "zero", ""],
       ["එක", "eka", "one", ""],
       ["දෙක", "deka", "two", ""],
@@ -57,13 +58,13 @@ window.LSD_DECKS.sinhala = [
       ["දහය", "dahaya", "ten", ""],
       ["විස්ස", "vissa", "twenty", ""],
       ["සීය", "siiya", "a hundred", ""],
-      ["දාහ", "daaha", "a thousand", ""],
-    ],
+      ["දාහ", "daaha", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["වතුර", "vathura", "water", ""],
       ["තේ", "the", "tea", "Ceylon tea."],
       ["කෝපි", "koopi", "coffee", ""],
@@ -77,13 +78,13 @@ window.LSD_DECKS.sinhala = [
       ["පලතුරු", "palathuru", "fruit", ""],
       ["පොල්", "pol", "coconut", ""],
       ["සැර", "saera", "spicy", ""],
-      ["රසයි", "rasayi", "it's tasty", ""],
-    ],
+      ["රසයි", "rasayi", "it's tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["කනවා", "kanavaa", "to eat", ""],
       ["බොනවා", "bonavaa", "to drink", ""],
       ["යනවා", "yanavaa", "to go", ""],
@@ -98,13 +99,13 @@ window.LSD_DECKS.sinhala = [
       ["ලියනවා", "liyanavaa", "to write", ""],
       ["බලනවා", "balanavaa", "to look; to watch", ""],
       ["දන්නවා", "dannavaa", "to know", "මම දන්නේ නෑ: I don't know."],
-      ["කරනවා", "karanavaa", "to do", ""],
-    ],
+      ["කරනවා", "karanavaa", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ලොකු", "loku", "big", ""],
       ["පොඩි", "podi", "small", ""],
       ["හොඳ", "honda", "good", ""],
@@ -118,13 +119,13 @@ window.LSD_DECKS.sinhala = [
       ["ගණන්", "ganan", "expensive", ""],
       ["ලේසි", "lesi", "easy", ""],
       ["අමාරු", "amaaru", "difficult", ""],
-      ["සතුටු", "sathutu", "happy", ""],
-    ],
+      ["සතුටු", "sathutu", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ගෙදර", "gedara", "home; house", ""],
       ["නගරය", "nagaraya", "city", ""],
       ["ගම", "gama", "village", ""],
@@ -136,13 +137,13 @@ window.LSD_DECKS.sinhala = [
       ["පන්සල", "pansala", "Buddhist temple", ""],
       ["මුහුද", "muhuda", "sea", ""],
       ["වැසිකිළිය", "vaesikiliya", "toilet", ""],
-      ["දුම්රිය ස්ථානය", "dumriya sthaanaya", "railway station", ""],
-    ],
+      ["දුම්රිය ස්ථානය", "dumriya sthaanaya", "railway station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["මොකක්ද?", "mokakda?", "what?", ""],
       ["කවුද?", "kavuda?", "who?", ""],
       ["කොහෙද?", "koheda?", "where?", ""],
@@ -150,13 +151,13 @@ window.LSD_DECKS.sinhala = [
       ["ඇයි?", "aeyi?", "why?", ""],
       ["කොහොමද?", "kohomada?", "how?", ""],
       ["කීයද?", "kiiyada?", "how much?", ""],
-      ["කීයටද?", "kiiyatada?", "at what time?", ""],
-    ],
+      ["කීයටද?", "kiiyatada?", "at what time?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["අද", "ada", "today", ""],
       ["හෙට", "heta", "tomorrow", ""],
       ["ඊයේ", "iiye", "yesterday", ""],
@@ -167,7 +168,7 @@ window.LSD_DECKS.sinhala = [
       ["දවස", "davasa", "day", ""],
       ["සතිය", "sathiya", "week", ""],
       ["මාසය", "maasaya", "month", ""],
-      ["අවුරුද්ද", "avurudda", "year", "Also the New Year in April."],
-    ],
-  },
+      ["අවුරුද්ද", "avurudda", "year", "Also the New Year in April."]
+    ]
+  }
 ];
