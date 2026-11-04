@@ -2,9 +2,18 @@
   "id": "punjabi",
   "name": "Punjabi",
   "nativeName": "ਪੰਜਾਬੀ",
-  "writingSystems": ["gurmukhi"],
-  "characterKeys": ["gurmukhi"],
+  "writingSystems": [
+    "gurmukhi"
+  ],
+  "characterKeys": [
+    "gurmukhi"
+  ],
   "notes": "Punjabi in Gurmukhi, the script used in India.",
   "speech": "pa-IN",
-  "data": { "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "pan",
+  "data": {
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

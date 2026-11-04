@@ -2,10 +2,20 @@
   "id": "arabic",
   "name": "Arabic",
   "nativeName": "العربية",
-  "writingSystems": ["arabic"],
-  "characterKeys": ["arabic"],
+  "writingSystems": [
+    "arabic"
+  ],
+  "characterKeys": [
+    "arabic"
+  ],
   "notes": "Abjad with contextual forms (isolated, initial, medial, final).",
   "speech": "ar-SA",
   "direction": "rtl",
-  "data": { "characters": "characters.js", "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "ara",
+  "data": {
+    "characters": "characters.js",
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

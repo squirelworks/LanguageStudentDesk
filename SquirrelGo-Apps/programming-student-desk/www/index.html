@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f0f12">
 <title>Programming Student Desk</title>
+<link rel="stylesheet" href="../../../languages/lsd-features.css">
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -44,6 +45,7 @@
   h2 { margin: 1.2rem 0 0; color: #80cbc4; font-size: 1.1rem; }
   h2 + p { margin: 0.2rem 0 0; color: #aaa; font-size: 0.85rem; }
   a.card em { display: block; margin-top: 0.3rem; color: #8e8e93; font-size: 0.8rem; font-style: normal; }
+  .switches { margin: 0.6rem 0 0; }
   footer { margin-top: 1.2rem; color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
 </style>
 </head>
@@ -54,9 +56,12 @@
   <p class="note" id="note" hidden></p>
 </header>
 <div class="bar" id="bar"></div>
+<div class="switches" id="switches"></div>
 <div id="list"></div>
 <footer>Language Student Desk · Programming Student Desk<br>Back returns to this menu. Progress stays on this device.</footer>
 <script src="../../../programming-learner/data/catalog.js"></script>
+<script src="../../../languages/features.js"></script>
+<script src="../../../languages/lsd-features.js"></script>
 <script src="../../../programming-learner/sections.js"></script>
 <script>
 (function () {
@@ -66,8 +71,12 @@
   var TAGS = SECTIONS.tags(catalog);
   var layout = SECTIONS.load();
   if (layout.tag && TAGS.indexOf(layout.tag) < 0) layout.tag = "";
-  // Which groups are shown. Both are on until Settings offers the switches.
-  var show = { older: true, joke: true };
+  // Which groups are shown: the older and joke switches, shared with the Desk.
+  var show = SECTIONS.shown();
+  SECTIONS.onSwitch(function () {
+    show = SECTIONS.shown();
+    render();
+  });
   var params = new URLSearchParams(location.search);
   var lang = (params.get("lang") || "").trim().toLowerCase();
   var match = null;
@@ -128,6 +137,7 @@
       });
       bar.appendChild(chips);
     }
+    SECTIONS.renderSwitches(document.getElementById("switches"));
     list.innerHTML = "";
     var top = el("ul");
     card(top, LEARNER, "All courses", "Open the Programming Learner and pick from the same list.");
