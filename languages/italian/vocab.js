@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/italian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/italian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Italian, English, note]. Nouns are given with the article.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.italian = [
