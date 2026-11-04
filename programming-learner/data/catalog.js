@@ -6,6 +6,7 @@
 // languages). tags: category tags for the filter, given for the modern and
 // older groups.
 window.PROGRAMMING_CATALOG = [
+  { id: "bash", name: "Bash", era: "1989 · the Unix shell", blurb: "The language of the terminal. Variables, tests, loops and pipelines that glue other programs together.", group: "modern", tags: ["Scripting"] },
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
   { id: "cpp", name: "C++", era: "1985 · systems and games", blurb: "C with classes grown up: references, the standard library, RAII and modern C++20.", group: "modern", tags: ["Compiled programs"] },
@@ -29,6 +30,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "rust", name: "Rust", era: "2015 · systems", blurb: "A modern systems language. The compiler keeps track of who owns each value.", group: "modern", tags: ["Compiled programs"] },
   { id: "slick", name: "Slick", era: "Experimental · Go in brackets", blurb: "Pascal Costanza's s-expression notation for Go. Same language underneath, Lisp-shaped on the page.", group: "modern", tags: ["Compiled programs"] },
   { id: "turbopascal", name: "Turbo Pascal", era: "1983 · DOS", blurb: "Borland's fast, friendly Pascal with the blue IDE. Where structured programming was learned for a decade.", group: "older", tags: ["Compiled programs"] },
+  { id: "typescript", name: "TypeScript", era: "2012 · large web apps", blurb: "JavaScript with types checked before it runs. Interfaces, unions, generics and typed async code.", group: "modern", tags: ["Scripting", "Web"] },
   { id: "whitespace", name: "Whitespace", era: "Esoteric · 2003", blurb: "Only spaces, tabs and newlines mean anything. Everything you can see is a comment.", group: "joke" },
   { id: "win16", name: "Win16", era: "1990–1995 · Windows 3.x", blurb: "C and the 16-bit Windows API: WinMain, the message loop and window procedures.", group: "older", tags: ["Compiled programs"] },
   { id: "z80", name: "Z80 Assembly", era: "1976 · 8-bit CPUs", blurb: "Talk to the processor directly: registers, flags, loops and the stack.", group: "older", tags: ["Assembly"] },
