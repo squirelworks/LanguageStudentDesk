@@ -9,6 +9,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "bash", name: "Bash", era: "1989 · the Unix shell", blurb: "The language of the terminal. Variables, tests, loops and pipelines that glue other programs together.", group: "modern", tags: ["Scripting"] },
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
+  { id: "csharp", name: "C#", era: "2000 · .NET, Windows and Unity", blurb: "Microsoft's main language: properties, records, pattern matching, LINQ queries and async code.", group: "modern", tags: ["Compiled programs"] },
   { id: "cpp", name: "C++", era: "1985 · systems and games", blurb: "C with classes grown up: references, the standard library, RAII and modern C++20.", group: "modern", tags: ["Compiled programs"] },
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
   { id: "basic", name: "Classic BASIC", era: "1964 · home computers", blurb: "Numbered lines, PRINT and GOTO: the BASIC that home computers of the late 1970s and 1980s switched on into.", group: "older", tags: ["Scripting"] },

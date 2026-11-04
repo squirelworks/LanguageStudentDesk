@@ -117,6 +117,7 @@ EXTRA_LANGS = [
     "basic",
     "sql",
     "html",
+    "csharp",
 ]
 
 
