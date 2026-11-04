@@ -2,9 +2,19 @@
   "id": "hindi",
   "name": "Hindi",
   "nativeName": "हिन्दी",
-  "writingSystems": ["devanagari"],
-  "characterKeys": ["devanagari"],
-  "speech": "hi-IN",
+  "writingSystems": [
+    "devanagari"
+  ],
+  "characterKeys": [
+    "devanagari"
+  ],
   "notes": "Devanagari abugida. The id matches the Character Learner's ?lang=hindi.",
-  "data": { "characters": "characters.js", "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "speech": "hi-IN",
+  "code": "hin",
+  "data": {
+    "characters": "characters.js",
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }

@@ -6,7 +6,7 @@ A collection of language learning tools and a desktop environment launcher.
 
 ```bash
 cd ~/FU
-git clone https://github.com/squirelworks/LanguageStudentDesk
+git clone --recursive https://github.com/squirelworks/LanguageStudentDesk
 cd LanguageStudentDesk
 python3 LanguageStudentDesk.py   # standard library only, nothing to install
 ```

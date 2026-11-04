@@ -2,9 +2,19 @@
   "id": "klingon",
   "name": "Klingon",
   "nativeName": "tlhIngan Hol",
-  "writingSystems": ["pIqaD"],
-  "characterKeys": ["klingon"],
+  "writingSystems": [
+    "pIqaD"
+  ],
+  "characterKeys": [
+    "klingon"
+  ],
   "notes": "pIqaD script.",
   "font": "pIqaD",
-  "data": { "characters": "characters.js", "grammar": "grammar.js", "vocab": "vocab.js", "reference": "reference.json" }
+  "code": "tlh",
+  "data": {
+    "characters": "characters.js",
+    "grammar": "grammar.js",
+    "vocab": "vocab.js",
+    "reference": "reference.json"
+  }
 }
