@@ -34,6 +34,9 @@
   let scope = null;    // language id, "programming", or null for all
   let topic = null;
   let level = null;    // level band from the tab bar, or null for all levels
+  let view = "cards";  // "cards", or "web" for the grammar web
+  const courses = {};  // id -> grammar course, or null when there is none
+  const WEB = "grammar-web";
   let query = "";
   let notice = "";     // shown when ?lang= names a language with no cards
 
@@ -97,6 +100,8 @@
 
   function go(id, entryId) {
     scope = id && refs[id] ? id : null;
+    view = scope && entryId === WEB ? "web" : "cards";
+    if (view === "web") entryId = null;
     notice = id && !scope ? "No reference cards for “" + id + "” yet. " : "";
     if ($("langSelect").value !== (scope || "")) {
       $("langSelect").value = scope || "";
@@ -158,18 +163,54 @@
     }
     $("intro").innerHTML = meta ? intro(meta) : "";
 
-    // Level tabs: only the levels the cards in this scope are tagged with.
-    level = LSD.levels.tabs($("levelTabs"), ids.flatMap((id) => refs[id].entries), scope, () => render());
+    // The grammar web needs the language's course; load it once, then draw.
+    const course = meta ? courses[meta.id] : null;
+    if (meta && !(meta.id in courses)) {
+      courses[meta.id] = null;
+      LSD.load(meta.id, "grammar").then((c) => {
+        courses[meta.id] = c;
+        if (scope === meta.id) render();
+      }, () => {});
+    }
+    const webable = !!meta && ((course && course.lessons && course.lessons.length) || refs[meta.id].entries.some((e) => e.topic === "grammar"));
+    if (!webable) view = "cards";
+
+    // Level tabs: only the levels the cards (or, in the web, the grammar points) are tagged with.
+    const levelled = ids.flatMap((id) => refs[id].entries).concat(view === "web" && course ? (course.lessons || []).concat(course.plan || []) : []);
+    level = LSD.levels.tabs($("levelTabs"), levelled, scope, () => render());
     const levelName = level ? LSD.levels.BANDS.find((b) => b.id === level).name : "";
 
     // Topic chips: only topics present in the current scope.
     const present = new Set(ids.flatMap((id) => refs[id].entries.map((e) => e.topic)));
-    $("topics").innerHTML = '<button data-t=""' + (topic ? "" : ' class="active"') + ">All topics</button>" +
-      TOPICS.filter(([t]) => present.has(t)).map(([t, n]) => '<button data-t="' + t + '"' + (topic === t ? ' class="active"' : "") + ">" + n + "</button>").join("");
+    const cardsView = view === "cards";
+    $("topics").innerHTML = '<button data-t=""' + (cardsView && !topic ? ' class="active"' : "") + ">All topics</button>" +
+      TOPICS.filter(([t]) => present.has(t)).map(([t, n]) => '<button data-t="' + t + '"' + (cardsView && topic === t ? ' class="active"' : "") + ">" + n + "</button>").join("") +
+      (webable ? '<button data-t="' + WEB + '" class="web' + (cardsView ? "" : " active") + '">Grammar web</button>' : "");
     $("topics").querySelectorAll("button").forEach((b) => (b.onclick = () => {
-      topic = b.dataset.t || null;
+      view = b.dataset.t === WEB ? "web" : "cards";
+      topic = view === "web" ? null : b.dataset.t || null;
+      history.replaceState(null, "", location.pathname + location.search + (view === "web" ? "#" + scope + "/" + WEB : ""));
       render();
     }));
+
+    if (view === "web") {
+      window.LSD_GRAMMAR_WEB.render($("results"), {
+        meta, course, cards: refs[meta.id].entries, level,
+        onCard: (cardId) => {
+          view = "cards";
+          topic = "grammar";
+          history.replaceState(null, "", location.pathname + location.search + "#" + scope + "/" + cardId);
+          render();
+          const el = document.getElementById("e-" + scope + "-" + cardId);
+          if (el) {
+            el.scrollIntoView({ block: "start" });
+            el.classList.add("flash");
+          }
+        },
+      });
+      $("subtitle").textContent = "Every grammar point, by level. Pick one to open it.";
+      return;
+    }
 
     let html = "";
     let shown = 0;
