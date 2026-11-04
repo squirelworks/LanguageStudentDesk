@@ -1,12 +1,13 @@
-// Burmese starter words for the Vocabulary Learner.
-// Each word is [Burmese, romanization, English, note]. Written for this project.
-// The romanization is a simple everyday spelling without tone marks; use text to speech to hear each tone.
+// Generated from squirrel-lang-data bd56e84 languages/burmese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Burmese, romanization, English, note]. Written for this
+// project. The romanization is a simple everyday spelling without tone marks;
+// use text to speech to hear each tone.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.burmese = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["မင်္ဂလာပါ", "mingalaba", "hello", "The standard polite greeting."],
       ["ကျေးဇူးတင်ပါတယ်", "kyay zu tin ba de", "thank you", "Casual: ကျေးဇူးပဲ, kyay zu be."],
       ["တောင်းပန်ပါတယ်", "taung ban ba de", "sorry", ""],
@@ -18,13 +19,13 @@ window.LSD_DECKS.burmese = [
       ["တွေ့ရတာ ဝမ်းသာပါတယ်", "twe ya da wun tha ba de", "pleased to meet you", ""],
       ["ကျွန်တော့်နာမည် … ပါ", "kyanaw nanme … ba", "my name is … (man)", "A woman says ကျွန်မနာမည်, kyama nanme."],
       ["သွားပြီနော်", "thwa bi naw", "I'm off; bye", ""],
-      ["နောက်မှ တွေ့မယ်", "nauk hma twe me", "see you later", ""],
-    ],
+      ["နောက်မှ တွေ့မယ်", "nauk hma twe me", "see you later", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ကျွန်တော်", "kyanaw", "I (man)", ""],
       ["ကျွန်မ", "kyama", "I (woman)", ""],
       ["ခင်ဗျား", "khin bya", "you (said by a man)", ""],
@@ -39,13 +40,13 @@ window.LSD_DECKS.burmese = [
       ["အဖေ", "a hpe", "father", ""],
       ["အစ်ကို", "a ko", "older brother", "Also a polite way to address a young man."],
       ["အစ်မ", "a ma", "older sister", "Also a polite way to address a young woman."],
-      ["မိသားစု", "mi tha zu", "family", ""],
-    ],
+      ["မိသားစု", "mi tha zu", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["သုည", "thon nya", "zero", "Burmese digit ၀."],
       ["တစ်", "tit", "one", "၁"],
       ["နှစ်", "hnit", "two", "၂"],
@@ -59,13 +60,13 @@ window.LSD_DECKS.burmese = [
       ["တစ်ဆယ်", "ta se", "ten", "၁၀"],
       ["နှစ်ဆယ်", "hna se", "twenty", ""],
       ["တစ်ရာ", "ta ya", "a hundred", ""],
-      ["တစ်ထောင်", "ta htaung", "a thousand", ""],
-    ],
+      ["တစ်ထောင်", "ta htaung", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ရေ", "ye", "water", ""],
       ["ကော်ဖီ", "kaw hpi", "coffee", ""],
       ["လက်ဖက်ရည်", "laphet ye", "tea (with milk)", "Sweet milky tea from a tea shop."],
@@ -80,13 +81,13 @@ window.LSD_DECKS.burmese = [
       ["ဟင်းသီးဟင်းရွက်", "hin thi hin ywet", "vegetables", ""],
       ["စပ်တယ်", "sat te", "it's spicy", "မစပ်ဘူး: not spicy."],
       ["စားကောင်းတယ်", "sa kaung de", "it's tasty", ""],
-      ["ပိုက်ဆံရှင်းမယ်", "paik hsan shin me", "the bill, please", "Literally “I'll settle the money”."],
-    ],
+      ["ပိုက်ဆံရှင်းမယ်", "paik hsan shin me", "the bill, please", "Literally “I'll settle the money”."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["စား", "sa", "eat", "Verbs never change; endings like တယ် and မယ် do the work."],
       ["သောက်", "thauk", "drink", ""],
       ["သွား", "thwa", "go", ""],
@@ -102,13 +103,13 @@ window.LSD_DECKS.burmese = [
       ["ရေး", "yay", "write", ""],
       ["ကြည့်", "kyi", "look; watch", ""],
       ["သိ", "thi", "know", "မသိဘူး: I don't know."],
-      ["နားလည်", "na le", "understand", "နားမလည်ဘူး: I don't understand."],
-    ],
+      ["နားလည်", "na le", "understand", "နားမလည်ဘူး: I don't understand."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ကြီး", "kyi", "big", "ကြီးတယ်: it's big."],
       ["သေး", "thay", "small", ""],
       ["ကောင်း", "kaung", "good", ""],
@@ -123,13 +124,13 @@ window.LSD_DECKS.burmese = [
       ["လွယ်", "lwe", "easy", ""],
       ["ခက်", "khet", "difficult", ""],
       ["ပျော်", "pyaw", "happy", ""],
-      ["ပင်ပန်း", "pin pan", "tired", ""],
-    ],
+      ["ပင်ပန်း", "pin pan", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["အိမ်", "ein", "house; home", ""],
       ["မြို့", "myo", "town; city", ""],
       ["လမ်း", "lan", "road; street", ""],
@@ -143,13 +144,13 @@ window.LSD_DECKS.burmese = [
       ["မြစ်", "myit", "river", ""],
       ["အိမ်သာ", "ein tha", "toilet", ""],
       ["ဟိုတယ်", "hotel", "hotel", ""],
-      ["လေဆိပ်", "lay hseik", "airport", ""],
-    ],
+      ["လေဆိပ်", "lay hseik", "airport", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ဘာ", "ba", "what", "End the question with လဲ."],
       ["ဘယ်သူ", "be thu", "who", ""],
       ["ဘယ်မှာ", "be hma", "where", ""],
@@ -161,13 +162,13 @@ window.LSD_DECKS.burmese = [
       ["လား", "la", "yes/no question ending", ""],
       ["လဲ", "le", "ending for questions with a question word", ""],
       ["… ရှိလား", "… shi la?", "do you have …?", ""],
-      ["ရလား", "ya la?", "is it OK? can I?", ""],
-    ],
+      ["ရလား", "ya la?", "is it OK? can I?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["ဒီနေ့", "di ne", "today", ""],
       ["မနက်ဖြန်", "mane hpyan", "tomorrow", ""],
       ["မနေ့က", "mane ga", "yesterday", ""],
@@ -179,13 +180,13 @@ window.LSD_DECKS.burmese = [
       ["လ", "la", "month; moon", ""],
       ["နှစ်", "hnit", "year", "Same spelling as “two”."],
       ["တနင်္လာနေ့", "tanin la ne", "Monday", ""],
-      ["တနင်္ဂနွေနေ့", "tanin ganwe ne", "Sunday", ""],
-    ],
+      ["တနင်္ဂနွေနေ့", "tanin ganwe ne", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["ဘတ်စ်ကား", "bat sa ka", "bus", ""],
       ["ရထား", "yatha", "train", ""],
       ["တက္ကစီ", "tet ka si", "taxi", ""],
@@ -197,7 +198,7 @@ window.LSD_DECKS.burmese = [
       ["တည့်တည့်", "te de", "straight on", ""],
       ["နီး", "ni", "near", ""],
       ["ဝေး", "way", "far", ""],
-      ["ကယ်ပါ", "ke ba!", "help!", ""],
-    ],
-  },
+      ["ကယ်ပါ", "ke ba!", "help!", ""]
+    ]
+  }
 ];

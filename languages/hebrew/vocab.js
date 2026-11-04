@@ -1,12 +1,13 @@
-// Modern Hebrew starter words for the Vocabulary Learner.
-// Each word is [Hebrew, transliteration, English, note]. Written for this project.
-// Hebrew is written without vowel points; (m) and (f) mark masculine and feminine forms.
+// Generated from squirrel-lang-data bd56e84 languages/hebrew/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Hebrew, transliteration, English, note]. Written for this
+// project. Hebrew is written without vowel points; (m) and (f) mark masculine
+// and feminine forms.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.hebrew = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["שלום", "shalom", "hello; goodbye; peace", "The all-purpose greeting."],
       ["בוקר טוב", "boker tov", "good morning", "Answer: בוקר אור, boker or."],
       ["ערב טוב", "erev tov", "good evening", ""],
@@ -22,13 +23,13 @@ window.LSD_DECKS.hebrew = [
       ["נעים מאוד", "na'im me'od", "pleased to meet you", ""],
       ["קוראים לי…", "kor'im li…", "my name is…", "Literally “they call me…”."],
       ["להתראות", "lehitra'ot", "see you; goodbye", ""],
-      ["ברוך הבא", "baruch haba", "welcome", "To a woman: ברוכה הבאה, brucha haba'a."],
-    ],
+      ["ברוך הבא", "baruch haba", "welcome", "To a woman: ברוכה הבאה, brucha haba'a."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["אני", "ani", "I", ""],
       ["אתה", "ata", "you (m)", ""],
       ["את", "at", "you (f)", ""],
@@ -44,13 +45,13 @@ window.LSD_DECKS.hebrew = [
       ["אבא", "aba", "dad", ""],
       ["אח", "ach", "brother", ""],
       ["אחות", "achot", "sister", ""],
-      ["משפחה", "mishpacha", "family", ""],
-    ],
+      ["משפחה", "mishpacha", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["אפס", "efes", "zero", ""],
       ["אחת", "achat", "one", "Counting aloud uses the feminine forms; אחד, echad, with masculine nouns."],
       ["שתיים", "shtayim", "two", "שניים, shnayim, with masculine nouns."],
@@ -64,13 +65,13 @@ window.LSD_DECKS.hebrew = [
       ["עשר", "eser", "ten", ""],
       ["עשרים", "esrim", "twenty", ""],
       ["מאה", "me'a", "a hundred", ""],
-      ["אלף", "elef", "a thousand", ""],
-    ],
+      ["אלף", "elef", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["מים", "mayim", "water", ""],
       ["קפה", "kafe", "coffee", ""],
       ["תה", "te", "tea", ""],
@@ -86,13 +87,13 @@ window.LSD_DECKS.hebrew = [
       ["אוכל", "ochel", "food", ""],
       ["ארוחת בוקר", "aruchat boker", "breakfast", ""],
       ["החשבון, בבקשה", "ha-cheshbon, bevakasha", "the bill, please", ""],
-      ["טעים", "ta'im", "tasty", ""],
-    ],
+      ["טעים", "ta'im", "tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["לאכול", "le'echol", "to eat", "Present: אוכל / אוכלת."],
       ["לשתות", "lishtot", "to drink", "Present: שותה."],
       ["ללכת", "lalechet", "to go; to walk", "Present: הולך / הולכת."],
@@ -108,13 +109,13 @@ window.LSD_DECKS.hebrew = [
       ["לראות", "lir'ot", "to see", "Present: רואה."],
       ["לדעת", "lada'at", "to know", "Present: יודע / יודעת."],
       ["להבין", "lehavin", "to understand", "Present: מבין / מבינה."],
-      ["לעשות", "la'asot", "to do; to make", "Present: עושה."],
-    ],
+      ["לעשות", "la'asot", "to do; to make", "Present: עושה."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["גדול", "gadol", "big", "Feminine גדולה."],
       ["קטן", "katan", "small", "Feminine קטנה."],
       ["טוב", "tov", "good", "Feminine טובה."],
@@ -130,13 +131,13 @@ window.LSD_DECKS.hebrew = [
       ["קשה", "kashe", "hard; difficult", ""],
       ["שמח", "sameach", "happy", ""],
       ["עייף", "ayef", "tired", ""],
-      ["מהר", "maher", "quickly", "לאט, le'at: slowly."],
-    ],
+      ["מהר", "maher", "quickly", "לאט, le'at: slowly."]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["בית", "bayit", "house; home", "בבית: at home."],
       ["עיר", "ir", "city", ""],
       ["רחוב", "rechov", "street", ""],
@@ -150,13 +151,13 @@ window.LSD_DECKS.hebrew = [
       ["ים", "yam", "sea", ""],
       ["שירותים", "sherutim", "toilets", ""],
       ["בנק", "bank", "bank", ""],
-      ["מלון", "malon", "hotel", ""],
-    ],
+      ["מלון", "malon", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["מה?", "ma?", "what?", ""],
       ["מי?", "mi?", "who?", ""],
       ["איפה?", "eifo?", "where?", ""],
@@ -168,13 +169,13 @@ window.LSD_DECKS.hebrew = [
       ["כמה?", "kama?", "how much? how many?", "כמה זה עולה? How much does it cost?"],
       ["איזה?", "eize?", "which?", "Feminine איזו, eizo."],
       ["יש…?", "yesh…?", "is there…? do you have…?", ""],
-      ["אפשר…?", "efshar…?", "may I…? is it possible…?", "אפשר מים? Could I have some water?"],
-    ],
+      ["אפשר…?", "efshar…?", "may I…? is it possible…?", "אפשר מים? Could I have some water?"]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["היום", "hayom", "today", ""],
       ["מחר", "machar", "tomorrow", ""],
       ["אתמול", "etmol", "yesterday", ""],
@@ -186,13 +187,13 @@ window.LSD_DECKS.hebrew = [
       ["שנה", "shana", "year", ""],
       ["יום ראשון", "yom rishon", "Sunday", "The first working day of the Israeli week."],
       ["יום שישי", "yom shishi", "Friday", ""],
-      ["שבת", "shabat", "Saturday; the Sabbath", ""],
-    ],
+      ["שבת", "shabat", "Saturday; the Sabbath", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["אוטובוס", "otobus", "bus", ""],
       ["רכבת", "rakevet", "train", ""],
       ["מונית", "monit", "taxi", ""],
@@ -206,7 +207,7 @@ window.LSD_DECKS.hebrew = [
       ["רחוק", "rachok", "far", ""],
       ["מפה", "mapa", "map", ""],
       ["עזרה!", "ezra!", "help!", ""],
-      ["אני לא מבין", "ani lo mevin", "I don't understand", "A woman says מבינה, mevina."],
-    ],
-  },
+      ["אני לא מבין", "ani lo mevin", "I don't understand", "A woman says מבינה, mevina."]
+    ]
+  }
 ];

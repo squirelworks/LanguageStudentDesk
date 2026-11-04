@@ -1,12 +1,12 @@
-// Modern Greek starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/greek/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Greek, romanization, English, note]. Written for this project.
 // Nouns carry their article (ο masculine, η feminine, το neuter).
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.greek = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["γεια σου", "giá sou", "hi; bye (to one friend)", "γεια σας to several people or politely."],
       ["γεια σας", "giá sas", "hello; goodbye (polite)", ""],
       ["καλημέρα", "kaliméra", "good morning", "Used until about midday."],
@@ -22,13 +22,13 @@ window.LSD_DECKS.greek = [
       ["καλά", "kalá", "well; fine", "Καλά, ευχαριστώ. Fine, thanks."],
       ["χαίρω πολύ", "chéro polí", "pleased to meet you", ""],
       ["με λένε…", "me léne…", "my name is…", "Literally “they call me…”."],
-      ["αντίο", "andío", "goodbye", ""],
-    ],
+      ["αντίο", "andío", "goodbye", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["εγώ", "egó", "I", ""],
       ["εσύ", "esí", "you (one, familiar)", ""],
       ["εσείς", "esís", "you (plural or polite)", ""],
@@ -49,13 +49,13 @@ window.LSD_DECKS.greek = [
       ["η οικογένεια", "i ikogénia", "family", ""],
       ["το όνομα", "to ónoma", "name", "Πώς σε λένε; What's your name?"],
       ["ο γιατρός", "o giatrós", "doctor", "Also η γιατρός for a woman."],
-      ["ο δάσκαλος", "o dáskalos", "teacher", "η δασκάλα for a woman."],
-    ],
+      ["ο δάσκαλος", "o dáskalos", "teacher", "η δασκάλα for a woman."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["μηδέν", "midén", "zero", ""],
       ["ένα", "éna", "one", "ένας, μία, ένα also mean “a”."],
       ["δύο", "dío", "two", ""],
@@ -75,13 +75,13 @@ window.LSD_DECKS.greek = [
       ["εκατό", "ekató", "a hundred", ""],
       ["χίλια", "chília", "a thousand", ""],
       ["πρώτος", "prótos", "first", ""],
-      ["δεύτερος", "défteros", "second", ""],
-    ],
+      ["δεύτερος", "défteros", "second", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["το νερό", "to neró", "water", ""],
       ["ο καφές", "o kafés", "coffee", "Ένα φραπέ: iced coffee."],
       ["το τσάι", "to tsái", "tea", ""],
@@ -101,13 +101,13 @@ window.LSD_DECKS.greek = [
       ["το αλάτι", "to aláti", "salt", ""],
       ["η ζάχαρη", "i záchari", "sugar", ""],
       ["το φαγητό", "to fagitó", "food; meal", ""],
-      ["ο λογαριασμός", "o logariasmós", "the bill", "Τον λογαριασμό, παρακαλώ."],
-    ],
+      ["ο λογαριασμός", "o logariasmós", "the bill", "Τον λογαριασμό, παρακαλώ."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["είμαι", "íme", "I am", "είσαι, είναι, είμαστε, είστε, είναι."],
       ["έχω", "écho", "I have", ""],
       ["θέλω", "thélo", "I want", "Θέλω έναν καφέ. I want a coffee."],
@@ -131,13 +131,13 @@ window.LSD_DECKS.greek = [
       ["αγοράζω", "agorázo", "I buy", ""],
       ["δίνω", "díno", "I give", ""],
       ["παίρνω", "pérno", "I take; I get", ""],
-      ["κοιμάμαι", "kimáme", "I sleep", ""],
-    ],
+      ["κοιμάμαι", "kimáme", "I sleep", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing things",
-    words: [
+    "id": "describing",
+    "title": "Describing things",
+    "words": [
       ["μεγάλος", "megálos", "big", "Adjectives end -ος, -η/-α, -ο to match the noun."],
       ["μικρός", "mikrós", "small", ""],
       ["καλός", "kalós", "good", ""],
@@ -157,13 +157,13 @@ window.LSD_DECKS.greek = [
       ["κόκκινος", "kókkinos", "red", ""],
       ["μπλε", "ble", "blue", "Never changes its ending."],
       ["πράσινος", "prásinos", "green", ""],
-      ["κίτρινος", "kítrinos", "yellow", ""],
-    ],
+      ["κίτρινος", "kítrinos", "yellow", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["το σπίτι", "to spíti", "house; home", ""],
       ["η πόλη", "i póli", "city", ""],
       ["το χωριό", "to chorió", "village", ""],
@@ -184,13 +184,13 @@ window.LSD_DECKS.greek = [
       ["το αεροδρόμιο", "to aerodrómio", "airport", ""],
       ["η Ελλάδα", "i Elláda", "Greece", ""],
       ["εδώ", "edó", "here", ""],
-      ["εκεί", "ekí", "there", ""],
-    ],
+      ["εκεί", "ekí", "there", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions and little words",
-    words: [
+    "id": "questions",
+    "title": "Questions and little words",
+    "words": [
       ["τι;", "ti?", "what?", ""],
       ["ποιος;", "piós?", "who?", "ποια, ποιο for feminine and neuter."],
       ["πού;", "poú?", "where?", "Πού είναι η τουαλέτα;"],
@@ -210,13 +210,13 @@ window.LSD_DECKS.greek = [
       ["λίγο", "lígo", "a little", ""],
       ["τώρα", "tóra", "now", ""],
       ["μετά", "metá", "after; later", ""],
-      ["πάντα", "pánda", "always", ""],
-    ],
+      ["πάντα", "pánda", "always", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Days and time",
-    words: [
+    "id": "time",
+    "title": "Days and time",
+    "words": [
       ["σήμερα", "símera", "today", ""],
       ["αύριο", "ávrio", "tomorrow", ""],
       ["χθες", "chthes", "yesterday", "Also spelled χτες."],
@@ -236,13 +236,13 @@ window.LSD_DECKS.greek = [
       ["το Σάββατο", "to Sávvato", "Saturday", ""],
       ["η Κυριακή", "i Kiriakí", "Sunday", "“The Lord's day”."],
       ["το καλοκαίρι", "to kalokéri", "summer", ""],
-      ["ο χειμώνας", "o chimónas", "winter", ""],
-    ],
+      ["ο χειμώνας", "o chimónas", "winter", ""]
+    ]
   },
   {
-    id: "body",
-    title: "Body and health",
-    words: [
+    "id": "body",
+    "title": "Body and health",
+    "words": [
       ["το κεφάλι", "to kefáli", "head", ""],
       ["το μάτι", "to máti", "eye", "Το μάτι is also the blue charm against the evil eye."],
       ["το αυτί", "to aftí", "ear", ""],
@@ -260,13 +260,13 @@ window.LSD_DECKS.greek = [
       ["πεινάω", "pináo", "I'm hungry", ""],
       ["διψάω", "dipsáo", "I'm thirsty", ""],
       ["βοήθεια!", "voíthia!", "help!", ""],
-      ["το φάρμακο", "to fármako", "medicine", ""],
-    ],
+      ["το φάρμακο", "to fármako", "medicine", ""]
+    ]
   },
   {
-    id: "home",
-    title: "At home",
-    words: [
+    "id": "home",
+    "title": "At home",
+    "words": [
       ["η πόρτα", "i pórta", "door", ""],
       ["το παράθυρο", "to paráthiro", "window", ""],
       ["το δωμάτιο", "to domátio", "room", ""],
@@ -282,13 +282,13 @@ window.LSD_DECKS.greek = [
       ["τα λεφτά", "ta leftá", "money", "Always plural."],
       ["τα ρούχα", "ta roúcha", "clothes", ""],
       ["το ποτήρι", "to potíri", "glass", ""],
-      ["το πιάτο", "to piáto", "plate; dish", ""],
-    ],
+      ["το πιάτο", "to piáto", "plate; dish", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["το αυτοκίνητο", "to aftokínito", "car", "Also το αμάξι."],
       ["το λεωφορείο", "to leoforío", "bus", ""],
       ["το πλοίο", "to plío", "ship; ferry", ""],
@@ -306,7 +306,7 @@ window.LSD_DECKS.greek = [
       ["ανοιχτός", "anichtós", "open", ""],
       ["κλειστός", "klistós", "closed", ""],
       ["η είσοδος", "i ísodos", "entrance", "Feminine, though it ends in -ος."],
-      ["η έξοδος", "i éxodos", "exit", ""],
-    ],
-  },
+      ["η έξοδος", "i éxodos", "exit", ""]
+    ]
+  }
 ];

@@ -1,12 +1,12 @@
-// Lao starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/lao/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Lao, romanization, English, note]. Written for this project.
 // The romanization has no tone marks; use text to speech to hear each tone.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.lao = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ສະບາຍດີ", "sabaidi", "hello; goodbye", ""],
       ["ຂອບໃຈ", "khop chai", "thank you", "ຂອບໃຈຫຼາຍໆ: thank you very much."],
       ["ຂໍໂທດ", "kho thot", "sorry; excuse me", ""],
@@ -18,13 +18,13 @@ window.LSD_DECKS.lao = [
       ["ຂ້ອຍຊື່…", "khoy sue…", "my name is…", ""],
       ["ໂຊກດີ", "sok di", "good luck; goodbye", ""],
       ["ລາກ່ອນ", "la kon", "goodbye (for a long time)", ""],
-      ["ຍິນດີທີ່ໄດ້ຮູ້ຈັກ", "nyin di thi dai hu chak", "pleased to meet you", ""],
-    ],
+      ["ຍິນດີທີ່ໄດ້ຮູ້ຈັກ", "nyin di thi dai hu chak", "pleased to meet you", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ຂ້ອຍ", "khoy", "I", ""],
       ["ເຈົ້າ", "chao", "you", ""],
       ["ລາວ", "lao", "he; she", ""],
@@ -39,13 +39,13 @@ window.LSD_DECKS.lao = [
       ["ອ້າຍ", "ai", "elder brother", ""],
       ["ເອື້ອຍ", "euay", "elder sister", ""],
       ["ນ້ອງ", "nong", "younger brother or sister", ""],
-      ["ຄອບຄົວ", "khop khua", "family", ""],
-    ],
+      ["ຄອບຄົວ", "khop khua", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ສູນ", "sun", "zero", "Lao digit ໐."],
       ["ໜຶ່ງ", "nueng", "one", "໑"],
       ["ສອງ", "song", "two", "໒"],
@@ -59,13 +59,13 @@ window.LSD_DECKS.lao = [
       ["ສິບ", "sip", "ten", "໑໐"],
       ["ຊາວ", "sao", "twenty", "Not ສອງສິບ."],
       ["ຮ້ອຍ", "hoy", "a hundred", ""],
-      ["ພັນ", "phan", "a thousand", ""],
-    ],
+      ["ພັນ", "phan", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ນ້ຳ", "nam", "water", ""],
       ["ກາເຟ", "kafe", "coffee", ""],
       ["ຊາ", "sa", "tea", ""],
@@ -80,13 +80,13 @@ window.LSD_DECKS.lao = [
       ["ໝາກໄມ້", "mak mai", "fruit", ""],
       ["ເຜັດ", "phet", "spicy", ""],
       ["ແຊບ", "saep", "delicious", ""],
-      ["ໄລ່ເງິນແດ່", "lai ngoen dae", "the bill, please", ""],
-    ],
+      ["ໄລ່ເງິນແດ່", "lai ngoen dae", "the bill, please", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ກິນ", "kin", "to eat", ""],
       ["ດື່ມ", "duem", "to drink", ""],
       ["ໄປ", "pai", "to go", ""],
@@ -102,13 +102,13 @@ window.LSD_DECKS.lao = [
       ["ຂຽນ", "khian", "to write", ""],
       ["ເບິ່ງ", "boeng", "to look; to watch", ""],
       ["ຮູ້", "hu", "to know", ""],
-      ["ເຂົ້າໃຈ", "khao chai", "to understand", ""],
-    ],
+      ["ເຂົ້າໃຈ", "khao chai", "to understand", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ໃຫຍ່", "nyai", "big", ""],
       ["ນ້ອຍ", "noy", "small", ""],
       ["ດີ", "di", "good", ""],
@@ -123,13 +123,13 @@ window.LSD_DECKS.lao = [
       ["ງ່າຍ", "ngai", "easy", ""],
       ["ຍາກ", "nyak", "difficult", ""],
       ["ມ່ວນ", "muan", "fun", ""],
-      ["ເມື່ອຍ", "mueay", "tired", ""],
-    ],
+      ["ເມື່ອຍ", "mueay", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ເຮືອນ", "huean", "house; home", ""],
       ["ເມືອງ", "mueang", "town; city", ""],
       ["ບ້ານ", "ban", "village", "In Lao ບ້ານ is a village; a house is ເຮືອນ."],
@@ -141,13 +141,13 @@ window.LSD_DECKS.lao = [
       ["ວັດ", "vat", "temple", ""],
       ["ແມ່ນ້ຳ", "mae nam", "river", "The Mekong is ແມ່ນ້ຳຂອງ."],
       ["ຫ້ອງນ້ຳ", "hong nam", "toilet; bathroom", ""],
-      ["ໂຮງແຮມ", "hong haem", "hotel", ""],
-    ],
+      ["ໂຮງແຮມ", "hong haem", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ຫຍັງ", "nyang", "what", ""],
       ["ໃຜ", "phai", "who", ""],
       ["ໃສ", "sai", "where", "ຢູ່ໃສ: where is it?"],
@@ -157,13 +157,13 @@ window.LSD_DECKS.lao = [
       ["ເທົ່າໃດ", "thao dai", "how much", ""],
       ["ຈັກ", "chak", "how many", "With a classifier: ຈັກຄົນ, how many people."],
       ["ບໍ", "bo", "yes/no question word", "At the end of the sentence."],
-      ["ມີ…ບໍ", "mi … bo?", "do you have…?", ""],
-    ],
+      ["ມີ…ບໍ", "mi … bo?", "do you have…?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ມື້ນີ້", "mue ni", "today", ""],
       ["ມື້ອື່ນ", "mue uen", "tomorrow", ""],
       ["ມື້ວານ", "mue van", "yesterday", ""],
@@ -173,7 +173,7 @@ window.LSD_DECKS.lao = [
       ["ມື້", "mue", "day", ""],
       ["ອາທິດ", "athit", "week", ""],
       ["ເດືອນ", "duean", "month", ""],
-      ["ປີ", "pi", "year", ""],
-    ],
-  },
+      ["ປີ", "pi", "year", ""]
+    ]
+  }
 ];
