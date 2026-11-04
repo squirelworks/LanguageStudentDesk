@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/chinese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/chinese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [characters, pinyin, English, note]. Written for this project.
 // The decks Most common words and Common words are imported by
 // tools/importers/cedict.py: wordfreq's most frequent Chinese words (CC BY-SA

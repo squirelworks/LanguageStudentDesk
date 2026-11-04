@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/taiwanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/taiwanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [characters, zhuyin · pinyin, English, note]. Written for this
 // project.
 window.LSD_DECKS = window.LSD_DECKS || {};

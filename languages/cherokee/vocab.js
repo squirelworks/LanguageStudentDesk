@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/cherokee/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/cherokee/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Cherokee syllabary, romanization, English, note]. Cherokee
 // verbs change a great deal with person and tense, so verb cards use a common
 // third-person present form (“he/she …”) as the citation shape.  Sources

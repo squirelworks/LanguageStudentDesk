@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/greek/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/greek/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Greek, romanization, English, note]. Written for this project.
 // Nouns carry their article (ο masculine, η feminine, το neuter).
 window.LSD_DECKS = window.LSD_DECKS || {};

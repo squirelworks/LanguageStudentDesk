@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/amharic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/amharic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Amharic, romanization, English, note]. Written for this
 // project. In the romanization e is the short vowel of “the” and gn is the ny
 // of “canyon”.

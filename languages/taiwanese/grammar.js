@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data a7658d1 languages/taiwanese/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data ef2ee91 languages/taiwanese/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Taiwan Mandarin (台灣華語) grammar for the Grammar Learner. Written for this project.
 // Traditional characters, Taiwan vocabulary, zh-TW readings in Zhuyin and pinyin.
 window.GRAMMAR = window.GRAMMAR || {};

@@ -40,6 +40,7 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `data/<lang>.js` | One column per language: how it renders the rows, token by token |
 | `tokens.js` | Builds and checks columns against the matrix, checks translations, breaks down text. No DOM, so it runs under node |
 | `net.js` | Reads the meaning network's vectors and compares them |
+| `data/vocab-links.js` | `TL_VOCAB_LINKS`: which meanings each Vocabulary Learner card carries, by language and `<deck>/<word>` (generated from `meaning/vocab-links/` in squirrel-lang-data) |
 | `data/network.js` | The trained meaning network (generated) |
 | `data/wordbank/<lang>.js` | Each word bank with what the network knows of it (generated) |
 | `tools/build_network.py` | Fetches the word banks and ConceptNet links, and trains the network |
