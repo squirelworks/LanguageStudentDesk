@@ -118,6 +118,7 @@ EXTRA_LANGS = [
     "sql",
     "html",
     "csharp",
+    "vbnet",
 ]
 
 
