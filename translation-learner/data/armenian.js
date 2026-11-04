@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 meaning/columns/armenian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data b6912a0 meaning/columns/armenian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Eastern Armenian column of the meaning matrix. Written for this project.
 // Tokens are [text, romanization, meaning id]. The romanization matches
 // languages/armenian (ë is the short “uh”; an apostrophe marks an aspirate).

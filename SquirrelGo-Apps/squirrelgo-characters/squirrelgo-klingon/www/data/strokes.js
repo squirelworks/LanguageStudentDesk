@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c strokes/klingon.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data b6912a0 strokes/klingon.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for every pIqaD letter and numeral, drawn for SquirrelGo
 // Klingon. Paths sit in a 100 x 100 box and use only M, L and Q commands so
 // js/strokes.js can sample them without the DOM. They follow the shapes of the

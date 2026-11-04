@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/hangul/characters/hanja.jsonl by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/hangul/characters/hanja.jsonl by: python3 data/tools/gen_characters.py --out languages
 // The 1,800 basic hanja for education, in hangul order: the kHangul readings
 // the Unihan database marks E, with Unihan meanings. Made by
 // tools/importers/cjk_unihan.py.

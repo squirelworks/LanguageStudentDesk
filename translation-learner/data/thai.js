@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 meaning/columns/thai.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data b6912a0 meaning/columns/thai.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Thai column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Thai is written without spaces between
 // words (sep: ""), so tokens glue together in the written sentence. The

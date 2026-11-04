@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c alphabets/syllabics.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data b6912a0 alphabets/syllabics.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Canadian Aboriginal syllabics as used for Inuktitut (Nunavut) in SquirrelGo
 // Alphabets. eSpeak NG has no Inuktitut voice, so sounds are recorded from the
 // IPA. Hints, groupings and articles are original.

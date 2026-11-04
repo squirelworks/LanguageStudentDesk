@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Japanese, romaji, English, note]. Written for this project.
 // Words are written the usual way; the note gives the kana reading of words
 // with kanji.
@@ -1502,7 +1502,7 @@ window.LSD_DECKS.japanese = [
       ["あんなに", "annani", "to that extent; to that degree", ""],
       ["あんまり", "anmari", "not very; not much; remainder; rest", ""],
       ["胃", "i", "stomach", "い"],
-      ["いえ", "ie", "TODO same as いいえ?", ""],
+      ["いえ", "ie", "no (a lighter いいえ)", ""],
       ["委員", "iin", "committee member", "いいん"],
       ["言う", "yuu", "to say", "ゆう"],
       ["意外", "igai", "unexpected; surprising", "いがい"],
@@ -3042,7 +3042,7 @@ window.LSD_DECKS.japanese = [
       ["素", "moto", "prime", "もと"],
       ["戻す", "modosu", "to restore; to put back; to return", "もどす"],
       ["基づく", "motozuku", "to be grounded on; to be based on; to be due to; to originate from", "もとづく"],
-      ["求める", "motomeru", "to seek; to request; to demand; to want; to wish for; to search for; to pursue (pleasure); to hunt (a job); ", "もとめる"],
+      ["求める", "motomeru", "to seek; to request; to demand; to want; to wish for; to search for; to pursue (pleasure); to hunt (a job)", "もとめる"],
       ["者", "mono", "person", "もの"],
       ["物音", "monōto", "sounds", "ものおと"],
       ["物語", "monogatari", "tale; story; legend", "ものがたり"],
@@ -3111,7 +3111,7 @@ window.LSD_DECKS.japanese = [
       ["喜び", "yorokobi", "(a) joy; (a) delight; rapture; pleasure; gratification; rejoicing; congratulations; felicitations", "よろこび"],
       ["宜しい", "yoroshii", "(hon) good; OK; all right; fine; very well; will do; may; can", "よろしい"],
       ["宜しく", "yoroshiku", "well; properly; suitably; best regards; please remember me", "よろしく"],
-      ["来", "rai", "; for (10 days); next (year)", "らい"],
+      ["来", "rai", "for (10 days); next (year)", "らい"],
       ["ライター", "raitā", "lighter; rider; writer", ""],
       ["楽", "raku", "comfort; ease", "らく"],
       ["ラケット", "raketto", "paddle; racket", ""],
@@ -4614,7 +4614,7 @@ window.LSD_DECKS.japanese = [
       ["プラスチック", "purasuchikku", "plastic", ""],
       ["プラットホーム", "purattohōmu", "platform", ""],
       ["フリー", "furī", "free", ""],
-      ["振り仮名", "furigana", "; pronunciation key", "ふりがな"],
+      ["振り仮名", "furigana", "pronunciation key", "ふりがな"],
       ["プリント", "purinto", "print; handout", ""],
       ["振舞う", "furumau", "to behave; to conduct oneself; to entertain (vt)", "ふるまう"],
       ["ブローチ", "burōchi", "brooch", ""],
@@ -4959,7 +4959,7 @@ window.LSD_DECKS.japanese = [
       ["赤らむ", "akaramu", "to become red; to redden; to blush", "あからむ"],
       ["明るい", "akarui", "bright; cheerful", "あかるい"],
       ["上がり", "agari", "1. slope; advance income; crop yield; ascent; rise; advance; death; spinning; completion; stop; finish; after", "あがり"],
-      ["上がる", "agaru", "to enter, to go up, to rise, to climb up, to advance, to appreciate, to be promoted, to improve, to call on; ", "あがる"],
+      ["上がる", "agaru", "to enter; to go up; to rise; to climb up; to advance; to appreciate; to be promoted; to improve; to call on", "あがる"],
       ["商人", "akiudo", "trader; shopkeeper; merchant", "あきうど"],
       ["空間", "akima", "vacancy; room for rent or lease", "あきま"],
       ["諦め", "akirame", "resignation; acceptance; consolation", "あきらめ"],

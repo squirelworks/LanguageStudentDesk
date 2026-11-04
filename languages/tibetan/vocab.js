@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c languages/tibetan/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data b6912a0 languages/tibetan/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Tibetan, romanization, English, note]. Written for this
 // project. The romanization follows the Lhasa pronunciation, not the spelling.
 window.LSD_DECKS = window.LSD_DECKS || {};

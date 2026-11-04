@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 69e747c alphabets/latin.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data b6912a0 alphabets/latin.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Latin alphabet and its most common accented letters, for SquirrelGo
 // Alphabets. The example language is a BCP 47 tag used for its recording and
 // text-to-speech; it falls back to the script's. Hints, groupings, example
