@@ -248,7 +248,12 @@ squirrel-lang-data commit into the app, so:
   for good;
 - updated content reaches users in a new release, like any other change.
 
-Downloadable content packs were considered and turned down. They'd make the
+One exception: the **Orthodox Bible** builds in English, Greek and Latin, and
+offers more languages as optional content packs. When the user picks one, the
+app looks up the latest GitHub release and downloads that pack. The app works
+fully without them.
+
+Downloadable content packs for everything else were considered and turned down. They'd make the
 first download smaller, but the apps would need a network step, would depend on
 GitHub staying reachable, and couldn't be one lifetime download.
 
