@@ -236,6 +236,22 @@ App Store isn't wanted for now.
   target and its screens, not on a long-lived iOS branch, which would drift from
   `main` and break the no-stacked-PRs rule.
 
+## Content ships inside each app (decided by the user, 2026-11-04)
+
+squirrel-lang-data is where content is written and reviewed. It isn't something
+the apps download. Each build copies the content it needs from the pinned
+squirrel-lang-data commit into the app, so:
+
+- every app and the Desk work fully offline from the first launch, with no
+  download step and no network access needed;
+- one download is the whole program, and a finished version can be kept and used
+  for good;
+- updated content reaches users in a new release, like any other change.
+
+Downloadable content packs were considered and turned down. They'd make the
+first download smaller, but the apps would need a network step, would depend on
+GitHub staying reachable, and couldn't be one lifetime download.
+
 ## Desktop download size (estimate)
 
 The user asked for the order of magnitude. Today's Desk downloads are about
