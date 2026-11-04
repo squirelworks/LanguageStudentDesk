@@ -3127,6 +3127,75 @@ window.LSD_REFERENCE = {
         ]
       },
       {
+        "id": "hsk-levels",
+        "topic": "overview",
+        "title": "HSK levels: what the official standard says",
+        "body": [
+          "The HSK follows the Chinese Proficiency Grading Standards for International Chinese Language Education (国际中文教育中文水平等级标准), issued by China's Ministry of Education and State Language Commission in 2021. In the standard's own words, it \"classifies the Chinese proficiency of learners into « three stages and nine levels »\": elementary (levels 1–3), intermediate (4–6) and advanced (7–9, tested together).",
+          "The table gives the official number of words a learner should know by each level, from the 2025 HSK syllabus. The official word and grammar lists carry no reuse license, so this app's HSK levels on words and grammar are estimates. A word's level comes from how common it is, set against these counts. A range such as 2–3 (or 2/3 on a word) means it falls near the line between two levels.",
+          "Sources: Institut Confucius de La Rochelle, announcement of the standard (31 March 2021); word counts as given in the Wikipedia article \"Hanyu Shuiping Kaoshi\"."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Stage",
+            "Words known by this level (official count)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "1",
+              "Elementary",
+              "300",
+              "是, 很, 不 and 没, 吗, 的, measure words, question words"
+            ],
+            [
+              "2",
+              "Elementary",
+              "500",
+              "了, 过, 比, 在 for -ing, 得 for how well, 是…的"
+            ],
+            [
+              "3",
+              "Elementary",
+              "1,000",
+              "把, 被, 越…越, 如果…就, direction complements"
+            ],
+            [
+              "4",
+              "Intermediate",
+              "2,000",
+              "连…都, 不仅…而且, 无论…都, potential complements"
+            ],
+            [
+              "5",
+              "Intermediate",
+              "3,600",
+              "与其…不如, 非…不可, 何况, written 而"
+            ],
+            [
+              "6",
+              "Intermediate",
+              "5,400",
+              "以…为, 所, 以至于"
+            ],
+            [
+              "7–9",
+              "Advanced",
+              "11,000",
+              "Classical forms in modern writing: 之, 其; formal written style"
+            ]
+          ]
+        },
+        "tags": [
+          "HSK",
+          "levels"
+        ],
+        "sources": [
+          "HSK level standard"
+        ]
+      },
+      {
         "id": "tones",
         "topic": "sounds",
         "title": "The four tones",
@@ -9669,6 +9738,57 @@ window.LSD_REFERENCE = {
         "tags": [
           "SOV",
           "particles"
+        ]
+      },
+      {
+        "id": "jlpt-levels",
+        "topic": "overview",
+        "title": "JLPT levels: what the official descriptions say",
+        "body": [
+          "The Japanese-Language Proficiency Test (JLPT) has five levels, from N5 (the easiest) to N1. The table quotes the test's own summary of each level.",
+          "The JLPT doesn't publish official word or grammar lists. Its FAQ says \"a list of vocabulary, kanji and grammar items was not necessarily appropriate.\" So the levels on this app's vocabulary and grammar are estimates. A range such as N4–N3 means a point commonly turns up at both levels.",
+          "Source: jlpt.jp, \"N1-N5: Summary of Linguistic Competence Required for Each Level\" and the JLPT FAQ."
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official summary (quoted)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "N5",
+              "\"The ability to understand some basic Japanese.\"",
+              "Particles, です, ます and ました, い and な adjectives, the て form, たい, ている"
+            ],
+            [
+              "N4",
+              "\"The ability to understand basic Japanese.\"",
+              "Plain forms, potential and volitional forms, conditionals (ば, たら, と), giving and receiving; passive and causative start here and run into N3"
+            ],
+            [
+              "N3",
+              "\"The ability to understand Japanese used in everyday situations to a certain degree.\"",
+              "ように, ところ, うちに, まま, ばかり, について, にとって, として, the causative passive"
+            ],
+            [
+              "N2",
+              "\"The ability to understand Japanese used in everyday situations, and in a variety of circumstances to a certain degree.\"",
+              "に違いない, わけにはいかない, ものだ, 限り, にかかわらず, くせに"
+            ],
+            [
+              "N1",
+              "\"The ability to understand Japanese used in a variety of circumstances.\"",
+              "をもって, ならでは, いかん, にたえない, とあって, んばかり, written forms like べからず"
+            ]
+          ]
+        },
+        "tags": [
+          "JLPT",
+          "levels"
+        ],
+        "sources": [
+          "JLPT official site"
         ]
       },
       {

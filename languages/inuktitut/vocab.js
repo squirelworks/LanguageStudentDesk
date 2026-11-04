@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data bd56e84 languages/inuktitut/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data a7658d1 languages/inuktitut/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Inuktitut syllabics, romanization, English, note]. Written for
 // this project. Inuktitut builds long words from a root and many endings, so
 // these decks keep to words and set phrases. Romanization follows the Inuit

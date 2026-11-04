@@ -113,6 +113,7 @@ EXTRA_LANGS = [
     "php",
     "perl",
     "bash",
+    "typescript",
     "sql",
 ]
 
