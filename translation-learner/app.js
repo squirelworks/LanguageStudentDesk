@@ -460,36 +460,122 @@
 
   // ---- The matrix ----
 
+  // The learner picks which languages to compare and in what order; the
+  // choice is kept per browser. The meaning column stays pinned on the left.
+  const compareStore = LSD.store("lsd-translation-compare-v1", null);
+  const RTL = ["arabic", "hebrew"];
+  const CJK = ["japanese", "chinese", "hangul"];
+
+  function compareList() {
+    let list = compareStore.load();
+    if (!Array.isArray(list)) list = [];
+    list = list.filter((id, i) => COLUMNS.includes(id) && list.indexOf(id) === i);
+    if (!list.length) {
+      list = [state.lang].concat(COLUMNS.filter((id) => id !== state.lang).slice(0, 2));
+    } else if (!list.includes(state.lang)) {
+      list = [state.lang].concat(list);
+    }
+    return list;
+  }
+
+  function langName(id) {
+    const m = metas.find((x) => x.id === id);
+    return m ? m.name : id;
+  }
+
+  function drawCompare(list) {
+    const box = $("matrixCompare");
+    box.innerHTML = "";
+    list.forEach((id, i) => {
+      const chip = document.createElement("span");
+      chip.className = "cmp" + (id === state.lang ? " here" : "");
+      const btn = (label, title, fn, off) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = label;
+        b.title = title;
+        b.setAttribute("aria-label", title);
+        b.disabled = !!off;
+        b.onclick = fn;
+        return b;
+      };
+      const move = (d) => () => {
+        const l = list.slice();
+        [l[i], l[i + d]] = [l[i + d], l[i]];
+        compareStore.save(l);
+        showMatrix();
+      };
+      chip.append(
+        btn("◀", "Move " + langName(id) + " left", move(-1), i === 0),
+        Object.assign(document.createElement("b"), { textContent: langName(id) }),
+        btn("▶", "Move " + langName(id) + " right", move(1), i === list.length - 1),
+        btn("×", "Stop comparing " + langName(id), () => {
+          compareStore.save(list.filter((x) => x !== id));
+          showMatrix();
+        }, list.length < 2)
+      );
+      box.appendChild(chip);
+    });
+    const add = document.createElement("select");
+    add.setAttribute("aria-label", "Add a language to compare");
+    add.add(new Option("Add a language…", ""));
+    metas
+      .filter((m) => !list.includes(m.id))
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((m) => add.add(new Option(m.name, m.id)));
+    add.disabled = add.options.length < 2;
+    add.onchange = () => {
+      if (!add.value) return;
+      compareStore.save(list.concat(add.value));
+      showMatrix();
+    };
+    box.appendChild(add);
+  }
+
   async function showMatrix() {
+    const list = compareList();
+    drawCompare(list);
     const cols = [];
-    for (const id of COLUMNS) {
+    for (const id of list) {
       try {
         const col = await loadColumn(id);
-        const m = metas.find((x) => x.id === id);
-        cols.push({ id, name: m ? m.name : id, col, built: T.build(matrix(), col).sentences });
+        cols.push({ id, name: langName(id), built: T.build(matrix(), col).sentences });
       } catch (e) {
         /* a missing column is left out */
       }
     }
     const rows = window.TL_SENTENCES.filter((s) => !state.pack || s.pack === state.pack);
-    let html = '<table class="matrix"><thead><tr><th>Meaning</th>' + cols.map((c) => "<th" + (c.id === state.lang ? ' class="here"' : "") + ">" + esc(c.name) + "</th>").join("") + "</tr></thead><tbody>";
+    const here = (c) => (c.id === state.lang ? " here" : "");
+    let html = '<table class="matrix"><thead><tr><th class="mean">Meaning</th>' + cols.map((c) => '<th class="' + here(c).trim() + '">' + esc(c.name) + "</th>").join("") + "</tr></thead><tbody>";
     for (const row of rows) {
-      html += "<tr><td><b>" + esc(row.en) + '</b><br><span class="small muted">' + row.m.map((m) => esc(T.meaning(m, window.TL_MEANINGS).label)).join(" · ") + "</span></td>";
+      html += '<tr><th class="mean" scope="row"><b>' + esc(row.en) + '</b><span class="small muted">' + row.m.map((m) => esc(T.meaning(m, window.TL_MEANINGS).label)).join(" · ") + "</span></th>";
       for (const c of cols) {
         const s = c.built.find((x) => x.id === row.id);
         if (!s) {
-          html += '<td class="gap' + (c.id === state.lang ? " here" : "") + '"></td>';
+          html += '<td class="gap' + here(c) + '" data-lang="' + esc(c.name) + '"><span class="small muted">Not written yet</span></td>';
           continue;
         }
-        const tip = s.tokens.map((t) => T.bare(t.text) + " = " + t.units.map(unitLabel).join(" + ")).concat(s.implied.map((u) => "(" + u.label + ": implied)")).join("\n");
-        const rtl = c.id === "arabic" || c.id === "hebrew" ? ' dir="rtl"' : "";
-        const face = ["japanese", "chinese", "hangul"].includes(c.id) ? "target" : "target plain";
-        html += '<td class="' + face + (c.id === state.lang ? " here" : "") + '" title="' + esc(tip) + '"' + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + "</td>";
+        const why = s.tokens.map((t) => "<span><b>" + esc(T.bare(t.text)) + "</b> " + esc(t.units.map(unitLabel).join(" + ")) + "</span>").concat(s.implied.map((u) => '<span class="muted">(' + esc(u.label) + ": implied)</span>")).join("");
+        const rtl = RTL.includes(c.id) ? ' dir="rtl"' : "";
+        const face = CJK.includes(c.id) ? "target" : "target plain";
+        html += '<td class="' + face + here(c) + '" data-lang="' + esc(c.name) + '" tabindex="0"><span' + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + '</span><span class="why" hidden>' + why + "</span></td>";
       }
       html += "</tr>";
     }
-    html += "</tbody><tfoot><tr><td class='small muted'>" + rows.length + " sentences</td>" + cols.map((c) => "<td class='small muted'>" + c.built.filter((s) => rows.some((r) => r.id === s.id)).length + "</td>").join("") + "</tr></tfoot></table>";
+    html += "</tbody></table>";
     $("matrixTable").innerHTML = html;
+    $("matrixCount").textContent = rows.length + (rows.length === 1 ? " sentence" : " sentences");
+    $("matrixTable").querySelectorAll("td.target").forEach((td) => {
+      const flip = () => (td.querySelector(".why").hidden = !td.querySelector(".why").hidden);
+      td.onclick = flip;
+      td.onkeydown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          flip();
+        }
+      };
+    });
   }
 
   // ---- Word bank ----
