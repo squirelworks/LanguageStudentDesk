@@ -220,6 +220,16 @@
       "id": "tenses",
       "topic": "verbs",
       "title": "The four tenses you use most",
+      "examples": [
+        {
+          "t": "I {have lost} my keys.",
+          "e": "They are still lost now."
+        },
+        {
+          "t": "I {lost} my keys yesterday.",
+          "e": "A finished time: present perfect is not possible with yesterday."
+        }
+      ],
       "table": {
         "head": [
           "Tense",
@@ -249,16 +259,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "I {have lost} my keys.",
-          "e": "They are still lost now."
-        },
-        {
-          "t": "I {lost} my keys yesterday.",
-          "e": "A finished time: present perfect is not possible with yesterday."
-        }
-      ],
       "tags": [
         "verbs",
         "tenses"
@@ -371,6 +371,16 @@
       "id": "time-prepositions",
       "topic": "grammar",
       "title": "at, on, in for time",
+      "examples": [
+        {
+          "t": "See you {on} Friday {at} six.",
+          "e": ""
+        },
+        {
+          "t": "next week · last year · this morning",
+          "e": "no preposition before next, last, this, every"
+        }
+      ],
       "table": {
         "head": [
           "Preposition",
@@ -395,16 +405,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "See you {on} Friday {at} six.",
-          "e": ""
-        },
-        {
-          "t": "next week · last year · this morning",
-          "e": "no preposition before next, last, this, every"
-        }
-      ],
       "tags": [
         "prepositions",
         "time"

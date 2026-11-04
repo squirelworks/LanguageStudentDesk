@@ -194,6 +194,13 @@
       "topic": "grammar",
       "title": "One, two, and many",
       "body": "Nouns mark number on the ending. The basic form is one thing as subject; a dual ending (often ‑uk / ‑ak) is for two; a plural ending (often ‑t / ‑it) is for three or more. An indefinite singular object often takes ‑mik.",
+      "examples": [
+        {
+          "t": "{ᐃᒡᓗᒥᒃ}",
+          "r": "iglumik",
+          "e": "a house (as object)"
+        }
+      ],
       "table": {
         "head": [
           "Meaning",
@@ -222,13 +229,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{ᐃᒡᓗᒥᒃ}",
-          "r": "iglumik",
-          "e": "a house (as object)"
-        }
-      ],
       "tags": [
         "number",
         "nouns"
@@ -270,6 +270,13 @@
       "topic": "grammar",
       "title": "In, to, and from: ‑mi, ‑mut, ‑mit",
       "body": "Place endings attach to the noun: ‑mi “in / at / on”, ‑mut “to”, ‑mit “from”. Matching question words are ᓇᓂ? (nani?) “where?”, ᓇᒧᑦ? (namut?) “to where?”, ᓇᑭᑦ? (nakit?) “from where?”.",
+      "examples": [
+        {
+          "t": "{ᓇᓂ}?",
+          "r": "nani?",
+          "e": "Where?"
+        }
+      ],
       "table": {
         "head": [
           "Ending",
@@ -298,13 +305,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "{ᓇᓂ}?",
-          "r": "nani?",
-          "e": "Where?"
-        }
-      ],
       "tags": [
         "cases",
         "location"

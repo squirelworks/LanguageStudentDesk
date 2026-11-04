@@ -1,12 +1,13 @@
-// Georgian starter words for the Vocabulary Learner.
-// Each word is [Georgian, romanization, English, note]. Written for this project.
-// An apostrophe in the romanization marks an ejective consonant (k', p', t', ts', ch', q').
+// Generated from squirrel-lang-data bd56e84 languages/georgian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Georgian, romanization, English, note]. Written for this
+// project. An apostrophe in the romanization marks an ejective consonant (k',
+// p', t', ts', ch', q').
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.georgian = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["გამარჯობა", "gamarjoba", "hello", "Literally “victory”. Answer: გაგიმარჯოს, gagimarjos."],
       ["დილა მშვიდობისა", "dila mshvidobisa", "good morning", ""],
       ["საღამო მშვიდობისა", "saghamo mshvidobisa", "good evening", ""],
@@ -22,13 +23,13 @@ window.LSD_DECKS.georgian = [
       ["სასიამოვნოა", "sasiamovnoa", "pleased to meet you", ""],
       ["მე მქვია…", "me mkvia…", "my name is…", ""],
       ["ნახვამდის", "nakhvamdis", "goodbye", ""],
-      ["კეთილი იყოს თქვენი მობრძანება", "k'etili iq'os tkveni mobrdzaneba", "welcome", ""],
-    ],
+      ["კეთილი იყოს თქვენი მობრძანება", "k'etili iq'os tkveni mobrdzaneba", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["მე", "me", "I", ""],
       ["შენ", "shen", "you (one)", ""],
       ["ის", "is", "he; she; it", "No gender difference."],
@@ -43,13 +44,13 @@ window.LSD_DECKS.georgian = [
       ["მამა", "mama", "father", ""],
       ["ძმა", "dzma", "brother", ""],
       ["და", "da", "sister", "და also means “and”."],
-      ["ოჯახი", "ojakhi", "family", ""],
-    ],
+      ["ოჯახი", "ojakhi", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ნული", "nuli", "zero", ""],
       ["ერთი", "erti", "one", ""],
       ["ორი", "ori", "two", ""],
@@ -64,13 +65,13 @@ window.LSD_DECKS.georgian = [
       ["ოცი", "otsi", "twenty", "Georgian counts in twenties: ორმოცი (40) is “two twenties”."],
       ["ორმოცი", "ormotsi", "forty", ""],
       ["ასი", "asi", "a hundred", ""],
-      ["ათასი", "atasi", "a thousand", ""],
-    ],
+      ["ათასი", "atasi", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["წყალი", "ts'q'ali", "water", ""],
       ["ყავა", "q'ava", "coffee", ""],
       ["ჩაი", "chai", "tea", ""],
@@ -86,13 +87,13 @@ window.LSD_DECKS.georgian = [
       ["საჭმელი", "sach'meli", "food", ""],
       ["გემრიელია", "gemrielia", "it's delicious", ""],
       ["ანგარიში, თუ შეიძლება", "angarishi, tu sheidzleba", "the bill, please", ""],
-      ["გაუმარჯოს!", "gaumarjos!", "cheers!", ""],
-    ],
+      ["გაუმარჯოს!", "gaumarjos!", "cheers!", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ვჭამ", "vch'am", "I eat", "შენ ჭამ, ის ჭამს."],
       ["ვსვამ", "vsvam", "I drink", "შენ სვამ, ის სვამს."],
       ["მივდივარ", "mivdivar", "I am going", ""],
@@ -108,13 +109,13 @@ window.LSD_DECKS.georgian = [
       ["ვწერ", "vts'er", "I write", ""],
       ["ვიცი", "vitsi", "I know", "არ ვიცი: I don't know."],
       ["მესმის", "mesmis", "I understand; I hear", "არ მესმის: I don't understand."],
-      ["შემიძლია", "shemidzlia", "I can", ""],
-    ],
+      ["შემიძლია", "shemidzlia", "I can", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["დიდი", "didi", "big", ""],
       ["პატარა", "p'at'ara", "small", ""],
       ["კარგი", "k'argi", "good", ""],
@@ -129,13 +130,13 @@ window.LSD_DECKS.georgian = [
       ["ადვილი", "advili", "easy", ""],
       ["რთული", "rtuli", "difficult", ""],
       ["ბედნიერი", "bednieri", "happy", ""],
-      ["დაღლილი", "daghlili", "tired", ""],
-    ],
+      ["დაღლილი", "daghlili", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["სახლი", "sakhli", "house; home", "სახლში: at home."],
       ["ქალაქი", "kalaki", "city", ""],
       ["ქუჩა", "kucha", "street", ""],
@@ -150,13 +151,13 @@ window.LSD_DECKS.georgian = [
       ["მთა", "mta", "mountain", ""],
       ["ეკლესია", "ek'lesia", "church", ""],
       ["ტუალეტი", "t'ualet'i", "toilet", ""],
-      ["სასტუმრო", "sast'umro", "hotel", ""],
-    ],
+      ["სასტუმრო", "sast'umro", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["რა?", "ra?", "what?", ""],
       ["ვინ?", "vin?", "who?", ""],
       ["სად?", "sad?", "where?", ""],
@@ -168,13 +169,13 @@ window.LSD_DECKS.georgian = [
       ["რამდენი ღირს?", "ramdeni ghirs?", "how much does it cost?", ""],
       ["რომელი?", "romeli?", "which?", ""],
       ["გაქვთ…?", "gakvt…?", "do you have…?", ""],
-      ["შეიძლება?", "sheidzleba?", "may I? is it possible?", ""],
-    ],
+      ["შეიძლება?", "sheidzleba?", "may I? is it possible?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["დღეს", "dghes", "today", ""],
       ["ხვალ", "khval", "tomorrow", ""],
       ["გუშინ", "gushin", "yesterday", ""],
@@ -186,13 +187,13 @@ window.LSD_DECKS.georgian = [
       ["თვე", "tve", "month", ""],
       ["წელი", "ts'eli", "year", ""],
       ["ორშაბათი", "orshabati", "Monday", ""],
-      ["შაბათი", "shabati", "Saturday", ""],
-    ],
+      ["შაბათი", "shabati", "Saturday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["ავტობუსი", "avt'obusi", "bus", ""],
       ["მატარებელი", "mat'arebeli", "train", ""],
       ["ტაქსი", "t'aksi", "taxi", ""],
@@ -205,7 +206,7 @@ window.LSD_DECKS.georgian = [
       ["პირდაპირ", "p'irdap'ir", "straight on", ""],
       ["ახლოს", "akhlos", "near", ""],
       ["შორს", "shors", "far", ""],
-      ["დამეხმარეთ!", "damekhmaret!", "help!", ""],
-    ],
-  },
+      ["დამეხმარეთ!", "damekhmaret!", "help!", ""]
+    ]
+  }
 ];
