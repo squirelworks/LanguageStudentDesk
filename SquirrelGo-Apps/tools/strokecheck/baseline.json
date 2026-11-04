@@ -1,9 +1,4 @@
 {
- "arabic": {
-  "ذ": "coverage 0.68",
-  "ر": "coverage 0.746",
-  "ق": "coverage 0.735"
- },
  "bengali": {
   "এ": "coverage 0.678"
  },
@@ -26,9 +21,7 @@
   "う": "coverage 0.599",
   "ぐ": "coverage 0.467; precision 0.794",
   "ぶ": "coverage 0.535; precision 0.732",
-  "ぷ": "coverage 0.538",
-  "ぺ": "coverage 0.427",
-  "ぽ": "precision 0.785"
+  "ぷ": "coverage 0.5; precision 0.783"
  },
  "kanji": {
   "九": "precision 0.758",
@@ -50,10 +43,7 @@
   "ク": "coverage 0.431; precision 0.637",
   "グ": "coverage 0.544; precision 0.734",
   "ト": "coverage 0.544",
-  "ハ": "coverage 0.479",
-  "パ": "coverage 0.408; precision 0.732",
-  "プ": "coverage 0.559",
-  "ペ": "coverage 0.472"
+  "ハ": "coverage 0.479"
  },
  "malayalam": {
   "റ": "coverage 0.716"
@@ -65,17 +55,8 @@
   "ꯛ": "coverage 0.61; precision 0.641",
   "ꯟ": "coverage 0.737"
  },
- "odia": {
-  "ଇ": "coverage 0.68",
-  "ଯ": "coverage 0.734"
- },
  "thai": {
   "ษ": "coverage 0.705; precision 0.754"
- },
- "tibetan": {
-  "ཅ": "coverage 0.675",
-  "ཟ": "coverage 0.548; precision 0.754",
-  "ར": "coverage 0.48; precision 0.712"
  },
  "tifinagh": {
   "ⴰ": "coverage 0.732"

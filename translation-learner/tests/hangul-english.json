@@ -1,0 +1,133 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "hangul",
+  "into": "english",
+  "about": "Korean to English. Korean often leaves out the subject, and its -아요/-어요 present also covers the near future, so one sentence has several right English versions. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "bus-school",
+      "accept": [
+        "I go to school by bus.",
+        "I take the bus to school.",
+        "I'm going to school by bus.",
+        "I ride the bus to school.",
+        "Taking the bus to school."
+      ],
+      "reject": [
+        "I go to school.",
+        "I take the train to school.",
+        "I go home by bus.",
+        "We go to school by bus."
+      ]
+    },
+    {
+      "sentence": "met-friend",
+      "accept": [
+        "I met a friend yesterday.",
+        "Yesterday I met a friend.",
+        "I saw a friend yesterday."
+      ],
+      "reject": [
+        "I meet a friend yesterday.",
+        "I met a friend today.",
+        "I met a friend.",
+        "I will meet a friend yesterday."
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher."
+      ]
+    },
+    {
+      "sentence": "like-coffee",
+      "accept": [
+        "I like coffee.",
+        "I love coffee."
+      ],
+      "reject": [
+        "I like tea.",
+        "I want coffee.",
+        "Coffee."
+      ]
+    },
+    {
+      "sentence": "dont-know",
+      "accept": [
+        "I don't know.",
+        "I do not know.",
+        "Don't know."
+      ],
+      "reject": [
+        "I know.",
+        "I don't understand."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I'll drink water."
+      ],
+      "reject": [
+        "I drink coffee.",
+        "Water."
+      ]
+    },
+    {
+      "sentence": "go-school",
+      "accept": [
+        "I go to school.",
+        "I'm going to school.",
+        "Going to school."
+      ],
+      "reject": [
+        "I go home.",
+        "We go to school."
+      ]
+    },
+    {
+      "sentence": "where-going",
+      "accept": [
+        "Where are you going?",
+        "Where do you go?",
+        "Where are you headed?"
+      ],
+      "reject": [
+        "Where am I going?",
+        "Are you going?"
+      ]
+    },
+    {
+      "sentence": "give-water",
+      "accept": [
+        "Water, please.",
+        "Please give me water.",
+        "Give me water, please."
+      ],
+      "reject": [
+        "Give me water.",
+        "Coffee, please."
+      ]
+    },
+    {
+      "sentence": "there-is-cat",
+      "accept": [
+        "There is a cat.",
+        "There's a cat."
+      ],
+      "reject": [
+        "There is a dog.",
+        "There is no cat."
+      ]
+    }
+  ]
+}

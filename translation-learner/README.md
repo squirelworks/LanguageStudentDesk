@@ -105,7 +105,8 @@ bus to school". The checker accepts them by matching meanings, not strings, with
 - **Word order.** Meanings are found anywhere in the answer, so "By bus, I go to school" passes.
 - **Phrasings tied to other meanings.** `TL_PHRASINGS` in `data/matrix.js` lets English carry a meaning
   only next to certain others: "take", "ride" or "catch" carry *go* when the row also has *bus*, *train*,
-  *car* or *ship*.
+  *car* or *ship*. A phrasing marked `optional` lets English leave a meaning out in such a row: a request
+  with *please* doesn't have to say *give* ("Water, please").
 - **Other natural English per row.** A row's `also` list holds other right versions. They are shown after
   a check, and `check.js` makes sure every one passes in every language that renders the row.
 
@@ -116,7 +117,9 @@ adds none.
 
 `tests/<language>-english.json` lists, per sentence, translations that must be accepted and ones that must
 be rejected. `check.js` runs them all (CI runs it too). The Translation Learner stays marked
-**(alpha)** until a pair passes its tests; the label comes off pair by pair.
+**(alpha)** until a pair passes its tests; the label comes off pair by pair. `data/tested.js` lists the
+languages whose tests pass, and their page shows no label. `check.js` fails if a listed language has no
+test file or fails a case, so a language is added there only together with its passing tests.
 
 ## The meaning network
 
