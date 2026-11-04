@@ -17,7 +17,7 @@
     chars: ["Character Learner", CHARS],
     vocab: ["Vocabulary Learner", VOCAB],
     grammar: ["Grammar Learner", GRAMMAR],
-    translation: ["Translation Learner", "translation-learner/index.html"],
+    translation: ["Translation Learner (alpha)", "translation-learner/index.html"],
     resources: ["Resource Learner", "resource-learner/index.html"],
     reference: ["Reference Learner", "reference-learner/index.html"],
   };

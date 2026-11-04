@@ -1,24 +1,14 @@
 # Programming Learner
 
 Short lessons with worked examples, then a practice round that explains every
-answer. Python has the full beginner course (12 lessons, from `print` to
-classes). Full courses also cover QuickBASIC (11 lessons, from `PRINT` to
-SUBs, arrays and a guessing game), Z80 assembly (10 lessons, from registers
-to a FizzBuzz for CP/M), LOLCODE (9 lessons, from `VISIBLE` to functions),
-brainFOOD (8 lessons, from the eight commands to decisions and words in
-memory), Delphi (11 lessons, from Pascal basics to classes, exceptions and
-forms), C (5 lessons, from `printf` to functions), Rust (5 lessons, from
-`println!` to ownership), Go (5 lessons, from `fmt.Println` to slices),
-Slick (3 reading lessons on the published s-expression notation for Go),
-Chisel (5 reading lessons, from elaboration to <code>when</code>) and
-Whitespace (6 lessons, from numbers in S, T and L to loops and
-subroutines). The language menu is sorted by name. Win16 has a 9-lesson reading course, from WinMain to dialogs,
-memory and porting to Win32; its C programs need Windows 3.x, so they show
-no output. INTERCAL has a 5-lesson reading course (manners, mingle and
-select, the unary operators, NEXT and RESUME, ABSTAIN and STASH). Piet has
-5 lessons, from the colour table to turning and stopping, with every program
-drawn in colour, and Malbolge has 5 lessons, from the ternary machine to
-printing letters with a searched-for program. Progress is saved in the browser.
+answer. The home page groups the languages into sections: modern and popular
+languages first, then older and legacy ones, then joke and esoteric languages.
+Each section is sorted by name, and nothing is pinned. An A–Z view lists every
+language in one list instead, and category tags (such as compiled programs or
+scripting) filter the modern and older sections. The view and the tag filter
+are remembered. Some courses are full beginner courses with runnable examples,
+others are reading courses for platforms that no longer run on today's
+machines; the app's menu has the current list. Progress is saved in the browser.
 
 ## Launch
 
@@ -36,7 +26,8 @@ programming-learner/index.html?lang=python#loops
 ## Files
 
 - `index.html`, `app.js` — the page and its logic (uses `../languages/learners.css` and `LSD.store` / `LSD.loadScript` from `../languages/lsd-lang.js`)
-- `data/catalog.js` — the languages, in menu order, with the blurb shown on the home grid
+- `data/catalog.js` — the languages, each with its group (`modern`, `older` or `joke`), category tags and the blurb shown on the home grid
+- `sections.js` — lays the catalog out by section or A–Z and applies the tag filter; the Programming Student Desk menu uses the same file
 - `data/<id>.js` — one course per language, loaded on demand
 - `tools/check_packs.py` — checks every course; runs the Python and brainFOOD examples, and any course with a `tools/run_<id>.py`
 - `tools/run_<id>.py` — a runner for one course: `run(code)` returns `(printed, error)`. `run_z80.py` is a small Z80 interpreter with the CP/M print calls, `run_lolcode.py` a LOLCODE 1.2 interpreter, `run_quickbasic.py` a QuickBASIC interpreter that spaces numbers the way PRINT does, `run_delphi.py` compiles the Delphi programs with Free Pascal (`fpc`, in Delphi mode), `run_whitespace.py` is a Whitespace interpreter that reads the course's S/T/L notation, `run_piet.py` a Piet interpreter that reads the course's two-letter codel grids, and `run_malbolge.py` a Malbolge interpreter that also accepts normalized programs, `run_c.py` compiles the C course with gcc, `run_rust.py` compiles the Rust course with rustc, and `run_go.py` runs the Go course with `go run`. A runner whose tool is missing is skipped with a note
@@ -48,6 +39,7 @@ Each `data/<id>.js` sets `window.PROGRAMMING.<id>`:
 ```js
 {
   id, name, title, intro,          // intro is HTML
+  note: "...",                     // optional HTML, shown at the top of every page of the course
   comment: "#",                    // optional: line-comment marker, for colouring
   keywords: [...], builtins: [...],// optional: words to colour
   caseInsensitive: true,           // optional: BASIC, Pascal, assembly
@@ -67,7 +59,10 @@ literals where backslashes matter.
 ## Adding a language
 
 1. Add `data/<id>.js` following the schema.
-2. Add an entry to `data/catalog.js`.
+2. Add an entry to `data/catalog.js` with its `group` and `tags`. A current
+   version of a language goes in `modern`; its older versions (and languages
+   mainly kept for existing systems) go in `older`; esoteric languages go in
+   `joke` and have no tags.
 3. If the Desk should offer it under `?lang=`, the id must be in `EXTRA_LANGS`
    in `LanguageStudentDesk.py`.
 4. Run `python3 programming-learner/tools/check_packs.py` (needs node and python3;
