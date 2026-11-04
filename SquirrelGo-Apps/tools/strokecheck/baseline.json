@@ -75,11 +75,6 @@
  "thai": {
   "ษ": "coverage 0.705; precision 0.754"
  },
- "tibetan": {
-  "ཅ": "coverage 0.675",
-  "ཟ": "coverage 0.548; precision 0.754",
-  "ར": "coverage 0.48; precision 0.712"
- },
  "tifinagh": {
   "ⴰ": "coverage 0.732"
  },
