@@ -1,11 +1,12 @@
-// Hindi starter words for the Vocabulary Learner.
-// Each word is [Devanagari, romanization, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/hindi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Devanagari, romanization, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.hindi = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["नमस्ते", "namaste", "hello; goodbye", "Said with palms pressed together."],
       ["धन्यवाद", "dhanyavād", "thank you", "Formal; शुक्रिया shukriyā is common in speech."],
       ["शुक्रिया", "shukriyā", "thanks", ""],
@@ -16,13 +17,13 @@ window.LSD_DECKS.hindi = [
       ["ठीक है", "ṭhīk hai", "okay", ""],
       ["आप कैसे हैं?", "āp kaise hain?", "how are you?", "कैसी kaisī when asking a woman."],
       ["मैं ठीक हूँ", "main ṭhīk hū̃", "I'm fine", ""],
-      ["फिर मिलेंगे", "phir milenge", "see you again", ""],
-    ],
+      ["फिर मिलेंगे", "phir milenge", "see you again", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["मैं", "main", "I", ""],
       ["आप", "āp", "you (polite)", "तुम tum is familiar."],
       ["तुम", "tum", "you (familiar)", ""],
@@ -41,13 +42,13 @@ window.LSD_DECKS.hindi = [
       ["बेटा", "beṭā", "son", ""],
       ["बेटी", "beṭī", "daughter", ""],
       ["परिवार", "parivār", "family", ""],
-      ["नाम", "nām", "name", ""],
-    ],
+      ["नाम", "nām", "name", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["शून्य", "shūnya", "zero", "Digit ०"],
       ["एक", "ek", "one", "Digit १"],
       ["दो", "do", "two", "Digit २"],
@@ -62,13 +63,13 @@ window.LSD_DECKS.hindi = [
       ["सौ", "sau", "hundred", ""],
       ["हज़ार", "hazār", "thousand", ""],
       ["लाख", "lākh", "one hundred thousand", "Indian numbering groups by lakh and crore."],
-      ["रुपया", "rupayā", "rupee", ""],
-    ],
+      ["रुपया", "rupayā", "rupee", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["पानी", "pānī", "water", ""],
       ["खाना", "khānā", "food; to eat", ""],
       ["पीना", "pīnā", "to drink", ""],
@@ -82,13 +83,13 @@ window.LSD_DECKS.hindi = [
       ["आम", "ām", "mango", ""],
       ["मीठा", "mīṭhā", "sweet", ""],
       ["तीखा", "tīkhā", "spicy hot", ""],
-      ["भूख", "bhūkh", "hunger", "मुझे भूख लगी है: I'm hungry."],
-    ],
+      ["भूख", "bhūkh", "hunger", "मुझे भूख लगी है: I'm hungry."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Verbs",
-    words: [
+    "id": "verbs",
+    "title": "Verbs",
+    "words": [
       ["होना", "honā", "to be", "है hai: is."],
       ["जाना", "jānā", "to go", ""],
       ["आना", "ānā", "to come", ""],
@@ -105,13 +106,13 @@ window.LSD_DECKS.hindi = [
       ["सोना", "sonā", "to sleep", "Also the noun 'gold'."],
       ["ख़रीदना", "kharīdnā", "to buy", ""],
       ["देना", "denā", "to give", ""],
-      ["लेना", "lenā", "to take", ""],
-    ],
+      ["लेना", "lenā", "to take", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["अच्छा", "acchā", "good; okay!", "On its own it also means 'I see' or 'really?'"],
       ["बुरा", "burā", "bad", ""],
       ["बड़ा", "baṛā", "big; older", ""],
@@ -128,13 +129,13 @@ window.LSD_DECKS.hindi = [
       ["काला", "kālā", "black", ""],
       ["हरा", "harā", "green", ""],
       ["नीला", "nīlā", "blue", ""],
-      ["बहुत", "bahut", "very; a lot", ""],
-    ],
+      ["बहुत", "bahut", "very; a lot", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places and time",
-    words: [
+    "id": "places",
+    "title": "Places and time",
+    "words": [
       ["घर", "ghar", "house, home", ""],
       ["स्कूल", "skūl", "school", ""],
       ["शहर", "shahar", "city", ""],
@@ -150,26 +151,26 @@ window.LSD_DECKS.hindi = [
       ["दिन", "din", "day", ""],
       ["रात", "rāt", "night", ""],
       ["यहाँ", "yahā̃", "here", ""],
-      ["वहाँ", "vahā̃", "there", ""],
-    ],
+      ["वहाँ", "vahā̃", "there", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Question words",
-    words: [
+    "id": "questions",
+    "title": "Question words",
+    "words": [
       ["क्या", "kyā", "what; (starts a yes/no question)", ""],
       ["कौन", "kaun", "who", ""],
       ["कहाँ", "kahā̃", "where", ""],
       ["कब", "kab", "when", ""],
       ["क्यों", "kyõ", "why", ""],
       ["कैसे", "kaise", "how", ""],
-      ["कितना", "kitnā", "how much, how many", "कितने का है? How much is it?"],
-    ],
+      ["कितना", "kitnā", "how much, how many", "कितने का है? How much is it?"]
+    ]
   },
   {
-    id: "time2",
-    title: "Days and time",
-    words: [
+    "id": "time2",
+    "title": "Days and time",
+    "words": [
       ["सोमवार", "somvār", "Monday", "Days end in वार: आज सोमवार है। Today is Monday."],
       ["मंगलवार", "mangalvār", "Tuesday", ""],
       ["बुधवार", "budhvār", "Wednesday", ""],
@@ -196,13 +197,13 @@ window.LSD_DECKS.hindi = [
       ["जल्दी", "jaldī", "quickly; early", "जल्दी करो! Hurry up!"],
       ["गर्मी", "garmī", "heat; summer", ""],
       ["सर्दी", "sardī", "cold; winter", ""],
-      ["बारिश", "bārish", "rain", "बारिश हो रही है। It's raining."],
-    ],
+      ["बारिश", "bārish", "rain", "बारिश हो रही है। It's raining."]
+    ]
   },
   {
-    id: "body",
-    title: "Body and health",
-    words: [
+    "id": "body",
+    "title": "Body and health",
+    "words": [
       ["शरीर", "sharīr", "body", ""],
       ["सिर", "sir", "head", "मेरे सिर में दर्द है। I have a headache."],
       ["आँख", "ā̃kh", "eye", ""],
@@ -220,13 +221,13 @@ window.LSD_DECKS.hindi = [
       ["बीमार", "bīmār", "ill", "मैं बीमार हूँ। I'm ill."],
       ["डॉक्टर", "ḍākṭar", "doctor", ""],
       ["दवा", "davā", "medicine", ""],
-      ["बचाओ!", "bachāo!", "help!", ""],
-    ],
+      ["बचाओ!", "bachāo!", "help!", ""]
+    ]
   },
   {
-    id: "home",
-    title: "Home and things",
-    words: [
+    "id": "home",
+    "title": "Home and things",
+    "words": [
       ["कमरा", "kamrā", "room", ""],
       ["दरवाज़ा", "darvāzā", "door", ""],
       ["खिड़की", "khiṛkī", "window", ""],
@@ -247,13 +248,13 @@ window.LSD_DECKS.hindi = [
       ["बिल्ली", "billī", "cat", ""],
       ["गाय", "gāy", "cow", ""],
       ["हाथी", "hāthī", "elephant", "From हाथ 'hand': the animal with a hand (its trunk)."],
-      ["चिड़िया", "chiṛiyā", "bird", ""],
-    ],
+      ["चिड़िया", "chiṛiyā", "bird", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["रास्ता", "rāstā", "road, way", "स्टेशन का रास्ता किधर है? Which way is the station?"],
       ["सड़क", "saṛak", "street, road", ""],
       ["बस", "bas", "bus; enough!", "बस! That's enough!"],
@@ -278,13 +279,13 @@ window.LSD_DECKS.hindi = [
       ["पहाड़", "pahāṛ", "mountain", ""],
       ["समुद्र", "samudra", "sea", ""],
       ["सूरज", "sūraj", "sun", ""],
-      ["चाँद", "chā̃d", "moon", ""],
-    ],
+      ["चाँद", "chā̃d", "moon", ""]
+    ]
   },
   {
-    id: "verbs2",
-    title: "More verbs",
-    words: [
+    "id": "verbs2",
+    "title": "More verbs",
+    "words": [
       ["खोलना", "kholnā", "to open", ""],
       ["बंद करना", "band karnā", "to close", ""],
       ["बैठना", "baiṭhnā", "to sit", "बैठिए। Please sit down."],
@@ -310,13 +311,13 @@ window.LSD_DECKS.hindi = [
       ["सकना", "saknā", "can, be able", "मैं हिंदी बोल सकता हूँ। I can speak Hindi."],
       ["प्यार करना", "pyār karnā", "to love", ""],
       ["मदद करना", "madad karnā", "to help", ""],
-      ["चाहिए", "chāhie", "is needed, want", "मुझे पानी चाहिए। I want some water."],
-    ],
+      ["चाहिए", "chāhie", "is needed, want", "मुझे पानी चाहिए। I want some water."]
+    ]
   },
   {
-    id: "food2",
-    title: "More food",
-    words: [
+    "id": "food2",
+    "title": "More food",
+    "words": [
       ["नाश्ता", "nāshtā", "breakfast; snack", ""],
       ["चीनी", "chīnī", "sugar", "Also 'Chinese'."],
       ["नमक", "namak", "salt", ""],
@@ -333,13 +334,13 @@ window.LSD_DECKS.hindi = [
       ["मिठाई", "miṭhāī", "sweets", ""],
       ["स्वादिष्ट", "svādishṭ", "delicious", "खाना बहुत स्वादिष्ट है। The food is delicious."],
       ["प्यास", "pyās", "thirst", "मुझे प्यास लगी है। I'm thirsty."],
-      ["शाकाहारी", "shākāhārī", "vegetarian", ""],
-    ],
+      ["शाकाहारी", "shākāhārī", "vegetarian", ""]
+    ]
   },
   {
-    id: "describing2",
-    title: "More describing words",
-    words: [
+    "id": "describing2",
+    "title": "More describing words",
+    "words": [
       ["लंबा", "lambā", "long; tall", ""],
       ["ऊँचा", "ū̃chā", "high", ""],
       ["तेज़", "tez", "fast; sharp; strong", ""],
@@ -358,13 +359,13 @@ window.LSD_DECKS.hindi = [
       ["पीला", "pīlā", "yellow", ""],
       ["रंग", "rang", "colour", "होली is the festival of colours."],
       ["ज़्यादा", "zyādā", "more; too much", ""],
-      ["कम", "kam", "less, little", ""],
-    ],
+      ["कम", "kam", "less, little", ""]
+    ]
   },
   {
-    id: "little",
-    title: "Little words",
-    words: [
+    "id": "little",
+    "title": "Little words",
+    "words": [
       ["और", "aur", "and; more", ""],
       ["या", "yā", "or", ""],
       ["लेकिन", "lekin", "but", "Also पर par."],
@@ -385,7 +386,7 @@ window.LSD_DECKS.hindi = [
       ["कुछ", "kuchh", "some; something", "कुछ नहीं nothing."],
       ["जी", "jī", "(polite particle)", "जी हाँ yes (polite); added after names: मीरा जी."],
       ["थोड़ा", "thoṛā", "a little", "मैं थोड़ी हिंदी बोलता हूँ। I speak a little Hindi."],
-      ["फिर से", "phir se", "again", "फिर से बोलिए। Please say it again."],
-    ],
-  },
+      ["फिर से", "phir se", "again", "फिर से बोलिए। Please say it again."]
+    ]
+  }
 ];

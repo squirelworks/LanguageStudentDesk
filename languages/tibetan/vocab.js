@@ -1,12 +1,12 @@
-// Tibetan starter words for the Vocabulary Learner (spoken Lhasa Tibetan).
-// Each word is [Tibetan, romanization, English, note]. Written for this project.
-// The romanization follows the Lhasa pronunciation, not the spelling.
+// Generated from squirrel-lang-data bd56e84 languages/tibetan/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Tibetan, romanization, English, note]. Written for this
+// project. The romanization follows the Lhasa pronunciation, not the spelling.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.tibetan = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["བཀྲ་ཤིས་བདེ་ལེགས", "tashi delek", "hello", "Literally “auspicious and well”."],
       ["ཐུགས་རྗེ་ཆེ", "thukje che", "thank you", ""],
       ["དགོངས་དག", "gongda", "sorry; excuse me", ""],
@@ -18,13 +18,13 @@ window.LSD_DECKS.tibetan = [
       ["ངའི་མིང་ལ་ … ཟེར", "ngé ming la … zer", "my name is …", ""],
       ["ག་ལེ་ཕེབས", "kale phe", "goodbye (to someone leaving)", "Literally “go slowly”."],
       ["ག་ལེ་བཞུགས", "kale shu", "goodbye (to someone staying)", "Literally “stay slowly”."],
-      ["ཡང་བསྐྱར་མཇལ་ཡོང", "yang kyar jel yong", "see you again", ""],
-    ],
+      ["ཡང་བསྐྱར་མཇལ་ཡོང", "yang kyar jel yong", "see you again", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ང", "nga", "I", ""],
       ["ཁྱེད་རང", "khyerang", "you (polite)", ""],
       ["ཁྱོད", "khyö", "you (casual)", ""],
@@ -38,13 +38,13 @@ window.LSD_DECKS.tibetan = [
       ["གྲོགས་པོ", "drokpo", "friend", ""],
       ["ཨ་མ་ལགས", "amala", "mother", ""],
       ["པ་ལགས", "pala", "father", ""],
-      ["ནང་མི", "nangmi", "family", "Literally “inside people”."],
-    ],
+      ["ནང་མི", "nangmi", "family", "Literally “inside people”."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ཀླད་ཀོར", "lekor", "zero", "Tibetan digit ༠."],
       ["གཅིག", "chik", "one", "༡"],
       ["གཉིས", "nyi", "two", "༢"],
@@ -58,13 +58,13 @@ window.LSD_DECKS.tibetan = [
       ["བཅུ", "chu", "ten", "༡༠"],
       ["ཉི་ཤུ", "nyishu", "twenty", ""],
       ["བརྒྱ", "gya", "a hundred", ""],
-      ["སྟོང", "tong", "a thousand", ""],
-    ],
+      ["སྟོང", "tong", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ཆུ", "chu", "water", ""],
       ["ཇ", "ja", "tea", ""],
       ["བོད་ཇ", "pöja", "butter tea", "Tea churned with butter and salt."],
@@ -79,13 +79,13 @@ window.LSD_DECKS.tibetan = [
       ["ཤིང་ཏོག", "shingtok", "fruit", ""],
       ["ཚོད་མ", "tsema", "vegetables", ""],
       ["ཁ་ལག", "khalak", "food; a meal", ""],
-      ["ཞིམ་པོ་འདུག", "shimpo du", "it's tasty", ""],
-    ],
+      ["ཞིམ་པོ་འདུག", "shimpo du", "it's tasty", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ཟ", "sa", "eat", "ཟ་གི་ཡོད: I eat."],
       ["འཐུང", "thung", "drink", ""],
       ["འགྲོ", "dro", "go", "Past: ཕྱིན, chin."],
@@ -101,13 +101,13 @@ window.LSD_DECKS.tibetan = [
       ["འབྲི", "dri", "write", ""],
       ["བལྟ", "ta", "look; watch", ""],
       ["ཤེས", "she", "know", "ང་ཤེས་ཀྱི་མེད: I don't know."],
-      ["ཧ་གོ", "ha go", "understand", "ཧ་མ་གོ: I don't understand."],
-    ],
+      ["ཧ་གོ", "ha go", "understand", "ཧ་མ་གོ: I don't understand."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ཆེན་པོ", "chenpo", "big", ""],
       ["ཆུང་ཆུང", "chungchung", "small", ""],
       ["ཡག་པོ", "yakpo", "good", ""],
@@ -121,13 +121,13 @@ window.LSD_DECKS.tibetan = [
       ["སྐྱིད་པོ", "kyipo", "happy; fun", ""],
       ["ཐང་ཆད", "thangche", "tired", ""],
       ["མང་པོ", "mangpo", "many; a lot", ""],
-      ["ཉུང་ཉུང", "nyungnyung", "few; a little", ""],
-    ],
+      ["ཉུང་ཉུང", "nyungnyung", "few; a little", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ཁང་པ", "khangpa", "house", ""],
       ["གྲོང་ཁྱེར", "drongkhyer", "city", ""],
       ["ལམ", "lam", "road; way", ""],
@@ -141,13 +141,13 @@ window.LSD_DECKS.tibetan = [
       ["རི", "ri", "mountain", ""],
       ["མཚོ", "tso", "lake", ""],
       ["གསང་སྤྱོད", "sangchö", "toilet", ""],
-      ["མགྲོན་ཁང", "drönkhang", "hotel; guesthouse", ""],
-    ],
+      ["མགྲོན་ཁང", "drönkhang", "hotel; guesthouse", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ག་རེ", "kare", "what", ""],
       ["སུ", "su", "who", ""],
       ["ག་པར", "kaba", "where", ""],
@@ -158,13 +158,13 @@ window.LSD_DECKS.tibetan = [
       ["ག་གི", "kagi", "which", ""],
       ["ཡིན་པས", "yinpe?", "is it? are you?", ""],
       ["ཡོད་པས", "yöpe?", "is there? do you have?", ""],
-      ["ཆོག་གི་རེད་པས", "chok gi repe?", "is it OK? may I?", ""],
-    ],
+      ["ཆོག་གི་རེད་པས", "chok gi repe?", "is it OK? may I?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["དེ་རིང", "tering", "today", ""],
       ["སང་ཉིན", "sangnyin", "tomorrow", ""],
       ["ཁ་སང", "khasang", "yesterday", ""],
@@ -177,13 +177,13 @@ window.LSD_DECKS.tibetan = [
       ["ཟླ་བ", "dawa", "month; moon", ""],
       ["ལོ", "lo", "year", "ལོ་གསར, losar, is the Tibetan New Year."],
       ["གཟའ་ཟླ་བ", "sa dawa", "Monday", "Days are named after the sun, moon and planets."],
-      ["གཟའ་ཉི་མ", "sa nyima", "Sunday", ""],
-    ],
+      ["གཟའ་ཉི་མ", "sa nyima", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["མོ་ཊ", "mota", "car", ""],
       ["མེ་འཁོར", "mekhor", "train", "Literally “fire wheel”."],
       ["གནམ་གྲུ", "namdru", "aeroplane", "Literally “sky boat”."],
@@ -195,7 +195,7 @@ window.LSD_DECKS.tibetan = [
       ["ཐད་ཀར", "thekar", "straight on", ""],
       ["ཐག་ཉེ་པོ", "thak nyepo", "near", ""],
       ["ཐག་རིང་པོ", "thak ringpo", "far", ""],
-      ["རོགས་རམ་གནང་རོགས", "rokram nang rok!", "please help!", ""],
-    ],
-  },
+      ["རོགས་རམ་གནང་རོགས", "rokram nang rok!", "please help!", ""]
+    ]
+  }
 ];

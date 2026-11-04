@@ -1,25 +1,24 @@
-// Manipuri (Meeteilon) starter words for the Vocabulary Learner.
-// Each word is [Meetei Mayek, romanization, English, note]. Written for this project.
-// Verbs are given in their dictionary form, which ends in -ba (-ꯕꯥ / -ꯄꯥ).
-// Romanization matches the Desk style (plain letters; no tone marks).
-//
-// Sources (attested forms only; leave out if unsure):
-// - Existing Desk Manipuri decks in this file and languages/manipuri/reference.json
-// - Wiktionary Appendix:Meitei Swadesh list (CC BY-SA): body, colours, animals,
-//   nature, verbs in -ba/-pa, demonstratives, time words
-// - Wikibooks Modern Meitei/Common phrases and Modern Meitei/Family (CC BY-SA):
-//   greetings/leave-takings and kinship forms
-// - CIIL / LIS India Manipuri culture notes (body and colour glosses), cross-checked
-//   against Wiktionary Meetei Mayek lemmas where available
-// - A. J. Primrose, A Manipuri Grammar, Vocabulary, and Phrase Book (1888; public
-//   domain) for topic coverage; Meetei Mayek spellings taken from the open sources
-//   above, not invented from Primrose’s Bengali-script romanization alone
+// Generated from squirrel-lang-data bd56e84 languages/manipuri/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Meetei Mayek, romanization, English, note]. Written for this
+// project. Verbs are given in their dictionary form, which ends in -ba (-ꯕꯥ /
+// -ꯄꯥ). Romanization matches the Desk style (plain letters; no tone marks).
+// Sources (attested forms only; leave out if unsure): - Existing Desk Manipuri
+// decks in this file and languages/manipuri/reference.json - Wiktionary
+// Appendix:Meitei Swadesh list (CC BY-SA): body, colours, animals, nature,
+// verbs in -ba/-pa, demonstratives, time words - Wikibooks Modern Meitei/Common
+// phrases and Modern Meitei/Family (CC BY-SA): greetings/leave-takings and
+// kinship forms - CIIL / LIS India Manipuri culture notes (body and colour
+// glosses), cross-checked against Wiktionary Meetei Mayek lemmas where
+// available - A. J. Primrose, A Manipuri Grammar, Vocabulary, and Phrase Book
+// (1888; public domain) for topic coverage; Meetei Mayek spellings taken from
+// the open sources above, not invented from Primrose’s Bengali-script
+// romanization alone
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.manipuri = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["ꯈꯨꯔꯨꯝꯖꯔꯤ", "khurumjari", "hello (respectful)", "Said with joined hands."],
       ["ꯊꯥꯒꯠꯆꯔꯤ", "thagatchari", "thank you", ""],
       ["ꯍꯣꯏ", "hoi", "yes", ""],
@@ -29,13 +28,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯀꯝꯗꯧꯕꯤꯔꯤ?", "kamdoubiri?", "how are you?", "Wikibooks Modern Meitei common phrases."],
       ["ꯐꯔꯦ", "phare", "fine; it is good", "Reply to “how are you?”; Wikibooks / Desk grammar examples."],
       ["ꯀꯥꯢꯅꯔꯁꯤ", "kainarasi", "goodbye", "Wikibooks Modern Meitei common phrases."],
-      ["ꯆꯠꯂꯦ", "chatle", "goodbye (informal); has gone", "Literally “has gone”; informal leave-taking among friends."],
-    ],
+      ["ꯆꯠꯂꯦ", "chatle", "goodbye (informal); has gone", "Literally “has gone”; informal leave-taking among friends."]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ꯑꯩ", "ei", "I", ""],
       ["ꯅꯪ", "nang", "you", "Respectful: ꯅꯍꯥꯛ, nahak."],
       ["ꯃꯍꯥꯛ", "mahak", "he; she", ""],
@@ -53,13 +52,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯃꯌꯥꯝꯕ", "mayamba", "elder brother (of a male)", "Wikibooks Modern Meitei/Family."],
       ["ꯃꯄꯨ", "mapu", "grandfather", "Also ꯄꯨꯄꯨ, pupu, in address; Wikibooks Family."],
       ["ꯃꯕꯣꯛ", "mabok", "grandmother", "Also ꯃꯕꯦꯟ, maben; Wikibooks Family."],
-      ["ꯂꯣꯏꯅꯕꯤ", "loinabi", "wife", "Formal; Wiktionary Swadesh / Wikibooks Family."],
-    ],
+      ["ꯂꯣꯏꯅꯕꯤ", "loinabi", "wife", "Formal; Wiktionary Swadesh / Wikibooks Family."]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["ꯑꯃꯥ", "ama", "one", "Meetei Mayek digit ꯱."],
       ["ꯑꯅꯤ", "ani", "two", "꯲"],
       ["ꯑꯍꯨꯝ", "ahum", "three", "꯳"],
@@ -69,13 +68,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯇꯔꯦꯠ", "taret", "seven", "꯷"],
       ["ꯅꯤꯄꯥꯟ", "nipan", "eight", "꯸"],
       ["ꯃꯥꯄꯜ", "mapal", "nine", "꯹"],
-      ["ꯇꯔꯥ", "tara", "ten", "꯱꯰"],
-    ],
+      ["ꯇꯔꯥ", "tara", "ten", "꯱꯰"]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ꯏꯁꯤꯡ", "ising", "water", ""],
       ["ꯆꯥ", "cha", "tea", ""],
       ["ꯁꯪꯒꯣꯝ", "sanggom", "milk", ""],
@@ -87,13 +86,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯊꯨꯝ", "thum", "salt", "Wiktionary Meitei Swadesh list."],
       ["ꯍꯩ", "hei", "fruit", "Also ꯎꯍꯩ, uhei; Wiktionary Swadesh."],
       ["ꯁꯥꯇꯣꯡ", "satong", "meat; flesh", "More specific than ꯁꯥ alone; Wiktionary Swadesh."],
-      ["ꯃꯔꯨ", "maru", "seed", "Wiktionary Meitei Swadesh list."],
-    ],
+      ["ꯃꯔꯨ", "maru", "seed", "Wiktionary Meitei Swadesh list."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ꯆꯥꯕꯥ", "chaba", "to eat", ""],
       ["ꯊꯛꯄꯥ", "thakpa", "to drink", ""],
       ["ꯆꯠꯄꯥ", "chatpa", "to go", ""],
@@ -113,13 +112,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯍꯥꯏꯕꯥ", "haiba", "to say", "Wiktionary Meitei Swadesh list."],
       ["ꯍꯤꯡꯕꯥ", "hingba", "to live", "Wiktionary Meitei Swadesh list."],
       ["ꯁꯤꯕꯥ", "siba", "to die", "Wiktionary Meitei Swadesh list."],
-      ["ꯌꯦꯡꯕꯥ", "yengba", "to look; to watch", "Also “to see” beside ꯎꯕꯥ; Wiktionary Swadesh."],
-    ],
+      ["ꯌꯦꯡꯕꯥ", "yengba", "to look; to watch", "Also “to see” beside ꯎꯕꯥ; Wiktionary Swadesh."]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ꯑꯆꯧꯕꯥ", "achouba", "big", ""],
       ["ꯑꯄꯤꯛꯄꯥ", "apikpa", "small", ""],
       ["ꯑꯐꯕꯥ", "aphaba", "good", ""],
@@ -131,13 +130,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯑꯔꯨꯝꯕꯥ", "arumba", "heavy", "Wiktionary Meitei Swadesh list."],
       ["ꯐꯠꯇꯕꯥ", "phattaba", "bad", "Wiktionary Meitei Swadesh list."],
       ["ꯑꯌꯤꯡꯕꯥ", "ayingba", "cold", "Wiktionary Meitei Swadesh list."],
-      ["ꯑꯁꯥꯕꯥ", "asaba", "warm; hot", "Wiktionary Meitei Swadesh list."],
-    ],
+      ["ꯑꯁꯥꯕꯥ", "asaba", "warm; hot", "Wiktionary Meitei Swadesh list."]
+    ]
   },
   {
-    id: "places",
-    title: "Places and nature",
-    words: [
+    "id": "places",
+    "title": "Places and nature",
+    "words": [
       ["ꯌꯨꯝ", "yum", "house; home", ""],
       ["ꯂꯩꯀꯥꯏ", "leikai", "neighbourhood; locality", ""],
       ["ꯀꯩꯊꯦꯜ", "keithel", "market", ""],
@@ -152,13 +151,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯃꯩ", "mei", "fire", "Wiktionary Meitei Swadesh list."],
       ["ꯅꯨꯡ", "nung", "stone", "Wiktionary Meitei Swadesh list."],
       ["ꯂꯝꯕꯤ", "lambi", "road; path", "Wiktionary Meitei Swadesh list."],
-      ["ꯅꯣꯡ", "nong", "rain", "Also ꯅꯣꯡꯖꯨ, nongju; Wiktionary Swadesh."],
-    ],
+      ["ꯅꯣꯡ", "nong", "rain", "Also ꯅꯣꯡꯖꯨ, nongju; Wiktionary Swadesh."]
+    ]
   },
   {
-    id: "time-questions",
-    title: "Time and questions",
-    words: [
+    "id": "time-questions",
+    "title": "Time and questions",
+    "words": [
       ["ꯉꯁꯤ", "ngasi", "today", ""],
       ["ꯍꯌꯦꯡ", "hayeng", "tomorrow", ""],
       ["ꯉꯔꯥꯡ", "ngarang", "yesterday", ""],
@@ -172,13 +171,13 @@ window.LSD_DECKS.manipuri = [
       ["ꯑꯍꯤꯡ", "ahing", "night", "Wiktionary Meitei Swadesh list."],
       ["ꯀꯔꯝꯋꯥꯏꯗ", "karamwaida", "when", "Wiktionary Meitei Swadesh list."],
       ["ꯃꯁꯤ", "masi", "this", "Wiktionary Meitei Swadesh list."],
-      ["ꯃꯗꯨ", "madu", "that", "Wiktionary Meitei Swadesh list."],
-    ],
+      ["ꯃꯗꯨ", "madu", "that", "Wiktionary Meitei Swadesh list."]
+    ]
   },
   {
-    id: "body",
-    title: "Body",
-    words: [
+    "id": "body",
+    "title": "Body",
+    "words": [
       ["ꯀꯣꯛ", "kok", "head", "Letter name of ꯀ; Wiktionary Swadesh / Desk reference."],
       ["ꯁꯝ", "sam", "hair", "Letter name of ꯁ; Wiktionary Swadesh / Desk reference."],
       ["ꯃꯤꯠ", "mit", "eye", "Letter name of ꯃ; Wiktionary Swadesh / Desk reference."],
@@ -190,31 +189,31 @@ window.LSD_DECKS.manipuri = [
       ["ꯌꯥ", "ya", "tooth", "Wiktionary Meitei Swadesh list."],
       ["ꯄꯨꯛ", "puk", "belly", "Wiktionary Meitei Swadesh list."],
       ["ꯊꯃꯣꯏ", "thamoi", "heart", "Wiktionary Meitei Swadesh list."],
-      ["ꯁꯔꯨ", "saru", "bone", "Wiktionary Meitei Swadesh list."],
-    ],
+      ["ꯁꯔꯨ", "saru", "bone", "Wiktionary Meitei Swadesh list."]
+    ]
   },
   {
-    id: "colours",
-    title: "Colours",
-    words: [
+    "id": "colours",
+    "title": "Colours",
+    "words": [
       ["ꯑꯉꯥꯡꯕꯥ", "angangba", "red", "Basic Meiteilon colour term; Wiktionary Swadesh."],
       ["ꯑꯁꯪꯕꯥ", "asangba", "green", "Basic Meiteilon colour term; Wiktionary Swadesh."],
       ["ꯅꯥꯄꯨ", "napu", "yellow", "Also mustard-flower compounds with ꯃꯆꯨ, macu “colour”; Wiktionary Swadesh."],
       ["ꯑꯉꯧꯕꯥ", "angouba", "white", "Basic Meiteilon colour term; Wiktionary Swadesh."],
-      ["ꯑꯃꯨꯕꯥ", "amuba", "black", "Basic Meiteilon colour term; Wiktionary Swadesh."],
-    ],
+      ["ꯑꯃꯨꯕꯥ", "amuba", "black", "Basic Meiteilon colour term; Wiktionary Swadesh."]
+    ]
   },
   {
-    id: "animals",
-    title: "Animals",
-    words: [
+    "id": "animals",
+    "title": "Animals",
+    "words": [
       ["ꯍꯨꯏ", "hui", "dog", "Wiktionary Meitei Swadesh list."],
       ["ꯎꯆꯦꯛ", "uchek", "bird", "Wiktionary Meitei Swadesh list."],
       ["ꯂꯤꯟ", "lin", "snake", "Wiktionary Meitei Swadesh list."],
       ["ꯀꯩ", "kei", "tiger", "Wiktionary lemma ꯀꯩ (Learners' Manipuri-English dictionary)."],
       ["ꯁꯒꯣꯜ", "sagol", "horse", "Wiktionary; also in ꯁꯒꯣꯜ ꯀꯥꯡꯖꯩ, sagol kangjei (polo)."],
       ["ꯁꯟ", "san", "cow; cattle", "Wiktionary Manipuri lemma ꯁꯟ."],
-      ["ꯇꯤꯟ", "tin", "worm", "Wiktionary Meitei Swadesh list."],
-    ],
-  },
+      ["ꯇꯤꯟ", "tin", "worm", "Wiktionary Meitei Swadesh list."]
+    ]
+  }
 ];

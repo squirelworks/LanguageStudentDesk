@@ -1,11 +1,12 @@
-// Gujarati starter words for the Vocabulary Learner.
-// Each word is [Gujarati, transliteration, English, note]. Written for this project.
+// Generated from squirrel-lang-data bd56e84 languages/gujarati/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Gujarati, transliteration, English, note]. Written for this
+// project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.gujarati = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["નમસ્તે", "namaste", "hello", ""],
       ["કેમ છો?", "kem chho?", "how are you?", "The everyday Gujarati greeting."],
       ["મજામાં", "majaamaan", "I'm fine", "Literally “in fun”."],
@@ -17,13 +18,13 @@ window.LSD_DECKS.gujarati = [
       ["મારું નામ … છે", "maarun naam … chhe", "my name is …", ""],
       ["આવજો", "aavjo", "goodbye", "Literally “please come again”."],
       ["સ્વાગત છે", "svaagat chhe", "welcome", ""],
-      ["બરાબર", "baraabar", "okay; right", ""],
-    ],
+      ["બરાબર", "baraabar", "okay; right", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["હું", "hun", "I", ""],
       ["તું", "tun", "you (intimate)", ""],
       ["તમે", "tame", "you (polite, or plural)", ""],
@@ -38,13 +39,13 @@ window.LSD_DECKS.gujarati = [
       ["મા", "maa", "mother", ""],
       ["પિતા", "pitaa", "father", "In speech બાપુજી or પપ્પા."],
       ["ભાઈ", "bhaaii", "brother", ""],
-      ["બહેન", "bahen", "sister", ""],
-    ],
+      ["બહેન", "bahen", "sister", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["શૂન્ય", "shuunya", "zero", "Gujarati digit ૦."],
       ["એક", "ek", "one", "૧"],
       ["બે", "be", "two", "૨"],
@@ -58,13 +59,13 @@ window.LSD_DECKS.gujarati = [
       ["દસ", "das", "ten", "૧૦"],
       ["વીસ", "viis", "twenty", ""],
       ["સો", "so", "a hundred", ""],
-      ["હજાર", "hajaar", "a thousand", ""],
-    ],
+      ["હજાર", "hajaar", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["પાણી", "paanii", "water", ""],
       ["ચા", "chaa", "tea", ""],
       ["દૂધ", "duudh", "milk", ""],
@@ -78,13 +79,13 @@ window.LSD_DECKS.gujarati = [
       ["મીઠું", "miithun", "salt; sweet", ""],
       ["જમવાનું", "jamvaanun", "meal", "જમવું: to eat a meal."],
       ["થાળી", "thaalii", "thali (set meal)", ""],
-      ["સ્વાદિષ્ટ", "svaadisht", "delicious", ""],
-    ],
+      ["સ્વાદિષ્ટ", "svaadisht", "delicious", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ખાવું", "khaavun", "to eat", ""],
       ["પીવું", "piivun", "to drink", ""],
       ["જવું", "javun", "to go", ""],
@@ -99,13 +100,13 @@ window.LSD_DECKS.gujarati = [
       ["જોવું", "jovun", "to see", ""],
       ["જાણવું", "jaanvun", "to know", ""],
       ["સમજવું", "samajvun", "to understand", ""],
-      ["કરવું", "karvun", "to do", ""],
-    ],
+      ["કરવું", "karvun", "to do", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["મોટું", "motun", "big", "મોટો / મોટી / મોટું by gender."],
       ["નાનું", "naanun", "small", ""],
       ["સારું", "saarun", "good", ""],
@@ -119,13 +120,13 @@ window.LSD_DECKS.gujarati = [
       ["મોંઘું", "monghun", "expensive", ""],
       ["સહેલું", "sahelun", "easy", ""],
       ["અઘરું", "agharun", "difficult", ""],
-      ["ખુશ", "khush", "happy", ""],
-    ],
+      ["ખુશ", "khush", "happy", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ઘર", "ghar", "house; home", "ઘરે: at home."],
       ["શહેર", "shaher", "city", ""],
       ["ગામ", "gaam", "village", ""],
@@ -137,13 +138,13 @@ window.LSD_DECKS.gujarati = [
       ["મંદિર", "mandir", "temple", ""],
       ["દરિયો", "dariyo", "sea", ""],
       ["બાથરૂમ", "baathruum", "bathroom", ""],
-      ["સ્ટેશન", "steshan", "station", ""],
-    ],
+      ["સ્ટેશન", "steshan", "station", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["શું?", "shun?", "what?; yes/no question word", ""],
       ["કોણ?", "kon?", "who?", ""],
       ["ક્યાં?", "kyaan?", "where?", ""],
@@ -152,13 +153,13 @@ window.LSD_DECKS.gujarati = [
       ["કેમ?", "kem?", "why?; how?", ""],
       ["કેટલું?", "ketlun?", "how much?", ""],
       ["કેટલા?", "ketlaa?", "how many?", ""],
-      ["કયું?", "kayun?", "which?", ""],
-    ],
+      ["કયું?", "kayun?", "which?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["આજે", "aaje", "today", ""],
       ["કાલે", "kaale", "tomorrow; yesterday", "The verb's tense tells you which."],
       ["હમણાં", "hamnaan", "now; just now", ""],
@@ -168,7 +169,7 @@ window.LSD_DECKS.gujarati = [
       ["દિવસ", "divas", "day", ""],
       ["અઠવાડિયું", "athvaadiyun", "week", ""],
       ["મહિનો", "mahino", "month", ""],
-      ["વર્ષ", "varsh", "year", ""],
-    ],
-  },
+      ["વર્ષ", "varsh", "year", ""]
+    ]
+  }
 ];

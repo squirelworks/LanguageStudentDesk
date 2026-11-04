@@ -96,6 +96,7 @@
       "id": "nouns",
       "topic": "grammar",
       "title": "Gender and number",
+      "body": "Feminine nouns are wrapped in ⵜ…ⵜ. Regular plurals change the first vowel to ⵉ and add ⵏ (masculine) or ⵉⵏ (feminine). The table shows “student” and “teacher”.",
       "table": {
         "head": [
           "",
@@ -125,7 +126,6 @@
           ]
         ]
       },
-      "body": "Feminine nouns are wrapped in ⵜ…ⵜ. Regular plurals change the first vowel to ⵉ and add ⵏ (masculine) or ⵉⵏ (feminine). The table shows “student” and “teacher”.",
       "tags": [
         "gender",
         "plural"

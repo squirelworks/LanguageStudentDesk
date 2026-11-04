@@ -34,6 +34,13 @@
       "topic": "sounds",
       "title": "The four tones",
       "body": "Each syllable has one of four tones, or a light neutral tone. Zhuyin marks tones with symbols after the Bopomofo letters; pinyin uses diacritics.",
+      "examples": [
+        {
+          "t": "媽媽罵馬嗎？",
+          "r": "ㄇㄚ ㄇㄚ˙ ㄇㄚˋ ㄇㄚˇ ㄇㄚ˙? · Māma mà mǎ ma?",
+          "e": "Is mum scolding the horse?"
+        }
+      ],
       "table": {
         "head": [
           "Tone",
@@ -68,13 +75,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "媽媽罵馬嗎？",
-          "r": "ㄇㄚ ㄇㄚ˙ ㄇㄚˋ ㄇㄚˇ ㄇㄚ˙? · Māma mà mǎ ma?",
-          "e": "Is mum scolding the horse?"
-        }
-      ],
       "tags": [
         "pronunciation",
         "tones"

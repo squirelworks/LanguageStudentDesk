@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data cfc24cb languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
+// Generated from squirrel-lang-data bd56e84 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
 // Do not edit; change the data repo and run it again.
 window.LSD_LANGUAGE_REGISTRY = {
   "amharic": {
@@ -36,6 +36,25 @@ window.LSD_LANGUAGE_REGISTRY = {
     "code": "ara",
     "data": {
       "characters": "characters.js",
+      "grammar": "grammar.js",
+      "vocab": "vocab.js",
+      "reference": "reference.json"
+    }
+  },
+  "aramaic": {
+    "id": "aramaic",
+    "name": "Aramaic",
+    "nativeName": "ארמית",
+    "writingSystems": [
+      "hebrew"
+    ],
+    "characterKeys": [
+      "hebrew"
+    ],
+    "notes": "Biblical and Imperial Aramaic, written right to left in the square script it shares with Hebrew. Classical Syriac and the modern Neo-Aramaic languages are its varieties.",
+    "direction": "rtl",
+    "code": "arc",
+    "data": {
       "grammar": "grammar.js",
       "vocab": "vocab.js",
       "reference": "reference.json"

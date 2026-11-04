@@ -1,11 +1,11 @@
-// Khmer starter words for the Vocabulary Learner.
+// Generated from squirrel-lang-data bd56e84 languages/khmer/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Khmer, romanization, English, note]. Written for this project.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.khmer = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["សួស្ដី", "suosdei", "hello", ""],
       ["ជំរាបសួរ", "chumreap suor", "hello (formal)", "Said with palms together (sampeah)."],
       ["អរគុណ", "arkun", "thank you", "អរគុណច្រើន: thank you very much."],
@@ -17,13 +17,13 @@ window.LSD_DECKS.khmer = [
       ["សុខសប្បាយទេ?", "sok sabay te?", "how are you?", ""],
       ["ខ្ញុំសុខសប្បាយ", "khnhom sok sabay", "I'm fine", ""],
       ["ខ្ញុំឈ្មោះ…", "khnhom chhmuoh…", "my name is…", ""],
-      ["លាហើយ", "lea haey", "goodbye", ""],
-    ],
+      ["លាហើយ", "lea haey", "goodbye", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ខ្ញុំ", "khnhom", "I", ""],
       ["អ្នក", "neak", "you", ""],
       ["គាត់", "koat", "he; she (polite)", ""],
@@ -37,13 +37,13 @@ window.LSD_DECKS.khmer = [
       ["ឪពុក", "ovpuk", "father", ""],
       ["បង", "bong", "older brother or sister", "Also a friendly “you” to someone older."],
       ["ប្អូន", "pa-oun", "younger brother or sister", ""],
-      ["គ្រួសារ", "kruosar", "family", ""],
-    ],
+      ["គ្រួសារ", "kruosar", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["សូន្យ", "soun", "zero", "Khmer digit ០."],
       ["មួយ", "muoy", "one", "១"],
       ["ពីរ", "pii", "two", "២"],
@@ -57,13 +57,13 @@ window.LSD_DECKS.khmer = [
       ["ដប់", "dop", "ten", "១០"],
       ["ម្ភៃ", "mphey", "twenty", ""],
       ["មួយរយ", "muoy roy", "a hundred", ""],
-      ["មួយពាន់", "muoy poan", "a thousand", ""],
-    ],
+      ["មួយពាន់", "muoy poan", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ទឹក", "tuk", "water", ""],
       ["កាហ្វេ", "kafe", "coffee", ""],
       ["តែ", "tae", "tea", ""],
@@ -77,13 +77,13 @@ window.LSD_DECKS.khmer = [
       ["ផ្លែឈើ", "phlae chheu", "fruit", ""],
       ["ហឹរ", "huer", "spicy", ""],
       ["ឆ្ងាញ់", "chhnganh", "delicious", ""],
-      ["គិតលុយ", "kit luy", "the bill, please", "Literally “count the money”."],
-    ],
+      ["គិតលុយ", "kit luy", "the bill, please", "Literally “count the money”."]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ញ៉ាំ", "nham", "to eat", "Polite; everyday ស៊ី is rude."],
       ["ផឹក", "phuk", "to drink", ""],
       ["ទៅ", "tov", "to go", ""],
@@ -99,13 +99,13 @@ window.LSD_DECKS.khmer = [
       ["សរសេរ", "sorsay", "to write", ""],
       ["មើល", "meul", "to look; to watch", ""],
       ["ដឹង", "deung", "to know", ""],
-      ["យល់", "yol", "to understand", ""],
-    ],
+      ["យល់", "yol", "to understand", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["ធំ", "thom", "big", ""],
       ["តូច", "toch", "small", ""],
       ["ល្អ", "l'or", "good; beautiful", ""],
@@ -119,13 +119,13 @@ window.LSD_DECKS.khmer = [
       ["ថ្លៃ", "thlay", "expensive", ""],
       ["ងាយ", "ngeay", "easy", ""],
       ["ពិបាក", "pibak", "difficult", ""],
-      ["សប្បាយ", "sabay", "happy; fun", ""],
-    ],
+      ["សប្បាយ", "sabay", "happy; fun", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["ផ្ទះ", "phteah", "house; home", ""],
       ["ទីក្រុង", "tii krong", "city", ""],
       ["ភូមិ", "phum", "village", ""],
@@ -137,13 +137,13 @@ window.LSD_DECKS.khmer = [
       ["វត្ត", "voat", "temple; pagoda", ""],
       ["ទន្លេ", "tonle", "river", ""],
       ["បន្ទប់ទឹក", "bantob tuk", "bathroom; toilet", ""],
-      ["សណ្ឋាគារ", "sonthaakear", "hotel", ""],
-    ],
+      ["សណ្ឋាគារ", "sonthaakear", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["អ្វី", "avey", "what", ""],
       ["អ្នកណា", "neak na", "who", ""],
       ["ឯណា", "ae na", "where", "នៅឯណា? Where is it?"],
@@ -152,13 +152,13 @@ window.LSD_DECKS.khmer = [
       ["យ៉ាងម៉េច", "yang mech", "how", ""],
       ["ប៉ុន្មាន", "ponman", "how much; how many", ""],
       ["តើ", "tae", "question starter", "Optional, at the start of a question."],
-      ["មាន…ទេ?", "mean … te?", "do you have…?", ""],
-    ],
+      ["មាន…ទេ?", "mean … te?", "do you have…?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time",
-    words: [
+    "id": "time",
+    "title": "Time",
+    "words": [
       ["ថ្ងៃនេះ", "thngai nih", "today", ""],
       ["ស្អែក", "saek", "tomorrow", ""],
       ["ម្សិលមិញ", "msel minh", "yesterday", ""],
@@ -168,7 +168,7 @@ window.LSD_DECKS.khmer = [
       ["ថ្ងៃ", "thngai", "day; sun", ""],
       ["សប្ដាហ៍", "sapda", "week", ""],
       ["ខែ", "khae", "month; moon", ""],
-      ["ឆ្នាំ", "chhnam", "year", ""],
-    ],
-  },
+      ["ឆ្នាំ", "chhnam", "year", ""]
+    ]
+  }
 ];
