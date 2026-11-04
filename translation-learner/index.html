@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Translation Learner — Language Student Desk</title>
+<title>Translation Learner (alpha) — Language Student Desk</title>
 <link rel="stylesheet" href="../languages/learners.css">
 <link rel="stylesheet" href="../languages/klingon/piqad.css">
 <style>
@@ -80,6 +80,7 @@
   #wbDetail .say { font-size: 1.8rem; }
   .near { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.3rem 0; }
   .near span { background: #15151b; border: 1px solid var(--line); border-radius: 6px; padding: 0.15rem 0.5rem; font-size: 0.9rem; }
+  .alpha { font-size: 0.6em; font-weight: normal; color: #ffb74d; vertical-align: middle; }
   .near span small { color: var(--muted); margin-left: 0.3rem; }
   #langHome .tile .big { font-family: var(--cjk); }
 </style>
@@ -87,7 +88,7 @@
 <body>
 <header class="top">
   <div class="grow">
-    <h1 id="title">Translation Learner</h1>
+    <h1 id="title">Translation Learner <span class="alpha">(alpha)</span></h1>
     <p id="subtitle">Translate sentence by sentence, one piece of meaning at a time: every piece carried over, nothing added.</p>
   </div>
   <label class="small muted">Language <select id="langSelect"></select></label>
