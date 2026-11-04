@@ -109,11 +109,21 @@ BIBLES = [
         "notes": "Long used for the New Testament in English-speaking Orthodox parishes.",
         "format": "scrollmapper", "file": "KJVA",
     },
+    {
+        "id": "lat-vulgate-clementine",
+        "name": "Biblia Sacra Vulgata (Clementine Vulgate, 1592)",
+        "lang": "la", "script": "Latn", "dir": "ltr", "versification": "vul",
+        "license": "Public Domain",
+        "source": "https://github.com/scrollmapper/bible_databases (formats/json/VulgClementine.json, from the CrossWire SWORD module)",
+        "notes": "St Jerome's Latin Bible in the Clementine edition, with the deuterocanonical books. The Bible of the Western Church before and after the schism.",
+        "format": "scrollmapper", "file": "VulgClementine",
+    },
 ]
 
 # --- Downloadable packs -------------------------------------------------------
 #
-# These are too large to bundle in the APK. build_bibles.py writes them to
+# These are not bundled in the APK; the app downloads them from the latest
+# GitHub release (or this branch) when the reader asks. build_bibles.py writes them to
 # packs/bibles/<id>.js (same format as www/data/bibles) and records them in
 # packs.json; the "SquirrelGo Orthodox Bible text packs" workflow publishes
 # packs/ to the data-only branch below, and build_catalog.py lists them in
@@ -155,8 +165,6 @@ PACKS = [
         license="CC BY-SA (CrossWire CopSahBible2 module; share alike)"),
     _sm("hye-eastern", "ArmEastern", "Աստվածաշունչ (Eastern Armenian, partial)", "hy", "Armn", "kjv",
         "Modern Eastern Armenian translation. Only Genesis, Exodus and the four Gospels are in the source."),
-    _sm("lat-vulgate-clementine", "VulgClementine", "Biblia Sacra Vulgata (Clementine Vulgate, 1592)", "la", "Latn", "vul",
-        "St Jerome's Latin Bible in the Clementine edition, with the deuterocanonical books. The Bible of the Western Church before and after the schism."),
     _sm("got-wulfila", "Wulfila", "𐌱𐌰𐌹𐌱𐌻𐌴𐌹 (Gothic Bible of Bishop Wulfila, 4th century, surviving portions)", "got", "Goth", "kjv",
         "The surviving fragments of the Gothic translation made by Bishop Wulfila from the Byzantine Greek text, in Gothic script. Gospels, Pauline epistles and part of Nehemiah."),
     _sm("heb-wlc", "WLC", "תנ״ך (Hebrew Masoretic Text, Westminster Leningrad Codex)", "he", "Hebr", "org",

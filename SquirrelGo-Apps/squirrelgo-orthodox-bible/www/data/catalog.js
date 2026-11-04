@@ -114,6 +114,16 @@ window.SGO_CATALOG = {
       "testaments": "OT,NT,DC"
     },
     {
+      "id": "lat-vulgate-clementine",
+      "name": "Biblia Sacra Vulgata (Clementine Vulgate, 1592)",
+      "lang": "la",
+      "dir": "ltr",
+      "versification": "vul",
+      "license": "Public Domain",
+      "source": "https://github.com/scrollmapper/bible_databases (formats/json/VulgClementine.json, from the CrossWire SWORD module)",
+      "testaments": "OT,NT,DC"
+    },
+    {
       "id": "syc-peshitta",
       "name": "ܐܘܢܓܠܝܘܢ (Syriac Peshitta New Testament)",
       "lang": "syc",
@@ -148,18 +158,6 @@ window.SGO_CATALOG = {
       "testaments": "OT,NT",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/hye-eastern.js",
       "size": 1301497
-    },
-    {
-      "id": "lat-vulgate-clementine",
-      "name": "Biblia Sacra Vulgata (Clementine Vulgate, 1592)",
-      "lang": "la",
-      "dir": "ltr",
-      "versification": "vul",
-      "license": "Public Domain",
-      "source": "https://github.com/scrollmapper/bible_databases (formats/json/VulgClementine.json, from the CrossWire SWORD module)",
-      "testaments": "OT,NT,DC",
-      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/lat-vulgate-clementine.js",
-      "size": 4114723
     },
     {
       "id": "got-wulfila",

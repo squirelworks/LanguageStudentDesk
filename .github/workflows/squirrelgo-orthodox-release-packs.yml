@@ -1,0 +1,64 @@
+name: SquirrelGo Orthodox Bible release packs
+
+# Attaches the Orthodox Bible's downloadable Bibles and commentary to a
+# GitHub release, so the app's "Check for new texts" and "Download" buttons
+# find them in the latest release. Takes the packs already built by
+# "SquirrelGo Orthodox Bible text packs" (the orthodox-bible-texts branch)
+# and uploads:
+#   orthodox-bible-content.json     the list of packs the app reads first
+#   orthodox-bible-<id>.js          one per Bible
+#   orthodox-commentary-<id>.js     one per commentary pack
+# Runs when a release is published (the rolling *-latest pre-releases are
+# skipped). Run it by hand to attach the packs to a release that already exists.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to attach the packs to, e.g. v0.0.5"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: squirrelgo-orthodox-release-packs-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: true
+
+jobs:
+  attach:
+    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: orthodox-bible-texts
+          path: packs
+      - name: Name the packs as release assets
+        run: |
+          test -s packs/orthodox-bible-content.json || {
+            echo "::error::orthodox-bible-content.json is missing; run 'SquirrelGo Orthodox Bible text packs' on main first"
+            exit 1
+          }
+          mkdir assets
+          cp packs/orthodox-bible-content.json assets/
+          for f in packs/bibles/*.js; do cp "$f" "assets/orthodox-bible-$(basename "$f")"; done
+          if [ -d packs/commentary ]; then
+            for f in packs/commentary/*.js; do cp "$f" "assets/orthodox-commentary-$(basename "$f")"; done
+          fi
+          # Every pack the list names must be attached, or the app can't get it.
+          python3 - <<'PY'
+          import json, os, sys
+          index = json.load(open("assets/orthodox-bible-content.json", encoding="utf-8"))
+          missing = [e["file"] for e in index["bibles"] + index["commentary"]
+                     if not os.path.exists(os.path.join("assets", e["file"]))]
+          if missing:
+              sys.exit("Packs listed but not built: " + ", ".join(missing))
+          print("%d Bibles, %d commentary packs" % (len(index["bibles"]), len(index["commentary"])))
+          PY
+      - name: Attach to the release
+        run: gh release upload "$TAG" assets/* --clobber --repo "$GITHUB_REPOSITORY"
