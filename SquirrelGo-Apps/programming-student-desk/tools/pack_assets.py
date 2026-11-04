@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[3]
 PATHS = [
     "programming-learner/index.html",
     "programming-learner/app.js",
+    "programming-learner/sections.js",
     "programming-learner/data",
     "languages/learners.css",
     "languages/lsd-lang.js",
@@ -37,6 +38,7 @@ REQUIRED = [
     "SquirrelGo-Apps/programming-student-desk/www/index.html",
     "programming-learner/index.html",
     "programming-learner/app.js",
+    "programming-learner/sections.js",
     "programming-learner/data/catalog.js",
     "programming-learner/data/slick.js",
     "programming-learner/data/chisel.js",

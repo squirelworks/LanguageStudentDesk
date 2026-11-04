@@ -46,7 +46,7 @@ TOOLS = {
     "reference-learner": ("Reference Learner",
                           "Quick lookup for language facts and notes.",
                           "Desk tools", True, None),
-    "translation-learner": ("Translation Learner",
+    "translation-learner": ("Translation Learner (alpha)",
                             "Sentence translation checked by meaning, a meaning matrix across languages, and top-1,000 word practice.",
                             "Desk tools", True, None),
     "programming-learner": ("Programming Learner",
@@ -102,7 +102,7 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
-    "win16", "z80", "fortran",
+    "win16", "z80", "cobol", "fortran",
 ]
 
 
