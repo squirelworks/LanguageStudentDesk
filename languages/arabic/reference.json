@@ -110,6 +110,13 @@
       "topic": "script",
       "title": "Short vowel marks",
       "body": "Short vowels are written as small marks above or below a letter. Everyday texts leave them out and readers supply them from knowledge; the Qurʾan, children's books and textbooks show them.",
+      "examples": [
+        {
+          "t": "كتب · كَتَبَ",
+          "r": "kataba",
+          "e": "he wrote, without and with vowel marks"
+        }
+      ],
       "table": {
         "head": [
           "Mark",
@@ -149,13 +156,6 @@
           ]
         ]
       },
-      "examples": [
-        {
-          "t": "كتب · كَتَبَ",
-          "r": "kataba",
-          "e": "he wrote, without and with vowel marks"
-        }
-      ],
       "tags": [
         "script",
         "vowels",

@@ -532,6 +532,13 @@ window.LSD_REFERENCE = {
         "topic": "script",
         "title": "Short vowel marks",
         "body": "Short vowels are written as small marks above or below a letter. Everyday texts leave them out and readers supply them from knowledge; the Qurʾan, children's books and textbooks show them.",
+        "examples": [
+          {
+            "t": "كتب · كَتَبَ",
+            "r": "kataba",
+            "e": "he wrote, without and with vowel marks"
+          }
+        ],
         "table": {
           "head": [
             "Mark",
@@ -571,13 +578,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "كتب · كَتَبَ",
-            "r": "kataba",
-            "e": "he wrote, without and with vowel marks"
-          }
-        ],
         "tags": [
           "script",
           "vowels",
@@ -1109,6 +1109,281 @@ window.LSD_REFERENCE = {
       }
     ]
   },
+  "aramaic": {
+    "id": "aramaic",
+    "entries": [
+      {
+        "id": "at-a-glance",
+        "topic": "overview",
+        "title": "Aramaic at a glance",
+        "level": "absolute-beginner",
+        "body": [
+          "Aramaic is a Semitic language, a close cousin of Hebrew and Arabic, with about three thousand years of writing behind it. It was the shared language of the Assyrian and Persian empires, parts of Daniel and Ezra are written in it, and it was the everyday language of Galilee in the time of Jesus.",
+          "This course starts with Biblical Aramaic, written in the square letters it shares with Hebrew. Classical Syriac, the literary Aramaic of the Syriac churches, and the Neo-Aramaic languages still spoken today, such as Assyrian, Chaldean and Turoyo, are its varieties."
+        ],
+        "examples": [
+          {
+            "t": "ענה {מלכא} ואמר",
+            "r": "ane malka ve-amar",
+            "e": "the king answered and said (Daniel 2:5)"
+          }
+        ],
+        "tags": [
+          "Semitic",
+          "Biblical Aramaic",
+          "Syriac",
+          "Neo-Aramaic"
+        ]
+      },
+      {
+        "id": "square-script",
+        "topic": "script",
+        "title": "The square script",
+        "level": "absolute-beginner",
+        "body": [
+          "Biblical Aramaic uses the same 22 letters as Hebrew, written right to left, with the same five final forms (ך ם ן ף ץ). In fact, the square letters Hebrew uses today came from the Aramaic script of the Persian empire.",
+          "If you can read the Hebrew alef-bet, you can already read Aramaic letters. The letters א, ה, ו and י often stand for vowels, as in Hebrew, and א at the end of a word is very common because it marks “the”."
+        ],
+        "tags": [
+          "script",
+          "letters",
+          "shared with Hebrew"
+        ]
+      },
+      {
+        "id": "hebrew-sounds",
+        "topic": "sounds",
+        "title": "Hebrew and Aramaic sound pairs",
+        "level": "beginner",
+        "body": "Many words are the same in Hebrew and Aramaic except for one regular sound change. Knowing the pairs lets you recognize a lot of Aramaic from Hebrew.",
+        "table": {
+          "head": [
+            "Hebrew",
+            "Aramaic",
+            "Example"
+          ],
+          "rows": [
+            [
+              "ז",
+              "ד",
+              "זהב / {ד}הב, gold"
+            ],
+            [
+              "צ",
+              "ע",
+              "ארץ / אר{ע}, land"
+            ],
+            [
+              "ש",
+              "ת",
+              "שלש / {ת}לת, three"
+            ],
+            [
+              "ה־ in front",
+              "־א at the end",
+              "המלך / מלכ{א}, the king"
+            ]
+          ]
+        },
+        "tags": [
+          "sounds",
+          "Hebrew"
+        ]
+      },
+      {
+        "id": "states",
+        "topic": "grammar",
+        "title": "The three states of a noun",
+        "level": "beginner",
+        "body": [
+          "Aramaic nouns come in three forms, called states. The absolute is the plain word, “a king”. The emphatic adds ־א and means “the king”. The construct is a short form used before another noun, “king of”.",
+          "In later Aramaic and Syriac the emphatic form became the normal form of most nouns, so ־א no longer always means “the”."
+        ],
+        "table": {
+          "head": [
+            "State",
+            "Form",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "absolute",
+              "מלך",
+              "a king"
+            ],
+            [
+              "emphatic",
+              "מלכ{א}",
+              "the king"
+            ],
+            [
+              "construct",
+              "מלך שמיא",
+              "the king of heaven"
+            ]
+          ]
+        },
+        "tags": [
+          "nouns",
+          "the",
+          "construct"
+        ]
+      },
+      {
+        "id": "perfect-ktv",
+        "topic": "verbs",
+        "title": "The past tense of כתב, write",
+        "level": "beginner",
+        "body": "The perfect tense marks the person with endings. Unpointed, several forms look alike; the vowels and the sentence tell them apart.",
+        "examples": [
+          {
+            "t": "{כתבו} אגרה חדה",
+            "r": "ketavu iggerah hadah",
+            "e": "they wrote a letter (Ezra 4:8)"
+          }
+        ],
+        "table": {
+          "head": [
+            "Person",
+            "Aramaic",
+            "Reading"
+          ],
+          "rows": [
+            [
+              "he wrote",
+              "כתב",
+              "ketav"
+            ],
+            [
+              "she wrote",
+              "כתבת",
+              "kitbat"
+            ],
+            [
+              "you (a man) wrote",
+              "כתבת",
+              "ketavt"
+            ],
+            [
+              "I wrote",
+              "כתבת",
+              "kitbet"
+            ],
+            [
+              "they (men) wrote",
+              "כתבו",
+              "ketavu"
+            ],
+            [
+              "they (women) wrote",
+              "כתבה",
+              "ketavah"
+            ],
+            [
+              "you (several) wrote",
+              "כתבתון",
+              "ketavtun"
+            ],
+            [
+              "we wrote",
+              "כתבנא",
+              "ketavna"
+            ]
+          ]
+        },
+        "tags": [
+          "verbs",
+          "perfect",
+          "Peal"
+        ]
+      },
+      {
+        "id": "numbers",
+        "topic": "numbers",
+        "title": "Numbers 1 to 10",
+        "level": "absolute-beginner",
+        "body": "As in Hebrew and Arabic, from three to ten the form ending in ־ה goes with masculine nouns, and the shorter form with feminine nouns.",
+        "table": {
+          "head": [
+            "Number",
+            "With masculine nouns",
+            "With feminine nouns"
+          ],
+          "rows": [
+            [
+              "1",
+              "חד",
+              "חדה"
+            ],
+            [
+              "2",
+              "תרין",
+              "תרתין"
+            ],
+            [
+              "3",
+              "תלתה",
+              "תלת"
+            ],
+            [
+              "4",
+              "ארבעה",
+              "ארבע"
+            ],
+            [
+              "5",
+              "חמשה",
+              "חמש"
+            ],
+            [
+              "6",
+              "שתה",
+              "שת"
+            ],
+            [
+              "7",
+              "שבעה",
+              "שבע"
+            ],
+            [
+              "8",
+              "תמניה",
+              "תמני"
+            ],
+            [
+              "9",
+              "תשעה",
+              "תשע"
+            ],
+            [
+              "10",
+              "עשרה",
+              "עשר"
+            ]
+          ]
+        },
+        "tags": [
+          "numbers",
+          "gender"
+        ]
+      },
+      {
+        "id": "syriac-and-today",
+        "topic": "culture",
+        "title": "Syriac and Aramaic today",
+        "level": "beginner",
+        "body": [
+          "Classical Syriac grew from the Aramaic of Edessa and became the written language of a large Christian literature. It has its own alphabet in three styles: Estrangela, the oldest; Serto, used in the west; and Madnhaya, used in the east.",
+          "Aramaic is still spoken. The Neo-Aramaic languages include Assyrian and Chaldean, spoken by communities from Iraq, Iran, Syria and Turkey and in the diaspora, and Turoyo, from the Tur Abdin region of Turkey. Each has grown apart from Biblical Aramaic, much as modern languages grow from older ones."
+        ],
+        "tags": [
+          "Syriac",
+          "Neo-Aramaic",
+          "culture"
+        ]
+      }
+    ]
+  },
   "armenian": {
     "id": "armenian",
     "entries": [
@@ -1483,6 +1758,7 @@ window.LSD_REFERENCE = {
         "id": "numbers",
         "topic": "numbers",
         "title": "Numbers",
+        "body": "Eleven to nineteen are ten plus the unit: տասնմեկ (11), տասներկու (12). A noun after a number usually stays singular.",
         "table": {
           "head": [
             "",
@@ -1557,7 +1833,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "body": "Eleven to nineteen are ten plus the unit: տասնմեկ (11), տասներկու (12). A noun after a number usually stays singular.",
         "tags": [
           "numbers"
         ]
@@ -2671,6 +2946,18 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "Set A prefixes on “is speaking”",
         "body": "Most Cherokee verbs need a bound pronoun on the front. Set A prefixes mark who is doing the action on verbs like ᎦᏬᏂᎭ (gawoniha) “is speaking”. The independent pronouns ᎠᏴ (ayv) “I” and ᏂᎯ (nihi) “you” are only added for emphasis.",
+        "examples": [
+          {
+            "t": "Ꮎ ᎠᏍᎦᏯ {ᎦᏬᏂᎭ}.",
+            "r": "Na asgaya gawoniha.",
+            "e": "That man is speaking."
+          },
+          {
+            "t": "{Ꮵ} ᏣᎳᎩ.",
+            "r": "Tsi tsalagi.",
+            "e": "I am Cherokee."
+          }
+        ],
         "table": {
           "head": [
             "Person",
@@ -2699,18 +2986,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "Ꮎ ᎠᏍᎦᏯ {ᎦᏬᏂᎭ}.",
-            "r": "Na asgaya gawoniha.",
-            "e": "That man is speaking."
-          },
-          {
-            "t": "{Ꮵ} ᏣᎳᎩ.",
-            "r": "Tsi tsalagi.",
-            "e": "I am Cherokee."
-          }
-        ],
         "tags": [
           "Set A",
           "prefixes"
@@ -2856,6 +3131,13 @@ window.LSD_REFERENCE = {
         "topic": "sounds",
         "title": "The four tones",
         "body": "Each syllable has one of four tones, or a light neutral tone. The same syllable with a different tone is a different word.",
+        "examples": [
+          {
+            "t": "妈妈骂马吗？",
+            "r": "Māma mà mǎ ma?",
+            "e": "Is mum scolding the horse?"
+          }
+        ],
         "table": {
           "head": [
             "Tone",
@@ -2890,13 +3172,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "妈妈骂马吗？",
-            "r": "Māma mà mǎ ma?",
-            "e": "Is mum scolding the horse?"
-          }
-        ],
         "tags": [
           "pronunciation",
           "tones"
@@ -3645,6 +3920,18 @@ window.LSD_REFERENCE = {
           "Each vowel has a hard and a soft partner. The soft vowels make the consonant before them soft (palatalized), and at the start of a word they add a y sound.",
           "Two letters have no sound of their own: {ь} (the soft sign) softens the consonant before it, and {ъ} (the hard sign) keeps a consonant hard before a soft vowel."
         ],
+        "examples": [
+          {
+            "t": "мат · мат{ь}",
+            "r": "mat · mat'",
+            "e": "checkmate · mother"
+          },
+          {
+            "t": "под{ъ}езд",
+            "r": "pod'yezd",
+            "e": "entrance (of a building)"
+          }
+        ],
         "table": {
           "head": [
             "Hard",
@@ -3679,18 +3966,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "мат · мат{ь}",
-            "r": "mat · mat'",
-            "e": "checkmate · mother"
-          },
-          {
-            "t": "под{ъ}езд",
-            "r": "pod'yezd",
-            "e": "entrance (of a building)"
-          }
-        ],
         "tags": [
           "script",
           "vowels",
@@ -4003,6 +4278,23 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Aspect: imperfective and perfective",
         "body": "Most verbs come in pairs. The {imperfective} describes a process, a repeated action or the action in general. The {perfective} describes one completed action with a result. Perfective verbs have no present tense: their present-looking forms mean the future.",
+        "examples": [
+          {
+            "t": "Я {читал} книгу.",
+            "r": "Ya chital knigu.",
+            "e": "I was reading a book. / I read a book (at some point)."
+          },
+          {
+            "t": "Я {прочитал} книгу.",
+            "r": "Ya prochital knigu.",
+            "e": "I read the book (to the end)."
+          },
+          {
+            "t": "Я {прочитаю} книгу.",
+            "r": "Ya prochitayu knigu.",
+            "e": "I will read the book."
+          }
+        ],
         "table": {
           "head": [
             "Imperfective",
@@ -4037,23 +4329,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "Я {читал} книгу.",
-            "r": "Ya chital knigu.",
-            "e": "I was reading a book. / I read a book (at some point)."
-          },
-          {
-            "t": "Я {прочитал} книгу.",
-            "r": "Ya prochital knigu.",
-            "e": "I read the book (to the end)."
-          },
-          {
-            "t": "Я {прочитаю} книгу.",
-            "r": "Ya prochitayu knigu.",
-            "e": "I will read the book."
-          }
-        ],
         "tags": [
           "verbs",
           "aspect"
@@ -4064,6 +4339,23 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Verbs of motion",
         "body": "Going has separate verbs for on foot and by vehicle, and each comes in two forms: one for a single trip in one direction, one for round trips, habits and general movement.",
+        "examples": [
+          {
+            "t": "Я {иду} в школу.",
+            "r": "Ya idu v shkolu.",
+            "e": "I'm on my way to school."
+          },
+          {
+            "t": "Я {хожу} в школу каждый день.",
+            "r": "Ya khozhu v shkolu kazhdyy den'.",
+            "e": "I go to school every day."
+          },
+          {
+            "t": "Мы {едем} в Москву.",
+            "r": "My yedem v Moskvu.",
+            "e": "We're travelling to Moscow."
+          }
+        ],
         "table": {
           "head": [
             "",
@@ -4083,23 +4375,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "Я {иду} в школу.",
-            "r": "Ya idu v shkolu.",
-            "e": "I'm on my way to school."
-          },
-          {
-            "t": "Я {хожу} в школу каждый день.",
-            "r": "Ya khozhu v shkolu kazhdyy den'.",
-            "e": "I go to school every day."
-          },
-          {
-            "t": "Мы {едем} в Москву.",
-            "r": "My yedem v Moskvu.",
-            "e": "We're travelling to Moscow."
-          }
-        ],
         "tags": [
           "verbs",
           "motion"
@@ -4507,6 +4782,16 @@ window.LSD_REFERENCE = {
         "id": "tenses",
         "topic": "verbs",
         "title": "The four tenses you use most",
+        "examples": [
+          {
+            "t": "I {have lost} my keys.",
+            "e": "They are still lost now."
+          },
+          {
+            "t": "I {lost} my keys yesterday.",
+            "e": "A finished time: present perfect is not possible with yesterday."
+          }
+        ],
         "table": {
           "head": [
             "Tense",
@@ -4536,16 +4821,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "I {have lost} my keys.",
-            "e": "They are still lost now."
-          },
-          {
-            "t": "I {lost} my keys yesterday.",
-            "e": "A finished time: present perfect is not possible with yesterday."
-          }
-        ],
         "tags": [
           "verbs",
           "tenses"
@@ -4658,6 +4933,16 @@ window.LSD_REFERENCE = {
         "id": "time-prepositions",
         "topic": "grammar",
         "title": "at, on, in for time",
+        "examples": [
+          {
+            "t": "See you {on} Friday {at} six.",
+            "e": ""
+          },
+          {
+            "t": "next week · last year · this morning",
+            "e": "no preposition before next, last, this, every"
+          }
+        ],
         "table": {
           "head": [
             "Preposition",
@@ -4682,16 +4967,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "See you {on} Friday {at} six.",
-            "e": ""
-          },
-          {
-            "t": "next week · last year · this morning",
-            "e": "no preposition before next, last, this, every"
-          }
-        ],
         "tags": [
           "prepositions",
           "time"
@@ -5006,6 +5281,12 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "le, la, les, un, une",
         "body": "Nouns are masculine or feminine. le and la become l' before a vowel sound. After ne…pas, “a” or “some” becomes de.",
+        "examples": [
+          {
+            "t": "Je n'ai pas {de} livre.",
+            "e": "I don't have a book."
+          }
+        ],
         "table": {
           "head": [
             "",
@@ -5034,12 +5315,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "Je n'ai pas {de} livre.",
-            "e": "I don't have a book."
-          }
-        ],
         "tags": [
           "articles"
         ]
@@ -5457,6 +5732,13 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "“To be”",
         "body": "In the present, “to be” is very regular. In speech არის (is) often shrinks to -ა on the end of the word before it.",
+        "examples": [
+          {
+            "t": "ეს ჩემი სახლი{ა}.",
+            "r": "Es chemi sakhlia.",
+            "e": "This is my house."
+          }
+        ],
         "table": {
           "head": [
             "",
@@ -5481,13 +5763,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "ეს ჩემი სახლი{ა}.",
-            "r": "Es chemi sakhlia.",
-            "e": "This is my house."
-          }
-        ],
         "tags": [
           "verbs",
           "to be"
@@ -6508,6 +6783,12 @@ window.LSD_REFERENCE = {
           "The Gujarati script grew out of Devanagari and is easy to compare with it: most letters have the same structure, but Gujarati drops the line along the top. Each consonant carries a short a, other vowels are marks around it, and full vowel letters start a word.",
           "Unlike Hindi, Gujarati uses the ordinary full stop and comma rather than the danda।"
         ],
+        "examples": [
+          {
+            "t": "क · ક   म · મ   ग · ગ",
+            "e": "Devanagari and Gujarati side by side"
+          }
+        ],
         "table": {
           "head": [
             "Vowel",
@@ -6567,12 +6848,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "क · ક   म · મ   ग · ગ",
-            "e": "Devanagari and Gujarati side by side"
-          }
-        ],
         "tags": [
           "script",
           "abugida"
@@ -6689,6 +6964,7 @@ window.LSD_REFERENCE = {
         "id": "postpositions",
         "topic": "grammar",
         "title": "Postpositions",
+        "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
         "table": {
           "head": [
             "Ending",
@@ -6728,7 +7004,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "body": "These are written joined to the noun. A masculine noun in -ો becomes -ા before them.",
         "tags": [
           "postpositions"
         ]
@@ -6936,6 +7211,62 @@ window.LSD_REFERENCE = {
         ]
       },
       {
+        "id": "topik-levels",
+        "topic": "overview",
+        "title": "TOPIK levels: what the official descriptions say",
+        "body": [
+          "The Test of Proficiency in Korean (TOPIK) has six levels. TOPIK I covers levels 1 and 2, and TOPIK II covers levels 3 to 6. The table quotes the opening of the test's own description of each level.",
+          "TOPIK publishes level descriptions, not grammar lists, so the TOPIK levels on this app's grammar lessons are estimates. A range such as 2–3 means a point commonly turns up at both levels. The vocabulary decks use the National Institute of Korean Language's own beginner, intermediate and advanced grading instead.",
+          "Source: TOPIK level descriptors (National Institute for International Education), as given in the Wikipedia article \"Test of Proficiency in Korean\"; quotes are shortened, marked with …"
+        ],
+        "table": {
+          "head": [
+            "Level",
+            "Official description (quoted, shortened)",
+            "Grammar you'd usually meet (our estimate)"
+          ],
+          "rows": [
+            [
+              "1 (TOPIK I)",
+              "\"Able to carry out basic conversations related to daily survival skills such as self-introduction, purchasing …\"",
+              "은/는, 이/가, 을/를, 에/에서, -아요/-어요, the past, 안/못, -고 싶다, -ㅂ니다"
+            ],
+            [
+              "2 (TOPIK I)",
+              "\"Able to carry out simple conversations related to daily routines such as making phone calls and asking for favours …\"",
+              "-(으)면, -(으)니까, -아서/어서, -기 전에, -아/어 보다, -아/어도 되다, relative clauses start here"
+            ],
+            [
+              "3 (TOPIK II)",
+              "\"Able to perform basic linguistic functions necessary to use various public facilities and maintain social relationship …\"",
+              "-다고 reported speech, -는데, honorifics and humble verbs, passive pairs"
+            ],
+            [
+              "4 (TOPIK II)",
+              "\"Able to use various public facilities, socialize, and carry out some degree of ordinary work …\"",
+              "the plain written style (한다체), passive -되다, news phrasing"
+            ],
+            [
+              "5 (TOPIK II)",
+              "\"Able to perform linguistic functions to some degree that are necessary for research and tasks in professional fields …\"",
+              "written connectors -(으)며, -(으)나, -(으)므로; reports with 에 따르면"
+            ],
+            [
+              "6 (TOPIK II)",
+              "\"Able to perform linguistic functions necessary for research and tasks in professional fields relatively correctly …\"",
+              "headline style, editorial stance and other formal written registers"
+            ]
+          ]
+        },
+        "tags": [
+          "TOPIK",
+          "levels"
+        ],
+        "sources": [
+          "TOPIK level descriptors"
+        ]
+      },
+      {
         "id": "syllable-blocks",
         "topic": "script",
         "title": "Syllable blocks",
@@ -7011,6 +7342,18 @@ window.LSD_REFERENCE = {
         "topic": "sounds",
         "title": "Plain, aspirated and tense consonants",
         "body": "Korean splits stops into three: plain (lightly breathy), aspirated (a strong puff of air) and tense (tight throat, no puff). English speakers need to practise hearing the difference.",
+        "examples": [
+          {
+            "t": "달 · 탈 · 딸",
+            "r": "dal · tal · ttal",
+            "e": "moon · mask · daughter"
+          },
+          {
+            "t": "불 · 풀 · 뿔",
+            "r": "bul · pul · ppul",
+            "e": "fire · grass · horn"
+          }
+        ],
         "table": {
           "head": [
             "Plain",
@@ -7045,18 +7388,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "달 · 탈 · 딸",
-            "r": "dal · tal · ttal",
-            "e": "moon · mask · daughter"
-          },
-          {
-            "t": "불 · 풀 · 뿔",
-            "r": "bul · pul · ppul",
-            "e": "fire · grass · horn"
-          }
-        ],
         "tags": [
           "pronunciation",
           "consonants"
@@ -7324,6 +7655,23 @@ window.LSD_REFERENCE = {
           "{Sino-Korean} numbers (from Chinese) are used for dates, money, minutes, phone numbers and floors. {Native Korean} numbers are used for counting things and people, age and hours, up to 99.",
           "Before a counter, 하나, 둘, 셋, 넷 and 스물 shorten to 한, 두, 세, 네 and 스무."
         ],
+        "examples": [
+          {
+            "t": "{한} 시 {삼십} 분",
+            "r": "han si samsip bun",
+            "e": "1:30 (native hours, Sino minutes)"
+          },
+          {
+            "t": "사과 {세} 개",
+            "r": "sagwa se gae",
+            "e": "three apples"
+          },
+          {
+            "t": "{만} 원",
+            "r": "man won",
+            "e": "10,000 won"
+          }
+        ],
         "table": {
           "head": [
             "",
@@ -7383,23 +7731,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{한} 시 {삼십} 분",
-            "r": "han si samsip bun",
-            "e": "1:30 (native hours, Sino minutes)"
-          },
-          {
-            "t": "사과 {세} 개",
-            "r": "sagwa se gae",
-            "e": "three apples"
-          },
-          {
-            "t": "{만} 원",
-            "r": "man won",
-            "e": "10,000 won"
-          }
-        ],
         "tags": [
           "numbers",
           "counters"
@@ -8042,6 +8373,12 @@ window.LSD_REFERENCE = {
           "Each consonant letter carries a built-in short a: क is ka. Other vowels are written with marks (mātrā) attached to the consonant; a separate vowel letter is used only at the start of a word or after another vowel.",
           "A line along the top (śirorekhā) joins the letters of a word. The virāma ् removes the built-in vowel, and two consonants with no vowel between them often merge into a conjunct."
         ],
+        "examples": [
+          {
+            "t": "क् + ष = क्ष · त् + र = त्र · ज् + ञ = ज्ञ",
+            "e": "three conjuncts with their own shapes"
+          }
+        ],
         "table": {
           "head": [
             "Vowel",
@@ -8101,12 +8438,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "क् + ष = क्ष · त् + र = त्र · ज् + ञ = ज्ञ",
-            "e": "three conjuncts with their own shapes"
-          }
-        ],
         "tags": [
           "script",
           "matras",
@@ -8153,6 +8484,18 @@ window.LSD_REFERENCE = {
           "Hindi distinguishes plain and aspirated consonants: क ka and ख kha are different letters and change meaning. The h in transliteration is a puff of air, not a separate sound.",
           "It also has two kinds of t and d. {Dental} त थ द ध are made with the tongue on the teeth; {retroflex} ट ठ ड ढ with the tongue tip curled back. English t and d sound retroflex to Hindi ears."
         ],
+        "examples": [
+          {
+            "t": "काल · खाल",
+            "r": "kāl · khāl",
+            "e": "time · skin"
+          },
+          {
+            "t": "तीन · टीन",
+            "r": "tīn · ṭīn",
+            "e": "three · tin"
+          }
+        ],
         "table": {
           "head": [
             "Plain",
@@ -8193,18 +8536,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "काल · खाल",
-            "r": "kāl · khāl",
-            "e": "time · skin"
-          },
-          {
-            "t": "तीन · टीन",
-            "r": "tīn · ṭīn",
-            "e": "three · tin"
-          }
-        ],
         "tags": [
           "pronunciation",
           "aspiration",
@@ -8620,6 +8951,13 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Future tense",
         "body": "The future adds -ūngā / -egā / -enge (and -ī forms for feminine) straight to the stem.",
+        "examples": [
+          {
+            "t": "मैं कल दिल्ली {जाऊँगा}।",
+            "r": "main kal dillī jāūngā",
+            "e": "I will go to Delhi tomorrow. (कल means both yesterday and tomorrow)"
+          }
+        ],
         "table": {
           "head": [
             "Subject",
@@ -8659,13 +8997,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "मैं कल दिल्ली {जाऊँगा}।",
-            "r": "main kal dillī jāūngā",
-            "e": "I will go to Delhi tomorrow. (कल means both yesterday and tomorrow)"
-          }
-        ],
         "tags": [
           "verbs",
           "future"
@@ -8918,6 +9249,13 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "One, two, and many",
         "body": "Nouns mark number on the ending. The basic form is one thing as subject; a dual ending (often ‑uk / ‑ak) is for two; a plural ending (often ‑t / ‑it) is for three or more. An indefinite singular object often takes ‑mik.",
+        "examples": [
+          {
+            "t": "{ᐃᒡᓗᒥᒃ}",
+            "r": "iglumik",
+            "e": "a house (as object)"
+          }
+        ],
         "table": {
           "head": [
             "Meaning",
@@ -8946,13 +9284,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{ᐃᒡᓗᒥᒃ}",
-            "r": "iglumik",
-            "e": "a house (as object)"
-          }
-        ],
         "tags": [
           "number",
           "nouns"
@@ -8994,6 +9325,13 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "In, to, and from: ‑mi, ‑mut, ‑mit",
         "body": "Place endings attach to the noun: ‑mi “in / at / on”, ‑mut “to”, ‑mit “from”. Matching question words are ᓇᓂ? (nani?) “where?”, ᓇᒧᑦ? (namut?) “to where?”, ᓇᑭᑦ? (nakit?) “from where?”.",
+        "examples": [
+          {
+            "t": "{ᓇᓂ}?",
+            "r": "nani?",
+            "e": "Where?"
+          }
+        ],
         "table": {
           "head": [
             "Ending",
@@ -9022,13 +9360,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{ᓇᓂ}?",
-            "r": "nani?",
-            "e": "Where?"
-          }
-        ],
         "tags": [
           "cases",
           "location"
@@ -9745,6 +10076,18 @@ window.LSD_REFERENCE = {
           "The て-form joins actions (and then…), makes requests with ください, and builds -ている (doing now, or a lasting state). Ichidan verbs swap る for て. Godan verbs follow the ending of the dictionary form.",
           "The one exception: 行く (go) becomes 行って."
         ],
+        "examples": [
+          {
+            "t": "ちょっと待{って}ください。",
+            "r": "chotto matte kudasai",
+            "e": "Please wait a moment."
+          },
+          {
+            "t": "今、本を読{んでいます}。",
+            "r": "ima, hon o yonde imasu",
+            "e": "I'm reading a book now."
+          }
+        ],
         "table": {
           "head": [
             "Ending",
@@ -9784,18 +10127,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "ちょっと待{って}ください。",
-            "r": "chotto matte kudasai",
-            "e": "Please wait a moment."
-          },
-          {
-            "t": "今、本を読{んでいます}。",
-            "r": "ima, hon o yonde imasu",
-            "e": "I'm reading a book now."
-          }
-        ],
         "tags": [
           "verbs",
           "te-form"
@@ -11004,6 +11335,20 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Verb prefixes",
         "body": "One prefix on the verb says who does what to whom. The subject and the object are both packed into it, so a single verb can be a whole sentence. No prefix (—) means a third-person subject with a third-person object or none.",
+        "examples": [
+          {
+            "t": "{jI}Qong",
+            "e": "I sleep."
+          },
+          {
+            "t": "{qa}legh",
+            "e": "I see you."
+          },
+          {
+            "t": "{mu}legh",
+            "e": "He / she sees me."
+          }
+        ],
         "table": {
           "head": [
             "Subject",
@@ -11078,20 +11423,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{jI}Qong",
-            "e": "I sleep."
-          },
-          {
-            "t": "{qa}legh",
-            "e": "I see you."
-          },
-          {
-            "t": "{mu}legh",
-            "e": "He / she sees me."
-          }
-        ],
         "tags": [
           "verbs",
           "prefixes"
@@ -11217,6 +11548,12 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "Possession and location suffixes",
         "body": "Nouns take suffixes where English uses my, your, at, from or for. They go in a fixed order, with possession before location.",
+        "examples": [
+          {
+            "t": "juH{wIjDaq}",
+            "e": "at my home"
+          }
+        ],
         "table": {
           "head": [
             "Suffix",
@@ -11261,12 +11598,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "juH{wIjDaq}",
-            "e": "at my home"
-          }
-        ],
         "tags": [
           "nouns",
           "suffixes"
@@ -11277,6 +11608,16 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "Question words",
         "body": "Yes-no questions use the suffix -'a' on the verb. Question words take the place of what they ask about.",
+        "examples": [
+          {
+            "t": "{nuqDaq} 'oH puchpa''e'?",
+            "e": "Where is the bathroom?"
+          },
+          {
+            "t": "bIyaj{'a'}?",
+            "e": "Do you understand?"
+          }
+        ],
         "table": {
           "head": [
             "Word",
@@ -11313,16 +11654,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{nuqDaq} 'oH puchpa''e'?",
-            "e": "Where is the bathroom?"
-          },
-          {
-            "t": "bIyaj{'a'}?",
-            "e": "Do you understand?"
-          }
-        ],
         "tags": [
           "questions"
         ]
@@ -11458,6 +11789,20 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Commands",
         "body": "Commands use their own prefixes. Klingon commands are blunt; there is no please.",
+        "examples": [
+          {
+            "t": "{yI}jatlh!",
+            "e": "Speak!"
+          },
+          {
+            "t": "{pe}jatlh!",
+            "e": "Speak, all of you!"
+          },
+          {
+            "t": "{yI}Qong!",
+            "e": "Sleep!"
+          }
+        ],
         "table": {
           "head": [
             "Prefix",
@@ -11492,20 +11837,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{yI}jatlh!",
-            "e": "Speak!"
-          },
-          {
-            "t": "{pe}jatlh!",
-            "e": "Speak, all of you!"
-          },
-          {
-            "t": "{yI}Qong!",
-            "e": "Sleep!"
-          }
-        ],
         "tags": [
           "verbs",
           "imperative"
@@ -12386,6 +12717,16 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "Prepositions and their cases",
         "body": "Each preposition takes a set case. In and sub take the ablative for place where, and the accusative for motion into.",
+        "examples": [
+          {
+            "t": "in {urbe}",
+            "e": "in the city (ablative)"
+          },
+          {
+            "t": "in {urbem}",
+            "e": "into the city (accusative)"
+          }
+        ],
         "table": {
           "head": [
             "+ accusative",
@@ -12418,16 +12759,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "in {urbe}",
-            "e": "in the city (ablative)"
-          },
-          {
-            "t": "in {urbem}",
-            "e": "into the city (accusative)"
-          }
-        ],
         "tags": [
           "prepositions",
           "cases"
@@ -12621,6 +12952,12 @@ window.LSD_REFERENCE = {
         "topic": "verbs",
         "title": "Perfect tense: amāvī",
         "body": "The perfect is a single completed action: I loved, I have loved. Take the third principal part and use the special perfect endings, which are the same for every verb.",
+        "examples": [
+          {
+            "t": "Vēnī, vīdī, {vīcī}.",
+            "e": "I came, I saw, I conquered. (Julius Caesar)"
+          }
+        ],
         "table": {
           "head": [
             "Person",
@@ -12667,12 +13004,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "Vēnī, vīdī, {vīcī}.",
-            "e": "I came, I saw, I conquered. (Julius Caesar)"
-          }
-        ],
         "tags": [
           "verbs",
           "perfect"
@@ -13373,6 +13704,13 @@ window.LSD_REFERENCE = {
         "topic": "grammar",
         "title": "‑na, ‑da, ‑bu — who, where, whom",
         "body": "Noun endings mark role: ‑na for the one who does it, ‑gi for “of”, ‑da for “to / in / at”, ‑bu for the object. On ꯃꯤ (mi) “person”: mi-na, mi-gi, mi-bu. Places take ‑da: ꯀꯩꯊꯦꯜꯗꯥ (keithelda) “at / to the market”.",
+        "examples": [
+          {
+            "t": "{ꯑꯩꯅꯥ} ꯆꯥꯛ ꯆꯥꯏ.",
+            "r": "Eina chak chai.",
+            "e": "I (as subject) eat rice."
+          }
+        ],
         "table": {
           "head": [
             "Ending",
@@ -13402,13 +13740,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "{ꯑꯩꯅꯥ} ꯆꯥꯛ ꯆꯥꯏ.",
-            "r": "Eina chak chai.",
-            "e": "I (as subject) eat rice."
-          }
-        ],
         "tags": [
           "cases"
         ]
@@ -14429,6 +14760,7 @@ window.LSD_REFERENCE = {
         "id": "numbers",
         "topic": "numbers",
         "title": "Numbers and Gurmukhi digits",
+        "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
         "table": {
           "head": [
             "",
@@ -14505,7 +14837,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
         "tags": [
           "numbers",
           "digits"
@@ -15017,6 +15348,13 @@ window.LSD_REFERENCE = {
         "topic": "sounds",
         "title": "The four tones",
         "body": "Each syllable has one of four tones, or a light neutral tone. Zhuyin marks tones with symbols after the Bopomofo letters; pinyin uses diacritics.",
+        "examples": [
+          {
+            "t": "媽媽罵馬嗎？",
+            "r": "ㄇㄚ ㄇㄚ˙ ㄇㄚˋ ㄇㄚˇ ㄇㄚ˙? · Māma mà mǎ ma?",
+            "e": "Is mum scolding the horse?"
+          }
+        ],
         "table": {
           "head": [
             "Tone",
@@ -15051,13 +15389,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "examples": [
-          {
-            "t": "媽媽罵馬嗎？",
-            "r": "ㄇㄚ ㄇㄚ˙ ㄇㄚˋ ㄇㄚˇ ㄇㄚ˙? · Māma mà mǎ ma?",
-            "e": "Is mum scolding the horse?"
-          }
-        ],
         "tags": [
           "pronunciation",
           "tones"
@@ -15812,6 +16143,7 @@ window.LSD_REFERENCE = {
         "id": "nouns",
         "topic": "grammar",
         "title": "Gender and number",
+        "body": "Feminine nouns are wrapped in ⵜ…ⵜ. Regular plurals change the first vowel to ⵉ and add ⵏ (masculine) or ⵉⵏ (feminine). The table shows “student” and “teacher”.",
         "table": {
           "head": [
             "",
@@ -15841,7 +16173,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "body": "Feminine nouns are wrapped in ⵜ…ⵜ. Regular plurals change the first vowel to ⵉ and add ⵏ (masculine) or ⵉⵏ (feminine). The table shows “student” and “teacher”.",
         "tags": [
           "gender",
           "plural"
@@ -16350,6 +16681,7 @@ window.LSD_REFERENCE = {
         "id": "numbers",
         "topic": "numbers",
         "title": "Numbers",
+        "body": "Tamil has its own numerals (௧ ௨ ௩ …) but they are rarely used today; everyday writing uses 0–9.",
         "table": {
           "head": [
             "",
@@ -16419,7 +16751,6 @@ window.LSD_REFERENCE = {
             ]
           ]
         },
-        "body": "Tamil has its own numerals (௧ ௨ ௩ …) but they are rarely used today; everyday writing uses 0–9.",
         "tags": [
           "numbers"
         ]

@@ -221,6 +221,7 @@
       "id": "numbers",
       "topic": "numbers",
       "title": "Numbers and Gurmukhi digits",
+      "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
       "table": {
         "head": [
           "",
@@ -297,7 +298,6 @@
           ]
         ]
       },
-      "body": "Gurmukhi digits are used in religious texts and sometimes on signs; everyday writing mostly uses 0–9.",
       "tags": [
         "numbers",
         "digits"

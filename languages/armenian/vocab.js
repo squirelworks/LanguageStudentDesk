@@ -1,12 +1,13 @@
-// Eastern Armenian starter words for the Vocabulary Learner.
-// Each word is [Armenian, romanization, English, note]. Written for this project.
-// In the romanization ë is the short “uh” sound and an apostrophe marks a breathy consonant.
+// Generated from squirrel-lang-data bd56e84 languages/armenian/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Each word is [Armenian, romanization, English, note]. Written for this
+// project. In the romanization ë is the short “uh” sound and an apostrophe
+// marks a breathy consonant.
 window.LSD_DECKS = window.LSD_DECKS || {};
 window.LSD_DECKS.armenian = [
   {
-    id: "greetings",
-    title: "Greetings",
-    words: [
+    "id": "greetings",
+    "title": "Greetings",
+    "words": [
       ["բարև", "barev", "hello", "Polite: բարև Ձեզ, barev dzez."],
       ["բարի լույս", "bari luys", "good morning", "Literally “good light”."],
       ["բարի երեկո", "bari yereko", "good evening", ""],
@@ -21,13 +22,13 @@ window.LSD_DECKS.armenian = [
       ["շատ ուրախ եմ", "shat urakh em", "pleased to meet you", "Literally “I am very glad”."],
       ["իմ անունը … է", "im anunë … e", "my name is …", ""],
       ["ցտեսություն", "ts'tesut'yun", "goodbye", ""],
-      ["բարի գալուստ", "bari galust", "welcome", ""],
-    ],
+      ["բարի գալուստ", "bari galust", "welcome", ""]
+    ]
   },
   {
-    id: "people",
-    title: "People",
-    words: [
+    "id": "people",
+    "title": "People",
+    "words": [
       ["ես", "yes", "I", ""],
       ["դու", "du", "you (one)", ""],
       ["նա", "na", "he; she", "No gender difference."],
@@ -42,13 +43,13 @@ window.LSD_DECKS.armenian = [
       ["հայր", "hayr", "father", "In speech also պապա."],
       ["եղբայր", "yeghbayr", "brother", ""],
       ["քույր", "k'uyr", "sister", ""],
-      ["ընտանիք", "ëntanik'", "family", ""],
-    ],
+      ["ընտանիք", "ëntanik'", "family", ""]
+    ]
   },
   {
-    id: "numbers",
-    title: "Numbers",
-    words: [
+    "id": "numbers",
+    "title": "Numbers",
+    "words": [
       ["զրո", "zro", "zero", ""],
       ["մեկ", "mek", "one", ""],
       ["երկու", "yerku", "two", ""],
@@ -62,13 +63,13 @@ window.LSD_DECKS.armenian = [
       ["տասը", "tasë", "ten", ""],
       ["քսան", "k'san", "twenty", ""],
       ["հարյուր", "haryur", "a hundred", ""],
-      ["հազար", "hazar", "a thousand", ""],
-    ],
+      ["հազար", "hazar", "a thousand", ""]
+    ]
   },
   {
-    id: "food",
-    title: "Food and drink",
-    words: [
+    "id": "food",
+    "title": "Food and drink",
+    "words": [
       ["ջուր", "jur", "water", ""],
       ["սուրճ", "surch", "coffee", "Armenian coffee is boiled in a սրճեփ (jazve)."],
       ["թեյ", "t'ey", "tea", ""],
@@ -83,13 +84,13 @@ window.LSD_DECKS.armenian = [
       ["ծիրան", "tsiran", "apricot", "A national symbol."],
       ["բանջարեղեն", "banjareghen", "vegetables", ""],
       ["համեղ է", "hamegh e", "it's tasty", ""],
-      ["հաշիվը, խնդրեմ", "hashivë, khndrem", "the bill, please", ""],
-    ],
+      ["հաշիվը, խնդրեմ", "hashivë, khndrem", "the bill, please", ""]
+    ]
   },
   {
-    id: "verbs",
-    title: "Everyday verbs",
-    words: [
+    "id": "verbs",
+    "title": "Everyday verbs",
+    "words": [
       ["ուտել", "utel", "to eat", "Present: ուտում եմ."],
       ["խմել", "khmel", "to drink", "Present: խմում եմ."],
       ["գնալ", "gnal", "to go", "Present: գնում եմ."],
@@ -105,13 +106,13 @@ window.LSD_DECKS.armenian = [
       ["տեսնել", "tesnel", "to see", ""],
       ["գիտեմ", "gitem", "I know", "Չգիտեմ: I don't know."],
       ["հասկանալ", "haskanal", "to understand", "Չեմ հասկանում: I don't understand."],
-      ["անել", "anel", "to do; to make", ""],
-    ],
+      ["անել", "anel", "to do; to make", ""]
+    ]
   },
   {
-    id: "describing",
-    title: "Describing words",
-    words: [
+    "id": "describing",
+    "title": "Describing words",
+    "words": [
       ["մեծ", "mets", "big", ""],
       ["փոքր", "p'ok'r", "small", ""],
       ["լավ", "lav", "good", ""],
@@ -126,13 +127,13 @@ window.LSD_DECKS.armenian = [
       ["հեշտ", "hesht", "easy", ""],
       ["դժվար", "dzhvar", "difficult", ""],
       ["ուրախ", "urakh", "happy", ""],
-      ["հոգնած", "hognats", "tired", ""],
-    ],
+      ["հոգնած", "hognats", "tired", ""]
+    ]
   },
   {
-    id: "places",
-    title: "Places",
-    words: [
+    "id": "places",
+    "title": "Places",
+    "words": [
       ["տուն", "tun", "house; home", "տանը: at home."],
       ["քաղաք", "k'aghak'", "city", ""],
       ["փողոց", "p'oghots'", "street", ""],
@@ -147,13 +148,13 @@ window.LSD_DECKS.armenian = [
       ["լեռ", "ler", "mountain", ""],
       ["եկեղեցի", "yekeghets'i", "church", ""],
       ["զուգարան", "zugaran", "toilet", ""],
-      ["հյուրանոց", "hyuranots'", "hotel", ""],
-    ],
+      ["հյուրանոց", "hyuranots'", "hotel", ""]
+    ]
   },
   {
-    id: "questions",
-    title: "Questions",
-    words: [
+    "id": "questions",
+    "title": "Questions",
+    "words": [
       ["ի՞նչ", "inch?", "what?", ""],
       ["ո՞վ", "vov?", "who?", ""],
       ["որտե՞ղ", "vortegh?", "where?", ""],
@@ -165,13 +166,13 @@ window.LSD_DECKS.armenian = [
       ["ինչքա՞ն արժե", "inchk'an arzhe?", "how much does it cost?", ""],
       ["ո՞ր", "vor?", "which?", ""],
       ["ունե՞ք", "unek'?", "do you have?", ""],
-      ["կարելի՞ է", "kareli e?", "may I? is it allowed?", ""],
-    ],
+      ["կարելի՞ է", "kareli e?", "may I? is it allowed?", ""]
+    ]
   },
   {
-    id: "time",
-    title: "Time and days",
-    words: [
+    "id": "time",
+    "title": "Time and days",
+    "words": [
       ["այսօր", "aysor", "today", ""],
       ["վաղը", "vaghë", "tomorrow", ""],
       ["երեկ", "yerek", "yesterday", ""],
@@ -183,13 +184,13 @@ window.LSD_DECKS.armenian = [
       ["ամիս", "amis", "month", ""],
       ["տարի", "tari", "year", ""],
       ["երկուշաբթի", "yerkushabt'i", "Monday", ""],
-      ["կիրակի", "kiraki", "Sunday", ""],
-    ],
+      ["կիրակի", "kiraki", "Sunday", ""]
+    ]
   },
   {
-    id: "travel",
-    title: "Getting around",
-    words: [
+    "id": "travel",
+    "title": "Getting around",
+    "words": [
       ["ավտոբուս", "avtobus", "bus", ""],
       ["գնացք", "gnats'k'", "train", ""],
       ["տաքսի", "tak'si", "taxi", ""],
@@ -202,7 +203,7 @@ window.LSD_DECKS.armenian = [
       ["ուղիղ", "ughigh", "straight on", ""],
       ["մոտ", "mot", "near", ""],
       ["հեռու", "heru", "far", ""],
-      ["օգնեցե՛ք", "ognets'ek'!", "help!", ""],
-    ],
-  },
+      ["օգնեցե՛ք", "ognets'ek'!", "help!", ""]
+    ]
+  }
 ];
