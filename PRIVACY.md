@@ -7,6 +7,7 @@ SquirrelWorks publishes the Android apps named below. This policy covers all of 
 - Programming Student Desk (`com.squirelworks.programmingstudentdesk`)
 - Language Student Desk (`com.squirelworks.lsd`)
 - SquirrelGo Alphabets (`com.squirelworks.squirrelgoalphabets`)
+- SquirrelGo Bopomofo (`com.squirelworks.squirrelgobopomofo`)
 - SquirrelGo Kana (`com.squirelworks.squirrelgokana`)
 - SquirrelGo Kanji (`com.squirelworks.squirrelgokanji`)
 - SquirrelGo Klingon (`com.squirelworks.squirrelgoklingon`)
@@ -30,11 +31,11 @@ If Android backup is turned on for the device, the system may include an app's l
 
 ## Network
 
-Programming Student Desk, Language Student Desk, SquirrelGo Alphabets, SquirrelGo Kana, SquirrelGo Kanji, SquirrelGo Klingon, SquirrelGo Phrasebook, and SquirrelGo Japanese-English Dictionary do not declare the `INTERNET` permission. They do not download content themselves.
+Programming Student Desk, Language Student Desk, SquirrelGo Alphabets, SquirrelGo Bopomofo, SquirrelGo Kana, SquirrelGo Kanji, SquirrelGo Klingon, SquirrelGo Phrasebook, and SquirrelGo Japanese-English Dictionary do not declare the `INTERNET` permission. They do not download content themselves.
 
-Language Student Desk and Programming Student Desk can hand an `https` link to your browser (for example a resource page). SquirrelGo Alphabets, Kana, Kanji, Klingon, Phrasebook, Dictionary, and Orthodox Bible can do the same from the suite sheet (for example a reference page or a related download). The browser loads that page. The app does not receive the page contents.
+Language Student Desk and Programming Student Desk can hand an `https` link to your browser (for example a resource page). SquirrelGo Alphabets, Bopomofo, Kana, Kanji, Klingon, Phrasebook, Dictionary, and Orthodox Bible can do the same from the suite sheet (for example a reference page or a related download). The browser loads that page. The app does not receive the page contents.
 
-SquirrelGo Orthodox Bible declares `INTERNET` for one purpose: if you choose to download an extra Bible or commentary pack, the app fetches that public text file over HTTPS from GitHub (`raw.githubusercontent.com`) and saves it on the device. The request is a file download. Notes, bookmarks, and highlights are not uploaded.
+SquirrelGo Orthodox Bible declares `INTERNET` for one purpose: if you choose to download an extra Bible or commentary pack, the app asks GitHub which files the latest SquirrelGo release offers (`api.github.com`), fetches the public text file over HTTPS from GitHub (`github.com` release downloads, or `raw.githubusercontent.com`) and saves it on the device. The request is a file download. Notes, bookmarks, and highlights are not uploaded.
 
 ## Audio, speech, microphone, and location
 
