@@ -774,7 +774,7 @@
     const c = cur();
     if (c.view === "search" && c.refresh && (loaded === 1 || loaded === total)) c.refresh();
   }).catch(() => {
-    loadError = "Cannot load data. Run tools/fetch_data.sh (see README).";
+    loadError = "The word list isn't installed in this copy. The Android app and the Desk downloads on the Releases page include it.";
     spin(false);
     if (cur().refresh) cur().refresh();
   });
