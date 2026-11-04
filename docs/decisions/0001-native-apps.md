@@ -31,7 +31,7 @@ These come from #197, the merge guidelines and the release process.
 ## What the spike looked at
 
 `spikes/native-apps/inventory.py` measures what a port of each app has to
-replace. Snapshot at main `02613f0`:
+replace. Snapshot at main `95d2f31`:
 
 | App | App JS lines | Shared modules | Data | Audio | Bridge methods |
 |---|---:|---|---:|---:|---|
