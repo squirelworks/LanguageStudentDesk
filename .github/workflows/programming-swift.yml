@@ -1,0 +1,65 @@
+name: Programming Learner Swift examples
+
+# Compiles and runs every Swift example in programming-learner/data/swift.js
+# with a pinned Swift toolchain, so the course is checked even where the main
+# data check runs without a Swift compiler.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "programming-learner/data/swift.js"
+      - "programming-learner/tools/run_swift.py"
+      - "programming-learner/tools/check_packs.py"
+      - ".github/workflows/programming-swift.yml"
+  pull_request:
+    paths:
+      - "programming-learner/data/swift.js"
+      - "programming-learner/tools/run_swift.py"
+      - "programming-learner/tools/check_packs.py"
+      - ".github/workflows/programming-swift.yml"
+
+env:
+  SWIFT_VERSION: "6.0.3"
+
+jobs:
+  swift:
+    # The toolchain below is the Ubuntu 24.04 build, so pin the runner to match.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Swift ${{ env.SWIFT_VERSION }}
+        run: |
+          name="swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04"
+          curl -sSfL -o "$RUNNER_TEMP/swift.tar.gz" \
+            "https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404/swift-${SWIFT_VERSION}-RELEASE/${name}.tar.gz"
+          tar xzf "$RUNNER_TEMP/swift.tar.gz" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/${name}/usr/bin" >> "$GITHUB_PATH"
+      - name: Run the Swift examples
+        run: |
+          swiftc --version
+          python3 - <<'PY'
+          import json, pathlib, subprocess, sys
+          sys.dont_write_bytecode = True
+          tools = pathlib.Path("programming-learner/tools").resolve()
+          sys.path.insert(0, str(tools))
+          import run_swift
+          if not run_swift.AVAILABLE:
+              sys.exit("swiftc not found")
+          js = str(tools.parent / "data" / "swift.js")
+          dump = "global.window={};require(process.argv[1]);process.stdout.write(JSON.stringify(window.PROGRAMMING.swift))"
+          pack = json.loads(subprocess.run(["node", "-e", dump, js], capture_output=True, text=True, check=True).stdout)
+          bad = n = 0
+          for lesson in pack["lessons"]:
+              items = [(f"section {i + 1}", s["code"], s["out"]) for i, s in enumerate(lesson["sections"]) if "out" in s]
+              items += [(f"question {i + 1}", q["code"], q.get("check", q["answer"]))
+                        for i, q in enumerate(lesson.get("practice", [])) if q.get("kind") == "output"]
+              for where, code, want in items:
+                  got, err = run_swift.run(code)
+                  n += 1
+                  ok = got == want
+                  bad += not ok
+                  print(("ok  " if ok else "FAIL"), f"{lesson['id']} {where}", "" if ok else f"printed {got!r}, expected {want!r} {err}", flush=True)
+          print(f"{n} Swift examples run, {bad} problems")
+          sys.exit(1 if bad or not n else 0)
+          PY
