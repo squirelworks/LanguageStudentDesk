@@ -8,6 +8,7 @@
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const mark = (s) => esc(s).replace(/\{([^}]*)\}/g, "<mark>$1</mark>");
   const plain = (s) => String(s == null ? "" : s).replace(/[{}]/g, "");
+  const untagged = (e) => (LSD.levels.of(e).length ? 0 : 1);
   const paras = (b) => (b == null ? [] : Array.isArray(b) ? b : [b]);
 
   const TOPICS = [
@@ -32,6 +33,10 @@
   const refs = {};     // id -> { meta, entries }
   let scope = null;    // language id, "programming", or null for all
   let topic = null;
+  let level = null;    // level band from the tab bar, or null for all levels
+  let view = "cards";  // "cards", or "web" for the grammar web
+  const courses = {};  // id -> grammar course, or null when there is none
+  const WEB = "grammar-web";
   let query = "";
   let notice = "";     // shown when ?lang= names a language with no cards
 
@@ -95,6 +100,8 @@
 
   function go(id, entryId) {
     scope = id && refs[id] ? id : null;
+    view = scope && entryId === WEB ? "web" : "cards";
+    if (view === "web") entryId = null;
     notice = id && !scope ? "No reference cards for “" + id + "” yet. " : "";
     if ($("langSelect").value !== (scope || "")) {
       $("langSelect").value = scope || "";
@@ -129,6 +136,7 @@
 
   function matches(e) {
     if (topic && e.topic !== topic) return false;
+    if (!LSD.levels.fits(e, level)) return false;
     if (!query) return true;
     const hay = [e.title, ...paras(e.body), ...(e.tags || []), e.code || "", e.lang || "", e.text || ""]
       .concat((e.examples || []).flatMap((x) => [x.t, x.r, x.e]))
@@ -155,20 +163,62 @@
     }
     $("intro").innerHTML = meta ? intro(meta) : "";
 
+    // The grammar web needs the language's course; load it once, then draw.
+    const course = meta ? courses[meta.id] : null;
+    if (meta && !(meta.id in courses)) {
+      courses[meta.id] = null;
+      LSD.load(meta.id, "grammar").then((c) => {
+        courses[meta.id] = c;
+        if (scope === meta.id) render();
+      }, () => {});
+    }
+    const webable = !!meta && ((course && course.lessons && course.lessons.length) || refs[meta.id].entries.some((e) => e.topic === "grammar"));
+    if (!webable) view = "cards";
+
+    // Level tabs: only the levels the cards (or, in the web, the grammar points) are tagged with.
+    const levelled = ids.flatMap((id) => refs[id].entries).concat(view === "web" && course ? (course.lessons || []).concat(course.plan || []) : []);
+    level = LSD.levels.tabs($("levelTabs"), levelled, scope, () => render());
+    const levelName = level ? LSD.levels.BANDS.find((b) => b.id === level).name : "";
+
     // Topic chips: only topics present in the current scope.
     const present = new Set(ids.flatMap((id) => refs[id].entries.map((e) => e.topic)));
-    $("topics").innerHTML = '<button data-t=""' + (topic ? "" : ' class="active"') + ">All topics</button>" +
-      TOPICS.filter(([t]) => present.has(t)).map(([t, n]) => '<button data-t="' + t + '"' + (topic === t ? ' class="active"' : "") + ">" + n + "</button>").join("");
+    const cardsView = view === "cards";
+    $("topics").innerHTML = '<button data-t=""' + (cardsView && !topic ? ' class="active"' : "") + ">All topics</button>" +
+      TOPICS.filter(([t]) => present.has(t)).map(([t, n]) => '<button data-t="' + t + '"' + (cardsView && topic === t ? ' class="active"' : "") + ">" + n + "</button>").join("") +
+      (webable ? '<button data-t="' + WEB + '" class="web' + (cardsView ? "" : " active") + '">Grammar web</button>' : "");
     $("topics").querySelectorAll("button").forEach((b) => (b.onclick = () => {
-      topic = b.dataset.t || null;
+      view = b.dataset.t === WEB ? "web" : "cards";
+      topic = view === "web" ? null : b.dataset.t || null;
+      history.replaceState(null, "", location.pathname + location.search + (view === "web" ? "#" + scope + "/" + WEB : ""));
       render();
     }));
+
+    if (view === "web") {
+      window.LSD_GRAMMAR_WEB.render($("results"), {
+        meta, course, cards: refs[meta.id].entries, level,
+        onCard: (cardId) => {
+          view = "cards";
+          topic = "grammar";
+          history.replaceState(null, "", location.pathname + location.search + "#" + scope + "/" + cardId);
+          render();
+          const el = document.getElementById("e-" + scope + "-" + cardId);
+          if (el) {
+            el.scrollIntoView({ block: "start" });
+            el.classList.add("flash");
+          }
+        },
+      });
+      $("subtitle").textContent = "Every grammar point, by level. Pick one to open it.";
+      return;
+    }
 
     let html = "";
     let shown = 0;
     ids.forEach((id) => {
       const r = refs[id];
+      // Cards written for the picked level come before the ones for every level.
       const list = r.entries.filter(matches);
+      if (level) list.sort((a, b) => untagged(a) - untagged(b));
       if (!list.length) return;
       shown += list.length;
       if (scope) {
@@ -181,9 +231,9 @@
         html += '<h2 class="group-h">' + esc(r.meta.name) + (r.meta.nativeName && r.meta.nativeName !== r.meta.name && r.meta.font !== "pIqaD" ? "<small>" + esc(r.meta.nativeName) + "</small>" : "") + "</h2>" + list.map((e) => card(e, r.meta)).join("");
       }
     });
-    $("results").innerHTML = shown ? html : '<p class="empty">No cards match' + (query ? " “" + esc(query) + "”" : "") + (topic ? " in " + TOPIC_NAME[topic] : "") + ".</p>";
+    $("results").innerHTML = shown ? html : '<p class="empty">No cards match' + (query ? " “" + esc(query) + "”" : "") + (topic ? " in " + TOPIC_NAME[topic] : "") + (level ? " at " + levelName.toLowerCase() + " level" : "") + ".</p>";
     if (!scope) $("subtitle").textContent = notice + shown + " cards across " + metas.length + " languages and " + scripts.length + " more scripts. Pick one on the left, or search them all.";
-    else $("subtitle").textContent = shown + " card" + (shown === 1 ? "" : "s") + (query || topic ? " match" : "") + ".";
+    else $("subtitle").textContent = shown + " card" + (shown === 1 ? "" : "s") + (query || topic || level ? " match" : "") + ".";
 
     $("results").querySelectorAll("[data-tag]").forEach((t) => (t.onclick = () => {
       $("search").value = t.dataset.tag;
@@ -215,7 +265,7 @@
     const speak = !isProg && LSD.canSpeak(m);
     const pq = m.font === "pIqaD" && pref.piqad;
     let h = '<article class="card entry lang-' + esc(m.id) + (CJK.includes(m.id) ? " cjk" : "") + '" id="e-' + esc(m.id + "-" + e.id) + '"><h3><a href="#' + esc(m.id + "/" + e.id) + '">' + esc(e.title) + "</a>" +
-      '<span class="pill">' + esc(TOPIC_NAME[e.topic] || e.topic) + "</span>" + (!scope ? '<span class="pill">' + esc(m.name) + "</span>" : "") + "</h3>";
+      '<span class="pill">' + esc(TOPIC_NAME[e.topic] || e.topic) + "</span>" + (LSD.levels.label(e) ? '<span class="pill level">' + esc(LSD.levels.label(e)) + "</span>" : "") + (!scope ? '<span class="pill">' + esc(m.name) + "</span>" : "") + "</h3>";
     h += paras(e.body).map((p) => "<p>" + mark(p) + "</p>").join("");
     if (e.table) {
       h += '<div class="tbl"><table><thead><tr>' + e.table.head.map((c) => "<th>" + esc(c) + "</th>").join("") + "</tr></thead><tbody>" +

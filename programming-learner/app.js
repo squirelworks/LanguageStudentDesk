@@ -1,5 +1,6 @@
 // Programming Learner: lessons with worked examples and a practice round that
-// explains every answer. data/catalog.js lists the languages; each course lives
+// explains every answer. data/catalog.js lists the languages and sections.js
+// lays them out (sections or A–Z, tag filter); each course lives
 // in data/<id>.js (schema at the top of data/python.js). Progress is kept in
 // localStorage under lsd-programming-v1 as
 // { <lang>: { <lessonId>: { best, total, done, date } } }.
@@ -14,9 +15,13 @@
     return a;
   };
 
-  const CATALOG = window.PROGRAMMING_CATALOG.slice().sort((a, b) =>
-    a.name.localeCompare(b.name, "en", { sensitivity: "base" }) || a.id.localeCompare(b.id)
-  );
+  const SECTIONS = window.PROGRAMMING_SECTIONS;
+  const CATALOG = window.PROGRAMMING_CATALOG.slice().sort(SECTIONS.byName);
+  const TAGS = SECTIONS.tags(CATALOG);
+  const layout = SECTIONS.load();
+  if (layout.tag && !TAGS.includes(layout.tag)) layout.tag = "";
+  // Which groups are shown. Both are on until Settings offers the switches.
+  const show = { older: true, joke: true };
   const PASS = 0.8;
   const store = LSD.store("lsd-programming-v1", {});
   const progress = store.load();
@@ -54,9 +59,16 @@
     return out + esc(code.slice(last));
   }
 
-  function codeBlock(code, out) {
+  // A track (one topic in several languages) tags each example with its
+  // language; pack.langs holds that language's name and colouring words.
+  function langOf(id) {
+    return id && pack.langs && pack.langs[id] ? pack.langs[id] : null;
+  }
+
+  function codeBlock(code, out, lang) {
+    const l = langOf(lang);
     return (
-      '<div class="code"><button class="copy" title="Copy code">Copy</button><pre><code>' + highlight(code, pack) + "</code></pre>" +
+      '<div class="code">' + (l ? '<span class="lang">' + esc(l.name) + "</span>" : "") + '<button class="copy" title="Copy code">Copy</button><pre><code>' + highlight(code, l || pack) + "</code></pre>" +
       (out != null ? '<div class="out"><span class="lbl">Output</span><pre>' + esc(out) + "</pre></div>" : "") +
       "</div>"
     );
@@ -78,12 +90,41 @@
     return Object.values(progress[id] || {}).filter((p) => p.done).length;
   }
 
+  function tile(c) {
+    const n = passed(c.id);
+    return '<button class="tile" data-lang="' + esc(c.id) + '"><span class="big">' + esc(c.name) + '</span><span class="era">' + esc(c.era) + '</span><span class="sub">' + esc(c.blurb) + "</span>" +
+      (c.tags && c.tags.length ? '<span class="tags">' + c.tags.map(esc).join(" · ") + "</span>" : "") +
+      (n ? '<span class="pill good">' + n + " lesson" + (n === 1 ? "" : "s") + " passed</span>" : "") + "</button>";
+  }
+
+  function renderControls() {
+    const seg = (v, label) => '<button data-view="' + v + '"' + (layout.view === v ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + ">" + label + "</button>";
+    const chip = (t, label) => '<button data-tag="' + esc(t) + '"' + (layout.tag === t ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + ">" + esc(label) + "</button>";
+    $("homeControls").innerHTML =
+      '<div class="seg" role="group" aria-label="View">' + seg("sections", "By section") + seg("az", "A–Z") + "</div>" +
+      (TAGS.length ? '<div class="chips" role="group" aria-label="Category">' + chip("", "All") + TAGS.map((t) => chip(t, t)).join("") + "</div>" : "");
+    $("homeControls").querySelectorAll("[data-view]").forEach((b) => (b.onclick = () => {
+      layout.view = b.dataset.view;
+      SECTIONS.save(layout);
+      renderHome();
+      fillSelect();
+    }));
+    $("homeControls").querySelectorAll("[data-tag]").forEach((b) => (b.onclick = () => {
+      layout.tag = b.dataset.tag;
+      SECTIONS.save(layout);
+      renderHome();
+    }));
+  }
+
   function renderHome() {
-    $("langGrid").innerHTML = CATALOG.map((c) => {
-      const n = passed(c.id);
-      return '<button class="tile" data-lang="' + esc(c.id) + '"><span class="big">' + esc(c.name) + '</span><span class="era">' + esc(c.era) + '</span><span class="sub">' + esc(c.blurb) + "</span>" +
-        (n ? '<span class="pill good">' + n + " lesson" + (n === 1 ? "" : "s") + " passed</span>" : "") + "</button>";
-    }).join("");
+    renderControls();
+    const blocks = SECTIONS.arrange(CATALOG, { view: layout.view, tag: layout.tag, show });
+    $("langGrid").innerHTML = blocks.length
+      ? blocks.map((b) =>
+          '<section class="group">' + (layout.view === "az" ? "" : "<h3>" + esc(b.title) + '</h3><p class="small muted">' + esc(b.sub) + "</p>") +
+          '<div class="grid">' + b.items.map(tile).join("") + "</div></section>"
+        ).join("")
+      : '<p class="muted">No languages match this filter.</p>';
     $("langGrid").querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => {
       LSD.setParam(b.dataset.lang);
       open(b.dataset.lang);
@@ -105,6 +146,7 @@
     }
     $("home").hidden = !!pack;
     $("course").hidden = !pack;
+    $("courseNote").hidden = true;
     if (!pack) {
       $("title").textContent = "Programming Learner";
       $("subtitle").textContent = id && !entry ? "No course called “" + id + "” here yet. Pick one below." : "Short lessons with worked examples, then practice that explains every answer.";
@@ -113,6 +155,8 @@
       return;
     }
     $("title").innerHTML = "Programming Learner <small>" + esc(pack.name) + "</small>";
+    $("courseNote").hidden = !pack.note;
+    $("courseNote").innerHTML = pack.note || "";
     $("subtitle").textContent = pack.title;
     document.title = "Programming · " + pack.name + " — Language Student Desk";
     const saved = progress[pack.id] || {};
@@ -173,7 +217,7 @@
     const l = pack.lessons[idx];
     el.innerHTML =
       '<div class="card lesson"><h2>' + (idx + 1) + ". " + esc(l.title) + '</h2><p class="sum">' + esc(l.summary) + "</p>" +
-      l.sections.map((s) => (s.h ? "<h3>" + esc(s.h) + "</h3>" : "") + (s.p ? "<p>" + s.p + "</p>" : "") + (s.code != null ? codeBlock(s.code, s.out) : "")).join("") +
+      l.sections.map((s) => (s.h ? "<h3>" + esc(s.h) + "</h3>" : "") + (s.p ? "<p>" + s.p + "</p>" : "") + (s.code != null ? codeBlock(s.code, s.out, s.lang) : "")).join("") +
       "</div>" +
       (l.practice && l.practice.length ? '<div class="card practice" id="practice"></div>' : "") +
       '<div class="row nav">' +
@@ -201,7 +245,7 @@
     box.innerHTML =
       '<div class="scorebar"><span>' + esc(quiz.label) + " · question " + (quiz.i + 1) + " of " + quiz.items.length + "</span><span>" + quiz.right + " right</span></div>" +
       '<p class="q">' + esc(q.q) + "</p>" +
-      (q.code ? '<div class="code"><pre><code>' + highlight(q.code, pack) + "</code></pre></div>" : "") +
+      (q.code ? '<div class="code">' + (langOf(q.lang) ? '<span class="lang">' + esc(langOf(q.lang).name) + "</span>" : "") + "<pre><code>" + highlight(q.code, langOf(q.lang) || pack) + "</code></pre></div>" : "") +
       '<div class="opts' + (multi ? " tall" : "") + '">' + shuffle(q.options.slice()).map((o) => '<button data-o="' + esc(o) + '"><pre>' + esc(o) + "</pre></button>").join("") + "</div>" +
       '<div id="why"></div>';
     box.querySelectorAll("[data-o]").forEach((b) => (b.onclick = () => answer(b)));
@@ -257,8 +301,19 @@
 
   // ---------- start ----------
   const sel = $("langSelect");
-  sel.add(new Option("All languages", ""));
-  CATALOG.forEach((c) => sel.add(new Option(c.name, c.id)));
+  // The header menu follows the same layout as the home page: grouped by
+  // section, or one A–Z list. The tag filter only narrows the home page.
+  function fillSelect() {
+    const current = sel.value;
+    sel.innerHTML = "";
+    sel.add(new Option("All languages", ""));
+    SECTIONS.arrange(CATALOG, { view: layout.view, show }).forEach((b) => {
+      const parent = layout.view === "az" ? sel : sel.appendChild(Object.assign(document.createElement("optgroup"), { label: b.title }));
+      b.items.forEach((c) => parent.appendChild(new Option(c.name, c.id)));
+    });
+    sel.value = current;
+  }
+  fillSelect();
   sel.onchange = () => {
     LSD.setParam(sel.value || null);
     history.replaceState(null, "", location.search);

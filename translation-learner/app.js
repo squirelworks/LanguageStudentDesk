@@ -8,6 +8,8 @@
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
   const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
+  // Stays until a language pair passes its translation tests (issue #194).
+  const ALPHA = '<span class="alpha">(alpha)</span>';
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
   // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
@@ -43,7 +45,7 @@
   }
 
   function matrix() {
-    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES };
+    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
   }
 
   async function deckEntries(id) {
@@ -66,6 +68,7 @@
 
   async function openLanguage(id) {
     state.lang = id;
+    $("web").hidden = true; // showTab() shows it again when it is the open tab
     state.meta = await LSD.get(id);
     document.body.className = "lang-" + id;
     const name = state.meta ? state.meta.name : id;
@@ -73,7 +76,7 @@
     if (!id || !COLUMNS.includes(id)) {
       $("tabs").hidden = true;
       ["toEnglish", "toTarget", "breakdown", "matrix", "words"].forEach((s) => ($(s).hidden = true));
-      $("title").textContent = "Translation Learner";
+      $("title").innerHTML = "Translation Learner " + ALPHA;
       $("subtitle").textContent = id
         ? state.meta
           ? "No translation sentences for " + name + " yet. Pick another language."
@@ -102,7 +105,7 @@
       byReading: id === "japanese",
       caseSensitive: !!state.col.caseSensitive,
     });
-    $("title").innerHTML = "Translation Learner <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
+    $("title").innerHTML = "Translation Learner " + ALPHA + " <small>" + esc(name) + (state.meta && state.meta.nativeName ? " · " + esc(state.meta.nativeName) : "") + "</small>";
     $("subtitle").textContent = "Every piece of meaning carried over, nothing added.";
     $("toTargetTab").textContent = "Into " + name;
     $("wordsTab").hidden = !BANKS.includes(id);
@@ -294,6 +297,7 @@
       if (r.dropped) parts.push(r.dropped + (r.dropped === 1 ? " meaning" : " meanings") + " missing");
       if (r.close) parts.push(r.close + (r.close === 1 ? " close word" : " close words"));
       if (r.added.length) parts.push(r.added.length + (r.added.length === 1 ? " word adds" : " words add") + " meaning");
+      if (r.tenseWrong) parts.push("wrong time");
       html += parts.join(", ") + ". Meaning score " + Math.round(r.score * 100) + "%.";
     }
     html += "</div>";
@@ -306,8 +310,10 @@
     html += "</div>";
     if (r.typos) html += '<p class="small">Spelling: ' + r.units.filter((u) => u.typo).map((u) => "“" + esc(u.matched[0]) + "” is spelt “" + esc(u.typo) + "”").join(", ") + ".</p>";
     if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(T.closeCredit(u.sim, state.net.close) * 100) + "% credit)").join(", ") + ".</p>";
+    if (r.tenseWrong) html += '<p class="added">The original says this already happened. Put your English in the past.</p>';
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";
+    if (s.also.length) html += '<p class="small muted">Also right: ' + s.also.map((a) => "“" + esc(a) + "”").join(", ") + "</p>";
     html += '<div class="legend"><span class="l-kept">carried over</span><span class="l-close">close</span><span class="l-dropped">missing</span><span class="l-grammar">grammar or implied: English may leave it out</span></div>';
     html += '<div class="row" style="margin-top:0.8rem"><button class="primary" id="enNext">Next</button>' + (honest ? "" : '<button id="enOverride">My translation means the same</button>') + "</div>";
     $("enResult").innerHTML = html;
@@ -458,36 +464,122 @@
 
   // ---- The matrix ----
 
+  // The learner picks which languages to compare and in what order; the
+  // choice is kept per browser. The meaning column stays pinned on the left.
+  const compareStore = LSD.store("lsd-translation-compare-v1", null);
+  const RTL = ["arabic", "hebrew"];
+  const CJK = ["japanese", "chinese", "hangul"];
+
+  function compareList() {
+    let list = compareStore.load();
+    if (!Array.isArray(list)) list = [];
+    list = list.filter((id, i) => COLUMNS.includes(id) && list.indexOf(id) === i);
+    if (!list.length) {
+      list = [state.lang].concat(COLUMNS.filter((id) => id !== state.lang).slice(0, 2));
+    } else if (!list.includes(state.lang)) {
+      list = [state.lang].concat(list);
+    }
+    return list;
+  }
+
+  function langName(id) {
+    const m = metas.find((x) => x.id === id);
+    return m ? m.name : id;
+  }
+
+  function drawCompare(list) {
+    const box = $("matrixCompare");
+    box.innerHTML = "";
+    list.forEach((id, i) => {
+      const chip = document.createElement("span");
+      chip.className = "cmp" + (id === state.lang ? " here" : "");
+      const btn = (label, title, fn, off) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = label;
+        b.title = title;
+        b.setAttribute("aria-label", title);
+        b.disabled = !!off;
+        b.onclick = fn;
+        return b;
+      };
+      const move = (d) => () => {
+        const l = list.slice();
+        [l[i], l[i + d]] = [l[i + d], l[i]];
+        compareStore.save(l);
+        showMatrix();
+      };
+      chip.append(
+        btn("◀", "Move " + langName(id) + " left", move(-1), i === 0),
+        Object.assign(document.createElement("b"), { textContent: langName(id) }),
+        btn("▶", "Move " + langName(id) + " right", move(1), i === list.length - 1),
+        btn("×", "Stop comparing " + langName(id), () => {
+          compareStore.save(list.filter((x) => x !== id));
+          showMatrix();
+        }, list.length < 2)
+      );
+      box.appendChild(chip);
+    });
+    const add = document.createElement("select");
+    add.setAttribute("aria-label", "Add a language to compare");
+    add.add(new Option("Add a language…", ""));
+    metas
+      .filter((m) => !list.includes(m.id))
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((m) => add.add(new Option(m.name, m.id)));
+    add.disabled = add.options.length < 2;
+    add.onchange = () => {
+      if (!add.value) return;
+      compareStore.save(list.concat(add.value));
+      showMatrix();
+    };
+    box.appendChild(add);
+  }
+
   async function showMatrix() {
+    const list = compareList();
+    drawCompare(list);
     const cols = [];
-    for (const id of COLUMNS) {
+    for (const id of list) {
       try {
         const col = await loadColumn(id);
-        const m = metas.find((x) => x.id === id);
-        cols.push({ id, name: m ? m.name : id, col, built: T.build(matrix(), col).sentences });
+        cols.push({ id, name: langName(id), built: T.build(matrix(), col).sentences });
       } catch (e) {
         /* a missing column is left out */
       }
     }
     const rows = window.TL_SENTENCES.filter((s) => !state.pack || s.pack === state.pack);
-    let html = '<table class="matrix"><thead><tr><th>Meaning</th>' + cols.map((c) => "<th" + (c.id === state.lang ? ' class="here"' : "") + ">" + esc(c.name) + "</th>").join("") + "</tr></thead><tbody>";
+    const here = (c) => (c.id === state.lang ? " here" : "");
+    let html = '<table class="matrix"><thead><tr><th class="mean">Meaning</th>' + cols.map((c) => '<th class="' + here(c).trim() + '">' + esc(c.name) + "</th>").join("") + "</tr></thead><tbody>";
     for (const row of rows) {
-      html += "<tr><td><b>" + esc(row.en) + '</b><br><span class="small muted">' + row.m.map((m) => esc(T.meaning(m, window.TL_MEANINGS).label)).join(" · ") + "</span></td>";
+      html += '<tr><th class="mean" scope="row"><b>' + esc(row.en) + '</b><span class="small muted">' + row.m.map((m) => esc(T.meaning(m, window.TL_MEANINGS).label)).join(" · ") + "</span></th>";
       for (const c of cols) {
         const s = c.built.find((x) => x.id === row.id);
         if (!s) {
-          html += '<td class="gap' + (c.id === state.lang ? " here" : "") + '"></td>';
+          html += '<td class="gap' + here(c) + '" data-lang="' + esc(c.name) + '"><span class="small muted">Not written yet</span></td>';
           continue;
         }
-        const tip = s.tokens.map((t) => T.bare(t.text) + " = " + t.units.map(unitLabel).join(" + ")).concat(s.implied.map((u) => "(" + u.label + ": implied)")).join("\n");
-        const rtl = c.id === "arabic" || c.id === "hebrew" ? ' dir="rtl"' : "";
-        const face = ["japanese", "chinese", "hangul"].includes(c.id) ? "target" : "target plain";
-        html += '<td class="' + face + (c.id === state.lang ? " here" : "") + '" title="' + esc(tip) + '"' + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + "</td>";
+        const why = s.tokens.map((t) => "<span><b>" + esc(T.bare(t.text)) + "</b> " + esc(t.units.map(unitLabel).join(" + ")) + "</span>").concat(s.implied.map((u) => '<span class="muted">(' + esc(u.label) + ": implied)</span>")).join("");
+        const rtl = RTL.includes(c.id) ? ' dir="rtl"' : "";
+        const face = CJK.includes(c.id) ? "target" : "target plain";
+        html += '<td class="' + face + here(c) + '" data-lang="' + esc(c.name) + '" tabindex="0"><span' + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + '</span><span class="why" hidden>' + why + "</span></td>";
       }
       html += "</tr>";
     }
-    html += "</tbody><tfoot><tr><td class='small muted'>" + rows.length + " sentences</td>" + cols.map((c) => "<td class='small muted'>" + c.built.filter((s) => rows.some((r) => r.id === s.id)).length + "</td>").join("") + "</tr></tfoot></table>";
+    html += "</tbody></table>";
     $("matrixTable").innerHTML = html;
+    $("matrixCount").textContent = rows.length + (rows.length === 1 ? " sentence" : " sentences");
+    $("matrixTable").querySelectorAll("td.target").forEach((td) => {
+      const flip = () => (td.querySelector(".why").hidden = !td.querySelector(".why").hidden);
+      td.onclick = flip;
+      td.onkeydown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          flip();
+        }
+      };
+    });
   }
 
   // ---- Word bank ----
@@ -666,6 +758,207 @@
       state.sentences.map((s) => [sentenceText(s), sentenceReading(s), s.en, s.tokens.map((t) => T.bare(t.text) + " = " + t.units.map(unitLabel).join(" + ")).join("; ")]));
   }
 
+  // ---- Meaning web ----
+
+  // One meaning in the middle, the word for it in every language branching
+  // off, and the meanings nearest to it around the edge. Clicking a nearby
+  // meaning moves it to the middle; clicking a word lists its sentences.
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const web = { id: null, cols: null };
+
+  async function webColumns() {
+    if (web.cols) return web.cols;
+    const cols = [];
+    for (const id of COLUMNS) {
+      try {
+        const col = await loadColumn(id);
+        const m = metas.find((x) => x.id === id);
+        cols.push({ id, name: m ? m.name : id, caseSensitive: !!col.caseSensitive, built: T.build(matrix(), col).sentences });
+      } catch (e) {
+        /* a missing column is left out */
+      }
+    }
+    return (web.cols = cols);
+  }
+
+  function contentMeanings() {
+    return Object.keys(window.TL_MEANINGS)
+      .map((id) => T.meaning(id, window.TL_MEANINGS))
+      .filter((u) => u && !u.grammar)
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  // The words that carry meaning id in one language, with the sentences they
+  // appear in.
+  function wordsFor(col, id) {
+    const found = new Map();
+    for (const s of col.built) {
+      for (const t of s.tokens) {
+        if (!t.units.some((u) => u.id === id)) continue;
+        // "Aquam" opening a sentence is the same word as "aquam".
+        const text = T.bare(t.text);
+        const key = col.caseSensitive ? text : text.toLowerCase();
+        if (!found.has(key)) found.set(key, { text, reading: t.reading, sentences: [] });
+        const w = found.get(key);
+        if (!col.caseSensitive && text === key) w.text = text;
+        w.sentences.push(s);
+      }
+    }
+    return [...found.values()];
+  }
+
+  // The meanings nearest to id: by the meaning network when it is loaded,
+  // otherwise by how often they share a sentence.
+  function nearMeanings(id, k) {
+    const shared = {};
+    for (const row of window.TL_SENTENCES) {
+      if (!row.m.includes(id)) continue;
+      row.m.forEach((m) => m !== id && (shared[m] = (shared[m] || 0) + 1));
+    }
+    const isContent = (m) => {
+      const u = T.meaning(m, window.TL_MEANINGS);
+      return u && !u.grammar;
+    };
+    let list = [];
+    if (state.net && state.net.has("m:" + id)) {
+      list = state.net
+        .nearest("m:" + id, k * 3, ["m:"])
+        .map((n) => ({ id: n.key.slice(2), sim: n.sim }))
+        .filter((n) => isContent(n.id));
+    }
+    if (list.length < k) {
+      Object.keys(shared)
+        .filter((m) => isContent(m) && !list.some((n) => n.id === m))
+        .sort((a, b) => shared[b] - shared[a])
+        .forEach((m) => list.push({ id: m, sim: null }));
+    }
+    return list.slice(0, k);
+  }
+
+  function svg(tag, attrs, text) {
+    const el = document.createElementNS(SVGNS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    if (text != null) el.textContent = text;
+    return el;
+  }
+
+  async function showWeb(id) {
+    const cols = await webColumns();
+    const all = contentMeanings();
+    const sel = $("webMeaning");
+    if (!sel.options.length) {
+      all.forEach((u) => sel.add(new Option(u.label, u.id)));
+      sel.onchange = () => showWeb(sel.value);
+    }
+    if (id) web.id = id;
+    if (!web.id || !all.some((u) => u.id === web.id)) {
+      const first = state.sentences.find((s) => s.tokens.some((t) => t.units.some((u) => !u.grammar)));
+      web.id = first ? first.tokens.flatMap((t) => t.units).find((u) => !u.grammar).id : all[0].id;
+    }
+    sel.value = web.id;
+    const centre = T.meaning(web.id, window.TL_MEANINGS);
+    // The open language goes first, at the top of the web.
+    const branches = cols
+      .map((c) => ({ col: c, words: wordsFor(c, web.id) }))
+      .filter((b) => b.words.length)
+      .sort((a, b) => (b.col.id === state.lang) - (a.col.id === state.lang));
+    const near = nearMeanings(web.id, 4);
+    drawWeb(centre, branches, near);
+    $("webWords").innerHTML = "";
+    $("webNote").textContent = branches.length
+      ? "“" + centre.label + "” in " + branches.length + (branches.length === 1 ? " language" : " languages") + ". Choose a word to see its sentences, or a meaning around the edge to move to it."
+      : "No language has a sentence with “" + centre.label + "” yet.";
+  }
+
+  function drawWeb(centre, branches, near) {
+    const box = $("webGraph");
+    const W = Math.max(300, box.clientWidth || 800);
+    const narrow = W < 640;
+    const n = branches.length;
+    // Desk: words on an ellipse round the meaning. Phone: two columns of words
+    // either side of it, so the text stays full size.
+    let H, cx, cy, at;
+    if (!narrow) {
+      H = 560;
+      cx = W / 2;
+      cy = H / 2;
+      const rx = Math.min(W / 2 - 110, 360), ry = 190;
+      at = (i) => {
+        const a = -Math.PI / 2 + (2 * Math.PI * i) / Math.max(n, 1);
+        return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)];
+      };
+    } else {
+      const rows = Math.ceil(n / 2);
+      H = Math.max(260, rows * 62 + 190);
+      cx = W / 2;
+      cy = H / 2;
+      const top = 95 + 31, step = rows > 1 ? (H - 190 - 62) / (rows - 1) : 0;
+      at = (i) => [i % 2 ? W * 0.8 : W * 0.2, rows > 1 ? top + Math.floor(i / 2) * step : cy];
+    }
+    const corners = narrow
+      ? [[W * 0.25, 36], [W * 0.75, 36], [W * 0.25, H - 30], [W * 0.75, H - 30]]
+      : [[90, 40], [W - 90, 40], [90, H - 34], [W - 90, H - 34]];
+    const g = svg("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H, role: "img", "aria-label": "Meaning web for " + centre.label });
+    const lines = svg("g", { class: "lines" });
+    const nodes = svg("g", {});
+    g.append(lines, nodes);
+    // Links between nearby meanings that are also close to each other.
+    near.forEach((a, i) =>
+      near.forEach((b, j) => {
+        if (j <= i || !state.net) return;
+        const s = state.net.sim("m:" + a.id, "m:" + b.id);
+        if (s != null && s >= state.net.close) lines.append(svg("line", { x1: corners[i][0], y1: corners[i][1], x2: corners[j][0], y2: corners[j][1], class: "near" }));
+      })
+    );
+    near.forEach((m, i) => {
+      const [x, y] = corners[i];
+      lines.append(svg("line", { x1: cx, y1: cy, x2: x, y2: y, class: "near" }));
+      const u = T.meaning(m.id, window.TL_MEANINGS);
+      const node = svg("g", { class: "node meaning", tabindex: "0", role: "button", "aria-label": "Move to " + u.label });
+      node.append(svg("text", { x, y, "text-anchor": "middle", class: "m" }, u.label));
+      if (m.sim != null) node.append(svg("text", { x, y: y + 15, "text-anchor": "middle", class: "sub" }, Math.round(Math.max(0, m.sim) * 100) + "% alike"));
+      const go = () => showWeb(m.id);
+      node.onclick = go;
+      node.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), go());
+      nodes.append(node);
+    });
+    branches.forEach((b, i) => {
+      const [x, y] = at(i);
+      lines.append(svg("line", { x1: cx, y1: cy, x2: x, y2: y, class: "word" + (b.col.id === state.lang ? " here" : "") }));
+      const w = b.words[0];
+      const cjk = ["japanese", "chinese", "hangul"].includes(b.col.id);
+      const node = svg("g", { class: "node word" + (b.col.id === state.lang ? " here" : ""), tabindex: "0", role: "button", "aria-label": b.col.name + ": " + b.words.map((x) => x.text).join(", ") });
+      node.append(svg("text", { x, y: y - 14, "text-anchor": "middle", class: "lang" }, b.col.name));
+      node.append(svg("text", { x, y: y + 6, "text-anchor": "middle", class: "w" + (cjk ? " cjk" : "") }, b.words.map((x) => x.text).slice(0, narrow ? 1 : 2).join(" · ") + (b.words.length > (narrow ? 1 : 2) ? " …" : "")));
+      const reading = b.words[0].reading && b.words[0].reading !== w.text ? (b.col.id === "japanese" ? romaji(w.reading) : w.reading) : "";
+      if (reading) node.append(svg("text", { x, y: y + 22, "text-anchor": "middle", class: "sub" }, reading));
+      const go = () => showWebWords(b);
+      node.onclick = go;
+      node.onkeydown = (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), go());
+      nodes.append(node);
+    });
+    const c = svg("g", { class: "node centre" });
+    const r = Math.max(42, Math.min(80, centre.label.length * 5 + 26));
+    c.append(svg("ellipse", { cx, cy, rx: r, ry: 30 }));
+    c.append(svg("text", { x: cx, y: cy + 5, "text-anchor": "middle" }, centre.label));
+    nodes.append(c);
+    box.innerHTML = "";
+    box.append(g);
+  }
+
+  function showWebWords(b) {
+    let html = "<h3>" + esc(b.col.name) + "</h3>";
+    for (const w of b.words) {
+      html += '<p><b class="' + (["japanese", "chinese", "hangul"].includes(b.col.id) ? "target" : "") + '">' + esc(w.text) + "</b></p><ul>";
+      for (const s of w.sentences) {
+        const rtl = b.col.id === "arabic" || b.col.id === "hebrew" ? ' dir="rtl"' : "";
+        html += "<li><span" + rtl + ">" + esc(T.join(s.tokens, s.sep, s.end)) + '</span> <span class="muted">' + esc(s.en) + "</span></li>";
+      }
+      html += "</ul>";
+    }
+    $("webWords").innerHTML = html;
+  }
+
   // ---- Tabs ----
 
   function next(tab) {
@@ -676,6 +969,7 @@
       const s = draw("t");
       if (s) showTarget(s);
     } else if (tab === "matrix") showMatrix();
+    else if (tab === "web") showWeb();
     else if (tab === "words") showWords();
     stats();
   }
@@ -683,7 +977,7 @@
   function showTab(tab, redraw) {
     state.tab = tab;
     document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
-    ["toEnglish", "toTarget", "breakdown", "matrix", "words"].forEach((id) => ($(id).hidden = id !== tab));
+    ["toEnglish", "toTarget", "breakdown", "matrix", "web", "words"].forEach((id) => ($(id).hidden = id !== tab));
     if (redraw && tab === "toEnglish" && cur.toEnglish && $("enResult").hidden) return showEnglish(cur.toEnglish);
     if (redraw && tab === "toTarget" && cur.toTarget && $("tgResult").hidden) {
       $("tgResult").hidden = true;
@@ -714,6 +1008,16 @@
   };
   $("tgSkip").onclick = () => next("toTarget");
   $("bdGo").onclick = breakDown;
+  $("webRandom").onclick = () => {
+    const all = contentMeanings();
+    showWeb(all[Math.floor(Math.random() * all.length)].id);
+  };
+  let webResize = null;
+  window.addEventListener("resize", () => {
+    if (state.tab !== "web") return;
+    clearTimeout(webResize);
+    webResize = setTimeout(() => showWeb(), 150);
+  });
   $("wbFilter").onchange = drawBank;
   $("wbExport").onclick = exportWords;
   $("sentExport").onclick = exportSentences;

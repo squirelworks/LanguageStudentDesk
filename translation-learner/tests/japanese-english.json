@@ -1,0 +1,127 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "japanese",
+  "into": "english",
+  "about": "Japanese to English. Japanese often leaves out the subject and doesn't mark the future, so one sentence has several right English versions. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "bus-school",
+      "accept": [
+        "I go to school by bus.",
+        "I take the bus to school.",
+        "I'm going to school by bus.",
+        "took a bus to school",
+        "I take a bus to school",
+        "I am taking the bus to school",
+        "I ride the bus to school.",
+        "I will go to school by bus.",
+        "I went to school by bus.",
+        "Going to school by bus.",
+        "By bus, I go to school."
+      ],
+      "reject": [
+        "I go to school.",
+        "I take the bus.",
+        "I take the train to school.",
+        "I go home by bus.",
+        "I walk to school.",
+        "We go to school by bus.",
+        "You take the bus to school."
+      ]
+    },
+    {
+      "sentence": "came-train",
+      "accept": [
+        "I came by train.",
+        "I came on the train.",
+        "Came by train.",
+        "I have come by train."
+      ],
+      "reject": [
+        "I come by train.",
+        "I will come by train.",
+        "I came by bus.",
+        "I went by train."
+      ]
+    },
+    {
+      "sentence": "go-school",
+      "accept": [
+        "I go to school.",
+        "I'm going to school.",
+        "Going to school.",
+        "I went to school.",
+        "I'll go to school."
+      ],
+      "reject": [
+        "I go home.",
+        "I like school.",
+        "We go to school."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "Drinking water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I want water.",
+        "I drink water and tea."
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher.",
+        "A student."
+      ]
+    },
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know."
+      ]
+    },
+    {
+      "sentence": "go-tokyo",
+      "accept": [
+        "I want to go to Tokyo.",
+        "I'd like to go to Tokyo.",
+        "I wanna go to Tokyo."
+      ],
+      "reject": [
+        "I go to Tokyo.",
+        "I want to go to Beijing."
+      ]
+    },
+    {
+      "sentence": "lunch-restaurant",
+      "accept": [
+        "I eat lunch at a restaurant.",
+        "I have lunch at the restaurant.",
+        "I'll have lunch at a restaurant.",
+        "I ate lunch in a restaurant."
+      ],
+      "reject": [
+        "I eat lunch at home.",
+        "I eat at a restaurant."
+      ]
+    }
+  ]
+}

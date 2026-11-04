@@ -59,7 +59,32 @@
   .tags { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
   .tags .pill { cursor: pointer; }
   .tags .pill:hover { border-color: var(--accent); color: var(--text); }
+  .topics button.web { border-color: var(--gold); color: var(--gold); }
+  .topics button.web.active { color: #fff; }
+  .gw-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; align-items: center; margin-bottom: 0.6rem; }
+  .gw-head p { margin: 0; }
+  .gw-key { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .gw-key .gw-node { width: auto; margin: 0; padding: 0.1rem 0.55rem; cursor: default; }
+  .gw { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.6rem; align-items: start; }
+  .gw-lines { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+  .gw-lines path { fill: none; stroke: #5c6bc0; stroke-width: 1.4; opacity: 0.55; }
+  .gw-lines path.card { stroke: var(--gold); stroke-dasharray: 3 3; }
+  .gw-lines path.dim { opacity: 0.12; }
+  .gw-col { position: relative; display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
+  .gw-col h3 { margin: 0 0 0.2rem; font-size: 0.9rem; color: var(--gold); display: flex; justify-content: space-between; gap: 0.4rem; }
+  .gw-col h3 small { color: var(--muted); font-weight: 400; }
+  .gw-node { position: relative; display: block; text-align: left; font-size: 0.85rem; line-height: 1.3; padding: 0.4rem 0.6rem; border-radius: 8px; border: 1px solid var(--accent); background: #1d1f33; color: var(--text); text-decoration: none; overflow-wrap: anywhere; width: 100%; }
+  a.gw-node:hover, button.gw-node:hover { background: #262a4a; }
+  .gw-node.card { border-color: var(--gold); background: #23211a; }
+  .gw-node.planned { border-style: dashed; border-color: #6a6a78; background: transparent; color: var(--muted); }
+  .gw-node.planned small { display: block; font-size: 0.72rem; color: var(--hard); }
+  .gw-node.dim, .gw-col.dim h3 { opacity: 0.35; }
   @media (max-width: 800px) {
+    .gw { grid-template-columns: 1fr; gap: 1rem; }
+    .gw-col { flex-direction: row; flex-wrap: wrap; }
+    .gw-col h3 { flex: 1 1 100%; }
+    .gw-node { width: auto; }
+    .gw-lines { display: none; }
     .layout { grid-template-columns: 1fr; }
     .side { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 0.25rem; }
     .side button { width: auto; }
@@ -81,6 +106,7 @@
     <nav class="side" id="side"></nav>
     <div>
       <input class="search" id="search" type="search" placeholder="Search references…" autocomplete="off">
+      <div class="level-tabs" id="levelTabs" role="tablist" aria-label="Levels" hidden></div>
       <div class="topics" id="topics"></div>
       <div id="intro"></div>
       <div id="results"><p class="empty">Loading…</p></div>
@@ -91,8 +117,10 @@
 
 <script src="../languages/registry.js"></script>
 <script src="../languages/lsd-lang.js"></script>
+<script src="../languages/lsd-levels.js"></script>
 <script src="programming.js"></script>
 <script src="sources.js"></script>
+<script src="web.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

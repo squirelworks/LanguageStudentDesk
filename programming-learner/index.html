@@ -12,6 +12,17 @@
   .grid .tile .big { font-size: 1.35rem; }
   .tile .era { display: block; color: #80cbc4; font-size: 0.8rem; margin: 0.1rem 0 0.4rem; }
   .tile .pill { margin-top: 0.5rem; }
+  .tile .tags { display: block; margin-top: 0.4rem; color: var(--muted); font-size: 0.75rem; }
+  .homebar { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; margin: 0.4rem 0 0.8rem; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { border: none; border-radius: 0; margin: 0; padding: 0.35rem 0.8rem; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .chips button { border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
+  .seg button.on, .chips button.on { background: #26a69a; color: #fff; border-color: #26a69a; }
+  .group { margin-bottom: 1.4rem; }
+  .group h3 { margin: 0.8rem 0 0.1rem; color: #80cbc4; }
+  .group > p { margin: 0 0 0.6rem; }
   .layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.2rem; align-items: start; }
   .layout > * { min-width: 0; }
   .lessons { position: sticky; top: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem; }
@@ -30,6 +41,7 @@
   p code, li code { background: #24242c; border-radius: 4px; padding: 0 0.3rem; font-size: 0.9em; color: #ffe082; }
   .code { position: relative; margin: 0.6rem 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #111116; }
   .code pre { margin: 0; padding: 0.75rem 0.9rem; overflow-x: auto; font-size: 0.9rem; line-height: 1.45; tab-size: 4; }
+  .code .lang { display: block; padding: 0.3rem 0.9rem; border-bottom: 1px solid var(--line); background: #17171d; font-size: 0.75rem; letter-spacing: 0.04em; color: #80cbc4; }
   .code .copy { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.15rem 0.55rem; font-size: 0.75rem; opacity: 0.7; }
   .code .copy:hover { opacity: 1; }
   .code .out { border-top: 1px dashed var(--line); background: #0b0b0e; }
@@ -40,6 +52,7 @@
   .code .s { color: #ffcc80; }
   .code .n { color: #f48fb1; }
   .code .c { color: #78909c; font-style: italic; }
+  .coursenote { margin: 0 0 1rem; padding: 0.6rem 0.9rem; border-left: 3px solid #26a69a; border-radius: 6px; background: #17171d; }
   .practice { border-top: 2px solid #26a69a; }
   .practice .q { font-size: 1.1rem; margin: 0.3rem 0 0.5rem; }
   .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; margin-top: 0.7rem; }
@@ -72,8 +85,10 @@
 <main>
   <section id="home" hidden>
     <h2>Pick a language</h2>
-    <div class="grid" id="langGrid"></div>
+    <div class="homebar" id="homeControls"></div>
+    <div id="langGrid"></div>
   </section>
+  <p class="coursenote" id="courseNote" hidden></p>
   <section id="course" class="layout" hidden>
     <nav class="lessons" id="lessonList"></nav>
     <div id="lesson"></div>
@@ -82,6 +97,7 @@
 <footer class="foot">Part of Language Student Desk · lessons written for the Desk.</footer>
 <script src="../languages/lsd-lang.js"></script>
 <script src="data/catalog.js"></script>
+<script src="sections.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
