@@ -8,6 +8,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "brainfood", name: "brainFOOD", era: "Esoteric · 8 commands", blurb: "A row of boxes, a pointer and eight symbols. Tiny, strange and surprisingly powerful.", group: "joke" },
   { id: "c", name: "C", era: "1972 · systems", blurb: "The small language under operating systems and most other languages. Types, loops and functions.", group: "modern", tags: ["Compiled programs"] },
   { id: "chisel", name: "Chisel", era: "2012 · hardware", blurb: "A hardware construction language in Scala. The program builds a circuit; it does not step through one.", group: "modern", tags: ["Hardware"] },
+  { id: "cobol", name: "COBOL", era: "1959 · business data", blurb: "Records, money and plain-English statements. Still runs payments and payroll at banks, insurers and government agencies.", group: "older", tags: ["Compiled programs"] },
   { id: "delphi", name: "Delphi 5/6/7", era: "1999–2002 · Windows", blurb: "Object Pascal with drag-and-drop forms. Fast to build real Windows programs.", group: "older", tags: ["Compiled programs"] },
   { id: "go", name: "Go", era: "2009 · servers", blurb: "A small language for services and tools. One looping keyword, and slices instead of a pile of collection types.", group: "modern", tags: ["Compiled programs"] },
   { id: "intercal", name: "INTERCAL", era: "Esoteric · 1972", blurb: "The first joke language: politeness is mandatory and numbers come out in Roman numerals.", group: "joke" },
