@@ -22,7 +22,36 @@ from googleapiclient.http import MediaFileUpload
 SCOPE = "https://www.googleapis.com/auth/androidpublisher"
 
 
+def check(packages):
+    """Open and discard an edit for each package: proves access, changes nothing."""
+    api = connect()
+    bad = 0
+    for pkg in packages:
+        try:
+            eid = api.edits().insert(packageName=pkg, body={}).execute()["id"]
+            tracks = api.edits().tracks().list(packageName=pkg, editId=eid).execute().get("tracks", [])
+            api.edits().delete(packageName=pkg, editId=eid).execute()
+            names = ", ".join(t["track"] for t in tracks)
+            print(f"OK   {pkg}  tracks: {names}")
+        except HttpError as e:
+            bad += 1
+            print(f"FAIL {pkg}  {e.resp.status} {e.reason}")
+    if bad:
+        sys.exit(f"{bad} app(s) not reachable; see docs/PLAY.md")
+
+
+def connect():
+    raw = os.environ.get("PLAY_SERVICE_ACCOUNT_JSON", "")
+    if not raw.strip():
+        sys.exit("PLAY_SERVICE_ACCOUNT_JSON is not set; see docs/PLAY.md")
+    creds = service_account.Credentials.from_service_account_info(json.loads(raw), scopes=[SCOPE])
+    return build("androidpublisher", "v3", credentials=creds, cache_discovery=False)
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "--check":
+        check(sys.argv[2:])
+        return
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--package", required=True)
     ap.add_argument("--aab", required=True)
@@ -34,11 +63,7 @@ def main():
     ap.add_argument("--notes-file", help="plain text 'What's new' (en-US), at most 500 characters")
     args = ap.parse_args()
 
-    raw = os.environ.get("PLAY_SERVICE_ACCOUNT_JSON", "")
-    if not raw.strip():
-        sys.exit("PLAY_SERVICE_ACCOUNT_JSON is not set; see docs/PLAY.md")
-    creds = service_account.Credentials.from_service_account_info(json.loads(raw), scopes=[SCOPE])
-    api = build("androidpublisher", "v3", credentials=creds, cache_discovery=False)
+    api = connect()
     edits = api.edits()
 
     try:
