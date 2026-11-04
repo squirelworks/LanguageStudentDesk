@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Programming Learner — Language Student Desk</title>
 <link rel="stylesheet" href="../languages/learners.css">
+<link rel="stylesheet" href="../languages/lsd-features.css">
 <style>
   :root { --mono: ui-monospace, "Cascadia Mono", "DejaVu Sans Mono", Consolas, Menlo, monospace; }
   header.top { background: linear-gradient(135deg, #1a1a2e, #0d3b36); border-bottom-color: #26a69a; }
@@ -20,6 +21,8 @@
   .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .chips button { border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
   .seg button.on, .chips button.on { background: #26a69a; color: #fff; border-color: #26a69a; }
+  .switches { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0 0 0.6rem; }
+  .switches .lsdf-row { flex: 1 1 18rem; max-width: 28rem; }
   .group { margin-bottom: 1.4rem; }
   .group h3 { margin: 0.8rem 0 0.1rem; color: #80cbc4; }
   .group > p { margin: 0 0 0.6rem; }
@@ -86,6 +89,7 @@
   <section id="home" hidden>
     <h2>Pick a language</h2>
     <div class="homebar" id="homeControls"></div>
+    <div class="switches" id="homeSwitches"></div>
     <div id="langGrid"></div>
   </section>
   <p class="coursenote" id="courseNote" hidden></p>
@@ -96,6 +100,9 @@
 </main>
 <footer class="foot">Part of Language Student Desk · lessons written for the Desk.</footer>
 <script src="../languages/lsd-lang.js"></script>
+<script src="/desk-settings.js"></script>
+<script src="../languages/features.js"></script>
+<script src="../languages/lsd-features.js"></script>
 <script src="data/catalog.js"></script>
 <script src="sections.js"></script>
 <script src="app.js"></script>

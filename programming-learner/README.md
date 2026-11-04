@@ -6,7 +6,8 @@ languages first, then older and legacy ones, then joke and esoteric languages.
 Each section is sorted by name, and nothing is pinned. An A–Z view lists every
 language in one list instead, and category tags (such as compiled programs or
 scripting) filter the modern and older sections. The view and the tag filter
-are remembered. Some courses are full beginner courses with runnable examples,
+are remembered. Two switches, also in the Desk's Settings, hide the older
+and the joke sections; both are on by default. Some courses are full beginner courses with runnable examples,
 others are reading courses for platforms that no longer run on today's
 machines; the app's menu has the current list. Cross-language tracks, such as
 numerical methods, teach one topic and implement it side by side in several

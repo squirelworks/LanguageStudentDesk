@@ -7,6 +7,10 @@
 // order, each sorted by name, with nothing pinned. The A–Z view is one list of
 // everything. A tag filter keeps only the languages with that tag.
 //
+// The older and joke groups each have a switch, defined once with every other
+// feature switch (window.LSDFeatures, from languages/lsd-features.js). Both
+// are on unless the learner turns them off, here or in Settings.
+//
 // The view and tag choice are remembered in localStorage under
 // lsd-programming-view-v1 as { view: "sections" | "az", tag: "<tag>" | "" }.
 (function () {
@@ -55,6 +59,48 @@
     return out;
   }
 
+  // Which groups the switches let through: { older: bool, joke: bool }.
+  var SWITCH = { older: "programming-older", joke: "programming-joke" };
+  function shown() {
+    var F = window.LSDFeatures;
+    var out = {};
+    for (var g in SWITCH) out[g] = F ? F.isOn(SWITCH[g]) : true;
+    return out;
+  }
+
+  // Checkboxes for the two switches, with the labels and descriptions from
+  // the shared feature list. Changing one changes it everywhere.
+  function renderSwitches(container) {
+    var F = window.LSDFeatures;
+    container.innerHTML = "";
+    if (!F || !F.data) return;
+    var ids = [SWITCH.older, SWITCH.joke];
+    ids.map(function (id) {
+      return F.data.features.filter(function (f) { return f.id === id; })[0];
+    }).filter(Boolean).forEach(function (f) {
+      var label = document.createElement("label");
+      label.className = "lsdf-row";
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.checked = F.isOn(f.id);
+      input.onchange = function () { F.set(f.id, input.checked); };
+      var text = document.createElement("span");
+      var strong = document.createElement("strong");
+      strong.textContent = f.label;
+      var small = document.createElement("small");
+      small.textContent = f.description;
+      text.appendChild(strong);
+      text.appendChild(small);
+      label.appendChild(input);
+      label.appendChild(text);
+      container.appendChild(label);
+    });
+  }
+
+  function onSwitch(fn) {
+    if (window.LSDFeatures) window.LSDFeatures.onChange(fn);
+  }
+
   function load() {
     var v = null;
     try { v = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -66,5 +112,5 @@
     try { localStorage.setItem(KEY, JSON.stringify({ view: v.view, tag: v.tag || "" })); } catch (e) {}
   }
 
-  window.PROGRAMMING_SECTIONS = { GROUPS: GROUPS, arrange: arrange, tags: tags, byName: byName, load: load, save: save };
+  window.PROGRAMMING_SECTIONS = { GROUPS: GROUPS, arrange: arrange, tags: tags, byName: byName, load: load, save: save, shown: shown, renderSwitches: renderSwitches, onSwitch: onSwitch };
 })();
