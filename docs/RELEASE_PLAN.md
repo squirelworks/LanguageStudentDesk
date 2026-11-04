@@ -47,8 +47,10 @@ stroke redraws for many scripts, the camera-cutout fix for the SquirrelGo apps
 
 1. After the release PR merges, run **Actions → SquirrelGo release (draft) →
    Run workflow** with the version. It builds a release APK of every app
-   (signed with the upload key when the `UPLOAD_*` secrets exist, otherwise
-   with each app's fixed debug key, as before), writes `SHA256SUMS.txt`, and
+   (signed with the APK signing key when the `APK_KEYSTORE_BASE64`,
+   `APK_STORE_PASSWORD`, `APK_KEY_ALIAS` and `APK_KEY_PASSWORD` secrets exist,
+   otherwise with each app's fixed debug key, as before; the Play upload key
+   is never used here), writes `SHA256SUMS.txt`, and
    creates or refreshes the **draft** release targeting that commit, with the
    notes from `release-notes/<version>.md` and a table of every app's version
    and the data commit. It never creates or moves a tag.
