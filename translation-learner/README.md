@@ -105,7 +105,8 @@ bus to school". The checker accepts them by matching meanings, not strings, with
 - **Word order.** Meanings are found anywhere in the answer, so "By bus, I go to school" passes.
 - **Phrasings tied to other meanings.** `TL_PHRASINGS` in `data/matrix.js` lets English carry a meaning
   only next to certain others: "take", "ride" or "catch" carry *go* when the row also has *bus*, *train*,
-  *car* or *ship*.
+  *car* or *ship*. A phrasing marked `optional` lets English leave a meaning out in such a row: a request
+  with *please* doesn't have to say *give* ("Water, please").
 - **Other natural English per row.** A row's `also` list holds other right versions. They are shown after
   a check, and `check.js` makes sure every one passes in every language that renders the row.
 
