@@ -22,6 +22,7 @@ window.PROGRAMMING_CATALOG = [
   { id: "malbolge", name: "Malbolge", era: "Esoteric · 1998", blurb: "Built to be nearly impossible to program, and it rewrites itself as it runs.", group: "joke" },
   { id: "numerical", name: "Numerical methods", era: "Track · Python, C and Fortran", blurb: "How computers find roots, areas and solutions when there is no formula. Each method explained, then built and tested in several languages.", group: "tracks" },
   { id: "perl", name: "Perl", era: "1987 · text and the early web", blurb: "Sigils, regular expressions and hashes. The glue language of log files, CGI scripts and system tools.", group: "modern", tags: ["Scripting"] },
+  { id: "php", name: "PHP", era: "1994 · the web", blurb: "The server-side language behind a large share of websites. Echo a page, handle forms and print safe HTML.", group: "modern", tags: ["Scripting", "Web"] },
   { id: "piet", name: "Piet", era: "Esoteric · 2001", blurb: "Programs are pictures. Colour changes between blocks are the instructions.", group: "joke" },
   { id: "python", name: "Python", era: "1991 · general purpose", blurb: "A friendly, readable language used everywhere from web servers to science. The full beginner course.", group: "modern", tags: ["Scripting"] },
   { id: "quickbasic", name: "QuickBASIC", era: "1985 · DOS", blurb: "Microsoft's structured BASIC with a full-screen editor. Where many people wrote their first game.", group: "older", tags: ["Compiled programs"] },
