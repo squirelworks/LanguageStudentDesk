@@ -16,9 +16,9 @@ It's due when all of these are on `main` and CI is green there:
 
 - [ ] **squirrel-lang-data v0.1.0 is published** (see that repo's
       `RELEASE_PLAN.md`), and a one-seam PR here moves `data/` to its commit.
-- [ ] The Desk generates vocabulary, grammar, references and the registry
+- [x] The Desk generates vocabulary, grammar, references and the registry
       from `data/` (#264), plus the LanguageStudentDesk side of any other data
-      move in data v0.1.0 (for example the meaning matrix,
+      move in data v0.1.0 (still open: the meaning matrix,
       squirrel-lang-data #14).
 - [ ] The Programming Learner courses open now are merged or deliberately
       left out: C++ (#243), Java (#249), PHP (#253), Perl (#255), Bash (#256),
