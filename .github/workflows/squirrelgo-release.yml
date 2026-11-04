@@ -115,6 +115,9 @@ jobs:
             echo "signing with the upload key"
           else
             echo "no upload key in secrets; signing with the app's debug key"
+            # Programming Student Desk doesn't commit its debug key; all apps share one.
+            K="$DIR/android/app/debug.keystore"
+            [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
           fi
       - name: Build release APK
         run: |
