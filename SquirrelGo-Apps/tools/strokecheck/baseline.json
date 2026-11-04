@@ -1,7 +1,4 @@
 {
- "burmese": {
-  "ဝ": "coverage 0.741"
- },
  "hangul": {
   "ㅇ": "coverage 0.697"
  },
@@ -33,9 +30,6 @@
   "ト": "coverage 0.544",
   "ハ": "coverage 0.479"
  },
- "malayalam": {
-  "റ": "coverage 0.716"
- },
  "syllabics": {
   "ᓪ": "coverage 0.744"
  },
@@ -44,44 +38,5 @@
  },
  "tifinagh": {
   "ⴰ": "coverage 0.732"
- },
- "zhuyin": {
-  "ˇ": "coverage 0.232; precision 0.447",
-  "ㄅ": "coverage 0.355; precision 0.247",
-  "ㄆ": "coverage 0.204; precision 0.37",
-  "ㄇ": "precision 0.824",
-  "ㄈ": "precision 0.831",
-  "ㄉ": "coverage 0.307; precision 0.328",
-  "ㄊ": "coverage 0.269; precision 0.443",
-  "ㄋ": "coverage 0.456; precision 0.534",
-  "ㄌ": "coverage 0.267; precision 0.628",
-  "ㄍ": "coverage 0.136; precision 0.482",
-  "ㄎ": "coverage 0.392; precision 0.595",
-  "ㄏ": "coverage 0.247; precision 0.227",
-  "ㄐ": "coverage 0.346; precision 0.354",
-  "ㄑ": "coverage 0.185; precision 0.257",
-  "ㄒ": "coverage 0.57; precision 0.642",
-  "ㄓ": "coverage 0.434; precision 0.772",
-  "ㄔ": "coverage 0.402; precision 0.48",
-  "ㄕ": "coverage 0.073; precision 0.179",
-  "ㄖ": "coverage 0.67; precision 0.776",
-  "ㄗ": "coverage 0.428",
-  "ㄘ": "coverage 0.169; precision 0.383",
-  "ㄙ": "coverage 0.329; precision 0.777",
-  "ㄚ": "coverage 0.26; precision 0.363",
-  "ㄛ": "coverage 0.328; precision 0.666",
-  "ㄜ": "coverage 0.332; precision 0.671",
-  "ㄝ": "coverage 0.076; precision 0.27",
-  "ㄞ": "coverage 0.381; precision 0.669",
-  "ㄟ": "coverage 0.319; precision 0.31",
-  "ㄠ": "coverage 0.426; precision 0.692",
-  "ㄡ": "coverage 0.412; precision 0.675",
-  "ㄢ": "coverage 0.321; precision 0.714",
-  "ㄣ": "coverage 0.336; precision 0.264",
-  "ㄤ": "coverage 0.429; precision 0.662",
-  "ㄥ": "coverage 0.437; precision 0.453",
-  "ㄦ": "coverage 0.355; precision 0.433",
-  "ㄧ": "coverage 0.161; precision 0.209",
-  "ㄩ": "coverage 0.691; precision 0.779"
  }
 }
