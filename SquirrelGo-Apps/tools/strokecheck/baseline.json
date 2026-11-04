@@ -72,9 +72,6 @@
  "syllabics": {
   "ᓪ": "coverage 0.744"
  },
- "thai": {
-  "ษ": "coverage 0.705; precision 0.754"
- },
  "tibetan": {
   "ཅ": "coverage 0.675",
   "ཟ": "coverage 0.548; precision 0.754",
