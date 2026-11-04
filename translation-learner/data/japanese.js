@@ -23,6 +23,7 @@ window.TL_LANGS.japanese = {
     "where-station": { end: "。", t: [["駅", "えき", "station"], ["は", "は", "@topic"], ["どこ", "どこ", "where"], ["です", "です", "@copula"], ["か", "か", "@question"]] },
     "where-toilet": { end: "。", t: [["トイレ", "トイレ", "toilet"], ["は", "は", "@topic"], ["どこ", "どこ", "where"], ["です", "です", "@copula"], ["か", "か", "@question"]] },
     "go-school": { end: "。", implied: ["i"], t: [["学校", "がっこう", "school"], ["に", "に", "@direction"], ["行きます", "いきます", "go"]] },
+    "bus-school": { end: "。", implied: ["i"], t: [["バス", "バス", "bus"], ["で", "で", "@means"], ["学校", "がっこう", "school"], ["に", "に", "@direction"], ["行きます", "いきます", "go"]] },
     "go-tokyo": { end: "。", implied: ["i"], t: [["東京", "とうきょう", "tokyo"], ["に", "に", "@direction"], ["行き", "いき", "go"], ["たい", "たい", "want"], ["です", "です", "@polite"]] },
     "came-train": { end: "。", implied: ["i"], t: [["電車", "でんしゃ", "train"], ["で", "で", "@means"], ["来", "き", "come"], ["ました", "ました", "@past"]] },
   },
