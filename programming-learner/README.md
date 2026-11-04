@@ -47,6 +47,7 @@ Each `data/<id>.js` sets `window.PROGRAMMING.<id>`:
   comment: "#",                    // optional: line-comment marker, for colouring
   keywords: [...], builtins: [...],// optional: words to colour
   caseInsensitive: true,           // optional: BASIC, Pascal, assembly
+  preview: true,                   // optional: examples are web pages, shown as a live preview instead of `out`
   lessons: [{
     id, title, summary,
     sections: [{ h, p, code, out }],   // all optional; p is HTML, out is exactly what code prints
@@ -57,7 +58,9 @@ Each `data/<id>.js` sets `window.PROGRAMMING.<id>`:
 
 A practice question with `kind: "output"` asks what `code` prints; `answer`
 must be that output (or put the real output in `check` when the answer is
-phrased differently, such as a line count). Code uses `String.raw` template
+phrased differently, such as a line count). In a `preview` course, `out` and
+`check` hold the text the page shows (its `innerText`), which the runner
+checks in a browser. Code uses `String.raw` template
 literals where backslashes matter.
 
 A track also has `langs: { <id>: { name, comment, keywords, builtins } }`,
