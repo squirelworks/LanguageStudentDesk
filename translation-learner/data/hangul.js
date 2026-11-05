@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/hangul.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/hangul.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Korean column of the meaning matrix. Written for this project. Tokens are
 // [text, Revised Romanization, meaning id]. Particles and endings start with
 // "-" because they are written solid with the word before.
@@ -95,5 +95,19 @@ window.TL_LANGS.hangul = {
     "officer-sees-child": {"end": ".", "t": [["장교", "janggyo", "officer"], ["-가", "ga", "@subject"], ["아이", "ai", "child"], ["-를", "reul", "@object"], ["봐요", "bwayo", "see"]]},
     "captain-sees-ship": {"end": ".", "t": [["선장", "seonjang", "captain"], ["-이", "i", "@subject"], ["배", "bae", "ship"], ["-를", "reul", "@object"], ["봐요", "bwayo", "see"]]},
     "i-see-ship": {"end": ".", "t": [["저", "jeo", "i"], ["-는", "neun", "@topic"], ["배", "bae", "ship"], ["-를", "reul", "@object"], ["봐요", "bwayo", "see"]]},
+    "print-word": {"end": ".", "t": [["단어", "dan-eo", "word"], ["-를", "reul", "@object"], ["출력한다", "chullyeokhanda", "print"]]},
+    "show-number": {"end": ".", "t": [["숫자", "sutja", "number"], ["-를", "reul", "@object"], ["표시한다", "pyosihanda", "print"]]},
+    "print-screen": {"end": ".", "t": [["화면", "hwamyeon", "screen"], ["-에", "e", "@place"], ["단어", "dan-eo", "word"], ["-를", "reul", "@object"], ["출력한다", "chullyeokhanda", "print"]]},
+    "start-loop": {"end": ".", "t": [["반복문", "banbokmun", "loop"], ["-을", "eul", "@object"], ["시작한다", "sijakhanda", "start"]]},
+    "end-loop": {"end": ".", "t": [["반복문", "banbokmun", "loop"], ["-을", "eul", "@object"], ["끝낸다", "kkeunnaenda", "end"]]},
+    "repeat-three": {"end": ".", "t": [["세", "se", "three"], ["번", "beon", "times"], ["반복한다", "banbokhanda", "repeat"]]},
+    "count-to-ten": {"end": ".", "t": [["하나", "hana", "one"], ["-부터", "buteo", "from"], ["열", "yeol", "ten"], ["-까지", "kkaji", "@until"], ["센다", "senda", "count"]]},
+    "set-value": {"end": ".", "t": [["값", "gap", "value"], ["-을", "eul", "@object"], ["설정한다", "seoljeonghanda", "set"]]},
+    "create-variable": {"end": ".", "t": [["변수", "byeonsu", "variable"], ["-를", "reul", "@object"], ["만든다", "mandeunda", "create"]]},
+    "return-value": {"end": ".", "t": [["값", "gap", "value"], ["-을", "eul", "@object"], ["반환한다", "banhwanhanda", "return"]]},
+    "load-data": {"end": ".", "t": [["데이터", "deiteo", "data"], ["-를", "reul", "@object"], ["불러온다", "bulleoonda", "load"]]},
+    "add-one": {"end": ".", "t": [["하나", "hana", "one"], ["-를", "reul", "@object"], ["더한다", "deohanda", "add"]]},
+    "sort-list": {"end": ".", "t": [["목록", "mongnok", "list"], ["-을", "eul", "@object"], ["정렬한다", "jeongnyeolhanda", "sort"]]},
+    "run-program": {"end": ".", "t": [["프로그램", "peurogeuraem", "program"], ["-을", "eul", "@object"], ["실행한다", "silhaenghanda", "run"]]},
   },
 };

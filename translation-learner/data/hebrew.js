@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/hebrew.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/hebrew.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Modern Hebrew column of the meaning matrix. Written for this project. Tokens
 // are [text, romanization, meaning id]. Hebrew is written right to left without
 // vowel points (matching languages/hebrew). The article ה- and the one-letter
@@ -52,5 +52,19 @@ window.TL_LANGS.hebrew = {
     "going-home": {"end": ".", "t": [["אני", "ani", "i"], ["הולך", "holech", "go"], ["הביתה", "habayta", "home"]]},
     "we-going-home": {"end": ".", "t": [["אנחנו", "anachnu", "we"], ["הולכים", "holchim", "go"], ["הביתה", "habayta", "home"]]},
     "where-going": {"end": "?", "t": [["לאן", "le'an", "where"], ["אתה", "ata", "you"], ["הולך", "holech", "go"]]},
+    "print-word": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מילה", "mila", "word"]]},
+    "show-number": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מספר", "mispar", "number"]]},
+    "print-screen": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מילה", "mila", "word"], ["על", "al", "@place"], ["ה-", "ha", "@the"], ["מסך", "masach", "screen"]]},
+    "start-loop": {"end": ".", "t": [["להתחיל", "lehatchil", "start"], ["לולאה", "lula'a", "loop"]]},
+    "end-loop": {"end": ".", "t": [["לסיים", "lesayem", "end"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["לולאה", "lula'a", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["לחזור", "lachzor", "repeat"], ["שלוש", "shalosh", "three"], ["פעמים", "pe'amim", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["לספור", "lispor", "count"], ["מ-", "me", "from"], ["אחת", "achat", "one"], ["עד", "ad", "@until"], ["עשר", "eser", "ten"]]},
+    "set-value": {"end": ".", "t": [["לקבוע", "likbo'a", "set"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["ערך", "erech", "value"]]},
+    "create-variable": {"end": ".", "t": [["ליצור", "litzor", "create"], ["משתנה", "mishtane", "variable"]]},
+    "return-value": {"end": ".", "t": [["להחזיר", "lehachzir", "return"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["ערך", "erech", "value"]]},
+    "load-data": {"end": ".", "t": [["לטעון", "lit'on", "load"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["נתונים", "netunim", "data"]]},
+    "add-one": {"end": ".", "t": [["להוסיף", "lehosif", "add"], ["אחת", "achat", "one"]]},
+    "sort-list": {"end": ".", "t": [["למיין", "lemayen", "sort"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["רשימה", "reshima", "list"]]},
+    "run-program": {"end": ".", "t": [["להריץ", "leharitz", "run"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["תוכנית", "tochnit", "program"]]},
   },
 };

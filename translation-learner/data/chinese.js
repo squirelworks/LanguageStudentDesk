@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/chinese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/chinese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Mandarin Chinese column of the meaning matrix. Written for this project.
 // Tokens are [text, pinyin, meaning id].
 window.TL_LANGS = window.TL_LANGS || {};
@@ -94,5 +94,19 @@ window.TL_LANGS.chinese = {
     "officer-sees-child": {"end": "。", "t": [["军官", "jūnguān", "officer"], ["看见", "kànjiàn", "see"], ["孩子", "háizi", "child"]]},
     "captain-sees-ship": {"end": "。", "t": [["船长", "chuánzhǎng", "captain"], ["看见", "kànjiàn", "see"], ["船", "chuán", "ship"]]},
     "i-see-ship": {"end": "。", "t": [["我", "wǒ", "i"], ["看见", "kànjiàn", "see"], ["船", "chuán", "ship"]]},
+    "print-word": {"end": "。", "t": [["显示", "xiǎnshì", "print"], ["单词", "dāncí", "word"]]},
+    "show-number": {"end": "。", "t": [["显示", "xiǎnshì", "print"], ["数字", "shùzì", "number"]]},
+    "print-screen": {"end": "。", "t": [["在", "zài", "@place"], ["屏幕上", "píngmù shang", "screen"], ["显示", "xiǎnshì", "print"], ["单词", "dāncí", "word"]]},
+    "start-loop": {"end": "。", "t": [["开始", "kāishǐ", "start"], ["循环", "xúnhuán", "loop"]]},
+    "end-loop": {"end": "。", "t": [["结束", "jiéshù", "end"], ["循环", "xúnhuán", "loop"]]},
+    "repeat-three": {"end": "。", "t": [["重复", "chóngfù", "repeat"], ["三", "sān", "three"], ["次", "cì", "times"]]},
+    "count-to-ten": {"end": "。", "t": [["从", "cóng", "from"], ["一", "yī", "one"], ["数", "shǔ", "count"], ["到", "dào", "@until"], ["十", "shí", "ten"]]},
+    "set-value": {"end": "。", "t": [["设置", "shèzhì", "set"], ["值", "zhí", "value"]]},
+    "create-variable": {"end": "。", "t": [["创建", "chuàngjiàn", "create"], ["变量", "biànliàng", "variable"]]},
+    "return-value": {"end": "。", "t": [["返回", "fǎnhuí", "return"], ["值", "zhí", "value"]]},
+    "load-data": {"end": "。", "t": [["加载", "jiāzài", "load"], ["数据", "shùjù", "data"]]},
+    "add-one": {"end": "。", "t": [["加", "jiā", "add"], ["一", "yī", "one"]]},
+    "sort-list": {"end": "。", "t": [["排序", "páixù", "sort"], ["列表", "lièbiǎo", "list"]]},
+    "run-program": {"end": "。", "t": [["运行", "yùnxíng", "run"], ["程序", "chéngxù", "program"]]},
   },
 };

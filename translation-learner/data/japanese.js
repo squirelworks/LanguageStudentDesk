@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/japanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/japanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Japanese column of the meaning matrix. Written for this project. Tokens are
 // [text, kana reading, meaning id]; romaji is made from the kana. Japanese
 // usually leaves "I" and "you" to context: those go under implied.
@@ -95,5 +95,19 @@ window.TL_LANGS.japanese = {
     "officer-sees-child": {"end": "。", "t": [["将校", "しょうこう", "officer"], ["は", "は", "@topic"], ["子供", "こども", "child"], ["を", "を", "@object"], ["見ます", "みます", "see"]]},
     "captain-sees-ship": {"end": "。", "t": [["船長", "せんちょう", "captain"], ["は", "は", "@topic"], ["船", "ふね", "ship"], ["を", "を", "@object"], ["見ます", "みます", "see"]]},
     "i-see-ship": {"end": "。", "implied": ["i"], "t": [["船", "ふね", "ship"], ["が", "が", "@subject"], ["見えます", "みえます", "see"]]},
+    "print-word": {"end": "。", "t": [["単語", "たんご", "word"], ["を", "を", "@object"], ["表示する", "ひょうじする", "print"]]},
+    "show-number": {"end": "。", "t": [["数", "かず", "number"], ["を", "を", "@object"], ["表示する", "ひょうじする", "print"]]},
+    "print-screen": {"end": "。", "t": [["画面", "がめん", "screen"], ["に", "に", "@place"], ["単語", "たんご", "word"], ["を", "を", "@object"], ["表示する", "ひょうじする", "print"]]},
+    "start-loop": {"end": "。", "t": [["ループ", "ループ", "loop"], ["を", "を", "@object"], ["始める", "はじめる", "start"]]},
+    "end-loop": {"end": "。", "t": [["ループ", "ループ", "loop"], ["を", "を", "@object"], ["終える", "おえる", "end"]]},
+    "repeat-three": {"end": "。", "t": [["三", "さん", "three"], ["回", "かい", "times"], ["繰り返す", "くりかえす", "repeat"]]},
+    "count-to-ten": {"end": "。", "t": [["一", "いち", "one"], ["から", "から", "from"], ["十", "じゅう", "ten"], ["まで", "まで", "@until"], ["数える", "かぞえる", "count"]]},
+    "set-value": {"end": "。", "t": [["値", "あたい", "value"], ["を", "を", "@object"], ["設定する", "せっていする", "set"]]},
+    "create-variable": {"end": "。", "t": [["変数", "へんすう", "variable"], ["を", "を", "@object"], ["作る", "つくる", "create"]]},
+    "return-value": {"end": "。", "t": [["値", "あたい", "value"], ["を", "を", "@object"], ["返す", "かえす", "return"]]},
+    "load-data": {"end": "。", "t": [["データ", "データ", "data"], ["を", "を", "@object"], ["読み込む", "よみこむ", "load"]]},
+    "add-one": {"end": "。", "t": [["一", "いち", "one"], ["を", "を", "@object"], ["足す", "たす", "add"]]},
+    "sort-list": {"end": "。", "t": [["リスト", "リスト", "list"], ["を", "を", "@object"], ["並べ替える", "ならべかえる", "sort"]]},
+    "run-program": {"end": "。", "t": [["プログラム", "プログラム", "program"], ["を", "を", "@object"], ["実行する", "じっこうする", "run"]]},
   },
 };

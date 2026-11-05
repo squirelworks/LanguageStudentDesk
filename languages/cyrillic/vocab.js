@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 languages/cyrillic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data d5e05a4 languages/cyrillic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Cyrillic, romanization with the stressed vowel marked, English,
 // note]. Written for this project.
 // Frequency tags come from wordfreq (CC BY-SA 4.0).

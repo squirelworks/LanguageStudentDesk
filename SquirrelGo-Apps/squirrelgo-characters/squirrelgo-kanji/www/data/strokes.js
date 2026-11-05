@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 strokes/kanji.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 strokes/kanji.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for SquirrelGo Kanji, derived from KanjiVG
 // (https://kanjivg.tagaini.net), Copyright (C) 2009-2024 Ulrich Apel, licensed
 // under CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/).

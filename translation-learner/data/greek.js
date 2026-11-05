@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/greek.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/greek.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Modern Greek column of the meaning matrix. Written for this project. Tokens
 // are [text, romanization, meaning id]. Verb endings mark the person, so "I"
 // and "you" are often implied. The Greek question mark is ";". Sources: forms
@@ -51,5 +51,19 @@ window.TL_LANGS.greek = {
     "where-going": {"end": ";", "implied": ["you"], "t": [["Πού", "poú", "where"], ["πας", "pas", "go"]]},
     "i-sleep": {"end": ".", "implied": ["i"], "t": [["Κοιμάμαι", "kimáme", "sleep"]]},
     "child-sleeps": {"end": ".", "t": [["Το", "to", "@the"], ["παιδί", "pedí", "child"], ["κοιμάται", "kimáte", "sleep"]]},
+    "print-word": {"end": ".", "t": [["Εμφάνισε", "emfánise", "print"], ["τη", "ti", "@the"], ["λέξη", "léxi", "word"]]},
+    "show-number": {"end": ".", "t": [["Εμφάνισε", "emfánise", "print"], ["τον", "ton", "@the"], ["αριθμό", "arithmó", "number"]]},
+    "print-screen": {"end": ".", "t": [["Εμφάνισε", "emfánise", "print"], ["τη", "ti", "@the"], ["λέξη", "léxi", "word"], ["στην", "stin", "@place+@the"], ["οθόνη", "othóni", "screen"]]},
+    "start-loop": {"end": ".", "t": [["Ξεκίνα", "xekína", "start"], ["έναν", "énan", "@one"], ["βρόχο", "vrócho", "loop"]]},
+    "end-loop": {"end": ".", "t": [["Τερμάτισε", "termátise", "end"], ["τον", "ton", "@the"], ["βρόχο", "vrócho", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["Επανάλαβε", "epanálave", "repeat"], ["τρεις", "tris", "three"], ["φορές", "forés", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["Μέτρησε", "métrise", "count"], ["από", "apó", "from"], ["το", "to", "@the"], ["ένα", "éna", "one"], ["μέχρι", "méchri", "@until"], ["το", "to", "@the"], ["δέκα", "déka", "ten"]]},
+    "set-value": {"end": ".", "t": [["Όρισε", "órise", "set"], ["την", "tin", "@the"], ["τιμή", "timí", "value"]]},
+    "create-variable": {"end": ".", "t": [["Δημιούργησε", "dimiúrgise", "create"], ["μια", "mia", "@one"], ["μεταβλητή", "metavlití", "variable"]]},
+    "return-value": {"end": ".", "t": [["Επίστρεψε", "epístrepse", "return"], ["την", "tin", "@the"], ["τιμή", "timí", "value"]]},
+    "load-data": {"end": ".", "t": [["Φόρτωσε", "fórtose", "load"], ["τα", "ta", "@the"], ["δεδομένα", "dedoména", "data"]]},
+    "add-one": {"end": ".", "t": [["Πρόσθεσε", "prósthese", "add"], ["ένα", "éna", "one"]]},
+    "sort-list": {"end": ".", "t": [["Ταξινόμησε", "taxinómise", "sort"], ["τη", "ti", "@the"], ["λίστα", "lísta", "list"]]},
+    "run-program": {"end": ".", "t": [["Εκτέλεσε", "ektélese", "run"], ["το", "to", "@the"], ["πρόγραμμα", "prógramma", "program"]]},
   },
 };

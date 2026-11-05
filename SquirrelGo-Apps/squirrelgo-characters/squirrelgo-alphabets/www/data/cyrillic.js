@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/cyrillic.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/cyrillic.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Cyrillic (as used for Russian) for SquirrelGo Alphabets. Hints, groupings and
 // articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

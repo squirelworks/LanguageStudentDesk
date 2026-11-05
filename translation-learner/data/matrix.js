@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // The meaning matrix: TL_MEANINGS (id -> English that may carry it, "|"
 // between alternatives; "(label)" first for grammar), TL_PACK_TITLES,
 // TL_SENTENCES (the rows) and TL_PHRASINGS.
@@ -8,6 +8,7 @@ window.TL_MEANINGS = {
   "you": "you|your|yours",
   "he": "he|him|his|she|her",
   "we": "we|us|our",
+  "they": "they|them|their|theirs",
   "child": "child|kid",
   "friend": "friend",
   "student": "student|pupil",
@@ -121,6 +122,36 @@ window.TL_MEANINGS = {
   "hello": "hello|hi|what do you want",
   "success": "success|good luck",
   "nice-to-meet-you": "nice to meet you|pleased to meet you|how do you do",
+  // Doing
+  "print": "print|show|display",
+  "start": "start|begin",
+  "end": "end|stop|finish",
+  "repeat": "repeat",
+  "count": "count",
+  "set": "set|assign",
+  "create": "create|make",
+  "return": "return",
+  "load": "load",
+  "add": "add|increment",
+  "sort": "sort",
+  "run": "run|execute",
+  // Code
+  "loop": "loop",
+  "value": "value",
+  "variable": "variable",
+  "data": "data",
+  "list": "list",
+  "program": "program",
+  "screen": "screen|console",
+  // Things
+  "word": "word",
+  "number": "number",
+  // Little words
+  "times": "times",
+  // Numbers
+  "one": "one",
+  "three": "three",
+  "ten": "ten",
   // Grammar
   "@topic": "(topic marker)as for",
   "@subject": "(subject marker)",
@@ -144,6 +175,20 @@ window.TL_MEANINGS = {
   "@possession": "(possession: 'by me')",
   "@language": "(language)language",
   "@command": "(command)",
+  "@until": "(until (the end of a range))to|until|till",
+  "@nominative": "(nominative case: the subject)",
+  "@genitive": "(genitive case: of)",
+  "@dative": "(dative case: to, for)",
+  "@accusative": "(accusative case: the object)",
+  "@ablative": "(ablative case: by, with, from, in)",
+  "@vocative": "(vocative case: calling someone)",
+  "@plural": "(plural)",
+  "@masculine": "(masculine gender)",
+  "@feminine": "(feminine gender)",
+  "@neuter": "(neuter gender)",
+  "@first-person": "(first person: I, we)",
+  "@second-person": "(second person: you)",
+  "@third-person": "(third person: he, she, it, they)",
 };
 
 window.TL_PACK_TITLES = {
@@ -151,6 +196,7 @@ window.TL_PACK_TITLES = {
   "daily": "Everyday life",
   "travel": "Getting around",
   "actions": "Who does what",
+  "code": "Explaining code",
 };
 
 window.TL_SENTENCES = [
@@ -243,6 +289,20 @@ window.TL_SENTENCES = [
   {"id": "officer-sees-child", "pack": "actions", "en": "The officer sees the child.", "m": ["officer", "see", "child"]},
   {"id": "captain-sees-ship", "pack": "actions", "en": "The captain sees the ship.", "m": ["captain", "see", "ship"]},
   {"id": "i-see-ship", "pack": "actions", "en": "I see the ship.", "m": ["i", "see", "ship"]},
+  {"id": "print-word", "pack": "code", "en": "Print the word.", "m": ["print", "word"], "also": ["Show the word."]},
+  {"id": "show-number", "pack": "code", "en": "Show the number.", "m": ["print", "number"], "also": ["Print the number."]},
+  {"id": "print-screen", "pack": "code", "en": "Print the word on the screen.", "m": ["print", "word", "screen"]},
+  {"id": "start-loop", "pack": "code", "en": "Start a loop.", "m": ["start", "loop"], "also": ["Begin a loop."]},
+  {"id": "end-loop", "pack": "code", "en": "End the loop.", "m": ["end", "loop"]},
+  {"id": "repeat-three", "pack": "code", "en": "Repeat three times.", "m": ["repeat", "three", "times"]},
+  {"id": "count-to-ten", "pack": "code", "en": "Count from one to ten.", "m": ["count", "from", "one", "ten"]},
+  {"id": "set-value", "pack": "code", "en": "Set the value.", "m": ["set", "value"]},
+  {"id": "create-variable", "pack": "code", "en": "Create a variable.", "m": ["create", "variable"], "also": ["Make a variable."]},
+  {"id": "return-value", "pack": "code", "en": "Return the value.", "m": ["return", "value"]},
+  {"id": "load-data", "pack": "code", "en": "Load the data.", "m": ["load", "data"]},
+  {"id": "add-one", "pack": "code", "en": "Add one.", "m": ["add", "one"]},
+  {"id": "sort-list", "pack": "code", "en": "Sort the list.", "m": ["sort", "list"]},
+  {"id": "run-program", "pack": "code", "en": "Run the program.", "m": ["run", "program"], "also": ["Execute the program."]},
 ];
 
 window.TL_PHRASINGS = [

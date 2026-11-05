@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/hindi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/hindi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Hindi column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id].
 window.TL_LANGS = window.TL_LANGS || {};
@@ -25,5 +25,19 @@ window.TL_LANGS.hindi = {
     "going-home": {"end": "।", "t": [["मैं", "main", "i"], ["घर", "ghar", "home"], ["जा", "jā", "go"], ["रहा", "rahā", "@ongoing"], ["हूँ", "hūn", "@copula"]]},
     "give-water": {"end": "।", "t": [["मुझे", "mujhe", "i"], ["पानी", "pānī", "water"], ["दीजिए", "dījie", "give+please"]]},
     "lets-go": {"end": "।", "t": [["चलो", "chalo", "let-us+go"]]},
+    "print-word": {"end": "।", "t": [["शब्द", "shabd", "word"], ["प्रिंट करें", "print karen", "print"]]},
+    "show-number": {"end": "।", "t": [["संख्या", "sankhyā", "number"], ["दिखाएँ", "dikhāen", "print"]]},
+    "print-screen": {"end": "।", "t": [["स्क्रीन", "skrīn", "screen"], ["पर", "par", "@place"], ["शब्द", "shabd", "word"], ["प्रिंट करें", "print karen", "print"]]},
+    "start-loop": {"end": "।", "t": [["लूप", "lūp", "loop"], ["शुरू करें", "shurū karen", "start"]]},
+    "end-loop": {"end": "।", "t": [["लूप", "lūp", "loop"], ["समाप्त करें", "samāpt karen", "end"]]},
+    "repeat-three": {"end": "।", "t": [["तीन", "tīn", "three"], ["बार", "bār", "times"], ["दोहराएँ", "dohrāen", "repeat"]]},
+    "count-to-ten": {"end": "।", "t": [["एक", "ek", "one"], ["से", "se", "from"], ["दस", "das", "ten"], ["तक", "tak", "@until"], ["गिनें", "ginen", "count"]]},
+    "set-value": {"end": "।", "t": [["मान", "mān", "value"], ["सेट करें", "set karen", "set"]]},
+    "create-variable": {"end": "।", "t": [["एक", "ek", "@one"], ["चर", "char", "variable"], ["बनाएँ", "banāen", "create"]]},
+    "return-value": {"end": "।", "t": [["मान", "mān", "value"], ["लौटाएँ", "lautāen", "return"]]},
+    "load-data": {"end": "।", "t": [["डेटा", "detā", "data"], ["लोड करें", "lod karen", "load"]]},
+    "add-one": {"end": "।", "t": [["एक", "ek", "one"], ["जोड़ें", "joren", "add"]]},
+    "sort-list": {"end": "।", "t": [["सूची", "sūchī", "list"], ["क्रमबद्ध करें", "kramabaddh karen", "sort"]]},
+    "run-program": {"end": "।", "t": [["प्रोग्राम", "progrām", "program"], ["चलाएँ", "chalāen", "run"]]},
   },
 };
