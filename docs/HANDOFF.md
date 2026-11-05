@@ -18,7 +18,7 @@ and in the handoff bundle the owner hands over.
 | Repo | `main` | Latest published release | Open PRs | Open issues |
 |---|---|---|---|---|
 | squirelworks/LanguageStudentDesk (LSD, the platform home) | `2227486` (#307) | **squirrelgo-v0.1.2** (2026-11-04) | none | #188–#201 roadmap, #281, #284 |
-| squirelworks/squirrel-lang-data (all language content) | `12afcf4` (#94) | **v0.1.3** (`b6912a0`) | Latin grammar #95 (may have merged by Saturday) | #56 |
+| squirelworks/squirrel-lang-data (all language content) | `18ea0aa` (#98) | **v0.1.3** (`b6912a0`) | none | #56 |
 | squirelworks/squirrelator (translator engine + apps) | `453b6ae` (#38) | **v0.1.0** | none | #25, #26 |
 
 - **Data pins:** LSD and squirrelator both pin `data/` to `b6912a0`, the
@@ -132,11 +132,11 @@ and in the handoff bundle the owner hands over.
 
 ---
 
-## 3. In flight (Claude threads still running until Saturday)
+## 3. Recently finished, and what's still running
 
-### "Add grammar lessons for every language"
+### "Add grammar lessons for every language" (finished 2026-11-05)
 
-Target: **72 lessons per language**, one language per PR, in squirrel-lang-data.
+Target was **72 lessons per language** (24 for Tibetan and Klingon), one language per PR, in squirrel-lang-data. Every PR is merged on data `main`; none of it is tagged yet (it ships in v0.1.4).
 
 - [x] Chinese (#66), Japanese 73 (#68), French (#69), German (#70), Italian (#71),
       Russian/cyrillic (#72), Greek (#73), Arabic (#74), Hindi (#75), Bengali (#76),
@@ -145,16 +145,15 @@ Target: **72 lessons per language**, one language per PR, in squirrel-lang-data.
       Burmese (#87), Khmer (#88), Lao (#89), Mongolian (#90), Georgian (#91),
       Armenian (#92), Amharic (#94); Korean/hangul and Taiwanese were already at 72
 - [x] Level labels that disagreed with the CEFR estimate fixed (#93)
-- [ ] Latin to 72 (#95, open at time of writing)
-- [ ] Tibetan 6 → 24 (written locally, ships after #95 merges)
-- [ ] Klingon 10 → 24 (written locally; keep the file's generate/table lessons and `drillData`)
+- [x] Latin to 72 (#95, merged 2026-11-05)
+- [x] Tibetan 6 → 24 (#97)
+- [x] Klingon 10 → 24 (#98; keeps the file's generate/table lessons and `drillData`)
 - **Deliberately not touched:** Aramaic (5), Cherokee (12), Inuktitut (12),
   Manipuri (6), Tamazight (12). Every lesson there is source-cited; adding more
   needs real published sources ("accuracy over volume, no invented forms").
   English has no grammar course on purpose (it's the base language).
 
-If the thread hasn't shipped Tibetan and Klingon by Saturday, the branches or
-local commits may be lost with the thread; redo them from the rules below.
+All of it is merged. Use the rules below for any future grammar PR.
 
 Rules for a grammar PR (from the thread):
 
@@ -198,8 +197,8 @@ following `MERGE_GUIDELINES.md` and the rules in section 6.
 ## 4. On hold (needs Squirrel before anyone acts)
 
 - [ ] **Data v0.1.4 tag.** Everything since v0.1.3 is on data `main` and in
-      `release-notes/v0.1.4.md` (Draft). Waits for the grammar thread to finish
-      and for Squirrel to say "release". Then: remove "Draft." from the notes,
+      `release-notes/v0.1.4.md` (Draft). The grammar expansion is finished, so it
+      only waits for Squirrel to say "release". Then: remove "Draft." from the notes,
       run **Draft release**, Squirrel publishes.
 - [ ] **Pin bumps to v0.1.4** in LSD and squirrelator: one PR each,
       "Bump squirrel-lang-data to v0.1.4 (<sha>)", with the `data-pin` label in
@@ -227,8 +226,7 @@ following `MERGE_GUIDELINES.md` and the rules in section 6.
 
 ## 5. Suggested next work, in order
 
-1. [ ] Let the grammar thread's last PRs land (Latin #95, Tibetan, Klingon), or
-       finish them yourself from the rules in section 3.
+1. [x] The grammar expansion is finished (Latin #95, Tibetan #97, Klingon #98).
 2. [ ] Ask Squirrel to release data v0.1.4, then bump the pins (section 4).
 3. [ ] Ask Squirrel about SquirrelGo v0.1.3 and squirrelator v0.1.1.
 4. [ ] squirrelator: switch the code-explanation templates to the code pack's

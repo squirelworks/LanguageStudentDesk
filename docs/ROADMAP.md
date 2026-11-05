@@ -43,7 +43,7 @@ The plan for growing LanguageStudentDesk, the SquirrelGo apps and the Student De
 ### Phase 2: Vocabulary and grammar
 
 - [ ] #190 Expand vocabulary by level from cited sources. *JLPT, NIKL, CC-CEDICT and wordfreq imports with level and frequency tags are in; 22 languages still untagged.*
-- [ ] #191 Plan grammar lessons by level for every language. *72-lesson courses for 29 languages, levelled A1 to C1; Latin, Tibetan and Klingon in progress.*
+- [ ] #191 Plan grammar lessons by level for every language. *72-lesson courses for 30 languages and 24-lesson courses for Tibetan and Klingon, levelled A1 to C1, all on data `main` for v0.1.4; the source-limited languages wait for published sources.*
 
 ### Phase 3: References and resources
 
@@ -439,7 +439,7 @@ Grammar courses live in [squirrel-lang-data](https://github.com/squirelworks/squ
 - [x] Level systems for the big languages: Chinese HSK (data #21), Korean TOPIK (data #19), CEFR for French, German, Italian, Greek and Russian (data #30), with quoted level cards (data #18, #20, #22).
 - [x] Every grammar section has the level selector used for Taiwanese and Korean. (#217)
 - [x] Level labels agree with the CEFR estimate. (data #93)
-- [ ] Every language has a full course, **72 lessons, A1 to C1**, one language per data PR:
+- [x] Every language with good sources has a full course, **72 lessons, A1 to C1** (24 for Tibetan and Klingon), one language per data PR:
   - [x] Amharic (data #94)
   - [x] Arabic (data #74)
   - [x] Armenian (data #92)
@@ -469,9 +469,10 @@ Grammar courses live in [squirrel-lang-data](https://github.com/squirelworks/squ
   - [x] Tamil (data #79)
   - [x] Telugu (data #80)
   - [x] Thai (data #78)
-  - [ ] Latin, 12 → 72 (data #95, open)
-  - [ ] Tibetan, 6 → 24
-  - [ ] Klingon, 10 → 24 (keep the generate/table lessons and `drillData`)
+  - [x] Latin (data #95)
+  - [x] Tibetan, 6 → 24 (data #97)
+  - [x] Klingon, 10 → 24 (data #98)
+- [ ] Ship the new courses to the apps: data v0.1.4 tag, then the pin bumps here and in squirrelator (needs the owner's "release").
 - [ ] Source-limited languages, only from published grammars, cited in the file, never invented forms:
   - [ ] Aramaic (5 lessons, 6 planned)
   - [ ] Cherokee (12)
