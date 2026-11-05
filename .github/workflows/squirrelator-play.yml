@@ -1,0 +1,201 @@
+name: squirrelator Play testing
+
+# squirrelator's phone app (com.squirelworks.squirrelator) on Google Play.
+# It runs here, not in the squirrelator repo, so it uses this repo's Play
+# service account and upload key secrets, like squirrelgo-play.yml.
+#
+# - Every hour it looks at squirrelator's latest published release. If Play
+#   doesn't have that version yet, it builds the AAB from the release tag,
+#   signs it with the upload key, sends it to internal testing, and sets the
+#   store listing from that tag. Nothing happens when Play is up to date.
+# - By hand (Actions -> squirrelator Play testing -> Run workflow):
+#   upload (a tag again), promote (internal testing to closed testing, no new
+#   build), listing (text and graphics only), or check (secrets and access).
+# The AAB never leaves the runner: no artifact, no release asset, no commit.
+# See docs/PLAY.md, "squirrelator".
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "upload: build the tag, send it to internal testing. promote: internal -> closed testing. listing: store listing only. check: secrets and access only."
+        required: true
+        default: upload
+        type: choice
+        options: [upload, promote, listing, check]
+      tag:
+        description: "squirrelator release tag, e.g. v0.1.1 (blank = the latest release; for listing, blank = main)"
+        required: false
+      status:
+        description: "auto rolls out to testers (a draft while the app has never been published); draft always waits in Play Console"
+        required: false
+        default: auto
+        type: choice
+        options: [auto, completed, draft]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: squirrelator-play
+  cancel-in-progress: false
+
+env:
+  PACKAGE: com.squirelworks.squirrelator
+  SQUIRRELATOR: squirelworks/squirrelator
+  # The first version with the phone app on Play. Older releases are skipped.
+  FIRST_PLAY_VERSION: "0.1.1"
+  INTERNAL_TRACK: ${{ vars.SQUIRRELATOR_INTERNAL_TRACK || 'internal' }}
+  CLOSED_TRACK: ${{ vars.SQUIRRELATOR_CLOSED_TRACK || vars.PLAY_TRACK || 'alpha' }}
+  ACTION: ${{ inputs.action || 'upload' }}
+  STATUS: ${{ inputs.status || 'auto' }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: desk
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Play tools
+        env:
+          HAS_PLAY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          [ "$HAS_PLAY" = true ] || { echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is missing; see docs/PLAY.md"; exit 1; }
+          python -m pip install -q google-api-python-client google-auth
+          echo "PLAY=python desk/.github/scripts/squirrelator_play.py" >> "$GITHUB_ENV"
+
+      - name: Check access
+        if: env.ACTION == 'check'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          [ -n "$KEYSTORE_B64" ] || { echo "::error::UPLOAD_KEYSTORE_BASE64 is missing"; exit 1; }
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          trap 'rm -f "$RUNNER_TEMP/upload.keystore"' EXIT
+          keytool -list -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$STORE_PW" -alias "$KEY_ALIAS" > /dev/null \
+            || { echo "::error::the store password or alias is wrong"; exit 1; }
+          echo "upload key: OK"
+          $PLAY check "$PACKAGE"
+
+      # Which release, and whether Play needs it.
+      - name: Pick the release
+        id: pick
+        if: env.ACTION != 'check'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          TAG_IN: ${{ inputs.tag }}
+        run: |
+          TAG="$TAG_IN"
+          if [ -z "$TAG" ] && [ "$ACTION" = listing ]; then
+            echo "ref=main" >> "$GITHUB_OUTPUT"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          [ -n "$TAG" ] || TAG=$(gh api "repos/$SQUIRRELATOR/releases/latest" --jq .tag_name)
+          echo "$TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || { echo "::error::'$TAG' isn't a version tag like v0.1.1"; exit 1; }
+          V=${TAG#v}
+          if [ "$(printf '%s\n%s\n' "$FIRST_PLAY_VERSION" "$V" | sort -V | head -1)" != "$FIRST_PLAY_VERSION" ]; then
+            echo "$TAG is older than v$FIRST_PLAY_VERSION, the first Play version; nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # The same rule as squirrelator's native/android/build.gradle.kts.
+          CODE=$(echo "$V" | awk -F. '{print $1*10000 + $2*100 + $3}')
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"; echo "ref=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$V" >> "$GITHUB_OUTPUT"; echo "code=$CODE" >> "$GITHUB_OUTPUT"
+          if [ "$ACTION" = upload ] && [ "${{ github.event_name }}" = schedule ]; then
+            # Hourly: only when Play doesn't have this version yet.
+            if $PLAY has --package "$PACKAGE" --version-code "$CODE"; then
+              echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+          fi
+          echo "go=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: env.ACTION != 'check' && steps.pick.outputs.go == 'true'
+        with:
+          repository: ${{ env.SQUIRRELATOR }}
+          ref: ${{ steps.pick.outputs.ref }}
+          path: squirrelator
+          submodules: ${{ env.ACTION == 'upload' && 'recursive' || 'false' }}
+
+      - name: The tag's version is the app's version
+        if: env.ACTION == 'upload' && steps.pick.outputs.go == 'true'
+        run: |
+          V=$(python3 -c "import tomllib;print(tomllib.load(open('squirrelator/pyproject.toml','rb'))['project']['version'])")
+          [ "$V" = "${{ steps.pick.outputs.version }}" ] || { echo "::error::pyproject.toml at ${{ steps.pick.outputs.tag }} says $V"; exit 1; }
+          [ -f squirrelator/native/android/src/main/play/icon.png ] \
+            || { echo "::error::${{ steps.pick.outputs.tag }} has no Play listing in native/android/src/main/play/"; exit 1; }
+      - uses: actions/setup-java@v4
+        if: env.ACTION == 'upload' && steps.pick.outputs.go == 'true'
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        if: env.ACTION == 'upload' && steps.pick.outputs.go == 'true'
+        with:
+          gradle-version: "8.14.3"
+      - name: Build the signed AAB
+        if: env.ACTION == 'upload' && steps.pick.outputs.go == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        working-directory: squirrelator/native
+        run: |
+          [ -n "$KEYSTORE_B64" ] || { echo "::error::UPLOAD_KEYSTORE_BASE64 is missing; Play refuses debug-signed bundles"; exit 1; }
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          export UPLOAD_STORE_FILE="$RUNNER_TEMP/upload.keystore"
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          gradle --no-daemon :android:bundleRelease
+          AAB="$PWD/android/build/outputs/bundle/release/android-release.aab"
+          if keytool -printcert -jarfile "$AAB" | grep -q "CN=Android Debug"; then
+            echo "::error::the AAB is debug-signed; check the UPLOAD_* secrets"; exit 1
+          fi
+          echo "AAB=$AAB" >> "$GITHUB_ENV"
+          # Play shows this as the release name: the app's own name and version.
+          LABEL=$(grep -o '<string name="app_name">[^<]*' android/src/main/res/values/strings.xml | sed 's/.*>//')
+          echo "RELEASE_NAME=${LABEL:-squirrelator} ${{ steps.pick.outputs.version }}" >> "$GITHUB_ENV"
+          TAG=${{ steps.pick.outputs.tag }}
+          if [ -f "../release-notes/$TAG.md" ]; then
+            # Plain text for Play: drop headings, links and tables.
+            sed -E -e '/^\|/d' -e 's/^#+ *//' -e 's/\[([^]]*)\]\([^)]*\)/\1/g' -e 's/[*`]//g' "../release-notes/$TAG.md" \
+              | grep -v '^\s*$' | head -c 500 > "$RUNNER_TEMP/notes.txt"
+          else
+            echo "squirrelator $TAG" > "$RUNNER_TEMP/notes.txt"
+          fi
+      - name: Send to internal testing
+        if: env.ACTION == 'upload' && steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          $PLAY upload --package "$PACKAGE" --aab "$AAB" --track "$INTERNAL_TRACK" --status "$STATUS" \
+            --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
+
+      - name: Store listing
+        if: (env.ACTION == 'upload' || env.ACTION == 'listing') && steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: $PLAY listing --package "$PACKAGE" --dir squirrelator/native/android/src/main/play
+
+      - name: Promote internal testing to closed testing
+        if: env.ACTION == 'promote' && steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          $PLAY promote --package "$PACKAGE" --from-track "$INTERNAL_TRACK" --track "$CLOSED_TRACK" \
+            --version-code "${{ steps.pick.outputs.code }}" --status "$STATUS"
+
+      - name: Remove the key and the AAB
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.keystore" "${AAB:-/nonexistent}"

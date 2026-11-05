@@ -95,6 +95,38 @@ others).
 | SquirrelGo Japanese-English Dictionary | `com.squirelworks.squirrelgodictionary` |
 | SquirrelGo Orthodox Bible | `com.squirelworks.squirrelgoorthodoxbible` |
 | SquirrelGo Phrasebook | `com.squirelworks.squirrelgophrasebook` |
+| squirrelator | `com.squirelworks.squirrelator` (its own workflow, below) |
+
+## squirrelator
+
+squirrelator's phone app lives in the squirrelator repo but goes to Play from
+here, through **squirrelator Play testing** (`squirrelator-play.yml`), so it
+uses the same service account and upload key secrets as the apps above.
+Nothing needs setting up in the squirrelator repo.
+
+- **Every hour** the workflow looks at squirrelator's latest published
+  release. If Play doesn't have that version yet, it builds the AAB from the
+  release tag, signs it with the upload key, sends it to **internal
+  testing**, and sets the store listing (title, descriptions, icon, feature
+  graphic, phone screenshots) from that tag's
+  `native/android/src/main/play/`. When Play is up to date it does nothing.
+- The version comes from squirrelator's `pyproject.toml`: versionCode is
+  `major × 10000 + minor × 100 + patch` (0.1.1 is 101), and Play shows the
+  release as **squirrelator 0.1.1**.
+- **By hand** (Actions → squirrelator Play testing → Run workflow):
+  - **promote** moves a tag's build from internal testing to **closed
+    testing** (`alpha`, or the `PLAY_TRACK` variable) without building again;
+  - **upload** sends a tag again;
+  - **listing** sets only the store listing (blank tag = squirrelator's main);
+  - **check** tests the upload key and that the service account can see the
+    app.
+- **First upload:** while the app has never been published, Play takes a
+  release only as a draft, so the first one arrives as a draft. Open Play
+  Console → **Test and release → Testing → Internal testing**, edit the
+  draft, and press **Start rollout**. Later releases roll out by themselves.
+- Setting the store listing needs the service account's **Manage store
+  presence** permission for squirrelator, on top of the two release
+  permissions above.
 
 ## When it fails
 
