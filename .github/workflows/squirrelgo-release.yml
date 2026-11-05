@@ -132,6 +132,12 @@ jobs:
           VC=$(grep -m1 -E '^\s*versionCode' app/build.gradle | grep -oE '[0-9]+')
           PKG=$(grep -m1 -E '^\s*applicationId' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
           echo "| ${{ matrix.name }} | $PKG | $VN | $VC |" > "$RUNNER_TEMP/apk/${{ matrix.name }}.row"
+          # The release shows each APK as its app's name and version
+          # ("SquirrelGo Kana 1.1.10"); the file name stays the same so
+          # releases/latest/download/<name>.apk links keep working.
+          APP=$(grep -m1 -oE '<string name="app_name">[^<]+' app/src/main/res/values/strings.xml | sed 's/.*>//')
+          [ -n "$APP" ] || { echo "no app_name in strings.xml"; exit 1; }
+          echo "$APP $VN" > "$RUNNER_TEMP/apk/${{ matrix.name }}.label"
       - name: Remove the signing key
         if: always()
         run: rm -f "$RUNNER_TEMP/apk.keystore"
@@ -190,13 +196,23 @@ jobs:
             echo "The Linux, Windows and macOS Desk builds and the Orthodox Bible content packs are attached when this release is published."
           } > notes.md
           rm -f dist/*.row
+      - name: Label each APK with its app and version
+        run: |
+          : > assets.txt
+          for apk in dist/*.apk; do
+            echo "$apk#$(cat "${apk%.apk}.label")" >> assets.txt
+          done
+          echo dist/SHA256SUMS.txt >> assets.txt
+          rm -f dist/*.label
+          cat assets.txt
       - name: Make or refresh the draft release
         run: |
           TITLE="SquirrelGo $VERSION"
+          mapfile -t ASSETS < assets.txt
           if gh release view "$VERSION" >/dev/null 2>&1; then
             gh release edit "$VERSION" --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
-            gh release upload "$VERSION" dist/* --clobber
+            gh release upload "$VERSION" "${ASSETS[@]}" --clobber
           else
-            gh release create "$VERSION" dist/* --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
+            gh release create "$VERSION" "${ASSETS[@]}" --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
           fi
           gh release view "$VERSION" --json url -q .url
