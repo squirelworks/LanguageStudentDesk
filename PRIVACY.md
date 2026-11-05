@@ -14,10 +14,13 @@ SquirrelWorks publishes the Android apps named below. This policy covers all of 
 - SquirrelGo Orthodox Bible (`com.squirelworks.squirrelgoorthodoxbible`)
 - SquirrelGo Phrasebook (`com.squirelworks.squirrelgophrasebook`)
 - SquirrelGo Japanese-English Dictionary (`com.squirelworks.squirrelgodictionary`)
+- squirrelator (`com.squirelworks.squirrelator`)
 
 ## What the apps do
 
 These are offline study apps. Lessons, texts, dictionary entries, and phrase packs are stored in the app and shown in a WebView. There is no SquirrelWorks account, no sign-in, no advertising, no analytics SDK, and no cloud sync of your progress.
+
+squirrelator is an offline translator. The text you type is translated on the device by a rule-based engine built into the app. It is not sent to an online translator, an AI service, or SquirrelWorks.
 
 ## Data SquirrelWorks collects
 
@@ -27,11 +30,13 @@ SquirrelWorks does not collect personal information from these apps. The apps do
 
 Study progress, quiz scores, favorites, bookmarks, highlights, notes, tags, history, and similar state are stored on the device (WebView local storage). Extra Bible or commentary packs that you choose to download in SquirrelGo Orthodox Bible are stored on the device (IndexedDB). That data stays on the device. SquirrelWorks does not receive it.
 
+squirrelator unpacks the language data it ships with into its own app storage the first time it starts. The text you type and its translation are kept only while the app is open. squirrelator does not save them, keep a history, or share them with other apps.
+
 If Android backup is turned on for the device, the system may include an app's local data in the backup of your own Google account. That backup is performed by Android. It is not sent to SquirrelWorks.
 
 ## Network
 
-Programming Student Desk, Language Student Desk, SquirrelGo Alphabets, SquirrelGo Bopomofo, SquirrelGo Kana, SquirrelGo Kanji, SquirrelGo Klingon, SquirrelGo Phrasebook, and SquirrelGo Japanese-English Dictionary do not declare the `INTERNET` permission. They do not download content themselves.
+Programming Student Desk, Language Student Desk, SquirrelGo Alphabets, SquirrelGo Bopomofo, SquirrelGo Kana, SquirrelGo Kanji, SquirrelGo Klingon, SquirrelGo Phrasebook, SquirrelGo Japanese-English Dictionary, and squirrelator do not declare the `INTERNET` permission. They do not download content themselves.
 
 Language Student Desk and Programming Student Desk can hand an `https` link to your browser (for example a resource page). SquirrelGo Alphabets, Bopomofo, Kana, Kanji, Klingon, Phrasebook, Dictionary, and Orthodox Bible can do the same from the suite sheet (for example a reference page or a related download). The browser loads that page. The app does not receive the page contents.
 
