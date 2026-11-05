@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/armenian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/armenian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Eastern Armenian column of the meaning matrix. Written for this project.
 // Tokens are [text, romanization, meaning id]. The romanization matches
 // languages/armenian (ë is the short “uh”; an apostrophe marks an aspirate).
@@ -51,5 +51,19 @@ window.TL_LANGS.armenian = {
     "going-home": {"end": "։", "t": [["Ես", "yes", "i"], ["տուն", "tun", "home"], ["եմ", "em", "@copula"], ["գնում", "gnum", "go"]]},
     "we-going-home": {"end": "։", "t": [["Մենք", "menk'", "we"], ["տուն", "tun", "home"], ["ենք", "enk'", "@copula"], ["գնում", "gnum", "go"]]},
     "where-going": {"end": "։", "implied": ["you"], "t": [["Որտե՞ղ", "vortegh", "where"], ["ես", "es", "@copula"], ["գնում", "gnum", "go"]]},
+    "print-word": {"end": "։", "t": [["Տպիր", "tpir", "print"], ["բառը", "barë", "word"]]},
+    "show-number": {"end": "։", "t": [["Ցույց տուր", "ts'uyts' tur", "print"], ["թիվը", "t'ivë", "number"]]},
+    "print-screen": {"end": "։", "t": [["Տպիր", "tpir", "print"], ["բառը", "barë", "word"], ["էկրանին", "ekranin", "screen+@place"]]},
+    "start-loop": {"end": "։", "t": [["Սկսիր", "sksir", "start"], ["ցիկլը", "ts'iklë", "loop"]]},
+    "end-loop": {"end": "։", "t": [["Ավարտիր", "avartir", "end"], ["ցիկլը", "ts'iklë", "loop"]]},
+    "repeat-three": {"end": "։", "t": [["Կրկնիր", "krknir", "repeat"], ["երեք", "yerek'", "three"], ["անգամ", "angam", "times"]]},
+    "count-to-ten": {"end": "։", "t": [["Հաշվիր", "hashvir", "count"], ["մեկից", "mekits'", "one+from"], ["մինչև", "minchev", "@until"], ["տասը", "tasë", "ten"]]},
+    "set-value": {"end": "։", "t": [["Սահմանիր", "sahmanir", "set"], ["արժեքը", "arzhek'ë", "value"]]},
+    "create-variable": {"end": "։", "t": [["Ստեղծիր", "steghtsir", "create"], ["փոփոխական", "p'op'okhakan", "variable"]]},
+    "return-value": {"end": "։", "t": [["Վերադարձրու", "veradardzru", "return"], ["արժեքը", "arzhek'ë", "value"]]},
+    "load-data": {"end": "։", "t": [["Բեռնիր", "bernir", "load"], ["տվյալները", "tvyalnerë", "data"]]},
+    "add-one": {"end": "։", "t": [["Ավելացրու", "avelats'ru", "add"], ["մեկ", "mek", "one"]]},
+    "sort-list": {"end": "։", "t": [["Դասավորիր", "dasavorir", "sort"], ["ցուցակը", "ts'uts'akë", "list"]]},
+    "run-program": {"end": "։", "t": [["Գործարկիր", "gortsarkir", "run"], ["ծրագիրը", "tsragirë", "program"]]},
   },
 };

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/thai.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/thai.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Thai column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Thai is written without spaces between
 // words (sep: ""), so tokens glue together in the written sentence. The
@@ -51,5 +51,19 @@ window.TL_LANGS.thai = {
     "going-home": {"end": ".", "t": [["ผม", "phom", "i"], ["ไป", "pai", "go"], ["บ้าน", "ban", "home"]]},
     "we-going-home": {"end": ".", "t": [["เรา", "rao", "we"], ["ไป", "pai", "go"], ["บ้าน", "ban", "home"]]},
     "where-going": {"end": "?", "t": [["คุณ", "khun", "you"], ["ไป", "pai", "go"], ["ที่ไหน", "thi nai", "where"]]},
+    "print-word": {"end": ".", "t": [["แสดง", "sadaeng", "print"], ["คำ", "kham", "word"]]},
+    "show-number": {"end": ".", "t": [["แสดง", "sadaeng", "print"], ["ตัวเลข", "tualek", "number"]]},
+    "print-screen": {"end": ".", "t": [["แสดง", "sadaeng", "print"], ["คำ", "kham", "word"], ["บน", "bon", "@place"], ["หน้าจอ", "nacho", "screen"]]},
+    "start-loop": {"end": ".", "t": [["เริ่ม", "roem", "start"], ["ลูป", "lup", "loop"]]},
+    "end-loop": {"end": ".", "t": [["จบ", "chop", "end"], ["ลูป", "lup", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["ทำซ้ำ", "tham sam", "repeat"], ["สาม", "sam", "three"], ["ครั้ง", "khrang", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["นับ", "nap", "count"], ["จาก", "chak", "from"], ["หนึ่ง", "nueng", "one"], ["ถึง", "thueng", "@until"], ["สิบ", "sip", "ten"]]},
+    "set-value": {"end": ".", "t": [["กำหนด", "kamnot", "set"], ["ค่า", "kha", "value"]]},
+    "create-variable": {"end": ".", "t": [["สร้าง", "sang", "create"], ["ตัวแปร", "tuaprae", "variable"]]},
+    "return-value": {"end": ".", "t": [["คืน", "khuen", "return"], ["ค่า", "kha", "value"]]},
+    "load-data": {"end": ".", "t": [["โหลด", "lot", "load"], ["ข้อมูล", "khomun", "data"]]},
+    "add-one": {"end": ".", "t": [["บวก", "buak", "add"], ["หนึ่ง", "nueng", "one"]]},
+    "sort-list": {"end": ".", "t": [["เรียงลำดับ", "riang lamdap", "sort"], ["รายการ", "raikan", "list"]]},
+    "run-program": {"end": ".", "t": [["รัน", "ran", "run"], ["โปรแกรม", "prokraem", "program"]]},
   },
 };

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/latin.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/latin.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Latin column of the meaning matrix. Written for this project. Tokens are
 // [text, "", meaning id]: the text is Classical Latin with macrons, so there is
 // no separate reading. Verb endings carry the person, so "I" and "you" are
@@ -46,5 +46,19 @@ window.TL_LANGS.latin = {
     "we-fight": {"end": ".", "implied": ["we"], "t": [["Pugnāmus", "", "fight"]]},
     "sleep-command": {"end": "!", "t": [["Dormī", "", "sleep"]]},
     "child-sleeps": {"end": ".", "t": [["Puer", "", "child"], ["dormit", "", "sleep"]]},
+    "print-word": {"end": ".", "t": [["Verbum", "", "word"], ["ostende", "", "print"]]},
+    "show-number": {"end": ".", "t": [["Numerum", "", "number"], ["ostende", "", "print"]]},
+    "print-screen": {"end": ".", "t": [["In", "", "@place"], ["tabulā", "", "screen"], ["verbum", "", "word"], ["ostende", "", "print"]]},
+    "start-loop": {"end": ".", "t": [["Orbem", "", "loop"], ["incipe", "", "start"]]},
+    "end-loop": {"end": ".", "t": [["Orbem", "", "loop"], ["fīnī", "", "end"]]},
+    "repeat-three": {"end": ".", "t": [["Ter", "", "three+times"], ["repete", "", "repeat"]]},
+    "count-to-ten": {"end": ".", "t": [["Ab", "", "from"], ["ūnō", "", "one"], ["ad", "", "@until"], ["decem", "", "ten"], ["numerā", "", "count"]]},
+    "set-value": {"end": ".", "t": [["Valōrem", "", "value"], ["pōne", "", "set"]]},
+    "create-variable": {"end": ".", "t": [["Variābilem", "", "variable"], ["creā", "", "create"]]},
+    "return-value": {"end": ".", "t": [["Valōrem", "", "value"], ["redde", "", "return"]]},
+    "load-data": {"end": ".", "t": [["Data", "", "data"], ["onerā", "", "load"]]},
+    "add-one": {"end": ".", "t": [["Ūnum", "", "one"], ["adde", "", "add"]]},
+    "sort-list": {"end": ".", "t": [["Indicem", "", "list"], ["ōrdinā", "", "sort"]]},
+    "run-program": {"end": ".", "t": [["Programma", "", "program"], ["exsequere", "", "run"]]},
   },
 };

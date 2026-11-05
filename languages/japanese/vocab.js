@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data d5e05a4 languages/japanese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Japanese, romaji, English, note]. Written for this project.
 // Words are written the usual way; the note gives the kana reading of words
 // with kanji.

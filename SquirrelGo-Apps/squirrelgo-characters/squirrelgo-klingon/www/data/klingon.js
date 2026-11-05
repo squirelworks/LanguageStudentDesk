@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/klingon.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/klingon.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // pIqaD letters, numerals, example words and articles for SquirrelGo Klingon.
 // Glyphs use the ConScript Unicode Registry private-use code points
 // (U+F8D0-F8FF). Lesson groupings, sound descriptions and articles are

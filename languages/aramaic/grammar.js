@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 languages/aramaic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data d5e05a4 languages/aramaic/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Biblical Aramaic first grammar for the Grammar Learner. Written for this project.
 // Examples are [Aramaic, transliteration, English]; {braces} mark the point of the lesson. Example sentences are quoted from Daniel and Ezra (public domain) with our own translations; references are in the English.
 // Aramaic is written without vowel points, in the square script it shares with Hebrew. Transliteration is simplified: kh is the throaty sound in Bach.

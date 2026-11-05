@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 languages/aramaic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data d5e05a4 languages/aramaic/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Aramaic, transliteration, English, note]. Written for this
 // project from the Aramaic of Daniel and Ezra (Biblical Aramaic). Words are
 // written without vowel points, in the square script Aramaic shares with

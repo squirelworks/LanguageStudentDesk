@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 strokes/khmer.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 strokes/khmer.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Khmer, drafted by SquirrelGo-Apps/tools/strokegen from Noto
 // Sans Khmer (SIL Open Font License) and checked by hand. Paths sit in a 100 x
 // 100 box; see www/js/strokes.js.

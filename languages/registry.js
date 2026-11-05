@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
+// Generated from squirrel-lang-data d5e05a4 languages/*/meta.json by: python3 data/tools/gen_registry.py --out languages
 // Do not edit; change the data repo and run it again.
 window.LSD_LANGUAGE_REGISTRY = {
   "amharic": {
@@ -212,7 +212,8 @@ window.LSD_LANGUAGE_REGISTRY = {
     "markers": {
       "default": "before",
       "@possessive": "after"
-    }
+    },
+    "order": "SVO"
   },
   "french": {
     "id": "french",
@@ -518,7 +519,8 @@ window.LSD_LANGUAGE_REGISTRY = {
     },
     "markers": {
       "default": "after"
-    }
+    },
+    "order": "OVS"
   },
   "lao": {
     "id": "lao",
@@ -559,7 +561,17 @@ window.LSD_LANGUAGE_REGISTRY = {
     },
     "markers": {
       "default": "before"
-    }
+    },
+    "cases": {
+      "@subject": "@nominative",
+      "@object": "@accusative",
+      "@possessive": "@genitive",
+      "@place": "@ablative",
+      "@direction": "@accusative",
+      "@until": "@accusative",
+      "from": "@ablative"
+    },
+    "order": "SOV"
   },
   "malayalam": {
     "id": "malayalam",

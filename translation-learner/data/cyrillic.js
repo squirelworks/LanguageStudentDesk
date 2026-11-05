@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/cyrillic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/cyrillic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Russian column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id].
 window.TL_LANGS = window.TL_LANGS || {};
@@ -25,5 +25,19 @@ window.TL_LANGS.cyrillic = {
     "live-moscow": {"end": ".", "t": [["Я", "ya", "i"], ["живу", "zhivu", "live"], ["в", "v", "@place"], ["Москве", "Moskve", "moscow"]]},
     "we-going-home": {"end": ".", "t": [["Мы", "my", "we"], ["идём", "idyom", "go"], ["домой", "domoy", "home"]]},
     "bill-please": {"end": ".", "t": [["Счёт", "schyot", "bill"], ["пожалуйста", "pozhaluysta", "please"]]},
+    "print-word": {"end": ".", "t": [["Вывести", "vyvesti", "print"], ["слово", "slovo", "word"]]},
+    "show-number": {"end": ".", "t": [["Показать", "pokazat'", "print"], ["число", "chislo", "number"]]},
+    "print-screen": {"end": ".", "t": [["Вывести", "vyvesti", "print"], ["слово", "slovo", "word"], ["на", "na", "@direction"], ["экран", "ekran", "screen"]]},
+    "start-loop": {"end": ".", "t": [["Начать", "nachat'", "start"], ["цикл", "tsikl", "loop"]]},
+    "end-loop": {"end": ".", "t": [["Завершить", "zavershit'", "end"], ["цикл", "tsikl", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["Повторить", "povtorit'", "repeat"], ["три", "tri", "three"], ["раза", "raza", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["Посчитать", "poschitat'", "count"], ["от", "ot", "from"], ["одного", "odnogo", "one"], ["до", "do", "@until"], ["десяти", "desyati", "ten"]]},
+    "set-value": {"end": ".", "t": [["Задать", "zadat'", "set"], ["значение", "znacheniye", "value"]]},
+    "create-variable": {"end": ".", "t": [["Создать", "sozdat'", "create"], ["переменную", "peremennuyu", "variable"]]},
+    "return-value": {"end": ".", "t": [["Вернуть", "vernut'", "return"], ["значение", "znacheniye", "value"]]},
+    "load-data": {"end": ".", "t": [["Загрузить", "zagruzit'", "load"], ["данные", "dannyye", "data"]]},
+    "add-one": {"end": ".", "t": [["Прибавить", "pribavit'", "add"], ["единицу", "yedinitsu", "one"]]},
+    "sort-list": {"end": ".", "t": [["Отсортировать", "otsortirovat'", "sort"], ["список", "spisok", "list"]]},
+    "run-program": {"end": ".", "t": [["Запустить", "zapustit'", "run"], ["программу", "programmu", "program"]]},
   },
 };

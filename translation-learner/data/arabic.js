@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/arabic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/arabic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Arabic (Modern Standard) column of the meaning matrix. Written for this
 // project. Tokens are [text, romanization, meaning id]. The article ال is its
 // own token, romanized by the sun-letter rule (as-sayyāra, al-bayt). Verbs
@@ -27,5 +27,19 @@ window.TL_LANGS.arabic = {
     "where-hotel": {"end": "؟", "t": [["أين", "ayna", "where"], ["ال-", "al", "@the"], ["فندق", "funduq", "hotel"]]},
     "how-much-this": {"end": "؟", "t": [["بكم", "bikam", "how-much"], ["هذا", "hādhā", "this"]]},
     "live-cairo": {"end": ".", "implied": ["i"], "t": [["أسكن", "askun", "live"], ["في", "fī", "@place"], ["القاهرة", "al-Qāhira", "cairo"]]},
+    "print-word": {"end": ".", "t": [["اطبع", "iṭbaʿ", "print"], ["ال-", "al", "@the"], ["كلمة", "kalima", "word"]]},
+    "show-number": {"end": ".", "t": [["اعرض", "iʿriḍ", "print"], ["ال-", "ar", "@the"], ["رقم", "raqm", "number"]]},
+    "print-screen": {"end": ".", "t": [["اطبع", "iṭbaʿ", "print"], ["ال-", "al", "@the"], ["كلمة", "kalima", "word"], ["على", "ʿalā", "@place"], ["ال-", "ash", "@the"], ["شاشة", "shāsha", "screen"]]},
+    "start-loop": {"end": ".", "t": [["ابدأ", "ibdaʾ", "start"], ["حلقة", "ḥalqa", "loop"]]},
+    "end-loop": {"end": ".", "t": [["أنهِ", "anhi", "end"], ["ال-", "al", "@the"], ["حلقة", "ḥalqa", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["كرّر", "karrir", "repeat"], ["ثلاث", "thalāth", "three"], ["مرات", "marrāt", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["عُدّ", "ʿudda", "count"], ["من", "min", "from"], ["واحد", "wāḥid", "one"], ["إلى", "ilā", "@until"], ["عشرة", "ʿashara", "ten"]]},
+    "set-value": {"end": ".", "t": [["عيّن", "ʿayyin", "set"], ["ال-", "al", "@the"], ["قيمة", "qīma", "value"]]},
+    "create-variable": {"end": ".", "t": [["أنشئ", "anshiʾ", "create"], ["متغيرًا", "mutaghayyiran", "variable"]]},
+    "return-value": {"end": ".", "t": [["أرجع", "arjiʿ", "return"], ["ال-", "al", "@the"], ["قيمة", "qīma", "value"]]},
+    "load-data": {"end": ".", "t": [["حمّل", "ḥammil", "load"], ["ال-", "al", "@the"], ["بيانات", "bayānāt", "data"]]},
+    "add-one": {"end": ".", "t": [["أضف", "aḍif", "add"], ["واحدًا", "wāḥidan", "one"]]},
+    "sort-list": {"end": ".", "t": [["رتّب", "rattib", "sort"], ["ال-", "al", "@the"], ["قائمة", "qāʾima", "list"]]},
+    "run-program": {"end": ".", "t": [["شغّل", "shaghghil", "run"], ["ال-", "al", "@the"], ["برنامج", "barnāmaj", "program"]]},
   },
 };

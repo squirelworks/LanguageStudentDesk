@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/bengali.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/bengali.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Bengali column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/bengali (o for the inherent vowel; ch, th, kh for
@@ -46,5 +46,19 @@ window.TL_LANGS.bengali = {
     "going-home": {"end": "।", "t": [["আমি", "ami", "i"], ["বাড়ি", "bari", "home"], ["যাই", "jai", "go"]]},
     "we-going-home": {"end": "।", "t": [["আমরা", "amra", "we"], ["বাড়ি", "bari", "home"], ["যাই", "jai", "go"]]},
     "where-going": {"end": "?", "t": [["তুমি", "tumi", "you"], ["কোথায়", "kothay", "where"], ["যাচ্ছ", "jachchho", "go"]]},
+    "print-word": {"end": "।", "t": [["শব্দটি", "shobdoti", "word"], ["প্রিন্ট করুন", "print korun", "print"]]},
+    "show-number": {"end": "।", "t": [["সংখ্যাটি", "shongkhati", "number"], ["দেখান", "dekhan", "print"]]},
+    "print-screen": {"end": "।", "t": [["স্ক্রিনে", "skrine", "screen+@place"], ["শব্দটি", "shobdoti", "word"], ["প্রিন্ট করুন", "print korun", "print"]]},
+    "start-loop": {"end": "।", "t": [["লুপ", "lup", "loop"], ["শুরু করুন", "shuru korun", "start"]]},
+    "end-loop": {"end": "।", "t": [["লুপ", "lup", "loop"], ["শেষ করুন", "shesh korun", "end"]]},
+    "repeat-three": {"end": "।", "t": [["তিন", "tin", "three"], ["বার", "bar", "times"], ["পুনরাবৃত্তি করুন", "punorabritti korun", "repeat"]]},
+    "count-to-ten": {"end": "।", "t": [["এক", "ek", "one"], ["থেকে", "theke", "from"], ["দশ", "dosh", "ten"], ["পর্যন্ত", "porjonto", "@until"], ["গুনুন", "gunun", "count"]]},
+    "set-value": {"end": "।", "t": [["মান", "man", "value"], ["নির্ধারণ করুন", "nirdharon korun", "set"]]},
+    "create-variable": {"end": "।", "t": [["একটি", "ekti", "@one"], ["চলক", "cholok", "variable"], ["তৈরি করুন", "toiri korun", "create"]]},
+    "return-value": {"end": "।", "t": [["মান", "man", "value"], ["ফেরত দিন", "pherot din", "return"]]},
+    "load-data": {"end": "।", "t": [["ডেটা", "deta", "data"], ["লোড করুন", "lod korun", "load"]]},
+    "add-one": {"end": "।", "t": [["এক", "ek", "one"], ["যোগ করুন", "jog korun", "add"]]},
+    "sort-list": {"end": "।", "t": [["তালিকাটি", "talikati", "list"], ["সাজান", "sajan", "sort"]]},
+    "run-program": {"end": "।", "t": [["প্রোগ্রাম", "program", "program"], ["চালান", "chalan", "run"]]},
   },
 };

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/ethiopic.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/ethiopic.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Ge'ez script (fidel) as used for Amharic, for SquirrelGo Alphabets.
 // Romanization uses ä for the first-order vowel and ə for the sixth; an
 // apostrophe marks an ejective. Hints, groupings and articles are original.

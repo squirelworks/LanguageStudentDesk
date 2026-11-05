@@ -15,5 +15,6 @@
   "markers": {
     "default": "before",
     "@possessive": "after"
-  }
+  },
+  "order": "SVO"
 }

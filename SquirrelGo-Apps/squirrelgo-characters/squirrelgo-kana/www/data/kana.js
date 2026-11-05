@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/hiragana.json and alphabets/katakana.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/hiragana.json and alphabets/katakana.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Hiragana and katakana lessons for SquirrelGo Kana. null leaves an empty cell
 // in the chart. Lessons in the same group share a chart. All hints, example
 // choices and articles are original to this project.
@@ -100,7 +100,7 @@ window.SG_SCRIPTS.push({
     },
     {
       "title": "Y row",
-      "note": "Only three sounds. The gaps are where yi and ye would be.",
+      "note": "Only three sounds. Japanese has no yi, and its old ye sound merged with e over a thousand years ago, so both cells stay empty.",
       "group": "Basic hiragana",
       "chars": [
         ["や", "ya", "y + a", "やま", "yama", "mountain"],
@@ -124,7 +124,7 @@ window.SG_SCRIPTS.push({
     },
     {
       "title": "W row and ん",
-      "note": "を is used only as the object particle. ん is the one kana with no vowel.",
+      "note": "を is used only as the object particle. ん is the one kana with no vowel. The empty cells once held ゐ and ゑ, which modern spelling no longer uses: see Historical kana.",
       "group": "Basic hiragana",
       "chars": [
         ["わ", "wa", "w + a", "わたし", "watashi", "I, me"],
@@ -222,6 +222,16 @@ window.SG_SCRIPTS.push({
         ["ぴゅ", "pyu", "one beat", "ぴゅう", "pyū", "whoosh"],
         ["ぴょ", "pyo", "one beat", "ぴょんぴょん", "pyonpyon", "hopping"]
       ]
+    },
+    {
+      "title": "Historical: ゐ and ゑ",
+      "note": "Kana that modern spelling dropped in 1946. You will still meet them in old books, names and shop signs, but you never need to write them. Both are said like い and え today.",
+      "group": "Historical kana",
+      "cols": 2,
+      "chars": [
+        ["ゐ", "wi", "historical; said i today, like い", "ゐど", "ido", "a well (old spelling of いど)"],
+        ["ゑ", "we", "historical; said e today, like え", "こゑ", "koe", "voice (old spelling of こえ)"]
+      ]
     }
   ],
   "articles": [
@@ -284,6 +294,10 @@ window.SG_SCRIPTS.push({
     {
       "title": "Punctuation and vertical writing",
       "body": "<p>Japanese punctuation is full width, one square like a kana:</p>\n<table>\n<tr><td lang=\"ja\">。</td><td>full stop (maru)</td></tr>\n<tr><td lang=\"ja\">、</td><td>comma (ten)</td></tr>\n<tr><td lang=\"ja\">「 」</td><td>quotation marks (kagi-kakko)</td></tr>\n<tr><td lang=\"ja\">・</td><td>middle dot, between foreign names: <span lang=\"ja\">ジョン・スミス</span></td></tr>\n<tr><td lang=\"ja\">〜</td><td>wave dash, for ranges: <span lang=\"ja\">3〜5</span></td></tr>\n</table>\n<p>Books, newspapers and manga are often written vertically: columns run top to bottom, and the columns go from right to left. Small kana sit in the upper right of their square, and the long-vowel bar turns vertical. The shapes of the kana do not change.</p>"
+    },
+    {
+      "title": "ゐ, ゑ and the missing ye",
+      "body": "<p>The W row once had five kana. Two of them, <span lang=\"ja\">ゐ</span> (wi) and <span lang=\"ja\">ゑ</span> (we), lost their w sound by about the 1200s and came to sound just like <span lang=\"ja\">い</span> and <span lang=\"ja\">え</span>. Writers kept spelling the old way for centuries, until the 1946 spelling reform replaced them with <span lang=\"ja\">い</span> and <span lang=\"ja\">え</span>. The same reform kept <span lang=\"ja\">を</span>, but only for the particle.</p>\n<table>\n<tr><td lang=\"ja\">ゐ ヰ</td><td>wi, now said i. Hiragana from 為, katakana from 井</td></tr>\n<tr><td lang=\"ja\">ゑ ヱ</td><td>we, now said e. Both from 恵</td></tr>\n</table>\n<p>Old spellings you may see: <span lang=\"ja\">ゐど</span> ido (well), <span lang=\"ja\">こゑ</span> koe (voice), <span lang=\"ja\">ゐる</span> iru (to be), and the katakana on bottles of <span lang=\"ja\">ウヰスキー</span> and <span lang=\"ja\">ヱビス</span>. Read them as if they were い and え.</p>\n<h3>What about ye?</h3>\n<p>Japanese did once have a separate ye sound. Eighth-century texts keep e and ye apart, but the two had merged before the end of the 900s, before hiragana settled into its standard set. So there has never been a standard kana for ye. Some Meiji-era textbooks made up shapes to fill the gap in the chart, and Unicode encodes them as archaic letters, but most fonts can't show them and no one writes with them.</p>\n<p>The merged sound was said ye for a long time afterwards, which is why old Western books write Yedo for Edo. Today a ye sound in a foreign word is written <span lang=\"ja\">イェ</span>.</p>"
     }
   ]
 });
@@ -383,7 +397,7 @@ window.SG_SCRIPTS.push({
     },
     {
       "title": "Y row",
-      "note": "ヤ, ユ and ヨ: ユ is a box with an open left side, ヨ has three bars.",
+      "note": "ヤ, ユ and ヨ: ユ is a box with an open left side, ヨ has three bars. Japanese has no yi or ye kana; loanwords spell ye as イェ.",
       "group": "Basic katakana",
       "chars": [
         ["ヤ", "ya", "y + a", "タイヤ", "taiya", "tire"],
@@ -407,7 +421,7 @@ window.SG_SCRIPTS.push({
     },
     {
       "title": "W row and ン",
-      "note": "ヲ is almost never used in modern writing. ン and ソ look alike: see the look-alikes article.",
+      "note": "ヲ is almost never used in modern writing. ン and ソ look alike: see the look-alikes article. The empty cells once held ヰ and ヱ: see Historical kana.",
       "group": "Basic katakana",
       "chars": [
         ["ワ", "wa", "w + a", "ワイン", "wain", "wine"],
@@ -511,6 +525,16 @@ window.SG_SCRIPTS.push({
         ["ジェ", "je", "je as in jet", "ジェット", "jetto", "jet"],
         ["チェ", "che", "che as in check", "チェック", "chekku", "check"],
         ["イェ", "ye", "ye as in yes", "", "", ""]
+      ]
+    },
+    {
+      "title": "Historical: ヰ and ヱ",
+      "note": "Kana that modern spelling dropped in 1946. You will still meet them in old books, names and shop signs, but you never need to write them. Both are said like イ and エ today.",
+      "group": "Historical kana",
+      "cols": 2,
+      "chars": [
+        ["ヰ", "wi", "historical; said i today, like イ", "ウヰスキー", "uisukī", "whisky (old spelling, still on some labels)"],
+        ["ヱ", "we", "historical; said e today, like エ", "ヱビス", "ebisu", "Ebisu, god of luck (old spelling, still on some labels)"]
       ]
     }
   ],

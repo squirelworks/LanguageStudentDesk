@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/khmer.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/khmer.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Khmer alphabet for SquirrelGo Alphabets. A consonant's romanization is
 // its name: ka for the first series (built-in vowel aa), ko for the second
 // (built-in vowel oo). Example romanizations are a simplified UNGEGN style.

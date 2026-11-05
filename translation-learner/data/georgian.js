@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/georgian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/georgian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Georgian column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the national
 // system in languages/georgian (apostrophe marks an ejective). Verb prefixes
@@ -52,5 +52,19 @@ window.TL_LANGS.georgian = {
     "going-home": {"end": ".", "implied": ["i"], "t": [["სახლი", "sakhli", "home"], ["-ში", "shi", "@direction"], ["მივდივარ", "mivdivar", "go"]]},
     "we-going-home": {"end": ".", "t": [["ჩვენ", "chven", "we"], ["სახლი", "sakhli", "home"], ["-ში", "shi", "@direction"], ["მივდივართ", "mivdivart", "go"]]},
     "where-going": {"end": "?", "implied": ["you"], "t": [["სად", "sad", "where"], ["მიდიხართ", "midikhart", "go"]]},
+    "print-word": {"end": ".", "t": [["დაბეჭდე", "dabech'de", "print"], ["სიტყვა", "sit'q'va", "word"]]},
+    "show-number": {"end": ".", "t": [["აჩვენე", "achvene", "print"], ["რიცხვი", "ritskhvi", "number"]]},
+    "print-screen": {"end": ".", "t": [["დაბეჭდე", "dabech'de", "print"], ["სიტყვა", "sit'q'va", "word"], ["ეკრან", "ek'ran", "screen"], ["-ზე", "ze", "@place"]]},
+    "start-loop": {"end": ".", "t": [["დაიწყე", "daits'q'e", "start"], ["ციკლი", "tsik'li", "loop"]]},
+    "end-loop": {"end": ".", "t": [["დაასრულე", "daasrule", "end"], ["ციკლი", "tsik'li", "loop"]]},
+    "repeat-three": {"end": ".", "t": [["გაიმეორე", "gaimeore", "repeat"], ["სამ", "sam", "three"], ["-ჯერ", "jer", "times"]]},
+    "count-to-ten": {"end": ".", "t": [["დათვალე", "datvale", "count"], ["ერთი", "erti", "one"], ["-დან", "dan", "from"], ["ათ", "at", "ten"], ["-ამდე", "amde", "@until"]]},
+    "set-value": {"end": ".", "t": [["მიანიჭე", "mianich'e", "set"], ["მნიშვნელობა", "mnishvneloba", "value"]]},
+    "create-variable": {"end": ".", "t": [["შექმენი", "shekmeni", "create"], ["ცვლადი", "tsvladi", "variable"]]},
+    "return-value": {"end": ".", "t": [["დააბრუნე", "daabrune", "return"], ["მნიშვნელობა", "mnishvneloba", "value"]]},
+    "load-data": {"end": ".", "t": [["ჩატვირთე", "chat'virte", "load"], ["მონაცემები", "monatsemebi", "data"]]},
+    "add-one": {"end": ".", "t": [["დაუმატე", "daumat'e", "add"], ["ერთი", "erti", "one"]]},
+    "sort-list": {"end": ".", "t": [["დაალაგე", "daalage", "sort"], ["სია", "sia", "list"]]},
+    "run-program": {"end": ".", "t": [["გაუშვი", "gaushvi", "run"], ["პროგრამა", "p'rograma", "program"]]},
   },
 };

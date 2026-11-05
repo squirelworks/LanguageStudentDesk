@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/burmese.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/burmese.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Burmese (Myanmar) script for SquirrelGo Alphabets. Romanization is a
 // simplified common style (hs for the breathy s, ht and hp for aspirates, th
 // for θ). Each consonant's hint gives its traditional name. eSpeak NG reads

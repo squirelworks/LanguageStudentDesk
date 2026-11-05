@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 alphabets/tifinagh.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data d5e05a4 alphabets/tifinagh.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Neo-Tifinagh for SquirrelGo Alphabets, in the IRCAM standard used for Amazigh
 // (Berber) in Morocco. Romanization is the usual Latin spelling of Amazigh (ɣ
 // for the gargled r, ɛ for the throat sound). eSpeak NG has no Amazigh voice,

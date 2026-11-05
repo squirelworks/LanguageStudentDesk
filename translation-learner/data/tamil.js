@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data b6912a0 meaning/columns/tamil.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data d5e05a4 meaning/columns/tamil.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Tamil column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/tamil (no diacritics; zh for ழ). Sources: forms match
@@ -49,5 +49,19 @@ window.TL_LANGS.tamil = {
     "going-home": {"end": ".", "t": [["நான்", "naan", "i"], ["வீட்டு", "veettu", "home"], ["-க்கு", "kku", "@direction"], ["போகிறேன்", "pogiren", "go"]]},
     "we-going-home": {"end": ".", "t": [["நாங்கள்", "naangal", "we"], ["வீட்டு", "veettu", "home"], ["-க்கு", "kku", "@direction"], ["போகிறோம்", "pogirom", "go"]]},
     "where-going": {"end": "?", "t": [["நீங்கள்", "neengal", "you"], ["எங்கே", "enge", "where"], ["போகிறீர்கள்", "pogireergal", "go"]]},
+    "print-word": {"end": ".", "t": [["சொல்லை", "sollai", "word"], ["அச்சிடவும்", "achchidavum", "print"]]},
+    "show-number": {"end": ".", "t": [["எண்ணைக்", "ennaik", "number"], ["காட்டவும்", "kaattavum", "print"]]},
+    "print-screen": {"end": ".", "t": [["திரையில்", "thiraiyil", "screen+@place"], ["சொல்லை", "sollai", "word"], ["அச்சிடவும்", "achchidavum", "print"]]},
+    "start-loop": {"end": ".", "t": [["சுழற்சியைத்", "suzhatchiyaith", "loop"], ["தொடங்கவும்", "thodangavum", "start"]]},
+    "end-loop": {"end": ".", "t": [["சுழற்சியை", "suzhatchiyai", "loop"], ["முடிக்கவும்", "mudikkavum", "end"]]},
+    "repeat-three": {"end": ".", "t": [["மூன்று", "moondru", "three"], ["முறை", "murai", "times"], ["மீண்டும் செய்யவும்", "meendum seyyavum", "repeat"]]},
+    "count-to-ten": {"end": ".", "t": [["ஒன்று", "ondru", "one"], ["முதல்", "mudhal", "from"], ["பத்து", "paththu", "ten"], ["வரை", "varai", "@until"], ["எண்ணவும்", "ennavum", "count"]]},
+    "set-value": {"end": ".", "t": [["மதிப்பை", "mathippai", "value"], ["அமைக்கவும்", "amaikkavum", "set"]]},
+    "create-variable": {"end": ".", "t": [["ஒரு", "oru", "@one"], ["மாறியை", "maariyai", "variable"], ["உருவாக்கவும்", "uruvaakkavum", "create"]]},
+    "return-value": {"end": ".", "t": [["மதிப்பைத்", "mathippaith", "value"], ["திருப்பி அனுப்பவும்", "thiruppi anuppavum", "return"]]},
+    "load-data": {"end": ".", "t": [["தரவை", "tharavai", "data"], ["ஏற்றவும்", "etravum", "load"]]},
+    "add-one": {"end": ".", "t": [["ஒன்றைச்", "ondraich", "one"], ["சேர்க்கவும்", "serkkavum", "add"]]},
+    "sort-list": {"end": ".", "t": [["பட்டியலை", "pattiyalai", "list"], ["வரிசைப்படுத்தவும்", "varisaippaduththavum", "sort"]]},
+    "run-program": {"end": ".", "t": [["நிரலை", "niralai", "program"], ["இயக்கவும்", "iyakkavum", "run"]]},
   },
 };
