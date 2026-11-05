@@ -123,8 +123,14 @@ result = translate("print hello", from_lang="english", to_lang="python")
 
 ## Shared language data
 
-See [languages/](languages/) for the Desk data layer: 36 languages with `meta.json`, loaded by the learners through `lsd-lang.js`. The language menu is sorted by English name. Most ship grammar (6 lessons / ~30 drills; Japanese 17/71, Klingon 10/26), vocab decks and reference cards; Cherokee, Inuktitut and Manipuri still lack grammar packs, and English is the base language (reference only). Shared CJK characters live in `languages/cjk/`. Run `python3 languages/build_registry.py` after changing anything under `languages/`.
+All language content (meta, grammar, vocabulary, reference cards, character tables, strokes, script courses and the meaning matrix) lives in [squirrel-lang-data](https://github.com/squirelworks/squirrel-lang-data), pulled in as the `data/` submodule and pinned to one of its tagged releases. Clone with `git clone --recursive`, or run `git submodule update --init` after cloning. The files under [languages/](languages/) and the character apps' data are generated from it: run `python3 languages/build_registry.py` after the pin moves, and commit the output. To change content, open a PR in squirrel-lang-data; moving the pin here is its own PR with the `data-pin` label.
+
+## Roadmap and handoff
+
+- [docs/ROADMAP.md](docs/ROADMAP.md): a copy of the roadmap issues (#199 and its children). The issues are the source of truth; tick their checkboxes as PRs merge.
+- [docs/HANDOFF.md](docs/HANDOFF.md): what changed recently, what's in flight and what's on hold.
+- [docs/RELEASE_PLAN.md](docs/RELEASE_PLAN.md) and [docs/RELEASES.md](docs/RELEASES.md): the next release and the release rules.
 
 ## Expanding LSD
 
-See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo, and [LSD-EXPANSION-NEXT.md](LSD-EXPANSION-NEXT.md) for the next round.
+See [LSD-EXPANSION.md](LSD-EXPANSION.md) for the recursive expansion laundry list (doctrine, priority waves, seams, don’ts) for agents growing Desk + SquirrelGo, and [LSD-EXPANSION-NEXT.md](LSD-EXPANSION-NEXT.md) for the next round. Where they disagree with the roadmap issues, the issues win.
