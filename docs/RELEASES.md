@@ -141,9 +141,12 @@ anything else.
   and are never committed or printed in logs.
 - The Play upload key for the AABs is stored as GitHub Actions secrets
   (`UPLOAD_KEYSTORE_BASE64`, `UPLOAD_STORE_PASSWORD`, `UPLOAD_KEY_ALIAS`,
-  `UPLOAD_KEY_PASSWORD`). Only `squirrelgo-play.yml` reads them. This was the
-  user's decision on Nov 4, 2026, so that releases reach Play closed testing
-  without a manual upload. The user plans to rotate the key later. The key is
+  `UPLOAD_KEY_PASSWORD`). Only `squirrelgo-play.yml` and
+  `squirrelator-play.yml` read them. This was the user's decision on Nov 4,
+  2026, so that releases reach Play closed testing without a manual upload;
+  on Nov 5 the user extended it to squirrelator's phone app ("use the secrets
+  you already have"), which `squirrelator-play.yml` builds from a published
+  squirrelator release tag only, never from a branch or PR. The user plans to rotate the key later. The key is
   never committed, printed in logs or put in an artifact, and the APK workflows
   use a separate APK signing key (`APK_*` secrets). The Play service account's
   JSON key is the `PLAY_SERVICE_ACCOUNT_JSON` secret, under the same rules.
