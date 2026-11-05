@@ -17,7 +17,10 @@ the language list comes from the shared registry in `languages/`.
 When an English answer misses a meaning but uses a word the **meaning network** places right next to it
 ("The boy sleeps" for *Qong puq*, the child sleeps), that word counts as **close**: never a pass, and
 worth 50% of an exact word at the close line, rising to 90% for a word right next to the meaning. The
-result says how much credit each close word earned.
+result says how much credit each close word earned. Things, places, names, languages and days
+(`data/exact.js`) take no close credit: "dinner" is near *lunch* in the network but names a different
+meal, so "I eat dinner at a restaurant" is shown as close and scores like any other wrong word (50%, the
+same as "train" for *bus*).
 
 A **misspelt** word ("I am a studnet") still carries its meaning, and the result points out the spelling.
 One wrong, missing, extra or swapped letter is allowed in a word of 4 to 7 letters, two from 8 letters.
@@ -42,6 +45,7 @@ Progress is kept in the browser (`localStorage`, key `lsd-translation-v1`).
 | `net.js` | Reads the meaning network's vectors and compares them |
 | `data/vocab-links.js` | `TL_VOCAB_LINKS`: which meanings each Vocabulary Learner card carries, by language and `<deck>/<word>` (generated from `meaning/vocab-links/` in squirrel-lang-data) |
 | `data/network.js` | The trained meaning network (generated) |
+| `data/exact.js` | `TL_EXACT`: things, places, names, languages and days a close word cannot stand in for (written for the Desk; `check.js` checks each id) |
 | `data/wordbank/<lang>.js` | Each word bank with what the network knows of it (generated) |
 | `tools/build_network.py` | Fetches the word banks and ConceptNet links, and trains the network |
 | `tools/gloss_dictionaries.py` | Writes `tools/glosses/japanese.tsv` and `chinese.tsv` from JMdict and CC-CEDICT |

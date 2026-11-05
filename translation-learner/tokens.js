@@ -54,6 +54,9 @@
   // rendering against its matrix row. Returns { sentences, problems }.
   function build(matrix, lang) {
     const problems = [];
+    // Meanings a close word cannot stand in for (data/exact.js).
+    const exact = new Set(matrix.exact || []);
+    const mark = (u) => (u && exact.has(u.id) ? Object.assign(u, { exact: true }) : u);
     const rows = new Map(matrix.sentences.map((s) => [s.id, s]));
     const sentences = [];
     for (const [id, r] of Object.entries(lang.r || {})) {
@@ -63,12 +66,12 @@
         text,
         reading: reading || "",
         units: ids.split("+").map((mid) => {
-          const u = meaning(mid, matrix.meanings);
+          const u = mark(meaning(mid, matrix.meanings));
           if (!u) problems.push(id + ": unknown meaning " + mid);
           return u || { id: mid, grammar: false, label: mid, alts: [] };
         }),
       }));
-      const implied = (r.implied || []).map((mid) => meaning(mid, matrix.meanings) || { id: mid, grammar: false, label: mid, alts: [] });
+      const implied = (r.implied || []).map((mid) => mark(meaning(mid, matrix.meanings)) || { id: mid, grammar: false, label: mid, alts: [] });
       const carried = tokens.flatMap((t) => t.units).filter((u) => !u.grammar).map((u) => u.id).concat(implied.map((u) => u.id));
       const missing = row.m.filter((mid) => !carried.includes(mid));
       const extra = carried.filter((mid) => !row.m.includes(mid));
@@ -220,7 +223,7 @@
   // Returns { units, added: [word], dropped, honest }, one unit per meaning:
   //   { token (index, or -1 when implied), meaning, status, matched: [word] }
   // status: "kept" (found; typo is set when the word was misspelt), "close" (a word the meaning network puts near
-  // it), "dropped" (content meaning missing), "shown" (grammar English showed
+  // it; credit is what it earns, 0 for a meaning in data/exact.js), "dropped" (content meaning missing), "shown" (grammar English showed
   // with a word), "grammar", "implied" (left to context and not written,
   // which is fine).
   // net is optional (net.js): with it, a missing meaning can be met by a
@@ -306,6 +309,9 @@
         x.status = "close";
         x.matched = [words[p.k].word];
         x.sim = p.s;
+        // A close word for a thing, place or name is a different one
+        // ("dinner" for lunch): shown as close, but it earns nothing.
+        x.credit = x.meaning.exact ? 0 : closeCredit(p.s, net.close);
       }
     }
     const added = [];
@@ -327,9 +333,11 @@
     // Meaning score: a close word earns 0.5 to 0.9 of an exact one, by how
     // close. Added words count against it by joining the total, so carrying
     // everything plus three extra words scores 3 of 6, not 0: an added phrase
-    // costs about what a dropped one does.
-    const closeScore = closeUnits.filter((x) => x.token >= 0).reduce((sum, x) => sum + closeCredit(x.sim, net.close), 0);
-    const score = content ? (kept + closeScore) / (content + added.length) : 1;
+    // costs about what a dropped one does. A close word for an exact meaning
+    // joins the total too, so "dinner" for lunch scores like "train" for bus.
+    const closeScore = closeUnits.filter((x) => x.token >= 0).reduce((sum, x) => sum + x.credit, 0);
+    const wrongThings = closeUnits.filter((x) => x.meaning.exact).length;
+    const score = content ? (kept + closeScore) / (content + added.length + wrongThings) : 1;
     const finalScore = tenseWrong ? score * 0.5 : score;
     return { units, added, dropped, close, typos, tenseWrong, score: finalScore, honest: dropped === 0 && close === 0 && added.length === 0 && !tenseWrong };
   }
