@@ -1,47 +1,47 @@
 # Release plan
 
 When the next platform release is due, and what it waits for. The rules for
-every release are in `RELEASES.md`: Claude prepares a **draft**, the owner
-clicks **Publish**, tags are never moved or reused, releases are never deleted,
-and AABs never go to GitHub.
+every release are in `RELEASES.md`: Claude (or any agent) prepares a
+**draft**, the owner clicks **Publish**, tags are never moved or reused,
+releases are never deleted, and AABs never go to GitHub. Tick the boxes here
+as the steps land.
 
-## Next: squirrelgo-v0.1.0
+## Released
 
-The first release built against a frozen squirrel-lang-data release, so the
-apps can be tested for usability and accuracy on content that doesn't move.
-Following `RELEASES.md`, the tag is `squirrelgo-v0.1.0` (MINOR, because it
-adds languages, learners and courses since v0.0.5).
+- [x] **squirrelgo-v0.1.0** (2026-11-04): first release built against a
+      frozen squirrel-lang-data release (data v0.1.0).
+- [x] **squirrelgo-v0.1.1** (2026-11-04): fixes from testing, data v0.1.1.
+- [x] **squirrelgo-v0.1.2** (2026-11-04): data v0.1.2, the character apps read
+      from the shared data, numerical methods track finished. All 10 apps are
+      on Google Play closed testing, each release named after its app and
+      version (#305).
 
-It's due when all of these are on `main` and CI is green there:
+Since then, on `main`: the data pin moved to **v0.1.3** (#307), and
+Programming Learner courses were deepened (#297–#303).
 
-- [ ] **squirrel-lang-data v0.1.0 is published** (see that repo's
-      `RELEASE_PLAN.md`), and a one-seam PR here moves `data/` to its commit.
-- [x] The Desk generates vocabulary, grammar, references and the registry
-      from `data/` (#264), plus the LanguageStudentDesk side of any other data
-      move in data v0.1.0 (still open: the meaning matrix,
-      squirrel-lang-data #14).
-- [ ] The Programming Learner courses open now are merged or deliberately
-      left out: C++ (#243), Java (#249), PHP (#253), Perl (#255), Bash (#256),
-      TypeScript (#257), SQL (#258), C# (#259), classic BASIC (#260),
-      HTML and CSS (#261).
-- [ ] The hand-started release workflow (`squirrelgo-release.yml`) is on
-      `main`.
+## Next: squirrelgo-v0.1.3
+
+A PATCH release that ships the data v0.1.4 content (72 grammar lessons for
+most languages, the code pack, Latin and English inflection tables) to the
+Desk and every app. It's due when all of these hold and the owner says
+"release":
+
+- [ ] **squirrel-lang-data v0.1.4 is published** (see that repo's
+      `RELEASE_PLAN.md`; its grammar expansion is still landing).
+- [ ] A one-seam PR here moves `data/` to the v0.1.4 tag, with the `data-pin`
+      label, and regenerates the Desk and app files
+      (`python3 languages/build_registry.py`, `--check` clean).
+- [ ] CI is green on `main` here, in squirrelator and in squirrel-lang-data,
+      and squirrelator pins the same data tag.
 - [ ] A release PR raises every app's `versionCode` and `versionName` and adds
-      `release-notes/squirrelgo-v0.1.0.md`, with nothing else in it.
+      `release-notes/squirrelgo-v0.1.3.md`, with nothing else in it.
+- [ ] **Actions → SquirrelGo release (draft) → Run workflow** with
+      `squirrelgo-v0.1.3`.
+- [ ] The owner publishes. The Desk desktop builds, the Orthodox Bible
+      content packs and the Play closed-testing uploads follow automatically.
 
 PRs opened after this list was written don't hold the release back; they go
-into the next one. Stroke redraws, grammar and reference work keep landing on
-`main` as usual.
-
-Already on `main` since v0.0.5, and so in this release: the registry built
-from squirrel-lang-data (#230), the simple menu with Settings levels (#218),
-level tabs for grammar, References and Resources (#210, #217), the grammar web
-(#222), the meaning matrix side by side and the meaning web (#211, #213), the
-Translation Learner accepting equivalent phrasings (#221, #228, #229, #241),
-the Programming Learner sections, switches and new courses (#208, #212, #216,
-#220, #224, #226, #234, #237, #239), regenerated kanji strokes (#209) and the
-stroke redraws for many scripts, the camera-cutout fix for the SquirrelGo apps
-(#223), and the Orthodox Bible packs (#232, #242, #254).
+into the next one.
 
 ## How the draft is made
 
@@ -49,22 +49,20 @@ stroke redraws for many scripts, the camera-cutout fix for the SquirrelGo apps
    Run workflow** with the version. It builds a release APK of every app
    (signed with the APK signing key when the `APK_KEYSTORE_BASE64`,
    `APK_STORE_PASSWORD`, `APK_KEY_ALIAS` and `APK_KEY_PASSWORD` secrets exist,
-   otherwise with each app's fixed debug key, as before; the Play upload key
-   is never used here), writes `SHA256SUMS.txt`, and
-   creates or refreshes the **draft** release targeting that commit, with the
-   notes from `release-notes/<version>.md` and a table of every app's version
-   and the data commit. It never creates or moves a tag.
+   otherwise with each app's fixed debug key; the Play upload key is never
+   used here), writes `SHA256SUMS.txt`, and creates or refreshes the
+   **draft** release targeting that commit, with the notes from
+   `release-notes/<version>.md` and a table of every app's version and the
+   data commit. It never creates or moves a tag.
 2. The owner clicks **Publish**. Publishing creates the tag, and the existing
    workflows then attach the Linux, Windows and macOS Desk builds and the
-   Orthodox Bible content packs.
-3. AABs, if wanted, are built separately into Claude's files directory under
-   `releases/<version>/`, never on GitHub.
+   Orthodox Bible content packs, and `squirrelgo-play.yml` sends each app's
+   AAB to its Play closed testing track (`PLAY.md`).
 
 Not automated yet: installing each APK on an emulator before the draft. Until
 it is, the notes say the APKs weren't smoke-tested on a device.
 
-## After v0.1.0
+## Between releases
 
-Testing happens against v0.1.0 and its pinned data. `data/` only moves to
-another squirrel-lang-data release (v0.1.x or v0.2.0), never to an untagged
-commit, until testing is done. Fixes ship as squirrelgo-v0.1.1 and so on.
+`data/` only moves to another tagged squirrel-lang-data release, never to an
+untagged commit. Fixes ship as the next squirrelgo-v0.1.x.
