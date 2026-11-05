@@ -158,9 +158,11 @@
     const anyDone = course.lessons.some((l) => saved[l.id]);
     $("lessonList").innerHTML =
       '<button data-id="intro"' + (lessonId === "intro" ? ' class="active"' : "") + '><span class="tick">ℹ</span><span class="lt">About this course</span></button><hr>' +
+      // With level tabs, each tab numbers its own lessons from 1, as the
+      // lesson's "lesson N of M" line does; without them, by course order.
       course.lessons
+        .filter((l) => !level || l.level === level)
         .map((l, i) => {
-          if (level && l.level !== level) return "";
           const p = saved[l.id];
           return '<button data-id="' + l.id + '"' + (l.id === lessonId ? ' class="active"' : "") + '><span class="tick">' + (p && p.done ? "✓" : i + 1) + '</span><span class="lt">' + esc(l.title) + "</span>" + (p ? '<span class="score">' + p.best + "/" + p.total + "</span>" : "") + "</button>";
         })
