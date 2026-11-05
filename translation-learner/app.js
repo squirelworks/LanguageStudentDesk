@@ -46,7 +46,7 @@
   }
 
   function matrix() {
-    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
+    return { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS, exact: window.TL_EXACT };
   }
 
   // The meanings a Vocabulary Learner card carries (data/vocab-links.js), by
@@ -333,7 +333,10 @@
     implied.forEach((u) => (html += piece("—", "", u.meaning.label, u.status === "kept" ? "kept" : "grammar", u.status === "kept" ? "“" + u.matched.join(" ") + "”" : "implied")));
     html += "</div>";
     if (r.typos) html += '<p class="small">Spelling: ' + r.units.filter((u) => u.typo).map((u) => "“" + esc(u.matched[0]) + "” is spelt “" + esc(u.typo) + "”").join(", ") + ".</p>";
-    if (r.close) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + r.units.filter((u) => u.status === "close").map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(T.closeCredit(u.sim, state.net.close) * 100) + "% credit)").join(", ") + ".</p>";
+    const nearWords = r.units.filter((u) => u.status === "close" && !u.meaning.exact);
+    const otherThings = r.units.filter((u) => u.status === "close" && u.meaning.exact);
+    if (nearWords.length) html += '<p class="small muted">A close word means nearly the same thing, by what the meaning network learned, but not exactly: ' + nearWords.map((u) => "“" + esc(u.matched[0]) + "” for " + esc(u.meaning.label) + " (" + Math.round(u.credit * 100) + "% credit)").join(", ") + ".</p>";
+    if (otherThings.length) html += '<p class="small muted">Near in meaning, but a different thing, so no credit: ' + otherThings.map((u) => "“" + esc(u.matched[0]) + "” is not " + esc(u.meaning.label)).join(", ") + ".</p>";
     if (r.tenseWrong) html += '<p class="added">The original says this already happened. Put your English in the past.</p>';
     if (r.added.length) html += '<p class="added">Not in the original: ' + r.added.map((w) => "“" + esc(w) + "”").join(", ") + "</p>";
     html += '<p class="model">Model answer: <b>' + esc(s.en) + "</b></p>";

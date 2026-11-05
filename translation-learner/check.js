@@ -7,8 +7,9 @@ const T = require("./tokens.js");
 global.window = {};
 const dir = path.join(__dirname, "data");
 for (const f of fs.readdirSync(dir)) if (f.endsWith(".js")) new Function(fs.readFileSync(path.join(dir, f), "utf8"))();
-const matrix = { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS };
+const matrix = { meanings: window.TL_MEANINGS, sentences: window.TL_SENTENCES, phrasings: window.TL_PHRASINGS, exact: window.TL_EXACT };
 let bad = 0;
+for (const m of window.TL_EXACT || []) if (!(m in matrix.meanings) || m.startsWith("@")) { console.log("exact.js: " + m + " is not a content meaning in the matrix"); bad++; }
 const ids = new Set();
 for (const s of matrix.sentences) {
   if (ids.has(s.id)) { console.log("matrix: duplicate sentence " + s.id); bad++; }
@@ -74,6 +75,27 @@ if (near < ref.share * ref.near.length) {
   const other = T.checkEnglish(ja, "I am a stud.", net);
   if (other.honest) {
     console.log("near miss: \"stud\" should not count as student");
+    process.exitCode = 1;
+  }
+}
+// Close words: a near word for a person, action or description earns part
+// of the credit; one for a thing (data/exact.js) names a different thing and
+// scores like any other wrong word (issue #284).
+{
+  const ja = T.build(matrix, window.TL_LANGS.japanese).sentences;
+  const lunch = ja.find((x) => x.id === "lunch-restaurant");
+  const bus = ja.find((x) => x.id === "bus-school");
+  const pct = (s, a) => Math.round(T.checkEnglish(s, a, net).score * 100);
+  const dinner = pct(lunch, "I eat dinner at a restaurant.");
+  const train = pct(bus, "I take the train to school.");
+  if (dinner !== train) {
+    console.log("close words: \"dinner\" for lunch scores " + dinner + "%, should match \"train\" for bus (" + train + "%)");
+    process.exitCode = 1;
+  }
+  const consume = T.checkEnglish(lunch, "I consume lunch at a restaurant.", net);
+  const eat = consume.units.find((u) => u.meaning.id === "eat");
+  if (eat.status !== "close" || !(eat.credit >= 0.5) || consume.score <= pct(lunch, "I eat at a restaurant.") / 100) {
+    console.log("close words: \"consume\" for eat should still earn close credit");
     process.exitCode = 1;
   }
 }
