@@ -413,9 +413,10 @@
     const main = shell("…", { back: false, actions: readerActions, wide: store.layout === "columns" });
     main.innerHTML = `<p class="empty">Loading…</p>`;
     let [primary, ...parallels] = await Promise.all(ids.map((id) => ensureBible(id).catch(() => null)));
-    // The main Bible may not have this book (a Septuagint has no New Testament),
-    // so read it from another one instead of stopping at a dead end.
-    const mainBible = primary;
+    // The main Bible may not have this book (a Septuagint has no New
+    // Testament). Read that book from the text that covers its testament:
+    // the Septuagint for the Old Testament, the Patriarchal Text for the New.
+    // That pairing is the normal reading, not a missing-text warning.
     if (!hasChapter(primary, book, chapter)) {
       const standIn = await standInFor(book, chapter, parallels);
       if (standIn) {
@@ -498,7 +499,6 @@
     main.innerHTML = `
       <div class="chips">${chips}</div>
       ${primary?.sample ? `<div class="notice">Sample data: only a few chapters are installed until the full texts arrive.</div>` : ""}
-      ${primary && mainBible && primary !== mainBible ? `<div class="notice">${esc(mainBible.name)} does not include ${esc(b.en)}, so it is shown in ${esc(primary.name)}. <a href="#" data-primary="${primary.id}">Make this the main text</a></div>` : ""}
       <h2 class="chapter-head">${esc(b.en)} ${chapter}</h2>
       ${body}
       <div class="pager">
