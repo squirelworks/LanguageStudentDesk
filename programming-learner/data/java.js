@@ -504,5 +504,337 @@ public class Main {
         { q: "Why does a list of whole numbers use List<Integer> and not List<int>?", options: ["Collections hold objects, and Integer is the object form of int", "int is too small for lists", "List<int> is the old name", "Integer is faster than int"], answer: "Collections hold objects, and Integer is the object form of int", why: "Java converts between int and Integer automatically, so you can still add plain numbers." },
       ],
     },
+    {
+      id: "exceptions",
+      title: "Exceptions",
+      summary: "try, catch and finally, your own exceptions, and try-with-resources.",
+      sections: [
+        {
+          p: "When something goes wrong, Java <b>throws</b> an exception, and the nearest matching <code>catch</code> handles it. Code in <code>finally</code> runs either way. <code>Integer.parseInt</code> throws a <code>NumberFormatException</code> for text that isn't a number.",
+          code: `public class Main {
+    public static void main(String[] args) {
+        String[] inputs = {"42", "forty", "7"};
+        int total = 0;
+        for (String s : inputs) {
+            try {
+                total += Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                System.out.println("not a number: " + s);
+            } finally {
+                System.out.println("checked " + s);
+            }
+        }
+        System.out.println("total " + total);
+    }
+}`,
+          out: "checked 42\nnot a number: forty\nchecked forty\nchecked 7\ntotal 49",
+        },
+        {
+          h: "Checked and unchecked",
+          p: "Java has two kinds. A <b>checked</b> exception (a subclass of <code>Exception</code>) must be caught or listed with <code>throws</code> on the method, so callers can't ignore it. An <b>unchecked</b> one (a subclass of <code>RuntimeException</code>) is for programming mistakes and needs no declaration. Your own exception is a class like any other.",
+          code: `public class Main {
+    static class StashFullException extends Exception {
+        StashFullException(int limit) {
+            super("the stash holds at most " + limit);
+        }
+    }
+
+    static int stored = 0;
+
+    static void store(int count) throws StashFullException {
+        if (stored + count > 10) {
+            throw new StashFullException(10);
+        }
+        stored += count;
+    }
+
+    public static void main(String[] args) {
+        int[] loads = {4, 5, 3};
+        for (int load : loads) {
+            try {
+                store(load);
+                System.out.println("stored " + load + ", now " + stored);
+            } catch (StashFullException e) {
+                System.out.println("refused " + load + ": " + e.getMessage());
+            }
+        }
+    }
+}`,
+          out: "stored 4, now 4\nstored 5, now 9\nrefused 3: the stash holds at most 10",
+        },
+        {
+          h: "try-with-resources",
+          p: "Anything that implements <code>AutoCloseable</code> (files, network connections) can be opened in the parentheses after <code>try</code>. Java closes it when the block ends, even if an exception is thrown, and closes several in reverse order.",
+          code: `public class Main {
+    static class Burrow implements AutoCloseable {
+        private final String name;
+        Burrow(String name) {
+            this.name = name;
+            System.out.println("open " + name);
+        }
+        public void close() {
+            System.out.println("close " + name);
+        }
+    }
+
+    public static void main(String[] args) {
+        try (Burrow a = new Burrow("north"); Burrow b = new Burrow("south")) {
+            System.out.println("working");
+            throw new IllegalStateException("roof fell in");
+        } catch (IllegalStateException e) {
+            System.out.println("caught: " + e.getMessage());
+        }
+    }
+}`,
+          out: "open north\nopen south\nworking\nclose south\nclose north\ncaught: roof fell in",
+        },
+      ],
+      practice: [
+        { q: "Which kind of exception must be caught or declared with throws?", options: ["A checked exception (a subclass of Exception but not RuntimeException)", "Any RuntimeException", "Only NullPointerException", "None; Java never requires it"], answer: "A checked exception (a subclass of Exception but not RuntimeException)", why: "The compiler checks that checked exceptions are handled or passed on." },
+        { kind: "output", q: "What does this print?", code: `public class Main {
+    public static void main(String[] args) {
+        try {
+            System.out.println("a");
+            int x = 1 / 0;
+            System.out.println("b");
+        } catch (ArithmeticException e) {
+            System.out.println("c");
+        } finally {
+            System.out.println("d");
+        }
+    }
+}`, options: ["a\nc\nd", "a\nb\nd", "a\nc", "c\nd"], answer: "a\nc\nd", why: "Dividing by zero throws before b prints; the catch runs, then finally." },
+        { q: "When does try-with-resources close what it opened?", options: ["When the try block ends, normally or by an exception", "Only if no exception is thrown", "When the program exits", "Only when you call close yourself"], answer: "When the try block ends, normally or by an exception", why: "That is its point: the resource can't be left open by mistake." },
+      ],
+    },
+    {
+      id: "strings",
+      title: "Strings and text",
+      summary: "StringBuilder, formatting, text blocks, split and join.",
+      sections: [
+        {
+          p: "Strings in Java never change: every <code>+</code> makes a new one. To build text in a loop, use a <code>StringBuilder</code>, which grows in place. <code>String.format</code> (or <code>\"...\".formatted(...)</code>) lays out numbers with widths and decimals, like C's printf.",
+          code: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= 5; i++) {
+            if (sb.length() > 0) sb.append("-");
+            sb.append(i * i);
+        }
+        System.out.println(sb);
+        System.out.println(sb.reverse());
+
+        double share = 7.0 / 12;
+        System.out.println(String.format("%-8s|%5d|%6.2f%%", "acorn", 7, share * 100));
+        System.out.println("%s has %d nuts".formatted("Hazel", 12));
+    }
+}`,
+          out: "1-4-9-16-25\n52-61-9-4-1\nacorn   |    7| 58.33%\nHazel has 12 nuts",
+        },
+        {
+          h: "Splitting, joining and text blocks",
+          p: "<code>split</code> cuts a string on a regular expression and <code>String.join</code> glues pieces back. A <b>text block</b>, between <code>\"\"\"</code> marks, holds several lines as written, with the common indentation removed.",
+          code: `import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        String csv = "acorn, walnut,pecan ,  hazelnut";
+        String[] parts = csv.split("\\\\s*,\\\\s*");
+        System.out.println(Arrays.toString(parts));
+        System.out.println(String.join(" | ", List.of(parts).reversed()));
+
+        String poem = """
+            Nuts in autumn,
+            buried deep;
+            found in spring.
+            """;
+        for (String line : poem.strip().split("\\n")) {
+            System.out.println(line.length() + " " + line.toUpperCase());
+        }
+    }
+}`,
+          out: "[acorn, walnut, pecan, hazelnut]\nhazelnut | pecan | walnut | acorn\n15 NUTS IN AUTUMN,\n12 BURIED DEEP;\n16 FOUND IN SPRING.",
+        },
+        {
+          h: "Characters",
+          p: "<code>charAt</code> gives a <code>char</code>, and <code>chars()</code> gives a stream of them as numbers. <code>Character</code> has tests such as <code>isUpperCase</code> and <code>isDigit</code>.",
+          code: `public class Main {
+    public static void main(String[] args) {
+        String s = "Squirrel 42 Nuts";
+        long upper = s.chars().filter(Character::isUpperCase).count();
+        long digits = s.chars().filter(Character::isDigit).count();
+        System.out.println(upper + " capitals, " + digits + " digits");
+        System.out.println(s.charAt(0) + "" + s.charAt(s.length() - 1));
+        System.out.println(s.indexOf("42") + " " + s.contains("nuts") + " " + s.toLowerCase().contains("nuts"));
+    }
+}`,
+          out: "2 capitals, 2 digits\nSs\n9 false true",
+        },
+      ],
+      practice: [
+        { q: "Why use StringBuilder to build a long string in a loop?", options: ["Strings never change, so each + makes a new copy; StringBuilder grows in place", "StringBuilder is the only way to join strings", "+ doesn't work in loops", "StringBuilder sorts the text"], answer: "Strings never change, so each + makes a new copy; StringBuilder grows in place", why: "Many + in a loop copies the text again and again." },
+        { kind: "output", q: "What does this print?", code: `public class Main {
+    public static void main(String[] args) {
+        System.out.println(String.format("[%4d][%-4s]", 7, "ab"));
+    }
+}`, options: ["[   7][ab  ]", "[7   ][  ab]", "[0007][ab]", "[7][ab]"], answer: "[   7][ab  ]", why: "%4d pads the number on the left to 4 places; %-4s pads the text on the right." },
+        { kind: "output", q: "What does this print?", code: `public class Main {
+    public static void main(String[] args) {
+        String[] p = "a:b::c".split(":");
+        System.out.println(p.length + " " + String.join("+", p));
+    }
+}`, options: ["4 a+b++c", "3 a+b+c", "4 a+b+c", "5 a+b++c"], answer: "4 a+b++c", why: "The empty piece between the two colons is kept, so there are four pieces." },
+      ],
+    },
+    {
+      id: "sealed",
+      title: "Sealed types and pattern matching",
+      summary: "sealed interfaces, records and switch with patterns (Java 21).",
+      sections: [
+        {
+          p: "A <b>sealed</b> interface lists every class allowed to implement it. With records for the cases, it describes data with a fixed set of shapes. A <code>switch</code> can then match on the type and pull out the record's parts in one go, and since the compiler knows every case, it needs no <code>default</code>.",
+          code: `public class Main {
+    sealed interface Shape permits Circle, Square, Rect {}
+    record Circle(double r) implements Shape {}
+    record Square(double side) implements Shape {}
+    record Rect(double w, double h) implements Shape {}
+
+    static double area(Shape s) {
+        return switch (s) {
+            case Circle(double r) -> Math.PI * r * r;
+            case Square(double side) -> side * side;
+            case Rect(double w, double h) -> w * h;
+        };
+    }
+
+    public static void main(String[] args) {
+        Shape[] shapes = {new Circle(1), new Square(3), new Rect(2, 5)};
+        for (Shape s : shapes) {
+            System.out.printf("%s -> %.2f%n", s, area(s));
+        }
+    }
+}`,
+          out: "Circle[r=1.0] -> 3.14\nSquare[side=3.0] -> 9.00\nRect[w=2.0, h=5.0] -> 10.00",
+        },
+        {
+          h: "Guards and instanceof patterns",
+          p: "A case can add a condition with <code>when</code>. Outside a switch, <code>instanceof</code> can name the matched value, so there's no separate cast.",
+          code: `public class Main {
+    record Nut(String kind, int weight) {}
+
+    static String grade(Object o) {
+        return switch (o) {
+            case Nut n when n.weight() >= 10 -> "big " + n.kind();
+            case Nut n -> "small " + n.kind();
+            case Integer i -> "a number, " + i;
+            case null -> "nothing";
+            default -> "something else";
+        };
+    }
+
+    public static void main(String[] args) {
+        Object[] things = {new Nut("walnut", 12), new Nut("acorn", 4), 7, null, "leaf"};
+        for (Object t : things) System.out.println(grade(t));
+
+        Object o = new Nut("pecan", 6);
+        if (o instanceof Nut n && n.weight() > 5) {
+            System.out.println("heavy enough: " + n.kind());
+        }
+    }
+}`,
+          out: "big walnut\nsmall acorn\na number, 7\nnothing\nsomething else\nheavy enough: pecan",
+        },
+      ],
+      practice: [
+        { q: "Why does a switch over a sealed interface not need a default case?", options: ["The compiler knows every permitted type, so it can check all are handled", "switch never needs default", "Sealed types can't be null", "default is added automatically at run time"], answer: "The compiler knows every permitted type, so it can check all are handled", why: "If a new permitted type is added, the switch stops compiling until it handles it." },
+        { kind: "output", q: "What does this print?", code: `public class Main {
+    record P(int x, int y) {}
+    public static void main(String[] args) {
+        Object o = new P(3, 4);
+        if (o instanceof P(int x, int y)) System.out.println(x * y);
+    }
+}`, options: ["12", "7", "P[x=3, y=4]", "nothing"], answer: "12", why: "The record pattern takes x and y out of the P directly." },
+        { q: "What does a record give you without writing it?", options: ["A constructor, accessors, equals, hashCode and toString", "Setters for every field", "A main method", "Inheritance from another record"], answer: "A constructor, accessors, equals, hashCode and toString", why: "Records are for plain data, and Java writes the usual methods for them." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "Parsing text, records, exceptions, maps and streams together.",
+      sections: [
+        {
+          p: "This program reads a ledger written as text, one entry per line such as <code>day 3: acorn x9</code>. A regular expression pulls each line apart into a record; lines it can't read throw an exception that is caught and reported. Totals per nut are grouped with streams and printed as a sorted table.",
+          code: `import java.util.*;
+import java.util.regex.*;
+import java.util.stream.*;
+
+public class Main {
+    record Entry(int day, String nut, int count) {}
+
+    static final Pattern LINE = Pattern.compile("day (\\\\d+): ([a-z]+) x(\\\\d+)");
+
+    static Entry parse(String line, int number) {
+        Matcher m = LINE.matcher(line);
+        if (!m.matches()) {
+            throw new IllegalArgumentException("line " + number + ": cannot read \\"" + line + "\\"");
+        }
+        return new Entry(Integer.parseInt(m.group(1)), m.group(2), Integer.parseInt(m.group(3)));
+    }
+
+    public static void main(String[] args) {
+        String ledger = """
+            day 1: acorn x6
+            day 1: hazelnut x2
+            day 2: walnut x1
+            day two: acorn x3
+            day 3: acorn x9
+            day 3: hazelnut x4
+            day 4 acorn x5""";
+
+        List<Entry> entries = new ArrayList<>();
+        String[] lines = ledger.split("\\n");
+        for (int i = 0; i < lines.length; i++) {
+            try {
+                entries.add(parse(lines[i], i + 1));
+            } catch (IllegalArgumentException e) {
+                System.out.println("skipped " + e.getMessage());
+            }
+        }
+
+        Map<String, Integer> totals = entries.stream()
+            .collect(Collectors.groupingBy(Entry::nut, TreeMap::new, Collectors.summingInt(Entry::count)));
+        int all = totals.values().stream().mapToInt(Integer::intValue).sum();
+
+        totals.entrySet().stream()
+            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+            .forEach(e -> System.out.printf("%-9s%3d%7.1f%%%n", e.getKey(), e.getValue(), 100.0 * e.getValue() / all));
+
+        Entry best = Collections.max(entries, Comparator.comparingInt(Entry::count));
+        System.out.println("best find: " + best.count() + " " + best.nut() + " on day " + best.day());
+    }
+}`,
+          out: "skipped line 4: cannot read \"day two: acorn x3\"\nskipped line 7: cannot read \"day 4 acorn x5\"\nacorn     15   68.2%\nhazelnut   6   27.3%\nwalnut     1    4.5%\nbest find: 9 acorn on day 3",
+        },
+        {
+          h: "Ideas to try",
+          p: "Read the ledger from a file with <code>Files.readAllLines(Path.of(\"ledger.txt\"))</code>, add a total per day with another <code>groupingBy</code>, or turn the nut names into an <code>enum</code> so a typo can't sneak in.",
+        },
+      ],
+      practice: [
+        { q: "Why is the map built with TreeMap::new?", options: ["So the totals are kept sorted by nut name before the value sort", "TreeMap is the only Map streams can make", "It makes the sums faster", "To allow duplicate keys"], answer: "So the totals are kept sorted by nut name before the value sort", why: "Ties in the value sort then keep alphabetical order, so the output is always the same." },
+        { kind: "output", q: "What does this print?", code: `import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<Boolean, Long> m = Stream.of(1, 2, 3, 4, 5)
+            .collect(Collectors.partitioningBy(n -> n % 2 == 0, Collectors.counting()));
+        System.out.println(m.get(true) + " " + m.get(false));
+    }
+}`, options: ["2 3", "3 2", "5 0", "{false=3, true=2}"], answer: "2 3", why: "partitioningBy splits into evens (2 and 4) and odds (1, 3 and 5) and counts each." },
+        { q: "What does matcher.matches() check, compared with find()?", options: ["That the whole line fits the pattern, not just part of it", "Only the first character", "That the pattern appears anywhere", "Nothing; they are the same"], answer: "That the whole line fits the pattern, not just part of it", why: "find() looks for the pattern anywhere; matches() needs the entire input to match." },
+      ],
+    },
   ],
 };
