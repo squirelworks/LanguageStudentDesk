@@ -326,5 +326,228 @@ cat f.txt`, options: ["two\nthree", "one\ntwo\nthree", "three", "one\nthree"], a
 printf 'c\\na\\nb\\na\\n' | sort | uniq | wc -l`, options: ["3", "4", "2", "1"], answer: "3", why: "sort puts the two a lines next to each other, uniq collapses them, and three lines are left: a, b and c." },
       ],
     },
+    {
+      id: "strings",
+      title: "Working with strings",
+      summary: "Length, slices, trimming patterns, replacing and changing case.",
+      sections: [
+        {
+          p: "Bash can cut and change the text in a variable without calling another program. <code>${#var}</code> is its length and <code>${var:start:length}</code> a slice. <code>${var#pattern}</code> removes the shortest match from the front and <code>${var##pattern}</code> the longest; <code>%</code> and <code>%%</code> do the same from the back. The patterns are the same wildcards as file names: <code>*</code>, <code>?</code> and <code>[abc]</code>.",
+          code: `path="/home/hazel/stash/acorns.tar.gz"
+echo "length: \${#path}"
+echo "first 5: \${path:0:5}"
+echo "file: \${path##*/}"
+echo "folder: \${path%/*}"
+echo "no last extension: \${path%.*}"
+echo "no extensions: \${path%%.*}"
+echo "extension: \${path#*.}"`,
+          out: "length: 31\nfirst 5: /home\nfile: acorns.tar.gz\nfolder: /home/hazel/stash\nno last extension: /home/hazel/stash/acorns.tar\nno extensions: /home/hazel/stash/acorns\nextension: tar.gz",
+        },
+        {
+          h: "Replacing and case",
+          p: "<code>${var/old/new}</code> replaces the first match and <code>${var//old/new}</code> every match. <code>${var^^}</code> makes the text upper case, <code>${var,,}</code> lower case, and <code>${var^}</code> capitalizes the first letter.",
+          code: `line="acorn, walnut, acorn, pecan"
+echo "\${line/acorn/hazelnut}"
+echo "\${line//acorn/hazelnut}"
+echo "\${line//, /;}"
+name="hazel"
+echo "\${name^} \${name^^}"
+shout="STOP THAT"
+echo "\${shout,,}"`,
+          out: "hazelnut, walnut, acorn, pecan\nhazelnut, walnut, hazelnut, pecan\nacorn;walnut;acorn;pecan\nHazel HAZEL\nstop that",
+        },
+        {
+          h: "Matching with [[ ]]",
+          p: "Inside <code>[[ ]]</code>, <code>==</code> compares against a wildcard pattern and <code>=~</code> against a regular expression. After a regex match, the parts in parentheses are in the array <code>BASH_REMATCH</code>.",
+          code: `for f in notes.txt photo.JPG data.csv; do
+  if [[ $f == *.txt || $f == *.csv ]]; then
+    echo "$f is text"
+  else
+    echo "$f is something else"
+  fi
+done
+
+entry="day 12: walnut x7"
+if [[ $entry =~ ^day\\ ([0-9]+):\\ ([a-z]+)\\ x([0-9]+)$ ]]; then
+  echo "day=\${BASH_REMATCH[1]} nut=\${BASH_REMATCH[2]} count=\${BASH_REMATCH[3]}"
+fi`,
+          out: "notes.txt is text\nphoto.JPG is something else\ndata.csv is text\nday=12 nut=walnut count=7",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `f="report.final.pdf"
+echo "\${f%.*} \${f##*.}"`, options: ["report.final pdf", "report final.pdf", "report pdf", "report.final.pdf pdf"], answer: "report.final pdf", why: "%.* removes the shortest .something from the end; ##*. removes everything up to the last dot." },
+        { kind: "output", q: "What does this print?", code: `s="banana"
+echo "\${s//a/o} \${#s}"`, options: ["bonono 6", "bonana 6", "banana 6", "bonono 3"], answer: "bonono 6", why: "// replaces every a, and the length of banana is 6." },
+        { q: "Where does Bash put the groups of a =~ match?", options: ["In the array BASH_REMATCH", "In $1, $2 and so on", "In the variable MATCH", "Nowhere; =~ only says yes or no"], answer: "In the array BASH_REMATCH", why: "Index 0 is the whole match and 1, 2 … are the groups." },
+      ],
+    },
+    {
+      id: "errors",
+      title: "Exit codes and safe scripts",
+      summary: "&&, ||, set -euo pipefail and trap.",
+      sections: [
+        {
+          p: "Every command ends with an exit status: 0 for success, anything else for failure. <code>$?</code> holds the last one. <code>a &amp;&amp; b</code> runs <code>b</code> only if <code>a</code> succeeded, and <code>a || b</code> runs <code>b</code> only if <code>a</code> failed, which makes a short way to give a fallback or a message.",
+          code: `mkdir stash && echo "made stash"
+mkdir stash 2>/dev/null || echo "stash already there"
+false
+echo "false gave $?"
+true
+echo "true gave $?"
+grep -q acorn <<< "walnut pecan" || echo "no acorns"
+[[ -d stash ]] && echo "stash is a folder"`,
+          out: "made stash\nstash already there\nfalse gave 1\ntrue gave 0\nno acorns\nstash is a folder",
+        },
+        {
+          h: "set -euo pipefail",
+          p: "By default a script carries on after a failed command, which can do damage. Many scripts start with <code>set -euo pipefail</code>: <code>-e</code> stops at the first failing command, <code>-u</code> treats an unset variable as an error, and <code>-o pipefail</code> makes a pipeline fail if any part of it fails, not just the last. A command tested by <code>if</code>, <code>&amp;&amp;</code> or <code>||</code> doesn't stop the script.",
+          code: `set -euo pipefail
+
+count_nuts() {
+  local file=$1
+  if [[ ! -f $file ]]; then
+    echo "no file $file" >&2
+    return 1
+  fi
+  wc -l < "$file"
+}
+
+printf 'acorn\\nwalnut\\n' > stash.txt
+echo "lines: $(count_nuts stash.txt)"
+if ! count_nuts missing.txt 2>/dev/null; then
+  echo "handled the missing file"
+fi
+echo "\${UNSET_THING:-default used}"`,
+          out: "lines: 2\nhandled the missing file\ndefault used",
+        },
+        {
+          h: "trap",
+          p: "<code>trap 'commands' EXIT</code> runs the commands when the script ends, however it ends. It's the usual way to clean up temporary files. Here the subshell in parentheses stands for a whole script: it stops at the failure, and its trap still runs.",
+          code: `(
+  set -e
+  tmp=$(mktemp -d)
+  trap 'rm -rf "$tmp"; echo "cleaned up"' EXIT
+  echo "working in a temp folder"
+  touch "$tmp/nuts"
+  false
+  echo "never printed"
+)
+echo "script exit status: $?"`,
+          out: "working in a temp folder\ncleaned up\nscript exit status: 1",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `false && echo a || echo b`, options: ["b", "a", "a\nb", "nothing"], answer: "b", why: "false fails, so echo a is skipped, and || runs echo b." },
+        { q: "What does set -o pipefail change?", options: ["A pipeline fails if any command in it fails, not only the last", "Pipes are run one after another", "Errors in pipes are ignored", "It stops pipes from being used"], answer: "A pipeline fails if any command in it fails, not only the last", why: "Without it, cmd_that_fails | sort succeeds because sort does." },
+        { kind: "output", q: "What does this print?", code: `( trap 'echo bye' EXIT; echo hi; exit 3 )
+echo $?`, options: ["hi\nbye\n3", "hi\n3", "bye\nhi\n3", "hi\nbye\n0"], answer: "hi\nbye\n3", why: "The trap runs as the subshell exits, and the exit status 3 is kept." },
+      ],
+    },
+    {
+      id: "arguments",
+      title: "Script arguments and options",
+      summary: "$#, $@, shift and getopts.",
+      sections: [
+        {
+          p: "A script's arguments are <code>$1</code>, <code>$2</code> and so on; <code>$#</code> is how many there are, and <code>\"$@\"</code> is all of them, each kept whole even if it has spaces. <code>shift</code> drops the first one and moves the rest down. A function gets its own arguments the same way, so the example uses one to stand for a script.",
+          code: `show_args() {
+  echo "$# arguments"
+  for a in "$@"; do
+    echo "  [$a]"
+  done
+  shift
+  echo "after shift, first is [$1]"
+}
+
+show_args acorn "two words" pecan`,
+          out: "3 arguments\n  [acorn]\n  [two words]\n  [pecan]\nafter shift, first is [two words]",
+        },
+        {
+          h: "Options with getopts",
+          p: "<code>getopts</code> reads options such as <code>-v</code> or <code>-n 5</code>. The string <code>\"vn:\"</code> lists the letters it knows; a colon after a letter means it takes a value, which arrives in <code>OPTARG</code>. Afterwards, <code>shift $((OPTIND - 1))</code> leaves only the plain arguments.",
+          code: `count_nuts() {
+  local verbose=0 limit=10 opt OPTIND=1
+  while getopts "vn:" opt; do
+    case $opt in
+      v) verbose=1 ;;
+      n) limit=$OPTARG ;;
+      *) echo "usage: count_nuts [-v] [-n limit] nut..."; return 2 ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  (( verbose )) && echo "limit is $limit, nuts are: $*"
+  echo "$(( $# < limit ? $# : limit )) nuts counted"
+}
+
+count_nuts acorn walnut pecan
+count_nuts -v -n 2 acorn walnut pecan
+count_nuts -x acorn 2>/dev/null || echo "exit status $?"`,
+          out: "3 nuts counted\nlimit is 2, nuts are: acorn walnut pecan\n2 nuts counted\nusage: count_nuts [-v] [-n limit] nut...\nexit status 2",
+        },
+      ],
+      practice: [
+        { q: "Why write \"$@\" with the quotes?", options: ["So each argument stays one word, even if it has spaces", "So the arguments are joined into one string", "Quotes are needed for $@ to work at all", "To sort the arguments"], answer: "So each argument stays one word, even if it has spaces", why: "Unquoted, \"two words\" would split into two arguments." },
+        { kind: "output", q: "What does this print?", code: `f() { shift 2; echo "$# $1"; }
+f a b c d`, options: ["2 c", "4 a", "2 a", "3 b"], answer: "2 c", why: "shift 2 drops a and b, leaving c and d." },
+        { q: "In getopts \"ab:c\", which option takes a value?", options: ["-b", "-a", "-c", "All three"], answer: "-b", why: "A colon after a letter means that option needs a value." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a stash report",
+      summary: "Reading lines, matching, associative arrays and printf together.",
+      sections: [
+        {
+          p: "This script writes a small log file, then reads it line by line with <code>while IFS= read -r</code>. A regular expression picks out the parts of each line; lines that don't fit are reported to standard error and skipped. An associative array adds up the nuts, and <code>printf</code> lays out a table, sorted with <code>sort</code>.",
+          code: `set -euo pipefail
+
+cat > stash.log <<'EOF'
+2026-10-01 stored acorn 6
+2026-10-01 stored hazelnut 2
+2026-10-02 stored walnut 1
+2026-10-02 ate acorn 1
+oops this line is broken
+2026-10-03 stored acorn 9
+2026-10-03 ate hazelnut 1
+EOF
+
+declare -A total=()
+stored=0 ate=0 bad=0
+while IFS= read -r line; do
+  if [[ $line =~ ^[0-9-]+\\ (stored|ate)\\ ([a-z]+)\\ ([0-9]+)$ ]]; then
+    action=\${BASH_REMATCH[1]} nut=\${BASH_REMATCH[2]} n=\${BASH_REMATCH[3]}
+    if [[ $action == stored ]]; then
+      total[$nut]=$(( \${total[$nut]:-0} + n ))
+      stored=$(( stored + n ))
+    else
+      total[$nut]=$(( \${total[$nut]:-0} - n ))
+      ate=$(( ate + n ))
+    fi
+  else
+    bad=$(( bad + 1 ))
+  fi
+done < stash.log
+
+for nut in "\${!total[@]}"; do
+  printf '%-9s %3d\\n' "$nut" "\${total[$nut]}"
+done | sort -k2,2nr -k1,1
+echo "stored $stored, ate $ate, left $(( stored - ate )), unreadable lines: $bad"`,
+          out: "acorn      14\nhazelnut    1\nwalnut      1\nstored 18, ate 2, left 16, unreadable lines: 1",
+        },
+        {
+          h: "Ideas to try",
+          p: "Take the log file's name as an argument with a <code>-f</code> option, print a total per day, or warn when a nut's count would go below zero.",
+        },
+      ],
+      practice: [
+        { q: "Why read lines with while IFS= read -r line?", options: ["IFS= keeps leading spaces and -r keeps backslashes, so each line arrives exactly", "It makes the loop faster", "It splits each line into words", "It skips empty lines"], answer: "IFS= keeps leading spaces and -r keeps backslashes, so each line arrives exactly", why: "Without them, read trims spaces and treats backslashes as escapes." },
+        { kind: "output", q: "What does this print?", code: `declare -A n=([a]=1)
+n[a]=$(( \${n[a]:-0} + 2 ))
+n[b]=$(( \${n[b]:-0} + 5 ))
+echo "\${n[a]} \${n[b]} \${#n[@]}"`, options: ["3 5 2", "1 5 2", "3 5 1", "12 5 2"], answer: "3 5 2", why: "a goes from 1 to 3, b starts from the default 0 to 5, and there are two keys." },
+        { q: "What does sort -k2,2nr -k1,1 do to the table?", options: ["Sorts by the second column as a number, largest first, then by name", "Sorts by name, then by number", "Reverses the lines", "Removes duplicate lines"], answer: "Sorts by the second column as a number, largest first, then by name", why: "Each -k gives a key; n is numeric and r reverses it, and the second key breaks ties." },
+      ],
+    },
   ],
 };
