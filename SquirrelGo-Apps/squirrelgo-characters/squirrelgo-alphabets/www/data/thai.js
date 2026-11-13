@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/thai.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/thai.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Thai alphabet for SquirrelGo Alphabets. Romanization follows the Royal
 // Thai General System for consonants, with doubled letters for long vowels.
 // Each consonant's example is the word its traditional name comes from (ก is

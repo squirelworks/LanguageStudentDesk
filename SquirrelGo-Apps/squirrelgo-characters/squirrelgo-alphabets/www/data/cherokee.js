@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/cherokee.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/cherokee.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Cherokee syllabary for SquirrelGo Alphabets. eSpeak NG has no voice that
 // reads the syllabary, so sounds are recorded from the IPA. Hints, groupings
 // and articles are original.

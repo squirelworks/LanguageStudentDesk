@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/greek/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/greek/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Modern Greek first grammar for the Grammar Learner. Written for this project.
 // Examples are [Greek, romanization, English]; {braces} mark the point of the lesson.
 // Drills are { q, en, options, answer, why }; ＿ is the blank.

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/burmese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/burmese/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Burmese, romanization, English, note]. Written for this
 // project. The romanization is a simple everyday spelling without tone marks;
 // use text to speech to hear each tone.

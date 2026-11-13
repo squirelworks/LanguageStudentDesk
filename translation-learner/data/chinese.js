@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 meaning/columns/chinese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data ffd03a7 meaning/columns/chinese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Mandarin Chinese column of the meaning matrix. Written for this project.
 // Tokens are [text, pinyin, meaning id].
 window.TL_LANGS = window.TL_LANGS || {};

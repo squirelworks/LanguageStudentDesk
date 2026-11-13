@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/hiragana.json and alphabets/katakana.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/hiragana.json and alphabets/katakana.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Hiragana and katakana lessons for SquirrelGo Kana. null leaves an empty cell
 // in the chart. Lessons in the same group share a chart. All hints, example
 // choices and articles are original to this project.

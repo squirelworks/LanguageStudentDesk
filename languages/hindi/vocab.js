@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/hindi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/hindi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Devanagari, romanization, English, note]. Written for this
 // project.
 // Frequency tags come from wordfreq (CC BY-SA 4.0).

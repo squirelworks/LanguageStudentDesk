@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/georgian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/georgian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Georgian alphabet (Mkhedruli) for SquirrelGo Alphabets. Romanization
 // follows the national system, where an apostrophe marks an ejective (a tight
 // sound with a click from the throat). Hints, groupings and articles are

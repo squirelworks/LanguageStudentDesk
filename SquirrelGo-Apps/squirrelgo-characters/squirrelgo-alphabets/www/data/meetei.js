@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/meetei.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/meetei.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Meetei Mayek for SquirrelGo Alphabets, the script of Manipuri (Meitei). The
 // example for each of the first eighteen letters is its own name. eSpeak NG has
 // no Meitei voice, so the sounds are made from the IPA, without tones. Hints,

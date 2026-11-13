@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/hangul.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/hangul.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Hangul (Korean) for SquirrelGo Alphabets. Romanization follows the Revised
 // Romanization of Korean. Hints and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

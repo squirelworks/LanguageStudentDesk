@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/klingon/grammar.json by: python3 data/tools/gen_grammar.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/klingon/grammar.json by: python3 data/tools/gen_grammar.py --out languages
 // Klingon verbs and nouns for the Grammar Learner. Written for this project.
 // Examples are [Klingon, gloss, English]; {braces} mark the point of the lesson (the prefix, in the grid lessons).
 // Lessons with `generate` get drills built from the prefix grid below.
