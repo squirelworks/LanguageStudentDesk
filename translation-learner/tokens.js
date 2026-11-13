@@ -232,7 +232,14 @@
     const words = englishWords(answer);
     const used = words.map(() => false);
     const units = [];
-    sentence.tokens.forEach((t, i) => t.units.forEach((u) => units.push({ token: i, meaning: u, status: "", matched: [] })));
+    // A content meaning two tokens share (French ne ... pas, both "not") is
+    // one meaning, so English says it once.
+    const seen = new Set();
+    sentence.tokens.forEach((t, i) => t.units.forEach((u) => {
+      if (!u.grammar && seen.has(u.id)) return;
+      seen.add(u.id);
+      units.push({ token: i, meaning: u, status: "", matched: [] });
+    }));
     sentence.implied.forEach((u) => units.push({ token: -1, meaning: u, status: "", matched: [] }));
     // Content first, then implied, then grammar; longest alternative first,
     // so "thank you" wins over "you".

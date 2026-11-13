@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 alphabets/zhuyin.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data ffd03a7 alphabets/zhuyin.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Zhuyin (Bopomofo) lessons for SquirrelGo Bopomofo. Hints, example choices and
 // articles are original to this project.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

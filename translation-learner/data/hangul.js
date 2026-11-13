@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 meaning/columns/hangul.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data ffd03a7 meaning/columns/hangul.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Korean column of the meaning matrix. Written for this project. Tokens are
 // [text, Revised Romanization, meaning id]. Particles and endings start with
 // "-" because they are written solid with the word before.

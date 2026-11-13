@@ -259,6 +259,15 @@
     "noto-sans-canadian-aboriginal"
    ]
   },
+  "syriac": {
+   "files": [
+    "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/syriac.js"
+   ],
+   "key": "syriac",
+   "fonts": [
+    "noto-sans-syriac"
+   ]
+  },
   "tamil": {
    "files": [
     "squirrelgo-characters/squirrelgo-alphabets/www/data/strokes/tamil.js"

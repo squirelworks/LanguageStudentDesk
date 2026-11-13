@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/lao/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/lao/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Lao, romanization, English, note]. Written for this project.
 // The romanization has no tone marks; use text to speech to hear each tone.
 window.LSD_DECKS = window.LSD_DECKS || {};

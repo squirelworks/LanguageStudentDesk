@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 meaning/columns/klingon.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data ffd03a7 meaning/columns/klingon.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Klingon column of the meaning matrix. Written for this project. Tokens are
 // [text, "", meaning id]: the text is already romanized and pIqaD is drawn from
 // it. Prefixes end in "-", suffixes start with "-". Klingon puts the object

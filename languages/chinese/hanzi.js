@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/chinese/characters/hanzi.jsonl by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/chinese/characters/hanzi.jsonl by: python3 data/tools/gen_characters.py --out languages
 // Every character of HSK 3.0 levels 1 to 6, by level: hsk is the lowest level a
 // word with the character appears at, from the word lists in complete-hsk-
 // vocabulary.

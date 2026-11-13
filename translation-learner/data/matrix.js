@@ -1,13 +1,13 @@
-// Generated from squirrel-lang-data d5e05a4 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data ffd03a7 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // The meaning matrix: TL_MEANINGS (id -> English that may carry it, "|"
 // between alternatives; "(label)" first for grammar), TL_PACK_TITLES,
 // TL_SENTENCES (the rows) and TL_PHRASINGS.
 window.TL_MEANINGS = {
   // People
-  "i": "I|me|my|mine|myself",
-  "you": "you|your|yours",
+  "i": "I|me|my|mine|myself|I'm",
+  "you": "you|your|yours|you're",
   "he": "he|him|his|she|her",
-  "we": "we|us|our",
+  "we": "we|us|our|we're",
   "they": "they|them|their|theirs",
   "child": "child|kid",
   "friend": "friend",
@@ -101,7 +101,7 @@ window.TL_MEANINGS = {
   "exist": "there is|there are|is|are|exists|exist|have",
   "none": "there is no|no|none|nothing|not",
   "hurt": "hurt|ache|pain",
-  "let-us": "let us",
+  "let-us": "let us|let's",
   // Describing
   "hot": "hot|warm",
   "cold": "cold|chilly",
@@ -113,7 +113,7 @@ window.TL_MEANINGS = {
   "very": "very|really|so",
   "very-much": "very much|so much|a lot|much|really",
   // Little words
-  "not": "not|no|never",
+  "not": "not|no|never|don't|doesn't|didn't|isn't|aren't|wasn't|can't|won't",
   "please": "please",
   "on": "on|on top of|above",
   "from": "from",
@@ -170,6 +170,7 @@ window.TL_MEANINGS = {
   "@happen": "(happening)",
   "@the": "(definite article)the",
   "@one": "('a', one)a|an|one",
+  "@partitive": "(partitive: some (French du, Italian dell'))some",
   "@measure": "(measure word)",
   "@degree": "(degree)very|quite|so",
   "@possession": "(possession: 'by me')",

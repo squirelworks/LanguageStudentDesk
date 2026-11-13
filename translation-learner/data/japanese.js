@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 meaning/columns/japanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data ffd03a7 meaning/columns/japanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Japanese column of the meaning matrix. Written for this project. Tokens are
 // [text, kana reading, meaning id]; romaji is made from the kana. Japanese
 // usually leaves "I" and "you" to context: those go under implied.

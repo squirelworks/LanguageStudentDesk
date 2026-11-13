@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data d5e05a4 languages/arabic/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data ffd03a7 languages/arabic/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 window.SCRIPTS.arabic = {
