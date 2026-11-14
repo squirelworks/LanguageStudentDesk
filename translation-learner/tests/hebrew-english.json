@@ -1,0 +1,199 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "hebrew",
+  "into": "english",
+  "about": "Hebrew to English. Modern Hebrew usually writes the subject (אני), so English that drops it fails. Present tense leaves past and future open where unmarked. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "dont-know",
+      "accept": [
+        "I don't know.",
+        "I do not know."
+      ],
+      "reject": [
+        "I know.",
+        "I don't understand.",
+        "Don't know."
+      ]
+    },
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "I'll drink water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I want water.",
+        "I drink water and tea.",
+        "Drinking water."
+      ]
+    },
+    {
+      "sentence": "from-egypt",
+      "accept": [
+        "I am from Egypt.",
+        "I'm from Egypt."
+      ],
+      "reject": [
+        "I am from China.",
+        "You are from Egypt.",
+        "From Egypt."
+      ]
+    },
+    {
+      "sentence": "go-school",
+      "accept": [
+        "I go to school.",
+        "I'm going to school.",
+        "I went to school.",
+        "I'll go to school."
+      ],
+      "reject": [
+        "I go home.",
+        "I like school.",
+        "We go to school.",
+        "Going to school."
+      ]
+    },
+    {
+      "sentence": "going-home",
+      "accept": [
+        "I am going home.",
+        "I'm going home.",
+        "I go home."
+      ],
+      "reject": [
+        "I am going to school.",
+        "We are going home.",
+        "Going home."
+      ]
+    },
+    {
+      "sentence": "good-morning",
+      "accept": [
+        "Good morning."
+      ],
+      "reject": [
+        "Good evening.",
+        "Hello."
+      ]
+    },
+    {
+      "sentence": "hello",
+      "accept": [
+        "Hello.",
+        "Hi."
+      ],
+      "reject": [
+        "Goodbye.",
+        "Thank you."
+      ]
+    },
+    {
+      "sentence": "hot-today",
+      "accept": [
+        "It is hot today.",
+        "It's hot today.",
+        "Today is hot."
+      ],
+      "reject": [
+        "It is cold today."
+      ]
+    },
+    {
+      "sentence": "how-much-this",
+      "accept": [
+        "How much is this?"
+      ],
+      "reject": [
+        "How much is that?",
+        "What is this?"
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher.",
+        "A student."
+      ]
+    },
+    {
+      "sentence": "like-coffee",
+      "accept": [
+        "I like coffee.",
+        "I love coffee."
+      ],
+      "reject": [
+        "I like tea.",
+        "I want coffee.",
+        "Coffee."
+      ]
+    },
+    {
+      "sentence": "like-tea",
+      "accept": [
+        "I like tea.",
+        "I love tea."
+      ],
+      "reject": [
+        "I like coffee.",
+        "I want tea.",
+        "Tea."
+      ]
+    },
+    {
+      "sentence": "speak-english",
+      "accept": [
+        "Do you speak English?"
+      ],
+      "reject": [
+        "Do you speak Chinese?",
+        "I speak English.",
+        "Speak English?"
+      ]
+    },
+    {
+      "sentence": "thank-you",
+      "accept": [
+        "Thank you.",
+        "Thanks."
+      ],
+      "reject": [
+        "Please.",
+        "Hello."
+      ]
+    },
+    {
+      "sentence": "this-is-book",
+      "accept": [
+        "This is a book.",
+        "It's a book."
+      ],
+      "reject": [
+        "This is a car.",
+        "That is a book."
+      ]
+    }
+  ]
+}
