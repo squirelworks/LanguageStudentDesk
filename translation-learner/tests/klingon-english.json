@@ -1,0 +1,221 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "klingon",
+  "into": "english",
+  "about": "Klingon to English. Prefixes mark the subject (jI-, Da-, ma-, vI-), so English that drops I/you/we fails. Object-verb-subject order does not change which meanings must appear. Present tense leaves past and future open where unmarked. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "hello",
+      "accept": [
+        "Hello.",
+        "Hi."
+      ],
+      "reject": [
+        "Goodbye.",
+        "Thank you.",
+        "Success!"
+      ]
+    },
+    {
+      "sentence": "success",
+      "accept": [
+        "Success!",
+        "Success."
+      ],
+      "reject": [
+        "Hello.",
+        "I succeed."
+      ]
+    },
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know.",
+        "Don't understand."
+      ]
+    },
+    {
+      "sentence": "speak-klingon",
+      "accept": [
+        "Do you speak Klingon?"
+      ],
+      "reject": [
+        "Do you speak English?",
+        "I speak Klingon.",
+        "Speak Klingon?"
+      ]
+    },
+    {
+      "sentence": "where-toilet",
+      "accept": [
+        "Where is the toilet?",
+        "Where's the toilet?"
+      ],
+      "reject": [
+        "Where is the hotel?",
+        "Where is the station?"
+      ]
+    },
+    {
+      "sentence": "we-are-klingons",
+      "accept": [
+        "We are Klingons."
+      ],
+      "reject": [
+        "I am a Klingon.",
+        "You are Klingons.",
+        "Klingons."
+      ]
+    },
+    {
+      "sentence": "hungry",
+      "accept": [
+        "I am hungry.",
+        "I'm hungry."
+      ],
+      "reject": [
+        "You are hungry.",
+        "We are hungry.",
+        "Hungry."
+      ]
+    },
+    {
+      "sentence": "i-sleep",
+      "accept": [
+        "I sleep.",
+        "I'm sleeping.",
+        "I slept.",
+        "I'll sleep."
+      ],
+      "reject": [
+        "We sleep.",
+        "Sleep.",
+        "The child sleeps."
+      ]
+    },
+    {
+      "sentence": "i-fight",
+      "accept": [
+        "I fight.",
+        "I'm fighting.",
+        "I fought.",
+        "I'll fight."
+      ],
+      "reject": [
+        "We fight.",
+        "Fight.",
+        "You fight."
+      ]
+    },
+    {
+      "sentence": "we-fight",
+      "accept": [
+        "We fight.",
+        "We are fighting.",
+        "We fought.",
+        "We'll fight."
+      ],
+      "reject": [
+        "I fight.",
+        "Fight.",
+        "You fight."
+      ]
+    },
+    {
+      "sentence": "sleep-command",
+      "accept": [
+        "Sleep!",
+        "Sleep."
+      ],
+      "reject": [
+        "I sleep.",
+        "We sleep.",
+        "The child sleeps."
+      ]
+    },
+    {
+      "sentence": "child-sleeps",
+      "accept": [
+        "The child sleeps.",
+        "A child sleeps.",
+        "The child is sleeping."
+      ],
+      "reject": [
+        "I sleep.",
+        "The officer sleeps.",
+        "The child fights."
+      ]
+    },
+    {
+      "sentence": "officer-sees-child",
+      "accept": [
+        "The officer sees the child.",
+        "An officer sees a child."
+      ],
+      "reject": [
+        "The captain sees the child.",
+        "The officer sees the ship.",
+        "I see the child."
+      ]
+    },
+    {
+      "sentence": "captain-sees-ship",
+      "accept": [
+        "The captain sees the ship.",
+        "A captain sees a ship."
+      ],
+      "reject": [
+        "The officer sees the ship.",
+        "The captain sees the child.",
+        "I see the ship."
+      ]
+    },
+    {
+      "sentence": "i-see-ship",
+      "accept": [
+        "I see the ship.",
+        "I see a ship.",
+        "I'm looking at the ship."
+      ],
+      "reject": [
+        "We see the ship.",
+        "I see the child.",
+        "See the ship."
+      ]
+    },
+    {
+      "sentence": "eat-food",
+      "accept": [
+        "I eat the food.",
+        "I eat food.",
+        "I'm eating food.",
+        "I ate the food."
+      ],
+      "reject": [
+        "We eat food.",
+        "I drink water.",
+        "Eating food."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "I'll drink water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I eat food.",
+        "Drinking water."
+      ]
+    }
+  ]
+}

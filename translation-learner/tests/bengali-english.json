@@ -1,0 +1,204 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "bengali",
+  "into": "english",
+  "about": "Bengali to English. Bengali usually writes the subject (আমি / তুমি / আপনি), so English that drops it fails. Present tense leaves past and future open where unmarked. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "dont-know",
+      "accept": [
+        "I don't know.",
+        "I do not know."
+      ],
+      "reject": [
+        "I know.",
+        "I don't understand.",
+        "Don't know."
+      ]
+    },
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know.",
+        "Don't understand."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "I'll drink water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I want water.",
+        "I drink water and tea.",
+        "Drinking water."
+      ]
+    },
+    {
+      "sentence": "eat-rice",
+      "accept": [
+        "We eat rice.",
+        "We're eating rice.",
+        "We ate rice.",
+        "We'll eat rice."
+      ],
+      "reject": [
+        "I eat rice.",
+        "We eat bread.",
+        "Eating rice."
+      ]
+    },
+    {
+      "sentence": "give-water",
+      "accept": [
+        "Please give me water.",
+        "Give me water, please."
+      ],
+      "reject": [
+        "Give me water.",
+        "Please give me tea.",
+        "Water, please."
+      ]
+    },
+    {
+      "sentence": "go-school",
+      "accept": [
+        "I go to school.",
+        "I'm going to school.",
+        "I went to school.",
+        "I'll go to school."
+      ],
+      "reject": [
+        "I go home.",
+        "I like school.",
+        "We go to school.",
+        "Going to school."
+      ]
+    },
+    {
+      "sentence": "going-home",
+      "accept": [
+        "I am going home.",
+        "I'm going home.",
+        "I go home."
+      ],
+      "reject": [
+        "I am going to school.",
+        "We are going home.",
+        "Going home."
+      ]
+    },
+    {
+      "sentence": "have-cat",
+      "accept": [
+        "I have a cat."
+      ],
+      "reject": [
+        "I have a dog.",
+        "You have a cat.",
+        "Have a cat."
+      ]
+    },
+    {
+      "sentence": "hello",
+      "accept": [
+        "Hello.",
+        "Hi."
+      ],
+      "reject": [
+        "Goodbye.",
+        "Thank you."
+      ]
+    },
+    {
+      "sentence": "hot-today",
+      "accept": [
+        "It is hot today.",
+        "It's hot today.",
+        "Today is hot."
+      ],
+      "reject": [
+        "It is cold today."
+      ]
+    },
+    {
+      "sentence": "how-much-this",
+      "accept": [
+        "How much is this?"
+      ],
+      "reject": [
+        "How much is that?",
+        "What is this?"
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher.",
+        "A student."
+      ]
+    },
+    {
+      "sentence": "speak-english",
+      "accept": [
+        "Do you speak English?"
+      ],
+      "reject": [
+        "Do you speak Chinese?",
+        "I speak English.",
+        "Speak English?"
+      ]
+    },
+    {
+      "sentence": "thank-you",
+      "accept": [
+        "Thank you.",
+        "Thanks."
+      ],
+      "reject": [
+        "Please.",
+        "Hello."
+      ]
+    },
+    {
+      "sentence": "this-is-book",
+      "accept": [
+        "This is a book.",
+        "It's a book."
+      ],
+      "reject": [
+        "This is a car.",
+        "That is a book."
+      ]
+    },
+    {
+      "sentence": "where-going",
+      "accept": [
+        "Where are you going?",
+        "Where do you go?",
+        "Where are you headed?"
+      ],
+      "reject": [
+        "Where am I going?",
+        "Are you going?",
+        "Where going?"
+      ]
+    }
+  ]
+}
