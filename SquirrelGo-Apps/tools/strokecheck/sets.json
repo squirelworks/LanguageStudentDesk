@@ -116,7 +116,9 @@
    "key": "hangul",
    "fonts": [
     "noto-sans-kr"
-   ]
+   ],
+   "min_coverage": 0.69,
+   "min_precision": 0.85
   },
   "hebrew": {
    "files": [
