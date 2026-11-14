@@ -11,9 +11,9 @@ window.PROGRAMMING.perl = {
   comment: "#",
   keywords: [
     "my", "our", "use", "strict", "warnings", "feature", "sub", "return", "if", "elsif", "else", "unless", "foreach", "for",
-    "while", "until", "last", "next", "and", "or", "not", "eq", "ne", "lt", "gt", "cmp",
+    "while", "until", "last", "next", "and", "or", "not", "eq", "ne", "lt", "gt", "cmp", "package", "bless", "local", "die",
   ],
-  builtins: ["print", "say", "push", "pop", "shift", "sort", "reverse", "keys", "values", "exists", "join", "split", "length", "uc", "lc", "scalar", "sprintf", "printf", "map", "grep"],
+  builtins: ["print", "say", "push", "pop", "shift", "sort", "reverse", "keys", "values", "exists", "join", "split", "length", "uc", "lc", "scalar", "sprintf", "printf", "map", "grep", "open", "close", "chomp", "bless", "ref", "die"],
   lessons: [
     {
       id: "first",
@@ -378,6 +378,350 @@ my $list = [10, 20, 30];
 my $copy = $list;
 push @$copy, 40;
 say scalar @$list;`, options: ["4", "3", "40", "1"], answer: "4", why: "Copying a reference copies the pointer, not the array. Both names point at the same array, which now has four items." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Reading and writing files",
+      summary: "open, readline, chomp, and the diamond operator.",
+      sections: [
+        {
+          p: "<code>open</code> ties a filehandle to a path. The mode <code>'&gt;'</code> writes (replacing any old file), <code>'&lt;'</code> reads, and <code>'&gt;&gt;'</code> appends. Always check the open with <code>or die $!</code>: <code>$!</code> holds the system error. <code>&lt;$in&gt;</code> reads one line, and <code>chomp</code> strips the newline.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+open my $out, '>', 'stash.txt' or die $!;
+print {$out} "acorn 6\\nhazelnut 2\\nwalnut 1\\n";
+close $out;
+
+open my $in, '<', 'stash.txt' or die $!;
+while (my $line = <$in>) {
+    chomp $line;
+    my ($nut, $n) = split / /, $line;
+    say "$nut => $n";
+}
+close $in;`,
+          out: "acorn => 6\nhazelnut => 2\nwalnut => 1",
+        },
+        {
+          h: "The diamond operator",
+          p: "<code>&lt;&gt;</code> reads from each file named in <code>@ARGV</code>, the same way a one-liner does. Inside a block you can set <code>@ARGV</code> for a moment with <code>local</code>, so a script can point the diamond at a chosen file.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+open my $out, '>', 'stash.txt' or die $!;
+print {$out} "acorn 6\\nhazelnut 2\\nwalnut 1\\n";
+close $out;
+
+{
+    local @ARGV = ('stash.txt');
+    my $total = 0;
+    while (<>) {
+        chomp;
+        my ($nut, $n) = split;
+        $total += $n;
+    }
+    say "total $total";
+}`,
+          out: "total 9",
+        },
+        {
+          h: "Appending",
+          p: "Mode <code>'&gt;&gt;'</code> adds to the end. <code>say {$log} ...</code> prints to that handle with a newline. Reading the file back afterwards shows both lines.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+open my $log, '>>', 'log.txt' or die $!;
+say {$log} "day 1";
+say {$log} "day 2";
+close $log;
+
+open my $r, '<', 'log.txt' or die $!;
+print while <$r>;
+close $r;`,
+          out: "day 1\nday 2",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+open my $fh, '>', 't.txt' or die $!;
+print {$fh} "a\\nb\\n";
+close $fh;
+open my $in, '<', 't.txt' or die $!;
+my @lines = <$in>;
+close $in;
+say scalar @lines;`, options: ["2", "1", "3", "0"], answer: "2", why: "Two lines were written, and reading in list context returns one element per line." },
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+open my $fh, '>', 'n.txt' or die $!;
+print {$fh} "x";
+close $fh;
+open my $fh2, '>>', 'n.txt' or die $!;
+print {$fh2} "y";
+close $fh2;
+open my $in, '<', 'n.txt' or die $!;
+local $/; say <$in>;
+close $in;`, options: ["xy", "y", "x", "x\ny"], answer: "xy", why: ">> appends y after x. Setting $/ to undef makes one read return the whole file." },
+        { q: "What does chomp do to a line read with <>?", options: ["Removes the trailing newline", "Removes all spaces", "Lowercases the line", "Splits the line into words"], answer: "Removes the trailing newline", why: "<> keeps the newline; chomp strips it so the string is just the text." },
+      ],
+    },
+    {
+      id: "packages",
+      title: "Packages and modules",
+      summary: "package names, qualified subs, and use for core modules.",
+      sections: [
+        {
+          p: "A <code>package</code> gives a namespace for subroutines. <code>MathNuts::share</code> calls <code>share</code> inside package <code>MathNuts</code>. Switching back to <code>package main</code> returns to the default namespace where the script began. Several packages can live in one file while you are learning; real modules usually get their own <code>.pm</code> file.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+package MathNuts;
+use strict;
+use warnings;
+
+sub share {
+    my ($nuts, $squirrels) = @_;
+    $squirrels //= 2;
+    return int($nuts / $squirrels);
+}
+
+package main;
+say MathNuts::share(17, 5);
+say MathNuts::share(9);`,
+          out: "3\n4",
+        },
+        {
+          h: "use loads a module",
+          p: "<code>use List::Util qw(sum max);</code> loads a core module and imports the named subs into the current package. After that, <code>sum</code> and <code>max</code> work like built-ins. <code>qw(...)</code> is just a tidy list of words.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+use List::Util qw(sum max);
+
+my @nuts = (5, 12, 3, 8);
+say sum(@nuts);
+say max(@nuts);
+say sum(grep { $_ > 4 } @nuts);`,
+          out: "28\n12\n25",
+        },
+        {
+          h: "our for package variables",
+          p: "<code>my</code> is private to a block. <code>our</code> declares a package variable that other code can reach by name. They are handy for a shared setting; for most data, passing arguments is clearer.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+package Config;
+our $LIMIT = 10;
+
+package main;
+say "limit $Config::LIMIT";
+$Config::LIMIT = 4;
+say "limit $Config::LIMIT";`,
+          out: "limit 10\nlimit 4",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+package Greeter;
+sub hello { my ($name) = @_; return "Hi, $name"; }
+
+package main;
+say Greeter::hello("Pip");`, options: ["Hi, Pip", "hello Pip", "Greeter", "Pip"], answer: "Hi, Pip", why: "Greeter::hello calls the sub in that package with Pip as $_[0]." },
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+use List::Util qw(min);
+
+say min(9, 2, 7);`, options: ["2", "9", "7", "18"], answer: "2", why: "min from List::Util returns the smallest number." },
+        { q: "What is the difference between my $x and our $x?", options: ["my is private to the block; our is a package variable others can name", "our is faster", "my is only for numbers", "They are the same under strict"], answer: "my is private to the block; our is a package variable others can name", why: "our puts the name in the package symbol table; my does not." },
+      ],
+    },
+    {
+      id: "objects",
+      title: "Blessed objects",
+      summary: "bless, methods with ->, and a tiny class.",
+      sections: [
+        {
+          p: "Perl's classic objects are hashes (or other references) that have been <code>bless</code>ed into a package. <code>$class->new(...)</code> calls <code>new</code> as a <b>class method</b>; inside it, <code>bless $hash, $class</code> marks the hash as belonging to that package. Afterwards <code>$obj->add(4)</code> calls <code>add</code> with the object as the first argument.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+package Stash;
+use strict;
+use warnings;
+
+sub new {
+    my ($class, %args) = @_;
+    return bless {
+        name => $args{name} // 'anon',
+        nuts => $args{nuts} // 0,
+    }, $class;
+}
+
+sub add {
+    my ($self, $n) = @_;
+    $self->{nuts} += $n;
+    return $self->{nuts};
+}
+
+sub report {
+    my ($self) = @_;
+    return "$self->{name} has $self->{nuts}";
+}
+
+package main;
+my $s = Stash->new(name => 'Hazel', nuts => 3);
+say $s->add(4);
+say $s->report;`,
+          out: "7\nHazel has 7",
+        },
+        {
+          h: "Methods that return the object",
+          p: "Returning <code>$self</code> lets the caller chain calls. Each method still receives the same blessed hash.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+package Counter;
+use strict;
+use warnings;
+
+sub new { bless { n => 0 }, $_[0] }
+sub tick { my ($self) = @_; $self->{n}++; return $self; }
+sub value { $_[0]{n} }
+
+package main;
+say Counter->new->tick->tick->tick->value;`,
+          out: "3",
+        },
+        {
+          h: "ref and inheritance with @ISA",
+          p: "<code>ref $obj</code> gives the package name a reference was blessed into (or the plain type for an unblessed reference). A package can list parents in <code>@ISA</code>; method lookup walks that list.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+package Animal;
+sub sound { '...' }
+
+package Squirrel;
+our @ISA = ('Animal');
+sub sound { 'chitter' }
+
+package main;
+my $a = bless {}, 'Animal';
+my $s = bless {}, 'Squirrel';
+say ref $a, ' ', $a->sound;
+say ref $s, ' ', $s->sound;
+say ref [];`,
+          out: "Animal ...\nSquirrel chitter\nARRAY",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+package Box;
+sub new { bless { n => $_[1] }, $_[0] }
+sub n { $_[0]{n} }
+
+package main;
+my $b = Box->new(5);
+say ref($b), ' ', $b->n;`, options: ["Box 5", "HASH 5", "Box n", "5 5"], answer: "Box 5", why: "bless tags the hash as Box, so ref returns Box, and n reads the field." },
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+package T;
+sub new { bless { v => 0 }, shift }
+sub bump { my ($s) = @_; $s->{v} += 2; $s }
+sub v { $_[0]{v} }
+
+package main;
+say T->new->bump->bump->v;`, options: ["4", "2", "0", "T"], answer: "4", why: "Two bumps add 2 each; returning $s keeps the chain on one object." },
+        { q: "What does bless $href, $class do?", options: ["Marks the reference as an object of that package so -> finds its methods", "Copies the hash into a new class", "Converts the hash into a string", "Imports the class into main"], answer: "Marks the reference as an object of that package so -> finds its methods", why: "That tag is what turns a plain hash reference into a Perl object." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "Parse lines into hashes, total with a hash, and print a table.",
+      sections: [
+        {
+          p: "This script walks a ledger of lines such as <code>day 3: acorn x9</code>. A regex pulls each good line into a hash; bad lines are reported and skipped. A hash of totals feeds a sorted table with percentages, and a final pass picks the biggest single find — the same shape as a small report you might write for a log file.",
+          code: `use strict;
+use warnings;
+use feature 'say';
+
+my @ledger = (
+    'day 1: acorn x6',
+    'day 1: hazelnut x2',
+    'day 2: walnut x1',
+    'day two: acorn x3',
+    'day 3: acorn x9',
+    'day 3: hazelnut x4',
+    'day 4 acorn x5',
+);
+
+my @entries;
+my $num = 0;
+for my $line (@ledger) {
+    $num++;
+    if ($line =~ /^day (\\d+): ([a-z]+) x(\\d+)$/) {
+        push @entries, { day => $1, nut => $2, count => $3 };
+    } else {
+        say "skipped line $num: cannot read \\"$line\\"";
+    }
+}
+
+my %totals;
+$totals{ $_->{nut} } += $_->{count} for @entries;
+my $all = 0;
+$all += $_ for values %totals;
+
+for my $nut (sort { $totals{$b} <=> $totals{$a} || $a cmp $b } keys %totals) {
+    printf "%-9s%3d%7.1f%%\\n", $nut, $totals{$nut}, 100 * $totals{$nut} / $all;
+}
+
+my ($best) = sort { $b->{count} <=> $a->{count} } @entries;
+say "best find: $best->{count} $best->{nut} on day $best->{day}";`,
+          out: "skipped line 4: cannot read \"day two: acorn x3\"\nskipped line 7: cannot read \"day 4 acorn x5\"\nacorn     15   68.2%\nhazelnut   6   27.3%\nwalnut     1    4.5%\nbest find: 9 acorn on day 3",
+        },
+        {
+          h: "Ideas to try",
+          p: "Read the ledger from a file with <code>while (&lt;&gt;)</code>, wrap the parser in a <code>package Ledger</code> with a blessed object that holds the totals, or warn when a nut name is not in a fixed list.",
+        },
+      ],
+      practice: [
+        { q: "Why store each entry as a hash like { day => 1, nut => \"acorn\", count => 6 }?", options: ["Named fields stay clear when you sort and total later", "Hashes are the only way to store numbers", "Arrays cannot hold three values", "Perl requires hashes for printf"], answer: "Named fields stay clear when you sort and total later", why: "$_->{count} reads better than $_->[2] once the script grows." },
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+my %t = (acorn => 3, walnut => 3, hazel => 1);
+say join ',', sort { $t{$b} <=> $t{$a} || $a cmp $b } keys %t;`, options: ["acorn,walnut,hazel", "walnut,acorn,hazel", "hazel,acorn,walnut", "acorn,hazel,walnut"], answer: "acorn,walnut,hazel", why: "Count 3 ties are broken by name, so acorn before walnut, then hazel with 1." },
+        { kind: "output", q: "What does this print?", code: `use strict;
+use warnings;
+use feature 'say';
+
+my @e = ({ n => 2 }, { n => 9 }, { n => 4 });
+my ($best) = sort { $b->{n} <=> $a->{n} } @e;
+say $best->{n};`, options: ["9", "2", "4", "15"], answer: "9", why: "Sorting by n descending puts 9 first, and list assignment takes that one hash." },
       ],
     },
   ],
