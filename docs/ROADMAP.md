@@ -1,71 +1,71 @@
 # Roadmap
 
-A copy of the roadmap issues on GitHub, taken 2026-11-05 for the handoff (`HANDOFF.md`). **The issues are the source of truth**: tick boxes there as PRs merge, and refresh this copy when a batch of work lands. Links like #188 point at this repo's issues; "data #N" means a squirrel-lang-data PR.
+A copy of the roadmap issues on GitHub, taken 2026-11-14 for the handoff (`HANDOFF.md`; the suggested order is in `FUTURE-WORK.md`). **The issues are the source of truth**: tick boxes there as PRs merge, and refresh this copy at the next handoff. Links like #188 point at this repo's issues; "data #N" means a squirrel-lang-data PR. A closed issue is marked (closed).
 
 ## Contents
 
 - [#199 Roadmap: LanguageStudentDesk and SquirrelGo](https://github.com/squirelworks/LanguageStudentDesk/issues/199)
-- [#196 Central data repo (squirrel-lang-data) as a submodule, and a modular framework for every app](https://github.com/squirelworks/LanguageStudentDesk/issues/196)
-- [#198 Content review and testing](https://github.com/squirelworks/LanguageStudentDesk/issues/198)
-- [#201 Keep the language menu simple; turn on more in Settings](https://github.com/squirelworks/LanguageStudentDesk/issues/201)
-- [#188 Audit and fix stroke-order animations in every script](https://github.com/squirelworks/LanguageStudentDesk/issues/188)
-- [#189 Make character sets as complete as possible](https://github.com/squirelworks/LanguageStudentDesk/issues/189)
-- [#200 CJK character variants, regional varieties, historical stages and pronunciation choices](https://github.com/squirelworks/LanguageStudentDesk/issues/200)
-- [#190 Expand vocabulary by level from cited sources](https://github.com/squirelworks/LanguageStudentDesk/issues/190)
-- [#191 Plan grammar lessons by level for every language](https://github.com/squirelworks/LanguageStudentDesk/issues/191)
-- [#192 References and Resources by level, plus a grammar web](https://github.com/squirelworks/LanguageStudentDesk/issues/192)
-- [#194 Translation learner that accepts equivalent phrasings, alpha until then](https://github.com/squirelworks/LanguageStudentDesk/issues/194)
-- [#195 Programming learner sections, alphabetical view, more languages and a numerical methods track](https://github.com/squirelworks/LanguageStudentDesk/issues/195)
-- [#197 Native apps instead of WebView shells, if feasible](https://github.com/squirelworks/LanguageStudentDesk/issues/197)
+- [#196 Roadmap: Central data repo (squirrel-lang-data) as a submodule, and a modular framework for every app](https://github.com/squirelworks/LanguageStudentDesk/issues/196)
+- [#198 Roadmap: Content review and testing](https://github.com/squirelworks/LanguageStudentDesk/issues/198)
+- [#201 Roadmap: Keep the language menu simple; turn on more in Settings](https://github.com/squirelworks/LanguageStudentDesk/issues/201)
+- [#188 Roadmap: Audit and fix stroke-order animations in every script](https://github.com/squirelworks/LanguageStudentDesk/issues/188)
+- [#189 Roadmap: Make character sets as complete as possible](https://github.com/squirelworks/LanguageStudentDesk/issues/189)
+- [#200 Roadmap: CJK character variants, regional varieties, historical stages and pronunciation choices](https://github.com/squirelworks/LanguageStudentDesk/issues/200)
+- [#190 Roadmap: Expand vocabulary by level from cited sources](https://github.com/squirelworks/LanguageStudentDesk/issues/190)
+- [#191 Roadmap: Plan grammar lessons by level for every language](https://github.com/squirelworks/LanguageStudentDesk/issues/191)
+- [#192 Roadmap: References and Resources by level, plus a grammar web](https://github.com/squirelworks/LanguageStudentDesk/issues/192)
+- [#194 Roadmap: Translation learner that accepts equivalent phrasings, alpha until then](https://github.com/squirelworks/LanguageStudentDesk/issues/194)
+- [#195 Roadmap: Programming learner sections (modern, older, joke), alphabetical view, more languages and a numerical methods track](https://github.com/squirelworks/LanguageStudentDesk/issues/195)
+- [#197 Roadmap: Native apps instead of WebView shells, if feasible](https://github.com/squirelworks/LanguageStudentDesk/issues/197)
 - [#281 SquirrelGo Orthodox Bible: first-open notice, and the Patriarchal Text shows without accents](https://github.com/squirelworks/LanguageStudentDesk/issues/281)
-- [#284 Translation Learner (alpha): adding words scores 0% while a wrong noun scores 87%](https://github.com/squirelworks/LanguageStudentDesk/issues/284)
+- [#284 Translation Learner (alpha): adding words scores 0% while a wrong noun scores 87%](https://github.com/squirelworks/LanguageStudentDesk/issues/284) (closed)
 
 ---
 
 ## #199 Roadmap: LanguageStudentDesk and SquirrelGo
 
-The plan for growing LanguageStudentDesk, the SquirrelGo apps and the Student Desk programs. Each item has its own issue. Work lands as **one seam per PR**, each PR says `Part of #<issue>`, and every PR follows the merge guidelines (one seam, share don't fork, data before shells, Desk and phone stay twins, no implementation notes in the UI, APKs in Releases).
+The plan for growing LanguageStudentDesk, the SquirrelGo apps and the Student Desk programs. Each item has its own issue. Every PR says `Part of #<issue>` and follows the merge guidelines (share don't fork, data before shells, Desk and phone stay twins, no implementation notes in the UI, APKs in Releases). Lesson from the last round: **open few, sizeable PRs per repo (one theme each) and merge them one after another**, rather than many small PRs at once.
 
-**Status as of 2026-11-05** (handoff brief: `docs/HANDOFF.md`). Language content now lives in [squirrel-lang-data](https://github.com/squirelworks/squirrel-lang-data), pinned at `data/` to the v0.1.3 tag. Every child issue has its own checklist: tick a box when the PR that finishes it merges, and name the PR on the line.
+**Status as of 2026-11-14** (handoff brief: `docs/HANDOFF.md`; suggested order, risks and ideas: `docs/FUTURE-WORK.md`). Language content lives in [squirrel-lang-data](https://github.com/squirelworks/squirrel-lang-data), pinned at `data/` to the **v0.1.5** tag (#319). The squirrelgo-v0.1.3 release is drafted but unpublished and was built on data v0.1.4, so it wants a refresh before the owner publishes. Every unticked box below is open for the next agent (Cursor or Codex). Tick a box when the PR that finishes it merges, and name the PR on the line.
 
 ### Foundation (runs alongside everything)
 
-- [ ] #196 One shared content source and a modular framework for every app. *The Desk and the character apps generate everything from `data/`; still open: the rest of the apps' build steps and a drift check for them.*
-- [ ] #198 Content review and testing. *CI data and stroke checks, the review checklist and the Content error form are in; still open: a recorded review per language and more translation test pairs.*
-- [ ] #201 Keep the language menu simple: standard languages by default, a notice about what's available, and Settings levels (Simple, More, Everything) plus individual switches defined once in a shared `features.json`. A first-time welcome card suggests Latin, Klingon and Aramaic. *Menu, levels, switches and welcome card shipped (#218, #262); still open: the Syriac alphabet for Aramaic.*
+- [ ] #196 One shared content source and a modular framework for every app. *The Desk and the character apps generate everything from `data/`; open: the rest of the apps' build steps, a drift check for them, and moving the programming courses into the data repo (data v0.2.0).*
+- [ ] #198 Content review and testing. *CI data and stroke checks, the review checklist and the Content error form are in; recorded reviews exist for 9 of 38 languages. Open: the other reviews (including the new French, German and Italian columns and the Syriac strokes), more translation test pairs, and the learner deep-drill passes.*
+- [ ] #201 Keep the language menu simple. *Menu, levels, switches and welcome card shipped (#218, #262); the Syriac (Estrangela) alphabet shipped in SquirrelGo Alphabets (data #106, #319), with machine-drafted strokes that still need a person's review. Open: per-language pages for varieties, squirrelator reading `features.json`, Serto and Madnhaya shapes, more Aramaic grammar from published sources.*
 
 ### Phase 1: Characters
 
-- [ ] #188 Audit and fix stroke-order animations in every script. *Checks in CI (#205); Bopomofo, kanji and kana done, many scripts' flagged letters redrawn; 23 known failures left in the stroke-check baseline.*
-- [ ] #189 Make character sets as complete as possible. *Not started.*
-- [ ] #200 CJK character variants, regional varieties, historical stages and pronunciation choices. *The variety schema is in (data #3, first used by Aramaic); nothing else yet.*
+- [ ] #188 Audit and fix stroke-order animations in every script. *Checks in CI (#205); Bopomofo, kanji and kana done, many scripts' flagged letters redrawn. Open: 23 known failures in the stroke-check baseline, the per-script audits, and a human review of the Syriac draft.*
+- [ ] #189 Make character sets as complete as possible. *Syriac Estrangela added (data #106); open: target sets by public standard and a generated coverage report.*
+- [ ] #200 CJK character variants, regional varieties, historical stages and pronunciation choices. *The variety schema is in (data #3, first used by Aramaic). Open: everything else; start with `variants/` from Unihan and Cantonese as the first variety.*
 
 ### Phase 2: Vocabulary and grammar
 
-- [ ] #190 Expand vocabulary by level from cited sources. *JLPT, NIKL, CC-CEDICT and wordfreq imports with level and frequency tags are in; 22 languages still untagged.*
-- [ ] #191 Plan grammar lessons by level for every language. *72-lesson courses for 30 languages and 24-lesson courses for Tibetan and Klingon, levelled A1 to C1, all on data `main` for v0.1.4; the source-limited languages wait for published sources.*
+- [ ] #190 Expand vocabulary by level from cited sources. *JLPT, NIKL, CC-CEDICT and wordfreq imports with level and frequency tags are in; open: 22 languages still untagged.*
+- [ ] #191 Plan grammar lessons by level for every language. *72-lesson courses for 30 languages and 24-lesson courses for Tibetan and Klingon shipped in data v0.1.4 (#312). Open: the source-limited languages and per-language reviews.*
 
 ### Phase 3: References and resources
 
-- [ ] #192 Level tabs for References and Resources, plus a grammar web. *Tabs and grammar web shipped; still open: collecting references for every language.*
+- [ ] #192 Level tabs for References and Resources, plus a grammar web. *Tabs and grammar web shipped; open: collecting references for every language.*
 
 ### Phase 4: Meaning and translation
 
 - [x] #193 Meaning network as a web, with languages compared side by side and no scroll bar stuck at the bottom of the page
-- [ ] #194 Translation learner that accepts equivalent phrasings, marked **(alpha)** until its tests pass. *Japanese and Korean pass and lost the label; other pairs stay alpha. See also #284.*
+- [ ] #194 Translation learner that accepts equivalent phrasings, marked **(alpha)** until its tests pass. *Japanese and Korean pass and lost the label; French, German and Italian added (#319); close-word credit settled (#310). Open: test sets for Chinese and the other full columns, and calling squirrelator for checking.*
 
 ### Phase 5: Programming learner
 
-- [ ] #195 Programming learner sections, A–Z view, switches, more languages and a numerical methods track. *Sections, switches, ~20 new courses and the whole numerical methods track are in; still open: more content per course, README housekeeping, the Android twin.*
+- [ ] #195 Programming learner sections, A–Z view, switches, more languages and a numerical methods track. *Sections, switches, ~20 new courses and the whole numerical methods track are in; C, C++, C#, Delphi, Rust, Go, JavaScript, TypeScript, Java and Bash deepened (#297–#303, #318). Open: deeper content for the other courses, README housekeeping, the Android twin, moving courses to the data repo.*
 
 ### Later: Native apps
 
-- [ ] #197 Native apps instead of WebView shells, if feasible. *Decision recorded (#206, #231): Kotlin + Compose Multiplatform. squirrelator's `native/` app is the first Compose app; no LSD app is migrated yet.*
+- [ ] #197 Native apps instead of WebView shells, if feasible. *Decision recorded (#206, #231): Kotlin + Compose Multiplatform. squirrelator's `native/` app is the first Compose app; no LSD app is migrated yet (suggested pilot: SquirrelGo Kana). Replacing anything needs the owner's sign-off.*
 
 ### Bugs found in testing
 
-- [ ] #281 Orthodox Bible: first-open fallback notice (the accents half is fixed by #292)
-- [ ] #284 Translation Learner: close-word credit (the zero-score half is fixed by #287)
+- [ ] #281 Orthodox Bible: the first-open notice is fixed (#317) and the accents label is in (#292); only the optional accented Patriarchal Text is left.
+- [x] #284 Translation Learner: close-word credit (zero-score half fixed by #287; no close credit for things, places, names, languages and days, #310)
 
 ### Labels
 
@@ -74,7 +74,7 @@ The plan for growing LanguageStudentDesk, the SquirrelGo apps and the Student De
 
 ---
 
-## #196 Central data repo (squirrel-lang-data) as a submodule, and a modular framework for every app
+## #196 Roadmap: Central data repo (squirrel-lang-data) as a submodule, and a modular framework for every app
 
 Part of the roadmap, #199. This is the foundation track and runs alongside the content work.
 
@@ -113,9 +113,11 @@ No app has its own copy of shared content, and CI catches drift and schema error
 
 ---
 
-## #198 Content review and testing
+## #198 Roadmap: Content review and testing
 
 Part of the roadmap, #199. This runs alongside everything else.
+
+**Status 2026-11-14:** the automated checks and the review process are in; recorded reviews exist for 9 of 38 languages. Open items below are for the next agent; see `docs/FUTURE-WORK.md` for order.
 
 ### Goal
 
@@ -128,9 +130,12 @@ Characters, grammar and vocabulary need a lot of review and testing. Make that s
 - [x] A human review checklist for each language, recorded in the language's folder. (squirrel-lang-data `REVIEWING.md` and `languages/<id>/REVIEW.md`, data #59)
 - [x] A form for content errors (wrong stroke, wrong meaning, wrong level). (squirrel-lang-data's Content error issue form, data #62)
 - [ ] A recorded review for every language (logs exist for Chinese, Russian, French, German, Greek, Korean, Italian, Japanese and Latin):
-  - [ ] Every other language, one PR each
-- [ ] Tests for each language pair in the translation learner (see #194): Japanese–English (#221) and Korean–English (#228) done.
-- [ ] Learner testing passes still to do (the first two passes are in the "Test apps" notes): deep drills in the Grammar, Language, Reference, Resource, Legalese and Programming learners, and the writing pads for the rest of the Alphabets scripts.
+  - [ ] Every other language; several can share one PR. Suggested first: Arabic, Hindi, Hebrew, Thai.
+  - [ ] **Content added after the existing reviews**, which nobody has checked yet: the French, German and Italian meaning-matrix columns and the Latin, Greek and Russian fills (data #105, written for this project), and the Syriac strokes (data #106, a machine draft from Noto Sans Syriac). Add a dated entry to each language's `REVIEW.md`.
+- [ ] Tests for each language pair in the translation learner (see #194): Japanese–English (#221) and Korean–English (#228) done; Chinese, French, German, Italian, Latin, Greek and Russian are next.
+- [ ] Learner testing passes still to do (the first two passes are in the "Test apps" notes): deep drills in the Grammar, Language, Reference, Resource, Legalese and Programming learners, and the writing pads for the rest of the Alphabets scripts, Syriac included.
+- [ ] An emulator smoke test for every SquirrelGo APK before a release draft (today the notes say the APKs weren't smoke-tested on a device).
+- [ ] (Idea) Show a plain "not yet reviewed" note for a language with no `REVIEW.md`, driven by the data.
 
 ### Done when
 
@@ -138,9 +143,11 @@ Every content PR runs these checks, and each language has a recorded review.
 
 ---
 
-## #201 Keep the language menu simple; turn on more in Settings
+## #201 Roadmap: Keep the language menu simple; turn on more in Settings
 
 Part of the roadmap, #199.
+
+**Status 2026-11-14:** the menu, levels, switches and welcome card are done, and the Syriac (Estrangela) alphabet reached SquirrelGo Alphabets and the Character Learner with the data v0.1.5 pin (#319). Open items below are for the next agent; see `docs/FUTURE-WORK.md` for order. **Caveat:** the Syriac strokes are a machine draft from Noto Sans Syriac that passes the automated checks but hasn't been reviewed by a person against a writing primer.
 
 ### Problem
 
@@ -150,20 +157,20 @@ The roadmap adds a lot: dialects, historical stages, character forms, pronunciat
 
 Most of this shipped in #218 (Desk window, Desk browser home and the Android suite menu, as twins).
 
-### 1. The main menu stays simple
+#### 1. The main menu stays simple
 
 - [x] It lists only standard modern languages, alphabetically, with a search box. (no pins since #215)
 - [ ] Each language opens its own page, where varieties, pronunciation and character forms are chosen. (Waits for #200 content; the switches exist but hide nothing yet.)
 - [x] A small, dismissible notice says more is available in Settings, and Settings has a "What's in the app" page. (#218)
 
-### 1b. First-time welcome
+#### 1b. First-time welcome
 
 - [x] A first-run welcome card suggests **Latin**, **Klingon** and **Aramaic**, each opening that language's path; after dismissal they stay on "What's in the app". (#218)
 - [x] The featured list is data (`"featured"` in squirrel-lang-data `features.json`). (data #1)
 - [x] A featured language opens from the card whatever level is set.
 - [x] A featured language with no content is left off the card. (#262)
 
-### 2. Settings: one "Show more" level, plus fine-grained switches
+#### 2. Settings: one "Show more" level, plus fine-grained switches
 
 | Level | What it adds |
 |---|---|
@@ -174,13 +181,13 @@ Most of this shipped in #218 (Desk window, Desk browser home and the Android sui
 - [x] Simple, More and Everything levels, plus a **Customize** section with each switch; changing one shows "Custom". (#218)
 - [x] The Programming Learner's older and joke switches live on this Settings page. (#218, #234)
 
-### 3. One set of feature names everywhere
+#### 3. One set of feature names everywhere
 
 - [x] Feature switches defined once, in squirrel-lang-data `features.json`, with id, label, description and default level. (data #1, #6; the Desk regenerates `languages/features.js` from it, #273)
-- [ ] The SquirrelGo apps, the Programming Student Desk and squirrelator all read that file. (The Desk and the suite menu do; squirrelator's settings don't yet.)
+- [ ] The SquirrelGo apps, the Programming Student Desk and squirrelator all read that file. (The Desk and the suite menu do; **open:** squirrelator's settings don't yet.)
 - [ ] Content is tagged with the feature it needs (`requires: "historical"`), so menus filter themselves. (The Programming Learner does; language content waits for #200.)
 
-### 4. Rules
+#### 4. Rules
 
 - A new feature is **off by default** unless the owner decides otherwise, and shows up first in Customize.
 - Nothing should be impossible to find: anything turned off is listed on "What's in the app" with the switch that turns it on.
@@ -191,6 +198,10 @@ Most of this shipped in #218 (Desk window, Desk browser home and the Android sui
 - [x] `languages/aramaic/` in squirrel-lang-data with the variety model from #200: Biblical and Imperial (square script, sharing Hebrew's data), Classical Syriac, and Neo-Aramaic varieties. (data #5)
 - [x] Core vocabulary (data #8), a first grammar (data #11) and reference cards (data #23).
 - [ ] The Syriac alphabet (Estrangela, Serto, Madnhaya) with stroke order, right to left, with sources and licenses cited.
+  - [x] Data: Estrangela course with letter forms and a drafted stroke order (data #106, shipped in data v0.1.5)
+  - [x] SquirrelGo Alphabets and the Character Learner pick it up, with sounds recorded from IPA and a strokecheck set (#319)
+  - [ ] **A person reviews the 22 drafted Estrangela strokes** against a published primer, redraws any that are wrong, and logs it in `languages/aramaic/REVIEW.md` in squirrel-lang-data (primer cited in `SOURCES.md`)
+  - [ ] Serto and Madnhaya shapes (after the Estrangela review)
 - [ ] More grammar, only from published sources (5 lessons and 6 planned today; see #191).
 - [x] Desk and phone twins, and Aramaic on the welcome card. (#218, #262)
 
@@ -200,9 +211,11 @@ The main menu shows only standard languages by default (done), the notice and "W
 
 ---
 
-## #188 Audit and fix stroke-order animations in every script
+## #188 Roadmap: Audit and fix stroke-order animations in every script
 
 Part of the roadmap, #199.
+
+**Status 2026-11-14:** unchanged since 2026-11-05 except that Syriac joined (data #106, #319) with machine-drafted strokes. 23 known failures are still in the baseline. Every open box below is for the next agent; see `docs/FUTURE-WORK.md` for order (Syriac review and the baseline first).
 
 ### Problem
 
@@ -222,16 +235,16 @@ Stroke files now live in [squirrel-lang-data](https://github.com/squirelworks/sq
 
 - [x] Automated **final-frame check**: render each character's finished stroke paths and compare them to the glyph in a reference font. Runs in CI (the Stroke check workflow).
 - [x] **Stroke-count check** against a reference source for each script. (#205)
-- [ ] Clear the known failures listed in `SquirrelGo-Apps/tools/strokecheck/baseline.json` (23 characters as of 2026-11-05), removing each from the baseline as it's fixed:
+- [ ] Clear the known failures listed in `SquirrelGo-Apps/tools/strokecheck/baseline.json` (23 characters, unchanged as of 2026-11-14), removing each from the baseline as it's fixed:
   - [ ] hiragana: う ぐ ぶ ぷ
   - [ ] katakana: ク グ ト ハ
   - [ ] kanji: 九 了 仁 今 八 古 合 含 心 必 斗 比 礼
   - [ ] hangul: ㅇ
   - [ ] tifinagh: ⴰ
 
-### Audit by script (one PR per script)
+### Audit by script
 
-Each box means the script's stroke order and direction were checked against a trustworthy source, not just that the automated checks pass.
+Each box means the script's stroke order and direction were checked against a trustworthy source, not just that the automated checks pass. Several scripts can share one PR.
 
 - [x] Bopomofo (#214)
 - [x] Kanji, regenerated from KanjiVG (#209)
@@ -244,6 +257,7 @@ Each box means the script's stroke order and direction were checked against a tr
 - [ ] Latin
 - [ ] Hebrew (ר redrawn, #250)
 - [ ] Arabic (three letters redrawn, #240)
+- [ ] Syriac (Estrangela): **machine draft** from Noto Sans Syriac that passes both checks (data #106); needs a person to check all 22 letters against a published primer and log it in `languages/aramaic/REVIEW.md`
 - [ ] Devanagari
 - [ ] Bengali (এ redrawn, #244)
 - [ ] Gurmukhi
@@ -281,9 +295,11 @@ The final-frame and stroke-count checks pass for every character in every script
 
 ---
 
-## #189 Make character sets as complete as possible
+## #189 Roadmap: Make character sets as complete as possible
 
 Part of the roadmap, #199.
+
+**Status 2026-11-14:** Syriac Estrangela added (data #106, in the apps since #319). Everything else below is open for the next agent.
 
 ### Goal
 
@@ -300,6 +316,8 @@ Character tables and strokes live in [squirrel-lang-data](https://github.com/squ
   - [ ] Kana, hangul jamo and syllable structure, Bopomofo
   - [ ] Every alphabet's complete letter set, including diacritic and final forms
   - [ ] Syriac (Estrangela, Serto, Madnhaya) for Aramaic (#201)
+    - [x] Estrangela: 22 letters with names, romanization, IPA, example nouns and letter forms (data #106, #319). Strokes are a machine draft awaiting human review (#188).
+    - [ ] Serto and Madnhaya
 - [ ] Report coverage for each script as generated output, not a hardcoded number in the docs.
 - [ ] Every added character passes the final-frame and stroke-count checks before it merges.
 - [ ] Add readings, meanings and examples from the shared data, without forking it per app.
@@ -310,7 +328,7 @@ Each script reaches its target set, and every character has stroke data that pas
 
 ---
 
-## #200 CJK character variants, regional varieties, historical stages and pronunciation choices
+## #200 Roadmap: CJK character variants, regional varieties, historical stages and pronunciation choices
 
 Part of the roadmap, #199.
 
@@ -385,7 +403,7 @@ The schema supports varieties (done), traditional and simplified conversion work
 
 ---
 
-## #190 Expand vocabulary by level from cited sources
+## #190 Roadmap: Expand vocabulary by level from cited sources
 
 Part of the roadmap, #199.
 
@@ -423,9 +441,11 @@ Every language has level-tagged vocabulary from a cited source, and the CI data 
 
 ---
 
-## #191 Plan grammar lessons by level for every language
+## #191 Roadmap: Plan grammar lessons by level for every language
 
 Part of the roadmap, #199.
+
+**Status 2026-11-14:** the 72-lesson courses shipped (data v0.1.4, pinned here by #312 and in squirrelator by squirelworks/squirrelator#41). Open: the source-limited languages and per-language reviews, for the next agent.
 
 ### Goal
 
@@ -457,8 +477,10 @@ Grammar courses live in [squirrel-lang-data](https://github.com/squirelworks/squ
   - [x] Japanese, 73 lessons with 42 smaller points still on the plan list (data #68)
   - [x] Kannada (data #81)
   - [x] Khmer (data #88)
+  - [x] Klingon, 10 → 24 (data #98)
   - [x] Korean (already 72; 16 stub lessons rewritten in data #52)
   - [x] Lao (data #89)
+  - [x] Latin (data #95)
   - [x] Malayalam (data #82)
   - [x] Mongolian (data #90)
   - [x] Odia (data #85)
@@ -469,17 +491,16 @@ Grammar courses live in [squirrel-lang-data](https://github.com/squirelworks/squ
   - [x] Tamil (data #79)
   - [x] Telugu (data #80)
   - [x] Thai (data #78)
-  - [x] Latin (data #95)
   - [x] Tibetan, 6 → 24 (data #97)
-  - [x] Klingon, 10 → 24 (data #98)
-- [ ] Ship the new courses to the apps: data v0.1.4 tag, then the pin bumps here and in squirrelator (needs the owner's "release").
 - [ ] Source-limited languages, only from published grammars, cited in the file, never invented forms:
   - [ ] Aramaic (5 lessons, 6 planned)
   - [ ] Cherokee (12)
   - [ ] Inuktitut (12)
   - [ ] Manipuri (6)
   - [ ] Tamazight (12)
-- [ ] Review and test each language's grammar, one language per PR, logged in its `REVIEW.md` (see squirrel-lang-data `REVIEWING.md`).
+- [x] Ship the new courses to the apps: data v0.1.4 tag (published 2026-11-05), then the pin bumps in LanguageStudentDesk (#312) and squirrelator (squirelworks/squirrelator#41).
+- [ ] Review and test each language's grammar, logged in its `REVIEW.md` (see squirrel-lang-data `REVIEWING.md`). Several languages can share one PR.
+- [ ] Japanese: the 42 smaller points still on the plan list.
 
 English has no grammar course on purpose: it's the base language.
 
@@ -489,7 +510,7 @@ Every language has grammar grouped by level with no empty levels, or the missing
 
 ---
 
-## #192 References and Resources by level, plus a grammar web
+## #192 Roadmap: References and Resources by level, plus a grammar web
 
 Part of the roadmap, #199.
 
@@ -514,9 +535,11 @@ Each language's references and resources can be filtered by level, and the gramm
 
 ---
 
-## #194 Translation learner that accepts equivalent phrasings, alpha until then
+## #194 Roadmap: Translation learner that accepts equivalent phrasings, alpha until then
 
 Part of the roadmap, #199.
+
+**Status 2026-11-14:** French, German and Italian are in the Translation Learner (#319), and the close-word question is settled (#310). Open items below are for the next agent; see `docs/FUTURE-WORK.md` for order.
 
 ### Problem
 
@@ -533,14 +556,17 @@ A simple, predictable translation checker built on the meaning network. Any pair
 - [x] Add rules for dropped words: omitted subjects and pronouns, tense and aspect the source leaves open, optional particles and articles, and word-order variants. (#221)
 - [x] Check answers by matching the meaning units and the required parts, with clear feedback about what was missing or wrong. No free-form machine translation. (#221)
 - [x] An added phrase no longer zeroes the meaning score. (#287, from #284)
-- [ ] Close-word credit: decide whether a near-synonym in a main role ("dinner" for "lunch") should keep getting partial credit. Needs the owner's call (#284).
+- [x] Close-word credit: things, places, names, languages and days take no close credit ("dinner" for "lunch" scores like any other wrong word); other near-synonyms keep partial credit. (#310, closed #284)
+- [x] French, German and Italian columns in the learner, with a content meaning shared by two tokens (ne … pas) counted once. (#319, data v0.1.5)
 - [ ] Tests for each language pair, with accepted and rejected answers:
   - [x] Japanese–English (#221)
   - [x] Korean–English (#228)
-  - [ ] Chinese–English (the data's Chinese column now renders all 89 matrix rows)
-  - [ ] Every other column in the meaning matrix
+  - [ ] Chinese–English (the data's Chinese column renders every matrix row) — **do first**
+  - [ ] French–English, German–English, Italian–English (full columns since data v0.1.5)
+  - [ ] Latin–English, Greek–English, Russian–English (filled to every row in data v0.1.5)
+  - [ ] Every other column in the meaning matrix, as it fills
 - [ ] Remove the "(alpha)" label only for pairs that pass their tests. (Done for Japanese and Korean, #229, #241; `translation-learner/data/tested.js` lists them.)
-- [ ] Use squirrelator's engine for checking and alternatives once it's ready (squirelworks/squirrelator#26), with a PR in each repo naming the other.
+- [ ] Use squirrelator's engine for checking and alternatives once its generated coverage report shows the pair is reliable (squirelworks/squirrelator#26), with a PR in each repo naming the other.
 
 ### Done when
 
@@ -548,7 +574,7 @@ Each supported language pair accepts every natural phrasing in its test set and 
 
 ---
 
-## #195 Programming learner sections, alphabetical view, more languages and a numerical methods track
+## #195 Roadmap: Programming learner sections (modern, older, joke), alphabetical view, more languages and a numerical methods track
 
 Part of the roadmap, #199.
 
@@ -580,6 +606,7 @@ Each language in the first two sections also gets a category tag (such as **Comp
 - [x] More older languages: COBOL (#216), Fortran (#220), Turbo Pascal (#237), classic BASIC (#260).
 - [ ] More content for every language: syntax, concepts, practice and small projects.
   - [x] C (#297), C++ (#298), C# (#299), modern Delphi (#300), Rust (#301), Go (#302), JavaScript (#303)
+  - [x] TypeScript, Java and Bash (#318)
   - [ ] Every other course
 - [x] brainFOOD name note (#212)
 
@@ -608,7 +635,7 @@ The categorized default, the alphabetical view and both switches work on the Des
 
 ---
 
-## #197 Native apps instead of WebView shells, if feasible
+## #197 Roadmap: Native apps instead of WebView shells, if feasible
 
 Part of the roadmap, #199. This depends on the shared-content framework (#196).
 
@@ -637,7 +664,7 @@ A decision is recorded (done), and the pilot app ships natively from the shared 
 
 Found while testing the apps as a learner (web build served from the Desk, main 3d425a5).
 
-- [ ] **The first screen opens with a fallback notice.** The app opens at John 1, but the default main text is Brenton's Septuagint, which has no New Testament. So the first thing a new reader sees is: "Ἡ Παλαιὰ Διαθήκη κατὰ τοὺς Ἑβδομήκοντα (Septuagint, Brenton's Greek, 1851) does not include John, so it is shown in Πατριαρχικὸν Κείμενον … Make this the main text". Either the default main text should cover both Testaments (LXX for the Old Testament and the Patriarchal Text for the New, picked automatically), or the first open should land on a book the main text has.
+- [x] **The first screen opens with a fallback notice.** The app opens at John 1, but the default main text is Brenton's Septuagint, which has no New Testament. Fixed in #317: a book the main text lacks is read in the text that contains it, without the notice; the column and language chip still name the text.
 - [x] **The Patriarchal Text has no accents or breathings, and the app didn't say so.** Fixed in #292: the text picker now calls it an unaccented transcription.
 - [ ] (Optional, later) Switch to an accented public-domain Patriarchal Text if one exists.
 
@@ -645,12 +672,12 @@ Everything else walked through works: reading, the calendar, translations, searc
 
 ---
 
-## #284 Translation Learner (alpha): adding words scores 0% while a wrong noun scores 87%
+## #284 Translation Learner (alpha): adding words scores 0% while a wrong noun scores 87% (closed)
 
 Found while testing the apps as a learner. I used Japanese, "Into English", with the sentence レストランで昼ご飯を食べます。
 
 What works well: "I eat lunch at a restaurant.", "I have lunch at a restaurant.", "I'll eat lunch at the restaurant." and "At a restaurant I eat lunch." are all accepted as every meaning carried over.
 
 - [x] **An added phrase zeroed the score.** "I eat lunch at a restaurant with my friend." scored **0%**. Fixed in #287: added words now join the total, so it scores 50%.
-- [ ] **A wrong noun scores 87%.** "I eat dinner at a restaurant." swaps the meaning of a main word and still scores **87%**, shown as a "close word", because the meaning network rates *dinner* close to *lunch*. Whether close-word credit should apply to a main word is a design choice for the owner.
+- [x] **A wrong noun scores 87%.** "I eat dinner at a restaurant." swaps the meaning of a main word and still scored **87%**, shown as a "close word", because the meaning network rates *dinner* close to *lunch*. The owner chose "no credit for things and places". Fixed in #310: close words for things, places, names, languages and days (`translation-learner/data/exact.js`) are still shown as close but earn no credit, so it now scores 50%, the same as "train" for bus. Close words for people, actions and descriptions keep partial credit.
 - [x] ~~The alpha label disappears inside the page.~~ Not a bug: Japanese and Korean are in `data/tested.js`, so the page correctly drops their label.

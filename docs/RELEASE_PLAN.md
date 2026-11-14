@@ -16,32 +16,48 @@ as the steps land.
       on Google Play closed testing, each release named after its app and
       version (#305).
 
-Since then, on `main`: the data pin moved to **v0.1.3** (#307), and
-Programming Learner courses were deepened (#297–#303).
+## Drafted, not published: squirrelgo-v0.1.3
 
-## Next: squirrelgo-v0.1.3
+- [x] squirrel-lang-data **v0.1.4** published (2026-11-05, `d5e05a4`).
+- [x] `data/` moved to v0.1.4 (#312).
+- [x] Release PR: every app's version raised and
+      `release-notes/squirrelgo-v0.1.3.md` added (#315).
+- [x] Draft created by **SquirrelGo release (draft)**.
+- [ ] The owner publishes. **Not done, and the draft is now stale:** `main`
+      has moved on to data **v0.1.5** (#319) and more work (#316–#319), so
+      publishing the draft as it stands ships the older data.
 
-A PATCH release that ships the data v0.1.4 content (72 grammar lessons for
-most languages, the code pack, Latin and English inflection tables) to the
-Desk and every app. It's due when all of these hold and the owner says
-"release":
+## Next (open): refresh, then publish
 
-- [ ] **squirrel-lang-data v0.1.4 is published** (see that repo's
-      `RELEASE_PLAN.md`; its grammar expansion is still landing).
-- [ ] A one-seam PR here moves `data/` to the v0.1.4 tag, with the `data-pin`
-      label, and regenerates the Desk and app files
-      (`python3 languages/build_registry.py`, `--check` clean).
+Since the draft, on `main`: data **v0.1.5** (French, German and Italian in
+the Translation Learner, Syriac in SquirrelGo Alphabets and the Character
+Learner, #319), four more lessons each and a project for TypeScript, Java and
+Bash (#318), the Orthodox Bible opening a book in the text that has it (#317),
+and squirrelator Play testing (#316).
+
+Two ways forward; the owner picks one, and nothing is published without the
+owner's "release":
+
+1. **Keep the version (suggested).** The `squirrelgo-v0.1.3` tag doesn't
+   exist yet, so one release PR updates `release-notes/squirrelgo-v0.1.3.md`
+   to name data v0.1.5 and add the items above, with nothing else in it. Then
+   re-run **SquirrelGo release (draft)** with `squirrelgo-v0.1.3`; it
+   refreshes the existing draft to the new `main` commit. The owner publishes.
+2. **A new version.** A release PR raises every app's `versionCode` and
+   `versionName` again and adds `release-notes/squirrelgo-v0.1.4.md`; the
+   v0.1.3 draft stays unpublished. Then the draft workflow with
+   `squirrelgo-v0.1.4`, and the owner publishes.
+
+Either way:
+
 - [ ] CI is green on `main` here, in squirrelator and in squirrel-lang-data,
-      and squirrelator pins the same data tag.
-- [ ] A release PR raises every app's `versionCode` and `versionName` and adds
-      `release-notes/squirrelgo-v0.1.3.md`, with nothing else in it.
-- [ ] **Actions → SquirrelGo release (draft) → Run workflow** with
-      `squirrelgo-v0.1.3`.
-- [ ] The owner publishes. The Desk desktop builds, the Orthodox Bible
-      content packs and the Play closed-testing uploads follow automatically.
+      and squirrelator pins the same data tag (v0.1.5, squirrelator #49).
+- [ ] The release PR, then the draft, then the owner publishes. The Desk
+      desktop builds, the Orthodox Bible content packs and the Play
+      closed-testing uploads follow automatically.
 
 PRs opened after this list was written don't hold the release back; they go
-into the next one.
+into the next one. The longer-term order is in `FUTURE-WORK.md`.
 
 ## How the draft is made
 

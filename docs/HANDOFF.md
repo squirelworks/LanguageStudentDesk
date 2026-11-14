@@ -1,40 +1,54 @@
 # SquirrelGo: what changed, what's in flight, what's on hold
 
-Brief for Cursor, taking over on Saturday 2026-11-07. Written 2026-11-05 from
-live GitHub state. The previous brief was `CURSOR-HANDOFF.md` (LanguageStudentDesk
-`main` at `e9c0146`, PR #116, release v0.0.4). Much of that file is now out of
-date: the data has moved to its own repo, and its section 7 task list is
-replaced by the GitHub roadmap issues. Its guardrails (section 1) still hold,
-with the additions in section 6 below.
+Brief for Cursor or Codex. First written 2026-11-05 for the 2026-11-07
+handoff; sections 1, 3, 4 and 5 refreshed 2026-11-14 from live GitHub state.
+The suggested order for future work, the risks and the working lessons are in
+[`FUTURE-WORK.md`](FUTURE-WORK.md); read it next. The previous brief was
+`CURSOR-HANDOFF.md` (in the owner's handoff bundle); its guardrails (section 1)
+still hold, with the additions in section 6 below.
 
 **GitHub is the source of truth.** Every roadmap is an issue with a checkbox
-task list. Tick boxes there as PRs merge. Copies of the roadmaps live in `docs/ROADMAP.md`
-and in the handoff bundle the owner hands over.
+task list. Tick boxes there as PRs merge. Copies of the roadmaps live in
+`docs/ROADMAP.md` and in the handoff bundle the owner hands over.
 
 ---
 
-## 1. Snapshot
+## 1. Snapshot (2026-11-14)
 
-| Repo | `main` | Latest published release | Open PRs | Open issues |
-|---|---|---|---|---|
-| squirelworks/LanguageStudentDesk (LSD, the platform home) | `2227486` (#307) | **squirrelgo-v0.1.2** (2026-11-04) | none | #188–#201 roadmap, #281, #284 |
-| squirelworks/squirrel-lang-data (all language content) | `18ea0aa` (#98) | **v0.1.3** (`b6912a0`) | none | #56 |
-| squirelworks/squirrelator (translator engine + apps) | `453b6ae` (#38) | **v0.1.0** | none | #25, #26 |
+| Repo | `main` | Latest published release | Unpublished draft | Open PRs | Open issues |
+|---|---|---|---|---|---|
+| squirelworks/LanguageStudentDesk (LSD, the platform home) | `3c504fd` (#319) | **squirrelgo-v0.1.2** (2026-11-04) | squirrelgo-v0.1.3 (data v0.1.4, stale) | none | #188–#201 roadmap, #281 |
+| squirelworks/squirrel-lang-data (all language content) | `ffd03a7` (#109) | **v0.1.5** (2026-11-13) | none | none | none (#56 closed 2026-11-14) |
+| squirelworks/squirrelator (translator engine + apps) | `12a84a4` (#49) | **v0.1.0** | v0.1.1 (data v0.1.4, stale) | none | #25, #26 |
 
-- **Data pins:** LSD and squirrelator both pin `data/` to `b6912a0`, the
-  **v0.1.3** tag. Data `main` is ~40 PRs ahead of that tag (everything listed in
-  `release-notes/v0.1.4.md`, still marked Draft).
-- **Google Play:** all **10 SquirrelGo apps** are on Play closed testing at
-  squirrelgo-v0.1.2, each release named after its app and version (#305):
-  LSD Suite (the Desk on Android), Programming Student Desk, Kana, Kanji,
-  Alphabets, Bopomofo, Klingon, Japanese-English Dictionary, Phrasebook and
-  Orthodox Bible.
-- **No draft releases exist** on any repo. SquirrelGo v0.1.3 and squirrelator
-  v0.1.1 are planned but not started (no notes file, no draft).
+- **Data pins:** LSD (#319) and squirrelator (#49) both pin `data/` to
+  `ffd03a7`, the **v0.1.5** tag.
+- **Google Play:** all 10 SquirrelGo apps are on Play closed testing at
+  squirrelgo-v0.1.2. squirrelator's phone app is ready for Play (squirrelator
+  #43, LSD #316) and goes to internal testing when its first release is
+  published.
+- **Stale drafts:** squirrelgo-v0.1.3 and squirrelator v0.1.1 were drafted
+  against data v0.1.4 and never published. See `RELEASE_PLAN.md` in each
+  repo and `FUTURE-WORK.md` P0.
 
 ---
 
 ## 2. What changed since the last Cursor handoff
+
+### Since 2026-11-07
+
+- **Data v0.1.5** (published 2026-11-13): French, German and Italian
+  meaning-matrix columns (all 103 rows), Latin, Greek and Russian filled to
+  every row, English contractions and `@partitive` (data #105, #109), and the
+  Syriac (Estrangela) alphabet with machine-drafted strokes (data #106).
+- **LSD:** pin to v0.1.5 with French, German and Italian in the Translation
+  Learner and Syriac in SquirrelGo Alphabets and the Character Learner (#319);
+  TypeScript, Java and Bash deepened (#318); Orthodox Bible opens a book in
+  the text that has it (#317); squirrelator Play testing workflow (#316); no
+  close-word credit for a different thing (#310, closed #284).
+- **squirrelator:** English as the source (#48), code explained with the code
+  pack's English rows (#46, closed data #56), bare 今日は (#47), Klingon jatlh
+  (#45), pin to v0.1.5 (#49).
 
 ### New repo: squirrel-lang-data (all content lives here now)
 
@@ -61,7 +75,7 @@ and in the handoff bundle the owner hands over.
   Russian, and quoted JLPT/TOPIK/HSK/CEFR level cards.
 - Aramaic added (Biblical/Imperial in the square script, Classical Syriac and
   Neo-Aramaic varieties) with vocabulary, a first grammar and reference cards.
-  The Syriac alphabet itself is not in the data yet.
+  The Syriac alphabet came later, in data v0.1.5.
 - Meaning matrix: Japanese, Chinese and Korean columns render all 89 rows; a
   new **code pack** (14 rows for explaining code) with Japanese, Chinese,
   Korean and Latin columns.
@@ -132,88 +146,24 @@ and in the handoff bundle the owner hands over.
 
 ---
 
-## 3. Recently finished, and what's still running
+## 3. Known caveats
 
-### "Add grammar lessons for every language" (finished 2026-11-05)
-
-Target was **72 lessons per language** (24 for Tibetan and Klingon), one language per PR, in squirrel-lang-data. Every PR is merged on data `main`; none of it is tagged yet (it ships in v0.1.4).
-
-- [x] Chinese (#66), Japanese 73 (#68), French (#69), German (#70), Italian (#71),
-      Russian/cyrillic (#72), Greek (#73), Arabic (#74), Hindi (#75), Bengali (#76),
-      Hebrew (#77), Thai (#78), Tamil (#79), Telugu (#80), Kannada (#81),
-      Malayalam (#82), Gujarati (#83), Punjabi (#84), Odia (#85), Sinhala (#86),
-      Burmese (#87), Khmer (#88), Lao (#89), Mongolian (#90), Georgian (#91),
-      Armenian (#92), Amharic (#94); Korean/hangul and Taiwanese were already at 72
-- [x] Level labels that disagreed with the CEFR estimate fixed (#93)
-- [x] Latin to 72 (#95, merged 2026-11-05)
-- [x] Tibetan 6 → 24 (#97)
-- [x] Klingon 10 → 24 (#98; keeps the file's generate/table lessons and `drillData`)
-- **Deliberately not touched:** Aramaic (5), Cherokee (12), Inuktitut (12),
-  Manipuri (6), Tamazight (12). Every lesson there is source-cited; adding more
-  needs real published sources ("accuracy over volume, no invented forms").
-  English has no grammar course on purpose (it's the base language).
-
-All of it is merged. Use the rules below for any future grammar PR.
-
-Rules for a grammar PR (from the thread):
-
-- Edit only `languages/<lang>/grammar.json` and add one bullet under
-  `## Grammar` in `release-notes/v0.1.4.md`.
-- The `Scope:` line lists every path in full; the guard doesn't expand `{a,b}`.
-- Before pushing: `python3 tools/fmt.py`, `bash tools/check_all.sh`,
-  `python3 .github/scripts/pr_guard.py --base origin/main --head HEAD`.
-- Lesson shape (`grammar@1`): `id, title, particle, summary, level,
-  sections[{h?, p, examples[[sentence, reading, english]]}],
-  drills[{q, en, options, answer, why}]`. `{braces}` only in the sentence, never
-  the reading. Each drill has exactly one `＿`, and `answer` is one of `options`.
-- Each summary ends "(about A1…C1)", and its earliest level matches the band:
-  absolute-beginner/beginner = A1, beginner-intermediate = A2, intermediate =
-  B1, advanced-intermediate = B2, advanced = C1. A beginner lesson at A2 uses
-  "(about A1–A2)". Update the course's intro and notes with the new lesson
-  count and range.
-
-### "Merge handoff PRs as they land"
-
-The merger squash-merges green PRs in all three repos. Nothing is held. Its
-running notes are `merger-notes.md` in the owner's handoff bundle. It will keep
-merging until the handoff. After that, Cursor merges (if the owner lets it)
-following `MERGE_GUIDELINES.md` and the rules in section 6.
-
-### Review-ready threads (finished, with leftovers)
-
-- **"Test apps for usability and veracity":** all fixes merged. Leftovers:
-  LSD #281 item 1 (Orthodox Bible opens on John with a "Septuagint does not
-  include John" notice) and LSD #284 (close-word credit: "dinner" for "lunch"
-  still scores 87%). Not yet tested: deep drills in Grammar, Language,
-  Reference, Resource, Legalese and Programming learners, and the rest of the
-  Alphabets scripts' writing pads.
-- **"Import vocab and grammar from sources":** all PRs merged (JLPT, NIKL,
-  CC-CEDICT, CEFR, wordfreq). Leftover: 22 languages have no frequency data, so
-  their words stay untagged; tool-based imports for the remaining languages
-  (#190) not started.
+- **Syriac strokes are a machine draft** from Noto Sans Syriac. They pass the
+  automated checks; no person has reviewed them (#188, #201).
+- **New matrix columns are unreviewed:** French, German, Italian and the
+  Latin, Greek and Russian fills were written for the project and checked
+  only by validators and squirrelator's round trip (#198).
+- **23 stroke-check failures** remain in the baseline (#188).
+- **APKs are not smoke-tested on a device** before a draft.
+- **Recorded reviews** exist for 9 of 38 languages.
 
 ---
 
 ## 4. On hold (needs Squirrel before anyone acts)
 
-- [ ] **Data v0.1.4 tag.** Everything since v0.1.3 is on data `main` and in
-      `release-notes/v0.1.4.md` (Draft). The grammar expansion is finished, so it
-      only waits for Squirrel to say "release". Then: remove "Draft." from the notes,
-      run **Draft release**, Squirrel publishes.
-- [ ] **Pin bumps to v0.1.4** in LSD and squirrelator: one PR each,
-      "Bump squirrel-lang-data to v0.1.4 (<sha>)", with the `data-pin` label in
-      LSD. Only after the tag is published.
-- [ ] **SquirrelGo v0.1.3** (LSD): release PR raising every app's
-      `versionCode`/`versionName` plus `release-notes/squirrelgo-v0.1.3.md`,
-      then the hand-started draft. Needs Squirrel's "release". Follows the v0.1.4
-      pin bump so the new grammar ships.
-- [ ] **squirrelator v0.1.1:** release PR adding `release-notes/v0.1.1.md`,
-      then **Draft release**. Needs Squirrel's "release".
-- **Latin and Klingon engine choice** (squirrelator #26, point 2): they stay on
-  Rules with the Pipeline as a second opinion. Moving them to the Pipeline
-  changes 16 golden outputs; Squirrel's call.
-- **Close-word credit** (LSD #284): whether a near-synonym in the wrong role
-  should still get credit is a design choice for Squirrel.
+- [ ] **Publishing anything.** Refreshing the squirrelgo-v0.1.3 and
+      squirrelator v0.1.1 drafts to data v0.1.5 (or replacing them with new
+      versions) is prepared by an agent; only Squirrel publishes.
 - **Replacing WebView/Tk apps with native builds** (LSD #197, squirrelator #25):
   only a pilot is in scope. Nothing gets removed or replaced before Squirrel
   signs off.
@@ -222,22 +172,29 @@ following `MERGE_GUIDELINES.md` and the rules in section 6.
   Tamazight): no more content without published sources.
 - **Signing keys and Play secrets:** owner-only. Never add, print or commit.
 
+Settled since the last brief: Latin and Klingon sentences go to the Pipeline
+under Auto (squirrelator #40); close-word credit stops at things, places,
+names, languages and days (#310).
+
 ---
 
-## 5. Suggested next work, in order
+## 5. Suggested next work
 
-1. [x] The grammar expansion is finished (Latin #95, Tibetan #97, Klingon #98).
-2. [ ] Ask Squirrel to release data v0.1.4, then bump the pins (section 4).
-3. [ ] Ask Squirrel about SquirrelGo v0.1.3 and squirrelator v0.1.1.
-4. [ ] squirrelator: switch the code-explanation templates to the code pack's
-       English rows (data #56 / squirrelator #26 idea 2).
-5. [ ] Fill the meaning-matrix columns that have 20–42 of 89 rows, then add
-       columns for the 22 languages without one (squirrelator #26 point 3).
-6. [ ] Work the LSD roadmap issues top to bottom (#199 lists them): strokes
-       script by script (#188), character sets (#189), vocabulary imports
-       (#190), grammar level tabs and reviews (#191), varieties and
-       traditional/simplified (#200), the content review logs (#198).
-7. [ ] LSD #281 item 1 (Orthodox Bible first-open notice).
+The full order, with reasons, is in [`FUTURE-WORK.md`](FUTURE-WORK.md). In
+short:
+
+1. Refresh the two stale drafts to data v0.1.5 and ask Squirrel to publish.
+2. Add an emulator smoke test for the APKs.
+3. Review the Syriac strokes; clear the stroke-check baseline; record reviews.
+4. Generate squirrelator's coverage report in CI; drop alpha labels from it.
+5. Translation Learner test sets for Chinese and the new full columns.
+6. Fill the partial matrix columns, then add the missing ones.
+7. Move programming courses and variants into the data repo (data v0.2.0).
+8. Native pilots, only with Squirrel's sign-off.
+
+Open **few, sizeable PRs per repo, one theme each, merged one after
+another**, and keep the cross-repo order: data, data release, LSD pin,
+squirrelator pin, app release.
 
 ---
 
@@ -279,6 +236,7 @@ bundle) still applies; the same rules are in `AGENTS.md` and `.github/MERGING.md
 | What | Where |
 |---|---|
 | This brief | LSD `docs/HANDOFF.md` and the owner's handoff bundle |
+| Future work, risks, lessons | LSD `docs/FUTURE-WORK.md` |
 | Platform roadmap | LSD issue #199 (children #188–#198, #200, #201); copy in LSD `docs/ROADMAP.md` |
 | Release plans | LSD `docs/RELEASE_PLAN.md`, data `RELEASE_PLAN.md`, squirrelator `RELEASE_PLAN.md` |
 | Release rules | LSD `docs/RELEASES.md`, `docs/PLAY.md` |
