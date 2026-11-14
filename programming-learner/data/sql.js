@@ -15,9 +15,9 @@ window.PROGRAMMING.sql = {
     "SELECT", "FROM", "WHERE", "AND", "OR", "NOT", "ORDER", "BY", "ASC", "DESC", "LIMIT", "GROUP", "HAVING", "AS", "JOIN", "LEFT",
     "ON", "INSERT", "INTO", "VALUES", "UPDATE", "SET", "DELETE", "CREATE", "TABLE", "PRIMARY", "KEY", "REFERENCES", "NOT", "NULL",
     "IS", "IN", "LIKE", "BETWEEN", "DISTINCT", "CASE", "WHEN", "THEN", "ELSE", "END", "WITH", "INTEGER", "TEXT", "REAL", "UNIQUE",
-    "CHECK", "DEFAULT", "OVER", "PARTITION",
+    "CHECK", "DEFAULT", "OVER", "PARTITION", "VIEW", "DROP", "BEGIN", "COMMIT", "ROLLBACK", "UNION", "ALL",
   ],
-  builtins: ["COUNT", "SUM", "AVG", "MIN", "MAX", "ROUND", "UPPER", "LOWER", "LENGTH", "COALESCE", "RANK"],
+  builtins: ["COUNT", "SUM", "AVG", "MIN", "MAX", "ROUND", "UPPER", "LOWER", "LENGTH", "COALESCE", "RANK", "ROW_NUMBER"],
   lessons: [
     {
       id: "first",
@@ -279,6 +279,222 @@ WHERE height_m = (SELECT MAX(height_m) FROM trees);`, options: ["kind\nbeech", "
        CASE WHEN born < 2023 THEN 'elder' ELSE 'young' END AS age_group
 FROM squirrels
 WHERE id <= 2;`, options: ["name | age_group\nHazel | elder\nAcorn | young", "name | age_group\nHazel | young\nAcorn | elder", "name | age_group\nHazel | elder\nAcorn | elder", "Hazel | elder\nAcorn | young"], answer: "name | age_group\nHazel | elder\nAcorn | young", why: "Hazel was born in 2022, before 2023. Acorn was born in 2024." },
+      ],
+    },
+    {
+      id: "views",
+      title: "Views",
+      summary: "Named queries you can SELECT from like a table.",
+      sections: [
+        {
+          p: "A <code>VIEW</code> stores a query under a name. Afterwards you <code>SELECT</code> from it as if it were a table. The data still lives in the real tables; the view just remembers the question. Views are handy when the same join or grouping appears in several places.",
+          code: `CREATE VIEW tree_residents AS
+SELECT t.kind AS tree, COUNT(s.id) AS residents
+FROM trees AS t
+LEFT JOIN squirrels AS s ON s.tree_id = t.id
+GROUP BY t.id;
+
+SELECT * FROM tree_residents ORDER BY residents DESC, tree;
+
+SELECT tree FROM tree_residents WHERE residents = 0;`,
+          out: "tree | residents\noak | 2\nbeech | 1\nhazel | 1\nash | 0\n\ntree\nash",
+        },
+        {
+          h: "Views with joins",
+          p: "A view can hide a multi-table join behind a simple name. Here each stash line gains the squirrel's name and tree. Filtering the view feels like filtering one wide table.",
+          code: `CREATE VIEW stash_labels AS
+SELECT s.name AS squirrel, t.kind AS tree, st.nut, st.count
+FROM stashes AS st
+JOIN squirrels AS s ON s.id = st.squirrel_id
+JOIN trees AS t ON t.id = s.tree_id;
+
+SELECT squirrel, nut, count FROM stash_labels
+WHERE tree = 'oak'
+ORDER BY count DESC;`,
+          out: "squirrel | nut | count\nHazel | acorn | 12\nHazel | hazelnut | 5\nHazel | beechnut | 4\nAcorn | acorn | 3",
+        },
+        {
+          h: "Changing the definition",
+          p: "<code>DROP VIEW</code> removes a view (not the underlying data). <code>CREATE VIEW</code> again installs a new definition. In SQLite, replacing a view is drop-then-create.",
+          code: `CREATE VIEW nut_totals AS
+SELECT nut, SUM(count) AS total FROM stashes GROUP BY nut;
+
+SELECT nut, total FROM nut_totals WHERE total >= 20 ORDER BY nut;
+
+DROP VIEW nut_totals;
+
+CREATE VIEW nut_totals AS
+SELECT nut, COUNT(*) AS stashes FROM stashes GROUP BY nut;
+
+SELECT * FROM nut_totals ORDER BY nut;`,
+          out: "nut | total\nacorn | 22\nbeechnut | 24\n\nnut | stashes\nacorn | 3\nbeechnut | 2\nhazelnut | 2",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `CREATE VIEW tall AS
+SELECT kind FROM trees WHERE height_m > 20;
+SELECT kind FROM tall ORDER BY kind;`, options: ["kind\nbeech\noak", "kind\noak\nbeech", "kind\nbeech", "kind\nash\nbeech\noak"], answer: "kind\nbeech\noak", why: "Oak is 21.5 and beech is 30.0; ORDER BY kind puts beech first." },
+        { q: "What happens to the table data when you DROP VIEW tree_residents?", options: ["The view disappears; the trees and squirrels tables stay", "The trees table is deleted", "All squirrels are removed", "Nothing; DROP VIEW is ignored"], answer: "The view disappears; the trees and squirrels tables stay", why: "A view is only a stored query, not a copy of the rows." },
+        { kind: "output", q: "What does this print?", code: `CREATE VIEW acorn_stashes AS
+SELECT squirrel_id, count FROM stashes WHERE nut = 'acorn';
+SELECT SUM(count) AS n FROM acorn_stashes;`, options: ["n\n22", "n\n3", "n\n12", "n\n7"], answer: "n\n22", why: "The three acorn stashes hold 12, 3 and 7." },
+      ],
+    },
+    {
+      id: "windows",
+      title: "Window functions",
+      summary: "ROW_NUMBER, SUM OVER and RANK without collapsing rows.",
+      sections: [
+        {
+          p: "A <b>window function</b> computes a value from related rows while still returning every row. <code>ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)</code> numbers rows inside each group, and <code>SUM(...) OVER (PARTITION BY ...)</code> repeats the group total on each line. Unlike <code>GROUP BY</code>, the detail rows stay visible.",
+          code: `SELECT s.name,
+       st.nut,
+       st.count,
+       ROW_NUMBER() OVER (PARTITION BY st.squirrel_id ORDER BY st.count DESC) AS rank_in_stash,
+       SUM(st.count) OVER (PARTITION BY st.squirrel_id) AS squirrel_total
+FROM stashes AS st
+JOIN squirrels AS s ON s.id = st.squirrel_id
+ORDER BY s.name, rank_in_stash;`,
+          out: "name | nut | count | rank_in_stash | squirrel_total\nAcorn | acorn | 3 | 1 | 3\nBramble | beechnut | 20 | 1 | 27\nBramble | acorn | 7 | 2 | 27\nHazel | acorn | 12 | 1 | 21\nHazel | hazelnut | 5 | 2 | 21\nHazel | beechnut | 4 | 3 | 21\nPip | hazelnut | 2 | 1 | 2",
+        },
+        {
+          h: "Running totals",
+          p: "An <code>ORDER BY</code> inside <code>OVER</code> without <code>PARTITION BY</code> walks the whole result in that order. <code>SUM(nuts) OVER (ORDER BY nuts DESC, name)</code> is a running total down the ranked list.",
+          code: `SELECT name, nuts,
+       SUM(nuts) OVER (ORDER BY nuts DESC, name) AS running
+FROM (
+    SELECT s.name, COALESCE(SUM(st.count), 0) AS nuts
+    FROM squirrels AS s
+    LEFT JOIN stashes AS st ON st.squirrel_id = s.id
+    GROUP BY s.id
+)
+ORDER BY nuts DESC, name;`,
+          out: "name | nuts | running\nBramble | 27 | 27\nHazel | 21 | 48\nAcorn | 3 | 51\nPip | 2 | 53\nRowan | 0 | 53",
+        },
+        {
+          h: "RANK",
+          p: "<code>RANK()</code> leaves gaps after ties; <code>ROW_NUMBER()</code> never ties. Both need an <code>ORDER BY</code> in the window. Here squirrels are ranked by how many stashes they have.",
+          code: `SELECT s.name,
+       COUNT(st.id) AS stashes,
+       RANK() OVER (ORDER BY COUNT(st.id) DESC) AS place
+FROM squirrels AS s
+LEFT JOIN stashes AS st ON st.squirrel_id = s.id
+GROUP BY s.id
+ORDER BY place, s.name;`,
+          out: "name | stashes | place\nHazel | 3 | 1\nBramble | 2 | 2\nAcorn | 1 | 3\nPip | 1 | 3\nRowan | 0 | 5",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `SELECT kind,
+       ROW_NUMBER() OVER (ORDER BY height_m DESC) AS n
+FROM trees
+WHERE height_m IS NOT NULL
+ORDER BY n;`, options: ["kind | n\nbeech | 1\noak | 2\nhazel | 3", "kind | n\noak | 1\nbeech | 2\nhazel | 3", "kind | n\nbeech | 1\nhazel | 2\noak | 3", "kind | n\nash | 1"], answer: "kind | n\nbeech | 1\noak | 2\nhazel | 3", why: "Beech is tallest, then oak, then hazel. Ash has NULL height and is filtered out." },
+        { q: "How does SUM(count) OVER (PARTITION BY squirrel_id) differ from GROUP BY squirrel_id?", options: ["The window keeps one result row per stash; GROUP BY collapses to one row per squirrel", "OVER deletes the detail rows", "They are exactly the same", "PARTITION BY only works with AVG"], answer: "The window keeps one result row per stash; GROUP BY collapses to one row per squirrel", why: "That is the point of window functions: aggregates beside the detail." },
+        { kind: "output", q: "What does this print?", code: `SELECT nut, count,
+       SUM(count) OVER (PARTITION BY nut) AS nut_total
+FROM stashes
+WHERE nut = 'hazelnut'
+ORDER BY count;`, options: ["nut | count | nut_total\nhazelnut | 2 | 7\nhazelnut | 5 | 7", "nut | count | nut_total\nhazelnut | 5 | 5\nhazelnut | 2 | 2", "nut | count | nut_total\nhazelnut | 2 | 2\nhazelnut | 5 | 7", "nut | count | nut_total\nhazelnut | 7 | 7"], answer: "nut | count | nut_total\nhazelnut | 2 | 7\nhazelnut | 5 | 7", why: "Both hazelnut rows share the partition total 2 + 5 = 7." },
+      ],
+    },
+    {
+      id: "transactions",
+      title: "Transactions",
+      summary: "BEGIN, COMMIT and ROLLBACK so a group of changes lands together.",
+      sections: [
+        {
+          p: "A <b>transaction</b> groups statements so they either all happen or none do. <code>BEGIN</code> starts one, <code>COMMIT</code> makes the changes permanent, and <code>ROLLBACK</code> undoes everything since <code>BEGIN</code>. That matters when two updates must stay in step: you never want only one of them saved.",
+          code: `BEGIN;
+UPDATE trees SET height_m = 8.5 WHERE kind = 'ash';
+INSERT INTO squirrels (name, tree_id, born) VALUES ('Nutmeg', 4, 2026);
+COMMIT;
+
+SELECT kind, height_m FROM trees WHERE kind = 'ash';
+SELECT name FROM squirrels WHERE name = 'Nutmeg';`,
+          out: "kind | height_m\nash | 8.5\n\nname\nNutmeg",
+        },
+        {
+          h: "ROLLBACK",
+          p: "If something goes wrong — or you change your mind — <code>ROLLBACK</code> restores the tables to how they were at <code>BEGIN</code>. Here every stash is deleted inside a transaction, then the delete is undone.",
+          code: `BEGIN;
+DELETE FROM stashes;
+SELECT COUNT(*) AS mid FROM stashes;
+ROLLBACK;
+SELECT COUNT(*) AS after FROM stashes;`,
+          out: "mid\n0\n\nafter\n7",
+        },
+        {
+          h: "Partial work stays invisible",
+          p: "Until you <code>COMMIT</code>, other connections would not see your changes (and in these lessons each example is its own connection anyway). Rolling back after a failed idea leaves the sample data untouched for the next query in the same script only if you opened a transaction — without <code>BEGIN</code>, each statement is its own tiny transaction.",
+          code: `SELECT COUNT(*) AS before FROM squirrels;
+BEGIN;
+INSERT INTO squirrels (name, tree_id, born) VALUES ('Twig', 2, 2026);
+INSERT INTO squirrels (name, tree_id, born) VALUES ('Leaf', 3, 2026);
+ROLLBACK;
+SELECT COUNT(*) AS after FROM squirrels;`,
+          out: "before\n5\n\nafter\n5",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `BEGIN;
+UPDATE trees SET height_m = 1 WHERE kind = 'oak';
+ROLLBACK;
+SELECT height_m FROM trees WHERE kind = 'oak';`, options: ["height_m\n21.5", "height_m\n1", "height_m\nNULL", "height_m\n0"], answer: "height_m\n21.5", why: "ROLLBACK undoes the UPDATE, so oak is still 21.5." },
+        { kind: "output", q: "What does this print?", code: `BEGIN;
+DELETE FROM stashes WHERE nut = 'acorn';
+COMMIT;
+SELECT COUNT(*) AS n FROM stashes;`, options: ["n\n4", "n\n7", "n\n3", "n\n0"], answer: "n\n4", why: "Three acorn rows are deleted and committed, leaving four stashes." },
+        { q: "What does COMMIT do?", options: ["Makes the changes since BEGIN permanent", "Undoes the transaction", "Deletes the tables", "Starts a new connection"], answer: "Makes the changes since BEGIN permanent", why: "COMMIT ends the transaction by keeping its writes." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a winter-readiness report",
+      summary: "WITH, joins, CASE and RANK on the sample squirrel world.",
+      sections: [
+        {
+          p: "Winter readiness means enough nuts buried before the cold. This report builds totals per squirrel with a <code>WITH</code> clause, joins each total to its tree, labels a status with <code>CASE</code>, and ranks everyone with <code>RANK()</code>. Rowan has no tree and no stashes, so the tree shows as <code>none</code> and the status as <code>short</code>.",
+          code: `WITH totals AS (
+    SELECT s.id AS squirrel_id, s.name, s.tree_id,
+           COALESCE(SUM(st.count), 0) AS nuts
+    FROM squirrels AS s
+    LEFT JOIN stashes AS st ON st.squirrel_id = s.id
+    GROUP BY s.id
+),
+readiness AS (
+    SELECT t.name,
+           COALESCE(tr.kind, 'none') AS tree,
+           t.nuts,
+           CASE
+               WHEN t.nuts >= 20 THEN 'ready'
+               WHEN t.nuts >= 5 THEN 'almost'
+               ELSE 'short'
+           END AS status,
+           RANK() OVER (ORDER BY t.nuts DESC, t.name) AS place
+    FROM totals AS t
+    LEFT JOIN trees AS tr ON tr.id = t.tree_id
+)
+SELECT place, name, tree, nuts, status
+FROM readiness
+ORDER BY place;`,
+          out: "place | name | tree | nuts | status\n1 | Bramble | beech | 27 | ready\n2 | Hazel | oak | 21 | ready\n3 | Acorn | oak | 3 | short\n4 | Pip | hazel | 2 | short\n5 | Rowan | none | 0 | short",
+        },
+        {
+          h: "Ideas to try",
+          p: "Add a view that stores the readiness query, filter to only <code>short</code> squirrels who still need help, or join stash nut kinds so the report shows each squirrel's favourite nut.",
+        },
+      ],
+      practice: [
+        { q: "Why use LEFT JOIN trees in the readiness step?", options: ["So squirrels with no tree_id still appear, with a NULL tree filled by COALESCE", "INNER JOIN is not allowed inside WITH", "LEFT JOIN sorts the rows", "It removes squirrels without stashes"], answer: "So squirrels with no tree_id still appear, with a NULL tree filled by COALESCE", why: "Rowan has tree_id NULL; an inner join would drop that row." },
+        { kind: "output", q: "What does this print?", code: `WITH totals AS (
+    SELECT squirrel_id, SUM(count) AS nuts FROM stashes GROUP BY squirrel_id
+)
+SELECT COUNT(*) AS ready FROM totals WHERE nuts >= 20;`, options: ["ready\n2", "ready\n1", "ready\n5", "ready\n0"], answer: "ready\n2", why: "Hazel has 21 and Bramble has 27." },
+        { kind: "output", q: "What does this print?", code: `SELECT COALESCE(kind, 'none') AS tree
+FROM (SELECT NULL AS kind)
+UNION ALL
+SELECT kind FROM trees WHERE id = 2;`, options: ["tree\nnone\nhazel", "tree\nhazel\nnone", "tree\nNULL\nhazel", "tree\nnone"], answer: "tree\nnone\nhazel", why: "COALESCE turns NULL into none, then the hazel row is appended." },
       ],
     },
   ],

@@ -12,9 +12,9 @@ window.PROGRAMMING.php = {
   keywords: [
     "echo", "print", "function", "fn", "return", "if", "elseif", "else", "foreach", "as", "for", "while", "match", "class", "new",
     "public", "private", "readonly", "static", "interface", "implements", "enum", "case", "true", "false", "null", "int", "float",
-    "string", "bool", "array", "use",
+    "string", "bool", "array", "use", "try", "catch", "finally", "throw", "extends", "parent", "final",
   ],
-  builtins: ["count", "strlen", "strtoupper", "implode", "explode", "array_map", "array_filter", "array_sum", "sort", "ksort", "printf", "json_encode", "htmlspecialchars", "var_dump", "str_repeat"],
+  builtins: ["count", "strlen", "strtoupper", "implode", "explode", "array_map", "array_filter", "array_sum", "sort", "ksort", "arsort", "printf", "sprintf", "json_encode", "json_decode", "htmlspecialchars", "var_dump", "str_repeat", "substr", "strpos", "str_replace", "str_contains", "file_get_contents", "file_put_contents", "file", "preg_split"],
   lessons: [
     {
       id: "first",
@@ -389,6 +389,308 @@ printf("[%5d]\\n", 42);`,
 echo htmlspecialchars("1 < 2");`, options: ["1 &lt; 2", "1 < 2", "1 &gt; 2", "1 &amp;lt; 2"], answer: "1 &lt; 2", why: "< becomes &lt;, which a browser shows as < without treating it as the start of a tag." },
         { kind: "output", q: "What does this print?", code: `<?php
 printf("%.1f|%3d", 2.26, 7);`, options: ["2.3|  7", "2.26|7", "2.2|7  ", "2|  7"], answer: "2.3|  7", why: "%.1f rounds to one decimal place, and %3d pads 7 on the left to three characters." },
+      ],
+    },
+    {
+      id: "errors",
+      title: "Errors and exceptions",
+      summary: "try, catch, finally, and your own Exception subclasses.",
+      sections: [
+        {
+          p: "When something goes wrong, PHP <b>throws</b> an exception and the script stops unless a <code>try</code> block catches it. Catch the most specific type first: <code>InvalidArgumentException</code> before the general <code>Exception</code>. A <code>finally</code> block runs whether or not anything was thrown, which is useful for cleanup that must always happen.",
+          code: `<?php
+function take(int $stored, int $asked): int {
+    if ($asked < 0) {
+        throw new InvalidArgumentException("asked must be non-negative");
+    }
+    if ($asked > $stored) {
+        throw new Exception("asked for $asked, only $stored stored");
+    }
+    return $stored - $asked;
+}
+
+foreach ([3, 12, -1] as $asked) {
+    try {
+        $left = take(10, $asked);
+        echo "left: $left\\n";
+    } catch (InvalidArgumentException $e) {
+        echo "bad input: ", $e->getMessage(), "\\n";
+    } catch (Exception $e) {
+        echo "refused: ", $e->getMessage(), "\\n";
+    } finally {
+        echo "checked $asked\\n";
+    }
+}`,
+          out: "left: 7\nchecked 3\nrefused: asked for 12, only 10 stored\nchecked 12\nbad input: asked must be non-negative\nchecked -1",
+        },
+        {
+          h: "Your own exceptions",
+          p: "A class that <code>extends Exception</code> can carry extra fields, and <code>instanceof</code> (or a typed <code>catch</code>) tells your failures apart from everyone else's. Call <code>parent::__construct</code> so the message and stack trace are set up properly.",
+          code: `<?php
+class StashFullError extends Exception {
+    public function __construct(public readonly int $limit) {
+        parent::__construct("the stash holds at most $limit nuts");
+    }
+}
+
+function store(array &$stash, string $nut, int $limit = 2): void {
+    if (count($stash) >= $limit) {
+        throw new StashFullError($limit);
+    }
+    $stash[] = $nut;
+}
+
+$stash = [];
+try {
+    store($stash, "acorn");
+    store($stash, "walnut");
+    store($stash, "pecan");
+} catch (StashFullError $e) {
+    echo $e::class, " ", $e->limit, " ", $e->getMessage(), "\\n";
+}
+echo implode(", ", $stash), "\\n";`,
+          out: "StashFullError 2 the stash holds at most 2 nuts\nacorn, walnut",
+        },
+        {
+          h: "finally for cleanup",
+          p: "PHP has no try-with-resources, but <code>finally</code> is the usual place to close what you opened. It runs even when the <code>try</code> throws, so a later <code>catch</code> still sees a tidy state.",
+          code: `<?php
+function dig(string $spot): void {
+    echo "open $spot\\n";
+    try {
+        if ($spot === "south") {
+            throw new RuntimeException("roof fell in");
+        }
+        echo "working\\n";
+    } finally {
+        echo "close $spot\\n";
+    }
+}
+
+try {
+    dig("north");
+    dig("south");
+} catch (RuntimeException $e) {
+    echo "caught: ", $e->getMessage(), "\\n";
+}`,
+          out: "open north\nworking\nclose north\nopen south\nclose south\ncaught: roof fell in",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `<?php
+try {
+    echo "a\\n";
+    throw new Exception("x");
+    echo "b\\n";
+} catch (Exception $e) {
+    echo "c\\n";
+} finally {
+    echo "d\\n";
+}`, options: ["a\nc\nd", "a\nb\nc\nd", "a\nc", "c\nd"], answer: "a\nc\nd", why: "The throw skips b; the catch runs, then finally always runs." },
+        { kind: "output", q: "What does this print?", code: `<?php
+class Oops extends Exception {}
+try {
+    throw new Oops("late");
+} catch (Oops $e) {
+    echo $e instanceof Exception ? "yes" : "no";
+}`, options: ["yes", "no", "Oops", "late"], answer: "yes", why: "An Oops is also an Exception, because Oops extends Exception." },
+        { q: "Why catch InvalidArgumentException before Exception?", options: ["The first matching catch wins, so the specific type must come first", "PHP requires alphabetical order", "Exception cannot be caught at all", "finally only runs for the first catch"], answer: "The first matching catch wins, so the specific type must come first", why: "InvalidArgumentException is a subclass of Exception, so a bare catch (Exception) would swallow it first." },
+      ],
+    },
+    {
+      id: "strings",
+      title: "Strings in depth",
+      summary: "substr, strpos, explode/implode, sprintf and replace.",
+      sections: [
+        {
+          p: "Beyond joining with <code>.</code>, PHP has a long list of string functions. <code>substr</code> cuts a piece (a negative start counts from the end), <code>strpos</code> finds a substring and returns <code>false</code> when it is missing — compare with <code>===</code>, because position <code>0</code> is also falsy. <code>explode</code> splits and <code>implode</code> joins; <code>sprintf</code> fills a template the same way <code>printf</code> does, but returns the string.",
+          code: `<?php
+$s = "hazelnut stash";
+echo substr($s, 0, 5), " ", substr($s, -5), "\\n";
+echo strpos($s, "nut"), " ", (strpos($s, "oak") === false ? "missing" : "found"), "\\n";
+echo implode("-", explode(" ", $s)), "\\n";
+echo sprintf("%-9s %3d %.1f%%", "acorn", 12, 66.666), "\\n";
+echo str_replace("nut", "seed", $s), "\\n";`,
+          out: "hazel stash\n5 missing\nhazelnut-stash\nacorn      12 66.7%\nhazelseed stash",
+        },
+        {
+          h: "Splitting carefully and ignoring case",
+          p: "<code>preg_split</code> splits on a regular expression, which is handy when the separators have uneven spaces. <code>str_ireplace</code> replaces without caring about case, and <code>array_reverse</code> flips a list before you join it back.",
+          code: `<?php
+$csv = "acorn, walnut, pecan ,  hazelnut";
+$nuts = preg_split('/\\s*,\\s*/', $csv);
+echo implode(" | ", array_reverse($nuts)), "\\n";
+echo sprintf("[%04d] %s", 7, strtoupper("ok")), "\\n";
+$note = "Oak oak OAK";
+echo str_ireplace("oak", "elm", $note), "\\n";`,
+          out: "hazelnut | pecan | walnut | acorn\n[0007] OK\nelm elm elm",
+        },
+        {
+          h: "Trimming and measuring",
+          p: "<code>trim</code> strips spaces from both ends, <code>strlen</code> counts bytes (fine for plain ASCII), and <code>str_contains</code> is the clear yes/no test for a substring when you don't need the position.",
+          code: `<?php
+$line = "  up   the   tree ";
+$words = preg_split('/\\s+/', trim($line));
+echo count($words), ": ", implode("|", $words), "\\n";
+echo strlen("squirrel"), " ", (str_contains("squirrel", "quir") ? "yes" : "no"), "\\n";`,
+          out: "3: up|the|tree\n8 yes",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `<?php
+echo substr("abcdef", 2, 3), "|", substr("abcdef", -2);`, options: ["cde|ef", "cd|ef", "cdef|ef", "cde|f"], answer: "cde|ef", why: "From index 2, take 3 characters for cde; -2 takes the last two." },
+        { kind: "output", q: "What does this print?", code: `<?php
+$p = strpos("acorn", "a");
+echo ($p ? "yes" : "no"), "|", ($p === false ? "missing" : $p);`, options: ["no|0", "yes|0", "no|missing", "yes|true"], answer: "no|0", why: "Position 0 is found, but 0 is falsy, so ? treats it as no. === false is the reliable test." },
+        { kind: "output", q: "What does this print?", code: `<?php
+echo implode(":", explode("-", "a-b-c"));`, options: ["a:b:c", "a-b-c", "abc", "a:b-c"], answer: "a:b:c", why: "explode cuts on -, implode glues with :." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Reading and writing files",
+      summary: "file_get_contents, file_put_contents, file() and JSON on disk.",
+      sections: [
+        {
+          p: "The simplest way to work with a whole file is <code>file_put_contents</code> to write and <code>file_get_contents</code> to read. <code>file</code> returns the lines as an array; <code>FILE_IGNORE_NEW_LINES</code> drops the trailing newlines. Paths are relative to the current working directory.",
+          code: `<?php
+file_put_contents("stash.txt", "acorn 6\\nhazelnut 2\\nwalnut 1\\n");
+$text = file_get_contents("stash.txt");
+echo "bytes: ", strlen($text), "\\n";
+foreach (file("stash.txt", FILE_IGNORE_NEW_LINES) as $line) {
+    [$nut, $n] = explode(" ", $line);
+    echo "$nut => $n\\n";
+}
+copy("stash.txt", "backup.txt");
+echo is_file("backup.txt") ? "backup ready\\n" : "missing\\n";`,
+          out: "bytes: 28\nacorn => 6\nhazelnut => 2\nwalnut => 1\nbackup ready",
+        },
+        {
+          h: "Appending and testing",
+          p: "Pass <code>FILE_APPEND</code> to add to the end instead of replacing. <code>file_exists</code> asks whether a path is there at all; <code>is_file</code> asks specifically for a regular file.",
+          code: `<?php
+file_put_contents("log.txt", "day 1: found 3\\n");
+file_put_contents("log.txt", "day 2: found 5\\n", FILE_APPEND);
+echo file_get_contents("log.txt");
+echo file_exists("nope.txt") ? "yes" : "no", "\\n";`,
+          out: "day 1: found 3\nday 2: found 5\nno",
+        },
+        {
+          h: "JSON on disk",
+          p: "Web apps often store structured data as JSON. Encode an array, write the file, then <code>json_decode(..., true)</code> to get an associative array back.",
+          code: `<?php
+$data = ["name" => "Hazel", "nuts" => ["acorn" => 4, "walnut" => 2]];
+file_put_contents("hazel.json", json_encode($data));
+$back = json_decode(file_get_contents("hazel.json"), true);
+echo $back["name"], " total ", array_sum($back["nuts"]), "\\n";`,
+          out: "Hazel total 6",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `<?php
+file_put_contents("n.txt", "a\\nb\\n");
+echo count(file("n.txt", FILE_IGNORE_NEW_LINES));`, options: ["2", "3", "1", "0"], answer: "2", why: "Two lines, a and b; FILE_IGNORE_NEW_LINES only strips the newlines, it doesn't drop empty trailing pieces here." },
+        { kind: "output", q: "What does this print?", code: `<?php
+file_put_contents("t.txt", "x");
+file_put_contents("t.txt", "y", FILE_APPEND);
+echo file_get_contents("t.txt");`, options: ["xy", "y", "x", "yx"], answer: "xy", why: "FILE_APPEND adds y after the existing x." },
+        { q: "What does json_decode($text, true) return for a JSON object?", options: ["An associative array", "A stdClass object", "A string", "null always"], answer: "An associative array", why: "The second argument true asks for arrays instead of objects." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a tagged nut inventory",
+      summary: "Enums, classes and match build a small event-sourced stash.",
+      sections: [
+        {
+          p: "An inventory is built by replaying a list of events. Each event holds a kind string, a backed <code>NutKind</code> enum and a count. Applying an event either updates the stock or returns an error string — a tiny tagged-union style, without throwing. A gift that asks for more walnuts than you have is skipped and reported; the rest become a sorted table.",
+          code: `<?php
+enum NutKind: string {
+    case Acorn = "acorn";
+    case Walnut = "walnut";
+    case Hazelnut = "hazelnut";
+}
+
+final class InventoryEvent {
+    public function __construct(
+        public readonly string $kind,
+        public readonly NutKind $nut,
+        public readonly int $count,
+        public readonly ?string $to = null,
+    ) {}
+}
+
+final class Inventory {
+    /** @var array<string, int> */
+    private array $stock;
+
+    public function __construct() {
+        $this->stock = array_fill_keys(
+            array_map(fn(NutKind $n) => $n->value, NutKind::cases()),
+            0,
+        );
+    }
+
+    public function apply(InventoryEvent $e): ?string {
+        $key = $e->nut->value;
+        if ($e->kind === "found") {
+            $this->stock[$key] += $e->count;
+            return null;
+        }
+        if ($this->stock[$key] < $e->count) {
+            return "cannot {$e->kind} {$e->count} $key: only {$this->stock[$key]}";
+        }
+        $this->stock[$key] -= $e->count;
+        return null;
+    }
+
+    public function report(): void {
+        $rows = $this->stock;
+        arsort($rows);
+        foreach ($rows as $nut => $n) {
+            printf("%-9s %2d\\n", $nut, $n);
+        }
+    }
+}
+
+$events = [
+    new InventoryEvent("found", NutKind::Acorn, 8),
+    new InventoryEvent("found", NutKind::Walnut, 3),
+    new InventoryEvent("ate", NutKind::Acorn, 2),
+    new InventoryEvent("gift", NutKind::Walnut, 5, "Pip"),
+    new InventoryEvent("found", NutKind::Hazelnut, 4),
+    new InventoryEvent("gift", NutKind::Acorn, 1, "Pip"),
+];
+
+$inv = new Inventory();
+$gifts = [];
+foreach ($events as $e) {
+    $err = $inv->apply($e);
+    if ($err !== null) {
+        echo "skipped: $err\\n";
+        continue;
+    }
+    if ($e->kind === "gift") {
+        $gifts[$e->to] = true;
+    }
+}
+$inv->report();
+echo "gifts to: ", implode(", ", array_keys($gifts)), "\\n";`,
+          out: "skipped: cannot gift 5 walnut: only 3\nacorn      5\nhazelnut   4\nwalnut     3\ngifts to: Pip",
+        },
+        {
+          h: "Ideas to try",
+          p: "Turn the kind string into its own enum and <code>match</code> on it, read the events from a JSON file with <code>file_get_contents</code>, or keep a history of every stock along the way.",
+        },
+      ],
+      practice: [
+        { q: "Why does apply return ?string instead of throwing?", options: ["So a bad event can be skipped and reported without stopping the whole replay", "PHP cannot throw inside a class", "null means success only for enums", "Strings are faster than exceptions"], answer: "So a bad event can be skipped and reported without stopping the whole replay", why: "Returning an error value keeps the loop in charge, the same idea as a Result type." },
+        { kind: "output", q: "What does this print?", code: `<?php
+enum Nut: string { case A = "acorn"; case W = "walnut"; }
+$stock = array_fill_keys(array_map(fn(Nut $n) => $n->value, Nut::cases()), 0);
+$stock["acorn"] += 3;
+echo implode(",", array_keys($stock)), " ", $stock["acorn"];`, options: ["acorn,walnut 3", "A,W 3", "acorn 3", "0,0 3"], answer: "acorn,walnut 3", why: "cases() gives both enums, value is the backing string, and acorn is then increased." },
+        { q: "What does arsort do before the report prints?", options: ["Sorts the stock by count, largest first, keeping the nut names as keys", "Sorts the nut names alphabetically", "Removes zero counts", "Converts the array to a list"], answer: "Sorts the stock by count, largest first, keeping the nut names as keys", why: "arsort is a reverse sort by value that preserves keys." },
       ],
     },
   ],
