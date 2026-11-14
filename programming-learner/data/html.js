@@ -14,8 +14,12 @@ window.PROGRAMMING.html = {
   keywords: [
     "html", "head", "body", "title", "meta", "link", "style", "h1", "h2", "p", "a", "ul", "ol", "li", "img", "div", "span",
     "header", "nav", "main", "section", "footer", "table", "tr", "td", "th", "form", "label", "input", "button", "select", "option",
+    "fieldset", "legend", "textarea", "datalist", "details", "summary", "article", "caption",
   ],
-  builtins: ["color", "background", "font-size", "font-family", "margin", "padding", "border", "display", "flex", "grid", "width", "gap"],
+  builtins: [
+    "color", "background", "font-size", "font-family", "margin", "padding", "border", "display", "flex", "grid", "width", "gap",
+    "aria-label", "aria-labelledby", "scope", "placeholder", "autocomplete", "outline", ":focus", ":target", ":hover",
+  ],
   lessons: [
     {
       id: "first",
@@ -343,6 +347,337 @@ window.PROGRAMMING.html = {
       practice: [
         { q: "With box-sizing: border-box, a box has width: 200px, padding: 10px and a 2px border. How wide is it on the page?", options: ["200px", "224px", "220px", "212px"], answer: "200px", why: "border-box counts padding and border inside the width. Without it, the box would be 200 + 20 + 4 = 224px wide." },
         { q: "What does display: flex on a container do?", options: ["Lays its children out in a row and shares the space between them", "Lets the user resize it", "Makes it fill the whole window", "Hides it on small screens"], answer: "Lays its children out in a row and shares the space between them", why: "flex-direction can switch the row to a column, and flex on each child sets its share." },
+      ],
+    },
+    {
+      id: "a11y",
+      title: "Accessibility basics",
+      summary: "Skip links, labels that speak, table scopes and aria.",
+      sections: [
+        {
+          p: "A page should work for people who can't see the screen, use only a keyboard, or zoom the text. Start with a <b>skip link</b> as the first focusable thing: it jumps past the header to the main content. Give the page a language with <code>lang</code> on <code>&lt;html&gt;</code>, put real headings in order, and keep a useful <code>alt</code> on every meaningful image (or <code>alt=\"\"</code> for decoration). <code>aria-label</code> on <code>&lt;nav&gt;</code> names that landmark for screen readers without adding visible text.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<head><title>Stash</title></head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <h1>The Drey</h1>
+    <nav aria-label="Main">
+      <a href="#nuts">Nuts</a>
+      <a href="#tips">Tips</a>
+    </nav>
+  </header>
+  <main id="main">
+    <h2>Nuts</h2>
+    <img src="missing.jpg" alt="A hazelnut on moss">
+    <p>We bury what we find.</p>
+  </main>
+</body>
+</html>`,
+          out: "Skip to content\nThe Drey\nNuts Tips\nNuts\n\nWe bury what we find.",
+        },
+        {
+          h: "Buttons, tables and aria",
+          p: "A control whose visible text is only a symbol needs an accessible name: <code>aria-label</code> on the button, or visually hidden text inside it. In a data table, <code>scope=\"col\"</code> and <code>scope=\"row\"</code> on <code>&lt;th&gt;</code> tell assistive tech which heading belongs to which cell. Prefer real elements (<code>&lt;button&gt;</code>, <code>&lt;a href&gt;</code>) over clickable <code>&lt;div&gt;</code>s — they already keyboard and announce correctly.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<body>
+  <button type="button" aria-label="Close dialog">X</button>
+  <p><a href="#content">Jump to content</a></p>
+  <table>
+    <caption>Nuts by tree</caption>
+    <tr><th scope="col">Tree</th><th scope="col">Nuts</th></tr>
+    <tr><th scope="row">Oak</th><td>12</td></tr>
+    <tr><th scope="row">Ash</th><td>5</td></tr>
+  </table>
+  <div id="content">End of page.</div>
+</body>
+</html>`,
+          out: "X\n\nJump to content\n\nNuts by tree\nTree\tNuts\nOak\t12\nAsh\t5\nEnd of page.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What text does this page show?", code: `<!DOCTYPE html>
+<html lang="en">
+<body>
+  <a href="#main">Skip to content</a>
+  <nav aria-label="Site"><a href="#a">A</a></nav>
+  <main id="main"><p>Hello</p></main>
+</body>
+</html>`, options: ["Skip to content\nA\nHello", "Site\nSkip to content\nA\nHello", "Skip to content\nHello", "A\nHello"], answer: "Skip to content\nA\nHello", check: "Skip to content\nA\n\nHello", why: "aria-label is for assistive tech and does not appear as visible text. The skip link and the nav link do." },
+        { q: "Why give a button that only shows X an aria-label?", options: ["So screen readers announce a clear name instead of just \"X\"", "So the button becomes required", "So CSS can style it", "So it submits the form"], answer: "So screen readers announce a clear name instead of just \"X\"", why: "The accessible name is what assistive tech reads; a symbol alone is unclear." },
+        { q: "What does scope=\"row\" on a th do?", options: ["Marks that heading as the label for its row", "Merges the cell with the next one", "Hides the heading", "Makes the row sortable"], answer: "Marks that heading as the label for its row", why: "Screen readers then announce the row heading when you move across the cells." },
+      ],
+    },
+    {
+      id: "forms-more",
+      title: "Forms in depth",
+      summary: "fieldset, radio groups, textarea, datalist and dates.",
+      sections: [
+        {
+          p: "<code>&lt;fieldset&gt;</code> groups related controls and <code>&lt;legend&gt;</code> names the group — especially useful for a set of radio buttons that share one <code>name</code>. Only one radio in the group can be chosen. <code>&lt;textarea&gt;</code> is for longer text; its starting content goes between the tags (placeholders show only while it is empty). <code>&lt;datalist&gt;</code> offers suggestions for a text field without forcing one of them, and <code>type=\"date\"</code> asks the browser for a date picker when it has one.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<body>
+  <form>
+    <fieldset>
+      <legend>Pick a nut</legend>
+      <p><input type="radio" id="a" name="nut" value="acorn" checked>
+         <label for="a">Acorn</label></p>
+      <p><input type="radio" id="w" name="nut" value="walnut">
+         <label for="w">Walnut</label></p>
+    </fieldset>
+    <p><label for="note">Note</label><br>
+       <textarea id="note" name="note" rows="2" cols="24" placeholder="Any allergies?"></textarea></p>
+    <p><label for="kind">Favourite kind</label>
+       <input id="kind" name="kind" list="kinds" placeholder="start typing">
+       <datalist id="kinds">
+         <option value="acorn"></option>
+         <option value="hazelnut"></option>
+         <option value="walnut"></option>
+       </datalist></p>
+    <p><label for="when">Deliver on</label>
+       <input id="when" name="when" type="date"></p>
+    <button type="submit">Send</button>
+  </form>
+</body>
+</html>`,
+          out: "Pick a nut\n\n Acorn\n\n Walnut\n\nNote\n\n\nFavourite kind\n\nDeliver on\n\nSend",
+        },
+        {
+          h: "Patterns and friendly names",
+          p: "<code>pattern</code> gives a regular expression the value must match before the form can be sent; pair it with a clear <code>title</code> so the browser can explain a failure. <code>autocomplete</code> hints such as <code>name</code> or <code>email</code> let the browser offer saved details. <code>inputmode=\"numeric\"</code> brings up a number pad on phones without changing what the field stores.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<body>
+  <form>
+    <p><label for="code">Stash code</label>
+       <input id="code" name="code" pattern="[A-Z]{2}[0-9]{3}"
+              title="Two letters then three digits, like OK042" required></p>
+    <p><label for="who">Your name</label>
+       <input id="who" name="who" autocomplete="name"></p>
+    <p><label for="bags">Bags</label>
+       <input id="bags" name="bags" inputmode="numeric" pattern="[0-9]*" value="2"></p>
+    <button type="submit">Save</button>
+  </form>
+</body>
+</html>`,
+          out: "Stash code\n\nYour name\n\nBags\n\nSave",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What text does this page show?", code: `<!DOCTYPE html>
+<html>
+<body>
+  <fieldset>
+    <legend>Season</legend>
+    <input type="radio" id="s" name="s" checked><label for="s">Spring</label>
+    <input type="radio" id="a" name="s"><label for="a">Autumn</label>
+  </fieldset>
+</body>
+</html>`, options: ["Season\nSpring Autumn", "Season\nSpring\nAutumn", "Spring\nAutumn", "Season"], answer: "Season\nSpring Autumn", check: "Season\nSpring Autumn", why: "The legend names the group; both radio labels appear on the next line." },
+        { q: "What do radio inputs that share the same name do?", options: ["Only one of them can be selected at a time", "They all stay checked together", "They become a dropdown", "They submit as a list"], answer: "Only one of them can be selected at a time", why: "A shared name makes a single-choice group." },
+        { q: "How does datalist differ from select?", options: ["datalist suggests values for a text field; the user may still type something else", "datalist forces one of the options", "datalist cannot be labelled", "There is no difference"], answer: "datalist suggests values for a text field; the user may still type something else", why: "select locks the choice to its options; datalist is a hint list." },
+      ],
+    },
+    {
+      id: "interactive",
+      title: "Small interactions",
+      summary: "details and summary, :focus, :hover and :target.",
+      sections: [
+        {
+          p: "<code>&lt;details&gt;</code> is a disclosure widget built into HTML: the <code>&lt;summary&gt;</code> is always shown, and the rest opens when you click it. Add <code>open</code> to start it expanded. No JavaScript is required. Closed content is omitted from the page's visible text until it is opened.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+  summary { cursor: pointer; font-weight: bold; }
+</style>
+</head>
+<body>
+  <details open>
+    <summary>Stash tips</summary>
+    <p>Bury under oak roots.</p>
+  </details>
+  <details>
+    <summary>Owl watch</summary>
+    <p>Stay low at dusk.</p>
+  </details>
+</body>
+</html>`,
+          out: "Stash tips\n\nBury under oak roots.\n\nOwl watch",
+        },
+        {
+          h: ":focus, :hover and :target",
+          p: "Pseudo-classes style an element in a state. <code>:hover</code> applies while the pointer is over it; <code>:focus</code> while it is the keyboard (or click) focus — keep a clear outline so keyboard users can see where they are. <code>:target</code> matches the element whose <code>id</code> is in the URL hash after someone follows a link like <code>href=\"#more\"</code>. Below, the extra tip stays hidden until that link is used.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+  .box:focus { outline: 3px solid #c0392b; background: #fdebd0; }
+  .hide { display: none; }
+  .hide:target { display: block; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <p><a href="#more">Show more</a></p>
+  <p id="more" class="hide">Drink water after digging.</p>
+  <p><a class="box" href="#more">Focusable tip</a></p>
+</body>
+</html>`,
+          out: "Show more\n\nFocusable tip",
+        },
+        {
+          h: "Flex alignment for a toolbar",
+          p: "A common interactive strip is a toolbar: <code>display: flex</code> with <code>justify-content: space-between</code> pushes groups apart, and <code>align-items: center</code> lines them up. <code>gap</code> spaces the items that stay together. This is still layout, but it is the layout most buttons and filters sit in.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+  .bar { display: flex; justify-content: space-between; align-items: center;
+         gap: 8px; padding: 8px 12px; background: #efebe9; }
+  .bar .actions { display: flex; gap: 8px; }
+  button { padding: 4px 10px; }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <strong>Stash filter</strong>
+    <div class="actions">
+      <button type="button">All</button>
+      <button type="button">Oak</button>
+      <button type="button">Ash</button>
+    </div>
+  </div>
+</body>
+</html>`,
+          out: "Stash filter\nAll\nOak\nAsh",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What text does this page show?", code: `<!DOCTYPE html>
+<html>
+<body>
+  <details>
+    <summary>Secrets</summary>
+    <p>Forty nuts.</p>
+  </details>
+  <p>Open me later.</p>
+</body>
+</html>`, options: ["Secrets\n\nOpen me later.", "Secrets\nForty nuts.\nOpen me later.", "Forty nuts.\nOpen me later.", "Open me later."], answer: "Secrets\n\nOpen me later.", check: "Secrets\n\nOpen me later.", why: "Without open, details hides its body; only the summary and the paragraph below show." },
+        { q: "What does :target match?", options: ["The element whose id equals the #hash in the URL", "Every link on the page", "The element under the mouse", "The first heading"], answer: "The element whose id equals the #hash in the URL", why: "Following href=\"#more\" makes #more the :target until the hash changes." },
+        { q: "Why keep a visible :focus style on links and buttons?", options: ["So keyboard users can see which control is active", "So the page loads faster", "So search engines rank it higher", "It is required for colours to work"], answer: "So keyboard users can see which control is active", why: "Tab moves focus; without a clear outline, keyboard use becomes guesswork." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut shop page",
+      summary: "Structure, accessibility, grid cards and an order form together.",
+      sections: [
+        {
+          p: "This page is a tiny shop: a skip link, a labelled header nav, a responsive grid of product cards, and an order form with proper labels. The CSS uses the box model, grid and a media query so the cards stack on a narrow window. Open the preview and resize it; try Tab to move through the skip link, links and fields.",
+          code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hazel's Nut Shop</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, serif; background: #f7f0e4; color: #3e2723; }
+  .skip { position: absolute; left: -999px; }
+  .skip:focus { left: 8px; top: 8px; background: #fff; padding: 4px 8px; }
+  header { background: #6d4c41; color: #fff8e1; padding: 16px 24px; }
+  header a { color: #ffe0b2; margin-right: 12px; }
+  main { padding: 24px; max-width: 800px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card { background: #fff; border: 2px solid #8d6e63; border-radius: 8px; padding: 12px; }
+  .card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+  .price { font-weight: bold; color: #5d4037; }
+  form { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
+  button { background: #8d6e63; color: white; border: 0; padding: 8px 12px; }
+  footer { padding: 16px 24px; font-size: 0.9rem; color: #6d4c41; }
+  @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <h1>Hazel's Nut Shop</h1>
+    <nav aria-label="Shop">
+      <a href="#stock">Stock</a>
+      <a href="#order">Order</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section id="stock" aria-labelledby="stock-title">
+      <h2 id="stock-title">This week's stock</h2>
+      <div class="grid">
+        <article class="card">
+          <h2>Acorns</h2>
+          <p class="price">2 tokens / bag</p>
+          <p>Crunchy autumn classic.</p>
+        </article>
+        <article class="card">
+          <h2>Hazelnuts</h2>
+          <p class="price">5 tokens / bag</p>
+          <p>Sweet and shelled.</p>
+        </article>
+        <article class="card">
+          <h2>Walnuts</h2>
+          <p class="price">4 tokens / bag</p>
+          <p>Brain-shaped treasure.</p>
+        </article>
+      </div>
+    </section>
+    <section id="order" aria-labelledby="order-title">
+      <h2 id="order-title">Place an order</h2>
+      <form action="/order" method="post">
+        <label for="who">Your name</label>
+        <input id="who" name="who" type="text" required autocomplete="name">
+        <label for="nut">Nut</label>
+        <select id="nut" name="nut">
+          <option>acorn</option>
+          <option selected>hazelnut</option>
+          <option>walnut</option>
+        </select>
+        <label for="bags">Bags</label>
+        <input id="bags" name="bags" type="number" min="1" value="1">
+        <button type="submit">Send order</button>
+      </form>
+    </section>
+  </main>
+  <footer>Open dawn till dusk · No owls past the counter</footer>
+</body>
+</html>`,
+          out: "Skip to content\nHazel's Nut Shop\nStock Order\nThis week's stock\nAcorns\n\n2 tokens / bag\n\nCrunchy autumn classic.\n\nHazelnuts\n\n5 tokens / bag\n\nSweet and shelled.\n\nWalnuts\n\n4 tokens / bag\n\nBrain-shaped treasure.\n\nPlace an order\nYour name\nNut\nacorn\nhazelnut\nwalnut\nBags\nSend order\nOpen dawn till dusk · No owls past the counter",
+        },
+        {
+          h: "Ideas to try",
+          p: "Add a <code>&lt;details&gt;</code> FAQ under the form, give each card an <code>&lt;img&gt;</code> with a real <code>alt</code>, or put prices in a small table with <code>scope</code> for shoppers who prefer a list.",
+        },
+      ],
+      practice: [
+        { q: "Why does the shop page start with a skip link?", options: ["So keyboard and screen-reader users can jump past the header to the main content", "So search engines index it first", "So CSS grid works", "So the form can submit"], answer: "So keyboard and screen-reader users can jump past the header to the main content", why: "Repeated header links are tedious to tab through on every page; the skip link bypasses them." },
+        { kind: "output", q: "What text does this page show?", code: `<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .gone { display: none; }
+</style>
+</head>
+<body>
+  <h1>Shop</h1>
+  <div class="grid">
+    <div>Acorn</div><div>Walnut</div>
+  </div>
+  <p class="gone">Secret discount</p>
+</body>
+</html>`, options: ["Shop\nAcorn\nWalnut", "Shop\nAcorn Walnut\nSecret discount", "Shop\nSecret discount", "Acorn\nWalnut"], answer: "Shop\nAcorn\nWalnut", check: "Shop\nAcorn\nWalnut", why: "display: none removes the secret line from the visible text; grid only changes layout." },
+        { q: "What does aria-labelledby=\"stock-title\" on the section do?", options: ["Names the section with the text of the element that has id stock-title", "Hides the section title", "Makes the section a landmark called stock-title", "Links the section to the stylesheet"], answer: "Names the section with the text of the element that has id stock-title", why: "Assistive tech can then announce the section using that heading's words." },
       ],
     },
   ],
