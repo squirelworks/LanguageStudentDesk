@@ -1,12 +1,17 @@
 # SquirrelGo v0.1.3
 
-The Desk and the apps move to squirrel-lang-data v0.1.4, which brings the
+The Desk and the apps move to squirrel-lang-data v0.1.5, which brings the
 biggest content update yet. Grammar courses go from a handful of lessons to
-72 in most languages, and the Chinese, Japanese and Korean translators have
-every sentence to work with.
+72 in most languages, the Chinese, Japanese and Korean translators have
+every sentence to work with, and French, German and Italian join with full
+meaning-matrix columns.
 
 ## Languages and data
 
+- **squirrel-lang-data v0.1.5:** French, German and Italian meaning-matrix
+  columns (all 103 rows), Latin, Greek and Russian filled to every row,
+  English contractions, the `@partitive` meaning, and the Syriac
+  (Estrangela) alphabet course.
 - **squirrel-lang-data v0.1.4:** grammar at 72 lessons for 29 languages
   (73 for Japanese), Latin to 72, and Tibetan and Klingon to 24 each, all
   sorted from absolute beginner to advanced. It also adds Latin, English and
@@ -24,12 +29,24 @@ every sentence to work with.
 - **Translation Learner:** a close word no longer earns credit when it names
   a different thing, place, name, language or day. "dinner" for *lunch*
   scores like any other wrong word.
+- **Orthodox Bible:** opening a book jumps to the text that contains it,
+  without a fallback notice.
+
+## Translation Learner
+
+- French, German and Italian pairs, with the full columns from data v0.1.5.
+
+## Alphabets and Character Learner
+
+- Syriac (Estrangela) joins SquirrelGo Alphabets and the Character Learner.
+  Stroke order is a machine draft pending a human review.
 
 ## Programming Learner
 
 - Longer C, C++, C#, Modern Delphi, Rust, Go and JavaScript courses, each
   ending in a project. They cover arrays and pointers, errors, generics and
   traits, collections, goroutines, and async in depth.
+- Longer TypeScript, Java and Bash courses too, each ending in a project.
 
 ## SquirrelGo apps
 
