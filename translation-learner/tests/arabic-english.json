@@ -1,0 +1,147 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "arabic",
+  "into": "english",
+  "about": "Arabic to English. Modern Standard Arabic often writes أنا for nominal sentences, but verb forms carry person so some rows imply \"I\" or \"you\". Present tense leaves past and future open where unmarked. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "I'll drink water.",
+        "Drinking water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I want water.",
+        "I drink water and tea."
+      ]
+    },
+    {
+      "sentence": "from-egypt",
+      "accept": [
+        "I am from Egypt.",
+        "I'm from Egypt."
+      ],
+      "reject": [
+        "I am from China.",
+        "You are from Egypt.",
+        "From Egypt."
+      ]
+    },
+    {
+      "sentence": "good-morning",
+      "accept": [
+        "Good morning."
+      ],
+      "reject": [
+        "Good evening.",
+        "Hello."
+      ]
+    },
+    {
+      "sentence": "how-much-this",
+      "accept": [
+        "How much is this?"
+      ],
+      "reject": [
+        "How much is that?",
+        "What is this?"
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher.",
+        "A student."
+      ]
+    },
+    {
+      "sentence": "live-cairo",
+      "accept": [
+        "I live in Cairo.",
+        "I'm living in Cairo.",
+        "Live in Cairo."
+      ],
+      "reject": [
+        "I live in Beijing.",
+        "You live in Cairo."
+      ]
+    },
+    {
+      "sentence": "speak-arabic",
+      "accept": [
+        "Do you speak Arabic?"
+      ],
+      "reject": [
+        "Do you speak English?",
+        "I speak Arabic."
+      ]
+    },
+    {
+      "sentence": "thank-you",
+      "accept": [
+        "Thank you.",
+        "Thanks."
+      ],
+      "reject": [
+        "Please.",
+        "Hello."
+      ]
+    },
+    {
+      "sentence": "this-is-book",
+      "accept": [
+        "This is a book.",
+        "It's a book."
+      ],
+      "reject": [
+        "This is a car.",
+        "That is a book."
+      ]
+    },
+    {
+      "sentence": "want-coffee",
+      "accept": [
+        "I want coffee.",
+        "I'd like coffee.",
+        "Want coffee."
+      ],
+      "reject": [
+        "I want tea.",
+        "I like coffee."
+      ]
+    },
+    {
+      "sentence": "where-station",
+      "accept": [
+        "Where is the station?",
+        "Where's the station?"
+      ],
+      "reject": [
+        "Where is the hotel?",
+        "Where is the toilet?"
+      ]
+    }
+  ]
+}
