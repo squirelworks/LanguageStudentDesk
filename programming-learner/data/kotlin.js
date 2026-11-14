@@ -17,6 +17,7 @@ window.PROGRAMMING.kotlin = {
   builtins: [
     "println", "print", "main", "Int", "Double", "String", "Boolean", "Char", "List", "Map", "listOf", "mutableListOf",
     "mapOf", "mutableMapOf", "setOf", "Unit", "Any", "require", "let", "apply", "also", "run", "repeat",
+    "Result", "runCatching", "groupBy", "fold", "flatMap", "associateWith", "groupingBy",
   ],
   lessons: [
     {
@@ -600,6 +601,229 @@ fun main() {
     println(pairUp("x", "y"))
     println(pairUp(1, 2).sum())
 }`, options: ["[x, y, x]\n4", "[x, y]\n3", "[x, y, x]\n3", "xyx\n4"], answer: "[x, y, x]\n4", why: "T is String in the first call and Int in the second, so sum works: 1 + 2 + 1." },
+      ],
+    },
+    {
+      id: "errors",
+      title: "Errors and Result",
+      summary: "try and catch, require, Result and runCatching.",
+      sections: [
+        {
+          p: "When something goes wrong, Kotlin <b>throws</b> an exception and the nearest matching <code>catch</code> handles it. Code in <code>finally</code> runs either way. <code>require</code> checks a condition and throws an <code>IllegalArgumentException</code> with your message when it fails, which is the usual way to reject bad arguments.",
+          code: `fun take(stash: Int, want: Int): Int {
+    require(want >= 0) { "want must be non-negative" }
+    if (want > stash) throw IllegalStateException("asked for $want, only $stash left")
+    return stash - want
+}
+
+fun main() {
+    for (want in listOf(3, 12, -1)) {
+        try {
+            val left = take(10, want)
+            println("left: $left")
+        } catch (e: IllegalArgumentException) {
+            println("bad input: \${e.message}")
+        } catch (e: IllegalStateException) {
+            println("refused: \${e.message}")
+        } finally {
+            println("checked $want")
+        }
+    }
+}`,
+          out: "left: 7\nchecked 3\nrefused: asked for 12, only 10 left\nchecked 12\nbad input: want must be non-negative\nchecked -1",
+        },
+        {
+          h: "Result instead of throwing",
+          p: "<code>Result&lt;T&gt;</code> is either a success holding a value or a failure holding an exception. Callers look at it with <code>getOrNull</code>, <code>getOrElse</code> or <code>getOrDefault</code>, so a failure can't be forgotten the way an uncaught exception can. <code>Result.success</code> and <code>Result.failure</code> build the two cases.",
+          code: `fun divide(a: Int, b: Int): Result<Int> =
+    if (b == 0) Result.failure(ArithmeticException("divide by zero"))
+    else Result.success(a / b)
+
+fun main() {
+    for ((a, b) in listOf(10 to 4, 3 to 0)) {
+        val r = divide(a, b)
+        println(r.getOrElse { e -> "\${e.message}" })
+    }
+    val ok = Result.success(42)
+    val bad: Result<Int> = Result.failure(IllegalArgumentException("nope"))
+    println(ok.getOrNull())
+    println(bad.getOrDefault(-1))
+}`,
+          out: "2\ndivide by zero\n42\n-1",
+        },
+        {
+          h: "runCatching, map and recover",
+          p: "<code>runCatching { ... }</code> runs a block and wraps either its value or the exception it threw in a <code>Result</code>. <code>map</code> transforms a successful value and leaves a failure alone; <code>recover</code> turns a failure into a value. <code>isSuccess</code> and <code>isFailure</code> ask which case you have.",
+          code: `fun main() {
+    val parsed = listOf("12", "x", "5").map { runCatching { it.toInt() } }
+    println(parsed.map { it.getOrDefault(0) }.sum())
+    println(parsed.count { it.isFailure })
+    val doubled = runCatching { "7".toInt() }.map { it * 2 }
+    println(doubled.getOrNull())
+    val recovered = runCatching { "nope".toInt() }.recover { 0 }
+    println(recovered.getOrThrow())
+}`,
+          out: "17\n1\n14\n0",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `fun main() {
+    try {
+        println("a")
+        require(false) { "x" }
+        println("b")
+    } catch (e: IllegalArgumentException) {
+        println("c")
+    } finally {
+        println("d")
+    }
+}`, options: ["a\nc\nd", "a\nb\nd", "a\nc", "c\nd"], answer: "a\nc\nd", why: "require throws before b prints; the catch runs, then finally." },
+        { kind: "output", q: "What does this print?", code: `fun main() {
+    val rs = listOf(
+        Result.success(2),
+        Result.failure<Int>(Exception("x")),
+        Result.success(5),
+    )
+    println(rs.map { it.getOrDefault(0) }.sum())
+}`, options: ["7", "2", "5", "0"], answer: "7", why: "The failure becomes 0, so 2 + 0 + 5 = 7." },
+        { q: "What does runCatching { ... } return when the block throws?", options: ["A Result.failure holding the exception", "null", "An empty Result", "It always rethrows"], answer: "A Result.failure holding the exception", why: "runCatching catches the throw and wraps it, so the caller can decide what to do." },
+      ],
+    },
+    {
+      id: "grouping",
+      title: "Grouping and folding",
+      summary: "groupBy, fold, flatMap, associateWith and friends.",
+      sections: [
+        {
+          p: "<code>groupBy</code> builds a map from a key to the list of items that share it. Chaining <code>mapValues</code> turns each list into a total. <code>groupingBy { ... }.eachCount()</code> counts how many times each key appears without building the lists first.",
+          code: `data class Find(val tree: String, val nuts: Int)
+
+fun main() {
+    val finds = listOf(
+        Find("oak", 3), Find("ash", 5), Find("oak", 2), Find("hazel", 4), Find("ash", 1)
+    )
+    println(finds.groupBy { it.tree }.mapValues { (_, v) -> v.sumOf { it.nuts } })
+    println(finds.groupingBy { it.tree }.eachCount())
+    println(finds.map { it.tree }.distinct().sorted())
+}`,
+          out: "{oak=5, ash=6, hazel=4}\n{oak=2, ash=2, hazel=1}\n[ash, hazel, oak]",
+        },
+        {
+          h: "fold and flatMap",
+          p: "<code>fold</code> walks the list with a running total, starting from the value you give it: each step gets the total so far and the next item. <code>flatMap</code> turns each item into a list and concatenates the results, so one item can become several.",
+          code: `fun main() {
+    val finds = listOf(3, 5, 2, 4, 1)
+    println(finds.fold(0) { acc, n -> acc + n })
+    println(finds.fold(1) { acc, n -> acc * n })
+    println(listOf(1, 2, 3).flatMap { n -> listOf(n, n * 10) })
+    println((1..5).map { it * it }.joinToString("-"))
+}`,
+          out: "15\n120\n[1, 10, 2, 20, 3, 30]\n1-4-9-16-25",
+        },
+        {
+          h: "associateWith and filterValues",
+          p: "<code>associateWith</code> makes a map whose keys are the list items and whose values come from a lambda. <code>associate</code> builds each key–value pair itself. On a map, <code>filterValues</code> keeps the entries whose values pass a test.",
+          code: `fun main() {
+    val sizes = listOf("oak", "beech", "ash").associateWith { it.length }
+    println(sizes)
+    println(sizes.filterValues { it > 3 })
+    println(listOf("a", "bb").associate { it to it.uppercase() })
+}`,
+          out: "{oak=3, beech=5, ash=3}\n{beech=5}\n{a=A, bb=BB}",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `fun main() {
+    val words = listOf("oak", "ash", "elm", "oak")
+    println(words.groupingBy { it }.eachCount())
+}`, options: ["{oak=2, ash=1, elm=1}", "{oak=1, ash=1, elm=1}", "[oak, ash, elm, oak]", "{2, 1, 1}"], answer: "{oak=2, ash=1, elm=1}", why: "eachCount counts how many times each key appears; oak appears twice." },
+        { kind: "output", q: "What does this print?", code: `fun main() {
+    println(listOf(2, 3, 4).fold(1) { acc, n -> acc * n })
+}`, options: ["24", "9", "10", "1"], answer: "24", why: "fold starts at 1 and multiplies by each item: 1×2×3×4 = 24." },
+        { kind: "output", q: "What does this print?", code: `fun main() {
+    println(listOf(1, 2).flatMap { listOf(it, it + 10) })
+}`, options: ["[1, 11, 2, 12]", "[1, 2, 11, 12]", "[1, 2]", "[[1, 11], [2, 12]]"], answer: "[1, 11, 2, 12]", why: "flatMap concatenates the small lists into one list." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut inventory",
+      summary: "Data classes, sealed events and a Result-style apply together.",
+      sections: [
+        {
+          p: "An inventory is built by replaying a list of events. Each event is one case of a sealed interface, so <code>when</code> must handle every kind. Taking more nuts than you have is a failure returned as a sealed result, not thrown. A gift that asks for more walnuts than you have is skipped and reported; the rest become a sorted table.",
+          code: `enum class NutKind { ACORN, WALNUT, HAZELNUT }
+
+sealed interface InventoryEvent {
+    val nut: NutKind
+    val count: Int
+}
+data class Found(override val nut: NutKind, override val count: Int) : InventoryEvent
+data class Ate(override val nut: NutKind, override val count: Int) : InventoryEvent
+data class Gift(override val nut: NutKind, override val count: Int, val to: String) : InventoryEvent
+
+data class Stock(val counts: Map<NutKind, Int> = NutKind.entries.associateWith { 0 }) {
+    operator fun get(n: NutKind) = counts.getValue(n)
+    fun with(n: NutKind, v: Int) = Stock(counts + (n to v))
+}
+
+sealed interface ApplyResult
+data class Ok(val stock: Stock) : ApplyResult
+data class Err(val error: String) : ApplyResult
+
+fun apply(stock: Stock, e: InventoryEvent): ApplyResult = when (e) {
+    is Found -> Ok(stock.with(e.nut, stock[e.nut] + e.count))
+    is Ate, is Gift -> {
+        val action = e::class.simpleName!!.lowercase()
+        if (stock[e.nut] < e.count) {
+            Err("cannot $action \${e.count} \${e.nut.name.lowercase()}: only \${stock[e.nut]}")
+        } else {
+            Ok(stock.with(e.nut, stock[e.nut] - e.count))
+        }
+    }
+}
+
+fun main() {
+    val events: List<InventoryEvent> = listOf(
+        Found(NutKind.ACORN, 8),
+        Found(NutKind.WALNUT, 3),
+        Ate(NutKind.ACORN, 2),
+        Gift(NutKind.WALNUT, 5, "Pip"),
+        Found(NutKind.HAZELNUT, 4),
+        Gift(NutKind.ACORN, 1, "Pip"),
+    )
+    var stock = Stock()
+    val gifts = mutableSetOf<String>()
+    for (e in events) {
+        when (val r = apply(stock, e)) {
+            is Ok -> {
+                stock = r.stock
+                if (e is Gift) gifts += e.to
+            }
+            is Err -> println("skipped: \${r.error}")
+        }
+    }
+    stock.counts.entries.sortedByDescending { it.value }.forEach { (nut, n) ->
+        println("%-9s %2d".format(nut.name.lowercase(), n))
+    }
+    println("gifts to: \${gifts.sorted().joinToString(", ")}")
+}`,
+          out: "skipped: cannot gift 5 walnut: only 3\nacorn      5\nhazelnut   4\nwalnut     3\ngifts to: Pip",
+        },
+        {
+          h: "Ideas to try",
+          p: "Add a <code>Traded</code> event that swaps one nut for another and see the compiler point at the unhandled case, keep a history of every stock along the way, or switch the sealed <code>ApplyResult</code> for the built-in <code>Result</code> type.",
+        },
+      ],
+      practice: [
+        { q: "Why does apply return ApplyResult instead of throwing?", options: ["So a bad event can be skipped and reported without stopping the whole replay", "Kotlin cannot throw inside a when", "Sealed types cannot be thrown", "Strings are faster than exceptions"], answer: "So a bad event can be skipped and reported without stopping the whole replay", why: "Returning an error value keeps the loop in charge, the same idea as Result." },
+        { kind: "output", q: "What does this print?", code: `enum class Nut { ACORN, WALNUT }
+fun main() {
+    val stock = Nut.entries.associateWith { 0 }.toMutableMap()
+    stock[Nut.ACORN] = stock.getValue(Nut.ACORN) + 3
+    println(stock.keys.joinToString(",") { it.name.lowercase() } + " " + stock.getValue(Nut.ACORN))
+}`, options: ["acorn,walnut 3", "ACORN,WALNUT 3", "acorn 3", "0,0 3"], answer: "acorn,walnut 3", why: "entries() gives both enums in order, name.lowercase() makes the keys readable, and acorn is then increased." },
+        { q: "What does Stock.with return?", options: ["A new Stock with one count changed, leaving the old Stock alone", "The same Stock, mutated in place", "Only the new count as an Int", "null when the nut is missing"], answer: "A new Stock with one count changed, leaving the old Stock alone", why: "counts + (n to v) builds a new map; data classes are usually treated as values." },
       ],
     },
   ],

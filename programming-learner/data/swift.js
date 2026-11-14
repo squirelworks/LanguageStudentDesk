@@ -15,7 +15,7 @@ window.PROGRAMMING.swift = {
     "struct", "class", "enum", "protocol", "extension", "init", "self", "mutating", "throws", "throw", "try", "do", "catch",
     "nil", "true", "false", "private", "where", "some", "inout", "async", "await", "is", "as",
   ],
-  builtins: ["print", "Int", "Double", "String", "Bool", "Character", "Array", "Dictionary", "Set", "Error", "count", "map", "filter", "reduce", "sorted", "joined", "max", "min"],
+  builtins: ["print", "Int", "Double", "String", "Bool", "Character", "Array", "Dictionary", "Set", "Error", "Result", "count", "map", "filter", "reduce", "sorted", "joined", "max", "min", "compactMap", "flatMap"],
   lessons: [
     {
       id: "first",
@@ -608,6 +608,321 @@ print((try? eat(-1)) ?? "none")`, options: ["ate 2\nnone", "ate 2\nate -1", "non
     func squared() -> Int { self * self }
 }
 print(3.squared() + 4.squared())`, options: ["25", "7", "49", "34"], answer: "25", why: "squared is added to Int by the extension, so 3.squared() is 9 and 4.squared() is 16." },
+      ],
+    },
+    {
+      id: "results",
+      title: "Result as a value",
+      summary: "Result success and failure, map, flatMap and get.",
+      sections: [
+        {
+          p: "<code>Result&lt;Success, Failure&gt;</code> is either a <code>.success</code> holding a value or a <code>.failure</code> holding an error. Unlike <code>throw</code>, the failure is a normal return value, so the caller has to look at it. A <code>switch</code> (or <code>get()</code>, which throws the failure) unpacks it. This is the same idea as a carefully written enum with associated values, built into the language.",
+          code: String.raw`enum StashError: Error {
+    case empty
+    case tooFew(have: Int)
+}
+
+func take(_ want: Int, from stash: Int) -> Result<Int, StashError> {
+    if stash == 0 { return .failure(.empty) }
+    if stash < want { return .failure(.tooFew(have: stash)) }
+    return .success(stash - want)
+}
+
+for stash in [10, 0, 3] {
+    switch take(5, from: stash) {
+    case .success(let left):
+        print("left: \(left)")
+    case .failure(.tooFew(let have)):
+        print("only \(have)")
+    case .failure(.empty):
+        print("empty")
+    }
+}`,
+          out: "left: 5\nempty\nonly 3",
+        },
+        {
+          h: "map, flatMap and get",
+          p: "<code>map</code> transforms a successful value and leaves a failure alone. <code>flatMap</code> chains a second step that itself returns a <code>Result</code>, so failures skip the rest. <code>get()</code> throws the failure, which suits a <code>do</code>/<code>catch</code> or <code>try?</code> when you want an optional again.",
+          code: String.raw`enum ParseError: Error { case bad }
+
+func parse(_ s: String) -> Result<Int, ParseError> {
+    if let n = Int(s) { return .success(n) }
+    return .failure(.bad)
+}
+
+func double(_ n: Int) -> Result<Int, ParseError> {
+    .success(n * 2)
+}
+
+let values = ["12", "x", "5"].map { parse($0) }
+var sum = 0
+var fails = 0
+for r in values {
+    switch r {
+    case .success(let n): sum += n
+    case .failure: fails += 1
+    }
+}
+print(sum)
+print(fails)
+
+switch parse("7").flatMap(double) {
+case .success(let n): print(n)
+case .failure: print("fail")
+}
+switch parse("no").map({ $0 * 2 }) {
+case .success(let n): print(n)
+case .failure: print("fail")
+}
+print((try? parse("4").get()) ?? -1)
+print((try? parse("z").get()) ?? -1)`,
+          out: "17\n1\n14\nfail\n4\n-1",
+        },
+        {
+          h: "Optionals that dig deeper",
+          p: "<code>guard let</code> can unwrap several optionals at once, and stop early if any is missing. Optional <code>map</code> runs a transform only when there is a value. Together with <code>Result</code>, you choose: missing data stays an optional; a real failure becomes a <code>Result</code> (or a throw).",
+          code: String.raw`func label(_ text: String?) -> String {
+    guard let text, let n = Int(text), n >= 0 else {
+        return "unknown"
+    }
+    return "\(n) nuts"
+}
+
+print(label("9"))
+print(label(nil))
+print(label("no"))
+print(label("-1"))
+
+let amounts: [String?] = ["3", nil, "5"]
+let total = amounts.compactMap { $0 }.compactMap { Int($0) }.reduce(0, +)
+print(total)
+print(Optional(4).map { $0 * 10 } ?? 0)
+print((nil as Int?).map { $0 * 10 } ?? 0)`,
+          out: "9 nuts\nunknown\nunknown\nunknown\n8\n40\n0",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: String.raw`enum E: Error { case nope }
+let rs: [Result<Int, E>] = [.success(2), .failure(.nope), .success(5)]
+var sum = 0
+for r in rs {
+    if case .success(let n) = r { sum += n }
+}
+print(sum)`, options: ["7", "2", "5", "0"], answer: "7", why: "Only the two successes add their values: 2 + 5." },
+        { kind: "output", q: "What does this print?", code: String.raw`enum E: Error { case bad }
+func parse(_ s: String) -> Result<Int, E> {
+    if let n = Int(s) { return .success(n) }
+    return .failure(.bad)
+}
+switch parse("6").map({ $0 * $0 }) {
+case .success(let n): print(n)
+case .failure: print("x")
+}`, options: ["36", "6", "x", "0"], answer: "36", why: "map squares the successful 6; failure would stay a failure." },
+        { q: "When is Result a better fit than throw?", options: ["When a failure is a normal outcome the caller should handle as a value", "Whenever anything can go wrong", "Only inside async functions", "Never; throw is always better"], answer: "When a failure is a normal outcome the caller should handle as a value", why: "Result makes the failure part of the return type, so it can't be ignored by accident." },
+      ],
+    },
+    {
+      id: "patterns",
+      title: "Pattern matching in depth",
+      summary: "if case, for case, and nested associated values.",
+      sections: [
+        {
+          p: "<code>if case</code> matches one enum case without a full <code>switch</code>, and <code>for case</code> walks a list keeping only the cases you care about. Both can bind associated values with <code>let</code>. Use <code>_</code> for values you don't need.",
+          code: String.raw`enum Event {
+    case found(nut: String, count: Int)
+    case ate(nut: String, count: Int)
+    case gift(nut: String, count: Int, to: String)
+}
+
+let events: [Event] = [
+    .found(nut: "acorn", count: 8),
+    .ate(nut: "acorn", count: 2),
+    .gift(nut: "walnut", count: 1, to: "Pip"),
+    .found(nut: "walnut", count: 3),
+]
+
+if case .found(let nut, let count) = events[0] {
+    print("first find \(count) \(nut)")
+}
+for case .gift(_, _, let to) in events {
+    print("gift to \(to)")
+}
+let finds = events.compactMap { e -> String? in
+    if case .found(let nut, let count) = e { return "\(nut) x\(count)" }
+    return nil
+}
+print(finds.joined(separator: ", "))`,
+          out: "first find 8 acorn\ngift to Pip\nacorn x8, walnut x3",
+        },
+        {
+          h: "Nested associated values",
+          p: "One enum's associated value can be another enum. A <code>switch</code> can match both layers at once: <code>.ok(.pair(let a, let b))</code>. That keeps related shapes together without a pile of optional fields.",
+          code: String.raw`enum Payload {
+    case text(String)
+    case pair(Int, Int)
+}
+
+enum Message {
+    case ok(Payload)
+    case err(String)
+}
+
+func describe(_ m: Message) -> String {
+    switch m {
+    case .ok(.text(let s)):
+        return "text \(s)"
+    case .ok(.pair(let a, let b)):
+        return "pair \(a)+\(b)"
+    case .err(let e):
+        return "err \(e)"
+    }
+}
+
+print(describe(.ok(.text("hi"))))
+print(describe(.ok(.pair(3, 4))))
+print(describe(.err("nope")))`,
+          out: "text hi\npair 3+4\nerr nope",
+        },
+        {
+          h: "where clauses on cases",
+          p: "A case can add a <code>where</code> condition. The branch runs only when the pattern matches <i>and</i> the condition is true. That keeps filters next to the data they care about.",
+          code: String.raw`enum Find {
+    case nut(kind: String, grams: Int)
+    case empty
+}
+
+func grade(_ f: Find) -> String {
+    switch f {
+    case .nut(let kind, let grams) where grams >= 10:
+        return "big \(kind)"
+    case .nut(let kind, _):
+        return "small \(kind)"
+    case .empty:
+        return "nothing"
+    }
+}
+
+for f in [Find.nut(kind: "walnut", grams: 12), .nut(kind: "acorn", grams: 4), .empty] {
+    print(grade(f))
+}`,
+          out: "big walnut\nsmall acorn\nnothing",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: String.raw`enum Pet {
+    case dog(String)
+    case fish(Int)
+}
+let pets: [Pet] = [.dog("Rex"), .fish(3), .dog("Pip")]
+var names: [String] = []
+for case .dog(let name) in pets {
+    names.append(name)
+}
+print(names.joined(separator: "+"))`, options: ["Rex+Pip", "Rex", "Rex+3+Pip", "dog+dog"], answer: "Rex+Pip", why: "for case keeps only the dog cases and binds each name." },
+        { kind: "output", q: "What does this print?", code: String.raw`enum Inner { case a(Int), b }
+enum Outer { case wrap(Inner), bare }
+func show(_ o: Outer) -> String {
+    switch o {
+    case .wrap(.a(let n)): return "a\(n)"
+    case .wrap(.b): return "b"
+    case .bare: return "bare"
+    }
+}
+print(show(.wrap(.a(2))))
+print(show(.bare))`, options: ["a2\nbare", "wrap\nbare", "a2\nb", "2\nbare"], answer: "a2\nbare", why: "The nested pattern matches wrap with inner a(2), and bare matches on its own." },
+        { q: "What does if case .found(let nut, _) = e do?", options: ["Runs its body only when e is .found, binding the nut and ignoring the other value", "Converts e into a found case", "Crashes if e is not found", "Loops over every found case"], answer: "Runs its body only when e is .found, binding the nut and ignoring the other value", why: "if case is a one-case match; _ discards an associated value you don't need." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "Enums with associated values, a Result-style apply and a report.",
+      sections: [
+        {
+          p: "A ledger is built by replaying a list of events. Each event is one case of an enum with associated values. Applying an event either updates the stock or returns an error string — a tiny result type, without throwing. A gift that asks for more walnuts than you have is skipped and reported; the rest become a sorted table.",
+          code: String.raw`enum NutKind: String, CaseIterable {
+    case acorn, walnut, hazelnut
+}
+
+enum InventoryEvent {
+    case found(nut: NutKind, count: Int)
+    case ate(nut: NutKind, count: Int)
+    case gift(nut: NutKind, count: Int, to: String)
+}
+
+enum ApplyResult {
+    case ok([NutKind: Int])
+    case err(String)
+}
+
+func apply(_ stock: [NutKind: Int], _ e: InventoryEvent) -> ApplyResult {
+    var next = stock
+    switch e {
+    case .found(let nut, let count):
+        next[nut, default: 0] += count
+        return .ok(next)
+    case .ate(let nut, let count):
+        if next[nut, default: 0] < count {
+            return .err("cannot ate \(count) \(nut.rawValue): only \(next[nut, default: 0])")
+        }
+        next[nut, default: 0] -= count
+        return .ok(next)
+    case .gift(let nut, let count, _):
+        if next[nut, default: 0] < count {
+            return .err("cannot gift \(count) \(nut.rawValue): only \(next[nut, default: 0])")
+        }
+        next[nut, default: 0] -= count
+        return .ok(next)
+    }
+}
+
+func pad(_ s: String, _ width: Int) -> String {
+    if s.count >= width { return s }
+    return s + String(repeating: " ", count: width - s.count)
+}
+
+let events: [InventoryEvent] = [
+    .found(nut: .acorn, count: 8),
+    .found(nut: .walnut, count: 3),
+    .ate(nut: .acorn, count: 2),
+    .gift(nut: .walnut, count: 5, to: "Pip"),
+    .found(nut: .hazelnut, count: 4),
+    .gift(nut: .acorn, count: 1, to: "Pip"),
+]
+
+var stock = Dictionary(uniqueKeysWithValues: NutKind.allCases.map { ($0, 0) })
+var gifts = Set<String>()
+for e in events {
+    switch apply(stock, e) {
+    case .ok(let next):
+        stock = next
+        if case .gift(_, _, let to) = e { gifts.insert(to) }
+    case .err(let msg):
+        print("skipped: \(msg)")
+    }
+}
+
+for (nut, n) in stock.sorted(by: {
+    $0.value != $1.value ? $0.value > $1.value : $0.key.rawValue < $1.key.rawValue
+}) {
+    let num = n < 10 ? " \(n)" : "\(n)"
+    print("\(pad(nut.rawValue, 9)) \(num)")
+}
+print("gifts to: \(gifts.sorted().joined(separator: ", "))")`,
+          out: "skipped: cannot gift 5 walnut: only 3\nacorn      5\nhazelnut   4\nwalnut     3\ngifts to: Pip",
+        },
+        {
+          h: "Ideas to try",
+          p: "Add a <code>traded</code> case that swaps one nut for another and see the compiler point at the unhandled case, keep a history of every stock along the way, or switch <code>ApplyResult</code> for the built-in <code>Result</code> type.",
+        },
+      ],
+      practice: [
+        { q: "Why does apply return ApplyResult instead of throwing?", options: ["So a bad event can be skipped and reported without stopping the whole replay", "Swift cannot throw inside a switch", "Enums cannot be thrown", "Strings are faster than errors"], answer: "So a bad event can be skipped and reported without stopping the whole replay", why: "Returning an error value keeps the loop in charge, the same idea as Result." },
+        { kind: "output", q: "What does this print?", code: String.raw`enum Nut: String, CaseIterable { case acorn, walnut }
+var stock = Dictionary(uniqueKeysWithValues: Nut.allCases.map { ($0, 0) })
+stock[.acorn, default: 0] += 3
+print(Nut.allCases.map(\.rawValue).joined(separator: ",") + " \(stock[.acorn]!)")`, options: ["acorn,walnut 3", "acorn 3", "ACORN,WALNUT 3", "0,0 3"], answer: "acorn,walnut 3", why: "allCases gives both cases in order; acorn is then increased." },
+        { q: "What does if case .gift(_, _, let to) = e bind?", options: ["Only the recipient name, when e is a gift", "Every associated value of e", "The nut and the count", "Nothing; it always fails"], answer: "Only the recipient name, when e is a gift", why: "The two underscores discard the nut and count; to is bound only for gift events." },
       ],
     },
   ],
