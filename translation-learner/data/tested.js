@@ -2,4 +2,4 @@
 // tests/<language>-english.json. The page drops the "(alpha)" label for
 // these; check.js fails if a language listed here has no tests or fails one.
 // Add a language only together with its passing test file.
-window.TL_TESTED = ["chinese", "french", "german", "hangul", "italian", "japanese"];
+window.TL_TESTED = ["chinese", "cyrillic", "french", "german", "greek", "hangul", "italian", "japanese", "latin"];

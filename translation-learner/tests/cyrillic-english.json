@@ -1,0 +1,242 @@
+{
+  "schema": "translation-pair-tests/1",
+  "language": "cyrillic",
+  "into": "english",
+  "about": "Russian to English. Russian writes the subject (я/ты/вы), so English that drops it fails here where Latin or Greek would accept it. Present tense leaves past and future open, so one sentence has several right English versions. Every accept must pass and every reject must fail.",
+  "cases": [
+    {
+      "sentence": "bus-school",
+      "accept": [
+        "I go to school by bus.",
+        "I take the bus to school.",
+        "I'm going to school by bus.",
+        "I take a bus to school",
+        "I am taking the bus to school",
+        "I ride the bus to school.",
+        "I will go to school by bus.",
+        "I went to school by bus.",
+        "By bus, I go to school."
+      ],
+      "reject": [
+        "I go to school.",
+        "I take the train to school.",
+        "I go home by bus.",
+        "We go to school by bus.",
+        "Going to school by bus.",
+        "You take the bus to school."
+      ]
+    },
+    {
+      "sentence": "came-train",
+      "accept": [
+        "I came by train.",
+        "I came on the train.",
+        "I have come by train."
+      ],
+      "reject": [
+        "I come by train.",
+        "I will come by train.",
+        "I came by bus.",
+        "I went by train.",
+        "Came by train."
+      ]
+    },
+    {
+      "sentence": "go-school",
+      "accept": [
+        "I go to school.",
+        "I'm going to school.",
+        "I went to school.",
+        "I'll go to school."
+      ],
+      "reject": [
+        "I go home.",
+        "I like school.",
+        "We go to school.",
+        "Going to school."
+      ]
+    },
+    {
+      "sentence": "drink-water",
+      "accept": [
+        "I drink water.",
+        "I'm drinking water.",
+        "I drank water.",
+        "I'll drink water."
+      ],
+      "reject": [
+        "I drink tea.",
+        "I want water.",
+        "I drink water and tea.",
+        "Drinking water."
+      ]
+    },
+    {
+      "sentence": "i-am-student",
+      "accept": [
+        "I am a student.",
+        "I'm a student.",
+        "I'm a pupil."
+      ],
+      "reject": [
+        "You are a student.",
+        "I am a teacher.",
+        "A student."
+      ]
+    },
+    {
+      "sentence": "dont-understand",
+      "accept": [
+        "I don't understand.",
+        "I do not understand.",
+        "I didn't understand."
+      ],
+      "reject": [
+        "I understand.",
+        "I don't know."
+      ]
+    },
+    {
+      "sentence": "go-tokyo",
+      "accept": [
+        "I want to go to Tokyo.",
+        "I'd like to go to Tokyo.",
+        "I wanna go to Tokyo."
+      ],
+      "reject": [
+        "I go to Tokyo.",
+        "I want to go to Beijing."
+      ]
+    },
+    {
+      "sentence": "lunch-restaurant",
+      "accept": [
+        "I eat lunch at a restaurant.",
+        "I have lunch at the restaurant.",
+        "I'll have lunch at a restaurant.",
+        "I ate lunch in a restaurant."
+      ],
+      "reject": [
+        "I eat lunch at home.",
+        "I eat at a restaurant."
+      ]
+    },
+    {
+      "sentence": "met-friend",
+      "accept": [
+        "I met a friend yesterday.",
+        "Yesterday I met a friend.",
+        "I saw a friend yesterday."
+      ],
+      "reject": [
+        "I meet a friend yesterday.",
+        "I met a friend today.",
+        "I met a friend.",
+        "I will meet a friend yesterday."
+      ]
+    },
+    {
+      "sentence": "like-coffee",
+      "accept": [
+        "I like coffee.",
+        "I love coffee."
+      ],
+      "reject": [
+        "I like tea.",
+        "I want coffee.",
+        "Coffee."
+      ]
+    },
+    {
+      "sentence": "dont-know",
+      "accept": [
+        "I don't know.",
+        "I do not know."
+      ],
+      "reject": [
+        "I know.",
+        "I don't understand.",
+        "Don't know."
+      ]
+    },
+    {
+      "sentence": "where-going",
+      "accept": [
+        "Where are you going?",
+        "Where do you go?",
+        "Where are you headed?"
+      ],
+      "reject": [
+        "Where am I going?",
+        "Are you going?"
+      ]
+    },
+    {
+      "sentence": "give-water",
+      "accept": [
+        "Please give me water.",
+        "Give me water, please."
+      ],
+      "reject": [
+        "Give me water.",
+        "Coffee, please.",
+        "Water, please."
+      ]
+    },
+    {
+      "sentence": "there-is-cat",
+      "accept": [
+        "There is a cat.",
+        "There's a cat."
+      ],
+      "reject": [
+        "There is a dog.",
+        "There is no cat."
+      ]
+    },
+    {
+      "sentence": "speak-english",
+      "accept": [
+        "Do you speak English?"
+      ],
+      "reject": [
+        "Do you speak Chinese?",
+        "I speak English.",
+        "Speak English?"
+      ]
+    },
+    {
+      "sentence": "want-coffee",
+      "accept": [
+        "I want coffee.",
+        "I'd like coffee."
+      ],
+      "reject": [
+        "I want tea.",
+        "I like coffee."
+      ]
+    },
+    {
+      "sentence": "hot-today",
+      "accept": [
+        "It is hot today.",
+        "It's hot today.",
+        "Today is hot."
+      ],
+      "reject": [
+        "It is cold today."
+      ]
+    },
+    {
+      "sentence": "live-beijing",
+      "accept": [
+        "I live in Beijing."
+      ],
+      "reject": [
+        "I live in Tokyo.",
+        "You live in Beijing.",
+        "Live in Beijing."
+      ]
+    }
+  ]
+}
