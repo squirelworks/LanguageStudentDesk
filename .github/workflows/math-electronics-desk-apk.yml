@@ -57,6 +57,11 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Shared debug keystore
+        run: |
+          # Same as squirrelgo-release: desk twins don't commit a debug key.
+          K="$DIR/android/app/debug.keystore"
+          [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
       - name: Build debug APK
         run: |
           cd "$DIR/android"
