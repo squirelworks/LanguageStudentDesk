@@ -54,7 +54,7 @@ meaning-matrix columns.
 - Longer TypeScript, Java and Bash courses too, each ending in a project.
 - Longer PHP, Perl, SQL, Kotlin, Swift, HTML/CSS, Visual Basic .NET, COBOL,
   Fortran, Turbo Pascal, Classic BASIC, Whitespace, Chisel, INTERCAL,
-  Malbolge, LOLCODE and brainFOOD courses, each ending in a project.
+  Malbolge, LOLCODE, brainFOOD and Win16 courses, each ending in a project.
 
 ## SquirrelGo apps
 
