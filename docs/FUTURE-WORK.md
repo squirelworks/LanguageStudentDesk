@@ -171,11 +171,12 @@ one.
 1. **Programming courses and keyword maps into squirrel-lang-data**
    (`programming/<id>/`, #196, #195). This is what lets squirrelator's code
    generators (Phase 4) share keyword maps with the Programming Learner.
-   Move a few courses per PR. To see what remains, compare this repo's
-   `programming-learner/data/` with the data repo's `programming/` (do not
-   keep a full remaining list here — it goes stale). This repo then
-   generates its files from `data/` the way the language learners do, with
-   a drift check in CI.
+   Course packs for the catalog language ids are landing as
+   `programming-course@1` in the data repo (compare this repo's
+   `programming-learner/data/` with `programming/` there if anything
+   still looks missing). Next here: generate the Desk JS from the pin
+   the way the language learners do, with a drift check in CI, then
+   share keyword maps.
 2. **Math / Electronics learners** (this repo). Desk **Math Learner**
    (#341) and **Electronics Learner** (#343) are on `main` (packs from the
    pin via `gen_math.py` / `gen_electronics.py --check`; held combo PR
