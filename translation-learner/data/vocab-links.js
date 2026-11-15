@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/vocab-links/ by: python3 data/tools/gen_vocab_links.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/vocab-links/ by: python3 data/tools/gen_vocab_links.py --out translation-learner/data
 // Which meaning units (TL_MEANINGS ids) each vocabulary card carries, by
 // language and vocab id ("<deck>/<word>").
 window.TL_VOCAB_LINKS = {

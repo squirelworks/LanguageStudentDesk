@@ -1,46 +1,86 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/columns/hebrew.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/hebrew.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Modern Hebrew column of the meaning matrix. Written for this project. Tokens
 // are [text, romanization, meaning id]. Hebrew is written right to left without
 // vowel points (matching languages/hebrew). The article ה- and the one-letter
 // prepositions ב־ / ל־ / מ־ are their own tokens and glue to the next word.
 // There is no present-tense "to be", so copula sentences are just pronoun +
-// noun. Sources: forms match languages/hebrew/vocab.js and the Modern Hebrew
-// grammar pack (אני סטודנט, קוראים לי…, בוקר טוב, תודה רבה, אני לא מבין, החשבון
-// בבקשה, כמה זה עולה?).
+// noun; those rows have no @copula token.
+// Subject pronouns are written; masculine present forms are the default (אני
+// מבין, אני אוהב), matching the other columns' default speaker.
+// Code rows use the infinitive (להציג את המילה.), the usual form for
+// instructions in Hebrew software and manuals.
+// Sources: forms match languages/hebrew/vocab.jsonl and the Modern Hebrew
+// grammar pack; lemmas checked against Wiktionary (CC BY-SA) and Wikipedia (CC
+// BY-SA) — e.g. סושי, קוריאנית, סינית, ערבית, הינדי, קלינגונית / קלינגונים,
+// אורז, חתול, גשם, מוסקבה, קהיר, בייג'ינג, טוקיו, שולחן, קפטן, ספינה, קצין,
+// נלחם, לישון, רעב, מזג אוויר, יום שני, הצלחה, ארוחת צהריים, חיכה, לשבת, לתת.
 window.TL_LANGS = window.TL_LANGS || {};
 window.TL_LANGS.hebrew = {
   sep: " ",
   r: {
     "i-am-student": {"end": ".", "t": [["אני", "ani", "i"], ["סטודנט", "student", "student"]]},
+    "name-tanaka": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["טנקה", "Tanaka", "tanaka"]]},
+    "name-minjun": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["מינג'ון", "Minjun", "minjun"]]},
     "name-anna": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["אנה", "Anna", "anna"]]},
+    "name-ravi": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["ראווי", "Ravi", "ravi"]]},
+    "name-sami": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["סאמי", "Sami", "sami"]]},
+    "name-wang-ming": {"end": ".", "t": [["קוראים", "kor'im", "name"], ["לי", "li", "i"], ["וואנג מינג", "Wang Ming", "wang-ming"]]},
+    "your-name": {"end": "?", "t": [["איך", "eich", "what"], ["קוראים", "kor'im", "name"], ["לך", "lecha", "you"]]},
     "hello": {"end": ".", "t": [["שלום", "shalom", "hello"]]},
     "nice-to-meet-you": {"end": ".", "t": [["נעים מאוד", "na'im me'od", "nice-to-meet-you"]]},
     "good-morning": {"end": ".", "t": [["בוקר", "boker", "morning"], ["טוב", "tov", "good"]]},
     "thank-you": {"end": ".", "t": [["תודה", "toda", "thanks"]]},
     "thank-you-very-much": {"end": ".", "t": [["תודה", "toda", "thanks"], ["רבה", "raba", "very-much"]]},
+    "success": {"end": "!", "t": [["הצלחה", "hatzlacha", "success"]]},
     "dont-understand": {"end": ".", "t": [["אני", "ani", "i"], ["לא", "lo", "not"], ["מבין", "mevin", "understand"]]},
     "dont-know": {"end": ".", "t": [["אני", "ani", "i"], ["לא", "lo", "not"], ["יודע", "yodea", "know"]]},
     "speak-english": {"end": "?", "t": [["אתה", "ata", "you"], ["מדבר", "medaber", "speak"], ["אנגלית", "anglit", "english"]]},
-    "love-you": {"end": ".", "t": [["אני", "ani", "i"], ["אוהב", "ohev", "love"], ["אותך", "otcha", "you"]]},
+    "speak-chinese": {"end": "?", "t": [["אתה", "ata", "you"], ["מדבר", "medaber", "speak"], ["סינית", "sinit", "chinese"]]},
+    "speak-arabic": {"end": "?", "t": [["אתה", "ata", "you"], ["מדבר", "medaber", "speak"], ["ערבית", "aravit", "arabic"]]},
+    "speak-klingon": {"end": "?", "t": [["אתה", "ata", "you"], ["מדבר", "medaber", "speak"], ["קלינגונית", "klingonit", "klingon"]]},
+    "speak-hindi": {"end": ".", "t": [["אני", "ani", "i"], ["מדבר", "medaber", "speak"], ["הינדי", "hindi", "hindi"]]},
+    "study-korean": {"end": ".", "t": [["אני", "ani", "i"], ["לומד", "lomed", "study"], ["קוריאנית", "kore'anit", "korean"]]},
+    "like-sushi": {"end": ".", "t": [["אני", "ani", "i"], ["אוהב", "ohev", "like"], ["סושי", "sushi", "sushi"]]},
     "like-coffee": {"end": ".", "t": [["אני", "ani", "i"], ["אוהב", "ohev", "like"], ["קפה", "kafe", "coffee"]]},
     "like-tea": {"end": ".", "t": [["אני", "ani", "i"], ["אוהב", "ohev", "like"], ["תה", "te", "tea"]]},
+    "love-you": {"end": ".", "t": [["אני", "ani", "i"], ["אוהב", "ohev", "love"], ["אותך", "otcha", "you"]]},
+    "met-friend": {"end": ".", "t": [["אני", "ani", "i"], ["פגשתי", "pagashti", "meet+@past"], ["חבר", "chaver", "friend"], ["אתמול", "etmol", "yesterday"]]},
     "my-friend": {"end": ".", "t": [["הוא", "hu", "he"], ["ה-", "ha", "@the"], ["חבר", "chaver", "friend"], ["שלי", "sheli", "i"]]},
     "who-is-he": {"end": "?", "t": [["מי", "mi", "who"], ["הוא", "hu", "he"]]},
     "where-live": {"end": "?", "t": [["איפה", "eifo", "where"], ["אתה", "ata", "you"], ["גר", "gar", "live"]]},
     "from-egypt": {"end": ".", "t": [["אני", "ani", "i"], ["מ-", "mi", "from"], ["מצרים", "Mitzrayim", "egypt"]]},
+    "we-are-klingons": {"end": ".", "t": [["אנחנו", "anachnu", "we"], ["קלינגונים", "klingonim", "klingon"]]},
     "this-is-book": {"end": ".", "t": [["זה", "ze", "this"], ["ספר", "sefer", "book"]]},
     "this-is-my-book": {"end": ".", "t": [["זה", "ze", "this"], ["ה-", "ha", "@the"], ["ספר", "sefer", "book"], ["שלי", "sheli", "i"]]},
     "drink-water": {"end": ".", "t": [["אני", "ani", "i"], ["שותה", "shote", "drink"], ["מים", "mayim", "water"]]},
     "drink-tea": {"end": ".", "t": [["אני", "ani", "i"], ["שותה", "shote", "drink"], ["תה", "te", "tea"]]},
     "want-coffee": {"end": ".", "t": [["אני", "ani", "i"], ["רוצה", "rotze", "want"], ["קפה", "kafe", "coffee"]]},
     "read-book": {"end": ".", "t": [["אני", "ani", "i"], ["קורא", "kore", "read"], ["ספר", "sefer", "book"]]},
-    "cold-today": {"end": ".", "t": [["היום", "hayom", "today"], ["קר", "kar", "cold"]]},
+    "eat-rice": {"end": ".", "t": [["אנחנו", "anachnu", "we"], ["אוכלים", "ochlim", "eat"], ["אורז", "orez", "rice"]]},
+    "eat-food": {"end": ".", "t": [["אני", "ani", "i"], ["אוכל", "ochel", "eat"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["אוכל", "ochel", "food"]]},
+    "lunch-restaurant": {"end": ".", "t": [["אני", "ani", "i"], ["אוכל", "ochel", "eat"], ["ארוחת צהריים", "aruchat tzohorayim", "lunch"], ["ב-", "be", "@place"], ["מסעדה", "mis'ada", "restaurant"]]},
+    "eat-restaurant": {"end": ".", "t": [["אני", "ani", "i"], ["אוכל", "ochel", "eat"], ["ב-", "be", "@place"], ["מסעדה", "mis'ada", "restaurant"]]},
     "hot-today": {"end": ".", "t": [["היום", "hayom", "today"], ["חם", "cham", "hot"]]},
+    "cold-today": {"end": ".", "t": [["היום", "hayom", "today"], ["קר", "kar", "cold"]]},
+    "weather-hot": {"end": ".", "t": [["מזג האוויר", "mezeg ha-avir", "weather"], ["חם", "cham", "hot"], ["היום", "hayom", "today"]]},
+    "weather-good": {"end": ".", "t": [["מזג האוויר", "mezeg ha-avir", "weather"], ["טוב", "tov", "good"], ["היום", "hayom", "today"]]},
+    "raining": {"end": ".", "t": [["יורד גשם", "yored geshem", "rain"]]},
+    "monday": {"end": ".", "t": [["היום", "hayom", "today"], ["יום שני", "yom sheni", "monday"]]},
     "what-time": {"end": "?", "t": [["מה", "ma", "what"], ["ה-", "ha", "@the"], ["שעה", "sha'a", "time"]]},
+    "what-time-now": {"end": "?", "t": [["מה", "ma", "what"], ["ה-", "ha", "@the"], ["שעה", "sha'a", "time"], ["עכשיו", "achshav", "now"]]},
+    "no-time": {"end": ".", "t": [["אין", "ein", "none"], ["זמן", "zman", "time"]]},
+    "there-is-cat": {"end": ".", "t": [["יש", "yesh", "exist"], ["חתול", "chatul", "cat"]]},
+    "have-cat": {"end": ".", "t": [["יש", "yesh", "have"], ["לי", "li", "i"], ["חתול", "chatul", "cat"]]},
+    "book-on-table": {"end": ".", "t": [["יש", "yesh", "exist"], ["ספר", "sefer", "book"], ["על", "al", "on"], ["ה-", "ha", "@the"], ["שולחן", "shulchan", "table"]]},
     "house-big": {"end": ".", "t": [["ה-", "ha", "@the"], ["בית", "bayit", "house"], ["גדול", "gadol", "big"]]},
     "car-new": {"end": ".", "t": [["ה-", "ha", "@the"], ["מכונית", "mechonit", "car"], ["חדשה", "chadasha", "new"]]},
     "delicious": {"end": ".", "t": [["טעים", "ta'im", "delicious"]]},
     "food-tasty": {"end": ".", "t": [["ה-", "ha", "@the"], ["אוכל", "ochel", "food"], ["מאוד", "me'od", "very"], ["טעים", "ta'im", "delicious"]]},
+    "head-hurts": {"end": ".", "t": [["כואב", "ko'ev", "hurt"], ["לי", "li", "i"], ["ה-", "ha", "@the"], ["ראש", "rosh", "head"]]},
+    "hungry": {"end": ".", "t": [["אני", "ani", "i"], ["רעב", "ra'ev", "hungry"]]},
+    "give-water": {"end": ".", "t": [["תן", "ten", "give"], ["לי", "li", "i"], ["מים", "mayim", "water"], ["בבקשה", "bevakasha", "please"]]},
+    "wait-moment": {"end": ".", "t": [["חכה", "chake", "wait"], ["רגע", "rega", "moment"], ["בבקשה", "bevakasha", "please"]]},
+    "sit-down": {"end": ".", "t": [["שב", "shev", "sit"], ["בבקשה", "bevakasha", "please"]]},
     "where-station": {"end": "?", "t": [["איפה", "eifo", "where"], ["ה-", "ha", "@the"], ["תחנה", "tachana", "station"]]},
     "where-toilet": {"end": "?", "t": [["איפה", "eifo", "where"], ["ה-", "ha", "@the"], ["שירותים", "sherutim", "toilet"]]},
     "where-hotel": {"end": "?", "t": [["איפה", "eifo", "where"], ["ה-", "ha", "@the"], ["מלון", "malon", "hotel"]]},
@@ -49,9 +89,24 @@ window.TL_LANGS.hebrew = {
     "how-much-cost": {"end": "?", "t": [["כמה", "kama", "how-much"], ["עולה", "ole", "cost"]]},
     "bill-please": {"end": ".", "t": [["ה-", "ha", "@the"], ["חשבון", "cheshbon", "bill"], ["בבקשה", "bevakasha", "please"]]},
     "go-school": {"end": ".", "t": [["אני", "ani", "i"], ["הולך", "holech", "go"], ["ל-", "le", "@direction"], ["בית ספר", "beit sefer", "school"]]},
+    "bus-school": {"end": ".", "t": [["אני", "ani", "i"], ["הולך", "holech", "go"], ["ל-", "le", "@direction"], ["בית ספר", "beit sefer", "school"], ["ב-", "be", "@means"], ["אוטובוס", "otobus", "bus"]]},
+    "go-tokyo": {"end": ".", "t": [["אני", "ani", "i"], ["רוצה", "rotze", "want"], ["ללכת", "lalechet", "go"], ["ל-", "le", "@direction"], ["טוקיו", "Tokyo", "tokyo"]]},
+    "came-train": {"end": ".", "t": [["אני", "ani", "i"], ["באתי", "bati", "come+@past"], ["ב-", "be", "@means"], ["רכבת", "rakevet", "train"]]},
+    "where-going": {"end": "?", "t": [["לאן", "le'an", "where"], ["אתה", "ata", "you"], ["הולך", "holech", "go"]]},
     "going-home": {"end": ".", "t": [["אני", "ani", "i"], ["הולך", "holech", "go"], ["הביתה", "habayta", "home"]]},
     "we-going-home": {"end": ".", "t": [["אנחנו", "anachnu", "we"], ["הולכים", "holchim", "go"], ["הביתה", "habayta", "home"]]},
-    "where-going": {"end": "?", "t": [["לאן", "le'an", "where"], ["אתה", "ata", "you"], ["הולך", "holech", "go"]]},
+    "lets-go": {"end": ".", "t": [["בוא נלך", "bo nelekh", "go+let-us"]]},
+    "live-moscow": {"end": ".", "t": [["אני", "ani", "i"], ["גר", "gar", "live"], ["ב-", "be", "@place"], ["מוסקבה", "Moskva", "moscow"]]},
+    "live-cairo": {"end": ".", "t": [["אני", "ani", "i"], ["גר", "gar", "live"], ["ב-", "be", "@place"], ["קהיר", "Kahir", "cairo"]]},
+    "live-beijing": {"end": ".", "t": [["אני", "ani", "i"], ["גר", "gar", "live"], ["ב-", "be", "@place"], ["בייג'ינג", "Beijing", "beijing"]]},
+    "i-sleep": {"end": ".", "t": [["אני", "ani", "i"], ["ישן", "yashen", "sleep"]]},
+    "i-fight": {"end": ".", "t": [["אני", "ani", "i"], ["נלחם", "nilcham", "fight"]]},
+    "we-fight": {"end": ".", "t": [["אנחנו", "anachnu", "we"], ["נלחמים", "nilchamim", "fight"]]},
+    "sleep-command": {"end": "!", "t": [["ישן", "yashan", "sleep"]]},
+    "child-sleeps": {"end": ".", "t": [["ה-", "ha", "@the"], ["ילד", "yeled", "child"], ["ישן", "yashen", "sleep"]]},
+    "officer-sees-child": {"end": ".", "t": [["ה-", "ha", "@the"], ["קצין", "katzin", "officer"], ["רואה", "ro'e", "see"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["ילד", "yeled", "child"]]},
+    "captain-sees-ship": {"end": ".", "t": [["ה-", "ha", "@the"], ["קפטן", "kapten", "captain"], ["רואה", "ro'e", "see"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["ספינה", "sfina", "ship"]]},
+    "i-see-ship": {"end": ".", "t": [["אני", "ani", "i"], ["רואה", "ro'e", "see"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["ספינה", "sfina", "ship"]]},
     "print-word": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מילה", "mila", "word"]]},
     "show-number": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מספר", "mispar", "number"]]},
     "print-screen": {"end": ".", "t": [["להציג", "lehatzig", "print"], ["את", "et", "@object"], ["ה-", "ha", "@the"], ["מילה", "mila", "word"], ["על", "al", "@place"], ["ה-", "ha", "@the"], ["מסך", "masach", "screen"]]},

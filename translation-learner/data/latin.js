@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/columns/latin.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/latin.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Latin column of the meaning matrix. Written for this project. Tokens are
 // [text, "", meaning id]: the text is Classical Latin with macrons, so there is
 // no separate reading. Verb endings carry the person, so "I" and "you" are

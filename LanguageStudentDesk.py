@@ -55,6 +55,9 @@ TOOLS = {
     "programming-student-desk": ("Programming Student Desk",
                                  "The Programming Learner as its own offline Android app. A home menu lists every course and opens one inside the app.",
                                  "Desk tools", True, None),
+    "math-learner": ("Math Learner",
+                     "Arithmetic, algebra, trigonometry, calculus, linear algebra and topology: short lessons with practice that explains every answer.",
+                     "Desk tools", True, None),
     "legalese-learner": ("Legalese Learner",
                          "How the heavy words in a contract work: shall, notwithstanding, herein, and the clauses at the back. Reading practice, not legal advice.",
                          "Desk tools", False, None),
@@ -102,7 +105,7 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 TOOL_REQUIRES = {}
 
 # ?lang= values the scoped tools understand that are not languages in
-# languages/registry.js: the Programming Learner's courses.
+# languages/registry.js: Programming Learner and Math Learner courses.
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
@@ -121,6 +124,8 @@ EXTRA_LANGS = [
     "csharp",
     "vbnet",
     "kotlin",
+    # Math Learner courses
+    "arithmetic", "algebra", "trigonometry", "calculus", "linear-algebra", "topology",
 ]
 
 
