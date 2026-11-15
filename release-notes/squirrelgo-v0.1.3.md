@@ -53,7 +53,8 @@ meaning-matrix columns.
   traits, collections, goroutines, and async in depth.
 - Longer TypeScript, Java and Bash courses too, each ending in a project.
 - Longer PHP, Perl, SQL, Kotlin, Swift, HTML/CSS, Visual Basic .NET, COBOL,
-  Fortran and Turbo Pascal courses, each ending in a project.
+  Fortran, Turbo Pascal, Classic BASIC, Whitespace, Chisel, INTERCAL,
+  Malbolge, LOLCODE and brainFOOD courses, each ending in a project.
 
 ## SquirrelGo apps
 
