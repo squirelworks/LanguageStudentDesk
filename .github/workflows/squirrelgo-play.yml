@@ -82,9 +82,18 @@ jobs:
             com.squirelworks.squirrelgoklingon com.squirelworks.squirrelgodictionary \
             com.squirelworks.squirrelgoorthodoxbible com.squirelworks.squirrelgophrasebook
 
+  # Fills the shared Gradle cache once, so the app builds below read it
+  # instead of all downloading the same tooling from Maven Central at once.
+  deps:
+    if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
+    uses: ./.github/workflows/gradle-deps-cache.yml
+    with:
+      ref: ${{ github.event.release.tag_name || inputs.tag }}
+
   play:
     # Only platform releases, not the rolling *-latest pre-releases.
     if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
+    needs: deps
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -133,6 +142,17 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # Gradle and the Android build tools come from one shared cache, filled
+      # once by the "Gradle deps cache" workflow; builds only read it.
+      - name: Restore Gradle cache
+        if: steps.pick.outputs.go == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
+          restore-keys: gradle-deps-v1-${{ runner.os }}-
       # The same preparation as each app's compile-only workflow.
       - name: Check audio coverage
         if: steps.pick.outputs.go == 'true' && matrix.app == 'phrasebook'

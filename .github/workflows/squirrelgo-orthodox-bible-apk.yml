@@ -34,6 +34,16 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # Gradle and the Android build tools come from one shared cache, filled
+      # once by the "Gradle deps cache" workflow; builds only read it.
+      - name: Restore Gradle cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
+          restore-keys: gradle-deps-v1-${{ runner.os }}-
       # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
         run: |
