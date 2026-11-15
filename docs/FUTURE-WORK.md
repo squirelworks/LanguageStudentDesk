@@ -146,6 +146,10 @@ one.
    Chinese–English first, then French, German, Italian, Latin, Greek and
    Russian, which now have all rows. Each set lists accepted and rejected
    answers; a passing pair goes into `translation-learner/data/tested.js`.
+   Longer-term (squirrelator #66): move pair accept lists into
+   squirrel-lang-data `testing/translation-pairs/` so squirrelator CI reads
+   the pin only (share, don't fork; no unpinned LSD checkout). Needs the
+   owner's call on when to start that migrate.
 3. **Fill the partial matrix columns** (squirrel-lang-data): Arabic, Hindi,
    Bengali, Armenian, Georgian, Hebrew, Thai, Tamil and Klingon, plus the
    Klingon code-pack rows. Batch three or four languages per PR.
@@ -166,14 +170,23 @@ one.
    generators (Phase 4) share keyword maps with the Programming Learner.
    Move a few courses per PR; this repo then generates its files from
    `data/` the way the language learners do, with a drift check in CI.
-2. **Character variants (`variants/`)** from Unihan, and traditional ↔
+2. **Math Learner and Electronics Learner** (this repo, after data). Course
+   JSON and generators already live in squirrel-lang-data (`math/`,
+   `electronics/`, `gen_math.py`, `gen_electronics.py`). Desk **Math
+   Learner** is open as #341 (needs the owner `data-pin` label). After it
+   merges: close held #340; open **Electronics Learner** as its own Desk
+   PR (one tool per PR; packs from the pin via `gen_electronics.py
+   --check`). Then phone twins — **Math Student Desk** and **Electronics
+   Student Desk** — each as a separate follow-up (Desk and phone stay
+   twins; confirmed on #341). Do not ship course JS only inside this repo.
+3. **Character variants (`variants/`)** from Unihan, and traditional ↔
    simplified Chinese linked both ways (#200). squirrelator's conversion mode
    (Phase 2b) builds on it.
-3. **Cantonese as the first regional variety** (#200), end to end: data,
+4. **Cantonese as the first regional variety** (#200), end to end: data,
    Desk, phone, translator. It proves the variety model and the More level
    in Settings before anything else uses it.
-4. **squirrelator reads `features.json`** for its settings (#201).
-5. Tag **data v0.2.0** when these land; it's a MINOR release.
+5. **squirrelator reads `features.json`** for its settings (#201).
+6. Tag **data v0.2.0** when these land; it's a MINOR release.
 
 ### P4. Native apps (needs the owner's sign-off to replace anything)
 
