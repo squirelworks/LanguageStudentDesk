@@ -169,12 +169,11 @@ one.
 1. **Programming courses and keyword maps into squirrel-lang-data**
    (`programming/<id>/`, #196, #195). This is what lets squirrelator's code
    generators (Phase 4) share keyword maps with the Programming Learner.
-   Many modern and joke courses are already in `programming/` (through
-   SQL and C so far); still to migrate from this repo's
-   `programming-learner/data/`: bash, classic BASIC, Chisel, COBOL, C++,
-   C#, Delphi, Fortran, modern Delphi, numerical, Turbo Pascal, VB.NET.
-   Move a few courses per PR; this repo then generates its files from
-   `data/` the way the language learners do, with a drift check in CI.
+   Move a few courses per PR. To see what remains, compare this repo's
+   `programming-learner/data/` with the data repo's `programming/` (do not
+   keep a full remaining list here — it goes stale). This repo then
+   generates its files from `data/` the way the language learners do, with
+   a drift check in CI.
 2. **Math / Electronics phone twins** (this repo). Desk **Math Learner**
    (#341) and **Electronics Learner** (#343) are on `main` (packs from the
    pin via `gen_math.py` / `gen_electronics.py --check`; held combo PR
