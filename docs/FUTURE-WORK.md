@@ -3,8 +3,9 @@
 Written 2026-11-14 for whoever carries the platform next (Cursor, Codex or
 another agent). It covers LanguageStudentDesk (this repo, the platform home),
 [squirrel-lang-data](https://github.com/squirelworks/squirrel-lang-data) and
-[squirrelator](https://github.com/squirelworks/squirrelator). Nothing in it
-has been started; every item is open for the next agent.
+[squirrelator](https://github.com/squirelworks/squirrelator). Some P3 items
+have started (Desk Math/Electronics, programming course migrates); the rest
+is still open for the next agent.
 
 **GitHub is the source of truth.** The roadmap issues carry the checklists
 (#199 lists them; squirrel-lang-data #56 is closed, squirrelator #25 and #26
@@ -168,17 +169,19 @@ one.
 1. **Programming courses and keyword maps into squirrel-lang-data**
    (`programming/<id>/`, #196, #195). This is what lets squirrelator's code
    generators (Phase 4) share keyword maps with the Programming Learner.
+   Many modern and joke courses are already in `programming/` (through
+   SQL and C so far); still to migrate from this repo's
+   `programming-learner/data/`: bash, classic BASIC, Chisel, COBOL, C++,
+   C#, Delphi, Fortran, modern Delphi, numerical, Turbo Pascal, VB.NET.
    Move a few courses per PR; this repo then generates its files from
    `data/` the way the language learners do, with a drift check in CI.
-2. **Math Learner and Electronics Learner** (this repo, after data). Course
-   JSON and generators already live in squirrel-lang-data (`math/`,
-   `electronics/`, `gen_math.py`, `gen_electronics.py`). Desk **Math
-   Learner** is open as #341 (needs the owner `data-pin` label). After it
-   merges: close held #340; open **Electronics Learner** as its own Desk
-   PR (one tool per PR; packs from the pin via `gen_electronics.py
-   --check`). Then phone twins — **Math Student Desk** and **Electronics
-   Student Desk** — each as a separate follow-up (Desk and phone stay
-   twins; confirmed on #341). Do not ship course JS only inside this repo.
+2. **Math / Electronics phone twins** (this repo). Desk **Math Learner**
+   (#341) and **Electronics Learner** (#343) are on `main` (packs from the
+   pin via `gen_math.py` / `gen_electronics.py --check`; held combo PR
+   #340 closed as superseded). Still open: phone twins — **Math Student
+   Desk** and **Electronics Student Desk** — each as a separate follow-up
+   (Desk and phone stay twins; confirmed on #341). Do not ship course JS
+   only inside this repo.
 3. **Character variants (`variants/`)** from Unihan, and traditional ↔
    simplified Chinese linked both ways (#200). squirrelator's conversion mode
    (Phase 2b) builds on it.
