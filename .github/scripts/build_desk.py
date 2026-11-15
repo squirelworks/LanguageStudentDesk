@@ -21,6 +21,9 @@ from pathlib import Path
 
 NAME = "LanguageStudentDesk"
 SKIP_DIRS = {".git", ".github", "android", "node_modules", "__pycache__", "build", "dist"}
+# Generated folders that git ignores but the Desk needs. The workflow builds
+# them before this script runs; each is copied when present.
+GENERATED_DIRS = ["SquirrelGo-Apps/squirrelgo-dictionary/www/data"]
 
 
 def tracked_files(root):
@@ -65,6 +68,13 @@ def main():
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(root / rel, dest)
         count += 1
+    for rel in GENERATED_DIRS:
+        src = root / rel
+        if src.is_dir():
+            shutil.copytree(src, app / rel, dirs_exist_ok=True)
+            count += sum(1 for p in src.rglob("*") if p.is_file())
+        else:
+            print(f"Warning: {rel} is missing; run its generator first.")
     print(f"Copied {count} files next to the {target} executable.")
 
     if target == "linux":
