@@ -3,7 +3,7 @@
 
 PyInstaller freezes LanguageStudentDesk.py (Python and Tk included) into a
 folder, and the Desk's web apps are copied next to the executable, where the
-launcher looks for them. Only files git tracks are copied, and the Android
+launcher looks for them. Only files git tracks are copied (submodules are skipped), and the Android
 projects and the .git and .github folders stay out. The folder is then archived as
 dist/LanguageStudentDesk-<os>.zip (.tar.gz on Linux, to keep file modes).
 
@@ -24,9 +24,14 @@ SKIP_DIRS = {".git", ".github", "android", "node_modules", "__pycache__", "build
 
 
 def tracked_files(root):
-    out = subprocess.run(["git", "ls-files", "-z"], cwd=root, capture_output=True, check=True).stdout
-    for rel in out.decode("utf-8").split("\0"):
-        if not rel or rel == f"{NAME}.py":
+    out = subprocess.run(["git", "ls-files", "-s", "-z"], cwd=root, capture_output=True, check=True).stdout
+    for entry in out.decode("utf-8").split("\0"):
+        if not entry:
+            continue
+        meta, rel = entry.split("\t", 1)
+        # Mode 160000 is a submodule (data/), a folder rather than a file; the
+        # Desk's web apps read their own generated files, not the submodule.
+        if meta.startswith("160000") or rel == f"{NAME}.py":
             continue
         parts = Path(rel).parts
         if SKIP_DIRS.intersection(parts[:-1]):
