@@ -11,9 +11,9 @@ window.PROGRAMMING.basic = {
   caseInsensitive: true,
   keywords: [
     "PRINT", "LET", "IF", "THEN", "GOTO", "GOSUB", "RETURN", "ON", "FOR", "TO", "STEP", "NEXT", "END", "STOP", "REM", "DIM",
-    "READ", "DATA", "RESTORE", "DEF", "AND", "OR", "NOT", "RUN", "LIST",
+    "READ", "DATA", "RESTORE", "DEF", "AND", "OR", "NOT", "SWAP", "RUN", "LIST",
   ],
-  builtins: ["LEN", "LEFT$", "RIGHT$", "MID$", "STR$", "VAL", "CHR$", "ASC", "INT", "ABS", "SQR", "SGN", "TAB"],
+  builtins: ["LEN", "LEFT$", "RIGHT$", "MID$", "STR$", "VAL", "CHR$", "ASC", "INSTR", "STRING$", "SPACE$", "INT", "ABS", "SQR", "SGN", "TAB"],
   lessons: [
     {
       id: "lines",
@@ -257,6 +257,274 @@ window.PROGRAMMING.basic = {
 20 FOR I = LEN(W$) TO 1 STEP -1
 30 PRINT MID$(W$, I, 1);
 40 NEXT I`, options: ["NROCA", "ACORN", "N", "A C O R N"], answer: "NROCA", why: "The loop counts down from 5 to 1 and prints one character at each position, so the word comes out backwards." },
+      ],
+    },
+    {
+      id: "maths",
+      title: "Number functions and logic",
+      summary: "INT, ABS, SGN, SQR, and AND / OR / NOT.",
+      sections: [
+        {
+          p: "<code>INT</code> chops toward −∞ (so <code>INT(-7.8)</code> is −8). <code>ABS</code> drops the sign, <code>SGN</code> is −1, 0 or 1 for the sign, and <code>SQR</code> is the square root. These were the everyday maths tools on a home-computer BASIC.",
+          code: `10 REM NUMBER FUNCTIONS
+20 X = -7.8
+30 PRINT "INT "; INT(X); " ABS "; ABS(X)
+40 PRINT "SGN "; SGN(X); SGN(0); SGN(3)
+50 PRINT "SQR "; SQR(49)
+60 END`,
+          out: "INT -8  ABS  7.8\nSGN -1  0  1\nSQR  7",
+        },
+        {
+          h: "AND, OR and NOT",
+          p: "<code>AND</code>, <code>OR</code> and <code>NOT</code> combine tests on one <code>IF</code> line. A common trick for \"divides evenly\" is <code>N / D = INT(N / D)</code>. Real machines also had <code>INPUT</code> to type a number in, but the checker has no keyboard, so these lessons keep driving programs with <code>DATA</code> the way many magazine listings did.",
+          code: `10 A = 12: B = 5
+20 IF A > 10 AND B < 10 THEN PRINT "BOTH"
+30 IF A < 5 OR B = 5 THEN PRINT "EITHER"
+40 IF NOT (A = B) THEN PRINT "DIFFERENT"
+50 N = 15
+60 IF N / 3 = INT(N / 3) AND N / 5 = INT(N / 5) THEN PRINT "FIZZBUZZ"
+70 END`,
+          out: "BOTH\nEITHER\nDIFFERENT\nFIZZBUZZ",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `10 PRINT INT(9.1); INT(-1.2)
+20 PRINT ABS(-4); SGN(-9)`, options: [" 9 -2\n 4 -1", " 9 -1\n 4 -1", " 9  1\n 4 -1", " 9 -2\n-4 -1"], answer: " 9 -2\n 4 -1", why: "INT floors toward −∞, so −1.2 becomes −2. ABS drops the sign; SGN of a negative is −1." },
+        { kind: "output", q: "What does this print?", code: `10 N = 9
+20 IF N / 3 = INT(N / 3) THEN PRINT "YES"
+30 IF N / 2 = INT(N / 2) THEN PRINT "EVEN"`, options: ["YES", "EVEN", "YES\nEVEN", "(nothing)"], answer: "YES", why: "9 divides by 3 evenly, but not by 2, so only the first IF runs." },
+        { q: "Why is INT(-7.8) equal to −8, not −7?", options: ["INT chops toward −∞", "ABS ran first", "SGN forces a round up", "BASIC always adds one"], answer: "INT chops toward −∞", why: "Classic BASIC INT is the floor function, not truncation toward zero." },
+      ],
+    },
+    {
+      id: "morestrings",
+      title: "INSTR and report lines",
+      summary: "Finding text, STRING$, SPACE$ and building a column.",
+      sections: [
+        {
+          p: "<code>INSTR(haystack$, needle$)</code> returns the 1-based position of the first match, or 0 if it is missing. A three-argument form <code>INSTR(start, haystack$, needle$)</code> begins the search at that character. <code>STRING$(n, c)</code> repeats a character (or a character code) n times; <code>SPACE$(n)</code> is n spaces.",
+          code: `10 W$ = "HAZELNUT"
+20 PRINT INSTR(W$, "NUT")
+30 PRINT INSTR(W$, "OAK")
+40 PRINT INSTR(4, W$, "E")
+50 PRINT STRING$(5, "*"); SPACE$(2); "DONE"
+60 END`,
+          out: " 6\n 0\n 4\n*****  DONE",
+        },
+        {
+          h: "Building a report line",
+          p: "Magazine programs often padded names with dots or spaces so columns lined up, then joined them with <code>+</code>. Splitting a comma-separated list is <code>INSTR</code> plus <code>LEFT$</code> and <code>MID$</code>. On a real machine you would type the line with <code>INPUT L$</code>; here the string is set in the program so the checker can run it.",
+          code: `10 REM BUILD A REPORT LINE
+20 N$ = "OAK": Q = 12
+30 L$ = N$ + STRING$(8 - LEN(N$), ".") + STR$(Q)
+40 PRINT L$
+50 M$ = "ACORN,HAZEL,BEECH"
+60 P = INSTR(M$, ",")
+70 PRINT LEFT$(M$, P - 1)
+80 PRINT MID$(M$, P + 1)
+90 END`,
+          out: "OAK..... 12\nACORN\nHAZEL,BEECH",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `10 PRINT INSTR("SQUIRREL", "IRR")
+20 PRINT INSTR("SQUIRREL", "ZZ")`, options: [" 4\n 0", " 3\n 0", " 4\n-1", " 1\n 0"], answer: " 4\n 0", why: "IRR starts at character 4; a miss is 0." },
+        { kind: "output", q: "What does this print?", code: `10 A$ = "PIP"
+20 PRINT A$ + STRING$(5 - LEN(A$), "-") + "OK"`, options: ["PIP--OK", "PIP-OK", "PIP-----OK", "PIPOK"], answer: "PIP--OK", why: "LEN is 3, so STRING$ adds two dashes before OK." },
+        { q: "What does INSTR return when the needle is missing?", options: ["0", "-1", "LEN of the haystack", "An empty string"], answer: "0", why: "A zero position means \"not found\" in classic BASIC." },
+      ],
+    },
+    {
+      id: "tables",
+      title: "Two-dimensional tables",
+      summary: "DIM with two indexes, grids and parallel arrays.",
+      sections: [
+        {
+          p: "<code>DIM G(3, 3)</code> makes a grid: <code>G(R, C)</code> is the cell at row R and column C. Nested <code>FOR</code> loops fill and print it. Home-computer games and spreadsheets in BASIC were built from tables like this.",
+          code: `10 DIM G(3, 3)
+20 FOR R = 1 TO 3
+30 FOR C = 1 TO 3
+40 G(R, C) = R * C
+50 NEXT C
+60 NEXT R
+70 FOR R = 1 TO 3
+80 FOR C = 1 TO 3
+90 PRINT TAB(C * 4); G(R, C);
+100 NEXT C
+110 PRINT
+120 NEXT R
+130 END`,
+          out: "    1   2   3\n    2   4   6\n    3   6   9",
+        },
+        {
+          h: "Parallel arrays as a table",
+          p: "Two one-dimensional arrays with the same index — names in one, quantities in the other — act as the columns of a table. This report shows each tree's share of the total as a whole-number percentage.",
+          code: `10 DIM N$(4), Q(4)
+20 FOR I = 1 TO 4
+30 READ N$(I), Q(I)
+40 NEXT I
+50 S = 0
+60 FOR I = 1 TO 4
+70 S = S + Q(I)
+80 NEXT I
+90 FOR I = 1 TO 4
+100 P = INT(Q(I) * 100 / S + 0.5)
+110 PRINT N$(I); Q(I); P; "%"
+120 NEXT I
+130 DATA OAK, 12, HAZEL, 6, BEECH, 18, ASH, 4
+140 END`,
+          out: "OAK 12  30 %\nHAZEL 6  15 %\nBEECH 18  45 %\nASH 4  10 %",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `10 DIM A(2, 2)
+20 A(1, 1) = 4: A(1, 2) = 5
+30 A(2, 1) = 6: A(2, 2) = 7
+40 PRINT A(2, 1); A(1, 2)`, options: [" 6  5", " 4  7", " 5  6", " 6  7"], answer: " 6  5", why: "Row 2 column 1 is 6; row 1 column 2 is 5." },
+        { kind: "output", q: "What does this print?", code: `10 DIM Q(3)
+20 FOR I = 1 TO 3
+30 READ Q(I): S = S + Q(I)
+40 NEXT I
+50 PRINT INT(Q(2) * 100 / S + 0.5)
+60 DATA 10, 20, 20`, options: [" 40", " 20", " 50", " 33"], answer: " 40", why: "Total is 50; the middle value 20 is 40% after rounding." },
+        { q: "What does DIM G(3, 3) create?", options: ["A grid indexed by row and column", "Three separate variables", "A string of length 3", "A subroutine with two arguments"], answer: "A grid indexed by row and column", why: "Two indexes mean two dimensions." },
+      ],
+    },
+    {
+      id: "search",
+      title: "Search and extremes",
+      summary: "Linear search through DATA and finding the largest.",
+      sections: [
+        {
+          p: "A linear search walks an array until it finds the name it wants, then <code>GOTO</code> jumps out. A second pass keeps the index of the largest quantity. Magazine high-score tables and inventory look-ups were written this way.",
+          code: `10 DIM N$(5), Q(5)
+20 FOR I = 1 TO 5
+30 READ N$(I), Q(I)
+40 NEXT I
+50 WANT$ = "BEECH"
+60 FOR I = 1 TO 5
+70 IF N$(I) = WANT$ THEN PRINT "FOUND"; Q(I); "AT"; I: GOTO 100
+80 NEXT I
+90 PRINT "MISSING"
+100 BEST = 1
+110 FOR I = 2 TO 5
+120 IF Q(I) > Q(BEST) THEN BEST = I
+130 NEXT I
+140 PRINT "MOST "; N$(BEST); Q(BEST)
+150 DATA OAK, 12, HAZEL, 5, BEECH, 20, ASH, 7, PINE, 9
+160 END`,
+          out: "FOUND 20 AT 3\nMOST BEECH 20",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `10 DIM A(4)
+20 FOR I = 1 TO 4
+30 READ A(I)
+40 NEXT I
+50 B = 1
+60 FOR I = 2 TO 4
+70 IF A(I) < A(B) THEN B = I
+80 NEXT I
+90 PRINT A(B)
+100 DATA 8, 3, 9, 4`, options: [" 3", " 8", " 9", " 4"], answer: " 3", why: "The loop keeps the index of the smallest value, which is 3." },
+        { kind: "output", q: "What does this print?", code: `10 FOR I = 1 TO 3
+20 READ N$
+30 IF N$ = "PIP" THEN PRINT I: GOTO 60
+40 NEXT I
+50 PRINT 0
+60 DATA HAZEL, PIP, ROWAN`, options: [" 2", " 1", " 3", " 0"], answer: " 2", why: "PIP is the second name in the DATA list." },
+        { q: "Why does the search use GOTO after a match?", options: ["To leave the loop once the item is found", "GOTO is required after every IF", "To restart READ", "To clear the array"], answer: "To leave the loop once the item is found", why: "Without the jump, the loop would keep scanning and might print again." },
+      ],
+    },
+    {
+      id: "sort",
+      title: "Bubble sort",
+      summary: "Sorting an array with nested loops and SWAP.",
+      sections: [
+        {
+          p: "<code>SWAP A, B</code> exchanges two variables. A <b>bubble sort</b> compares neighbours and swaps them when they are out of order; after each outer pass the next-largest value has \"bubbled\" to the end, so the inner loop can shrink by one. It was the sort almost every BASIC book taught first.",
+          code: `10 DIM A(5)
+20 FOR I = 1 TO 5
+30 READ A(I)
+40 NEXT I
+50 FOR P = 1 TO 4
+60 FOR I = 1 TO 5 - P
+70 IF A(I) > A(I + 1) THEN SWAP A(I), A(I + 1)
+80 NEXT I
+90 NEXT P
+100 FOR I = 1 TO 5
+110 PRINT A(I);
+120 NEXT I
+130 DATA 9, 3, 7, 1, 5
+140 END`,
+          out: " 1  3  5  7  9",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `10 A = 2: B = 9
+20 SWAP A, B
+30 PRINT A; B`, options: [" 9  2", " 2  9", " 2  2", " 9  9"], answer: " 9  2", why: "SWAP exchanges the two values." },
+        { kind: "output", q: "What does this print?", code: `10 DIM A(3)
+20 FOR I = 1 TO 3
+30 READ A(I)
+40 NEXT I
+50 FOR P = 1 TO 2
+60 FOR I = 1 TO 3 - P
+70 IF A(I) > A(I + 1) THEN SWAP A(I), A(I + 1)
+80 NEXT I
+90 NEXT P
+100 FOR I = 1 TO 3
+110 PRINT A(I);
+120 NEXT I
+130 DATA 4, 1, 3`, options: [" 1  3  4", " 4  1  3", " 1  4  3", " 3  1  4"], answer: " 1  3  4", why: "Two bubble passes leave the three values in ascending order." },
+        { q: "Why does the inner loop run to 5 − P?", options: ["Each outer pass fixes one more value at the end", "BASIC arrays start at 5", "SWAP needs a shorter range", "DATA only has four items"], answer: "Each outer pass fixes one more value at the end", why: "After pass P, the last P cells are sorted, so they need not be compared again." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "DATA events, a stock array and a skip-when-short rule.",
+      sections: [
+        {
+          p: "Six events update three stock bins. Each <code>DATA</code> line is an action (<code>FOUND</code>, <code>ATE</code> or <code>GIFT</code>), a nut name and a count. Finds always add; eats and gifts subtract when there is enough, otherwise the program prints <code>SKIPPED</code> and leaves the bin alone — the same ledger shape as the Turbo Pascal and COBOL projects, in classic line-numbered BASIC.",
+          code: `10 REM NUT LEDGER
+20 DIM N$(3), S(3)
+30 N$(1) = "ACORN": N$(2) = "WALNUT": N$(3) = "HAZEL"
+40 FOR I = 1 TO 3: S(I) = 0: NEXT I
+50 FOR E = 1 TO 6
+60 READ K$, NUT$, Q
+70 FOR I = 1 TO 3
+80 IF N$(I) = NUT$ THEN 110
+90 NEXT I
+100 GOTO 160
+110 IF K$ = "FOUND" THEN S(I) = S(I) + Q: GOTO 160
+120 IF S(I) >= Q THEN S(I) = S(I) - Q: GOTO 160
+130 PRINT "SKIPPED "; N$(I)
+160 NEXT E
+170 FOR I = 1 TO 3
+180 PRINT N$(I); ":"; S(I)
+190 NEXT I
+200 DATA FOUND, ACORN, 8
+210 DATA FOUND, WALNUT, 3
+220 DATA ATE, ACORN, 2
+230 DATA GIFT, WALNUT, 5
+240 DATA FOUND, HAZEL, 4
+250 DATA GIFT, ACORN, 1
+260 END`,
+          out: "SKIPPED WALNUT\nACORN: 5\nWALNUT: 3\nHAZEL: 4",
+        },
+        {
+          h: "Ideas to try",
+          p: "Drive the events from a typed <code>INPUT</code> loop on a real interpreter, keep a running cash total beside the stock, or sort the final bins with the bubble sort from the last lesson before printing.",
+        },
+      ],
+      practice: [
+        { q: "Why is WALNUT skipped?", options: ["The gift asks for 5 but only 3 are in stock", "WALNUT is not in the name list", "ATE runs after GIFT", "FOUND never ran"], answer: "The gift asks for 5 but only 3 are in stock", why: "FOUND adds 3 walnuts; GIFT 5 fails the S(I) >= Q check." },
+        { q: "What is the final ACORN count?", options: ["5", "8", "6", "7"], answer: "5", why: "Start 0, found 8, ate 2, gift 1 leaves 5." },
+        { kind: "output", q: "What does this print?", code: `10 S = 4
+20 Q = 2
+30 IF S >= Q THEN S = S - Q: PRINT S
+40 END`, options: [" 2", " 4", " 6", "SKIPPED"], answer: " 2", why: "4 is enough for a gift of 2, so stock becomes 2." },
       ],
     },
   ],
