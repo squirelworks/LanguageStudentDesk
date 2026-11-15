@@ -56,6 +56,14 @@ meaning-matrix columns.
   Fortran, Turbo Pascal, Classic BASIC, Whitespace, Chisel, INTERCAL,
   Malbolge, LOLCODE, brainFOOD and Win16 courses, each ending in a project.
 
+## Math Learner and Electronics Learner
+
+- **Math Learner** and **Electronics Learner** Desk tools, with course packs
+  generated from squirrel-lang-data (`math/`, `electronics/`).
+- Phone twins: **Math Student Desk** and **Electronics Student Desk**, each
+  an offline Android WebView shell that packs the matching learner at build
+  time (Desk and phone stay twins).
+
 ## SquirrelGo apps
 
 - Every app's version number goes up, so this release installs over v0.1.2
