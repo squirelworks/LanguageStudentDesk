@@ -16,8 +16,9 @@ window.PROGRAMMING.vbnet = {
     "Interface", "Implements", "Property", "ReadOnly", "Public", "Private", "Shared", "Const", "ByVal", "ByRef", "Optional", "Of",
     "And", "Or", "Not", "AndAlso", "OrElse", "Mod", "Is", "IsNot", "Nothing", "True", "False", "Me", "From", "Where", "Order", "By",
     "Try", "Catch", "Finally", "Throw", "With", "Imports", "Integer", "Double", "Decimal", "String", "Boolean", "Char", "Date",
+    "Structure", "Enum", "Async", "Await", "Iterator", "Yield", "Using", "ReDim", "Preserve", "DirectCast", "TryCast", "GetType", "TypeOf",
   ],
-  builtins: ["Console", "WriteLine", "Write", "Math", "List", "Dictionary", "Len", "Left", "Right", "Mid", "UCase", "LCase", "CInt", "CStr", "CDbl", "Sum", "Count"],
+  builtins: ["Console", "WriteLine", "Write", "Math", "List", "Dictionary", "HashSet", "Len", "Left", "Right", "Mid", "UCase", "LCase", "CInt", "CStr", "CDbl", "Sum", "Count", "Task", "File", "StreamWriter", "StreamReader"],
   lessons: [
     {
       id: "first",
@@ -576,6 +577,532 @@ End Module`, options: ["30,50,80", "50,80,30", "50,10,80,30", "3,5,8"], answer: 
         End Try
     End Sub
 End Module`, options: ["no such slot", "3", "0", "Nothing"], answer: "no such slot", why: "{1, 2, 3} has indexes 0 to 2, so a(3) throws and the Catch prints its message." },
+      ],
+    },
+    {
+      id: "types",
+      title: "Nullable types, casts and arrays",
+      summary: "Integer?, DirectCast and TryCast, 2-D and jagged arrays, ReDim and Structure.",
+      sections: [
+        {
+          p: "Option Strict stops quiet conversions that might lose information. A <b>nullable</b> value type such as <code>Integer?</code> can hold a whole number or <code>Nothing</code>; use <code>.HasValue</code> and <code>.Value</code>, or <code>If(maybe, fallback)</code> for a default. When a value is typed as <code>Object</code>, <code>DirectCast</code> insists on the exact type and throws if it is wrong, while <code>TryCast</code> (for reference types) returns <code>Nothing</code> instead.",
+          code: `Module Program
+    Sub Main()
+        Dim maybe As Integer? = Nothing
+        Console.WriteLine(maybe.HasValue)
+        maybe = 7
+        Console.WriteLine(maybe.Value)
+        Console.WriteLine(If(maybe, -1))
+        Dim empty As Integer? = Nothing
+        Console.WriteLine(If(empty, -1))
+        Dim boxed As Object = 12
+        Dim n As Integer = DirectCast(boxed, Integer)
+        Console.WriteLine(n)
+        Dim s As String = TryCast(boxed, String)
+        Console.WriteLine(If(s, "not a string"))
+    End Sub
+End Module`,
+          out: "False\n7\n7\n-1\n12\nnot a string",
+        },
+        {
+          h: "More arrays",
+          p: "A rectangular array uses commas in the bounds: <code>Dim grid(1, 2)</code> has two rows and three columns (indexes 0–1 and 0–2). A <b>jagged</b> array is an array of arrays, written <code>()()</code>, so each row can be a different length. <code>ReDim Preserve</code> resizes an array and keeps the values that still fit; new slots start at the type's default (0 for integers).",
+          code: `Module Program
+    Sub Main()
+        Dim grid(1, 2) As Integer
+        grid(0, 0) = 1 : grid(0, 1) = 2 : grid(0, 2) = 3
+        grid(1, 0) = 4 : grid(1, 1) = 5 : grid(1, 2) = 6
+        Console.WriteLine(grid.GetLength(0) & "x" & grid.GetLength(1))
+        Console.WriteLine(grid(1, 2))
+
+        Dim rows()() As String = {
+            New String() {"oak", "beech"},
+            New String() {"hazel"}
+        }
+        Console.WriteLine(rows(0)(1) & " / " & rows(1)(0))
+
+        Dim stash() As Integer = {3, 5}
+        ReDim Preserve stash(3)
+        stash(3) = 9
+        Console.WriteLine(String.Join(",", stash))
+    End Sub
+End Module`,
+          out: "2x3\n6\nbeech / hazel\n3,5,0,9",
+        },
+        {
+          h: "Structure and With",
+          p: "A <code>Structure</code> is a value type: assigning one copies the fields, so changing the copy leaves the original alone (unlike a <code>Class</code>). <code>With ... End With</code> lets you write <code>.Field</code> repeatedly against one object without naming it each time.",
+          code: `Module Program
+    Structure Point
+        Public X As Integer
+        Public Y As Integer
+        Public Overrides Function ToString() As String
+            Return $"({X},{Y})"
+        End Function
+    End Structure
+
+    Sub Main()
+        Dim a As New Point With {.X = 2, .Y = 3}
+        Dim b = a
+        b.X = 9
+        Console.WriteLine(a)
+        Console.WriteLine(b)
+        With a
+            Console.WriteLine(.X + .Y)
+        End With
+    End Sub
+End Module`,
+          out: "(2,3)\n(9,3)\n5",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Sub Main()
+        Dim n As Integer? = Nothing
+        Console.WriteLine(If(n, 5) & " " & If(n.HasValue, "yes", "no"))
+    End Sub
+End Module`, options: ["5 no", "0 no", "5 yes", "Nothing no"], answer: "5 no", why: "If supplies 5 when the nullable is Nothing, and HasValue is False." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Sub Main()
+        Dim a() As Integer = {1, 2}
+        ReDim Preserve a(3)
+        Console.WriteLine(a.Length & " " & a(3))
+    End Sub
+End Module`, options: ["4 0", "3 0", "4 2", "2 0"], answer: "4 0", why: "Indexes 0 to 3 make four slots; the new ones are 0, and Preserve keeps 1 and 2 at the front." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Structure Pair
+        Public A As Integer
+    End Structure
+    Sub Main()
+        Dim x As New Pair With {.A = 1}
+        Dim y = x
+        y.A = 9
+        Console.WriteLine(x.A & " " & y.A)
+    End Sub
+End Module`, options: ["1 9", "9 9", "1 1", "0 9"], answer: "1 9", why: "A Structure is copied on assignment, so changing y does not change x." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Reading and writing files",
+      summary: "File helpers, Using with streams, and a small CSV.",
+      sections: [
+        {
+          p: "The System.IO types live in another namespace, so start with <code>Imports System.IO</code>. <code>File.WriteAllText</code> and <code>File.ReadAllText</code> handle a whole file at once; <code>File.ReadAllLines</code> gives an array of lines. Paths are relative to the process's working directory.",
+          code: `Imports System.IO
+
+Module Program
+    Sub Main()
+        File.WriteAllText("stash.txt", "acorn 6" & vbLf & "hazelnut 2" & vbLf & "walnut 1" & vbLf)
+        Dim text As String = File.ReadAllText("stash.txt")
+        Console.WriteLine("bytes: " & text.Length)
+        For Each line In File.ReadAllLines("stash.txt")
+            Dim parts = line.Split(" "c)
+            Console.WriteLine($"{parts(0)} => {parts(1)}")
+        Next
+        File.Copy("stash.txt", "backup.txt", True)
+        Console.WriteLine(If(File.Exists("backup.txt"), "backup ready", "missing"))
+    End Sub
+End Module`,
+          out: "bytes: 28\nacorn => 6\nhazelnut => 2\nwalnut => 1\nbackup ready",
+        },
+        {
+          h: "Using streams",
+          p: "<code>Using ... End Using</code> opens something that must be closed (a file stream, a network connection) and always calls <code>Dispose</code> when the block ends, even if an exception is thrown. <code>StreamWriter</code> and <code>StreamReader</code> write and read a line at a time.",
+          code: `Imports System.IO
+
+Module Program
+    Sub Main()
+        Using writer As New StreamWriter("log.txt")
+            writer.WriteLine("day 1: found 3")
+            writer.WriteLine("day 2: found 5")
+        End Using
+        Using reader As New StreamReader("log.txt")
+            Do While Not reader.EndOfStream
+                Console.WriteLine(reader.ReadLine())
+            Loop
+        End Using
+        Console.WriteLine(If(File.Exists("nope.txt"), "yes", "no"))
+    End Sub
+End Module`,
+          out: "day 1: found 3\nday 2: found 5\nno",
+        },
+        {
+          h: "A tiny CSV",
+          p: "<code>File.WriteAllLines</code> writes a collection as lines; <code>File.ReadLines</code> walks them without loading everything at once. <code>File.AppendAllText</code> adds to the end instead of replacing the file.",
+          code: `Imports System.IO
+
+Module Program
+    Sub Main()
+        Dim lines As New List(Of String) From {"oak,14", "hazel,9", "beech,20"}
+        File.WriteAllLines("caches.csv", lines)
+        Dim total As Integer = 0
+        For Each line In File.ReadLines("caches.csv")
+            Dim cols = line.Split(","c)
+            total += Integer.Parse(cols(1))
+            Console.WriteLine(cols(0))
+        Next
+        Console.WriteLine("total " & total)
+        File.AppendAllText("caches.csv", "pine,4" & vbLf)
+        Console.WriteLine(File.ReadAllLines("caches.csv").Length)
+    End Sub
+End Module`,
+          out: "oak\nhazel\nbeech\ntotal 43\n4",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `Imports System.IO
+Module Program
+    Sub Main()
+        File.WriteAllText("t.txt", "x")
+        File.AppendAllText("t.txt", "y")
+        Console.WriteLine(File.ReadAllText("t.txt"))
+    End Sub
+End Module`, options: ["xy", "y", "x", "yx"], answer: "xy", why: "AppendAllText adds y after the existing x." },
+        { kind: "output", q: "What does this print?", code: `Imports System.IO
+Module Program
+    Sub Main()
+        File.WriteAllLines("n.txt", {"a", "b"})
+        Console.WriteLine(File.ReadAllLines("n.txt").Length)
+    End Sub
+End Module`, options: ["2", "3", "1", "0"], answer: "2", why: "WriteAllLines writes two lines, so ReadAllLines returns two strings." },
+        { q: "Why wrap a StreamWriter in Using?", options: ["So Dispose closes the file even if something goes wrong", "Using makes writes faster", "It turns on Option Strict", "Streams only work inside Using"], answer: "So Dispose closes the file even if something goes wrong", why: "End Using always runs Dispose, which flushes and closes the handle." },
+      ],
+    },
+    {
+      id: "async",
+      title: "Async and Await",
+      summary: "Async Function, Await, Task.WhenAll and reading a file asynchronously.",
+      sections: [
+        {
+          p: "An <code>Async Function</code> can <code>Await</code> a <code>Task</code>: the method pauses until that work finishes, without blocking the whole program the way a busy wait would. <code>Task.Delay</code> is a tiny stand-in for slow work such as a download. Console programs often kick off the async work from <code>Sub Main</code> with <code>.GetAwaiter().GetResult()</code>, which waits for it to finish before the process exits.",
+          code: `Module Program
+    Async Function DigAsync(spot As String) As Task(Of Integer)
+        Console.WriteLine("digging " & spot)
+        Await Task.Delay(1)
+        Return spot.Length
+    End Function
+
+    Async Function GatherAsync() As Task
+        Dim a = Await DigAsync("oak")
+        Dim b = Await DigAsync("beech")
+        Console.WriteLine($"nuts: {a + b}")
+    End Function
+
+    Sub Main()
+        GatherAsync().GetAwaiter().GetResult()
+    End Sub
+End Module`,
+          out: "digging oak\ndigging beech\nnuts: 8",
+        },
+        {
+          h: "Several tasks at once",
+          p: "Start more than one task, then <code>Await Task.WhenAll(...)</code> to wait for all of them. The array of results comes back in the same order as the tasks you passed in, so you can total or join them without racing the console.",
+          code: `Module Program
+    Async Function CountAsync(n As Integer) As Task(Of Integer)
+        Await Task.Delay(1)
+        Return n * 2
+    End Function
+
+    Async Function RunAsync() As Task
+        Dim t1 = CountAsync(3)
+        Dim t2 = CountAsync(5)
+        Dim parts = Await Task.WhenAll(t1, t2)
+        Console.WriteLine(String.Join("+", parts) & "=" & parts.Sum())
+        Dim more = Await Task.WhenAll(CountAsync(1), CountAsync(2), CountAsync(3))
+        Console.WriteLine(more.Max())
+    End Function
+
+    Sub Main()
+        RunAsync().GetAwaiter().GetResult()
+    End Sub
+End Module`,
+          out: "6+10=16\n6",
+        },
+        {
+          h: "Async file reads",
+          p: "<code>File.ReadAllTextAsync</code> returns a <code>Task(Of String)</code>. You can still use <code>Try ... Catch</code> around an <code>Await</code>: a missing file throws <code>FileNotFoundException</code> the same way as the synchronous call.",
+          code: `Imports System.IO
+
+Module Program
+    Async Function LoadStashAsync(path As String) As Task(Of Integer)
+        Try
+            Dim text = Await File.ReadAllTextAsync(path)
+            Return Integer.Parse(text.Trim())
+        Catch ex As FileNotFoundException
+            Console.WriteLine("missing " & path)
+            Return 0
+        End Try
+    End Function
+
+    Async Function RunAsync() As Task
+        File.WriteAllText("count.txt", "12")
+        Dim a = Await LoadStashAsync("count.txt")
+        Dim b = Await LoadStashAsync("gone.txt")
+        Console.WriteLine(a + b)
+    End Function
+
+    Sub Main()
+        RunAsync().GetAwaiter().GetResult()
+    End Sub
+End Module`,
+          out: "missing gone.txt\n12",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Async Function TwiceAsync(n As Integer) As Task(Of Integer)
+        Await Task.Delay(1)
+        Return n * 2
+    End Function
+    Sub Main()
+        Console.WriteLine(TwiceAsync(21).GetAwaiter().GetResult())
+    End Sub
+End Module`, options: ["42", "21", "22", "Nothing"], answer: "42", why: "TwiceAsync awaits a short delay, then returns 21 * 2." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Async Function NAsync(n As Integer) As Task(Of Integer)
+        Await Task.Delay(1)
+        Return n
+    End Function
+    Sub Main()
+        Dim parts = Task.WhenAll(NAsync(2), NAsync(5)).GetAwaiter().GetResult()
+        Console.WriteLine(parts(0) & "," & parts(1) & "," & parts.Sum())
+    End Sub
+End Module`, options: ["2,5,7", "5,2,7", "2,5,25", "7,7,7"], answer: "2,5,7", why: "WhenAll keeps the results in the same order as the tasks: 2 then 5, which sum to 7." },
+        { q: "What does Await do inside an Async Function?", options: ["Pauses this method until the Task finishes, then continues with its result", "Starts a new thread every time", "Turns Option Strict off", "Cancels every other Task"], answer: "Pauses this method until the Task finishes, then continues with its result", why: "That is how Async and Await chain slow work without a busy loop." },
+      ],
+    },
+    {
+      id: "queries",
+      title: "Grouping, tuples and iterators",
+      summary: "LINQ Group By, TypeOf tests, named tuples and Yield.",
+      sections: [
+        {
+          p: "Query syntax can <code>Group By</code> a key and name aggregates such as <code>Sum</code> in the same breath. Method-style LINQ still works beside it: <code>Distinct</code>, <code>OrderBy</code> and friends take lambdas written <code>Function(x) ...</code>.",
+          code: `Module Program
+    Sub Main()
+        Dim nuts = {
+            New With {.Tree = "oak", .Kind = "acorn", .Count = 14},
+            New With {.Tree = "oak", .Kind = "acorn", .Count = 6},
+            New With {.Tree = "hazel", .Kind = "hazelnut", .Count = 9},
+            New With {.Tree = "beech", .Kind = "beechnut", .Count = 20}
+        }
+        Dim byTree = From n In nuts
+                     Group By n.Tree Into Group, Total = Sum(n.Count)
+                     Order By Total Descending
+                     Select Tree, Total
+        For Each row In byTree
+            Console.WriteLine($"{row.Tree}: {row.Total}")
+        Next
+        Dim kinds = nuts.Select(Function(n) n.Kind).Distinct().OrderBy(Function(k) k)
+        Console.WriteLine(String.Join(", ", kinds))
+    End Sub
+End Module`,
+          out: "oak: 20\nbeech: 20\nhazel: 9\nacorn, beechnut, hazelnut",
+        },
+        {
+          h: "TypeOf and tuples",
+          p: "<code>Select Case True</code> with <code>TypeOf item Is ...</code> is a common way to branch on a value's run-time type under Option Strict. A <b>tuple</b> bundles a few values without a new class: name the fields with <code>:=</code>, or read unnamed ones as <code>.Item1</code> and <code>.Item2</code>.",
+          code: `Module Program
+    Function Label(item As Object) As String
+        Select Case True
+            Case TypeOf item Is Integer
+                Return "int:" & CStr(DirectCast(item, Integer))
+            Case TypeOf item Is String
+                Return "str:" & DirectCast(item, String)
+            Case Else
+                Return "other"
+        End Select
+    End Function
+
+    Sub Main()
+        Console.WriteLine(Label(7))
+        Console.WriteLine(Label("oak"))
+        Console.WriteLine(Label(True))
+
+        Dim pair = (Tree := "hazel", Nuts := 12)
+        Console.WriteLine($"{pair.Tree} holds {pair.Nuts}")
+        Dim plain = ("oak", 7)
+        Console.WriteLine(plain.Item1 & "=" & plain.Item2)
+    End Sub
+End Module`,
+          out: "int:7\nstr:oak\nother\nhazel holds 12\noak=7",
+        },
+        {
+          h: "Iterator and Yield",
+          p: "An <code>Iterator Function</code> that returns <code>IEnumerable(Of T)</code> can <code>Yield</code> one item at a time. Each time the caller asks for the next value, the function runs until the next <code>Yield</code> and then pauses. LINQ methods such as <code>Where</code> are lazy in the same way: they run when you loop, so they see changes made after the query was built.",
+          code: `Module Program
+    Iterator Function Countdown(from As Integer) As IEnumerable(Of Integer)
+        For i As Integer = from To 0 Step -1
+            Yield i
+        Next
+    End Function
+
+    Iterator Function Fibonacci() As IEnumerable(Of Long)
+        Dim a As Long = 0
+        Dim b As Long = 1
+        Do
+            Yield a
+            Dim next_ = a + b
+            a = b
+            b = next_
+        Loop
+    End Function
+
+    Sub Main()
+        Console.WriteLine(String.Join(" ", Countdown(3)))
+        Console.WriteLine(String.Join(" ", Fibonacci().Take(8)))
+        Dim stash As New List(Of Integer) From {4, 9, 2}
+        Dim big = stash.Where(Function(n)
+                                  Console.WriteLine($"  check {n}")
+                                  Return n > 3
+                              End Function)
+        stash.Add(12)
+        Console.WriteLine("before")
+        For Each n In big
+            Console.WriteLine("big " & n)
+        Next
+    End Sub
+End Module`,
+          out: "3 2 1 0\n0 1 1 2 3 5 8 13\nbefore\n  check 4\nbig 4\n  check 9\nbig 9\n  check 2\n  check 12\nbig 12",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Sub Main()
+        Dim xs = {New With {.K = "a", .N = 2}, New With {.K = "b", .N = 5}, New With {.K = "a", .N = 3}}
+        Dim q = From x In xs Group By x.K Into Total = Sum(x.N) Order By K
+        Console.WriteLine(String.Join(",", From r In q Select r.K & r.Total))
+    End Sub
+End Module`, options: ["a5,b5", "a2,b5,a3", "a5,b5,a3", "b5,a5"], answer: "a5,b5", why: "Group By totals a to 5 and b to 5, then Order By K puts a before b." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Iterator Function Evens() As IEnumerable(Of Integer)
+        Dim i = 0
+        Do
+            Yield i
+            i += 2
+        Loop
+    End Function
+    Sub Main()
+        Console.WriteLine(String.Join("", Evens().Take(3)))
+    End Sub
+End Module`, options: ["024", "246", "02", "An endless loop"], answer: "024", why: "Take(3) only asks for three items, so the endless iterator stops there." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Sub Main()
+        Dim t = (Tree := "oak", Nuts := 4)
+        Console.WriteLine(t.Tree & t.Nuts)
+    End Sub
+End Module`, options: ["oak4", "Tree4", "oak Nuts", "4oak"], answer: "oak4", why: "Named tuple fields are read with .Tree and .Nuts." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut inventory",
+      summary: "Enum, classes and a ledger of found / ate / gift events.",
+      sections: [
+        {
+          p: "An inventory is built by replaying a list of events. Each event holds a kind string, a <code>NutKind</code> enum and a count. Applying an event either updates the stock or returns an error string — a small result value, without throwing. A gift that asks for more walnuts than you have is skipped and reported; the rest become a sorted table, with a note of who received gifts.",
+          code: `Module Program
+    Enum NutKind
+        Acorn
+        Walnut
+        Hazelnut
+    End Enum
+
+    Class InventoryEvent
+        Public Property Kind As String
+        Public Property Nut As NutKind
+        Public Property Count As Integer
+        Public Property [To] As String
+
+        Sub New(kind As String, nut As NutKind, count As Integer, Optional [to] As String = Nothing)
+            Me.Kind = kind
+            Me.Nut = nut
+            Me.Count = count
+            Me.To = [to]
+        End Sub
+    End Class
+
+    Class Inventory
+        Private ReadOnly stock As New Dictionary(Of NutKind, Integer)
+
+        Sub New()
+            For Each n As NutKind In [Enum].GetValues(GetType(NutKind))
+                stock(n) = 0
+            Next
+        End Sub
+
+        Function Apply(e As InventoryEvent) As String
+            If e.Kind = "found" Then
+                stock(e.Nut) += e.Count
+                Return Nothing
+            End If
+            If stock(e.Nut) < e.Count Then
+                Return $"cannot {e.Kind} {e.Count} {e.Nut.ToString().ToLower()}: only {stock(e.Nut)}"
+            End If
+            stock(e.Nut) -= e.Count
+            Return Nothing
+        End Function
+
+        Sub Report()
+            For Each pair In stock.OrderByDescending(Function(kv) kv.Value)
+                Console.WriteLine($"{pair.Key.ToString().ToLower(),-9} {pair.Value,2}")
+            Next
+        End Sub
+    End Class
+
+    Sub Main()
+        Dim events As New List(Of InventoryEvent) From {
+            New InventoryEvent("found", NutKind.Acorn, 8),
+            New InventoryEvent("found", NutKind.Walnut, 3),
+            New InventoryEvent("ate", NutKind.Acorn, 2),
+            New InventoryEvent("gift", NutKind.Walnut, 5, "Pip"),
+            New InventoryEvent("found", NutKind.Hazelnut, 4),
+            New InventoryEvent("gift", NutKind.Acorn, 1, "Pip")
+        }
+
+        Dim inv As New Inventory()
+        Dim gifts As New HashSet(Of String)
+        For Each e In events
+            Dim err = inv.Apply(e)
+            If err IsNot Nothing Then
+                Console.WriteLine("skipped: " & err)
+                Continue For
+            End If
+            If e.Kind = "gift" Then gifts.Add(e.To)
+        Next
+        inv.Report()
+        Console.WriteLine("gifts to: " & String.Join(", ", gifts.OrderBy(Function(g) g)))
+    End Sub
+End Module`,
+          out: "skipped: cannot gift 5 walnut: only 3\nacorn      5\nhazelnut   4\nwalnut     3\ngifts to: Pip",
+        },
+        {
+          h: "Ideas to try",
+          p: "Add a <code>traded</code> event that swaps one nut for another, load the events from a CSV with the file helpers from earlier, or make <code>Apply</code> return a small class with <code>Ok</code> and <code>Message</code> properties instead of a bare string. Format widths such as <code>{name,-9}</code> left-align in nine columns; a positive width right-aligns.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Sub Main()
+        Console.WriteLine($"[{"ab",-4}][{7,3}]")
+    End Sub
+End Module`, options: ["[ab  ][  7]", "[  ab][7  ]", "[ab][7]", "[ab  ][7  ]"], answer: "[ab  ][  7]", why: "A negative width left-aligns, a positive one right-aligns." },
+        { q: "Why does Apply return a String instead of throwing?", options: ["So a bad event can be skipped and reported without stopping the whole replay", "VB cannot throw inside a Class", "Enums cannot be used with exceptions", "Strings are faster than exceptions"], answer: "So a bad event can be skipped and reported without stopping the whole replay", why: "Returning an error value keeps the loop in charge of what to print next." },
+        { kind: "output", q: "What does this print?", code: `Module Program
+    Enum Nut
+        Acorn
+        Walnut
+    End Enum
+    Sub Main()
+        Dim stock As New Dictionary(Of Nut, Integer)
+        For Each n As Nut In [Enum].GetValues(GetType(Nut))
+            stock(n) = 0
+        Next
+        stock(Nut.Acorn) += 3
+        Console.WriteLine(String.Join(",", stock.Keys.Select(Function(k) k.ToString().ToLower())) & " " & stock(Nut.Acorn))
+    End Sub
+End Module`, options: ["acorn,walnut 3", "Acorn,Walnut 3", "acorn 3", "0,0 3"], answer: "acorn,walnut 3", why: "GetValues lists both enum members in order; ToLower makes the names readable, then acorn is increased." },
       ],
     },
   ],
