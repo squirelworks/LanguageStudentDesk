@@ -15,43 +15,23 @@ as the steps land.
       from the shared data, numerical methods track finished. All 10 apps are
       on Google Play closed testing, each release named after its app and
       version (#305).
+- [x] **squirrelgo-v0.1.3** (2026-11-15): published, but the tag pointed at the
+      older draft commit (`e1ebe515`), not current `main`. Play closed-testing
+      builds used that tag (no Math/Electronics twins in the matrix).
 
-## Drafted, not published: squirrelgo-v0.1.3
+## Next: squirrelgo-v0.1.4 from current main
 
-- [x] squirrel-lang-data **v0.1.4** published (2026-11-05, `d5e05a4`).
-- [x] `data/` moved to v0.1.4 (#312).
-- [x] Release PR: every app's version raised and
-      `release-notes/squirrelgo-v0.1.3.md` added (#315).
-- [x] Draft created by **SquirrelGo release (draft)**.
-- [x] Notes refreshed for data **v0.1.5** and what landed since the first
-      draft (#316–#319): French, German and Italian in the Translation
-      Learner, Syriac in SquirrelGo Alphabets and the Character Learner,
-      TypeScript/Java/Bash projects, Orthodox Bible open-in-text, plus the
-      earlier v0.1.4 content. The GitHub draft itself still needs a re-run
-      of the draft workflow on current `main`.
-- [ ] The owner publishes. Nothing is published without the owner's click.
-
-## Next (open): re-run the draft, then publish
-
-`release-notes/squirrelgo-v0.1.3.md` now names data v0.1.5. The
-`squirrelgo-v0.1.3` tag still does not exist. Remaining steps:
-
-- [ ] CI is green on `main` here, in squirrelator and in squirrel-lang-data,
-      and squirrelator pins the same data tag (v0.1.5, squirrelator #49).
-- [ ] After this notes refresh merges, re-run **SquirrelGo release (draft)**
-      with `squirrelgo-v0.1.3` so the GitHub draft targets current `main` and
-      picks up the refreshed notes. Then the owner publishes. The Desk
-      desktop builds, the Orthodox Bible content packs and the Play
-      closed-testing uploads follow automatically.
-
-If the owner prefers a new version number instead (squirrelgo-v0.1.4), leave
-the v0.1.3 draft unpublished, raise every app's `versionCode` and
-`versionName`, and draft `squirrelgo-v0.1.4`. Ask once; it's the owner's
-call.
+- [ ] Release PR: raise every app's `versionCode` / `versionName` and add
+      `release-notes/squirrelgo-v0.1.4.md`.
+- [ ] Draft with **SquirrelGo release (draft)** targeting current `main`
+      (or a local rebuild uploaded to the draft with `--target` set to that
+      commit).
+- [ ] The owner publishes. Desktop builds, Orthodox Bible packs, and Play
+      closed-testing uploads (including Maths Edu-Training Helper and
+      Electronics Student Desk) follow automatically.
 
 PRs opened after this list was written don't hold the release back; they go
 into the next one. The longer-term order is in `FUTURE-WORK.md`.
-
 ## How the draft is made
 
 1. After the release PR merges, run **Actions → SquirrelGo release (draft) →
