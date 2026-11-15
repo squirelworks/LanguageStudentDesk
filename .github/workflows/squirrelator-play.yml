@@ -6,11 +6,12 @@ name: squirrelator Play testing
 #
 # - Every hour it looks at squirrelator's latest published release. If Play
 #   doesn't have that version yet, it builds the AAB from the release tag,
-#   signs it with the upload key, sends it to internal testing, and sets the
-#   store listing from that tag. Nothing happens when Play is up to date.
+#   signs it with the upload key and sends it to internal testing. It never
+#   touches the store listing. Nothing happens when Play is up to date.
 # - By hand (Actions -> squirrelator Play testing -> Run workflow):
 #   upload (a tag again), promote (internal testing to closed testing, no new
-#   build), listing (text and graphics only), or check (secrets and access).
+#   build), listing (text and graphics only; the only way the store listing
+#   is set, once, by hand), or check (secrets and access).
 # The AAB never leaves the runner: no artifact, no release asset, no commit.
 # See docs/PLAY.md, "squirrelator".
 on:
@@ -182,8 +183,9 @@ jobs:
           $PLAY upload --package "$PACKAGE" --aab "$AAB" --track "$INTERNAL_TRACK" --status "$STATUS" \
             --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
 
+      # Only the hand-run listing action: never on an upload or the hourly run.
       - name: Store listing
-        if: (env.ACTION == 'upload' || env.ACTION == 'listing') && steps.pick.outputs.go == 'true'
+        if: env.ACTION == 'listing' && steps.pick.outputs.go == 'true'
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: $PLAY listing --package "$PACKAGE" --dir squirrelator/native/android/src/main/play
