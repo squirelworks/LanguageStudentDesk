@@ -1,0 +1,97 @@
+name: Gradle deps cache
+
+# Downloads Gradle, the Android Gradle plugin and the apps' libraries once and
+# saves them as one cache that every Android build restores. The builds only
+# read it, so a PR that touches many apps doesn't send each build to Maven
+# Central for the same files. It saves nothing new when the cache is current.
+# The release and Play workflows run this first, before their app matrix.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "SquirrelGo-Apps/**/gradle-wrapper.properties"
+      - "SquirrelGo-Apps/**/*.gradle"
+      - ".github/workflows/gradle-deps-cache.yml"
+  # GitHub drops a cache nobody has read for a week; this puts it back.
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: "Commit to fill the cache for (default: the run's commit)"
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      # The key and paths must match the "Restore Gradle cache" step in the
+      # build workflows exactly.
+      - name: Is the cache already current?
+        id: lookup
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
+          lookup-only: true
+      # Start from the newest older cache so only what changed is downloaded.
+      - name: Restore the previous cache
+        if: steps.lookup.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
+          restore-keys: gradle-deps-v1-${{ runner.os }}-
+      - uses: actions/setup-java@v4
+        if: steps.lookup.outputs.cache-hit != 'true'
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        if: steps.lookup.outputs.cache-hit != 'true'
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      # One app after another, so Maven Central sees one client. A debug build
+      # also fetches what Gradle only downloads while building (aapt2). An app
+      # that doesn't build here only gets a warning: its compile-only workflow
+      # is the check for that, and the cache is still saved for the rest.
+      - name: Download the build tooling for every app
+        if: steps.lookup.outputs.cache-hit != 'true'
+        run: |
+          RETRY="-Dorg.gradle.internal.repository.max.retries=6 -Dorg.gradle.internal.repository.initial.backoff=2000"
+          for W in $(git ls-files ':(glob)SquirrelGo-Apps/**/android/gradle/wrapper/gradle-wrapper.properties'); do
+            D=${W%/gradle/wrapper/gradle-wrapper.properties}
+            echo "::group::$D"
+            (
+              cd "$D"
+              echo "sdk.dir=$ANDROID_HOME" > local.properties
+              [ -f app/debug.keystore ] || cp "$GITHUB_WORKSPACE/SquirrelGo-Apps/lsd-suite/android/app/debug.keystore" app/debug.keystore
+              chmod +x gradlew
+              ./gradlew --no-daemon $RETRY :app:dependencies > /dev/null
+              ./gradlew --no-daemon $RETRY assembleDebug
+            ) || echo "::warning::$D did not build here; its downloads so far are still cached"
+            echo "::endgroup::"
+          done
+          rm -f ~/.gradle/caches/modules-2/*.lock ~/.gradle/caches/modules-2/gc.properties
+      - name: Save the cache
+        if: steps.lookup.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
