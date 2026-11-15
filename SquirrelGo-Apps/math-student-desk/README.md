@@ -1,8 +1,8 @@
-# Math Student Desk (Android)
+# Maths Edu-Training Helper (Android)
 
 The Math Learner as its own offline Android app. A home menu lists every course in the same subject sections as the Desk, with the same A–Z view and category filter, and opens one inside the app. The asset root mirrors just that learner and the shared `languages/learners.css` and `languages/lsd-lang.js` files it loads. The rest of the Desk is not in the app.
 
-Package id: `com.squirelworks.mathstudentdesk`. The debug build adds `.debug`; the release AAB does not. Store name: Math Student Desk. Minimum Android: 7.0 (API 24). compileSdk and targetSdk: 36.
+Package id: `com.squirelworks.mathseducationtraininghelper`. The debug build adds `.debug`; the release AAB does not. Store name: Maths Edu-Training Helper. Minimum Android: 7.0 (API 24). compileSdk and targetSdk: 36.
 
 This AAB is not published on GitHub. There is no rolling GitHub release, no tag, and no Actions workflow for it. Build the release bundle on your machine.
 
@@ -30,7 +30,7 @@ chmod +x gradlew
 
 `bundleRelease` runs `tools/pack_assets.py` first. That copies `math-learner` (the page, `app.js`, `sections.js`, and `data/`, including `catalog.js` and each course pack) plus `languages/learners.css`, `languages/lsd-lang.js` and the feature switch files (`languages/features.js`, `lsd-features.js`, `lsd-features.css`) into `android/app/build/generated/deskAssets/`. Those copies are build output, not a second source tree. The pack fails if a catalog id has no `data/<id>.js`.
 
-`./gradlew assembleDebug` builds the debug APK. Its application id is `com.squirelworks.mathstudentdesk.debug`.
+`./gradlew assembleDebug` builds the debug APK. Its application id is `com.squirelworks.mathseducationtraininghelper.debug`.
 
 The same menu is `www/index.html`. The Desk launcher opens this folder's `index.html`, which keeps `?lang=` and the hash and redirects there. A course id opens `math-learner/index.html?lang=<id>`. Any other id stays on the menu. The system Back button returns from a course to the menu. `http` and `https` links open in the browser.
 

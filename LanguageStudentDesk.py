@@ -58,7 +58,7 @@ TOOLS = {
     "math-learner": ("Math Learner",
                      "Arithmetic, algebra, trigonometry, calculus, linear algebra and topology: short lessons with practice that explains every answer.",
                      "Desk tools", True, None),
-    "math-student-desk": ("Math Student Desk",
+    "math-student-desk": ("Maths Edu-Training Helper",
                           "The Math Learner as its own offline Android app. A home menu lists every course and opens one inside the app.",
                           "Desk tools", True, None),
     "electronics-learner": ("Electronics Learner",

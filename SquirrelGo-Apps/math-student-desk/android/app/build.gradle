@@ -26,11 +26,11 @@ tasks.configureEach { task ->
 }
 
 android {
-    namespace 'com.squirelworks.mathstudentdesk'
+    namespace 'com.squirelworks.mathseducationtraininghelper'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.squirelworks.mathstudentdesk"
+        applicationId "com.squirelworks.mathseducationtraininghelper"
         minSdk 24
         targetSdk 36
         versionCode 1
