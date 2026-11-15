@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/hindi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/hindi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Hindi column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Hindi is written in Devanagari; the danda ।
 // closes statements and "?" closes questions.

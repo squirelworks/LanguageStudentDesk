@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/tamil.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/tamil.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Tamil column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/tamil (no diacritics; zh for ழ). Sources: forms match

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/gujarati.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/gujarati.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Gujarati column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/gujarati (doubled long vowels; chh for છ). Gujarati uses

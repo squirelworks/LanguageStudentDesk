@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/german.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/german.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // German column of the meaning matrix. Written for this project. Tokens are
 // [text, "", meaning id]: German is written in the Latin alphabet, so there is
 // no separate reading. Nouns keep their capitals.

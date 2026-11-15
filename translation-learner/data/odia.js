@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/odia.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/odia.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Odia column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/odia (short a like the o in "hot"). Nominal sentences

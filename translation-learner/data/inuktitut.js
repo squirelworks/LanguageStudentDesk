@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/inuktitut.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/inuktitut.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Inuktitut (South Qikiqtaaluk / Nunavut learner forms) column of the meaning
 // matrix. Written for this project. Tokens are [syllabics, ICI romanization,
 // meaning id]. Person is often on the verb; independent ᐅᕙᖓ uvanga and ᐃᕝᕕᑦ

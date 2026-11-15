@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/tibetan.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/tibetan.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Tibetan column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Uchen script as in
 // languages/tibetan/vocab.jsonl; romanization follows Lhasa pronunciation.

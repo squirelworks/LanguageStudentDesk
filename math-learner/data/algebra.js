@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 math/algebra/course.json by: python3 data/tools/gen_math.py --out math-learner/data
+// Generated from squirrel-lang-data 41dde96 math/algebra/course.json by: python3 data/tools/gen_math.py --out math-learner/data
 window.MATH = window.MATH || {};
 window.MATH.algebra = {
   "id": "algebra",

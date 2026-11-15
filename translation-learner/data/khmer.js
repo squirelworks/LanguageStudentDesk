@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/khmer.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/khmer.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Khmer column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Khmer is written with spaces between words
 // (sep: " "). The romanization matches the scheme in languages/khmer.

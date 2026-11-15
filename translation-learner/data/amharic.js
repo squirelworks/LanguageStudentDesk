@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/amharic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/amharic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Amharic column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The default speaker is a man (male verb
 // forms), matching other columns.
@@ -88,7 +88,7 @@ window.TL_LANGS.amharic = {
     "go-school": {"end": "።", "implied": ["i"], "t": [["ወደ ትምህርት ቤት", "wede timhirt bet", "school"], ["እሄዳለሁ", "ihedallehu", "go"]]},
     "bus-school": {"end": "።", "implied": ["i"], "t": [["በአውቶቡስ", "be autobus", "bus"], ["ወደ ትምህርት ቤት", "wede timhirt bet", "school"], ["እሄዳለሁ", "ihedallehu", "go"]]},
     "go-tokyo": {"end": "።", "implied": ["i"], "t": [["ቶኪዮ", "Tokyo", "tokyo"], ["መሄድ", "mehed", "go"], ["እፈልጋለሁ", "ifeleggallehu", "want"]]},
-    "came-train": {"end": "።", "implied": ["i"], "t": [["በባቡር", "be babur", "train"], ["መጣሁ", "mettahu", "come"]]},
+    "came-train": {"end": "።", "implied": ["i"], "t": [["በባቡር", "be babur", "train+@means"], ["መጣሁ", "mettahu", "come+@past"]]},
     "where-going": {"end": "?", "implied": ["you"], "t": [["የት", "yet", "where"], ["ትሄዳለህ", "tihedalleh", "go"]]},
     "going-home": {"end": "።", "implied": ["i"], "t": [["ወደ ቤት", "wede bet", "home"], ["እሄዳለሁ", "ihedallehu", "go"]]},
     "we-going-home": {"end": "።", "implied": ["we"], "t": [["ወደ ቤት", "wede bet", "home"], ["እንሄዳለን", "inhedallen", "go"]]},

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/cherokee.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/cherokee.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Cherokee column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Cherokee packs pronouns into verb prefixes;
 // independent ᎠᏴ / ᏂᎯ appear only when needed for emphasis.
@@ -88,7 +88,7 @@ window.TL_LANGS.cherokee = {
     "go-school": {"end": ".", "implied": ["i"], "t": [["ᏧᎾᏕᎶᏆᏍᏗ", "tsunadeloquasdi", "school"], ["ᎨᎦ", "gega", "go"]]},
     "bus-school": {"end": ".", "implied": ["i"], "t": [["ᏐᏈᎵ", "sogwili", "bus"], ["ᏧᎾᏕᎶᏆᏍᏗ", "tsunadeloquasdi", "school"], ["ᎨᎦ", "gega", "go"]]},
     "go-tokyo": {"end": ".", "t": [["ᏙᎩᏲ", "Tokyo", "tokyo"], ["ᎠᎩ", "agi", "i"], ["ᏓᏆᏚᎵᎭ", "dagwadiha", "want"], ["Ꭰ", "a", "go"]]},
-    "came-train": {"end": ".", "t": [["ᏐᏈᎵ", "sogwili", "train"], ["ᎠᎩ", "agi", "i"], ["Ꭰ", "a", "come"]]},
+    "came-train": {"end": ".", "t": [["ᏐᏈᎵ", "sogwili", "train+@means"], ["ᎠᎩ", "agi", "i"], ["Ꭰ", "a", "come+@past"]]},
     "where-going": {"end": "?", "t": [["ᎦᏙ", "gado", "where"], ["Ꭿ", "hi", "you"], ["Ꭰ", "a", "go"]]},
     "going-home": {"end": ".", "implied": ["i"], "t": [["ᎦᎵᏦᏕ", "galitsode", "home"], ["ᎨᎦ", "gega", "go"]]},
     "we-going-home": {"end": ".", "t": [["ᎦᎵᏦᏕ", "galitsode", "home"], ["ᎢᏂ", "ini", "we"], ["Ꭰ", "a", "go"]]},

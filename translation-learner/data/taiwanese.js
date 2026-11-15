@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/taiwanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/taiwanese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Taiwan Mandarin column of the meaning matrix. Written for this project.
 // Tokens are [text, romanization, meaning id]. Traditional characters and
 // Taiwan vocabulary (公車, 餐廳, 華語, 螢幕, 程式) match languages/taiwanese/vocab.jsonl

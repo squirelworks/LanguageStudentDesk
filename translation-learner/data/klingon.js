@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/klingon.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/klingon.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Klingon column of the meaning matrix. Written for this project. Tokens are
 // [text, "", meaning id]: the text is already romanized and pIqaD is drawn from
 // it. Prefixes end in "-", suffixes start with "-". Klingon puts the object
@@ -97,7 +97,7 @@ window.TL_LANGS.klingon = {
     "go-school": {"end": "", "t": [["DuSaQ", "", "school"], ["-Daq", "", "@direction"], ["jI-", "", "i"], ["jaH", "", "go"]]},
     "bus-school": {"end": "", "t": [["puHDuj'a'", "", "bus"], ["-Daq", "", "@means"], ["DuSaQ", "", "school"], ["-Daq", "", "@direction"], ["jI-", "", "i"], ["jaH", "", "go"]]},
     "go-tokyo": {"end": "", "t": [["tokyo", "", "tokyo"], ["-Daq", "", "@direction"], ["jaH", "", "go"], ["vI-", "", "i"], ["neH", "", "want"]]},
-    "came-train": {"end": "", "t": [["lupDuj", "", "train"], ["vI-", "", "i"], ["paw", "", "come"], ["-pu'", "", "@past"]]},
+    "came-train": {"end": "", "t": [["lupDuj", "", "train+@means"], ["vI-", "", "i"], ["paw", "", "come"], ["-pu'", "", "@past"]]},
     "where-going": {"end": "", "t": [["nuqDaq", "", "where"], ["bI-", "", "you"], ["jaH", "", "go"]]},
     "going-home": {"end": "", "t": [["juH", "", "home"], ["-Daq", "", "@direction"], ["jI-", "", "i"], ["jaH", "", "go"]]},
     "we-going-home": {"end": "", "t": [["juH", "", "home"], ["-Daq", "", "@direction"], ["ma-", "", "we"], ["jaH", "", "go"]]},

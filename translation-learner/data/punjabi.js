@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/punjabi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/punjabi.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Punjabi column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Text is in Gurmukhi as in
 // languages/punjabi/vocab.jsonl. ਹਾਂ / ਹੈ / ਹੋ / ਹਨ carry @copula or @present;

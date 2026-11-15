@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 math/trigonometry/course.json by: python3 data/tools/gen_math.py --out math-learner/data
+// Generated from squirrel-lang-data 41dde96 math/trigonometry/course.json by: python3 data/tools/gen_math.py --out math-learner/data
 window.MATH = window.MATH || {};
 window.MATH.trigonometry = {
   "id": "trigonometry",

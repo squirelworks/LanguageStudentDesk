@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 alphabets/syriac.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 41dde96 alphabets/syriac.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Syriac alphabet for SquirrelGo Alphabets, in the Estrangela style that
 // Noto Sans Syriac draws. Romanization follows the usual academic
 // transliteration of Classical Syriac (ḇ ḡ ḏ ḵ p̄ ṯ for the soft sounds after a

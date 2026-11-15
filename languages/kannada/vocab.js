@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 languages/kannada/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 41dde96 languages/kannada/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Kannada, transliteration, English, note]. Written for this
 // project.
 window.LSD_DECKS = window.LSD_DECKS || {};

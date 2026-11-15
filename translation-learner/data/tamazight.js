@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/tamazight.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 41dde96 meaning/columns/tamazight.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Tamazight (Standard Moroccan / Central Atlas) column of the meaning matrix.
 // Written for this project. Tokens are [text, romanization, meaning id].
 // Nominal equatives use ⴷ (d) as @copula. Verbs show person with prefixes and

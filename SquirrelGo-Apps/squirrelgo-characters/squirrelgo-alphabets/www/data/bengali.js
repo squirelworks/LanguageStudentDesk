@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3ad5cb9 alphabets/bengali.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 41dde96 alphabets/bengali.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Bengali (Bangla) for SquirrelGo Alphabets. Romanization follows everyday
 // Bangla spelling in Latin letters. Hints, groupings and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.
