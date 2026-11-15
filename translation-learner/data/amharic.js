@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/amharic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/amharic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Amharic column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The default speaker is a man (male verb
 // forms), matching other columns.
@@ -31,10 +31,10 @@ window.TL_LANGS.amharic = {
     "success": {"end": "!", "t": [["ተሳካ", "tasaka", "success"]]},
     "dont-understand": {"end": "።", "implied": ["i"], "t": [["አል", "al", "not"], ["ገባኝም", "gebagnim", "understand"]]},
     "dont-know": {"end": "።", "implied": ["i"], "t": [["አላውቅም", "alawqim", "not+know"]]},
-    "speak-english": {"end": "?", "implied": ["you"], "t": [["እግሊዝኛ", "ingilizigna", "english"], ["ትናገራለህ", "tingaralleh", "speak"], ["?", "?", "@question"]]},
-    "speak-chinese": {"end": "?", "implied": ["you"], "t": [["ቻይንኛ", "chaynigna", "chinese"], ["ትናገራለህ", "tingaralleh", "speak"], ["?", "?", "@question"]]},
-    "speak-arabic": {"end": "?", "implied": ["you"], "t": [["ዐረብኛ", "arabigna", "arabic"], ["ትናገራለህ", "tingaralleh", "speak"], ["?", "?", "@question"]]},
-    "speak-klingon": {"end": "?", "implied": ["you"], "t": [["ክሊንጎን", "Klingon", "klingon"], ["ትናገራለህ", "tingaralleh", "speak"], ["?", "?", "@question"]]},
+    "speak-english": {"end": "?", "implied": ["you"], "t": [["እግሊዝኛ", "ingilizigna", "english"], ["ትናገራለህ", "tingaralleh", "speak"]]},
+    "speak-chinese": {"end": "?", "implied": ["you"], "t": [["ቻይንኛ", "chaynigna", "chinese"], ["ትናገራለህ", "tingaralleh", "speak"]]},
+    "speak-arabic": {"end": "?", "implied": ["you"], "t": [["ዐረብኛ", "arabigna", "arabic"], ["ትናገራለህ", "tingaralleh", "speak"]]},
+    "speak-klingon": {"end": "?", "implied": ["you"], "t": [["ክሊንጎን", "Klingon", "klingon"], ["ትናገራለህ", "tingaralleh", "speak"]]},
     "speak-hindi": {"end": "።", "implied": ["i"], "t": [["ሂንዲኛ", "hindigna", "hindi"], ["እናገራለሁ", "ingarallehu", "speak"]]},
     "study-korean": {"end": "።", "implied": ["i"], "t": [["ኮሪያኛ", "koriyagna", "korean"], ["እማራለሁ", "imarallehu", "study"]]},
     "like-sushi": {"end": "።", "implied": ["i"], "t": [["ሱሺ", "sushi", "sushi"], ["እወዳለሁ", "iwedallehu", "like"]]},

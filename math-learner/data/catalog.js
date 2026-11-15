@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 math/catalog.json by: python3 data/tools/gen_math.py --out math-learner/data
+// Generated from squirrel-lang-data 73b5ace math/catalog.json by: python3 data/tools/gen_math.py --out math-learner/data
 // Courses in the Math Learner. Order here doesn't matter: the page may sort
 // by group. Each id has a course in data/<id>.js.
 window.MATH_CATALOG = [

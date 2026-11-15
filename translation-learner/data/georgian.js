@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/georgian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/georgian.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Georgian column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the national
 // system in languages/georgian (apostrophe marks an ejective). Verb prefixes

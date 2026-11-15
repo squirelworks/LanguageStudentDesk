@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/sinhala.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/sinhala.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Sinhala column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Spoken Sinhala forms as in
 // languages/sinhala/vocab.jsonl and the grammar pack; yes/no questions use -da
@@ -29,10 +29,10 @@ window.TL_LANGS.sinhala = {
     "success": {"end": "!", "t": [["සාර්ථකත්වය", "saarthakathvaya", "success"]]},
     "dont-understand": {"end": ".", "t": [["මට", "mata", "i"], ["තේරෙන්නේ නැහැ", "terennee naeha", "not+understand"]]},
     "dont-know": {"end": ".", "t": [["මට", "mata", "i"], ["දන්නේ නැහැ", "dannee naeha", "not+know"]]},
-    "speak-english": {"end": "?", "t": [["ඔබ", "oba", "you"], ["ඉංග්‍රීසි", "ingriisi", "english"], ["කතා කරනවාද", "kathaa karanavaada", "speak"], ["?", "?", "@question"]]},
-    "speak-chinese": {"end": "?", "t": [["ඔබ", "oba", "you"], ["චීන", "chiina", "chinese"], ["කතා කරනවාද", "kathaa karanavaada", "speak"], ["?", "?", "@question"]]},
-    "speak-arabic": {"end": "?", "t": [["ඔබ", "oba", "you"], ["අරාබි", "araabi", "arabic"], ["කතා කරනවාද", "kathaa karanavaada", "speak"], ["?", "?", "@question"]]},
-    "speak-klingon": {"end": "?", "t": [["ඔබ", "oba", "you"], ["ක්ලින්ගන්", "klingan", "klingon"], ["කතා කරනවාද", "kathaa karanavaada", "speak"], ["?", "?", "@question"]]},
+    "speak-english": {"end": "?", "t": [["ඔබ", "oba", "you"], ["ඉංග්‍රීසි", "ingriisi", "english"], ["කතා කරනවාද", "kathaa karanavaada", "speak"]]},
+    "speak-chinese": {"end": "?", "t": [["ඔබ", "oba", "you"], ["චීන", "chiina", "chinese"], ["කතා කරනවාද", "kathaa karanavaada", "speak"]]},
+    "speak-arabic": {"end": "?", "t": [["ඔබ", "oba", "you"], ["අරාබි", "araabi", "arabic"], ["කතා කරනවාද", "kathaa karanavaada", "speak"]]},
+    "speak-klingon": {"end": "?", "t": [["ඔබ", "oba", "you"], ["ක්ලින්ගන්", "klingan", "klingon"], ["කතා කරනවාද", "kathaa karanavaada", "speak"]]},
     "speak-hindi": {"end": ".", "t": [["මම", "mama", "i"], ["හින්දි", "hindhi", "hindi"], ["කතා කරනවා", "kathaa karanavaa", "speak"]]},
     "study-korean": {"end": ".", "t": [["මම", "mama", "i"], ["කොරියානු", "koriyaanu", "korean"], ["ඉගෙන ගනිමි", "igena ganimi", "study"]]},
     "like-sushi": {"end": ".", "t": [["මට", "mata", "i"], ["සුෂි", "sushi", "sushi"], ["කැමතියි", "kaematiyi", "like"]]},

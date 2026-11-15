@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/aramaic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/aramaic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Aramaic column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Biblical and Imperial Aramaic style in the
 // square script, without vowel points. Present-tense “to be” is omitted in

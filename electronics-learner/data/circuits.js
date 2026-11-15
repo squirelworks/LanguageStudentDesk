@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 electronics/circuits/course.json by: python3 data/tools/gen_electronics.py --out electronics-learner/data
+// Generated from squirrel-lang-data 73b5ace electronics/circuits/course.json by: python3 data/tools/gen_electronics.py --out electronics-learner/data
 window.ELECTRONICS = window.ELECTRONICS || {};
 window.ELECTRONICS.circuits = {
   "id": "circuits",

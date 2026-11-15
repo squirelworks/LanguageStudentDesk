@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/burmese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/burmese.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Burmese column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Burmese is written with spaces between
 // words (sep: " "). The romanization has no tone marks, matching

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/arabic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/arabic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Arabic (Modern Standard) column of the meaning matrix. Written for this
 // project. Tokens are [text, romanization, meaning id]. The article ال is its
 // own token, romanized by the sun-letter rule (as-sayyāra, al-bayt). Possessive

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 alphabets/mongolian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 73b5ace alphabets/mongolian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The traditional Mongolian script (Uyghur-Mongolian, as used in Inner
 // Mongolia) for SquirrelGo Alphabets. The script is written in vertical
 // columns; the app shows it upright. Example IPA is the modern spoken form,

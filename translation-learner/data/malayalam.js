@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/malayalam.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/malayalam.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Malayalam column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. The romanization matches the simplified
 // scheme in languages/malayalam (doubled long vowels). ആണ് carries @copula;

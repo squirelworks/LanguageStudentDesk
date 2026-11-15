@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/tibetan.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/tibetan.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Tibetan column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Uchen script as in
 // languages/tibetan/vocab.jsonl; romanization follows Lhasa pronunciation.
@@ -42,7 +42,7 @@ window.TL_LANGS.tibetan = {
     "love-you": {"end": ".", "t": [["ང", "nga", "i"], ["ཁྱེད་རང", "khyerang", "you"], ["སེམས་ཤུགས", "sem shuk", "love"]]},
     "met-friend": {"end": ".", "t": [["ཁ་སང", "kasang", "yesterday"], ["ང", "nga", "i"], ["གྲོགས", "drok", "friend"], ["མཇལ", "jel", "meet+@past"]]},
     "my-friend": {"end": ".", "t": [["ཁོང", "khong", "he"], ["ངའི", "ngé", "i"], ["གྲོགས", "drok", "friend"]]},
-    "who-is-he": {"end": "?", "t": [["ཁོང", "khong", "he"], ["སུ་རེད", "sured", "who"], ["?", "?", "@question"]]},
+    "who-is-he": {"end": "?", "t": [["ཁོང", "khong", "he"], ["སུ་རེད", "sured", "who"]]},
     "where-live": {"end": "?", "t": [["ཁྱེད་རང", "khyerang", "you"], ["ག་པར", "kapar", "where"], ["སྡོད", "dö", "live"], ["རེད", "re", "@question"]]},
     "from-egypt": {"end": ".", "t": [["ང", "nga", "i"], ["ཨི་ཇི་ཕི", "Egypt", "egypt"], ["ནས", "né", "from"], ["ཡིན", "yin", "@copula"]]},
     "we-are-klingons": {"end": ".", "t": [["ང་ཚོ", "ngatso", "we"], ["ཁྰི་ལིང་གོན", "klingon", "klingon"], ["རེད", "re", "@copula"]]},

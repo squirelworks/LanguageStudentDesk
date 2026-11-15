@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/cherokee.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/cherokee.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Cherokee column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Cherokee packs pronouns into verb prefixes;
 // independent ᎠᏴ / ᏂᎯ appear only when needed for emphasis.
