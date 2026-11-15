@@ -7,13 +7,14 @@
 
   // Languages with a column in the matrix. Names and ?lang= ids come from the
   // shared registry in languages/.
-  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
+  const COLUMNS = ["japanese", "hangul", "chinese", "cyrillic", "hindi", "arabic", "greek", "latin", "french", "german", "italian", "hebrew", "thai", "bengali", "tamil", "georgian", "armenian", "klingon"];
   // Shown for a language until its translation tests pass (data/tested.js).
   const ALPHA = '<span class="alpha">(alpha)</span>';
   const ROMAJI = "../SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js";
   // Vocabulary Learner decks widen the word list for breaking down sentences.
-  // Rows are [word, reading, English, note], or [word, English, note] for Klingon/Latin.
-  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, hebrew: true, thai: true, bengali: true, tamil: true, georgian: true, armenian: true, klingon: false };
+  // Rows are [word, reading, English, note], or [word, English, note] for
+  // Klingon/Latin/French/German/Italian (Latin-script decks without a reading column).
+  const DECKS = { hangul: true, chinese: true, cyrillic: true, hindi: true, arabic: true, greek: true, latin: false, french: false, german: false, italian: false, hebrew: true, thai: true, bengali: true, tamil: true, georgian: true, armenian: true, klingon: false };
 
   // Languages with a word bank (data/wordbank/<id>.js, built by tools/build_network.py).
   // Greek joins the network via its column and Desk decks; a wordfreq Top 1,000
