@@ -18,14 +18,16 @@ as the steps land.
 - [x] **squirrelgo-v0.1.3** (2026-11-15): published, but the tag pointed at the
       older draft commit (`e1ebe515`), not current `main`. Play closed-testing
       builds used that tag (no Math/Electronics twins in the matrix).
+- [x] **squirrelgo-v0.1.4** (2026-11-15): retargeted to then-current `main`
+      with Math/Electronics twins and Play upload wiring; data v0.1.5.
 
-## Next: squirrelgo-v0.1.4 from current main
+## Next: squirrelgo-v0.1.5 (data v0.1.6)
 
+- [x] squirrel-lang-data **v0.1.6** published; Desk `data/` pinned (#364).
 - [ ] Release PR: raise every app's `versionCode` / `versionName` and add
-      `release-notes/squirrelgo-v0.1.4.md`.
+      `release-notes/squirrelgo-v0.1.5.md`.
 - [ ] Draft with **SquirrelGo release (draft)** targeting current `main`
-      (or a local rebuild uploaded to the draft with `--target` set to that
-      commit).
+      after that PR merges.
 - [ ] The owner publishes. Desktop builds and Play
       closed-testing uploads (including Maths Edu-Training Helper and
       Electronics Student Desk) follow automatically.
