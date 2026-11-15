@@ -865,5 +865,87 @@ VISIBLE BOTH SAEM MOD OF 10 AN 5 AN 0
 KTHXBYE`, options: ["WIN", "FAIL", "0", "2"], answer: "WIN", why: "10 divides by 5 with remainder 0, so BOTH SAEM … AN 0 is WIN." },
       ],
     },
+
+    {
+      id: "strings2",
+      title: "More SMOOSH and numbers as yarn",
+      summary: "Build longer strings and turn numbers into text.",
+      sections: [
+        {
+          p: "<code>SMOOSH</code> joins values into one YARN. Numbers are printed in decimal when smooshed, so you can build a label and a count in one go.",
+          code: `HAI 1.2
+I HAS A n ITZ 3
+I HAS A msg ITZ SMOOSH "NUTZ = " AN n MKAY
+VISIBLE msg
+KTHXBYE`,
+          out: "NUTZ = 3",
+        },
+        {
+          h: "SMOOSH in a loop",
+          p: "Grow a string across a loop by smooshing the old value with a new piece each time.",
+          code: `HAI 1.2
+I HAS A s ITZ ""
+IM IN YR l UPPIN YR i TIL BOTH SAEM i AN 3
+  s R SMOOSH s AN "HA" MKAY
+IM OUTTA YR l
+VISIBLE s
+KTHXBYE`,
+          out: "HAHAHA",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A x ITZ 2
+VISIBLE SMOOSH "X" AN x MKAY
+KTHXBYE`, options: ["X2", "X 2", "2X", "Xx"], answer: "X2", why: "SMOOSH joins with nothing in between." },
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A s ITZ "A"
+s R SMOOSH s AN "B" AN "C" MKAY
+VISIBLE s
+KTHXBYE`, options: ["ABC", "A B C", "A", "BC"], answer: "ABC", why: "Each AN piece is appended in order." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: fizz-buzz lines",
+      summary: "A tiny loop that builds labelled lines with SMOOSH.",
+      sections: [
+        {
+          p: "Count from 1 to 5. For each number, print a line that starts with the number and then either FIZZ (multiples of 3), BUZZ (multiples of 5), or NUTZ (everything else). Use <code>MOD OF</code>, <code>O RLY?</code> and <code>SMOOSH</code> together.",
+          code: `HAI 1.2
+I HAS A n ITZ 0
+I HAS A line ITZ ""
+IM IN YR l UPPIN YR i TIL BOTH SAEM i AN 5
+  n R SUM OF i AN 1
+  line R SMOOSH n AN " " MKAY
+  BOTH SAEM MOD OF n AN 3 AN 0
+  O RLY?
+    YA RLY
+      line R SMOOSH line AN "FIZZ" MKAY
+    MEBBE BOTH SAEM MOD OF n AN 5 AN 0
+      line R SMOOSH line AN "BUZZ" MKAY
+    NO WAI
+      line R SMOOSH line AN "NUTZ" MKAY
+  OIC
+  VISIBLE line
+IM OUTTA YR l
+KTHXBYE`,
+          out: "1 NUTZ\n2 NUTZ\n3 FIZZ\n4 NUTZ\n5 BUZZ",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `HAI 1.2
+I HAS A n ITZ 6
+BOTH SAEM MOD OF n AN 3 AN 0
+O RLY?
+  YA RLY
+    VISIBLE "FIZZ"
+  NO WAI
+    VISIBLE "NUTZ"
+OIC
+KTHXBYE`, options: ["FIZZ", "NUTZ", "6", "WIN"], answer: "FIZZ", why: "6 mod 3 is 0." },
+        { q: "Which operator joins strings in LOLCODE?", options: ["SMOOSH", "SUM OF", "BOTH SAEM", "VISIBLE"], answer: "SMOOSH", why: "SMOOSH concatenates yarns." },
+      ],
+    }
   ],
 };

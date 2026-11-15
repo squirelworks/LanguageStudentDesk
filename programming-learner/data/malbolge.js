@@ -184,5 +184,69 @@ window.PROGRAMMING.malbolge = {
         { q: "What does < print?", options: ["a mod 256 as a character", "The character at [c]", "d as a number", "The whole program"], answer: "a mod 256 as a character", why: "Print takes the low eight bits of the accumulator." },
       ],
     },
+
+    {
+      id: "history",
+      title: "How people program Malbolge",
+      summary: "Searches, normalized form, and known working seeds.",
+      sections: [
+        {
+          p: "Almost nobody writes Malbolge by hand. Useful programs come from beam searches, genetic algorithms, or careful editing of a known seed in normalized form. Once you have a normalized string of <code>i&lt;/*jpov</code> letters, a converter expands it back into loadable characters for each address.",
+        },
+        {
+          h: "Why searches work",
+          p: "The self-encrypting tape means a small change early on cascades. Search tools explore many candidates and keep those that print the next desired character without crashing, building longer outputs step by step.",
+        },
+        {
+          h: "Reading someone else's program",
+          p: "Start from the normalized form. Mark where <code>&lt;</code> prints and where <code>p</code> and <code>*</code> reshape <code>a</code>. The raw character soup is secondary once you can see the instruction stream.",
+        },
+      ],
+      practice: [
+        { q: "How are most Malbolge programs made?", options: ["By automated search from a seed", "By typing ASCII art", "By compiling C", "By hand in one sitting"], answer: "By automated search from a seed", why: "Hand-writing long Malbolge is impractical; searches and seeds dominate." },
+        { q: "What alphabet does normalized Malbolge use?", options: ["i < / * j p o v", "Only digits", "A to Z", "BrainFOOD's eight symbols"], answer: "i < / * j p o v", why: "Those eight letters name the instructions at each cell." },
+        { q: "Why does an early edit often break a later print?", options: ["Encryption cascades as the tape runs", "The printer ignores later cells", "Malbolge has no jumps", "Registers cannot change"], answer: "Encryption cascades as the tape runs", why: "Each step scrambles the instruction cell, so early changes reshape everything after." },
+      ],
+    },
+    {
+      id: "limits",
+      title: "What Malbolge can and cannot do easily",
+      summary: "I/O, halting, and why “hello” was a milestone.",
+      sections: [
+        {
+          p: "Input is possible (<code>/</code>) but awkward: end of input yields 59048, and interactive programs are rare. Halting is the <code>v</code> instruction. There is no standard library — every string is a custom tape dance.",
+        },
+        {
+          h: "Hello World as a milestone",
+          p: "Andrew Cooke's 2000 program proved Malbolge could print a phrase at all. Later authors shortened and varied that seed. Studying those programs teaches more than trying to invent one from scratch.",
+        },
+      ],
+      practice: [
+        { q: "What does end of input put in a?", options: ["59048", "0", "255", "94"], answer: "59048", why: "The classic interpreter uses 59048 for EOF." },
+        { q: "Which normalized letter stops the machine?", options: ["v", "o", "p", "<"], answer: "v", why: "v is halt." },
+        { q: "Why was the first Hello World important?", options: ["It showed Malbolge could print a phrase at all", "It added floating point", "It removed encryption", "It ran on Windows only"], answer: "It showed Malbolge could print a phrase at all", why: "For two years nobody had produced working output." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: read a Hi program",
+      summary: "Trace a short normalized program that prints Hi.",
+      sections: [
+        {
+          p: "This normalized program prints <code>Hi</code> then stops. Count the <code>&lt;</code> print steps and notice the <code>p</code> and <code>o</code> cells that reshape <code>a</code> between them. You do not have to invent Malbolge — you have to read it.",
+          code: `oooooooopoooop<oooooooooppop<v`,
+          out: "Hi",
+        },
+        {
+          h: "Your turn on paper",
+          p: "Write the normalized letters in a column with addresses 0… and mark which cells print. That reading habit is the real project skill Malbolge teaches.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this normalized program print?", code: `oooooooopoooop<oooooooooppop<v`, options: ["Hi", "Ho", "ii", "H"], answer: "Hi", why: "Two print instructions emit H then i." },
+        { q: "How many print instructions are in that program?", options: ["2", "1", "3", "0"], answer: "2", why: "There are two < letters." },
+        { q: "What does the final v do?", options: ["Stops the machine", "Prints v", "Resets encryption", "Reads input"], answer: "Stops the machine", why: "v is halt." },
+      ],
+    }
   ],
 };

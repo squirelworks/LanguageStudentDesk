@@ -311,5 +311,24 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `+++>++++++++[>++++++++<-]>++++++++++++++++++++++++++<<[>>.-<<-]`, options: ["ZYX", "ABC", "XYZ", "Z"], answer: "ZYX", why: "Box 2 starts at Z and counts down three times." },
       ],
     },
+
+    {
+      id: "project",
+      title: "Project: HI then a newline",
+      summary: "Two letters and a line break from one short tape.",
+      sections: [
+        {
+          p: "Build H and i the usual way, print them, then set a box to 10 and print the newline. A tiny complete program that moves, loops and prints.",
+          code: `++++++++[>+++++++++<-]>.   H
+>++++++++++[>++++++++++<-]>+++++.  i
+>++++++++++.`,
+          out: "Hi",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `++++++++[>+++++++++<-]>.`, options: ["H", "I", "A", "X"], answer: "H", why: "8×9 = 72." },
+        { q: "What character code is a newline?", options: ["10", "13", "32", "0"], answer: "10", why: "ASCII line feed is 10." },
+      ],
+    }
   ],
 };
