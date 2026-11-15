@@ -83,6 +83,28 @@ below, link its privacy policy (`PRIVACY.md` covers every app), and fill in
 the content rating and Data safety form ("no data collected", the same as the
 others).
 
+### Store listing assets (Math and Electronics twins)
+
+Each twin keeps a Play listing pack under
+`SquirrelGo-Apps/<app>/android/app/src/main/play/`:
+
+| File | Play Console field | Size / limit |
+| --- | --- | --- |
+| `icon.png` | Hi-res icon | 512 × 512 PNG |
+| `feature.png` | Feature graphic | 1024 × 500 PNG |
+| `listing/en-US/title.txt` | App name | ≤ 30 characters |
+| `listing/en-US/short-description.txt` | Short description | ≤ 80 characters |
+| `listing/en-US/full-description.txt` | Full description | ≤ 4000 characters |
+| `screenshots/phone-*.png` | Phone screenshots | 1080 × 1920 PNG (at least 2) |
+
+Privacy policy URL for both apps:
+`https://github.com/squirelworks/LanguageStudentDesk/blob/main/PRIVACY.md`
+
+Upload these by hand for a first listing (the SquirrelGo Play workflow only
+sends the AAB). squirrelator is the exception: its workflow also pushes the
+listing from `native/android/src/main/play/`.
+
+
 | App | Package |
 | --- | --- |
 | Language Student Desk | `com.squirelworks.lsd` |
