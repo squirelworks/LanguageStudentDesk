@@ -66,6 +66,8 @@ jobs:
           - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook,                      name: SquirrelGoPhrasebook }
           - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite,                                  name: LanguageStudentDesk }
           - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk,                   name: ProgrammingStudentDesk }
+          - { app: math-desk,         dir: SquirrelGo-Apps/math-student-desk,                          name: MathStudentDesk }
+          - { app: electronics-desk,  dir: SquirrelGo-Apps/electronics-student-desk,                   name: ElectronicsStudentDesk }
     env:
       DIR: ${{ matrix.dir }}
       GH_TOKEN: ${{ github.token }}
