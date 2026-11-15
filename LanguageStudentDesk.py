@@ -58,6 +58,9 @@ TOOLS = {
     "math-learner": ("Math Learner",
                      "Arithmetic, algebra, trigonometry, calculus, linear algebra and topology: short lessons with practice that explains every answer.",
                      "Desk tools", True, None),
+    "electronics-learner": ("Electronics Learner",
+                            "Foundations, components, circuits, digital, soldering, PCB design and systems: short lessons with practice that explains every answer.",
+                            "Desk tools", True, None),
     "legalese-learner": ("Legalese Learner",
                          "How the heavy words in a contract work: shall, notwithstanding, herein, and the clauses at the back. Reading practice, not legal advice.",
                          "Desk tools", False, None),
@@ -105,7 +108,7 @@ GROUPS = ["Desk tools", "SquirrelGo apps", "Other"]
 TOOL_REQUIRES = {}
 
 # ?lang= values the scoped tools understand that are not languages in
-# languages/registry.js: Programming Learner and Math Learner courses.
+# languages/registry.js: Programming, Math and Electronics Learner courses.
 EXTRA_LANGS = [
     "python", "quickbasic", "brainfood", "delphi", "c", "rust", "go", "slick", "chisel",
     "intercal", "lolcode", "malbolge", "piet", "whitespace",
@@ -126,6 +129,8 @@ EXTRA_LANGS = [
     "kotlin",
     # Math Learner courses
     "arithmetic", "algebra", "trigonometry", "calculus", "linear-algebra", "topology",
+    # Electronics Learner courses
+    "foundations", "components", "circuits", "digital", "soldering", "pcb-design", "systems",
 ]
 
 
