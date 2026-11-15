@@ -36,6 +36,19 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # The cache key covers only what decides the downloads: the Gradle
+      # wrapper, plugin and library versions and repositories in the Gradle
+      # files, minus versionCode/versionName, so a release's version bump
+      # keeps the cache. This step is the same in every workflow that uses it.
+      - name: Gradle cache key
+        id: gradle-key
+        shell: bash
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          FP=$(git ls-files ':(glob)SquirrelGo-Apps/**/gradle-wrapper.properties' ':(glob)SquirrelGo-Apps/**/android/*.gradle' ':(glob)SquirrelGo-Apps/**/android/app/build.gradle' ':(glob)SquirrelGo-Apps/tools/*.gradle' \
+            | LC_ALL=C sort | while read -r F; do echo "== $F"; grep -vE '^[[:space:]]*version(Code|Name)([[:space:]=(]|$)' "$F" || true; done \
+            | sha256sum | cut -c1-40)
+          echo "key=gradle-deps-v2-$RUNNER_OS-$FP" | tee -a "$GITHUB_OUTPUT"
       # Gradle and the Android build tools come from one shared cache, filled
       # once by the "Gradle deps cache" workflow; builds only read it.
       - name: Restore Gradle cache
@@ -44,8 +57,10 @@ jobs:
           path: |
             ~/.gradle/caches/modules-2
             ~/.gradle/wrapper/dists
-          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
-          restore-keys: gradle-deps-v1-${{ runner.os }}-
+          key: ${{ steps.gradle-key.outputs.key }}
+          restore-keys: |
+            gradle-deps-v2-${{ runner.os }}-
+            gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
           case "$APP" in

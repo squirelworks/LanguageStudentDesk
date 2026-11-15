@@ -37,18 +37,21 @@ into the next one. The longer-term order is in `FUTURE-WORK.md`.
 ## How the draft is made
 
 1. After the release PR merges, run **Actions → SquirrelGo release (draft) →
-   Run workflow** with the version. It builds a release APK of every app
-   (signed with the APK signing key when the `APK_KEYSTORE_BASE64`,
-   `APK_STORE_PASSWORD`, `APK_KEY_ALIAS` and `APK_KEY_PASSWORD` secrets exist,
-   otherwise with each app's fixed debug key; the Play upload key is never
-   used here), writes `SHA256SUMS.txt`, and creates or refreshes the
-   **draft** release targeting that commit, with the notes from
-   `release-notes/<version>.md` and a table of every app's version and the
-   data commit. It never creates or moves a tag.
-2. The owner clicks **Publish**. Publishing creates the tag, and the existing
-   workflows then attach the Linux, Windows and macOS Desk builds, and
-   `squirrelgo-play.yml` sends each app's
-   AAB to its Play closed testing track (`PLAY.md`).
+   Run workflow** with the version. It first creates the **draft** release
+   targeting that commit, with the notes from `release-notes/<version>.md`
+   (or reuses the draft that already exists for that version), and then
+   attaches each release APK (signed with the APK signing key when the
+   `APK_KEYSTORE_BASE64`, `APK_STORE_PASSWORD`, `APK_KEY_ALIAS` and
+   `APK_KEY_PASSWORD` secrets exist, otherwise with each app's fixed debug
+   key; the Play upload key is never used here) and each Linux, Windows and
+   macOS Desk build as soon as it's built. When everything is attached, it
+   adds the table of every app's version and the data commit to the notes
+   and writes `SHA256SUMS.txt` over all the files. It never creates or moves
+   a tag.
+2. The owner clicks **Publish**. Publishing creates the tag, and
+   `squirrelgo-play.yml` sends each app's AAB to its Play closed testing
+   track (`PLAY.md`). The desktop-build workflow only builds what isn't
+   attached yet.
 
 Not automated yet: installing each APK on an emulator before the draft. Until
 it is, the notes say the APKs weren't smoke-tested on a device.
