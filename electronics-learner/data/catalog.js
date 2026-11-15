@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 electronics/catalog.json by: python3 data/tools/gen_electronics.py --out electronics-learner/data
+// Generated from squirrel-lang-data 73b5ace electronics/catalog.json by: python3 data/tools/gen_electronics.py --out electronics-learner/data
 // Courses in the Electronics Learner. Order here doesn't matter: the page may sort
 // by group. Each id has a course in data/<id>.js.
 window.ELECTRONICS_CATALOG = [

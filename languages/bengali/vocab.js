@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 languages/bengali/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 73b5ace languages/bengali/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Bengali, transliteration, English, note]. Written for this
 // project.
 // Frequency tags come from wordfreq (CC BY-SA 4.0).

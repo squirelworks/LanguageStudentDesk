@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/lao.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/lao.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Lao column of the meaning matrix. Written for this project. Tokens are [text,
 // romanization, meaning id]. Lao is written without spaces between words (sep:
 // ""), so tokens glue together. The romanization has no tone marks, matching

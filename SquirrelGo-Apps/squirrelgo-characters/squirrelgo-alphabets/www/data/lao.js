@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 alphabets/lao.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 73b5ace alphabets/lao.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Lao alphabet for SquirrelGo Alphabets. Romanization is the common Lao-
 // French style (x for s, ny, v), with doubled letters for long vowels. Each
 // consonant's example is the word it is named after in Lao schools. eSpeak NG

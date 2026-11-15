@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 meaning/columns/manipuri.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 73b5ace meaning/columns/manipuri.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Manipuri column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id]. Meetei Mayek; equational sentences use ‑ꯅꯤ
 // (ni) as @copula. SOV order; case ‑ꯗꯥ (da) for place/direction, ‑ꯒꯤ (gi) for

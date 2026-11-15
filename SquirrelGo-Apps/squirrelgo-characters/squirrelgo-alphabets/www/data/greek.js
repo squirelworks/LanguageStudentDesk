@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 41dde96 alphabets/greek.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 73b5ace alphabets/greek.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Greek alphabet (Modern Greek values) for SquirrelGo Alphabets. Hints,
 // groupings and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.
