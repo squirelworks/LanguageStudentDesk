@@ -195,7 +195,7 @@ jobs:
             else
               echo "APKs are signed with each app's fixed debug key, so they install over earlier builds."
             fi
-            echo "The Linux, Windows and macOS Desk builds and the Orthodox Bible content packs are attached when this release is published."
+            echo "The Linux, Windows and macOS Desk builds are attached when this release is published."
           } > notes.md
           rm -f dist/*.row
       - name: Label each APK with its app and version

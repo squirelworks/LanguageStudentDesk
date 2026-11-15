@@ -44,14 +44,15 @@ the url is
 raw.githubusercontent.com allows cross-origin reads (a GitHub release asset
 does not), and the app parses the file as JSON rather than running it.
 
-**From the latest GitHub release.** Each published release also carries the
-packs as assets (the **SquirrelGo Orthodox Bible release packs** workflow
-attaches them): `orthodox-bible-content.json` lists every pack, and each pack
-is `orthodox-bible-<id>.js` or `orthodox-commentary-<id>.js`.
+**From the dedicated packs release.** The **SquirrelGo Orthodox Bible
+release packs** workflow attaches the packs to a dedicated GitHub release
+tagged `orthodox-bible-packs` (not to each SquirrelGo app release):
+`orthodox-bible-content.json` lists every pack, and each pack is
+`orthodox-bible-<id>.js` or `orthodox-commentary-<id>.js`.
 `build_content_index.py` writes that list from `packs.json` and
 `commentary_packs.json`. When the reader taps **Check for new texts** or
-**Download**, the app asks the GitHub API for the latest release
-(`api.github.com/repos/squirelworks/LanguageStudentDesk/releases/latest`,
+**Download**, the app asks the GitHub API for that release
+(`api.github.com/repos/squirelworks/LanguageStudentDesk/releases/tags/orthodox-bible-packs`,
 which allows cross-origin reads), reads its content list, adds any pack it
 didn't know about to Translations & settings, and downloads from the
 release. The Android app reads release assets directly; a desktop browser

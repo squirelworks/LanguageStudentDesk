@@ -1,37 +1,39 @@
 name: SquirrelGo Orthodox Bible release packs
 
 # Attaches the Orthodox Bible's downloadable Bibles and commentary to a
-# GitHub release, so the app's "Check for new texts" and "Download" buttons
-# find them in the latest release. Takes the packs already built by
-# "SquirrelGo Orthodox Bible text packs" (the orthodox-bible-texts branch)
-# and uploads:
+# dedicated GitHub release (tag orthodox-bible-packs), so the app's
+# "Check for new texts" and "Download" buttons can find them without
+# putting the packs on each SquirrelGo release. Takes the packs already
+# built by "SquirrelGo Orthodox Bible text packs" (the orthodox-bible-texts
+# branch) and uploads:
 #   orthodox-bible-content.json     the list of packs the app reads first
 #   orthodox-bible-<id>.js          one per Bible
 #   orthodox-commentary-<id>.js     one per commentary pack
-# Runs when a release is published (the rolling *-latest pre-releases are
-# skipped). Run it by hand to attach the packs to a release that already exists.
+# Runs when that pack-build workflow finishes successfully on main.
+# Run it by hand to create or refresh the dedicated release.
+# The tag is created at main HEAD the first time and is never moved.
+# --latest=false and --prerelease keep this from becoming the repo's
+# latest release, so SquirrelGo APK links stay on the app releases.
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["SquirrelGo Orthodox Bible text packs"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Release tag to attach the packs to, e.g. v0.0.5"
-        required: true
 
 permissions:
   contents: write
 
 concurrency:
-  group: squirrelgo-orthodox-release-packs-${{ github.event.release.tag_name || inputs.tag }}
+  group: squirrelgo-orthodox-release-packs
   cancel-in-progress: true
 
 jobs:
   attach:
-    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      TAG: orthodox-bible-packs
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
@@ -60,6 +62,26 @@ jobs:
               sys.exit("Packs listed but not built: " + ", ".join(missing))
           print("%d Bibles, %d commentary packs" % (len(index["bibles"]), len(index["commentary"])))
           PY
+      - name: Make the dedicated release if it is missing
+        run: |
+          cat > notes.md <<'MD'
+          These are the downloadable Bibles and commentary for SquirrelGo Orthodox Bible. In the app, Check for new texts and Download use the files attached here.
+
+          Each pack's license and source are recorded in the file itself. The list of packs is orthodox-bible-content.json.
+
+          This release is only for those packs. SquirrelGo app builds stay on the ordinary SquirrelGo releases.
+          MD
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; leaving the tag where it is"
+          elif gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TAG}" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists; creating the release on that commit (not moving the tag)"
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --latest=false --prerelease \
+              --title "Orthodox Bible text packs" --notes-file notes.md
+          else
+            SHA=$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq .sha)
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --latest=false --prerelease \
+              --target "$SHA" --title "Orthodox Bible text packs" --notes-file notes.md
+          fi
       # One file at a time: gh uploads a batch in parallel, and with ~100
       # files a retried upload can collide with itself ("ReleaseAsset.name
       # already exists") even with --clobber.
@@ -73,3 +95,16 @@ jobs:
             done
           done
           echo "Attached $(ls assets | wc -l) files to $TAG"
+      - name: Remove packs no longer in the list
+        run: |
+          mapfile -t EXISTING < <(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
+          for name in "${EXISTING[@]}"; do
+            case "$name" in
+              orthodox-bible-content.json|orthodox-bible-*.js|orthodox-commentary-*.js)
+                if [ ! -f "assets/$name" ]; then
+                  gh release delete-asset "$TAG" "$name" --yes --repo "$GITHUB_REPOSITORY"
+                  echo "Removed $name (no longer in the pack list)"
+                fi
+                ;;
+            esac
+          done
