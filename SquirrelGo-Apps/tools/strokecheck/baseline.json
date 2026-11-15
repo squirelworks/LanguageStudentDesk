@@ -1,32 +1,17 @@
 {
- "hiragana": {
-  "う": "coverage 0.599",
-  "ぐ": "coverage 0.467; precision 0.794",
-  "ぶ": "coverage 0.535; precision 0.732",
-  "ぷ": "coverage 0.5; precision 0.783"
- },
- "kanji": {
-  "九": "precision 0.758",
-  "了": "precision 0.745",
-  "仁": "precision 0.704",
-  "今": "coverage 0.595",
-  "八": "coverage 0.486",
-  "古": "coverage 0.527; precision 0.655",
-  "合": "precision 0.777",
-  "含": "coverage 0.588",
-  "心": "coverage 0.34; precision 0.632",
-  "必": "coverage 0.498; precision 0.779",
-  "斗": "coverage 0.382; precision 0.498",
-  "比": "precision 0.748",
-  "礼": "precision 0.76"
- },
- "katakana": {
-  "ク": "coverage 0.431; precision 0.637",
-  "グ": "coverage 0.544; precision 0.734",
-  "ト": "coverage 0.544",
-  "ハ": "coverage 0.479"
- },
- "tifinagh": {
-  "ⴰ": "coverage 0.732"
+ "syriac": {
+  "ܐ": "coverage 0.371; precision 0.727",
+  "ܒ": "coverage 0.486; precision 0.842",
+  "ܓ": "coverage 0.483; precision 0.539",
+  "ܕ": "coverage 0.462; precision 0.475",
+  "ܗ": "coverage 0.365; precision 0.636",
+  "ܛ": "coverage 0.469; precision 0.654",
+  "ܟ": "coverage 0.405; precision 0.359",
+  "ܠ": "coverage 0.559",
+  "ܡ": "coverage 0.686",
+  "ܥ": "coverage 0.519; precision 0.72",
+  "ܦ": "coverage 0.684",
+  "ܩ": "coverage 0.623; precision 0.837",
+  "ܪ": "coverage 0.385; precision 0.636"
  }
 }
