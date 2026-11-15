@@ -46,7 +46,9 @@ with builds of intermediate steps. Fix this before any other release work:
   apps' libraries live in one shared GitHub Actions cache, filled by the "Gradle
   deps cache" workflow on main (and first in the release and Play workflows).
   Every Android build only restores it, so parallel builds don't each fetch the
-  same files from Maven Central.
+  same files from Maven Central. The cache key ignores `versionCode` and
+  `versionName`, so a release's version bump keeps the cache; it changes when
+  Gradle, a plugin or a library version changes.
 - **An APK only when asked.** When the user asks for a test APK ("build me a test
   APK of Kana"), Claude builds it through a manually started workflow and gives
   the user the download link to the workflow artifact, which expires after 7 days.

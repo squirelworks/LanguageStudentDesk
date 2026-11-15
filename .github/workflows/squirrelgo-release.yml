@@ -1,11 +1,13 @@
 name: SquirrelGo release (draft)
 
 # Started by hand after the release PR merges (docs/RELEASE_PLAN.md).
-# Builds a release APK of every app and makes, or refreshes, a DRAFT
-# GitHub Release with them and SHA256SUMS.txt. It never publishes and never
+# Makes, or refreshes, a DRAFT GitHub Release right away, then each release
+# APK and each Linux, Windows and macOS Desk build is attached to it as soon
+# as its own job finishes, and SHA256SUMS.txt is written over everything at
+# the end. Rerunning reuses the same draft. It never publishes and never
 # creates, moves or deletes a tag: the owner clicks Publish, which creates
-# the tag and starts the desktop-build and content-pack workflows.
-# No AAB is built or uploaded here.
+# the tag and starts the Play workflow.
+# No AAB and no Orthodox Bible pack is ever attached here.
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +20,7 @@ on:
         default: main
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: squirrelgo-release-${{ inputs.version }}
@@ -49,6 +51,68 @@ jobs:
             echo "release $VERSION is already published"; exit 1
           fi
 
+  # The draft exists from the start, so the release page fills in while
+  # the builds run. One draft per version: an existing one is reused.
+  draft:
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      id: ${{ steps.make.outputs.id }}
+    env:
+      VERSION: ${{ inputs.version }}
+      SHA: ${{ needs.check.outputs.sha }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+      - name: Notes
+        env:
+          HAS_KEY: ${{ secrets.APK_KEYSTORE_BASE64 != '' }}
+        run: |
+          DATA=$(git ls-tree HEAD data | awk '{print $3}')
+          {
+            if [ -f "release-notes/$VERSION.md" ]; then
+              cat "release-notes/$VERSION.md"
+            else
+              echo "Notes for $VERSION haven't been written yet."
+            fi
+            echo
+            echo "Built from \`$SHA\`, with squirrel-lang-data at \`${DATA:-none}\`."
+            echo
+            if [ "$HAS_KEY" = true ]; then
+              echo "APKs are signed with the SquirrelGo APK signing key."
+            else
+              echo "APKs are signed with each app's fixed debug key, so they install over earlier builds."
+            fi
+          } > notes.md
+      - name: Make or refresh the draft release
+        id: make
+        run: |
+          TITLE="SquirrelGo $VERSION"
+          R="$GITHUB_REPOSITORY"
+          # Drafts have no tag yet, so look them up in the list of releases.
+          IDS=$(gh api --paginate "repos/$R/releases?per_page=100" --jq '.[] | select(.tag_name == env.VERSION) | .id')
+          N=$(printf '%s\n' "$IDS" | grep -c . || true)
+          if [ "$N" -gt 1 ]; then
+            echo "::error::$N releases exist for $VERSION; delete the extra drafts, then rerun"; exit 1
+          elif [ "$N" -eq 1 ]; then
+            gh api -X PATCH "repos/$R/releases/$IDS" -F draft=true -f target_commitish="$SHA" \
+              -f name="$TITLE" -F body=@notes.md > /dev/null
+            # The old checksums would be wrong until the last job rewrites them.
+            for A in $(gh api "repos/$R/releases/$IDS/assets?per_page=100" --jq '.[] | select(.name == "SHA256SUMS.txt") | .id'); do
+              gh api -X DELETE "repos/$R/releases/assets/$A"
+            done
+            echo "reusing the existing draft for $VERSION"
+          else
+            IDS=$(gh api -X POST "repos/$R/releases" -f tag_name="$VERSION" -f target_commitish="$SHA" \
+              -f name="$TITLE" -F body=@notes.md -F draft=true --jq .id)
+          fi
+          echo "id=$IDS" >> "$GITHUB_OUTPUT"
+          gh release view "$VERSION" --json url,isDraft -q '"\(.url) draft=\(.isDraft)"'
+
   # Fills the shared Gradle cache once, so the app builds below read it
   # instead of all downloading the same tooling from Maven Central at once.
   deps:
@@ -58,8 +122,10 @@ jobs:
       ref: ${{ needs.check.outputs.sha }}
 
   apk:
-    needs: [check, deps]
+    needs: [check, draft, deps]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       fail-fast: true
       matrix:
@@ -77,6 +143,7 @@ jobs:
           - { app: math-desk,         dir: SquirrelGo-Apps/math-student-desk,                          name: MathsEduTrainingHelper }
           - { app: electronics-desk,  dir: SquirrelGo-Apps/electronics-student-desk,                   name: ElectronicsStudentDesk }
     env:
+      VERSION: ${{ inputs.version }}
       DIR: ${{ matrix.dir }}
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -88,6 +155,19 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      # The cache key covers only what decides the downloads: the Gradle
+      # wrapper, plugin and library versions and repositories in the Gradle
+      # files, minus versionCode/versionName, so a release's version bump
+      # keeps the cache. This step is the same in every workflow that uses it.
+      - name: Gradle cache key
+        id: gradle-key
+        shell: bash
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          FP=$(git ls-files ':(glob)SquirrelGo-Apps/**/gradle-wrapper.properties' ':(glob)SquirrelGo-Apps/**/android/*.gradle' ':(glob)SquirrelGo-Apps/**/android/app/build.gradle' ':(glob)SquirrelGo-Apps/tools/*.gradle' \
+            | LC_ALL=C sort | while read -r F; do echo "== $F"; grep -vE '^[[:space:]]*version(Code|Name)([[:space:]=(]|$)' "$F" || true; done \
+            | sha256sum | cut -c1-40)
+          echo "key=gradle-deps-v2-$RUNNER_OS-$FP" | tee -a "$GITHUB_OUTPUT"
       # Gradle and the Android build tools come from one shared cache, filled
       # once by the "Gradle deps cache" workflow; builds only read it.
       - name: Restore Gradle cache
@@ -96,8 +176,10 @@ jobs:
           path: |
             ~/.gradle/caches/modules-2
             ~/.gradle/wrapper/dists
-          key: gradle-deps-v1-${{ runner.os }}-${{ hashFiles('SquirrelGo-Apps/**/gradle-wrapper.properties', 'SquirrelGo-Apps/**/android/*.gradle', 'SquirrelGo-Apps/**/android/app/build.gradle', 'SquirrelGo-Apps/tools/*.gradle') }}
-          restore-keys: gradle-deps-v1-${{ runner.os }}-
+          key: ${{ steps.gradle-key.outputs.key }}
+          restore-keys: |
+            gradle-deps-v2-${{ runner.os }}-
+            gradle-deps-v1-${{ runner.os }}-
       # The same preparation as each app's compile-only workflow.
       - name: Check audio coverage
         if: matrix.app == 'phrasebook'
@@ -161,17 +243,37 @@ jobs:
       - name: Remove the signing key
         if: always()
         run: rm -f "$RUNNER_TEMP/apk.keystore"
-      # Passed to the draft job only; kept for one day.
+      # On the draft as soon as this app is built.
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/${{ matrix.name }}.apk#$(cat "$RUNNER_TEMP/apk/${{ matrix.name }}.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      # The app's row for the version table in the notes; kept for one day.
       - uses: actions/upload-artifact@v4
         with:
-          name: apk-${{ matrix.app }}
-          path: ${{ runner.temp }}/apk/
+          name: row-${{ matrix.app }}
+          path: ${{ runner.temp }}/apk/${{ matrix.name }}.row
           retention-days: 1
           if-no-files-found: error
 
-  draft:
-    needs: [check, apk]
+  # The Linux, Windows and macOS Desk builds, each attached to the draft as
+  # soon as it's built. Publishing doesn't build them again.
+  desktop:
+    needs: [check, draft]
+    permissions:
+      contents: write
+    uses: ./.github/workflows/desk-desktop-builds.yml
+    with:
+      tag: ${{ inputs.version }}
+      ref: ${{ needs.check.outputs.sha }}
+
+  # Once everything is attached: the version table, and SHA256SUMS.txt over
+  # every file on the draft.
+  finish:
+    needs: [check, draft, apk, desktop]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.version }}
       SHA: ${{ needs.check.outputs.sha }}
@@ -180,14 +282,27 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.check.outputs.sha }}
-          fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
-          pattern: apk-*
-          path: dist
+          pattern: row-*
+          path: rows
           merge-multiple: true
+      - name: Download the draft's files
+        run: |
+          gh release download "$VERSION" --dir dist --repo "$GITHUB_REPOSITORY"
+          rm -f dist/SHA256SUMS.txt
+          ls -l dist
+      - name: Nothing that belongs elsewhere
+        run: |
+          BAD=""
+          for F in dist/*; do
+            case "${F#dist/}" in *.aab|orthodox-bible-*|orthodox-commentary-*) BAD="$BAD ${F#dist/}" ;; esac
+          done
+          if [ -n "$BAD" ]; then
+            echo "::error::these never go on a platform release: $BAD"; exit 1
+          fi
       - name: Checksums
-        run: cd dist && sha256sum *.apk > SHA256SUMS.txt && cat SHA256SUMS.txt
+        run: cd dist && sha256sum -- * > SHA256SUMS.txt && cat SHA256SUMS.txt
       - name: Notes
         env:
           HAS_KEY: ${{ secrets.APK_KEYSTORE_BASE64 != '' }}
@@ -204,7 +319,7 @@ jobs:
             echo
             echo "| App | Package | versionName | versionCode |"
             echo "| --- | --- | --- | --- |"
-            cat dist/*.row
+            LC_ALL=C sort rows/*.row
             echo
             echo "Built from \`$SHA\`, with squirrel-lang-data at \`${DATA:-none}\`."
             echo
@@ -213,26 +328,9 @@ jobs:
             else
               echo "APKs are signed with each app's fixed debug key, so they install over earlier builds."
             fi
-            echo "The Linux, Windows and macOS Desk builds are attached when this release is published."
           } > notes.md
-          rm -f dist/*.row
-      - name: Label each APK with its app and version
+      - name: Finish the draft
         run: |
-          : > assets.txt
-          for apk in dist/*.apk; do
-            echo "$apk#$(cat "${apk%.apk}.label")" >> assets.txt
-          done
-          echo dist/SHA256SUMS.txt >> assets.txt
-          rm -f dist/*.label
-          cat assets.txt
-      - name: Make or refresh the draft release
-        run: |
-          TITLE="SquirrelGo $VERSION"
-          mapfile -t ASSETS < assets.txt
-          if gh release view "$VERSION" >/dev/null 2>&1; then
-            gh release edit "$VERSION" --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
-            gh release upload "$VERSION" "${ASSETS[@]}" --clobber
-          else
-            gh release create "$VERSION" "${ASSETS[@]}" --draft --target "$SHA" --title "$TITLE" --notes-file notes.md
-          fi
-          gh release view "$VERSION" --json url -q .url
+          gh release upload "$VERSION" dist/SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
+          gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/${{ needs.draft.outputs.id }}" -F draft=true -F body=@notes.md > /dev/null
+          gh release view "$VERSION" --json url,isDraft -q '"\(.url) draft=\(.isDraft)"' --repo "$GITHUB_REPOSITORY"
