@@ -100,13 +100,21 @@ Each twin keeps a Play listing pack under
 Privacy policy URL for both apps:
 `https://github.com/squirelworks/LanguageStudentDesk/blob/main/PRIVACY.md`
 
-**SquirrelGo Play store listing** (`squirrelgo-listing.yml`) pushes these packs
-to Play for Maths Edu-Training Helper and Electronics Student Desk whenever
-their `play/` files change on `main` (or when you run the workflow by hand).
-**SquirrelGo Play closed testing** also pushes the listing after a successful
-AAB upload when that app has a `play/` folder. The service account needs
-**Manage store presence** on each app (same as squirrelator). squirrelator's
-own workflow still pushes from `native/android/src/main/play/`.
+A store listing is pushed once, by hand, never by a release or a push to
+`main`. To change a listing later, edit it in Play Console or run one of these
+again. Two ways to push one:
+
+- **SquirrelGo Play store listing** (`squirrelgo-listing.yml`), run by hand,
+  pushes the pack for Maths Edu-Training Helper and Electronics Student Desk
+  (or only the apps you list) without uploading a build.
+- **SquirrelGo Play closed testing**, run by hand with **push_store_listing**
+  ticked (and the app named in **apps**), pushes the pack right after that
+  app's AAB upload. This is the route for a new app's first upload. Apps
+  without `listing/en-US/title.txt` are skipped with a warning.
+
+The service account needs **Manage store presence** on each app (same as
+squirrelator). squirrelator's listing is set the same way, only by its
+workflow's hand-run **listing** action, from `native/android/src/main/play/`.
 
 
 | App | Package |
@@ -140,9 +148,8 @@ Nothing needs setting up in the squirrelator repo.
 - **Every hour** the workflow looks at squirrelator's latest published
   release. If Play doesn't have that version yet, it builds the AAB from the
   release tag, signs it with the upload key, sends it to **internal
-  testing**, and sets the store listing (title, descriptions, icon, feature
-  graphic, phone screenshots) from that tag's
-  `native/android/src/main/play/`. When Play is up to date it does nothing.
+  testing**. It never sets the store listing. When Play is up to date it
+  does nothing.
 - The version comes from squirrelator's `pyproject.toml`: versionCode is
   `major × 10000 + minor × 100 + patch` (0.1.1 is 101), and Play shows the
   release as **squirrelator 0.1.1**.
@@ -150,7 +157,10 @@ Nothing needs setting up in the squirrelator repo.
   - **promote** moves a tag's build from internal testing to **closed
     testing** (`alpha`, or the `PLAY_TRACK` variable) without building again;
   - **upload** sends a tag again;
-  - **listing** sets only the store listing (blank tag = squirrelator's main);
+  - **listing** sets only the store listing (title, descriptions, icon,
+    feature graphic, phone screenshots) from `native/android/src/main/play/`
+    (blank tag = squirrelator's main). This is the only way the listing is
+    set, and it is meant to be run once;
   - **check** tests the upload key and that the service account can see the
     app.
 - **First upload:** while the app has never been published, Play takes a

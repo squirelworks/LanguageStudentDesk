@@ -4,13 +4,9 @@ name: SquirrelGo Play store listing
 # icon, feature graphic, phone screenshots) to Google Play. Reuses
 # squirrelator_play.py listing — same service account as AAB upload, and needs
 # Manage store presence on each app. See docs/PLAY.md.
+# Runs only by hand: a listing goes to Play once, so neither a push to main
+# nor a release sends it again.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "SquirrelGo-Apps/**/android/app/src/main/play/**"
-      - ".github/workflows/squirrelgo-listing.yml"
-      - ".github/scripts/squirrelator_play.py"
   workflow_dispatch:
     inputs:
       apps:
