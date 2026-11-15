@@ -1,4 +1,4 @@
-package com.squirelworks.mathstudentdesk;
+package com.squirelworks.mathseducationtraininghelper;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;

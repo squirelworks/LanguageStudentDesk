@@ -179,7 +179,7 @@ one.
 2. **Math / Electronics learners** (this repo). Desk **Math Learner**
    (#341) and **Electronics Learner** (#343) are on `main` (packs from the
    pin via `gen_math.py` / `gen_electronics.py --check`; held combo PR
-   #340 closed as superseded). Phone twins **Math Student Desk** (#345)
+   #340 closed as superseded). Phone twins **Maths Edu-Training Helper** (#345)
    and **Electronics Student Desk** (#346) are on `main` too (Desk and
    phone stay twins). Do not ship course JS only inside this repo. Play
    package ids are in `docs/PLAY.md` and `PRIVACY.md` (#349). Draft-release

@@ -87,7 +87,7 @@ others).
 | --- | --- |
 | Language Student Desk | `com.squirelworks.lsd` |
 | Programming Student Desk | `com.squirelworks.programmingstudentdesk` |
-| Math Student Desk | `com.squirelworks.mathstudentdesk` |
+| Maths Edu-Training Helper | `com.squirelworks.mathseducationtraininghelper` |
 | Electronics Student Desk | `com.squirelworks.electronicsstudentdesk` |
 | SquirrelGo Alphabets | `com.squirelworks.squirrelgoalphabets` |
 | SquirrelGo Bopomofo | `com.squirelworks.squirrelgobopomofo` |
