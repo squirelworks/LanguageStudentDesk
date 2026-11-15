@@ -132,9 +132,11 @@ one.
 3. **Recorded reviews for the languages without one** (squirrel-lang-data,
    following `REVIEWING.md`). Start with the ones learners see first: Arabic,
    Hindi, Hebrew, Thai, then the rest. One PR can carry several reviews.
-4. **The last squirrelator misses** (squirrelator #26): Chinese 吃饭 and
-   几点了, Klingon jIyajbe' and Dajatlh'a'. Then re-measure every column and
-   post the numbers.
+4. **squirrelator #26 follow-through:** the Chinese 吃饭 / 几点了 and
+   Klingon jIyajbe' / Dajatlh'a' engine misses are fixed on squirrelator
+   `main` (#51, #64). Still open there: fill remaining matrix columns
+   (data), the CI coverage report (Phase 5), and dropping alpha labels
+   from that report rather than by hand.
 
 ### P2. Make coverage measurable, then widen it
 
@@ -174,13 +176,13 @@ one.
    keep a full remaining list here — it goes stale). This repo then
    generates its files from `data/` the way the language learners do, with
    a drift check in CI.
-2. **Math / Electronics phone twins** (this repo). Desk **Math Learner**
+2. **Math / Electronics learners** (this repo). Desk **Math Learner**
    (#341) and **Electronics Learner** (#343) are on `main` (packs from the
    pin via `gen_math.py` / `gen_electronics.py --check`; held combo PR
-   #340 closed as superseded). Still open: phone twins — **Math Student
-   Desk** and **Electronics Student Desk** — each as a separate follow-up
-   (Desk and phone stay twins; confirmed on #341). Do not ship course JS
-   only inside this repo.
+   #340 closed as superseded). Phone twins **Math Student Desk** (#345)
+   and **Electronics Student Desk** (#346) are on `main` too (Desk and
+   phone stay twins). Do not ship course JS only inside this repo. Play
+   listing and release wiring for the new packages can follow.
 3. **Character variants (`variants/`)** from Unihan, and traditional ↔
    simplified Chinese linked both ways (#200). squirrelator's conversion mode
    (Phase 2b) builds on it.
