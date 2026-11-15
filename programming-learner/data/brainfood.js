@@ -311,6 +311,81 @@ window.PROGRAMMING.brainfood = {
         { kind: "output", q: "What does this print?", code: `+++>++++++++[>++++++++<-]>++++++++++++++++++++++++++<<[>>.-<<-]`, options: ["ZYX", "ABC", "XYZ", "Z"], answer: "ZYX", why: "Box 2 starts at Z and counts down three times." },
       ],
     },
+    {
+      id: "compare",
+      title: "Comparing two boxes",
+      summary: "Subtract to test equality, then choose Y or N with a flag.",
+      sections: [
+        {
+          p: "To ask whether two boxes hold the same number, subtract one from the other until the second is empty: <code>[-&lt;-&gt;]&lt;</code> leaves the difference in the first box. Zero means equal. Combine that with the flag pattern from the decisions lesson: print <b>Y</b> when the difference is 0, <b>N</b> otherwise.",
+          code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<
++++++>+++++
+[-<->]<
+>+<
+[>>>.<<<[-]>-<]
+>[>>>.<<<-]<`,
+          out: "Y",
+        },
+        {
+          h: "When they differ",
+          p: "Same scaffolding, but box 1 starts at 3 instead of 5. The difference is not zero, so <b>N</b> prints and the flag is cleared.",
+          code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<
++++++>+++
+[-<->]<
+>+<
+[>>>.<<<[-]>-<]
+>[>>>.<<<-]<`,
+          out: "N",
+        },
+        {
+          h: "Pointer discipline",
+          p: "Both branches must finish on the same box with the tested cells cleared. If the “equal” path leaves the pointer two cells further right than the “not equal” path, every later command is aimed at the wrong box.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<+++++>+++++[-<->]<>+<[>>>.<<<[-]>-<]>[>>>.<<<-]<`, options: ["Y", "N", "YN", "Nothing"], answer: "Y", why: "5 − 5 = 0, so the flag path prints Y." },
+        { kind: "output", q: "What does this print?", code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<+++++>+++[-<->]<>+<[>>>.<<<[-]>-<]>[>>>.<<<-]<`, options: ["N", "Y", "NY", "Nothing"], answer: "N", why: "5 − 3 ≠ 0, so N prints and the flag clears." },
+        { q: "What does [-<->]< leave in the first box?", options: ["The difference of the two boxes", "Their sum", "Always 0", "Always 255"], answer: "The difference of the two boxes", why: "Each round takes one from both until the second is empty." },
+        { q: "Why clear the flag in the “not equal” branch?", options: ["So the equal/Y branch does not also run", "To print N twice", "Flags must be 255", "The loop needs a non-zero flag"], answer: "So the equal/Y branch does not also run", why: "The Y loop runs only while the flag is still set." },
+        { kind: "output", q: "What does this print?", code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<+++>+++[-<->]<>+<[>>>.<<<[-]>-<]>[>>>.<<<-]<`, options: ["Y", "N", "Nothing", "YY"], answer: "Y", why: "3 and 3 are equal." },
+        { q: "What must both branches agree on before the program continues?", options: ["Pointer position and which boxes are zero", "The value of every box in memory", "That a is 65", "Nothing"], answer: "Pointer position and which boxes are zero", why: "Otherwise later code depends on which way you branched." },
+        { kind: "output", q: "What does this print?", code: `>>++++++++[>++++++++++>+++++++++++<<-]>-->+<<<<++++++++>++++[-<->]<>+<[>>>.<<<[-]>-<]>[>>>.<<<-]<`, options: ["N", "Y", "Nothing", "NY"], answer: "N", why: "8 − 4 ≠ 0." },
+      ],
+    },
+    {
+      id: "case",
+      title: "Capitals and small letters",
+      summary: "Adding or taking 32, and walking a word to shout it.",
+      sections: [
+        {
+          p: "In ASCII, a lowercase letter is 32 above its capital. Adding 32 turns <code>A</code> (65) into <code>a</code> (97). A short loop of four rounds adding eight builds that 32, then a move adds it onto the letter.",
+          code: `++++++++[>++++++++<-]>+>++++[<++++++++>-]<[>+<-]>.`,
+          out: "a",
+        },
+        {
+          h: "Shouting a whole word",
+          p: "Store a lowercase word with zeros at the ends, take 32 from each letter, then walk and print. Here <b>oak</b> becomes <b>OAK</b>.",
+          code: `++++++++++[>+++++++++++>++++++++++>+++++++++++<<<-]
+>+>--->---<<
+[-------- -------- -------- -------->]
+<[<]>[.>]`,
+          out: "OAK",
+        },
+        {
+          h: "Digits are different",
+          p: "Digit characters sit at 48–57. They are not 32 away from letters, so the ±32 trick is only for A–Z. To show a numeric value as a digit character, add 48 (six rounds of eight) as in earlier lessons.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++<-]>+>++++[<++++++++>-]<[>+<-]>.`, options: ["a", "A", "b", "`"], answer: "a", why: "65 + 32 = 97." },
+        { kind: "output", q: "What does this print?", code: `++++++++++[>+++++++++++>++++++++++>+++++++++++<<<-]>+>--->---<<[-------- -------- -------- -------->]<[<]>[.>]`, options: ["OAK", "oak", "KAO", "O"], answer: "OAK", why: "Each letter loses 32, then a forward walk prints them." },
+        { q: "How far apart are A and a in ASCII?", options: ["32", "26", "48", "65"], answer: "32", why: "97 − 65 = 32." },
+        { q: "Why does the shout program take 32 from every box before printing?", options: ["To turn lowercase codes into capitals", "To clear the word", "To add a new line", "To move the pointer home"], answer: "To turn lowercase codes into capitals", why: "Minus 32 maps a→A, b→B, and so on." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++<-]>+.`, options: ["A", "a", "@", "B"], answer: "A", why: "8 × 8 + 1 = 65." },
+        { q: "What number do you add to turn a count like 7 into the character 7?", options: ["48", "32", "65", "10"], answer: "48", why: "Digit characters start at code 48 for 0." },
+        { kind: "output", q: "What does this print?", code: `++++++++[>++++++++<-]>++++++.`, options: ["F", "A", "f", "G"], answer: "F", why: "64 in the box plus 6 is 70, the code for F." },
+      ],
+    },
 
     {
       id: "project",

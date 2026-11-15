@@ -228,6 +228,101 @@ window.PROGRAMMING.malbolge = {
       ],
     },
     {
+      id: "dataptr",
+      title: "Moving the data pointer",
+      summary: "The j instruction, and why writing so far kept c and d together.",
+      sections: [
+        {
+          p: "So far every program let <code>c</code> and <code>d</code> step together, so <code>[d]</code> was always the cell being run. Normalized <code>j</code> (remainder 40) breaks that: it sets <code>d</code> to whatever <code>[d]</code> holds, then the usual scramble and +1 still happen. After a well-chosen <code>j</code>, rotate and crazy can touch cells that are not the instruction stream.",
+        },
+        {
+          h: "Why it is hard",
+          p: "The value you need in <code>[d]</code> before <code>j</code> is itself a Malbolge number, often built with crazy and rotate. One wrong trit and <code>d</code> lands in the crazy-filled tail of memory, where the next <code>*</code> or <code>p</code> shreds whatever you hoped to read. That is why short printable demos stick to the <code>c == d</code> style from the last lesson.",
+        },
+        {
+          h: "A reading rule",
+          p: "When you see normalized Malbolge, ask two questions at each cell: what does this instruction do to <code>a</code>, and does it change <code>d</code>? Only <code>j</code> rewrites <code>d</code> on purpose; everything else leaves the +1 step as the only motion.",
+        },
+      ],
+      practice: [
+        { q: "What does normalized j do?", options: ["Sets d to [d]", "Prints a", "Stops the program", "Rotates a"], answer: "Sets d to [d]", why: "Remainder 40 is the data-pointer hop." },
+        { q: "After j runs, what still happens?", options: ["The cell at c is scrambled and both pointers step by one", "Nothing; j skips the usual step", "Only a is cleared", "Memory is wiped"], answer: "The cell at c is scrambled and both pointers step by one", why: "Every instruction, including j, finishes with encrypt-and-step." },
+        { q: "Why did the printing programs keep c and d equal?", options: ["Nothing changed d, so both only stepped by one", "j runs automatically", "Malbolge forbids j in short programs", "d is a copy of a"], answer: "Nothing changed d, so both only stepped by one", why: "Without j, d tracks c." },
+        { q: "What fills cells after the loaded program?", options: ["Crazy of the two cells before each address", "Zeros", "Copies of a", "Random bytes"], answer: "Crazy of the two cells before each address", why: "A bad j often lands in that tail." },
+        { q: "Which normalized letter moves the data pointer?", options: ["j", "i", "p", "o"], answer: "j", why: "i is jump for c; j retargets d." },
+        { q: "Why is a mistaken j so painful?", options: ["d may land in crazy-filled memory and the next * or p destroys the plan", "j deletes the program", "j cannot be scrambled", "j prints an error"], answer: "d may land in crazy-filled memory and the next * or p destroys the plan", why: "The tail is not empty and not under your control." },
+        { q: "Does rotate read the instruction cell or the data cell?", options: ["Whatever d points at", "Always the instruction cell", "Always cell 0", "The accumulator only"], answer: "Whatever d points at", why: "* rotates [d]; with c==d that happens to be the instruction." },
+        { q: "Which register does j change on purpose?", options: ["d", "c", "a", "None"], answer: "d", why: "j is the data-pointer instruction." },
+      ],
+    },
+    {
+      id: "letters",
+      title: "More letters from search",
+      summary: "Other one-character printers in the same c==d style.",
+      sections: [
+        {
+          p: "The same search that found <code>*opoopoooop&lt;v</code> for <b>A</b> finds other letters. Each program is a string of <code>o</code>, <code>*</code> and <code>p</code>, one print, then halt. The shapes look random because crazy and rotate do not match ordinary arithmetic — but every example below is checked by the course runner.",
+          code: `ooppooooop<v`,
+          out: "B",
+        },
+        {
+          h: "Punctuation too",
+          p: "The same method prints symbols. This one leaves <code>a</code> mod 256 equal to 33.",
+          code: `oopop<v`,
+          out: "!",
+        },
+        {
+          h: "Unnormalized twin",
+          p: "The loader still wants raw characters. This is the <b>B</b> program written for real addresses.",
+          code: `DC<;@?>=<5YF`,
+          out: "B",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `ooppooooop<v`, options: ["B", "A", "!", "BB"], answer: "B", why: "One < before v; a mod 256 is 66." },
+        { kind: "output", q: "What does this print?", code: `oopop<v`, options: ["!", "A", "B", "?"], answer: "!", why: "a mod 256 is 33, the code for !." },
+        { kind: "output", q: "What does this print?", code: `DC<;@?>=<5YF`, options: ["B", "A", "YF", "D"], answer: "B", why: "Unnormalized form of ooppooooop<v." },
+        { kind: "output", q: "What does this print?", code: `*opoopoooop<v`, options: ["A", "B", "!", "AA"], answer: "A", why: "The familiar one-letter printer from the writing lesson." },
+        { q: "Which three building instructions do these printers use?", options: ["o, * and p", "i, j and /", "v, < and /", "Only o"], answer: "o, * and p", why: "No-ops, rotate and crazy build a; then < prints." },
+        { q: "Why do the programs look random?", options: ["Crazy and rotate do not match ordinary letter arithmetic", "The runner picks characters at random each time", "Normalized Malbolge shuffles output", "Comments are mixed into the code"], answer: "Crazy and rotate do not match ordinary letter arithmetic", why: "Search finds combinations that land on the ASCII code you want." },
+        { kind: "output", q: "What does this print?", code: `oooooo*pop<v`, options: ["O", "K", "OK", "o"], answer: "O", why: "Single print of O — the first half of a word you will meet next." },
+      ],
+    },
+    {
+      id: "words",
+      title: "Two letters in a row",
+      summary: "Adjusting a between prints without jumps.",
+      sections: [
+        {
+          p: "After the first <code>&lt;</code>, <code>a</code> still holds its value. More <code>o</code>/<code>*</code>/<code>p</code> steps nudge it to the next character code, then another print fires. You already saw <b>Hi</b>; here are two more words found the same way.",
+          code: `oooooo*pop<oppopp<v`,
+          out: "OK",
+        },
+        {
+          h: "No",
+          p: "Same pattern, different nudges between the two prints.",
+          code: `oooooooopop<oopopp<v`,
+          out: "No",
+        },
+        {
+          h: "Hi again",
+          p: "The course’s earlier two-letter sample, for comparison.",
+          code: `oooooooopoooop<oooooooooppop<v`,
+          out: "Hi",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `oooooo*pop<oppopp<v`, options: ["OK", "Hi", "No", "O"], answer: "OK", why: "Two prints: O then K." },
+        { kind: "output", q: "What does this print?", code: `oooooooopop<oopopp<v`, options: ["No", "OK", "Hi", "On"], answer: "No", why: "Two prints: N then o." },
+        { kind: "output", q: "What does this print?", code: `oooooooopoooop<oooooooooppop<v`, options: ["Hi", "OK", "No", "Ho"], answer: "Hi", why: "The familiar Hi printer." },
+        { q: "What stays in a after the first print?", options: ["The same value, ready to be nudged for the next letter", "Zero", "59048", "The character that was printed is cleared"], answer: "The same value, ready to be nudged for the next letter", why: "Print does not clear the accumulator." },
+        { q: "How many < instructions does a two-letter word need?", options: ["Two", "One", "Four", "None"], answer: "Two", why: "Each printed character needs its own <." },
+        { kind: "output", q: "What does this print?", code: `oooooooopppop<p<v`, options: ["In", "Hi", "OK", "No"], answer: "In", why: "I then n, with only a short nudge between prints." },
+        { q: "Do these word programs use j or i?", options: ["No", "Yes, both", "Only j", "Only i"], answer: "No", why: "They are still straight-line c==d searches." },
+      ],
+    },
+
+    {
       id: "project",
       title: "Project: read a Hi program",
       summary: "Trace a short normalized program that prints Hi.",
