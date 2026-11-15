@@ -56,6 +56,14 @@ meaning-matrix columns.
   Fortran, Turbo Pascal, Classic BASIC, Whitespace, Chisel, INTERCAL,
   Malbolge, LOLCODE, brainFOOD and Win16 courses, each ending in a project.
 
+## Math Learner and Electronics Learner
+
+- **Math Learner:** six subject courses (arithmetic, algebra, trigonometry,
+  calculus, linear algebra, topology) with short lessons and explained
+  practice.
+- **Electronics Learner:** seven courses from foundations through components,
+  circuits and digital, then soldering, PCB design and systems.
+
 ## SquirrelGo apps
 
 - Every app's version number goes up, so this release installs over v0.1.2

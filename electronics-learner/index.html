@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electronics Learner — Language Student Desk</title>
+<link rel="stylesheet" href="../languages/learners.css">
+<link rel="stylesheet" href="../languages/lsd-features.css">
+<style>
+  :root { --mono: ui-monospace, "Cascadia Mono", "DejaVu Sans Mono", Consolas, Menlo, monospace; }
+  header.top { background: linear-gradient(135deg, #2a1f14, #3d2a12); border-bottom-color: #ffb74d; }
+  .grid .tile { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+  .grid .tile .big { font-size: 1.35rem; }
+  .tile .era { display: block; color: #80cbc4; font-size: 0.8rem; margin: 0.1rem 0 0.4rem; }
+  .tile .pill { margin-top: 0.5rem; }
+  .tile .tags { display: block; margin-top: 0.4rem; color: var(--muted); font-size: 0.75rem; }
+  .homebar { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; margin: 0.4rem 0 0.8rem; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { border: none; border-radius: 0; margin: 0; padding: 0.35rem 0.8rem; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .chips button { border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
+  .seg button.on, .chips button.on { background: #ffb74d; color: #fff; border-color: #ffb74d; }
+  .switches { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0 0 0.6rem; }
+  .switches .lsdf-row { flex: 1 1 18rem; max-width: 28rem; }
+  .group { margin-bottom: 1.4rem; }
+  .group h3 { margin: 0.8rem 0 0.1rem; color: #80cbc4; }
+  .group > p { margin: 0 0 0.6rem; }
+  .layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.2rem; align-items: start; }
+  .layout > * { min-width: 0; }
+  .lessons { position: sticky; top: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem; }
+  .lessons button { display: flex; width: 100%; text-align: left; gap: 0.5rem; align-items: center; background: none; border: 1px solid transparent; margin-bottom: 2px; padding: 0.5rem 0.6rem; }
+  .lessons button:hover { background: #22222a; border-color: transparent; }
+  .lessons button.active { background: var(--accent); }
+  .lessons .tick { width: 1.2rem; flex-shrink: 0; color: var(--correct); }
+  .lessons .lt { flex: 1; }
+  .lessons .score { font-size: 0.75rem; color: var(--muted); }
+  .lessons hr { border: none; border-top: 1px solid var(--line); margin: 0.4rem 0; }
+  .lesson h2 { margin-bottom: 0.2rem; }
+  .lesson .sum { color: var(--muted); margin-top: 0; }
+  .lesson h3 { color: #c5cae9; margin: 1.2rem 0 0.3rem; font-size: 1.05rem; }
+  .lesson ol li { margin: 0.25rem 0; }
+  code, pre { font-family: var(--mono); }
+  p code, li code { background: #24242c; border-radius: 4px; padding: 0 0.3rem; font-size: 0.9em; color: #ffe082; }
+  .code { position: relative; margin: 0.6rem 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #111116; }
+  .code pre { margin: 0; padding: 0.75rem 0.9rem; overflow-x: auto; font-size: 0.9rem; line-height: 1.45; tab-size: 4; }
+  .code .lang { display: block; padding: 0.3rem 0.9rem; border-bottom: 1px solid var(--line); background: #17171d; font-size: 0.75rem; letter-spacing: 0.04em; color: #80cbc4; }
+  .code .copy { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.15rem 0.55rem; font-size: 0.75rem; opacity: 0.7; }
+  .code .copy:hover { opacity: 1; }
+  .code .out { border-top: 1px dashed var(--line); background: #0b0b0e; }
+  .code .out .lbl { display: block; padding: 0.35rem 0.9rem 0; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .code .out pre { color: #a5d6a7; padding-top: 0.2rem; }
+  .code .out iframe.preview { display: block; width: calc(100% - 1.8rem); height: 11rem; margin: 0.35rem 0.9rem 0.8rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; resize: vertical; }
+  .code .k { color: #ce93d8; font-weight: 600; }
+  .code .b { color: #81d4fa; }
+  .code .s { color: #ffcc80; }
+  .code .n { color: #f48fb1; }
+  .code .c { color: #78909c; font-style: italic; }
+  .coursenote { margin: 0 0 1rem; padding: 0.6rem 0.9rem; border-left: 3px solid #ffb74d; border-radius: 6px; background: #17171d; }
+  .practice { border-top: 2px solid #ffb74d; }
+  .practice .q { font-size: 1.1rem; margin: 0.3rem 0 0.5rem; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; margin-top: 0.7rem; }
+  .opts button { text-align: left; padding: 0.6rem 0.75rem; }
+  .opts button pre { margin: 0; white-space: pre-wrap; font-size: 0.95rem; }
+  .opts button.right { border-color: var(--correct); background: #1d2e1f; }
+  .opts button.wrongpick { border-color: var(--wrong); background: #321c1c; }
+  .why { margin-top: 0.8rem; padding: 0.6rem 0.8rem; border-radius: 6px; background: #17171d; }
+  .why.ok { border-left: 3px solid var(--correct); }
+  .why.bad { border-left: 3px solid var(--wrong); }
+  .scorebar { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .row.nav .grow { flex: 1; }
+  table.ops td, table.ops th { text-align: center; }
+  table.codels { width: auto; border-collapse: collapse; margin: 0.5rem 0; }
+  table.codels td { width: 1.2rem; min-width: 1.2rem; height: 1.2rem; padding: 0; border: 1px solid #555; }
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .lessons { position: static; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="grow">
+    <h1 id="title">Electronics Learner</h1>
+    <p id="subtitle">Short lessons with worked examples, then practice that explains every answer.</p>
+  </div>
+  <label class="small muted">Course <select id="langSelect"></select></label>
+</header>
+<main>
+  <section id="home" hidden>
+    <h2>Pick a course</h2>
+    <div class="homebar" id="homeControls"></div>
+    <div class="switches" id="homeSwitches"></div>
+    <div id="langGrid"></div>
+  </section>
+  <p class="coursenote" id="courseNote" hidden></p>
+  <section id="course" class="layout" hidden>
+    <nav class="lessons" id="lessonList"></nav>
+    <div id="lesson"></div>
+  </section>
+</main>
+<footer class="foot">Part of Language Student Desk · lessons written for the Desk.</footer>
+<script src="../languages/lsd-lang.js"></script>
+<script src="/desk-settings.js"></script>
+<script src="../languages/features.js"></script>
+<script src="../languages/lsd-features.js"></script>
+<script src="data/catalog.js"></script>
+<script src="sections.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

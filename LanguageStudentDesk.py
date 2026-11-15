@@ -55,6 +55,12 @@ TOOLS = {
     "programming-student-desk": ("Programming Student Desk",
                                  "The Programming Learner as its own offline Android app. A home menu lists every course and opens one inside the app.",
                                  "Desk tools", True, None),
+    "math-learner": ("Math Learner",
+                     "Arithmetic, algebra, trigonometry, calculus, linear algebra and topology: short lessons with practice that explains every answer.",
+                     "Desk tools", True, None),
+    "electronics-learner": ("Electronics Learner",
+                            "Foundations through circuits, digital, soldering and PCB design: short lessons with practice that explains every answer.",
+                            "Desk tools", True, None),
     "legalese-learner": ("Legalese Learner",
                          "How the heavy words in a contract work: shall, notwithstanding, herein, and the clauses at the back. Reading practice, not legal advice.",
                          "Desk tools", False, None),
@@ -121,6 +127,10 @@ EXTRA_LANGS = [
     "csharp",
     "vbnet",
     "kotlin",
+    # Math Learner courses
+    "arithmetic", "algebra", "trigonometry", "calculus", "linear-algebra", "topology",
+    # Electronics Learner courses
+    "foundations", "components", "circuits", "digital", "soldering", "pcb-design", "systems",
 ]
 
 
