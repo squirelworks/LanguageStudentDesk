@@ -62,7 +62,9 @@ meaning-matrix columns.
   generated from squirrel-lang-data (`math/`, `electronics/`).
 - Phone twins: **Math Student Desk** and **Electronics Student Desk**, each
   an offline Android WebView shell that packs the matching learner at build
-  time (Desk and phone stay twins).
+  time (Desk and phone stay twins). Draft-release APK builds and
+  compile-only APK CI cover both packages; Play Console listing stays with
+  the owner.
 
 ## SquirrelGo apps
 
