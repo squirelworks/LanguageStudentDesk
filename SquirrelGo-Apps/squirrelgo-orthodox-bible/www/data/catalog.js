@@ -865,7 +865,7 @@ window.SGO_CATALOG = {
       "source": "https://ebible.org/details.php?id=eng-web",
       "testaments": "OT,NT,DC",
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/bibles/eng-web.js",
-      "size": 4913627
+      "size": 4913638
     },
     {
       "id": "eng-rv",
@@ -1105,6 +1105,41 @@ window.SGO_CATALOG = {
       ]
     },
     {
+      "id": "basil-more",
+      "author": "St Basil the Great",
+      "work": "Homilies on the Psalms",
+      "lang": "en",
+      "license": "Public Domain",
+      "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Basil of Caesarea/)",
+      "books": [
+        "GEN",
+        "EXO",
+        "NUM",
+        "DEU",
+        "1SA",
+        "2SA",
+        "PSA",
+        "JOB",
+        "PRO",
+        "ISA",
+        "JER",
+        "MAT",
+        "MRK",
+        "LUK",
+        "JHN",
+        "ACT",
+        "ROM",
+        "2CO",
+        "GAL",
+        "2TI",
+        "TIT",
+        "HEB"
+      ],
+      "tradition": "east",
+      "size": 410834,
+      "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/basil-more.js"
+    },
+    {
       "id": "catena-grc-1co-phm",
       "author": "Catena of the Greek Fathers (Ἁλυσίς)",
       "work": "Catenae on the New Testament, ed. J. A. Cramer",
@@ -1258,7 +1293,7 @@ window.SGO_CATALOG = {
         "2TI"
       ],
       "tradition": "east",
-      "size": 206659,
+      "size": 206500,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/chrysostom-more.js"
     },
     {
@@ -1499,7 +1534,7 @@ window.SGO_CATALOG = {
         "1JN"
       ],
       "tradition": "east",
-      "size": 1834489,
+      "size": 1834217,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/cyril-alexandria-more.js"
     },
     {
@@ -2643,7 +2678,7 @@ window.SGO_CATALOG = {
     {
       "id": "ambrose-more",
       "author": "St Ambrose of Milan",
-      "work": "Commentary on Luke; Commentaries on the Twelve Davidic Psalms; The Six Days of Creation; On Joseph the Patriarch; and other works",
+      "work": "Commentary on Luke; The Six Days of Creation; Commentaries on the Twelve Davidic Psalms; On Joseph the Patriarch; and other works",
       "lang": "en",
       "license": "Public Domain",
       "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Ambrose of Milan/)",
@@ -2660,8 +2695,8 @@ window.SGO_CATALOG = {
         "1KI",
         "2KI",
         "NEH",
-        "TOB",
         "PSA",
+        "JOB",
         "PRO",
         "ECC",
         "SNG",
@@ -2669,10 +2704,8 @@ window.SGO_CATALOG = {
         "SIR",
         "HOS",
         "MIC",
-        "JOL",
         "JON",
         "HAB",
-        "HAG",
         "ZEC",
         "MAL",
         "ISA",
@@ -2680,7 +2713,7 @@ window.SGO_CATALOG = {
         "BAR",
         "EZK",
         "DAN",
-        "S3Y",
+        "MAT",
         "MRK",
         "LUK",
         "JHN",
@@ -2700,10 +2733,11 @@ window.SGO_CATALOG = {
         "HEB",
         "JAS",
         "1PE",
-        "1JN"
+        "1JN",
+        "REV"
       ],
       "tradition": "west",
-      "size": 1114469,
+      "size": 1827679,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/ambrose-more.js"
     },
     {
@@ -2791,7 +2825,7 @@ window.SGO_CATALOG = {
     {
       "id": "augustine-more",
       "author": "Blessed Augustine of Hippo",
-      "work": "Sermons; Letters; On the Spirit and the Letter; The Harmony of the Gospels; and other works",
+      "work": "Sermons; The Harmony of the Gospels; Letters; A Treatise on Grace and Free Will; and other works",
       "lang": "en",
       "license": "Public Domain",
       "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Augustine of Hippo/)",
@@ -2810,6 +2844,7 @@ window.SGO_CATALOG = {
         "1CH",
         "2CH",
         "TOB",
+        "EST",
         "PSA",
         "PRO",
         "ECC",
@@ -2857,7 +2892,7 @@ window.SGO_CATALOG = {
         "REV"
       ],
       "tradition": "west",
-      "size": 1176859,
+      "size": 3384616,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/augustine-more.js"
     },
     {
@@ -3276,7 +3311,7 @@ window.SGO_CATALOG = {
         "REV"
       ],
       "tradition": "west",
-      "size": 3643988,
+      "size": 3965249,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/jerome-more-ezk-rev.js"
     },
     {
@@ -3294,6 +3329,7 @@ window.SGO_CATALOG = {
         "DEU",
         "JOS",
         "JDG",
+        "RUT",
         "1SA",
         "2SA",
         "1KI",
@@ -3322,7 +3358,7 @@ window.SGO_CATALOG = {
         "MAL"
       ],
       "tradition": "west",
-      "size": 3787404,
+      "size": 3852584,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/jerome-more-gen-mal.js"
     },
     {
@@ -3338,7 +3374,7 @@ window.SGO_CATALOG = {
         "LAM"
       ],
       "tradition": "west",
-      "size": 2794305,
+      "size": 2798344,
       "url": "https://raw.githubusercontent.com/squirelworks/LanguageStudentDesk/orthodox-bible-texts/commentary/jerome-more-isa-lam.js"
     },
     {

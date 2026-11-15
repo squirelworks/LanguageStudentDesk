@@ -25,7 +25,7 @@
    "2TI"
   ],
   "tradition": "east",
-  "size": 206659,
+  "size": 206500,
   "pack": true
  },
  {
@@ -78,7 +78,42 @@
    "1JN"
   ],
   "tradition": "east",
-  "size": 1834489,
+  "size": 1834217,
+  "pack": true
+ },
+ {
+  "id": "basil-more",
+  "author": "St Basil the Great",
+  "work": "Homilies on the Psalms",
+  "lang": "en",
+  "license": "Public Domain",
+  "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Basil of Caesarea/)",
+  "books": [
+   "GEN",
+   "EXO",
+   "NUM",
+   "DEU",
+   "1SA",
+   "2SA",
+   "PSA",
+   "JOB",
+   "PRO",
+   "ISA",
+   "JER",
+   "MAT",
+   "MRK",
+   "LUK",
+   "JHN",
+   "ACT",
+   "ROM",
+   "2CO",
+   "GAL",
+   "2TI",
+   "TIT",
+   "HEB"
+  ],
+  "tradition": "east",
+  "size": 410834,
   "pack": true
  },
  {
@@ -122,7 +157,7 @@
  {
   "id": "ambrose-more",
   "author": "St Ambrose of Milan",
-  "work": "Commentary on Luke; Commentaries on the Twelve Davidic Psalms; The Six Days of Creation; On Joseph the Patriarch; and other works",
+  "work": "Commentary on Luke; The Six Days of Creation; Commentaries on the Twelve Davidic Psalms; On Joseph the Patriarch; and other works",
   "lang": "en",
   "license": "Public Domain",
   "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Ambrose of Milan/)",
@@ -139,8 +174,8 @@
    "1KI",
    "2KI",
    "NEH",
-   "TOB",
    "PSA",
+   "JOB",
    "PRO",
    "ECC",
    "SNG",
@@ -148,10 +183,8 @@
    "SIR",
    "HOS",
    "MIC",
-   "JOL",
    "JON",
    "HAB",
-   "HAG",
    "ZEC",
    "MAL",
    "ISA",
@@ -159,7 +192,7 @@
    "BAR",
    "EZK",
    "DAN",
-   "S3Y",
+   "MAT",
    "MRK",
    "LUK",
    "JHN",
@@ -179,16 +212,17 @@
    "HEB",
    "JAS",
    "1PE",
-   "1JN"
+   "1JN",
+   "REV"
   ],
   "tradition": "west",
-  "size": 1114469,
+  "size": 1827679,
   "pack": true
  },
  {
   "id": "augustine-more",
   "author": "Blessed Augustine of Hippo",
-  "work": "Sermons; Letters; On the Spirit and the Letter; The Harmony of the Gospels; and other works",
+  "work": "Sermons; The Harmony of the Gospels; Letters; A Treatise on Grace and Free Will; and other works",
   "lang": "en",
   "license": "Public Domain",
   "source": "https://github.com/HistoricalChristianFaith/Commentaries-Database (Augustine of Hippo/)",
@@ -207,6 +241,7 @@
    "1CH",
    "2CH",
    "TOB",
+   "EST",
    "PSA",
    "PRO",
    "ECC",
@@ -254,7 +289,7 @@
    "REV"
   ],
   "tradition": "west",
-  "size": 1176859,
+  "size": 3384616,
   "pack": true
  },
  {
@@ -272,6 +307,7 @@
    "DEU",
    "JOS",
    "JDG",
+   "RUT",
    "1SA",
    "2SA",
    "1KI",
@@ -300,7 +336,7 @@
    "MAL"
   ],
   "tradition": "west",
-  "size": 3787404,
+  "size": 3852584,
   "pack": true
  },
  {
@@ -316,7 +352,7 @@
    "LAM"
   ],
   "tradition": "west",
-  "size": 2794305,
+  "size": 2798344,
   "pack": true
  },
  {
@@ -356,7 +392,7 @@
    "REV"
   ],
   "tradition": "west",
-  "size": 3643988,
+  "size": 3965249,
   "pack": true
  },
  {
