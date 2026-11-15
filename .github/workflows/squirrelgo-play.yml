@@ -75,6 +75,8 @@ jobs:
           python -m pip install -q google-api-python-client google-auth
           python .github/scripts/play_upload.py --check \
             com.squirelworks.lsd com.squirelworks.programmingstudentdesk \
+            com.squirelworks.mathseducationtraininghelper \
+            com.squirelworks.electronicsstudentdesk \
             com.squirelworks.squirrelgoalphabets com.squirelworks.squirrelgobopomofo \
             com.squirelworks.squirrelgokana com.squirelworks.squirrelgokanji \
             com.squirelworks.squirrelgoklingon com.squirelworks.squirrelgodictionary \
@@ -98,6 +100,8 @@ jobs:
           - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook }
           - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite }
           - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk }
+          - { app: math-desk,        dir: SquirrelGo-Apps/math-student-desk }
+          - { app: electronics-desk, dir: SquirrelGo-Apps/electronics-student-desk }
     env:
       TAG: ${{ github.event.release.tag_name || inputs.tag }}
       DIR: ${{ matrix.dir }}

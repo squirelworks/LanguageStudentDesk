@@ -121,6 +121,11 @@ listing from `native/android/src/main/play/`.
 | SquirrelGo Phrasebook | `com.squirelworks.squirrelgophrasebook` |
 | squirrelator | `com.squirelworks.squirrelator` (its own workflow, below) |
 
+Maths Edu-Training Helper and Electronics Student Desk are in the
+**SquirrelGo Play closed testing** matrix (`math-desk`, `electronics-desk`).
+First upload for a never-published app: run the workflow by hand with
+status `draft`.
+
 ## squirrelator
 
 squirrelator's phone app lives in the squirrelator repo but goes to Play from
