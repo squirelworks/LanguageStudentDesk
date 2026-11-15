@@ -86,13 +86,15 @@ anything else.
    - **Checksums:** a `SHA256SUMS.txt` for everything attached.
 5. **Draft GitHub Release** on LanguageStudentDesk, which is the platform's home:
    - **Attached:** all the APKs, the desktop builds for all three systems, and
-     `SHA256SUMS.txt`.
-   - **Content packs:** when the release is published, the "SquirrelGo
-     Orthodox Bible release packs" workflow attaches the Orthodox Bible's
-     downloadable Bibles and commentary (`orthodox-bible-content.json` plus
-     one `orthodox-bible-*.js` or `orthodox-commentary-*.js` per pack). The
-     app downloads them from the latest release when the reader asks. These are data, not builds, so they're
-     allowed on the release.
+     `SHA256SUMS.txt`. Orthodox Bible text packs are not attached here.
+   - **Content packs:** the "SquirrelGo Orthodox Bible release packs" workflow
+     attaches the Orthodox Bible's downloadable Bibles and commentary
+     (`orthodox-bible-content.json` plus one `orthodox-bible-*.js` or
+     `orthodox-commentary-*.js` per pack) to a dedicated release tagged
+     `orthodox-bible-packs`, when the pack-build workflow finishes on main
+     (or when that packs workflow is run by hand). That release is marked so
+     it never becomes the repo's latest release. The app downloads the packs
+     from there when the reader asks.
    - **Notes:** written in plain language from the merged PR titles since the last
      release, with no implementation notes. They include a generated table of each
      app and its version, plus the squirrelator and squirrel-lang-data commits.

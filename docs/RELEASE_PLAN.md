@@ -26,7 +26,7 @@ as the steps land.
 - [ ] Draft with **SquirrelGo release (draft)** targeting current `main`
       (or a local rebuild uploaded to the draft with `--target` set to that
       commit).
-- [ ] The owner publishes. Desktop builds, Orthodox Bible packs, and Play
+- [ ] The owner publishes. Desktop builds and Play
       closed-testing uploads (including Maths Edu-Training Helper and
       Electronics Student Desk) follow automatically.
 
@@ -44,8 +44,8 @@ into the next one. The longer-term order is in `FUTURE-WORK.md`.
    `release-notes/<version>.md` and a table of every app's version and the
    data commit. It never creates or moves a tag.
 2. The owner clicks **Publish**. Publishing creates the tag, and the existing
-   workflows then attach the Linux, Windows and macOS Desk builds and the
-   Orthodox Bible content packs, and `squirrelgo-play.yml` sends each app's
+   workflows then attach the Linux, Windows and macOS Desk builds, and
+   `squirrelgo-play.yml` sends each app's
    AAB to its Play closed testing track (`PLAY.md`).
 
 Not automated yet: installing each APK on an emulator before the draft. Until
