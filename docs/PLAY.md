@@ -100,9 +100,13 @@ Each twin keeps a Play listing pack under
 Privacy policy URL for both apps:
 `https://github.com/squirelworks/LanguageStudentDesk/blob/main/PRIVACY.md`
 
-Upload these by hand for a first listing (the SquirrelGo Play workflow only
-sends the AAB). squirrelator is the exception: its workflow also pushes the
-listing from `native/android/src/main/play/`.
+**SquirrelGo Play store listing** (`squirrelgo-listing.yml`) pushes these packs
+to Play for Maths Edu-Training Helper and Electronics Student Desk whenever
+their `play/` files change on `main` (or when you run the workflow by hand).
+**SquirrelGo Play closed testing** also pushes the listing after a successful
+AAB upload when that app has a `play/` folder. The service account needs
+**Manage store presence** on each app (same as squirrelator). squirrelator's
+own workflow still pushes from `native/android/src/main/play/`.
 
 
 | App | Package |
