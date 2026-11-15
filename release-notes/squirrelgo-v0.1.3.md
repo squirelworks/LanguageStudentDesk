@@ -35,11 +35,16 @@ meaning-matrix columns.
 ## Translation Learner
 
 - French, German and Italian pairs, with the full columns from data v0.1.5.
+- Pair tests for Chinese, Latin, Greek, Russian, Arabic, Hindi, Hebrew,
+  Thai, Armenian, Bengali, Georgian, Tamil and Klingon. Passing pairs drop
+  the “(alpha)” label in `translation-learner/data/tested.js`.
 
 ## Alphabets and Character Learner
 
 - Syriac (Estrangela) joins SquirrelGo Alphabets and the Character Learner.
   Stroke order is a machine draft pending a human review.
+- Hangul ㅇ uses a lower final-frame coverage floor so thick rings can pass
+  strokecheck without staying on the baseline forever.
 
 ## Programming Learner
 
@@ -47,6 +52,8 @@ meaning-matrix columns.
   ending in a project. They cover arrays and pointers, errors, generics and
   traits, collections, goroutines, and async in depth.
 - Longer TypeScript, Java and Bash courses too, each ending in a project.
+- Longer PHP, Perl, SQL, Kotlin, Swift, HTML/CSS, Visual Basic .NET, COBOL,
+  Fortran and Turbo Pascal courses, each ending in a project.
 
 ## SquirrelGo apps
 
