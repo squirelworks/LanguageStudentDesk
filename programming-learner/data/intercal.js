@@ -198,5 +198,223 @@ PLEASE READ OUT .1`,
         { q: "How does DO NOTE… become a comment?", options: ["It is read as DO NOT E…, a statement switched off", "NOTE is a reserved comment keyword", "The compiler strips lines starting with N", "It only works after PLEASE"], answer: "It is read as DO NOT E…, a statement switched off", why: "NOT / N'T abstains the statement for good, so DO NOTE… never runs." },
       ],
     },
+    {
+      id: "arrays",
+      title: "Arrays: tails and hybrids",
+      summary: ",1 for 16-bit arrays and ;1 for 32-bit ones.",
+      sections: [
+        {
+          p: "A <b>tail</b> (<code>,1</code>) is a 16-bit array; a <b>hybrid</b> (<code>;1</code>) is a 32-bit array. You create one by assigning a dimension: <code>DO ,1 <- #3</code> makes <code>,1</code> three elements long. Elements are written <code>,1 SUB #1</code> (the first element is <code>#1</code>, not zero). Reading or writing past the dimension is an error.",
+          code: `DO ,1 <- #3
+DO ,1 SUB #1 <- #5
+DO ,1 SUB #2 <- #10
+DO ,1 SUB #3 <- #15
+PLEASE READ OUT ,1 SUB #2
+DO GIVE UP`,
+        },
+        {
+          h: "What comes out",
+          p: "The program above prints <code>X</code> — Roman for 10. Arrays are how INTERCAL stores tables and buffers; the system library uses them heavily. Multidimensional arrays exist too: <code>DO ,1 <- #2 BY #3</code> is a 2×3 tail, indexed with two <code>SUB</code>s.",
+        },
+        {
+          h: "Stashing arrays",
+          p: "<code>DO STASH ,1</code> saves the whole array (dimension and contents) on that array’s private stack; <code>RETRIEVE</code> brings it back. Routines that need a scratch buffer stash the caller’s array first.",
+        },
+      ],
+      practice: [
+        { q: "What is ,1?", options: ["A 16-bit array (a tail)", "A 32-bit variable", "A constant", "A label"], answer: "A 16-bit array (a tail)", why: "The single spot with a comma marks a tail; semicolon is a hybrid." },
+        { q: "What does DO ,1 <- #3 do?", options: ["Creates ,1 with three elements", "Stores 3 in element 1", "Mingles ,1 with 3", "Prints 3"], answer: "Creates ,1 with three elements", why: "Assigning a mesh to an array name sets its dimension." },
+        { q: "How is the first element of ,1 written?", options: [",1 SUB #1", ",1 SUB #0", ",1[1]", ",1.1"], answer: ",1 SUB #1", why: "INTERCAL arrays are 1-based; SUB picks the element." },
+        { q: "What does the sample print?", options: ["X", "10", "V", "XV"], answer: "X", why: "Element 2 holds 10, and READ OUT uses Roman numerals." },
+        { q: "What is ;1?", options: ["A 32-bit array (a hybrid)", "A 16-bit array", "A 32-bit scalar", "A comment"], answer: "A 32-bit array (a hybrid)", why: "Semicolon marks hybrids; colon alone is a two-spot scalar." },
+        { q: "What does DO ,1 <- #2 BY #3 create?", options: ["A 2×3 multidimensional tail", "Five separate variables", "A 23-element vector", "An error"], answer: "A 2×3 multidimensional tail", why: "BY adds another dimension; two SUBs index it." },
+        { q: "What does STASH ,1 save?", options: ["The whole array’s dimension and contents", "Only element 1", "Only the dimension", "The NEXT stack"], answer: "The whole array’s dimension and contents", why: "Array stash is complete; RETRIEVE restores both size and values." },
+        { q: "What happens if you write ,1 SUB #4 after DO ,1 <- #3?", options: ["An error: past the dimension", "The array grows", "It wraps to element 1", "It is ignored"], answer: "An error: past the dimension", why: "The dimension is fixed until you reassign the array name." },
+      ],
+    },
+    {
+      id: "comefrom",
+      title: "COME FROM in depth",
+      summary: "Labels that pull, and computed destinations.",
+      sections: [
+        {
+          p: "<code>COME FROM (10)</code> sits at the destination: when labelled line <code>(10)</code> finishes, control is pulled to the <code>COME FROM</code>. Several <code>COME FROM</code>s aimed at the same label are an error unless all but one are abstained. That is how INTERCAL turns “who jumps here?” into a question you answer at the landing site.",
+          code: `(10)    DO .1 <- #1
+        DO READ OUT .1
+        PLEASE GIVE UP
+        DO COME FROM (10)
+        DO .1 <- #2
+        DO READ OUT .1
+        DO GIVE UP`,
+        },
+        {
+          h: "Computed COME FROM",
+          p: "C-INTERCAL allows <code>COME FROM .1</code>: the destination label is the current value of <code>.1</code>. Change the variable and the same statement pulls from a different line. It is as bewildering as it sounds, and it is a favourite of the language’s fans.",
+        },
+        {
+          h: "COME FROM versus NEXT",
+          p: "<code>NEXT</code> pushes a return address; <code>COME FROM</code> does not. Mixing them is legal but easy to misread: a <code>COME FROM</code> can yank you out of a routine before <code>RESUME</code> runs, leaving a stale NEXT-stack entry unless you <code>FORGET</code>.",
+        },
+      ],
+      practice: [
+        { q: "Where is COME FROM written?", options: ["At the destination that should receive control", "At the line you want to leave", "Only after GIVE UP", "Inside a mesh constant"], answer: "At the destination that should receive control", why: "The jump is declared where you land, not where you leave." },
+        { q: "When does COME FROM (10) fire?", options: ["After the statement labelled (10) finishes", "Before line (10) runs", "Only at compile time", "When .1 equals 10"], answer: "After the statement labelled (10) finishes", why: "Finishing the labelled line pulls control to the COME FROM." },
+        { q: "What if two active COME FROMs target the same label?", options: ["An error", "Both run in parallel", "The first wins silently", "They cancel out"], answer: "An error", why: "Only one active pull per label is allowed; ABSTAIN the extras." },
+        { q: "What is COME FROM .1?", options: ["A computed COME FROM whose label is the value of .1", "A syntax error in every INTERCAL", "The same as NEXT", "A comment"], answer: "A computed COME FROM whose label is the value of .1", why: "C-INTERCAL lets the destination come from a variable." },
+        { q: "Does COME FROM push the NEXT stack?", options: ["No", "Yes, always", "Only with PLEASE", "Only if .1 is set"], answer: "No", why: "COME FROM is not a call. NEXT is the one that remembers a return." },
+        { q: "Why can COME FROM upset a NEXT/RESUME pair?", options: ["It can yank control away before RESUME, leaving a stale stack entry", "It deletes GIVE UP", "It abstains every NEXT", "It cannot; they ignore each other"], answer: "It can yank control away before RESUME, leaving a stale stack entry", why: "A pull mid-routine skips the matching RESUME unless you FORGET." },
+        { q: "How do you keep a spare COME FROM without using it?", options: ["ABSTAIN from it (or write it with DON'T)", "Delete the label", "Use READ OUT instead", "Fill the NEXT stack"], answer: "ABSTAIN from it (or write it with DON'T)", why: "An abstained COME FROM does not pull, so another may target the same label." },
+        { q: "In the sample, after (10) runs, where does control go?", options: ["To the COME FROM, which then sets .1 to 2 and prints II", "Straight to GIVE UP, printing only I", "Back to the top of the file", "Nowhere; COME FROM is a comment"], answer: "To the COME FROM, which then sets .1 to 2 and prints II", why: "The first GIVE UP is skipped because COME FROM pulls first; .1 becomes 2." },
+      ],
+    },
+    {
+      id: "ignore",
+      title: "IGNORE and REMEMBER",
+      summary: "Read-only variables until you remember them.",
+      sections: [
+        {
+          p: "<code>DO IGNORE .1</code> makes assignments to <code>.1</code> silently fail: the value stays put. <code>DO REMEMBER .1</code> turns writing back on. Reads still work while a variable is ignored. The feature exists so a routine can protect the caller’s registers without stashing everything.",
+          code: `DO .1 <- #5
+DO IGNORE .1
+DO .1 <- #9
+PLEASE READ OUT .1
+DO REMEMBER .1
+DO .1 <- #3
+PLEASE READ OUT .1
+DO GIVE UP`,
+        },
+        {
+          h: "What comes out",
+          p: "The first <code>READ OUT</code> prints <code>V</code> (still 5); the second prints <code>III</code> (3). The assignment of 9 was ignored. You can ignore several variables in one statement: <code>DO IGNORE .1 + .2 + :1</code>.",
+        },
+        {
+          h: "Arrays and IGNORE",
+          p: "Ignoring an array freezes every element and the dimension. Trying to resize it with <code>DO ,1 <- #10</code> does nothing while <code>,1</code> is ignored. <code>STASH</code> / <code>RETRIEVE</code> still work: they are not assignments through the ignored path.",
+        },
+      ],
+      practice: [
+        { q: "After IGNORE .1, what does DO .1 <- #9 do?", options: ["Leaves .1 unchanged", "Stores 9", "Abstains the next line", "Errors"], answer: "Leaves .1 unchanged", why: "Ignored variables refuse writes; the old value remains." },
+        { q: "What does the sample print?", options: ["V then III", "IX then III", "V then IX", "III then V"], answer: "V then III", why: "9 never sticks; after REMEMBER, 3 does." },
+        { q: "What does REMEMBER do?", options: ["Allows assignments again", "Restores a STASH", "Prints the variable", "Ends the program"], answer: "Allows assignments again", why: "REMEMBER undoes IGNORE for those names." },
+        { q: "Can you still READ OUT an ignored variable?", options: ["Yes; only writes are blocked", "No; reads are blocked too", "Only with PLEASE", "Only after GIVE UP"], answer: "Yes; only writes are blocked", why: "IGNORE is write protection, not invisibility." },
+        { q: "How do you ignore .1 and .2 together?", options: ["DO IGNORE .1 + .2", "DO IGNORE .1 AND .2", "Two REMEMBER lines", "DO STASH .1 + .2"], answer: "DO IGNORE .1 + .2", why: "A plus list names several targets in one IGNORE or REMEMBER." },
+        { q: "While ,1 is ignored, what does DO ,1 <- #10 do?", options: ["Nothing; the dimension stays as it was", "Resizes the array", "Clears every element", "Creates ,10"], answer: "Nothing; the dimension stays as it was", why: "Resizing is an assignment to the array name, so IGNORE blocks it." },
+        { q: "Why use IGNORE instead of STASH?", options: ["To freeze a value in place without copying it to a stash stack", "IGNORE is faster Roman printing", "STASH cannot save scalars", "They are identical"], answer: "To freeze a value in place without copying it to a stash stack", why: "IGNORE protects in situ; STASH saves a snapshot you can restore later." },
+        { q: "Does STASH still work on an ignored variable?", options: ["Yes", "No", "Only for arrays", "Only with DON'T"], answer: "Yes", why: "Stashing is not an ordinary assignment of a new value through the ignored write path." },
+      ],
+    },
+    {
+      id: "again",
+      title: "ONCE and AGAIN",
+      summary: "Statements that flip themselves after they run.",
+      sections: [
+        {
+          p: "A statement may end with <code>ONCE</code> or <code>AGAIN</code>. <code>DO … ONCE</code> runs, then abstains itself — the next pass skips it until something <code>REINSTATE</code>s it. <code>DO … AGAIN</code> does the opposite dance with reinstate/abstain so a line can toggle on and off each time control reaches it. Together with <code>ABSTAIN</code>, they are INTERCAL’s idea of a flip-flop.",
+          code: `(20)    PLEASE DO READ OUT .1 ONCE
+        DO .1 <- #2
+        DO COME FROM (20)
+        DO GIVE UP`,
+        },
+        {
+          h: "What happens",
+          p: "Suppose <code>.1</code> starts at 1. The first visit to (20) prints <code>I</code>, then the <code>ONCE</code> abstains that <code>READ OUT</code>. The <code>COME FROM</code> loops back, <code>.1</code> becomes 2, but the output line stays dark. Without <code>ONCE</code>, the loop would print forever.",
+        },
+        {
+          h: "AGAIN",
+          p: "<code>AGAIN</code> is the sibling that reinstate-toggles. Exact compiler behaviour varies slightly between INTERCAL-72 and C-INTERCAL quirks modes; the safe lesson is that both keywords attach to a single statement and change whether that statement remains active after it runs.",
+        },
+      ],
+      practice: [
+        { q: "What does ONCE do after the statement runs?", options: ["Abstains that statement so a later pass skips it", "Deletes the line from the file", "Pushes the NEXT stack", "Prints ONCE"], answer: "Abstains that statement so a later pass skips it", why: "ONCE is a self-ABSTAIN after success." },
+        { q: "How do you turn a ONCE-abstained line back on?", options: ["REINSTATE it", "IGNORE it", "STASH it", "GIVE UP"], answer: "REINSTATE it", why: "ONCE left it abstained; REINSTATE clears that." },
+        { q: "What is AGAIN for?", options: ["Toggling a statement’s abstained state across visits", "Repeating the next line ten times", "A polite synonym for PLEASE", "Ending the program"], answer: "Toggling a statement’s abstained state across visits", why: "AGAIN is the flip-flop partner of ONCE." },
+        { q: "In the sample loop, how many times does READ OUT fire?", options: ["Once", "Forever", "Twice", "Never"], answer: "Once", why: "ONCE abstains the print after the first time; COME FROM still loops but stays quiet." },
+        { q: "Where is ONCE written?", options: ["At the end of the statement it affects", "Only in the compiler command line", "Before DO", "Inside # constants"], answer: "At the end of the statement it affects", why: "ONCE and AGAIN are suffixes on a single statement." },
+        { q: "How do ONCE and ABSTAIN FROM relate?", options: ["ONCE is a self-ABSTAIN after the statement succeeds", "ONCE deletes ABSTAIN from the language", "They are unrelated keywords", "ABSTAIN undoes ONCE automatically"], answer: "ONCE is a self-ABSTAIN after the statement succeeds", why: "Same abstain mechanism; different trigger." },
+        { q: "Why combine ONCE with COME FROM?", options: ["To run setup once, then loop without repeating that setup", "To fill the NEXT stack", "To disable politeness", "COME FROM ignores ONCE"], answer: "To run setup once, then loop without repeating that setup", why: "A classic pattern: initialise on the first pull, then stay in the loop body." },
+        { q: "Does ONCE affect other statements on later lines?", options: ["No; only the statement it suffixes", "Yes; the whole file", "Yes; every READ OUT", "Yes; every labelled line"], answer: "No; only the statement it suffixes", why: "The suffix is local to that statement." },
+      ],
+    },
+    {
+      id: "library",
+      title: "The system library",
+      summary: "More arithmetic through NEXT, and where answers land.",
+      sections: [
+        {
+          p: "Beyond addition at <code>(1000)</code>, the system library (the standard “syslib”) offers subtraction, multiplication, division and other bit-twiddling routines, all written in INTERCAL. You load arguments into the documented spots, <code>NEXT</code> to the entry label, and read the result from the documented destination — often <code>.3</code> or <code>:3</code>.",
+          code: `DO .1 <- #10
+DO .2 <- #3
+PLEASE DO (1009) NEXT
+DO READ OUT .3
+DO GIVE UP`,
+        },
+        {
+          h: "Conventions",
+          p: "Exact label numbers depend on which syslib you link (INTERCAL-72 versus C-INTERCAL’s expanded library). The pattern does not: arguments in, <code>NEXT</code>, answer out, and a matching <code>RESUME</code> inside the library so your NEXT stack stays balanced. On overflow or divide-by-zero the library may abstain your next statement or set an error indicator — read the syslib commentary for the routine you call.",
+        },
+        {
+          h: "Why not write + yourself",
+          p: "You can build addition from mingles and selects; the library already did. Real programs call it and save their sanity for the problem at hand — or for arranging enough <code>PLEASE</code>s.",
+        },
+      ],
+      practice: [
+        { q: "Where do you usually put two 16-bit operands for a syslib call?", options: ["In .1 and .2", "In .3 and .4", "On the NEXT stack", "In ,1 only"], answer: "In .1 and .2", why: "The common convention is .1 and .2 in, result in .3 or :3." },
+        { q: "How do you enter a library routine?", options: ["DO (label) NEXT", "COME FROM (label)", "READ OUT (label)", "IGNORE (label)"], answer: "DO (label) NEXT", why: "Library entry points are ordinary labelled routines reached by NEXT." },
+        { q: "Who writes the RESUME that returns from syslib?", options: ["The library routine itself", "You must RESUME before NEXT", "The COME FROM at the top of the file", "GIVE UP"], answer: "The library routine itself", why: "A well-behaved routine RESUMEs back to you; your NEXT stack stays balanced." },
+        { q: "Why do programs call syslib instead of hand-mingling addition?", options: ["The library already built arithmetic out of mingle and select", "Syslib forbids PLEASE", "NEXT is illegal outside syslib", "Roman numerals only work inside syslib"], answer: "The library already built arithmetic out of mingle and select", why: "Reuse beats re-deriving 16-bit add from bit ops for every program." },
+        { q: "What should you check when linking a different syslib?", options: ["The entry labels and where results are left", "Whether READ OUT still uses Roman numerals", "Whether DO is banned", "Whether arrays disappear"], answer: "The entry labels and where results are left", why: "Label numbers and register conventions can differ between library versions." },
+        { q: "In the sample, .1 is 10 and .2 is 3. What kind of answer is .3 meant to hold?", options: ["The result of the library routine you called", "Always 13", "Always 7", "The NEXT stack depth"], answer: "The result of the library routine you called", why: "Whatever (1009) implements, its documented destination is .3 here." },
+        { q: "What can a library do on divide-by-zero or overflow?", options: ["Abstain your next statement or set an error indicator", "Crash the chip fabricator", "Convert the program to COBOL", "Nothing; errors are impossible"], answer: "Abstain your next statement or set an error indicator", why: "Syslib signals failure in INTERCAL-ish ways; read the routine’s notes." },
+        { q: "Does calling syslib excuse you from PLEASE quotas?", options: ["No; politeness still applies to your program text", "Yes; library calls are always polite enough", "Only for multiplication", "PLEASE is ignored inside NEXT"], answer: "No; politeness still applies to your program text", why: "The compiler still counts PLEASE in your source." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a polite nut tally",
+      summary: "Arrays, library add, ONCE setup and Roman output.",
+      sections: [
+        {
+          p: "Three nut counts live in a tail. A one-shot setup fills them; a small loop uses the system adder at <code>(1000)</code> to total the elements, then <code>READ OUT</code> prints the sum in Roman numerals. Politeness is spaced through the program so the compiler accepts it. Nothing here is executed by the Programming Learner checker — C-INTERCAL’s <code>ick</code> is the real runner — but the shape is a complete INTERCAL sketch: arrays, <code>NEXT</code>, <code>ONCE</code> and manners.",
+          code: `        DO ,1 <- #3
+        DO ,1 SUB #1 <- #4
+        DO ,1 SUB #2 <- #7
+        DO ,1 SUB #3 <- #2
+        DO .4 <- #0
+        DO .5 <- #1
+(10)    PLEASE DO .1 <- .4
+        DO .2 <- ,1 SUB .5
+        DO (1000) NEXT
+        DO .4 <- .3
+        DO .5 <- #1 $.5
+        DO NOTE .5 steps 1, then 2, then something past 3 — stop early
+        DO .6 <- .5 ~ #3
+        DO .6 <- #1 $.6
+        PLEASE DO (20) NEXT
+        DO COME FROM (10)
+(20)    DO FORGET #1
+        DO READ OUT .4
+        DO GIVE UP
+        DON'T COME FROM (10)`,
+        },
+        {
+          h: "Reading the sketch",
+          p: "The loop body adds <code>,1 SUB .5</code> into a running total in <code>.4</code>. The control logic is deliberately awkward — classic INTERCAL — and the <code>DON'T COME FROM</code> shows a spare pull left abstained. On a real <code>ick</code>, simplify the loop with a clearer <code>ONCE</code> setup and a library compare if your syslib provides one; the printed total for 4+7+2 should be <code>XIII</code>.",
+        },
+        {
+          h: "Ideas to try",
+          p: "Abstain the <code>READ OUT</code> until the loop finishes, stash the array before a destructive pass, or drive the three counts from <code>WRITE IN</code> so a human types <code>FOUR</code>, <code>SEVEN</code> and <code>TWO</code>.",
+        },
+      ],
+      practice: [
+        { q: "What is the sum of the three tail elements in the sketch?", options: ["13", "4", "7", "2"], answer: "13", why: "4 + 7 + 2 = 13, which READ OUT would show as XIII." },
+        { q: "Where does (1000) leave the sum of .1 and .2?", options: [".3", ".4", ",1", ":1"], answer: ".3", why: "The standard adder returns in .3; the sketch copies it into .4." },
+        { q: "What does DO ,1 <- #3 do at the start?", options: ["Dimensions the nut-count array to three elements", "Stores 3 in .1", "Prints III", "Calls syslib"], answer: "Dimensions the nut-count array to three elements", why: "Assigning a mesh to a tail sets its length." },
+        { q: "Why does the program include PLEASE on some lines?", options: ["So the politeness ratio stays in the band the compiler accepts", "PLEASE is required before every NEXT", "PLEASE prints Roman numerals", "Without PLEASE, arrays do not work"], answer: "So the politeness ratio stays in the band the compiler accepts", why: "Too few or too many PLEASE lines are both compile errors." },
+        { q: "What is the DON'T COME FROM for?", options: ["An abstained spare pull, showing a line that does not fire", "The main loop driver", "A syslib entry", "A READ OUT synonym"], answer: "An abstained spare pull, showing a line that does not fire", why: "DON'T starts the statement abstained; it documents an alternate path left off." },
+        { q: "Why is this course’s checker not running the sketch?", options: ["INTERCAL needs ick (or similar); the pack has no runner", "Roman numerals cannot be tested", "Arrays are illegal in check_packs", "The sketch has no GIVE UP"], answer: "INTERCAL needs ick (or similar); the pack has no runner", why: "Like Chisel, this pack teaches with static examples and quizzes." },
+        { q: "What does the running total live in?", options: [".4", ".5", ",1 SUB #1", "#13"], answer: ".4", why: "Each adder result in .3 is copied into .4 for the next round." },
+        { q: "What would READ OUT print for the final total 13?", options: ["XIII", "13", "THIRTEEN", "D"], answer: "XIII", why: "READ OUT always uses Roman numerals." },
+      ],
+    },
   ],
 };
