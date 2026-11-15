@@ -14,8 +14,10 @@ window.PROGRAMMING.fortran = {
     "PROGRAM", "END", "IMPLICIT", "NONE", "INTEGER", "REAL", "CHARACTER", "LOGICAL", "PARAMETER", "LEN",
     "IF", "THEN", "ELSE", "SELECT", "CASE", "DEFAULT", "DO", "WHILE", "EXIT", "CYCLE",
     "FUNCTION", "SUBROUTINE", "CONTAINS", "RESULT", "INTENT", "IN", "OUT", "INOUT", "CALL", "USE", "KIND",
+    "MODULE", "TYPE", "PRIVATE", "PUBLIC", "ONLY", "OPEN", "CLOSE", "READ", "WRITE", "NEWUNIT", "STATUS",
+    "ACTION", "FILE", "IOSTAT", "POSITION", "REPLACE", "OLD", "APPEND",
   ],
-  builtins: ["PRINT", "SQRT", "MOD", "ABS", "SUM", "SIZE", "MAXVAL", "MINVAL", "REAL", "INT", "TRIM", "ISO_FORTRAN_ENV", "REAL64"],
+  builtins: ["PRINT", "SQRT", "MOD", "ABS", "SUM", "SIZE", "MAXVAL", "MINVAL", "REAL", "INT", "TRIM", "NINT", "ISO_FORTRAN_ENV", "REAL64"],
   lessons: [
     {
       id: "first",
@@ -454,6 +456,241 @@ contains
 end program q2`, options: ["23", "13", "3", "30"], answer: "23", why: "Arguments are passed by reference, so each call adds 10 to the caller's n." },
         { q: "How do you run a subroutine?", options: ["call name(args)", "name(args) on its own", "run name", "perform name"], answer: "call name(args)", why: "Subroutines are run with call. Functions are used inside expressions." },
         { q: "What does intent(in) mean on an argument?", options: ["The procedure only reads it and may not change it", "It is optional", "It is an input from the keyboard", "It must be an integer"], answer: "The procedure only reads it and may not change it", why: "The compiler checks the promise and reports an error if the procedure assigns to it." },
+      ],
+    },
+    {
+      id: "modules",
+      title: "Modules and derived types",
+      summary: "type, module, use and components with %.",
+      sections: [
+        {
+          p: "A <b>derived type</b> groups related values, like a record. You declare it with <code>type :: name</code> ... <code>end type</code>, create variables of that type, and reach a field with <code>%</code>. A structure constructor <code>name(field, field)</code> fills one in a single expression.",
+          code: `program types_demo
+  implicit none
+  type :: point
+    real :: x, y
+  end type point
+  type(point) :: a, b, mid
+  a = point(2.0, 4.0)
+  b = point(6.0, 8.0)
+  mid%x = (a%x + b%x) / 2
+  mid%y = (a%y + b%y) / 2
+  print '(a, f0.1, a, f0.1)', 'mid ', mid%x, ', ', mid%y
+  print '(f0.1)', a%x * b%y - a%y * b%x
+end program types_demo`,
+          out: "mid 4.0, 6.0\n-8.0",
+        },
+        {
+          h: "Modules",
+          p: "A <code>module</code> holds types and procedures that several programs can share. Put the module in the same file (or a separate one), then <code>use module_name</code> at the top of the program. Procedures that belong with the type go after <code>contains</code> inside the module.",
+          code: `module stash_mod
+  implicit none
+  type :: stash
+    character(len=12) :: owner
+    integer :: count
+  end type stash
+contains
+  function total(items) result(s)
+    type(stash), intent(in) :: items(:)
+    integer :: s, i
+    s = 0
+    do i = 1, size(items)
+      s = s + items(i)%count
+    end do
+  end function total
+end module stash_mod
+
+program demo
+  use stash_mod
+  implicit none
+  type(stash) :: bank(2)
+  bank(1) = stash('Hazel', 12)
+  bank(2) = stash('Pip', 7)
+  print '(a, 1x, i0)', trim(bank(1)%owner), bank(1)%count
+  print '(a, 1x, i0)', trim(bank(2)%owner), bank(2)%count
+  print '(a, i0)', 'total ', total(bank)
+end program demo`,
+          out: "Hazel 12\nPip 7\ntotal 19",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program q1
+  implicit none
+  type :: pair
+    integer :: a, b
+  end type pair
+  type(pair) :: p
+  p = pair(3, 4)
+  print '(i0)', p%a * p%b
+end program q1`, options: ["12", "7", "34", "3"], answer: "12", why: "p%a is 3 and p%b is 4, so the product is 12." },
+        { kind: "output", q: "What does this print?", code: `module m
+  implicit none
+contains
+  function double(n) result(r)
+    integer, intent(in) :: n
+    integer :: r
+    r = 2 * n
+  end function double
+end module m
+
+program q2
+  use m
+  implicit none
+  print '(i0)', double(7)
+end program q2`, options: ["14", "7", "2", "21"], answer: "14", why: "use m brings double into the program, and double(7) is 14." },
+        { q: "How do you read a component of a derived type variable t?", options: ["t%field", "t.field", "t->field", "t[field]"], answer: "t%field", why: "Fortran uses % for components. The dot is for other languages." },
+        { q: "What does use stash_mod do?", options: ["Makes the module's public names available in this program", "Deletes the module", "Opens a file called stash_mod", "Declares a variable"], answer: "Makes the module's public names available in this program", why: "use is how Fortran imports a module. only: can limit which names come in." },
+      ],
+    },
+    {
+      id: "io",
+      title: "Reading and writing files",
+      summary: "open, write, read, iostat and close.",
+      sections: [
+        {
+          p: "<code>open(newunit=u, file=..., status=..., action=...)</code> connects a unit number to a file. <code>newunit</code> asks the runtime for a free unit. <code>write(u, format) ...</code> and <code>read(u, ...)</code> use that unit. Always <code>close(u)</code> when finished. List-directed <code>read(u, *)</code> is handy for simple text files of words and numbers.",
+          code: `program fileio
+  implicit none
+  integer :: u, n, ios, total
+  character(len=12) :: name
+  open(newunit=u, file='nuts.txt', status='replace', action='write')
+  write(u, '(a, 1x, i0)') 'acorn', 12
+  write(u, '(a, 1x, i0)') 'walnut', 5
+  write(u, '(a, 1x, i0)') 'hazel', 9
+  close(u)
+  open(newunit=u, file='nuts.txt', status='old', action='read')
+  total = 0
+  do
+    read(u, *, iostat=ios) name, n
+    if (ios /= 0) exit
+    print '(a, a, i0)', trim(name), ' => ', n
+    total = total + n
+  end do
+  close(u)
+  print '(a, i0)', 'total ', total
+end program fileio`,
+          out: "acorn => 12\nwalnut => 5\nhazel => 9\ntotal 26",
+        },
+        {
+          h: "Appending and iostat",
+          p: "<code>position='append'</code> on an existing file adds at the end. On <code>read</code>, <code>iostat</code> becomes non-zero at end of file (or on an error); testing it is the usual way to stop a read loop without crashing.",
+          code: `program append_io
+  implicit none
+  integer :: u
+  character(len=20) :: line
+  integer :: ios
+  open(newunit=u, file='log.txt', status='replace', action='write')
+  write(u, '(a)') 'day 1: found 3'
+  close(u)
+  open(newunit=u, file='log.txt', status='old', position='append', action='write')
+  write(u, '(a)') 'day 2: found 5'
+  close(u)
+  open(newunit=u, file='log.txt', status='old', action='read')
+  do
+    read(u, '(a)', iostat=ios) line
+    if (ios /= 0) exit
+    print '(a)', trim(line)
+  end do
+  close(u)
+end program append_io`,
+          out: "day 1: found 3\nday 2: found 5",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program q1
+  implicit none
+  integer :: u, n, ios, total
+  open(newunit=u, file='t.txt', status='replace', action='write')
+  write(u, '(i0)') 4
+  write(u, '(i0)') 5
+  close(u)
+  open(newunit=u, file='t.txt', status='old', action='read')
+  total = 0
+  do
+    read(u, *, iostat=ios) n
+    if (ios /= 0) exit
+    total = total + n
+  end do
+  close(u)
+  print '(i0)', total
+end program q1`, options: ["9", "45", "4", "5"], answer: "9", why: "The file holds 4 and 5 on separate lines; the loop adds them." },
+        { kind: "output", q: "What does this print?", code: `program q2
+  implicit none
+  integer :: u, ios
+  character(len=8) :: line
+  open(newunit=u, file='a.txt', status='replace', action='write')
+  write(u, '(a)') 'oak'
+  close(u)
+  open(newunit=u, file='a.txt', status='old', position='append', action='write')
+  write(u, '(a)') 'elm'
+  close(u)
+  open(newunit=u, file='a.txt', status='old', action='read')
+  do
+    read(u, '(a)', iostat=ios) line
+    if (ios /= 0) exit
+    print '(a)', trim(line)
+  end do
+  close(u)
+end program q2`, options: ["oak\nelm", "elm", "oak", "oakelm"], answer: "oak\nelm", why: "append adds elm after the existing oak line." },
+        { q: "What does iostat /= 0 usually mean on a read loop?", options: ["End of file (or an error) — time to exit", "The value was zero", "The file is locked", "Need a bigger format"], answer: "End of file (or an error) — time to exit", why: "A successful read sets iostat to 0. Non-zero ends the loop." },
+        { q: "What does status='replace' do on open?", options: ["Creates the file, or overwrites it if it exists", "Opens only if the file already exists", "Appends without truncating", "Deletes the file and stops"], answer: "Creates the file, or overwrites it if it exists", why: "replace is the usual choice when writing a fresh output file." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a numerical nut tally",
+      summary: "Arrays, totals by tree, percentages and a mean.",
+      sections: [
+        {
+          p: "Five finds, each a tree name and a mass in kilograms, are totalled by tree. A small parallel array of kinds grows as new tree names appear; each find adds to that kind's running total. The report shows kilograms and a whole-number percentage of the grand total, then the mean find and the grand total — a miniature of the summary tables scientific codes print after a run.",
+          code: `program nut_tally
+  use iso_fortran_env, only: real64
+  implicit none
+  integer, parameter :: n = 5
+  character(len=8) :: tree(n)
+  real(real64) :: kg(n), totals(3), grand
+  character(len=8) :: kinds(3)
+  integer :: i, k, nkinds
+  tree = [character(len=8) :: 'oak', 'elm', 'oak', 'pine', 'elm']
+  kg = [1.5_real64, 0.8_real64, 2.1_real64, 1.2_real64, 0.4_real64]
+  nkinds = 0
+  totals = 0.0_real64
+  do i = 1, n
+    do k = 1, nkinds
+      if (kinds(k) == tree(i)) exit
+    end do
+    if (k > nkinds) then
+      nkinds = nkinds + 1
+      kinds(nkinds) = tree(i)
+      k = nkinds
+    end if
+    totals(k) = totals(k) + kg(i)
+  end do
+  grand = sum(totals(1:nkinds))
+  do k = 1, nkinds
+    print '(a, 1x, f0.1, a, i0, a)', trim(kinds(k)), totals(k), &
+      ' kg ', nint(100.0_real64 * totals(k) / grand), '%'
+  end do
+  print '(a, f0.2)', 'mean ', grand / real(n, real64)
+  print '(a, f0.1)', 'total ', grand
+end program nut_tally`,
+          out: "oak 3.6 kg 60%\nelm 1.2 kg 20%\npine 1.2 kg 20%\nmean 1.20\ntotal 6.0",
+        },
+        {
+          h: "Ideas to try",
+          p: "Wrap the find in a derived type inside a module, read the finds from a text file with <code>read</code> and <code>iostat</code>, or print the largest single find with <code>maxloc</code>.",
+        },
+      ],
+      practice: [
+        { q: "Why does oak show 3.6 kg?", options: ["1.5 + 2.1 from the two oak finds", "Only the first oak find", "An average of all finds", "A percentage misread as kg"], answer: "1.5 + 2.1 from the two oak finds", why: "The loop adds every find into the matching kind's total." },
+        { q: "What does nint do for the percentages?", options: ["Rounds to the nearest whole number", "Truncates toward zero", "Formats with one decimal", "Converts to a character"], answer: "Rounds to the nearest whole number", why: "nint(60.0) is 60, which prints cleanly with i0." },
+        { kind: "output", q: "What does this print?", code: `program q1
+  use iso_fortran_env, only: real64
+  implicit none
+  real(real64) :: x(3)
+  x = [1.0_real64, 2.0_real64, 3.0_real64]
+  print '(f0.1)', sum(x) / size(x)
+end program q1`, options: ["2.0", "6.0", "3.0", "1.0"], answer: "2.0", why: "The mean of 1, 2 and 3 is 2.0." },
       ],
     },
   ],

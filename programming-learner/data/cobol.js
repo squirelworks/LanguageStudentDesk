@@ -11,10 +11,13 @@ window.PROGRAMMING.cobol = {
   comment: "*>",
   caseInsensitive: true,
   keywords: [
-    "IDENTIFICATION", "DIVISION", "PROGRAM-ID", "DATA", "WORKING-STORAGE", "SECTION", "PROCEDURE",
+    "IDENTIFICATION", "DIVISION", "PROGRAM-ID", "ENVIRONMENT", "INPUT-OUTPUT", "FILE-CONTROL", "SELECT", "ASSIGN",
+    "ORGANIZATION", "SEQUENTIAL", "DATA", "FILE", "FD", "WORKING-STORAGE", "SECTION", "PROCEDURE",
     "PIC", "VALUE", "MOVE", "TO", "ADD", "SUBTRACT", "FROM", "MULTIPLY", "BY", "DIVIDE", "INTO", "GIVING",
     "COMPUTE", "IF", "ELSE", "END-IF", "EVALUATE", "WHEN", "OTHER", "END-EVALUATE", "PERFORM", "END-PERFORM",
     "VARYING", "UNTIL", "TIMES", "STOP", "RUN", "OCCURS", "REMAINDER", "ROUNDED", "AND", "OR", "NOT", "SET", "TRUE",
+    "STRING", "UNSTRING", "DELIMITED", "SIZE", "SPACE", "INSPECT", "TALLYING", "REPLACING", "ALL",
+    "OPEN", "CLOSE", "INPUT", "OUTPUT", "READ", "WRITE", "AT", "END", "SEARCH", "INDEXED", "BY",
   ],
   builtins: ["DISPLAY", "ZERO", "ZEROS", "SPACES"],
   lessons: [
@@ -526,6 +529,332 @@ PROCEDURE DIVISION.
     STOP RUN.`, options: ["OAK", "ELM", "ASH", "OAKELMASH"], answer: "OAK", why: "COBOL subscripts start at 1, so W(1) is the first entry." },
         { q: "What does OCCURS 10 TIMES make?", options: ["A table of ten entries", "A loop that runs ten times", "A ten-character field", "Ten separate programs"], answer: "A table of ten entries", why: "OCCURS repeats the field to make an array. PERFORM is what loops." },
         { q: "What is the first subscript of a COBOL table?", options: ["1", "0", "-1", "It depends on the compiler"], answer: "1", why: "COBOL counts table entries from 1." },
+      ],
+    },
+    {
+      id: "strings",
+      title: "STRING, UNSTRING and INSPECT",
+      summary: "Joining fields, splitting lines and counting characters.",
+      sections: [
+        {
+          p: "<code>STRING ... INTO</code> builds one field from several pieces. <code>DELIMITED BY SPACE</code> stops at the first space (so trailing padding is skipped); <code>DELIMITED BY SIZE</code> takes the whole sending item. The destination is not cleared first unless you <code>MOVE SPACES</code> into it yourself.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. STRJOIN.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 FIRST-NAME PIC X(8) VALUE "Hazel".
+01 LAST-NAME PIC X(8) VALUE "Oak".
+01 FULL-NAME PIC X(16).
+PROCEDURE DIVISION.
+    STRING FIRST-NAME DELIMITED BY SPACE
+           " " DELIMITED BY SIZE
+           LAST-NAME DELIMITED BY SPACE
+           INTO FULL-NAME.
+    DISPLAY "[" FULL-NAME "]".
+    STOP RUN.`,
+          out: "[Hazel Oak       ]",
+        },
+        {
+          h: "UNSTRING",
+          p: "<code>UNSTRING</code> splits a line on a delimiter into several fields. It is the usual way to pull apart a CSV-style record held in working storage.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. UNSTR.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 LINE-IN PIC X(24) VALUE "acorn,walnut,pecan".
+01 N1 PIC X(8).
+01 N2 PIC X(8).
+01 N3 PIC X(8).
+PROCEDURE DIVISION.
+    UNSTRING LINE-IN DELIMITED BY ","
+        INTO N1 N2 N3.
+    DISPLAY N1.
+    DISPLAY N2.
+    DISPLAY N3.
+    STOP RUN.`,
+          out: "acorn\nwalnut\npecan",
+        },
+        {
+          h: "INSPECT",
+          p: "<code>INSPECT ... TALLYING</code> counts characters or runs of characters. <code>INSPECT ... REPLACING</code> rewrites them in place. Both are common on status codes and fixed-width records.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. INSP.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 MSG PIC X(12) VALUE "aaabaa".
+01 N PIC 9(2) VALUE 0.
+PROCEDURE DIVISION.
+    INSPECT MSG TALLYING N FOR ALL "a".
+    DISPLAY "count " N.
+    INSPECT MSG REPLACING ALL "a" BY "x".
+    DISPLAY MSG.
+    STOP RUN.`,
+          out: "count 05\nxxxbxx",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. Q1.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 A PIC X(6) VALUE "Oak".
+01 B PIC X(6) VALUE "Tree".
+01 C PIC X(12).
+PROCEDURE DIVISION.
+    STRING A DELIMITED BY SPACE
+           B DELIMITED BY SPACE
+           INTO C.
+    DISPLAY C.
+    STOP RUN.`, options: ["OakTree", "Oak Tree", "Oak   Tree", "TreeOak"], answer: "OakTree", why: "DELIMITED BY SPACE drops the padding on each field, and nothing puts a space between them." },
+        { kind: "output", q: "What does this print?", code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. Q2.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 S PIC X(8) VALUE "abacab".
+01 N PIC 9 VALUE 0.
+PROCEDURE DIVISION.
+    INSPECT S TALLYING N FOR ALL "a".
+    DISPLAY N.
+    STOP RUN.`, options: ["3", "2", "6", "0"], answer: "3", why: "There are three a characters in abacab." },
+        { q: "What does DELIMITED BY SIZE mean on a STRING sender?", options: ["Take the whole field, including trailing spaces", "Stop at the first space", "Cut the field to one character", "Skip empty fields"], answer: "Take the whole field, including trailing spaces", why: "SIZE means the full picture width. SPACE stops at the first space." },
+        { q: "What is UNSTRING for?", options: ["Splitting one field into several on a delimiter", "Joining fields together", "Sorting a table", "Opening a file"], answer: "Splitting one field into several on a delimiter", why: "STRING joins; UNSTRING splits." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Sequential files",
+      summary: "SELECT, FD, OPEN, WRITE, READ and CLOSE.",
+      sections: [
+        {
+          p: "Real COBOL work is mostly files of records. <code>SELECT</code> in the <code>ENVIRONMENT DIVISION</code> names a file and how it is organised. <code>LINE SEQUENTIAL</code> is a plain text file, one record per line — fine for learning and for many reports. The <code>FD</code> in the <code>FILE SECTION</code> describes each record. <code>OPEN OUTPUT</code> creates or replaces; <code>WRITE</code> adds a record; <code>OPEN INPUT</code> and <code>READ</code> walk the file; <code>CLOSE</code> finishes.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. NUTFILE.
+ENVIRONMENT DIVISION.
+INPUT-OUTPUT SECTION.
+FILE-CONTROL.
+    SELECT NUT-FILE ASSIGN TO "nuts.dat"
+        ORGANIZATION IS LINE SEQUENTIAL.
+DATA DIVISION.
+FILE SECTION.
+FD NUT-FILE.
+01 NUT-REC PIC X(16).
+WORKING-STORAGE SECTION.
+01 DONE PIC X VALUE "N".
+   88 FINISHED VALUE "Y".
+PROCEDURE DIVISION.
+    OPEN OUTPUT NUT-FILE.
+    MOVE "acorn 12" TO NUT-REC.
+    WRITE NUT-REC.
+    MOVE "walnut 5" TO NUT-REC.
+    WRITE NUT-REC.
+    CLOSE NUT-FILE.
+    OPEN INPUT NUT-FILE.
+    PERFORM UNTIL FINISHED
+        READ NUT-FILE
+            AT END SET FINISHED TO TRUE
+            NOT AT END DISPLAY NUT-REC
+        END-READ
+    END-PERFORM.
+    CLOSE NUT-FILE.
+    STOP RUN.`,
+          out: "acorn 12\nwalnut 5",
+        },
+        {
+          h: "AT END on every READ",
+          p: "A <code>READ</code> needs an <code>AT END</code> path (or an equivalent status check). The usual pattern is a level-88 flag, set when the read hits the end, and a <code>PERFORM UNTIL</code> that stops on that flag. Forgetting <code>AT END</code> is a classic beginner bug.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. Q1.
+ENVIRONMENT DIVISION.
+INPUT-OUTPUT SECTION.
+FILE-CONTROL.
+    SELECT F ASSIGN TO "t.dat"
+        ORGANIZATION IS LINE SEQUENTIAL.
+DATA DIVISION.
+FILE SECTION.
+FD F.
+01 REC PIC X(8).
+WORKING-STORAGE SECTION.
+01 DONE PIC X VALUE "N".
+   88 FINISHED VALUE "Y".
+PROCEDURE DIVISION.
+    OPEN OUTPUT F.
+    MOVE "one" TO REC.
+    WRITE REC.
+    MOVE "two" TO REC.
+    WRITE REC.
+    CLOSE F.
+    OPEN INPUT F.
+    PERFORM UNTIL FINISHED
+        READ F
+            AT END SET FINISHED TO TRUE
+            NOT AT END DISPLAY REC
+        END-READ
+    END-PERFORM.
+    CLOSE F.
+    STOP RUN.`, options: ["one\ntwo", "two\none", "one two", "Nothing"], answer: "one\ntwo", why: "Records are written in order and read back the same way." },
+        { q: "What does ORGANIZATION IS LINE SEQUENTIAL mean?", options: ["A text file with one record per line", "A database index", "Records stored in memory only", "A sorted binary file"], answer: "A text file with one record per line", why: "LINE SEQUENTIAL maps each WRITE to a line of text. Mainframe shops often use plain SEQUENTIAL with fixed-length records instead." },
+        { q: "Where do you declare SELECT and ASSIGN?", options: ["ENVIRONMENT DIVISION, under FILE-CONTROL", "PROCEDURE DIVISION", "IDENTIFICATION DIVISION", "Only in WORKING-STORAGE"], answer: "ENVIRONMENT DIVISION, under FILE-CONTROL", why: "SELECT links the COBOL file name to an external path before the FD describes the record." },
+        { q: "What should every READ provide?", options: ["An AT END path (or status check)", "A WRITE afterwards", "A new FD", "A STRING"], answer: "An AT END path (or status check)", why: "Without AT END, hitting the end of the file is undefined behaviour in many compilers." },
+      ],
+    },
+    {
+      id: "search",
+      title: "SEARCH on tables",
+      summary: "INDEXED BY, SET and SEARCH.",
+      sections: [
+        {
+          p: "A table can be searched with <code>SEARCH</code> when it has an <code>INDEXED BY</code> index name. <code>SET index TO 1</code> starts at the first entry. <code>SEARCH</code> walks forward until a <code>WHEN</code> condition matches, or <code>AT END</code> if nothing does. This is the COBOL way to look up a code in a small in-memory table.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. SRCH.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 STASH.
+   05 NUT-ROW OCCURS 4 TIMES INDEXED BY NIX.
+      10 N-NAME PIC X(8).
+      10 N-QTY PIC 9(3).
+01 WANT PIC X(8).
+PROCEDURE DIVISION.
+    MOVE "acorn" TO N-NAME(1)
+    MOVE 12 TO N-QTY(1)
+    MOVE "walnut" TO N-NAME(2)
+    MOVE 5 TO N-QTY(2)
+    MOVE "hazel" TO N-NAME(3)
+    MOVE 9 TO N-QTY(3)
+    MOVE "pecan" TO N-NAME(4)
+    MOVE 2 TO N-QTY(4)
+    MOVE "hazel" TO WANT
+    SET NIX TO 1
+    SEARCH NUT-ROW
+        AT END DISPLAY "missing"
+        WHEN N-NAME(NIX) = WANT
+            DISPLAY "found " N-QTY(NIX)
+    END-SEARCH.
+    MOVE "oak" TO WANT
+    SET NIX TO 1
+    SEARCH NUT-ROW
+        AT END DISPLAY "missing"
+        WHEN N-NAME(NIX) = WANT
+            DISPLAY "found " N-QTY(NIX)
+    END-SEARCH.
+    STOP RUN.`,
+          out: "found 009\nmissing",
+        },
+        {
+          h: "SEARCH ALL",
+          p: "For a large table that is kept sorted, <code>SEARCH ALL</code> does a binary search. The table needs a <code>KEY IS</code> clause and the data must already be in key order. Day-to-day code often uses plain <code>SEARCH</code> on small tables and file lookups for big ones.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. Q1.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 T.
+   05 R OCCURS 3 TIMES INDEXED BY IX.
+      10 K PIC X.
+      10 Q PIC 9.
+01 WANT PIC X VALUE "B".
+PROCEDURE DIVISION.
+    MOVE "A" TO K(1)
+    MOVE 1 TO Q(1)
+    MOVE "B" TO K(2)
+    MOVE 7 TO Q(2)
+    MOVE "C" TO K(3)
+    MOVE 3 TO Q(3)
+    SET IX TO 1
+    SEARCH R
+        AT END DISPLAY "no"
+        WHEN K(IX) = WANT
+            DISPLAY "yes " Q(IX)
+    END-SEARCH.
+    STOP RUN.`, options: ["yes 7", "yes 1", "yes 3", "no"], answer: "yes 7", why: "B is the second row, whose Q is 7." },
+        { q: "What must you do before SEARCH?", options: ["SET the index to the starting entry (often 1)", "SORT the table always", "OPEN a file", "MOVE SPACES to the table"], answer: "SET the index to the starting entry (often 1)", why: "SEARCH continues from the current index. Starting at 1 scans the whole table." },
+        { q: "What does INDEXED BY name on OCCURS declare?", options: ["An index for SEARCH (and subscripting)", "A file key", "A paragraph name", "A PIC for numbers"], answer: "An index for SEARCH (and subscripting)", why: "The index is not a PIC 9 field; SET and SEARCH manage it." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut-crew payroll",
+      summary: "Tables, EVALUATE, edited money and a full-time bonus.",
+      sections: [
+        {
+          p: "A tiny payroll for three squirrels: each has a name, an hourly rate and hours worked. Gross pay is rate times hours. Anyone on 8.0 hours or more is full-time and gets a 10% bonus; the others are part-time with no bonus. The program prints each name, the final amount and an F/P status, then the crew total — the same shape as a payslip summary from a batch job.",
+          code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. NUTPAY.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 CREW-SIZE PIC 9 VALUE 3.
+01 CREW.
+   05 WORKER OCCURS 3 TIMES.
+      10 W-NAME PIC X(8).
+      10 W-RATE PIC 9(2)V99.
+      10 W-HOURS PIC 9(2)V9.
+      10 W-GROSS PIC 9(4)V99.
+01 I PIC 9.
+01 TOTAL PIC 9(5)V99 VALUE 0.
+01 MONEY-OUT PIC ZZZ9.99.
+01 NAME-OUT PIC X(8).
+01 BONUS PIC 9(3)V99.
+01 STATUS-CODE PIC X.
+   88 FULL-TIME VALUE "F".
+   88 PART-TIME VALUE "P".
+PROCEDURE DIVISION.
+    MOVE "Hazel" TO W-NAME(1)
+    MOVE 12.50 TO W-RATE(1)
+    MOVE 8.0 TO W-HOURS(1)
+    MOVE "Pip" TO W-NAME(2)
+    MOVE 10.00 TO W-RATE(2)
+    MOVE 6.5 TO W-HOURS(2)
+    MOVE "Rowan" TO W-NAME(3)
+    MOVE 11.25 TO W-RATE(3)
+    MOVE 7.0 TO W-HOURS(3)
+    PERFORM VARYING I FROM 1 BY 1 UNTIL I > CREW-SIZE
+        MULTIPLY W-RATE(I) BY W-HOURS(I) GIVING W-GROSS(I)
+        EVALUATE TRUE
+            WHEN W-HOURS(I) >= 8.0
+                SET FULL-TIME TO TRUE
+                COMPUTE BONUS = W-GROSS(I) * 0.10
+            WHEN OTHER
+                SET PART-TIME TO TRUE
+                MOVE 0 TO BONUS
+        END-EVALUATE
+        ADD BONUS TO W-GROSS(I)
+        ADD W-GROSS(I) TO TOTAL
+        MOVE W-NAME(I) TO NAME-OUT
+        MOVE W-GROSS(I) TO MONEY-OUT
+        DISPLAY NAME-OUT MONEY-OUT " " STATUS-CODE
+    END-PERFORM.
+    MOVE TOTAL TO MONEY-OUT
+    DISPLAY "TOTAL   " MONEY-OUT
+    STOP RUN.`,
+          out: "Hazel    110.00 F\nPip       65.00 P\nRowan     78.75 P\nTOTAL    253.75",
+        },
+        {
+          h: "Ideas to try",
+          p: "Write each payslip line with <code>STRING</code>, save the report to a <code>LINE SEQUENTIAL</code> file, or look up a tax rate from a small table with <code>SEARCH</code>.",
+        },
+      ],
+      practice: [
+        { q: "Why does Hazel print 110.00 instead of 100.00?", options: ["An 8.0-hour day gets a 10% bonus on top of rate × hours", "The rate was wrong", "PIC ZZZ9.99 rounds up", "STATUS-CODE adds 10"], answer: "An 8.0-hour day gets a 10% bonus on top of rate × hours", why: "12.50 × 8.0 is 100.00, plus 10.00 bonus is 110.00." },
+        { q: "What does EVALUATE TRUE buy you here?", options: ["A clear multi-way branch on conditions, not on one variable", "Faster arithmetic", "File I/O", "Automatic tax"], answer: "A clear multi-way branch on conditions, not on one variable", why: "EVALUATE TRUE with WHEN conditions is COBOL's structured way to choose among rules." },
+        { kind: "output", q: "What status letter does Pip get?", code: `IDENTIFICATION DIVISION.
+PROGRAM-ID. Q1.
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 HOURS PIC 9(2)V9 VALUE 6.5.
+01 STATUS-CODE PIC X.
+   88 FULL-TIME VALUE "F".
+   88 PART-TIME VALUE "P".
+PROCEDURE DIVISION.
+    EVALUATE TRUE
+        WHEN HOURS >= 8.0 SET FULL-TIME TO TRUE
+        WHEN OTHER SET PART-TIME TO TRUE
+    END-EVALUATE.
+    DISPLAY STATUS-CODE.
+    STOP RUN.`, options: ["P", "F", "6.5", "PART-TIME"], answer: "P", why: "6.5 is below 8.0, so the OTHER branch sets PART-TIME." },
       ],
     },
   ],

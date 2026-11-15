@@ -16,9 +16,9 @@ window.PROGRAMMING.turbopascal = {
     "PROGRAM", "USES", "TYPE", "RECORD", "VAR", "CONST", "BEGIN", "END", "PROCEDURE", "FUNCTION", "IF", "THEN", "ELSE",
     "FOR", "TO", "DOWNTO", "DO", "WHILE", "REPEAT", "UNTIL", "CASE", "OF", "AND", "OR", "NOT", "DIV", "MOD", "IN",
     "ARRAY", "SET", "STRING", "INTEGER", "LONGINT", "REAL", "CHAR", "BOOLEAN", "BYTE", "TRUE", "FALSE", "WITH", "UNIT",
-    "INTERFACE", "IMPLEMENTATION",
+    "INTERFACE", "IMPLEMENTATION", "TEXT", "FILE", "OBJECT", "NIL",
   ],
-  builtins: ["WRITELN", "WRITE", "READLN", "LENGTH", "COPY", "POS", "CONCAT", "UPCASE", "ORD", "CHR", "INC", "DEC", "SIZEOF", "CLRSCR", "GOTOXY", "TEXTCOLOR"],
+  builtins: ["WRITELN", "WRITE", "READLN", "LENGTH", "COPY", "POS", "CONCAT", "UPCASE", "ORD", "CHR", "INC", "DEC", "SIZEOF", "CLRSCR", "GOTOXY", "TEXTCOLOR", "ASSIGN", "RESET", "REWRITE", "APPEND", "CLOSE", "EOF", "EOLN", "VAL", "NEW", "DISPOSE"],
   lessons: [
     {
       id: "first",
@@ -511,6 +511,374 @@ end.`,
         { q: "What does the interface part of a unit contain?", options: ["What other programs may use", "The code of every procedure", "The program's main block", "Comments only"], answer: "What other programs may use", why: "The interface is the public list. The code itself goes in the implementation part." },
         { q: "Which unit gives ClrScr and GotoXY?", options: ["Crt", "Dos", "System", "Graph"], answer: "Crt", why: "Crt handles the text screen and keyboard. Dos has file and system calls, and Graph draws in graphics modes." },
         { q: "What did Turbo Pascal's line eventually become?", options: ["Delphi", "Visual Basic", "C++Builder", "Lazarus"], answer: "Delphi", why: "Borland Pascal with Objects was followed by Delphi in 1995. Lazarus is a later, separate project built on Free Pascal." },
+      ],
+    },
+    {
+      id: "files",
+      title: "Text files",
+      summary: "Assign, Rewrite, Reset, Append, ReadLn and Close.",
+      sections: [
+        {
+          p: "A <code>Text</code> variable is a text file. <code>Assign</code> ties it to a path, <code>Rewrite</code> creates or replaces it, <code>Reset</code> opens it for reading, and <code>Close</code> finishes. <code>WriteLn(F, ...)</code> writes a line; <code>ReadLn(F, ...)</code> reads one. <code>Eof(F)</code> is true when there is nothing left to read. Parsing a line of words often means <code>ReadLn</code> into a string, then <code>Pos</code>, <code>Copy</code> and <code>Val</code>.",
+          code: `program NutFile;
+var
+  F: Text;
+  Line: string;
+  SpacePos, N, Code, Total: Integer;
+  Name: string;
+begin
+  Assign(F, 'nuts.txt');
+  Rewrite(F);
+  WriteLn(F, 'acorn 12');
+  WriteLn(F, 'walnut 5');
+  WriteLn(F, 'hazel 9');
+  Close(F);
+  Assign(F, 'nuts.txt');
+  Reset(F);
+  Total := 0;
+  while not Eof(F) do
+  begin
+    ReadLn(F, Line);
+    SpacePos := Pos(' ', Line);
+    Name := Copy(Line, 1, SpacePos - 1);
+    Val(Copy(Line, SpacePos + 1, 255), N, Code);
+    WriteLn(Name, ' => ', N);
+    Total := Total + N;
+  end;
+  Close(F);
+  WriteLn('total ', Total);
+end.`,
+          out: "acorn => 12\nwalnut => 5\nhazel => 9\ntotal 26",
+        },
+        {
+          h: "Append",
+          p: "<code>Append</code> opens an existing text file so new <code>WriteLn</code> calls add at the end. After writing, close it and <code>Reset</code> again if you need to read the whole log back.",
+          code: `program AppendDemo;
+var
+  F: Text;
+  S: string;
+begin
+  Assign(F, 'log.txt');
+  Rewrite(F);
+  WriteLn(F, 'day 1');
+  Close(F);
+  Assign(F, 'log.txt');
+  Append(F);
+  WriteLn(F, 'day 2');
+  Close(F);
+  Assign(F, 'log.txt');
+  Reset(F);
+  while not Eof(F) do
+  begin
+    ReadLn(F, S);
+    WriteLn(S);
+  end;
+  Close(F);
+end.`,
+          out: "day 1\nday 2",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program Q1;
+var
+  F: Text;
+  S: string;
+begin
+  Assign(F, 't.txt');
+  Rewrite(F);
+  WriteLn(F, 'x');
+  WriteLn(F, 'y');
+  Close(F);
+  Assign(F, 't.txt');
+  Reset(F);
+  while not Eof(F) do
+  begin
+    ReadLn(F, S);
+    Write(S);
+  end;
+  Close(F);
+  WriteLn;
+end.`, options: ["xy", "x\ny", "yx", "x y"], answer: "xy", why: "Write prints without a newline, so x and y land on one line." },
+        { kind: "output", q: "What does this print?", code: `program Q2;
+var
+  F: Text;
+  S: string;
+begin
+  Assign(F, 'a.txt');
+  Rewrite(F);
+  WriteLn(F, 'oak');
+  Close(F);
+  Assign(F, 'a.txt');
+  Append(F);
+  WriteLn(F, 'elm');
+  Close(F);
+  Assign(F, 'a.txt');
+  Reset(F);
+  while not Eof(F) do
+  begin
+    ReadLn(F, S);
+    WriteLn(S);
+  end;
+  Close(F);
+end.`, options: ["oak\nelm", "elm", "oak", "oakelm"], answer: "oak\nelm", why: "Append adds elm after the line already written by Rewrite." },
+        { q: "What does Assign do?", options: ["Ties a file variable to a path, without opening it yet", "Opens the file for reading", "Deletes the file", "Creates a unit"], answer: "Ties a file variable to a path, without opening it yet", why: "Rewrite, Reset or Append is what actually opens the file." },
+        { q: "What does Val(S, N, Code) do?", options: ["Converts text S into number N; Code is 0 when it worked", "Only uppercases S", "Opens file S", "Splits S on spaces"], answer: "Converts text S into number N; Code is 0 when it worked", why: "Val is the Turbo Pascal way to parse a number from a string." },
+      ],
+    },
+    {
+      id: "pointers",
+      title: "Pointers and linked lists",
+      summary: "New, Dispose, ^ and a short chain of records.",
+      sections: [
+        {
+          p: "A pointer type is written <code>^T</code>: it holds the address of a <code>T</code>. <code>New(P)</code> allocates one on the heap and points <code>P</code> at it; <code>P^</code> is the value itself; <code>Dispose(P)</code> frees it. Linked structures use a pointer field inside a record. Always dispose what you new, in reverse order for a chain, or the heap leaks — on DOS that mattered quickly.",
+          code: `program Ptrs;
+type
+  PNode = ^TNode;
+  TNode = record
+    Nuts: Integer;
+    Next: PNode;
+  end;
+var
+  Head, P: PNode;
+  Sum: Integer;
+begin
+  New(Head);
+  Head^.Nuts := 3;
+  New(Head^.Next);
+  Head^.Next^.Nuts := 5;
+  New(Head^.Next^.Next);
+  Head^.Next^.Next^.Nuts := 7;
+  Head^.Next^.Next^.Next := nil;
+  Sum := 0;
+  P := Head;
+  while P <> nil do
+  begin
+    WriteLn(P^.Nuts);
+    Sum := Sum + P^.Nuts;
+    P := P^.Next;
+  end;
+  WriteLn('sum ', Sum);
+  Dispose(Head^.Next^.Next);
+  Dispose(Head^.Next);
+  Dispose(Head);
+end.`,
+          out: "3\n5\n7\nsum 15",
+        },
+        {
+          h: "Forward type names",
+          p: "Notice <code>PNode = ^TNode</code> before <code>TNode</code> is fully defined. Pascal allows that so a record can contain a pointer to its own type. <code>nil</code> means \"no node\", and is how the list ends.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program Q1;
+type
+  PInt = ^Integer;
+var
+  P: PInt;
+begin
+  New(P);
+  P^ := 9;
+  WriteLn(P^);
+  Dispose(P);
+end.`, options: ["9", "0", "P", "nil"], answer: "9", why: "P^ is the Integer on the heap, set to 9." },
+        { kind: "output", q: "What does this print?", code: `program Q2;
+type
+  PNode = ^TNode;
+  TNode = record
+    N: Integer;
+    Next: PNode;
+  end;
+var
+  A, B: PNode;
+begin
+  New(A);
+  A^.N := 1;
+  New(B);
+  B^.N := 2;
+  B^.Next := nil;
+  A^.Next := B;
+  WriteLn(A^.Next^.N);
+  Dispose(B);
+  Dispose(A);
+end.`, options: ["2", "1", "0", "nil"], answer: "2", why: "A^.Next is B, so A^.Next^.N is B's N." },
+        { q: "What does nil mean for a pointer?", options: ["It points at nothing", "It points at zero", "It is uninitialized memory", "It is the same as Dispose"], answer: "It points at nothing", why: "nil is the empty pointer value. Dispose frees memory; it does not by itself assign nil unless you do." },
+        { q: "What does New(P) do?", options: ["Allocates a value on the heap and points P at it", "Creates a file named P", "Zeros P^ only", "Declares a new type"], answer: "Allocates a value on the heap and points P at it", why: "New is heap allocation. The matching free is Dispose." },
+      ],
+    },
+    {
+      id: "objects",
+      title: "Objects",
+      summary: "Turbo Pascal object types, methods and Init.",
+      sections: [
+        {
+          p: "From Turbo Pascal 5.5, an <code>object</code> type holds fields and <b>methods</b> (procedures and functions declared inside the type). Method bodies are written later as <code>TypeName.MethodName</code>. You call them with a dot on a variable of that object type. This is the OOP style that led toward Delphi; it is not yet the later <code>class</code> model.",
+          code: `program Objs;
+type
+  TStash = object
+    Name: string[12];
+    Count: Integer;
+    procedure Init(AName: string; ACount: Integer);
+    procedure Add(N: Integer);
+    function Share(Parts: Integer): Integer;
+    procedure Report;
+  end;
+
+procedure TStash.Init(AName: string; ACount: Integer);
+begin
+  Name := AName;
+  Count := ACount;
+end;
+
+procedure TStash.Add(N: Integer);
+begin
+  Count := Count + N;
+end;
+
+function TStash.Share(Parts: Integer): Integer;
+begin
+  Share := Count div Parts;
+end;
+
+procedure TStash.Report;
+begin
+  WriteLn(Name, ': ', Count);
+end;
+
+var
+  S: TStash;
+begin
+  S.Init('Hazel', 10);
+  S.Add(5);
+  S.Report;
+  WriteLn('each ', S.Share(3));
+end.`,
+          out: "Hazel: 15\neach 5",
+        },
+        {
+          h: "Static objects on the stack",
+          p: "A plain <code>var S: TStash</code> lives like a record: no <code>New</code> needed. You can also allocate objects dynamically with <code>New</code> when you want polymorphism and virtual methods; that is a step further than this lesson.",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `program Q1;
+type
+  TBox = object
+    N: Integer;
+    procedure Inc;
+  end;
+procedure TBox.Inc;
+begin
+  N := N + 1;
+end;
+var
+  B: TBox;
+begin
+  B.N := 2;
+  B.Inc;
+  B.Inc;
+  WriteLn(B.N);
+end.`, options: ["4", "2", "3", "0"], answer: "4", why: "Inc runs twice, so N goes from 2 to 4." },
+        { kind: "output", q: "What does this print?", code: `program Q2;
+type
+  TCounter = object
+    N: Integer;
+    procedure Init;
+    procedure Tick;
+  end;
+procedure TCounter.Init;
+begin
+  N := 0;
+end;
+procedure TCounter.Tick;
+begin
+  N := N + 10;
+end;
+var
+  C: TCounter;
+begin
+  C.Init;
+  C.Tick;
+  C.Tick;
+  WriteLn(C.N);
+end.`, options: ["20", "10", "0", "2"], answer: "20", why: "Init sets 0, then two Tick calls add 10 each." },
+        { q: "How is a method body named?", options: ["TypeName.MethodName", "MethodName only", "object.MethodName", "implementation MethodName"], answer: "TypeName.MethodName", why: "TStash.Add tells the compiler which object type the method belongs to." },
+        { q: "How does Turbo Pascal object differ from a later Delphi class?", options: ["object is the older TP model; Delphi's class is reference-based with constructors", "They are identical", "object cannot have methods", "class cannot have fields"], answer: "object is the older TP model; Delphi's class is reference-based with constructors", why: "These lessons stay with object, which Turbo Pascal 7 understands." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: a nut ledger",
+      summary: "Enums, event records and a small stock report.",
+      sections: [
+        {
+          p: "A ledger of six events updates a stock array indexed by nut kind. Each event is a record with a kind (found, ate or gift), a nut and a count. Applying an event either adds stock, subtracts it, or prints <code>skipped</code> when there are not enough nuts — the same shape as the inventory projects in the other courses, in Turbo Pascal 7 style.",
+          code: `program NutLedger;
+type
+  TKind = (Acorn, Walnut, Hazelnut);
+  TEventKind = (Found, Ate, Gift);
+  TEvent = record
+    Kind: TEventKind;
+    Nut: TKind;
+    Count: Integer;
+  end;
+var
+  Stock: array[TKind] of Integer;
+  Events: array[1..6] of TEvent;
+  I: Integer;
+  K: TKind;
+  Names: array[TKind] of string[10];
+
+procedure Apply(E: TEvent);
+begin
+  case E.Kind of
+    Found: Stock[E.Nut] := Stock[E.Nut] + E.Count;
+    Ate, Gift:
+      if Stock[E.Nut] >= E.Count then
+        Stock[E.Nut] := Stock[E.Nut] - E.Count
+      else
+        WriteLn('skipped ', Names[E.Nut]);
+  end;
+end;
+
+begin
+  Names[Acorn] := 'acorn';
+  Names[Walnut] := 'walnut';
+  Names[Hazelnut] := 'hazelnut';
+  for K := Acorn to Hazelnut do
+    Stock[K] := 0;
+  Events[1].Kind := Found; Events[1].Nut := Acorn; Events[1].Count := 8;
+  Events[2].Kind := Found; Events[2].Nut := Walnut; Events[2].Count := 3;
+  Events[3].Kind := Ate; Events[3].Nut := Acorn; Events[3].Count := 2;
+  Events[4].Kind := Gift; Events[4].Nut := Walnut; Events[4].Count := 5;
+  Events[5].Kind := Found; Events[5].Nut := Hazelnut; Events[5].Count := 4;
+  Events[6].Kind := Gift; Events[6].Nut := Acorn; Events[6].Count := 1;
+  for I := 1 to 6 do
+    Apply(Events[I]);
+  for K := Acorn to Hazelnut do
+    WriteLn(Names[K], ': ', Stock[K]);
+end.`,
+          out: "skipped walnut\nacorn: 5\nwalnut: 3\nhazelnut: 4",
+        },
+        {
+          h: "Ideas to try",
+          p: "Load the events from a text file with <code>Reset</code> and <code>Val</code>, store the stock in an <code>object</code> with <code>Apply</code> as a method, or keep the events in a linked list of pointers.",
+        },
+      ],
+      practice: [
+        { q: "Why is walnut skipped?", options: ["The gift asks for 5 but only 3 are in stock", "Walnut is not in TKind", "Ate runs after Gift", "Names[Walnut] is empty"], answer: "The gift asks for 5 but only 3 are in stock", why: "Found adds 3 walnuts; Gift 5 fails the Stock >= Count check." },
+        { q: "What is the final acorn count?", options: ["5", "8", "6", "7"], answer: "5", why: "Start 0, found 8, ate 2, gift 1 leaves 5." },
+        { kind: "output", q: "What does this print?", code: `program Q1;
+type
+  TKind = (Acorn, Walnut);
+var
+  Stock: array[TKind] of Integer;
+begin
+  Stock[Acorn] := 4;
+  Stock[Walnut] := 1;
+  Stock[Acorn] := Stock[Acorn] - 2;
+  WriteLn(Stock[Acorn], ' ', Stock[Walnut]);
+end.`, options: ["2 1", "4 1", "2 0", "4 2"], answer: "2 1", why: "Acorn drops by 2; Walnut is untouched." },
       ],
     },
   ],
