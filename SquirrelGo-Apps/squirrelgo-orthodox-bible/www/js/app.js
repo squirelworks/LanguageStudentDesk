@@ -3,7 +3,7 @@
   const CATALOG = window.SGO_CATALOG || { bibles: [], commentary: [] };
   const VERS = window.SGO_VERSIFICATION || {};
   const STORE_KEY = "squirrelgo-orthodox-bible";
-  // Packs found in the latest GitHub release last time we looked, so texts
+  // Packs found in the dedicated packs release last time we looked, so texts
   // added after this build stay listed (and readable) offline.
   const CONTENT_KEY = STORE_KEY + "-content";
   let release = null;
@@ -150,10 +150,10 @@
       (await packTx("readonly", (st) => st.getAllKeys())).forEach((k) => INSTALLED.add(k));
     } catch {}
   }
-  // Try the latest release first; a desktop browser can't read release assets
+  // Try the packs release first; a desktop browser can't read release assets
   // (no cross-origin headers), so it falls back to the data branch.
   async function downloadPack(kind, c) {
-    if (!releaseChecked) await checkLatestRelease().catch(() => {});
+    if (!releaseChecked) await checkTextPacks().catch(() => {});
     const marker = kind === "bible" ? "SGO_BIBLES.push(" : "SGO_COMMENTARY.push(";
     let error = new Error("No download address");
     for (const url of [...new Set([c.releaseUrl, c.url].filter(Boolean))]) {
@@ -181,12 +181,15 @@
       save();
     }
   }
-  // ---- content expansion from the latest GitHub release ----
-  // Each SquirrelGo release carries orthodox-bible-content.json (the list of
-  // packs) and the packs themselves. The GitHub API allows cross-origin reads,
-  // so any build can find the latest release; only finding it needs a network.
+  // ---- content expansion from the dedicated packs release ----
+  // The orthodox-bible-packs release carries orthodox-bible-content.json
+  // (the list of packs) and the packs themselves. The GitHub API allows
+  // cross-origin reads, so any build can find that release; only finding
+  // it needs a network. The content list also falls back to the
+  // orthodox-bible-texts branch.
   const REPO = "squirelworks/LanguageStudentDesk";
-  const RELEASE_API = `https://api.github.com/repos/${REPO}/releases/latest`;
+  const PACKS_RELEASE_TAG = "orthodox-bible-packs";
+  const RELEASE_API = `https://api.github.com/repos/${REPO}/releases/tags/${PACKS_RELEASE_TAG}`;
   const CONTENT_FILE = "orthodox-bible-content.json";
   const BRANCH_CONTENT = `https://raw.githubusercontent.com/${REPO}/orthodox-bible-texts/${CONTENT_FILE}`;
   let releaseChecked = false;
@@ -216,14 +219,14 @@
     return added;
   }
 
-  async function checkLatestRelease() {
+  async function checkTextPacks() {
     releaseChecked = true;
     const res = await fetch(RELEASE_API);
     if (!res.ok) throw new Error(res.status === 403 ? "GitHub is busy, try again later" : `GitHub said ${res.status}`);
-    const latest = await res.json();
+    const packsRelease = await res.json();
     const assets = {};
-    (latest.assets || []).forEach((a) => (assets[a.name] = a.browser_download_url));
-    if (!assets[CONTENT_FILE]) throw new Error(`Release ${latest.tag_name} has no Bible packs yet`);
+    (packsRelease.assets || []).forEach((a) => (assets[a.name] = a.browser_download_url));
+    if (!assets[CONTENT_FILE]) throw new Error("No Bible packs are available yet");
     let index = null;
     for (const url of [assets[CONTENT_FILE], BRANCH_CONTENT]) {
       try {
@@ -235,7 +238,7 @@
       } catch {}
     }
     if (!index) throw new Error("Could not read the pack list");
-    const rel = { tag: latest.tag_name, checked: Date.now(), index, assets };
+    const rel = { tag: packsRelease.tag_name, checked: Date.now(), index, assets };
     const added = mergeContent(rel);
     added.filter((e) => CATALOG.bibles.includes(e)).forEach((b) => catBible.set(b.id, b));
     release = rel;
@@ -896,8 +899,8 @@
         .join("") : "";
     }).join("");
     const relNote = release
-      ? `From SquirrelGo ${esc(release.tag)}, checked ${esc(new Date(release.checked).toLocaleDateString())}`
-      : "More languages and Fathers download from the latest SquirrelGo release, then work offline.";
+      ? `Checked ${esc(new Date(release.checked).toLocaleDateString())}`
+      : "More languages and Fathers can be downloaded, then work offline.";
     main.innerHTML = `
       <p class="muted">Pick the main text, then tick any others to read beside it, verse by verse.</p>
       <div class="setting"><span class="what">More Bibles and commentary<small>${relNote}</small></span>
@@ -921,8 +924,8 @@
       e.target.disabled = true;
       e.target.textContent = "Checking…";
       try {
-        const { tag, added } = await checkLatestRelease();
-        toast(added ? `${added} new text${added === 1 ? "" : "s"} in SquirrelGo ${tag}` : `Up to date with SquirrelGo ${tag}`);
+        const { added } = await checkTextPacks();
+        toast(added ? `${added} new text${added === 1 ? "" : "s"}` : "Up to date");
       } catch (err) {
         toast(`Could not check: ${err.message}`);
       }
