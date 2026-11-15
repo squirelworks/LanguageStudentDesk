@@ -339,5 +339,268 @@ L  LL`, options: ["O", "L", "OL", "1"], answer: "O", why: "1 is not zero, so the
         { q: "What does L ST label do?", options: ["Calls a subroutine at that label", "Marks the label", "Jumps if zero", "Returns from a call"], answer: "Calls a subroutine at that label", why: "L ST is call; L TL returns; L SS marks; L TS is jump-if-zero." },
       ],
     },
+    {
+      id: "copy",
+      title: "Copy and slide",
+      summary: "Reaching deeper stack items without losing the top.",
+      sections: [
+        {
+          p: "<code>S TS n</code> copies the item n places down (0 is the top, 1 is under it) onto the top, without removing the original. Push 5, push 2, copy 1: the stack becomes 5, 2, 5 — useful when a later sum still needs an earlier value.",
+          code: `S  S  STSTL       push 5
+S  S  STSL        push 2
+S  TS STL         copy 1 deep (the 5)
+TL ST
+TL ST
+TL ST
+L  LL`,
+          out: "525",
+        },
+        {
+          h: "Slide",
+          p: "<code>S TL n</code> keeps the top value and throws away the n items under it. Push 1, 2, 3, then slide 1: 2 is dropped and 3 stays on 1. It is the tidy-up after a calculation that left clutter under the answer.",
+          code: `S  S  STL         push 1
+S  S  STSL        push 2
+S  S  STTL        push 3
+S  TL STL         slide 1
+TL ST
+TL ST
+L  LL`,
+          out: "31",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `S  S  STSSSL
+S  S  STSTL
+S  S  STTL
+S  TS STSL
+TL ST
+L  LL`, options: ["8", "5", "3", "853"], answer: "8", why: "Copy 2 reaches the bottom 8 and prints it." },
+        { kind: "output", q: "What does this print?", code: `S  S  STL
+S  S  STSL
+S  S  STTL
+S  S  STSSL
+S  TL STSL
+TL ST
+TL ST
+L  LL`, options: ["41", "14", "43", "21"], answer: "41", why: "Slide 2 keeps 4 on top of 1; printing pops 4 then 1." },
+        { q: "In S TS n, what is n = 0?", options: ["A copy of the top item", "The bottom of the stack", "Always zero", "An error"], answer: "A copy of the top item", why: "Depth 0 means the top; copy then acts like duplicate." },
+        { q: "What does S TL n keep?", options: ["The top value, after dropping n items under it", "Only the bottom n items", "Nothing", "The label n"], answer: "The top value, after dropping n items under it", why: "Slide pops the top, deletes n below, then pushes the top back." },
+      ],
+    },
+    {
+      id: "io",
+      title: "Reading input",
+      summary: "getc and getn, and what end-of-input means here.",
+      sections: [
+        {
+          p: "<code>TL TT</code> reads a whole number into the heap at the address on the stack; <code>TL TS</code> reads one character's code the same way. The checker has no typed input, so both hit end-of-input: <code>getn</code> stores 0 and <code>getc</code> stores −1. Real Whitespace programs use that as a signal to stop reading.",
+          code: `S  S  SL          address 0
+TL TT             read a number (end of input → 0)
+S  S  SL
+TT T
+TL ST             prints 0
+S  S  STSSSSSL    a space
+TL SS
+S  S  STSSTTTSL   78, N
+TL SS
+L  LL`,
+          out: "0 N",
+        },
+        {
+          h: "End of characters",
+          p: "A character read at end of input is −1, which is handy with jump-if-negative: keep reading until the heap holds −1, then leave the loop.",
+          code: `S  S  SL          address 0
+TL TS             read a character (end of input → −1)
+S  S  SL
+TT T
+TL ST
+L  LL`,
+          out: "-1",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `S  S  STL
+TL TT
+S  S  STL
+TT T
+TL ST
+L  LL`, options: ["0", "-1", "1", ""], answer: "0", why: "getn at end of input stores 0 at the address." },
+        { kind: "output", q: "What does this print?", code: `S  S  SL
+TL TS
+S  S  SL
+TT T
+S  LS
+L  TT SL
+S  S  STSSTTTSL
+TL SS
+L  LL
+L  SS SL
+S  S  STSSTTSSL
+TL SS
+L  LL`, options: ["L", "O", "LO", "-1"], answer: "L", why: "getc stored −1, so jump-if-negative prints 76 (L)." },
+        { q: "Which command reads a number into the heap?", options: ["TL TT", "TL TS", "TL ST", "TT S"], answer: "TL TT", why: "TL TT is getn; TL TS is getc; TL ST prints a number." },
+        { q: "Why do these lessons show 0 and −1 for input?", options: ["The checker has no typed input, so both hit end-of-input", "Whitespace cannot read", "0 and −1 are the only legal values", "The heap starts full"], answer: "The checker has no typed input, so both hit end-of-input", why: "Empty input is the portable way to test the read commands here." },
+      ],
+    },
+    {
+      id: "heap2",
+      title: "Strings on the heap",
+      summary: "Storing character codes in order and printing them back.",
+      sections: [
+        {
+          p: "A word is just character codes in consecutive heap addresses. Store N, U, T, S at 0–3, then loop an index: load, print as a character, add one, stop when the index minus 4 is zero. The same pattern builds any fixed string without keeping every code on the stack at once.",
+          code: `S  S  SL
+S  S  STSSTTTSL   78, code for n
+TT S
+S  S  STL
+S  S  STSTSTSTL   85, code for u
+TT S
+S  S  STSL
+S  S  STSTSTSSL   84, code for t
+TT S
+S  S  STTL
+S  S  STSTSSTTL   83, code for s
+TT S
+S  S  SL          index begins at 0
+L  SS SL
+S  LS
+TT T
+TL SS
+S  S  STL
+TS SS             add one to the index
+S  LS
+S  S  STSSL       four
+TS ST
+L  TS TL          finish when index minus four is 0
+L  SL SL
+L  SS TL
+S  LL
+L  LL`,
+          out: "NUTS",
+        },
+        {
+          h: "Running totals",
+          p: "Heap cells also hold counters. Load, add, store back — the oak cell starts at 2, gains 3, and prints beside elm's 1.",
+          code: `S  S  SL
+S  S  STSL
+TT S              oak begins at 2
+S  S  STL
+S  S  STL
+TT S              elm begins at 1
+S  S  SL
+S  S  SL
+TT T
+S  S  STTL
+TS SS
+TT S              oak becomes 2 plus 3
+S  S  SL
+TT T
+TL ST
+S  S  STSSSSSL
+TL SS
+S  S  STL
+TT T
+TL ST
+L  LL`,
+          out: "5 1",
+        },
+      ],
+      practice: [
+        { kind: "output", q: "What does this print?", code: `S  S  SL
+S  S  STSSSSSTL
+TT S
+S  S  STL
+S  S  STSSSSTSL
+TT S
+S  S  SL
+TT T
+TL SS
+S  S  STL
+TT T
+TL SS
+L  LL`, options: ["AB", "BA", "6566", "A"], answer: "AB", why: "65 and 66 are A and B, stored at 0 and 1 then printed." },
+        { kind: "output", q: "What does this print?", code: `S  S  SL
+S  S  STSTL
+TT S
+S  S  SL
+TT T
+S  S  STSL
+TS SS
+S  S  SL
+S  LT
+TT S
+S  S  SL
+TT T
+TL ST
+L  LL`, options: ["7", "5", "2", "52"], answer: "7", why: "Heap[0] starts at 5, then 5 + 2 is stored back and printed." },
+        { q: "Why store a word on the heap instead of the stack?", options: ["Addresses stay put while the stack is busy with the loop", "The heap prints automatically", "Stack cells cannot hold character codes", "Labels only work with the heap"], answer: "Addresses stay put while the stack is busy with the loop", why: "The index and arithmetic need the stack; the letters wait in the heap." },
+      ],
+    },
+    {
+      id: "project",
+      title: "Project: reverse a word",
+      summary: "Heap storage, a countdown loop and character output.",
+      sections: [
+        {
+          p: "Store A, C, O, R, N at addresses 0–4, then count the index down from 4. Each round loads that cell, prints it as a character, subtracts one, and jump-if-negative stops after address 0 is done — a tiny Whitespace program that uses the heap, arithmetic, labels and output together.",
+          code: `S  S  SL
+S  S  STSSSSSTL   65, code for a
+TT S
+S  S  STL
+S  S  STSSSSTTL   67, code for c
+TT S
+S  S  STSL
+S  S  STSSTTTTL   79, code for o
+TT S
+S  S  STTL
+S  S  STSTSSTSL   82, code for r
+TT S
+S  S  STSSL
+S  S  STSSTTTSL   78, code for n
+TT S
+S  S  STSSL       index begins at 4
+L  SS SL
+S  LS
+TT T
+TL SS
+S  S  STL
+TS ST             subtract one from the index
+S  LS
+L  TT TL          leave when the index is below zero
+L  SL SL
+L  SS TL
+S  LL
+L  LL`,
+          out: "NROCA",
+        },
+        {
+          h: "Ideas to try",
+          p: "Print a space between letters, reverse only part of the word, or write a subroutine that prints one heap address so the main loop only counts.",
+        },
+      ],
+      practice: [
+        { q: "Why does the loop start i at 4?", options: ["N sits at address 4, the last letter of ACORN", "Whitespace arrays are one-based", "4 is the code for A", "Jump-if-negative needs 4"], answer: "N sits at address 4, the last letter of ACORN", why: "Counting down from the last index prints the word backwards." },
+        { q: "What stops the countdown?", options: ["Jump-if-negative after i goes below 0", "Jump-if-zero on i", "Running off the end", "An end command inside the loop"], answer: "Jump-if-negative after i goes below 0", why: "After printing address 0, i becomes −1 and L TT fires." },
+        { kind: "output", q: "What does this print?", code: `S  S  SL
+S  S  STSSSSSTL
+TT S
+S  S  STL
+S  S  STSSSSTSL
+TT S
+S  S  STL
+L  SS SL
+S  LS
+TT T
+TL SS
+S  S  STL
+TS ST
+S  LS
+L  TT TL
+L  SL SL
+L  SS TL
+S  LL
+L  LL`, options: ["BA", "AB", "A", "B"], answer: "BA", why: "Countdown from 1 prints heap[1] then heap[0]: B then A." },
+      ],
+    },
   ],
 };
