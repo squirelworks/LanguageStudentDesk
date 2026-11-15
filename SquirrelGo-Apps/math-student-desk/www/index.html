@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f12">
+<title>Math Student Desk</title>
+<link rel="stylesheet" href="../../../languages/lsd-features.css">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 1.1rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #0f0f12;
+    color: #e8e8e8;
+  }
+  header h1 { margin: 0; color: #26a69a; font-size: 1.55rem; letter-spacing: -0.02em; }
+  header p { margin: 0.35rem 0 0; color: #aaa; line-height: 1.4; }
+  .note { margin: 0.8rem 0 0; color: #ffcc80; font-size: 0.9rem; }
+  ul { list-style: none; margin: 0.8rem 0 0; padding: 0; }
+  a.card {
+    display: block;
+    margin: 0.55rem 0;
+    padding: 0.9rem 1rem;
+    background: #1a1a20;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    min-height: 44px;
+  }
+  a.card:active { background: #252530; }
+  a.card strong { display: block; color: #80cbc4; font-size: 1.05rem; }
+  a.card span { display: block; margin-top: 0.25rem; color: #aaa; font-size: 0.9rem; line-height: 1.35; }
+  .bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 0.2rem; }
+  .seg { display: inline-flex; border: 1px solid #333; border-radius: 10px; overflow: hidden; }
+  .bar button { font: inherit; color: #e8e8e8; background: #1a1a20; border: 1px solid #333; min-height: 40px; padding: 0.35rem 0.9rem; }
+  .seg button { border: none; }
+  .seg button + button { border-left: 1px solid #333; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chips button { border-radius: 999px; font-size: 0.9rem; }
+  .bar button.on { background: #26a69a; border-color: #26a69a; color: #fff; }
+  h2 { margin: 1.2rem 0 0; color: #80cbc4; font-size: 1.1rem; }
+  h2 + p { margin: 0.2rem 0 0; color: #aaa; font-size: 0.85rem; }
+  a.card em { display: block; margin-top: 0.3rem; color: #8e8e93; font-size: 0.8rem; font-style: normal; }
+  .switches { margin: 0.6rem 0 0; }
+  footer { margin-top: 1.2rem; color: #8e8e93; font-size: 0.8rem; line-height: 1.4; }
+</style>
+</head>
+<body hidden>
+<header>
+  <h1>Math Student Desk</h1>
+  <p id="lead">Courses from the Math Learner. Each one opens in this app.</p>
+  <p class="note" id="note" hidden></p>
+</header>
+<div class="bar" id="bar"></div>
+<div class="switches" id="switches"></div>
+<div id="list"></div>
+<footer>Language Student Desk · Math Student Desk<br>Back returns to this menu. Progress stays on this device.</footer>
+<script src="../../../math-learner/data/catalog.js"></script>
+<script src="../../../languages/features.js"></script>
+<script src="../../../languages/lsd-features.js"></script>
+<script src="../../../math-learner/sections.js"></script>
+<script>
+(function () {
+  var LEARNER = "../../../math-learner/index.html";
+  var SECTIONS = window.MATH_SECTIONS;
+  var catalog = (window.MATH_CATALOG || []).slice().sort(SECTIONS.byName);
+  var TAGS = SECTIONS.tags(catalog);
+  var layout = SECTIONS.load();
+  if (layout.tag && TAGS.indexOf(layout.tag) < 0) layout.tag = "";
+  var show = SECTIONS.shown();
+  var params = new URLSearchParams(location.search);
+  var lang = (params.get("lang") || "").trim().toLowerCase();
+  var match = null;
+  for (var i = 0; i < catalog.length; i++) {
+    if (catalog[i].id === lang) { match = catalog[i]; break; }
+  }
+  // The Desk launcher opens this page with ?lang=<course id>.
+  if (match) {
+    location.replace(LEARNER + "?lang=" + encodeURIComponent(match.id) + location.hash);
+    return;
+  }
+  document.body.hidden = false;
+  var list = document.getElementById("list");
+  var bar = document.getElementById("bar");
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function card(parent, href, title, desc, tags) {
+    var li = el("li");
+    var a = el("a", "card");
+    a.href = href;
+    a.appendChild(el("strong", "", title));
+    a.appendChild(el("span", "", desc));
+    if (tags && tags.length) a.appendChild(el("em", "", tags.join(" · ")));
+    li.appendChild(a);
+    parent.appendChild(li);
+  }
+  function button(parent, label, on, onclick) {
+    var b = el("button", on ? "on" : "", label);
+    b.type = "button";
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.onclick = onclick;
+    parent.appendChild(b);
+  }
+  function pick(change) {
+    for (var k in change) layout[k] = change[k];
+    SECTIONS.save(layout);
+    render();
+  }
+  function render() {
+    bar.innerHTML = "";
+    var seg = el("div", "seg");
+    seg.setAttribute("role", "group");
+    seg.setAttribute("aria-label", "View");
+    button(seg, "By section", layout.view !== "az", function () { pick({ view: "sections" }); });
+    button(seg, "A–Z", layout.view === "az", function () { pick({ view: "az" }); });
+    bar.appendChild(seg);
+    if (TAGS.length) {
+      var chips = el("div", "chips");
+      chips.setAttribute("role", "group");
+      chips.setAttribute("aria-label", "Category");
+      button(chips, "All", !layout.tag, function () { pick({ tag: "" }); });
+      TAGS.forEach(function (t) {
+        button(chips, t, layout.tag === t, function () { pick({ tag: t }); });
+      });
+      bar.appendChild(chips);
+    }
+    SECTIONS.renderSwitches(document.getElementById("switches"));
+    list.innerHTML = "";
+    var top = el("ul");
+    card(top, LEARNER, "All courses", "Open the Math Learner and pick from the same list.");
+    list.appendChild(top);
+    var blocks = SECTIONS.arrange(catalog, { view: layout.view, tag: layout.tag, show: show });
+    if (!blocks.length) list.appendChild(el("p", "note", "No courses match this filter."));
+    blocks.forEach(function (b) {
+      if (layout.view !== "az") {
+        list.appendChild(el("h2", "", b.title));
+        list.appendChild(el("p", "", b.sub));
+      }
+      var ul = el("ul");
+      b.items.forEach(function (c) {
+        card(ul, LEARNER + "?lang=" + encodeURIComponent(c.id), c.name, c.era + " — " + c.blurb, c.tags);
+      });
+      list.appendChild(ul);
+    });
+  }
+  render();
+  if (lang) {
+    var note = document.getElementById("note");
+    note.hidden = false;
+    note.textContent = "No math course with id “" + lang + "”. Pick one below.";
+  }
+})();
+</script>
+</body>
+</html>
