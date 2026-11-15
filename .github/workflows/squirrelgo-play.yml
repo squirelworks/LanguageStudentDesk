@@ -254,8 +254,10 @@ jobs:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
           PLAY="$DIR/android/app/src/main/play"
-          if [ ! -d "$PLAY" ]; then
-            echo "no $PLAY; skipping store listing"
+          # Some apps keep only their icon and feature graphic in play/; the
+          # listing needs the text pack too, so skip apps that don't have one.
+          if [ ! -f "$PLAY/listing/en-US/title.txt" ]; then
+            echo "no listing text in $PLAY; skipping store listing"
             exit 0
           fi
           python -m pip install -q google-api-python-client google-auth
