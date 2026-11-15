@@ -91,6 +91,8 @@ jobs:
         run: python3 programming-learner/tools/check_packs.py
       - name: Math packs check out
         run: python3 math-learner/tools/check_packs.py
+      - name: Math packs match the pinned data
+        run: python3 data/tools/gen_math.py --out math-learner/data --check
       - name: Translation Learner matrix matches the pinned data
         run: python3 data/tools/gen_meaning.py --out translation-learner/data --check
       - name: Translation Learner matrix and language-pair tests

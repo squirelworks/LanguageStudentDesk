@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/columns/cyrillic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/cyrillic.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Russian column of the meaning matrix. Written for this project. Tokens are
 // [text, romanization, meaning id].
 // Russian has no articles and drops the present-tense "to be" (Он мой друг, Это

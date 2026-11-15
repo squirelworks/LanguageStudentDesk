@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 3ad5cb9 meaning/ by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // The meaning matrix: TL_MEANINGS (id -> English that may carry it, "|"
 // between alternatives; "(label)" first for grammar), TL_PACK_TITLES,
 // TL_SENTENCES (the rows) and TL_PHRASINGS.

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data ffd03a7 meaning/columns/greek.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
+// Generated from squirrel-lang-data 3ad5cb9 meaning/columns/greek.jsonl by: python3 data/tools/gen_meaning.py --out translation-learner/data
 // Modern Greek column of the meaning matrix. Written for this project. Tokens
 // are [text, romanization, meaning id]. Verb endings mark the person, so "I"
 // and "you" are often implied. The Greek question mark is ";". Sources: forms

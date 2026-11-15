@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 3f2ac7a math/topology/course.json by: python3 data/tools/gen_math.py --out math-learner/data
+// Generated from squirrel-lang-data 3ad5cb9 math/topology/course.json by: python3 data/tools/gen_math.py --out math-learner/data
 window.MATH = window.MATH || {};
 window.MATH.topology = {
   "id": "topology",
