@@ -212,6 +212,18 @@ jobs:
             --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
             --status "${{ inputs.status || 'completed' }}" \
             --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
+      - name: Store listing
+        if: steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          PLAY="$DIR/android/app/src/main/play"
+          if [ ! -d "$PLAY" ]; then
+            echo "no $PLAY; skipping store listing"
+            exit 0
+          fi
+          python -m pip install -q google-api-python-client google-auth
+          python .github/scripts/squirrelator_play.py listing --package "$PKG" --dir "$PLAY"
       - name: Remove the key and the AAB
         if: always()
         run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
