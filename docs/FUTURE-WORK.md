@@ -183,8 +183,9 @@ one.
    and **Electronics Student Desk** (#346) are on `main` too (Desk and
    phone stay twins). Do not ship course JS only inside this repo. Play
    package ids are in `docs/PLAY.md` and `PRIVACY.md` (#349). Draft-release
-   APK wiring is on `main` for both twins; Play upload stays until the
-   owner creates the Console apps (the Play check would fail before that).
+   APK wiring (#350) and compile-only APK CI (#351) are on `main` for both
+   twins; Play upload stays until the owner creates the Console apps (the
+   Play check would fail before that).
 3. **Character variants (`variants/`)** from Unihan, and traditional ↔
    simplified Chinese linked both ways (#200). squirrelator's conversion mode
    (Phase 2b) builds on it.
