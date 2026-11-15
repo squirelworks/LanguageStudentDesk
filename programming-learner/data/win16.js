@@ -20,6 +20,8 @@ window.PROGRAMMING.win16 = {
     "InvalidateRect", "GetClientRect", "CreatePen", "CreateSolidBrush", "SelectObject", "DeleteObject", "Rectangle", "Ellipse", "MoveTo", "LineTo",
     "SetTimer", "KillTimer", "DialogBox", "EndDialog", "MakeProcInstance", "FreeProcInstance", "GlobalAlloc", "GlobalLock", "GlobalUnlock", "GlobalFree",
     "wsprintf", "lstrlen", "LOWORD", "HIWORD", "SendMessage", "SetWindowText", "GetWindowText", "HGLOBAL", "HPEN", "HBRUSH", "FARPROC", "DWORD", "WORD",
+    "OpenClipboard", "CloseClipboard", "EmptyClipboard", "SetClipboardData", "GetClipboardData", "IsClipboardFormatAvailable", "CF_TEXT",
+    "lstrcpyn", "LoadLibrary", "GetProcAddress", "LibMain", "UnlockData", "LIBRARY", "HEAPSIZE", "STACKSIZE", "STUB",
   ],
   lessons: [
     {
@@ -488,6 +490,157 @@ case WM_COMMAND:
         { q: "Why did MoveTo become MoveToEx?", options: ["The old return value packed two 16-bit coordinates into 32 bits", "MoveTo was too slow", "To add colour", "Ex means for Excel"], answer: "The old return value packed two 16-bit coordinates into 32 bits", why: "With 32-bit coordinates the old position no longer fits, so MoveToEx returns it through a POINT pointer." },
         { q: "In Win32 WM_COMMAND, where is the notification code such as BN_CLICKED?", options: ["HIWORD(wParam)", "HIWORD(lParam)", "LOWORD(lParam)", "wParam as a whole"], answer: "HIWORD(wParam)", why: "Win32 packs ID and notification into wParam; the control handle is lParam." },
         { q: "What happened to NEAR and FAR in Win32?", options: ["They mean nothing in the flat 32-bit address space", "They became larger", "NEAR is required for strings", "FAR replaced HWND"], answer: "They mean nothing in the flat 32-bit address space", why: "Win32 uses a single linear address space, so segment:offset pointers go away." },
+      ],
+    },
+    {
+      id: "clipboard",
+      title: "The clipboard",
+      summary: "Share text between programs with OpenClipboard and CF_TEXT.",
+      sections: [
+        {
+          p: "Windows 3.x programs share selected text (and later bitmaps and other formats) through the <b>clipboard</b>. Only one program owns it at a time. You open it, optionally empty it, put data in or take data out, then close it. The data lives in a global memory block with a format tag such as <code>CF_TEXT</code>.",
+          code: `/* Copy a C string to the clipboard as CF_TEXT */
+void CopyText(HWND hwnd, char FAR *text)
+{
+    HGLOBAL hMem;
+    char FAR *p;
+    int len;
+
+    len = lstrlen(text) + 1;
+    hMem = GlobalAlloc(GMEM_MOVEABLE, len);
+    if (!hMem)
+        return;
+    p = GlobalLock(hMem);
+    lstrcpy(p, text);
+    GlobalUnlock(hMem);
+
+    if (OpenClipboard(hwnd)) {
+        EmptyClipboard();
+        SetClipboardData(CF_TEXT, hMem);   /* ownership passes to Windows */
+        CloseClipboard();
+    } else {
+        GlobalFree(hMem);                  /* open failed: free it ourselves */
+    }
+}`,
+        },
+        {
+          h: "Reading text back",
+          p: "Check that the format you want is available, then lock the handle Windows gives you. Do not free clipboard data while it is on the clipboard — Windows owns it after a successful <code>SetClipboardData</code>.",
+          code: `void PasteText(HWND hwnd, char FAR *buf, int buflen)
+{
+    HGLOBAL hMem;
+    char FAR *p;
+
+    if (!IsClipboardFormatAvailable(CF_TEXT))
+        return;
+    if (!OpenClipboard(hwnd))
+        return;
+    hMem = GetClipboardData(CF_TEXT);
+    if (hMem) {
+        p = GlobalLock(hMem);
+        if (p) {
+            /* copy out; leave the block locked only briefly */
+            lstrcpyn(buf, p, buflen);
+            GlobalUnlock(hMem);
+        }
+    }
+    CloseClipboard();
+}`,
+        },
+        {
+          h: "Ownership and formats",
+          p: "After <code>SetClipboardData</code>, do not <code>GlobalFree</code> that handle: the clipboard will free it when something else empties the clipboard. Other common formats include <code>CF_BITMAP</code> and <code>CF_METAFILE</code>. Programs can register private formats with <code>RegisterClipboardFormat</code> when they need a custom structure.",
+        },
+        {
+          h: "Keep the open short",
+          p: "Hold the clipboard open only for the few lines that empty, set or get data. Another program cannot open it while yours holds it, and a crash with the clipboard open can leave the desktop awkward until restart. Copy into your own buffer, close, then work with the copy.",
+        },
+      ],
+      practice: [
+        { q: "What must you call before SetClipboardData?", options: ["OpenClipboard", "BeginPaint", "RegisterClass", "CreateWindow"], answer: "OpenClipboard", why: "The clipboard is a shared resource; OpenClipboard claims it for your window." },
+        { q: "Who owns the memory after a successful SetClipboardData?", options: ["Windows (the clipboard)", "Your program forever", "The previous owner", "Nobody"], answer: "Windows (the clipboard)", why: "Do not GlobalFree that handle yourself; EmptyClipboard or a later Set will free it." },
+        { q: "Which format is plain null-terminated text?", options: ["CF_TEXT", "CF_BITMAP", "CF_METAFILE", "CF_OWNERDISPLAY"], answer: "CF_TEXT", why: "CF_TEXT is the classic ANSI text format on Win16." },
+        { q: "What should you do if OpenClipboard fails after GlobalAlloc for a copy?", options: ["GlobalFree the block yourself", "Call SetClipboardData anyway", "Ignore the failure", "Call PostQuitMessage"], answer: "GlobalFree the block yourself", why: "Ownership never passed to the clipboard, so your program must free the allocation." },
+        { q: "Why keep OpenClipboard … CloseClipboard as short as possible?", options: ["Other programs cannot open the clipboard while you hold it", "Windows deletes your window otherwise", "Timers stop", "GDI pens leak"], answer: "Other programs cannot open the clipboard while you hold it", why: "The clipboard is exclusive; a long hold blocks paste and copy elsewhere." },
+        { q: "Before GetClipboardData for text, what is a good check?", options: ["IsClipboardFormatAvailable(CF_TEXT)", "hPrevInstance != NULL", "PeekMessage", "KillTimer"], answer: "IsClipboardFormatAvailable(CF_TEXT)", why: "Avoid opening and finding nothing useful when the user has only a bitmap on the clipboard." },
+      ],
+    },
+    {
+      id: "module-def",
+      title: "Module definition and DLLs",
+      summary: "The .DEF file, EXPORTS, and a tiny Win16 DLL.",
+      sections: [
+        {
+          p: "A Win16 program is a <b>module</b>. Besides the .C sources you usually ship a <code>.DEF</code> file that names the module, says it is a Windows app, and lists functions that other modules may call. The linker reads that file when it builds the .EXE or .DLL.",
+          code: `; nutshell.def — for an ordinary Windows program
+NAME        NUTSHELL
+DESCRIPTION 'Gather nuts under Windows 3.1'
+EXETYPE     WINDOWS
+STUB        'WINSTUB.EXE'
+CODE        PRELOAD MOVEABLE DISCARDABLE
+DATA        PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE    1024
+STACKSIZE   8192`,
+        },
+        {
+          h: "What the lines mean",
+          p: "<code>NAME</code> is the module name Windows shows. <code>EXETYPE WINDOWS</code> marks a Windows program rather than a DOS one. <code>STUB</code> is a tiny DOS program that prints an error if someone runs the EXE from plain DOS. <code>CODE</code> and <code>DATA</code> say how segments load; <code>MOVEABLE DISCARDABLE</code> lets Windows throw code away and reload it from disk when RAM is tight. <code>MULTIPLE</code> data gives each running copy its own data segment — that is why <code>hPrevInstance</code> mattered in WinMain.",
+        },
+        {
+          h: "A tiny DLL",
+          p: "A DLL is also a module, but it uses <code>LIBRARY</code> instead of <code>NAME</code>, and it exports entry points. Other programs load it with <code>LoadLibrary</code> / <code>GetProcAddress</code>, or the linker binds the import at build time.",
+          code: `; nuts.dll — nutshell.def for a library
+LIBRARY     NUTS
+DESCRIPTION 'Shared helpers for Nutshell'
+EXETYPE     WINDOWS
+CODE        PRELOAD MOVEABLE DISCARDABLE
+DATA        PRELOAD MOVEABLE SINGLE
+HEAPSIZE    1024
+EXPORTS
+    AddNuts   @1
+    ClearNuts @2
+
+/* nuts.c */
+#include <windows.h>
+
+int FAR PASCAL AddNuts(int a, int b)
+{
+    return a + b;
+}
+
+void FAR PASCAL ClearNuts(int FAR *p)
+{
+    if (p)
+        *p = 0;
+}
+
+int FAR PASCAL LibMain(HINSTANCE hInstance, WORD wDataSeg,
+                       WORD cbHeapSize, LPSTR lpCmdLine)
+{
+    if (cbHeapSize != 0)
+        UnlockData(0);
+    return 1;   /* success */
+}`,
+        },
+        {
+          h: "Calling from the EXE",
+          p: "Declare the DLL function with the same calling convention the export used (<code>FAR PASCAL</code> on Win16), and either link an import library or load it by hand. Always match the ordinal or name you put under <code>EXPORTS</code>.",
+          code: `/* In the EXE */
+int FAR PASCAL AddNuts(int, int);   /* from NUTS.DLL */
+
+case WM_COMMAND:
+    if (wParam == IDC_GATHER)
+        nuts = AddNuts(nuts, 1);
+    break;`,
+        },
+      ],
+      practice: [
+        { q: "What does a .DEF file tell the linker?", options: ["Module name, type, segment flags and exports", "Only the icon", "The colour of the title bar", "Which compiler to use"], answer: "Module name, type, segment flags and exports", why: "NAME/LIBRARY, EXETYPE, CODE/DATA and EXPORTS are the usual contents." },
+        { q: "Which .DEF keyword starts a DLL instead of an EXE?", options: ["LIBRARY", "NAME", "STUB", "HEAPSIZE"], answer: "LIBRARY", why: "EXE modules use NAME; DLLs use LIBRARY." },
+        { q: "Why mark CODE as DISCARDABLE?", options: ["Windows can throw the segment away and reload it from disk", "It runs faster", "It shares data between copies", "It disables the message loop"], answer: "Windows can throw the segment away and reload it from disk", why: "On small RAM machines discardable code frees memory when another program needs it." },
+        { q: "What does DATA MULTIPLE mean for an EXE?", options: ["Each running copy gets its own data segment", "Data is read-only", "Data is shared with every DLL", "The stack is unlimited"], answer: "Each running copy gets its own data segment", why: "That is why the first instance registers the class and later copies see a non-NULL hPrevInstance." },
+        { q: "Where do you list AddNuts so other modules can call it?", options: ["Under EXPORTS in the .DEF file", "Only in WinMain", "In the resource .RC file", "In WINSTUB.EXE"], answer: "Under EXPORTS in the .DEF file", why: "EXPORTS publishes the names or ordinals other modules may import." },
+        { q: "What should LibMain return on success?", options: ["1", "0", "-1", "WM_QUIT"], answer: "1", why: "A zero return means the DLL failed to initialise and Windows unloads it." },
       ],
     },
   ],
