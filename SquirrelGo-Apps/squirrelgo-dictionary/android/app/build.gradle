@@ -18,8 +18,8 @@ android {
         applicationId "com.squirelworks.squirrelgodictionary"
         minSdk 24
         targetSdk 36
-        versionCode 14
-        versionName "1.1.12"
+        versionCode 15
+        versionName "1.1.13"
     }
 
     // A fixed debug key, so new builds install over old ones and keep your lists.
