@@ -42,7 +42,7 @@ Programming Student Desk, Maths Edu-Training Helper, Electronics Student Desk, L
 
 Language Student Desk, Programming Student Desk, Maths Edu-Training Helper and Electronics Student Desk can hand an `https` link to your browser (for example a resource page). SquirrelGo Alphabets, Bopomofo, Kana, Kanji, Klingon, Phrasebook, Dictionary, and Orthodox Bible can do the same from the suite sheet (for example a reference page or a related download). The browser loads that page. The app does not receive the page contents.
 
-SquirrelGo Orthodox Bible declares `INTERNET` for one purpose: if you choose to download an extra Bible or commentary pack, the app asks GitHub which files the latest SquirrelGo release offers (`api.github.com`), fetches the public text file over HTTPS from GitHub (`github.com` release downloads, or `raw.githubusercontent.com`) and saves it on the device. The request is a file download. Notes, bookmarks, and highlights are not uploaded.
+SquirrelGo Orthodox Bible declares `INTERNET` for one purpose: if you choose to download an extra Bible or commentary pack, the app asks GitHub which files the Orthodox Bible text packs release offers (`api.github.com`), fetches the public text file over HTTPS from GitHub (`github.com` release downloads, or `raw.githubusercontent.com`) and saves it on the device. The request is a file download. Notes, bookmarks, and highlights are not uploaded.
 
 ## Audio, speech, microphone, and location
 

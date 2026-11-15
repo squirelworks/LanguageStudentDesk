@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Write orthodox-bible-content.json, the list of downloadable packs that a
-GitHub release carries.
+"""Write orthodox-bible-content.json, the list of downloadable packs that the
+dedicated orthodox-bible-packs GitHub release carries.
 
-The app reads it from the latest release (see README.md, "From the latest
-GitHub release"). Each entry is the pack's catalog entry plus:
+The app reads it from that release (see README.md, "From the dedicated
+packs release"). Each entry is the pack's catalog entry plus:
 
 - "file": the release asset that holds the pack (orthodox-bible-<id>.js or
   orthodox-commentary-<id>.js), and
