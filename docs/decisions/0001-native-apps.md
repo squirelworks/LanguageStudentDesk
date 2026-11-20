@@ -254,6 +254,10 @@ plus Latin, and offers more Bibles and Fathers as optional content packs. When
 the user picks one, the app looks up the latest GitHub release and downloads
 that pack. The app works fully without them.
 
+A second exception (owner, 2026-11-20): dictionary packs release separately from
+squirrel-lang-data and the dictionary apps download or update them; see
+`0002-dictionaries.md`.
+
 Downloadable content packs for everything else were considered and turned down. They'd make the
 first download smaller, but the apps would need a network step, would depend on
 GitHub staying reachable, and couldn't be one lifetime download.
