@@ -58,6 +58,8 @@ fun catalogTask(
         inputs.file("tools/kana_catalog.py")
         val about = repo.resolve(lessons).parentFile.resolve("app.js")
         if (about.isFile) inputs.file(about)
+        val css = repo.resolve(lessons).parentFile.parentFile.resolve("css/app.css")
+        if (css.isFile) inputs.file(css)
         if (audio != null) {
             inputs.dir(repo.resolve(audio))
             inputs.dir(repo.resolve(audio).parentFile.parentFile.resolve("audio"))
@@ -91,4 +93,5 @@ catalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/bopomofo.js",
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/strokes",
     "bopomofo",
+    suite = "SquirrelGo-Apps/shared/suite.js",
 )

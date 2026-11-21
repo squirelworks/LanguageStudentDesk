@@ -1,4 +1,4 @@
-package com.squirelworks.squirrelgokana
+package com.squirelworks.lsd.kana
 
 import android.database.sqlite.SQLiteDatabase
 import com.squirelworks.lsd.kana.WebViewStore
@@ -8,7 +8,7 @@ import java.io.File
 
 // The WebView app keeps its progress in this package's data directory when the
 // native app is installed over it. A different package cannot read that directory.
-fun readWebViewProgress(dataDir: File): WebViewStore {
+fun readWebViewProgress(dataDir: File, key: String): WebViewStore {
     val storage = listOf(
         File(dataDir, "app_webview/Default/Local Storage"),
         File(dataDir, "app_webview/Local Storage"),
@@ -19,13 +19,13 @@ fun readWebViewProgress(dataDir: File): WebViewStore {
         val level = File(dir, "leveldb")
         if (!level.isDirectory) continue
         sawLevel = true
-        val read = readLevelDirectory(level)
+        val read = readLevelDirectory(level, key)
         if (read != WebViewStore.Absent) return read
     }
     if (sawLevel) return WebViewStore.Absent
     for (dir in storage) {
         dir.listFiles()?.filter { it.isFile && it.name.endsWith(".localstorage") }?.forEach { database ->
-            when (val row = readSqliteItem(database, STORE_KEY)) {
+            when (val row = readSqliteItem(database, key)) {
                 SqliteRead.Skip -> Unit
                 SqliteRead.Failed -> return WebViewStore.Unreadable
                 SqliteRead.Missing -> Unit
@@ -36,7 +36,7 @@ fun readWebViewProgress(dataDir: File): WebViewStore {
     return WebViewStore.Absent
 }
 
-private fun readLevelDirectory(level: File): WebViewStore {
+private fun readLevelDirectory(level: File, key: String): WebViewStore {
     val files = level.listFiles()?.filter { it.isFile }.orEmpty()
     val hasTables = files.any { it.extension == "ldb" || it.extension == "log" || it.name.startsWith("MANIFEST-") }
     val current = files.firstOrNull { it.name == "CURRENT" } ?: return if (hasTables) WebViewStore.Unreadable else WebViewStore.Absent
@@ -63,7 +63,7 @@ private fun readLevelDirectory(level: File): WebViewStore {
         if (file.length() > MAX_SCAN) return WebViewStore.Unreadable
         packed[file.name] = runCatching { file.readBytes() }.getOrElse { return WebViewStore.Unreadable }
     }
-    return levelDbStore(packed, STORE_KEY)
+    return levelDbStore(packed, key)
 }
 
 private sealed interface SqliteRead {
@@ -88,5 +88,4 @@ private fun readSqliteItem(file: File, key: String): SqliteRead {
     }.getOrDefault(SqliteRead.Failed)
 }
 
-private const val STORE_KEY = "squirrelgo-kana"
 private const val MAX_SCAN = 8L * 1024L * 1024L

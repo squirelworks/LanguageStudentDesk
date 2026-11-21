@@ -30,6 +30,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +50,15 @@ import com.squirelworks.lsd.core.trainer.questionKind
 import com.squirelworks.lsd.core.trainer.quizChoices
 import com.squirelworks.lsd.core.trainer.quizQueue
 import kotlin.random.Random
+
+fun TextStyle.forLang(lang: String): TextStyle =
+    if (lang.isBlank()) this else copy(localeList = LocaleList(Locale(lang)))
+
+fun strokeParts(glyph: String, strokes: Map<String, List<String>>): List<String> =
+    glyph.split(' ').filter { part -> part.isNotEmpty() && strokes[part].orEmpty().isNotEmpty() }
+
+fun writableGlyphs(glyphs: List<GlyphRef>, strokes: Map<String, List<String>>): List<GlyphRef> =
+    glyphs.filter { strokeParts(it.glyph, strokes).isNotEmpty() }
 
 fun lessonGlyphs(script: KanaScript, lessons: Set<Int>? = null): List<GlyphRef> =
     script.lessons.flatMapIndexed { index, lesson ->
@@ -329,7 +339,7 @@ fun WriteScreen(
     var hint by remember { mutableStateOf(false) }
     var watch by remember { mutableStateOf(false) }
     var advance by remember { mutableStateOf(false) }
-    fun partsOf(at: Int) = items[at].glyph.split(" ").filter { strokes[it].orEmpty().isNotEmpty() }
+    fun partsOf(at: Int) = strokeParts(items[at].glyph, strokes)
     LaunchedEffect(advance) {
         if (!advance) return@LaunchedEffect
         delay(1100)
@@ -354,13 +364,13 @@ fun WriteScreen(
         Text("Write ${item.reading}", style = MaterialTheme.typography.titleLarge)
         Text("${script.title} · ${index + 1} of ${items.size}")
         if (parts.isEmpty()) {
-            Text(item.glyph, style = MaterialTheme.typography.displayMedium)
+            Text(item.glyph, style = MaterialTheme.typography.displayMedium.forLang(script.lang))
             if (cellOf(script, item.glyph)?.hint?.isNotBlank() == true) Text(cellOf(script, item.glyph)!!.hint)
             WritePad(emptyList(), guide, false, false, undo, clear, { _, _, _ -> }, {})
         } else {
             val ch = parts[part.coerceIn(0, parts.lastIndex)]
             if (watch) StrokeGlyph(model, true, speed = speed)
-            Text("$ch · ${model.size} stroke" + if (model.size == 1) "" else "s")
+            Text("$ch · ${model.size} stroke" + if (model.size == 1) "" else "s", style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
             if (parts.size > 1) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     parts.forEachIndexed { i, letter ->

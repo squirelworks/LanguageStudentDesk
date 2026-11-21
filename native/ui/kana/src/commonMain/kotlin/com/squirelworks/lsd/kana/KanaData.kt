@@ -14,6 +14,8 @@ data class KanaScript(
     val lang: String = "",
     val langName: String = "",
     val blurb: String = "",
+    val tagline: String = "",
+    val accent: String = "",
     val writeTip: String = "",
     val lessons: List<KanaLesson> = emptyList(),
     val articles: List<KanaArticle> = emptyList(),
@@ -46,6 +48,18 @@ data class ChartGroup(val name: String, val cols: Int, val cells: List<KanaCell?
 private val json = Json { ignoreUnknownKeys = true }
 
 fun parseKanaScripts(text: String): List<KanaScript> = json.decodeFromString(text)
+
+// A page accent from the WebView stylesheet, such as #005a8c.
+fun accentArgb(hex: String): Long? {
+    val raw = hex.trim().removePrefix("#")
+    if (raw.isEmpty() || raw.any { it !in '0'..'9' && it !in 'a'..'f' && it !in 'A'..'F' }) return null
+    val value = raw.toLongOrNull(16) ?: return null
+    return when (raw.length) {
+        6 -> 0xFF000000L or value
+        8 -> value
+        else -> null
+    }
+}
 
 fun missingVoiceNotice(langName: String): String {
     val name = langName.trim()

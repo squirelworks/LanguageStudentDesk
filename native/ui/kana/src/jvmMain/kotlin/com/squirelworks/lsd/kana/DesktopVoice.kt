@@ -1,4 +1,4 @@
-package com.squirelworks.squirrelgokana
+package com.squirelworks.lsd.kana
 
 import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.speech.VoiceProbe
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 private const val PROBE_TIMEOUT_SECONDS = 8L
 
-class DesktopVoice {
+class DesktopVoice(private val threadPrefix: String) {
     private var process: Process? = null
     private var cancelDispatcher = false
 
@@ -26,11 +26,11 @@ class DesktopVoice {
 
     init {
         listOf(
-            Thread({ publishMac() }, "kana-say"),
-            Thread({ publishWindows() }, "kana-windows"),
-            Thread({ publishEspeakNg() }, "kana-espeak-ng"),
-            Thread({ publishEspeak() }, "kana-espeak"),
-            Thread({ publishDispatcher() }, "kana-spd-say"),
+            Thread({ publishMac() }, "$threadPrefix-say"),
+            Thread({ publishWindows() }, "$threadPrefix-windows"),
+            Thread({ publishEspeakNg() }, "$threadPrefix-espeak-ng"),
+            Thread({ publishEspeak() }, "$threadPrefix-espeak"),
+            Thread({ publishDispatcher() }, "$threadPrefix-spd-say"),
         ).forEach {
             it.isDaemon = true
             it.start()
