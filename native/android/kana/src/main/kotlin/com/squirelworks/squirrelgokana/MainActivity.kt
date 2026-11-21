@@ -28,6 +28,8 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     private var query by mutableStateOf<String?>(null)
+    private var installed by mutableStateOf(emptySet<String>())
+    private var suitePackages: List<String> = emptyList()
     private var player: MediaPlayer? = null
     private var voice: TextToSpeech? = null
     private var voiceReady = false
@@ -42,6 +44,8 @@ class MainActivity : ComponentActivity() {
         val clips = parseKanaAudio(assets.open("kana-audio.json").bufferedReader().use { it.readText() })
         val copy = parseKanaCopy(assets.open("app.json").bufferedReader().use { it.readText() })
         val suite = parseSuite(assets.open("suite.json").bufferedReader().use { it.readText() })
+        suitePackages = suite.apps.map { it.pkg }
+        installed = installedNow()
         val progress = FileTextStore(File(filesDir, "kana-progress.json"))
         setContent {
             KanaApp(
@@ -60,11 +64,16 @@ class MainActivity : ComponentActivity() {
                 canSpeak = true,
                 suite = suite,
                 suiteId = "kana",
-                installedPackages = suite.apps.map { it.pkg }.filter { launchIntentFor(it) != null }.toSet(),
+                installedPackages = installed,
                 onLaunchApp = ::launchApp,
                 onOpenUrl = ::openHttps,
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        installed = installedNow()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -102,6 +111,8 @@ class MainActivity : ComponentActivity() {
         if (lang.isNotBlank()) engine.language = Locale.forLanguageTag(lang)
         engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kana")
     }
+
+    private fun installedNow(): Set<String> = suitePackages.filter { launchIntentFor(it) != null }.toSet()
 
     private fun launchIntentFor(pkg: String): Intent? {
         val debug = packageManager.getLaunchIntentForPackage("$pkg.debug")
