@@ -8,6 +8,7 @@ import com.squirelworks.lsd.kana.DesktopKeys
 import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.KanaApp
+import com.squirelworks.lsd.kana.WebViewStore
 import com.squirelworks.lsd.kana.adoptWebViewProgress
 import com.squirelworks.lsd.kana.parseKanaAudio
 import com.squirelworks.lsd.kana.parseSuite
@@ -33,7 +34,7 @@ fun main(args: Array<String>) = application {
     val player = Mp3ClipPlayer { path -> loader.getResourceAsStream(path) }
     val voice = DesktopVoice()
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/kana-progress.json"))
-    adoptWebViewProgress(progress, null)
+    adoptWebViewProgress(progress, WebViewStore.Absent)
     val query = args.firstOrNull { it.startsWith("--query=") }?.substringAfter("=")
     val keys = DesktopKeys()
     Window(

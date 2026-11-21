@@ -53,29 +53,38 @@ class MainActivity : ComponentActivity() {
         suitePackages = suite.apps.map { it.pkg }
         installed = installedNow()
         val progress = FileTextStore(File(filesDir, "kana-progress.json"))
-        adoptWebViewProgress(progress, readWebViewProgress(File(applicationInfo.dataDir)))
-        setContent {
-            KanaApp(
-                title = copy.name.ifBlank { "SquirrelGo Kana" },
-                scripts = scripts,
-                strokes = strokes,
-                dark = isSystemInDarkTheme(),
-                clips = clips,
-                playClip = ::playClip,
-                speakFallback = ::speak,
-                progressStore = progress,
-                initialQuery = query,
-                intro = copy.intro,
-                about = copy.about,
-                canSpeak = true,
-                suite = suite,
-                suiteId = "kana",
-                installedPackages = installed,
-                onLaunchApp = ::launchApp,
-                onOpenUrl = ::openHttps,
-                onStopAudio = ::stopAudio,
-            )
+        val dataDir = File(applicationInfo.dataDir)
+        fun show() {
+            setContent {
+                KanaApp(
+                    title = copy.name.ifBlank { "SquirrelGo Kana" },
+                    scripts = scripts,
+                    strokes = strokes,
+                    dark = isSystemInDarkTheme(),
+                    clips = clips,
+                    playClip = ::playClip,
+                    speakFallback = ::speak,
+                    progressStore = progress,
+                    initialQuery = query,
+                    intro = copy.intro,
+                    about = copy.about,
+                    canSpeak = true,
+                    suite = suite,
+                    suiteId = "kana",
+                    installedPackages = installed,
+                    onLaunchApp = ::launchApp,
+                    onOpenUrl = ::openHttps,
+                    onStopAudio = ::stopAudio,
+                )
+            }
         }
+        Thread({
+            val legacy = runCatching { readWebViewProgress(dataDir) }.getOrElse { com.squirelworks.lsd.kana.WebViewStore.Unreadable }
+            adoptWebViewProgress(progress, legacy)
+            runOnUiThread {
+                if (!isDestroyed) show()
+            }
+        }, "kana-webview-progress").apply { isDaemon = true }.start()
     }
 
     override fun onPause() {
