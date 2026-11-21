@@ -43,8 +43,9 @@ so this release installs over squirrelgo-v0.1.4.
 
 ## Downloads
 
-The APKs for every app are attached here, along with `SHA256SUMS.txt`. When
-this release is published, the Linux, Windows and macOS builds of the Desk
-and the Orthodox Bible content packs are added automatically, and each app
-goes to its Google Play closed testing track. The desktop builds are
-unsigned, so your system may ask you to confirm before opening one.
+The APKs for every app are attached here, along with `SHA256SUMS.txt`. The
+Linux, Windows and macOS builds of the Desk are attached to the release
+draft as each one finishes. The Orthodox Bible content packs live only on
+the dedicated `orthodox-bible-packs` GitHub release. Each app goes to its
+Google Play closed testing track. The desktop builds are unsigned, so your
+system may ask you to confirm before opening one.
