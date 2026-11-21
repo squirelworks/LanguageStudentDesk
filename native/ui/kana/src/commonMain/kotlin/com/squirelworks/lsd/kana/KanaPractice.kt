@@ -2,6 +2,8 @@ package com.squirelworks.lsd.kana
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,8 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.squirelworks.lsd.core.article.ArticleBlock
+import com.squirelworks.lsd.core.article.ArticleRun
+import com.squirelworks.lsd.core.article.parseArticle
 import com.squirelworks.lsd.core.strokes.StrokeVerdict
 import com.squirelworks.lsd.core.trainer.FlashDeck
 import com.squirelworks.lsd.core.trainer.GlyphRef
@@ -419,11 +426,46 @@ fun WriteScreen(
 }
 
 @Composable
-fun ArticleScreen(title: String, body: String, onBack: () -> Unit) {
+fun ArticleScreen(title: String, body: String, onPlay: (String) -> Unit, onBack: () -> Unit) {
     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         TextButton(onClick = onBack) { Text("‹") }
         Text(title, style = MaterialTheme.typography.titleLarge)
-        Text(plainArticle(body))
+        parseArticle(body).forEach { block ->
+            when (block) {
+                is ArticleBlock.Heading -> Text(block.text, style = MaterialTheme.typography.titleMedium)
+                is ArticleBlock.Paragraph -> ArticleRuns(block.runs, onPlay)
+                is ArticleBlock.Bullet -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("•")
+                    ArticleRuns(block.runs, onPlay, Modifier.weight(1f))
+                }
+                is ArticleBlock.Table -> Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    block.rows.forEach { row ->
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            row.forEach { cell ->
+                                ArticleRuns(cell, onPlay, Modifier.weight(1f))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ArticleRuns(runs: List<ArticleRun>, onPlay: (String) -> Unit, modifier: Modifier = Modifier) {
+    FlowRow(modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        runs.forEach { run ->
+            when (run) {
+                is ArticleRun.Text -> Text(
+                    run.value,
+                    fontWeight = if (run.bold) FontWeight.Bold else null,
+                    fontStyle = if (run.italic) FontStyle.Italic else null,
+                )
+                is ArticleRun.Play -> TextButton(onClick = { onPlay(run.spoken) }) { Text("Play") }
+            }
+        }
     }
 }
 
