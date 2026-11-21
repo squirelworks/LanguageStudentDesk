@@ -1,4 +1,4 @@
-package com.squirelworks.squirrelgokana
+package com.squirelworks.lsd.kana
 
 import kotlin.math.PI
 import kotlin.math.abs

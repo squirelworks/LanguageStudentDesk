@@ -195,18 +195,42 @@ def suite_settings(path):
 
 
 def page_accent(lessons_path):
-    css = lessons_path.parent.parent / "css" / "app.css"
+    www = lessons_path.parent if lessons_path.is_dir() else lessons_path.parent.parent
+    css = www / "css" / "app.css"
     if not css.is_file():
         return ""
     match = re.search(r"--accent:\s*(#[0-9a-fA-F]{3,8})", css.read_text(encoding="utf-8"))
     return match.group(1) if match else ""
 
 
+def lesson_texts(path):
+    """One lesson file, or every script a page lists, in that page's order."""
+    if path.is_file():
+        return [path.read_text(encoding="utf-8")]
+    index = path.parent / "index.html"
+    files = []
+    if index.is_file():
+        for src in re.findall(r'src="data/([^"/]+\.js)"', index.read_text(encoding="utf-8")):
+            if src == "app.js":
+                continue
+            candidate = path / src
+            if candidate.is_file():
+                files.append(candidate)
+    if not files:
+        files = sorted(p for p in path.glob("*.js") if p.name != "app.js")
+    if not files:
+        raise SystemExit(f"No lesson files in {path}")
+    return [p.read_text(encoding="utf-8") for p in files]
+
+
 def strokes(text):
     at = text.find('"] = {')
     if at < 0:
         raise SystemExit("No stroke table in the stroke file")
-    return json.loads(extract_json(text, text.find("{", at)))
+    raw = extract_json(text, text.find("{", at))
+    # Some generated tables keep the trailing comma JavaScript allows.
+    raw = re.sub(r",(\s*[}\]])", r"\1", raw)
+    return json.loads(raw)
 
 
 def main():
@@ -221,8 +245,10 @@ def main():
     if not tables:
         raise SystemExit(f"No stroke files in {stroke_dir}")
     dest.mkdir(parents=True, exist_ok=True)
-    rows = scripts(lessons_path.read_text())
-    app_js = lessons_path.parent / "app.js"
+    rows = []
+    for text in lesson_texts(lessons_path):
+        rows.extend(scripts(text))
+    app_js = lessons_path / "app.js" if lessons_path.is_dir() else lessons_path.parent / "app.js"
     settings = app_settings(app_js) if app_js.is_file() else {}
     tagline = settings.get("tagline") or ""
     accent = page_accent(lessons_path)
@@ -233,7 +259,7 @@ def main():
             row["accent"] = accent
     (dest / lessons_name).write_text(json.dumps(rows, ensure_ascii=False))
     (dest / strokes_name).write_text(json.dumps(tables, ensure_ascii=False))
-    if app_js.is_file() and lessons_path.is_file():
+    if app_js.is_file():
         (dest / "app.json").write_text(json.dumps(settings, ensure_ascii=False) + "\n")
     for extra in sys.argv[6:]:
         path = pathlib.Path(extra)

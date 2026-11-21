@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.squirelworks.lsd.core.languages.FileTextStore
+import com.squirelworks.lsd.kana.AndroidClipPlayer
 import com.squirelworks.lsd.kana.AndroidSpeech
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.SuiteIntents
@@ -23,6 +24,7 @@ import java.io.File
 class MainActivity : ComponentActivity() {
     private var query by mutableStateOf<String?>(null)
     private var installed by mutableStateOf(emptySet<String>())
+    private val clipsPlayer by lazy { AndroidClipPlayer(assets) }
     private val speech = AndroidSpeech(this, "bopomofo")
     private val suiteIntents = SuiteIntents(this)
 
@@ -46,6 +48,7 @@ class MainActivity : ComponentActivity() {
                     scripts = scripts,
                     strokes = strokes,
                     dark = isSystemInDarkTheme(),
+                    playClip = clipsPlayer::play,
                     speakFallback = speech::speak,
                     progressStore = progress,
                     initialQuery = query,
@@ -57,7 +60,7 @@ class MainActivity : ComponentActivity() {
                     installedPackages = installed,
                     onLaunchApp = suiteIntents::launch,
                     onOpenUrl = suiteIntents::openHttps,
-                    onStopAudio = speech::stop,
+                    onStopAudio = { clipsPlayer.stop(); speech.stop() },
                 )
             }
         }
@@ -72,6 +75,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        clipsPlayer.stop()
         speech.stop()
         super.onPause()
     }
@@ -89,6 +93,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        clipsPlayer.stop()
         speech.shutdown()
         super.onDestroy()
     }

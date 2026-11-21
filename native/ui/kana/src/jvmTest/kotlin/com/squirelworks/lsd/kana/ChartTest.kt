@@ -24,6 +24,21 @@ class ChartTest {
     }
 
     @Test
+    fun aFlowingChartDoesNotPadBetweenLessons() {
+        val script = KanaScript(
+            id = "latin",
+            title = "Latin",
+            chartFlow = true,
+            lessons = listOf(
+                KanaLesson(title = "Vowels", group = "Letters", cols = 6, chars = listOf(cell("A a"), cell("E e"))),
+                KanaLesson(title = "Consonants", group = "Letters", chars = listOf(cell("B b"))),
+            ),
+        )
+        val cells = chartGroups(script).single().cells
+        assertEquals(listOf("A a", "E e", "B b"), cells.map { it!!.g })
+    }
+
+    @Test
     fun strokeLessItemsStayOutOfWriting() {
         val strokes = mapOf("ㄅ" to listOf("M 1"))
         val glyphs = listOf(
@@ -33,6 +48,26 @@ class ChartTest {
         )
         assertEquals(listOf("ㄅ"), writableGlyphs(glyphs, strokes).map { it.glyph })
         assertEquals(emptyList(), strokeParts("（平）", strokes))
+    }
+
+    @Test
+    fun aJoiningLetterTakesFourShapesAndANonJoiningLetterKeepsOne() {
+        val beh = letterForms("ب", "اأإآدذرزوؤة")
+        assertEquals("ب", beh.isolated)
+        assertEquals("ب\u200D", beh.initial)
+        assertEquals("\u200Dب\u200D", beh.medial)
+        assertEquals("\u200Dب", beh.final)
+        val alif = letterForms("ا", "اأإآدذرزوؤة")
+        assertEquals("ا", alif.isolated)
+        assertEquals("ا", alif.initial)
+        assertEquals("\u200Dا", alif.medial)
+        assertEquals("\u200Dا", alif.final)
+    }
+
+    @Test
+    fun hangulBlocksFollowTheUnicodeFormula() {
+        assertEquals("가", hangulSyllable(0, 0, 0))
+        assertEquals("각", hangulSyllable(0, 0, 1))
     }
 
     @Test

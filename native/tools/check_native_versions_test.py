@@ -33,6 +33,7 @@ def main():
     mod = load()
     kana = set(mod.source_paths("kana"))
     bopo = set(mod.source_paths("bopomofo"))
+    alpha = set(mod.source_paths("alphabets"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
     shared = {
@@ -43,7 +44,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, kokugo, multi):
+    for paths in (kana, bopo, alpha, kokugo, multi):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -53,6 +54,14 @@ def main():
     if kana_data not in kana or kana_audio not in kana:
         raise SystemExit(f"kana generator inputs missing: {sorted(kana)}")
     suite = "SquirrelGo-Apps/shared/suite.js"
+    alpha_data = "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data"
+    alpha_audio = "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/audio"
+    if alpha_data not in alpha or alpha_audio not in alpha:
+        raise SystemExit(f"alphabets generator inputs missing: {sorted(alpha)}")
+    if suite not in alpha:
+        raise SystemExit("alphabets is not watching the suite file")
+    if kana_data in alpha or bopo_data in alpha:
+        raise SystemExit("alphabets is watching another app's WebView files")
     if suite not in kana or suite not in bopo:
         raise SystemExit(f"a character app is not watching the suite file: kana={suite in kana} bopomofo={suite in bopo}")
     if suite in kokugo:
@@ -77,7 +86,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "japanese-dictionary", "multilingual-dictionary"):
+    for stem in ("kana", "bopomofo", "alphabets", "japanese-dictionary", "multilingual-dictionary"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -94,6 +103,11 @@ def main():
         raise SystemExit("a language metadata change did not mark the dictionaries")
     if mod.app_changed("tag", "kana", langs):
         raise SystemExit("language metadata marked Kana")
+    lesson = diff_of([alpha_data + "/latin.js"])
+    if not mod.app_changed("tag", "alphabets", lesson):
+        raise SystemExit("alphabets ignored its lesson file")
+    if mod.app_changed("tag", "kana", lesson) or mod.app_changed("tag", "bopomofo", lesson):
+        raise SystemExit("an Alphabets lesson marked another app")
     print("ok")
 
 

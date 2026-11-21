@@ -53,12 +53,14 @@ fun catalogTask(
     tasks.register<Exec>(name) {
         val repo = rootProject.projectDir.parentFile
         val outDir = layout.buildDirectory.dir("generated-$outName")
-        inputs.file(repo.resolve(lessons))
+        val lessonPath = repo.resolve(lessons)
+        val dataDir = if (lessonPath.isDirectory) lessonPath else lessonPath.parentFile
+        if (lessonPath.isDirectory) inputs.dir(lessonPath) else inputs.file(lessonPath)
         inputs.dir(repo.resolve(strokes))
         inputs.file("tools/kana_catalog.py")
-        val about = repo.resolve(lessons).parentFile.resolve("app.js")
+        val about = dataDir.resolve("app.js")
         if (about.isFile) inputs.file(about)
-        val css = repo.resolve(lessons).parentFile.parentFile.resolve("css/app.css")
+        val css = dataDir.parentFile.resolve("css/app.css")
         if (css.isFile) inputs.file(css)
         if (audio != null) {
             inputs.dir(repo.resolve(audio))
@@ -94,4 +96,12 @@ catalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/strokes",
     "bopomofo",
     suite = "SquirrelGo-Apps/shared/suite.js",
+)
+catalogTask(
+    "generateAlphabetsCatalog",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/strokes",
+    "alphabets",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio",
+    "SquirrelGo-Apps/shared/suite.js",
 )

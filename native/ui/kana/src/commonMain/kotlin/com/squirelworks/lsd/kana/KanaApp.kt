@@ -26,6 +26,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -34,6 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,6 +62,8 @@ private sealed interface Screen {
     data class Flash(val scriptId: String, val keys: List<String>) : Screen
     data class Write(val scriptId: String, val keys: List<String>, val start: Int) : Screen
     data class Article(val scriptId: String, val index: Int) : Screen
+    data class Forms(val scriptId: String) : Screen
+    data class Builder(val scriptId: String) : Screen
     data object Settings : Screen
 }
 
@@ -222,6 +227,8 @@ fun KanaApp(
                         onChart = { open(Screen.Chart(screen.scriptId)) },
                         onPractice = { open(Screen.Choose(screen.scriptId, it)) },
                         onArticle = { open(Screen.Article(screen.scriptId, it)) },
+                        onForms = { open(Screen.Forms(screen.scriptId)) },
+                        onBuilder = { open(Screen.Builder(screen.scriptId)) },
                         onSettings = { open(Screen.Settings) },
                         onApps = openApps,
                     )
@@ -358,6 +365,23 @@ fun KanaApp(
                             ::back,
                         )
                     }
+                    is Screen.Forms -> {
+                        val script = scripts.first { it.id == screen.scriptId }
+                        val glyphs = script.lessons.filter { it.forms }.flatMap { lesson ->
+                            lesson.chars.filterNotNull().map { it.g }
+                        }
+                        FormsPage(
+                            script,
+                            onBack = ::back,
+                            onOpen = { glyph ->
+                                open(Screen.Detail(script.id, glyphs, glyphs.indexOf(glyph).coerceAtLeast(0)))
+                            },
+                        )
+                    }
+                    is Screen.Builder -> {
+                        val script = scripts.first { it.id == screen.scriptId }
+                        BuilderPage(script, onBack = ::back, onPlay = { play(script, it, false, "") })
+                    }
                     is Screen.Article -> {
                         val script = scripts.first { it.id == screen.scriptId }
                         val article = script.articles[screen.index]
@@ -438,6 +462,12 @@ fun KanaApp(
 }
 
 @Composable
+private fun InScriptDirection(dir: String, content: @Composable () -> Unit) {
+    val direction = if (dir == "rtl") LayoutDirection.Rtl else LayoutDirection.Ltr
+    CompositionLocalProvider(LocalLayoutDirection provides direction, content = content)
+}
+
+@Composable
 private fun HomePage(
     title: String,
     intro: String,
@@ -461,7 +491,9 @@ private fun HomePage(
             val done = all.count { mastered(progress.stat(it.key)) }
             Column(Modifier.fillMaxWidth().clickable { onOpen(script.id) }.padding(vertical = 12.dp)) {
                 if (scripts.size > 1 && script.native.isNotBlank()) {
-                    Text(script.native, style = MaterialTheme.typography.titleLarge.forLang(script.lang))
+                    InScriptDirection(script.dir) {
+                        GlyphText(script.native, MaterialTheme.typography.titleLarge.forLang(script.lang), script.vertical)
+                    }
                 }
                 Text(script.title, style = MaterialTheme.typography.titleLarge)
                 if (script.blurb.isNotBlank()) Text(script.blurb)
@@ -481,6 +513,8 @@ private fun ScriptPage(
     onChart: () -> Unit,
     onPractice: (String) -> Unit,
     onArticle: (Int) -> Unit,
+    onForms: () -> Unit,
+    onBuilder: () -> Unit,
     onSettings: () -> Unit,
     onApps: (() -> Unit)?,
 ) {
@@ -493,7 +527,11 @@ private fun ScriptPage(
             if (onApps != null) TextButton(onClick = onApps) { Text("Apps") }
             TextButton(onClick = onSettings) { Text("Settings") }
         }
-        if (script.native.isNotBlank()) Text(script.native, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
+        if (script.native.isNotBlank()) {
+            InScriptDirection(script.dir) {
+                GlyphText(script.native, MaterialTheme.typography.bodyLarge.forLang(script.lang), script.vertical)
+            }
+        }
         if (script.blurb.isNotBlank()) Text(script.blurb)
         if (all.isNotEmpty()) Text("$done of ${all.size} characters mastered")
         Text("Practice", style = MaterialTheme.typography.titleMedium)
@@ -510,11 +548,22 @@ private fun ScriptPage(
             val known = items.count { mastered(progress.stat("${script.id}|${it.g}")) }
             TextButton(onClick = { onLesson(index) }, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.fillMaxWidth()) {
-                    Text(items.take(5).joinToString(" ") { it.g }, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
+                    InScriptDirection(script.dir) {
+                        GlyphText(items.take(5).joinToString(" ") { it.g }, MaterialTheme.typography.bodyLarge.forLang(script.lang), script.vertical)
+                    }
                     Text(lesson.title, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
                     if (lesson.note.isNotBlank()) Text(lesson.note)
                     if (items.isNotEmpty()) Text("$known of ${items.size}")
                 }
+            }
+        }
+        if (script.builder != null || script.nonJoining != null) {
+            Text("Tools", style = MaterialTheme.typography.titleMedium)
+            script.builder?.let { builder ->
+                TextButton(onClick = onBuilder, modifier = Modifier.fillMaxWidth()) { Text(builder.title) }
+            }
+            if (script.nonJoining != null) {
+                TextButton(onClick = onForms, modifier = Modifier.fillMaxWidth()) { Text("Letter forms table") }
             }
         }
         if (script.articles.isNotEmpty()) {
@@ -548,6 +597,7 @@ private fun LessonPage(
             Text(lesson.title, style = MaterialTheme.typography.titleLarge)
         }
         if (lesson.note.isNotBlank()) Text(lesson.note)
+        InScriptDirection(script.dir) {
         lesson.chars.filterNotNull().chunked(5).forEach { row ->
             Row(Modifier.fillMaxWidth()) {
                 row.forEach { cell ->
@@ -556,11 +606,12 @@ private fun LessonPage(
                         Modifier.weight(1f).clickable { onOpen(cell.g) }.padding(4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.headlineSmall.forLang(script.lang))
+                        GlyphText(cell.g, MaterialTheme.typography.headlineSmall.forLang(script.lang), script.vertical, color = masteryColor(stat))
                         if (progress.showRoman) Text(cell.r, style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
+        }
         }
         val canWrite = writableGlyphs(lessonGlyphs(script, setOf(index)), strokes).isNotEmpty()
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -585,6 +636,7 @@ private fun ChartPage(
             Text(script.title, style = MaterialTheme.typography.titleLarge)
         }
         Text("Tap a character for details. Green means mastered in quizzes, orange means it needs review.")
+        InScriptDirection(script.dir) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             chartGroups(script).forEach { group ->
                 item { Text(group.name, style = MaterialTheme.typography.titleMedium) }
@@ -598,7 +650,7 @@ private fun ChartPage(
                                 if (cell != null) {
                                     val stat = progress.stat("${script.id}|${cell.g}")
                                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { onOpen(cell.g) }) {
-                                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.titleLarge.forLang(script.lang))
+                                        GlyphText(cell.g, MaterialTheme.typography.titleLarge.forLang(script.lang), script.vertical, color = masteryColor(stat))
                                         if (progress.showRoman && cell.r.isNotBlank()) {
                                             Text(cell.r, style = MaterialTheme.typography.labelSmall)
                                         }
@@ -609,6 +661,7 @@ private fun ChartPage(
                     }
                 }
             }
+        }
         }
     }
 }
@@ -630,7 +683,9 @@ private fun DetailPage(
 ) {
     val glyph = glyphs.getOrElse(index) { glyphs.firstOrNull().orEmpty() }
     val cell = cellOf(script, glyph)
-    val paths = strokes[glyph].orEmpty()
+    val paths = strokes[glyph].orEmpty().ifEmpty {
+        strokeParts(glyph, strokes).flatMap { strokes[it].orEmpty() }
+    }
     var play by remember(glyph) { mutableStateOf(false) }
     val stat = progress.stat("${script.id}|$glyph")
     Column(modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -638,7 +693,31 @@ private fun DetailPage(
             TextButton(onClick = onBack) { Text("‹") }
             Text(cell?.r ?: glyph, style = MaterialTheme.typography.titleLarge)
         }
-        Text(glyph, style = MaterialTheme.typography.displayLarge.forLang(script.lang))
+        InScriptDirection(script.dir) {
+            GlyphText(glyph, MaterialTheme.typography.displayLarge.forLang(script.lang), script.vertical)
+        }
+        run {
+            val lesson = lessonOf(script, glyph)
+            val joining = script.nonJoining
+            if (joining != null && lesson != null && lesson.forms) {
+                val forms = letterForms(glyph, joining)
+                InScriptDirection("rtl") {
+                    Row(Modifier.fillMaxWidth()) {
+                        listOf(
+                            "isolated" to forms.isolated,
+                            "initial" to forms.initial,
+                            "medial" to forms.medial,
+                            "final" to forms.final,
+                        ).forEach { (name, shape) ->
+                            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                                GlyphText(shape, MaterialTheme.typography.headlineMedium.forLang(script.lang), script.vertical)
+                                Text(name, style = MaterialTheme.typography.labelSmall)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         if (!cell?.ipa.isNullOrBlank()) Text("/${cell.ipa.orEmpty()}/")
         if (!cell?.hint.isNullOrBlank()) Text(cell?.hint.orEmpty())
         if (paths.isNotEmpty()) {
@@ -654,7 +733,7 @@ private fun DetailPage(
         val example = cell?.ex.orEmpty()
         if (example.isNotBlank()) {
             Text("Example", style = MaterialTheme.typography.labelLarge)
-            Text(example, style = MaterialTheme.typography.titleMedium.forLang(script.lang))
+            GlyphText(example, MaterialTheme.typography.titleMedium.forLang(script.lang), script.vertical)
             val gloss = listOf(cell?.exR.orEmpty(), cell?.exM.orEmpty()).filter { it.isNotBlank() }.joinToString(" · ")
             if (gloss.isNotBlank()) Text(gloss)
             Button(onClick = { onPlay(example, false, cell?.exLang.orEmpty()) }) { Text("Play example") }
@@ -683,6 +762,8 @@ private fun scriptOn(scripts: List<KanaScript>, screen: Screen): KanaScript? {
         is Screen.Flash -> screen.scriptId
         is Screen.Write -> screen.scriptId
         is Screen.Article -> screen.scriptId
+        is Screen.Forms -> screen.scriptId
+        is Screen.Builder -> screen.scriptId
         Screen.Home, Screen.Settings -> null
     }
     return scripts.firstOrNull { it.id == id }

@@ -13,6 +13,11 @@ data class KanaScript(
     val native: String = "",
     val lang: String = "",
     val langName: String = "",
+    val dir: String = "ltr",
+    val chartFlow: Boolean = false,
+    val vertical: Boolean = false,
+    val nonJoining: String? = null,
+    val builder: HangulBuilder? = null,
     val blurb: String = "",
     val tagline: String = "",
     val accent: String = "",
@@ -27,8 +32,41 @@ data class KanaLesson(
     val note: String = "",
     val group: String = "",
     val cols: Int = 5,
+    val forms: Boolean = true,
     val chars: List<KanaCell?> = emptyList(),
 )
+
+@Serializable
+data class HangulBuilder(
+    val title: String = "",
+    val note: String = "",
+    val initials: List<List<String>> = emptyList(),
+    val medials: List<List<String>> = emptyList(),
+    val finals: List<List<String>> = emptyList(),
+)
+
+data class LetterForms(val isolated: String, val initial: String, val medial: String, val final: String)
+
+private const val ZWJ = "\u200D"
+
+// A joining letter changes shape. A letter in nonJoining keeps one shape,
+// and still shows the joiner so the row can be compared.
+fun letterForms(glyph: String, nonJoining: String): LetterForms {
+    val alone = nonJoining.contains(glyph)
+    return LetterForms(
+        isolated = glyph,
+        initial = if (alone) glyph else glyph + ZWJ,
+        medial = if (alone) ZWJ + glyph else ZWJ + glyph + ZWJ,
+        final = ZWJ + glyph,
+    )
+}
+
+// Unicode precomposed Hangul: 0xAC00 + (initial * 21 + vowel) * 28 + final.
+fun hangulSyllable(initial: Int, medial: Int, final: Int): String =
+    (0xAC00 + (initial * 21 + medial) * 28 + final).toChar().toString()
+
+fun lessonOf(script: KanaScript, glyph: String): KanaLesson? =
+    script.lessons.firstOrNull { lesson -> lesson.chars.any { it?.g == glyph } }
 
 @Serializable
 data class KanaCell(
@@ -88,9 +126,9 @@ data class KanaCopy(val name: String = "", val tagline: String = "", val intro: 
 
 fun parseKanaCopy(text: String): KanaCopy = json.decodeFromString(text)
 
-// The chart keeps each lesson on its own rows. A short lesson is padded so the
-// next lesson starts on a new row. The column count is the one the group
-// started with.
+// A chart that flows keeps lessons in one run. Otherwise a short lesson is
+// padded so the next one starts on a new row. The column count is the one
+// the group started with.
 fun chartGroups(script: KanaScript): List<ChartGroup> {
     val groups = linkedMapOf<String, MutableList<KanaLesson>>()
     for (lesson in script.lessons) {
@@ -99,7 +137,7 @@ fun chartGroups(script: KanaScript): List<ChartGroup> {
     return groups.map { (name, lessons) ->
         val cols = lessons.first().cols.coerceAtLeast(1)
         val cells = lessons.flatMap { lesson ->
-            val pad = (cols - lesson.chars.size % cols) % cols
+            val pad = if (script.chartFlow) 0 else (cols - lesson.chars.size % cols) % cols
             lesson.chars + List(pad) { null }
         }
         ChartGroup(name, cols, cells)
