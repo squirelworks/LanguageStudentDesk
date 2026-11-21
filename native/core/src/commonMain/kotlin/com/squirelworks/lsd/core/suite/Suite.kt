@@ -60,6 +60,26 @@ fun suiteAction(app: SuiteApp, installed: Set<String>?): SuiteAction {
     }
 }
 
+sealed interface DictionaryLookup {
+    data object Launch : DictionaryLookup
+    data class Browse(val url: String, val notice: String) : DictionaryLookup
+    data object None : DictionaryLookup
+}
+
+// The same choice the WebView suite makes for "Look up in the Dictionary".
+// An installed Android app is launched on the word. A missing one opens its
+// download and says so. Desktop has no install list, so it opens the release
+// page, the same place Open goes.
+fun dictionaryLookup(app: SuiteApp, installed: Set<String>?): DictionaryLookup {
+    if (installed == null) {
+        val page = desktopReleasePage(app) ?: return DictionaryLookup.None
+        return DictionaryLookup.Browse(page, "")
+    }
+    if (app.pkg.isNotBlank() && app.pkg in installed) return DictionaryLookup.Launch
+    val url = releaseUrl(app) ?: return DictionaryLookup.None
+    return DictionaryLookup.Browse(url, "${app.name} isn't installed yet. Opening its download page.")
+}
+
 // Desktop Open uses the release page, where the desktop packages are attached,
 // rather than the Android package named in the suite file.
 fun desktopReleasePage(app: SuiteApp): String? {
