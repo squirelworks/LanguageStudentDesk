@@ -53,6 +53,7 @@ import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.core.suite.dictionaryLookup
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
+import com.squirelworks.lsd.kana.rememberPageScrollState
 import com.squirelworks.lsd.kana.StrokeGlyph
 import com.squirelworks.lsd.kana.SuiteSheet
 import com.squirelworks.lsd.kana.accentArgb
@@ -118,6 +119,7 @@ fun KanjiApp(
     var dictLevel by remember { mutableStateOf("all") }
     var quizNote by remember { mutableStateOf("") }
     val page = stack.last()
+    var scrollStep by remember { mutableIntStateOf(0) }
     fun save(next: KanjiProgress) {
         progress = next
         writeKanjiProgress(progressStore, next)
@@ -125,7 +127,10 @@ fun KanjiApp(
     fun push(next: Page) {
         quizNote = ""
         drawer = false
-        if (stack.last() != next) stack = stack + next
+        if (stack.last() != next) {
+            stack = stack + next
+            scrollStep++
+        }
     }
     fun replace(next: Page) {
         stack = stack.dropLast(1) + next
@@ -134,10 +139,14 @@ fun KanjiApp(
         quizNote = ""
         drawer = false
         stack = if (next == Page.Home) listOf(Page.Home) else listOf(Page.Home, next)
+        scrollStep++
     }
     fun back() {
         onStopAudio()
-        if (stack.size > 1) stack = stack.dropLast(1)
+        if (stack.size > 1) {
+            stack = stack.dropLast(1)
+            scrollStep++
+        }
     }
     val backEnabled = suiteOpen || drawer || stack.size > 1
     fun performBack() {
@@ -236,7 +245,7 @@ fun KanjiApp(
                             onApps = { suiteOpen = true },
                         )
                         Column(
-                            Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp),
+                            Modifier.weight(1f).verticalScroll(rememberPageScrollState(scrollStep)).padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             when (val current = page) {

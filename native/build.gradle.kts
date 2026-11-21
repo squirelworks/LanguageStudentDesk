@@ -164,3 +164,32 @@ klingonCatalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/css/app.css",
     "SquirrelGo-Apps/shared/suite.js",
 )
+
+// Phrasebook packs, readings and recordings, from the WebView files.
+fun phrasebookCatalogTask(name: String, www: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-phrasebook")
+        inputs.dir(repo.resolve(www))
+        inputs.file("tools/phrasebook_catalog.py")
+        inputs.file("tools/kana_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/phrasebook_catalog.py").absolutePath,
+            repo.resolve(www).absolutePath,
+            outDir.get().asFile.absolutePath,
+        )
+    }
+
+phrasebookCatalogTask(
+    "generatePhrasebookCatalog",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www/data/packs.js",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www/data/audio.js",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www/js/romaji.js",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www/js/app.js",
+    "SquirrelGo-Apps/squirrelgo-phrasebook/www/css/app.css",
+    "SquirrelGo-Apps/shared/suite.js",
+)
