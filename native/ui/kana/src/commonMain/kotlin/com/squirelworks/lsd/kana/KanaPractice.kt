@@ -337,7 +337,7 @@ fun WriteScreen(
     var undo by remember { mutableIntStateOf(0) }
     var clear by remember { mutableIntStateOf(0) }
     var hint by remember { mutableStateOf(false) }
-    var watch by remember { mutableStateOf(false) }
+    var replay by remember { mutableIntStateOf(0) }
     var advance by remember { mutableStateOf(false) }
     fun partsOf(at: Int) = strokeParts(items[at].glyph, strokes)
     LaunchedEffect(advance) {
@@ -369,7 +369,7 @@ fun WriteScreen(
             WritePad(emptyList(), guide, false, false, undo, clear, { _, _, _ -> }, {})
         } else {
             val ch = parts[part.coerceIn(0, parts.lastIndex)]
-            if (watch) StrokeGlyph(model, true, speed = speed)
+            if (model.isNotEmpty()) StrokeGlyph(model, play = true, speed = speed, replay = replay, sizeDp = 120.dp)
             Text("$ch · ${model.size} stroke" + if (model.size == 1) "" else "s", style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
             if (parts.size > 1) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -403,7 +403,7 @@ fun WriteScreen(
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (model.isNotEmpty()) {
-                OutlinedButton(onClick = { watch = !watch }) { Text("Watch") }
+                OutlinedButton(onClick = { replay++ }) { Text("Watch") }
                 OutlinedButton(onClick = { hint = !hint }) { Text("Hint") }
             }
             OutlinedButton(onClick = { undo += 1 }) { Text("Undo") }
