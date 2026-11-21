@@ -194,6 +194,52 @@ phrasebookCatalogTask(
     "SquirrelGo-Apps/shared/suite.js",
 )
 
+// The Desk menu's languages, feature switches and programming courses.
+fun deskCatalogTask(name: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-desk")
+        inputs.file("tools/desk_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/desk_catalog.py").absolutePath,
+            repo.resolve(watched[0]).absolutePath,
+            repo.resolve(watched[1]).absolutePath,
+            repo.resolve(watched[2]).absolutePath,
+            repo.resolve(watched[3]).absolutePath,
+            outDir.get().asFile.resolve("desk.json").absolutePath,
+        )
+    }
+
+deskCatalogTask(
+    "generateDeskCatalog",
+    "languages/features.js",
+    "languages/registry.js",
+    "programming-learner/data/catalog.js",
+    "SquirrelGo-Apps/lsd-suite/www/index.html",
+)
+
+// The same learner pages the Android WebView and the desktop package open.
+val packDeskLearners = tasks.register<Exec>("packDeskLearners") {
+    val repo = rootProject.projectDir.parentFile
+    // Compose packages only common/ and the OS-named folders of the resources root.
+    val dest = layout.buildDirectory.dir("generated-desk-www/common").get().asFile
+    inputs.dir(repo.resolve("languages"))
+    inputs.dir(repo.resolve("klingon"))
+    inputs.dir(repo.resolve("character-learner"))
+    inputs.dir(repo.resolve("SquirrelGo-Apps/lsd-suite/www"))
+    inputs.file(repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py"))
+    outputs.dir(dest)
+    commandLine(
+        "python3",
+        repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py").absolutePath,
+        "--dest",
+        dest.absolutePath,
+    )
+}
+
 // Japanese-English word list, from the same generated files the WebView ships.
 // A build that can be installed fails when those files are missing.
 // -Pjed.allowEmpty=true is only for a compile check.

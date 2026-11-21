@@ -8,7 +8,7 @@ import java.io.File
 
 // The WebView app keeps its progress in this package's data directory when the
 // native app is installed over it. A different package cannot read that directory.
-fun readWebViewProgress(dataDir: File, key: String): WebViewStore {
+fun readWebViewProgress(dataDir: File, key: String, raw: Boolean = false): WebViewStore {
     val storage = listOf(
         File(dataDir, "app_webview/Default/Local Storage"),
         File(dataDir, "app_webview/Local Storage"),
@@ -19,7 +19,7 @@ fun readWebViewProgress(dataDir: File, key: String): WebViewStore {
         val level = File(dir, "leveldb")
         if (!level.isDirectory) continue
         sawLevel = true
-        val read = readLevelDirectory(level, key)
+        val read = readLevelDirectory(level, key, raw)
         if (read != WebViewStore.Absent) return read
     }
     if (sawLevel) return WebViewStore.Absent
@@ -36,7 +36,7 @@ fun readWebViewProgress(dataDir: File, key: String): WebViewStore {
     return WebViewStore.Absent
 }
 
-private fun readLevelDirectory(level: File, key: String): WebViewStore {
+private fun readLevelDirectory(level: File, key: String, raw: Boolean): WebViewStore {
     val files = level.listFiles()?.filter { it.isFile }.orEmpty()
     val hasTables = files.any { it.extension == "ldb" || it.extension == "log" || it.name.startsWith("MANIFEST-") }
     val current = files.firstOrNull { it.name == "CURRENT" } ?: return if (hasTables) WebViewStore.Unreadable else WebViewStore.Absent
@@ -63,7 +63,7 @@ private fun readLevelDirectory(level: File, key: String): WebViewStore {
         if (file.length() > MAX_SCAN) return WebViewStore.Unreadable
         packed[file.name] = runCatching { file.readBytes() }.getOrElse { return WebViewStore.Unreadable }
     }
-    return levelDbStore(packed, key)
+    return levelDbStore(packed, key, raw)
 }
 
 private sealed interface SqliteRead {

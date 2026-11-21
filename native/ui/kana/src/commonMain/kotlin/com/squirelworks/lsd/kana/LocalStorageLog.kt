@@ -21,7 +21,12 @@ fun localStorageFromLogs(logs: List<ByteArray>, key: String): WebViewStore =
     localStorageFromStore(logs, emptyList(), key)
 
 // Newest sequence across the write-ahead logs and the compacted tables wins.
-fun localStorageFromStore(logs: List<ByteArray>, tables: List<ByteArray>, key: String): WebViewStore {
+fun localStorageFromStore(
+    logs: List<ByteArray>,
+    tables: List<ByteArray>,
+    key: String,
+    raw: Boolean = false,
+): WebViewStore {
     var best: StoreHit? = null
     for (bytes in logs) {
         val hits = hitsFromLog(bytes, key) ?: return WebViewStore.Unreadable
@@ -33,7 +38,7 @@ fun localStorageFromStore(logs: List<ByteArray>, tables: List<ByteArray>, key: S
     }
     val winner = best ?: return WebViewStore.Absent
     val text = winner.text ?: return WebViewStore.Absent
-    if (parseProgress(text) == null) return WebViewStore.Unreadable
+    if (!raw && parseProgress(text) == null) return WebViewStore.Unreadable
     return WebViewStore.Value(text)
 }
 
