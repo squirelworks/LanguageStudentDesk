@@ -1,0 +1,65 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val klingonAssets = rootProject.layout.buildDirectory.dir("generated-klingon").get().asFile
+val appVersion = readAppVersion(rootProject.file("versions/klingon.properties"))
+requireNewerThanWebView(
+    appVersion,
+    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/android/app/build.gradle"),
+)
+base {
+    archivesName.set("SquirrelGoKlingon-${appVersion.versionName}")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
+android {
+    namespace = "com.squirelworks.squirrelgoklingon"
+    compileSdk = 37
+    defaultConfig {
+        applicationId = "com.squirelworks.squirrelgoklingon"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = appVersion.versionCode
+        versionName = appVersion.versionName
+    }
+    signingConfigs {
+        getByName("debug") {
+            storeFile = debugKeystore
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    sourceSets.getByName("main").assets.srcDir(klingonAssets)
+}
+
+dependencies {
+    implementation(project(":ui:klingon"))
+    implementation(libs.androidx.activity.compose)
+}
+
+tasks.matching { it.name == "preBuild" || it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
+    dependsOn(rootProject.tasks.named("generateKlingonCatalog"))
+}

@@ -13,6 +13,7 @@ on:
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/**"
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/**"
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/**"
       - "SquirrelGo-Apps/shared/suite.js"
   pull_request:
     paths:
@@ -22,6 +23,7 @@ on:
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/**"
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/**"
       - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/**"
       - "SquirrelGo-Apps/shared/suite.js"
 
 permissions:
@@ -56,7 +58,7 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin
+          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :ui:klingon:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :android:klingon:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin :desktop:klingon:compileKotlin
       - name: Native release APKs stay on the debug key
         working-directory: native
         run: bash tools/check_native_release_signatures.sh
