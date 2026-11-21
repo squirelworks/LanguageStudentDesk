@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -51,6 +50,7 @@ import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.kana.ArticleBlocks
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
+import com.squirelworks.lsd.kana.rememberPageScrollState
 import com.squirelworks.lsd.kana.StrokeGlyph
 import com.squirelworks.lsd.kana.SuiteSheet
 import com.squirelworks.lsd.kana.WritePad
@@ -100,19 +100,24 @@ fun KlingonApp(
     var writeMemory by remember { mutableStateOf(false) }
     val font = if (progress.font == "classic") classic else hand
     val page = stack.last()
+    var scrollStep by remember { mutableIntStateOf(0) }
     fun save(next: KlingonProgress) {
         progress = next
         writeKlingonProgress(progressStore, next)
     }
     fun push(next: Page) {
         stack = stack + next
+        scrollStep++
     }
     fun replace(next: Page) {
         stack = stack.dropLast(1) + next
     }
     fun back() {
         onStopAudio()
-        if (stack.size > 1) stack = stack.dropLast(1)
+        if (stack.size > 1) {
+            stack = stack.dropLast(1)
+            scrollStep++
+        }
     }
     val backEnabled = suiteOpen || stack.size > 1
     fun performBack() {
@@ -152,7 +157,7 @@ fun KlingonApp(
                     onSettings = { push(Page.Settings) },
                 )
                 Column(
-                    Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp),
+                    Modifier.weight(1f).verticalScroll(rememberPageScrollState(scrollStep)).padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     when (val current = page) {
