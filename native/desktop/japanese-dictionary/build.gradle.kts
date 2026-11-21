@@ -7,6 +7,7 @@ plugins {
 }
 
 val catalogDir = rootProject.layout.buildDirectory.dir("generated-catalog").get().asFile
+val appVersion = readAppVersion(rootProject.file("versions/japanese-dictionary.properties"))
 
 kotlin {
     compilerOptions {
@@ -42,7 +43,7 @@ compose.desktop {
             }
             targetFormats(*formats.toTypedArray())
             packageName = "SquirrelGoKokugo"
-            packageVersion = "1.0.0"
+            packageVersion = appVersion.versionName
             description = "SquirrelGo 国語辞典"
             vendor = "SquirrelWorks"
         }

@@ -6,9 +6,14 @@ plugins {
 
 val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
 val bopomofoAssets = rootProject.layout.buildDirectory.dir("generated-bopomofo").get().asFile
-val webview = webviewVersionAbove(
+val appVersion = readAppVersion(rootProject.file("versions/bopomofo.properties"))
+requireNewerThanWebView(
+    appVersion,
     rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/android/app/build.gradle"),
 )
+base {
+    archivesName.set("SquirrelGoBopomofo-${appVersion.versionName}")
+}
 
 kotlin {
     compilerOptions {
@@ -23,8 +28,8 @@ android {
         applicationId = "com.squirelworks.squirrelgobopomofo"
         minSdk = 24
         targetSdk = 36
-        versionCode = webview.code
-        versionName = webview.name
+        versionCode = appVersion.versionCode
+        versionName = appVersion.versionName
     }
     signingConfigs {
         getByName("debug") {

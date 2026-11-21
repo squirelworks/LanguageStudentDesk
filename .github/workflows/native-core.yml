@@ -32,6 +32,10 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Versions moved forward
+        run: |
+          git fetch --tags --force --quiet
+          python3 native/tools/check_native_versions.py
       - name: Test
         working-directory: native
         run: |

@@ -21,7 +21,11 @@ echo "sdk.dir=$ANDROID_HOME" > local.properties
 ./gradlew :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin
 ```
 
-A ported app keeps the WebView app's application id and the shared debug keystore. Its `versionCode` is read from that app's build file and set one higher, so the native release installs over the WebView release. The WebView `www/` stays. SquirrelGo Kana and SquirrelGo Bopomofo are chart builds of the same screen. Quiz, the writing pad and audio are still the WebView builds.
+Each native app keeps its version in its own file under `native/versions/`. The file names a semantic version. Android and the desktop package for that app both use it. The version code is computed from that version: the major number times one million, plus the minor number times one thousand, plus the patch. A port of a WebView app starts at 2.0.0. A new app starts at 1.0.0. The application id and the shared debug keystore stay as they are.
+
+The build reads the WebView app's own `versionCode` and fails if a port's version code is not greater. Compile-only CI does the same against the newest `squirrelgo-v*` release tag when that tag already contains the version file, and it uploads nothing. Release packages and APKs carry the app's own version name.
+
+The WebView `www/` stays until a later parity change. SquirrelGo Kana and SquirrelGo Bopomofo are chart builds of the same screen. Quiz, the writing pad and audio are still the WebView builds.
 
 SquirrelGo 国語辞典 is `com.squirelworks.squirrelgokokugo`. SquirrelGo Multilingual Dictionary is `com.squirelworks.squirrelgomultidictionary`. A test APK comes from
 the hand-started SquirrelGo test APK workflow. Release builds sign with the

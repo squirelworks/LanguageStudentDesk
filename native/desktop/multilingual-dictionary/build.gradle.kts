@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+val appVersion = readAppVersion(rootProject.file("versions/multilingual-dictionary.properties"))
 val catalogDir = rootProject.layout.buildDirectory.dir("generated-catalog").get().asFile
 
 kotlin {
@@ -42,7 +43,7 @@ compose.desktop {
             }
             targetFormats(*formats.toTypedArray())
             packageName = "SquirrelGoMultilingualDictionary"
-            packageVersion = "1.0.0"
+            packageVersion = appVersion.versionName
             description = "SquirrelGo Multilingual Dictionary"
             vendor = "SquirrelWorks"
         }
