@@ -85,7 +85,18 @@ echo "======== BUILD SquirrelGoKana (native) ========"
   cp android/kana/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKana.apk"
   cp android/kana/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKana.aab"
 )
-build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
+echo "======== BUILD SquirrelGoJapaneseDictionary (native) ========"
+(
+  cd "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary"
+  tools/fetch_data.sh
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:dictionary:assembleRelease :android:dictionary:bundlePlay --no-daemon -q
+  cp android/dictionary/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoJapaneseDictionary.apk"
+  cp android/dictionary/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoJapaneseDictionary.aab"
+)
 echo "======== BUILD SquirrelGoAlphabets (native) ========"
 (
   cd "$ROOT/native"

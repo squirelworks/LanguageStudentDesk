@@ -4,12 +4,12 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val dictionaryAssets = rootProject.layout.buildDirectory.dir("generated-jed").get().asFile
 val appVersion = readAppVersion(rootProject.file("versions/dictionary.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/build.gradle"),
+    rootProject.file("../archive/webview/dictionary/app/build.gradle"),
 )
 // release, the GitHub APK, always uses the committed debug key. The play
 // build type is the only one that may use UPLOAD_*, and only for its own bundle.
