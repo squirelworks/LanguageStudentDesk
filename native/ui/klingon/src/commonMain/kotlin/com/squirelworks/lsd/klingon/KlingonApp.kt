@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.core.strokes.StrokeVerdict
 import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.kana.ArticleBlocks
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
 import com.squirelworks.lsd.kana.StrokeGlyph
@@ -201,7 +201,7 @@ fun KlingonApp(
                         }, onWrite = { keys ->
                             if (keys.isNotEmpty()) push(Page.Write(keys, 0, false, false))
                         })
-                        is Page.Article -> Text(articleMarkup(bundle.articles[current.index].body))
+                        is Page.Article -> ArticleBlocks(bundle.articles[current.index].body, onPlay = {})
                         Page.Settings -> SettingsPage(bundle, progress, font, ::save, onReset = {
                             save(progress.copy(stats = emptyMap(), written = emptyMap()))
                             toast = "Progress cleared."
@@ -769,40 +769,3 @@ private fun titleOf(page: Page, bundle: KlingonBundle): String = when (page) {
     Page.Settings -> "Settings"
 }
 
-fun articleMarkup(html: String): androidx.compose.ui.text.AnnotatedString = buildAnnotatedString {
-    val tokens = Regex("(?is)<[^>]+>|[^<]+").findAll(html)
-    var bold = 0
-    var italic = 0
-    fun appendStyled(raw: String) {
-        val text = raw.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", "\"")
-        if (text.isEmpty()) return
-        if (bold == 0 && italic == 0) {
-            append(text)
-        } else {
-            withStyle(
-                SpanStyle(
-                    fontWeight = if (bold > 0) FontWeight.Bold else null,
-                    fontStyle = if (italic > 0) FontStyle.Italic else null,
-                ),
-            ) { append(text) }
-        }
-    }
-    tokens.forEach { token ->
-        val raw = token.value
-        if (!raw.startsWith("<")) {
-            appendStyled(raw)
-            return@forEach
-        }
-        val close = raw.startsWith("</")
-        val tag = Regex("(?i)^</?([a-z0-9]+)").find(raw)?.groupValues?.get(1)?.lowercase().orEmpty()
-        when (tag) {
-            "b", "strong" -> if (close) bold = (bold - 1).coerceAtLeast(0) else bold++
-            "i", "em" -> if (close) italic = (italic - 1).coerceAtLeast(0) else italic++
-            "br" -> append("\n")
-            "p" -> if (close) append("\n\n")
-            "li" -> if (!close) append("\n• ")
-            "tr" -> if (close) append("\n")
-            "th", "td" -> if (!close) append("\t")
-        }
-    }
-}

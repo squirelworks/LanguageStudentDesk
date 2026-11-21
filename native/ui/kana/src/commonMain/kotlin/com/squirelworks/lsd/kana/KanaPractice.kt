@@ -445,6 +445,13 @@ fun ArticleScreen(title: String, body: String, onPlay: (String) -> Unit, onBack:
     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         TextButton(onClick = onBack) { Text("‹") }
         Text(title, style = MaterialTheme.typography.titleLarge)
+        ArticleBlocks(body, onPlay)
+    }
+}
+
+@Composable
+fun ArticleBlocks(body: String, onPlay: (String) -> Unit, modifier: Modifier = Modifier) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         parseArticle(body).forEach { block ->
             when (block) {
                 is ArticleBlock.Heading -> Text(block.text, style = MaterialTheme.typography.titleMedium)
@@ -453,23 +460,13 @@ fun ArticleScreen(title: String, body: String, onPlay: (String) -> Unit, onBack:
                     Text("•")
                     ArticleLine(block.runs, onPlay, Modifier.weight(1f))
                 }
-                is ArticleBlock.Table -> Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    block.rows.forEach { row ->
-                        val play = (row.lastOrNull()?.singleOrNull() as? ArticleRun.Play)
-                        val cells = if (play == null) row else row.dropLast(1)
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            cells.forEachIndexed { index, cell ->
-                                val text = articleAnnotated(cell)
-                                if (index == 0) Text(text, softWrap = false)
-                                else Text(text, modifier = Modifier.weight(1f))
-                            }
-                            if (play != null) PlayControl(play.spoken, onPlay)
-                        }
+                is ArticleBlock.Table -> {
+                    val plays = block.rows.map { row -> (row.lastOrNull()?.singleOrNull() as? ArticleRun.Play)?.spoken }
+                    val cells = block.rows.mapIndexed { index, row ->
+                        val source = if (plays[index] == null) row else row.dropLast(1)
+                        source.map { articleAnnotated(it) }
                     }
+                    ArticleTable(cells, plays, onPlay)
                 }
             }
         }
