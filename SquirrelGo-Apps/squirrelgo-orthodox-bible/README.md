@@ -41,4 +41,7 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 ## Install the APK
 
-Download [`SquirrelGoOrthodoxBible.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoOrthodoxBible.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+The release file is [`SquirrelGoOrthodoxBible.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoOrthodoxBible.apk), the native app, package `com.squirelworks.squirrelgoorthodoxbible`, signed with the committed debug key. The WebView shell is archived at `archive/webview/orthodox-bible/` and is not built. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `orthodox-bible-native`. Desktop packages are attached when a release is published. Downloadable packs stay on the `orthodox-bible-packs` release.
+
+- Package id: `com.squirelworks.squirrelgoorthodoxbible`
+- Min Android: 7.0 (API 24)

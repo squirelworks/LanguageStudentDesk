@@ -948,8 +948,8 @@ jobs:
         run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
 
   # Native Orthodox Bible. The bundle is deleted on the runner: no artifact
-  # and no release asset. The GitHub APK stays the WebView build until that
-  # shell is archived. Packs stay on the orthodox-bible-packs release.
+  # and no release asset. The GitHub APK is the native app, signed with the
+  # committed debug key. Packs stay on the orthodox-bible-packs release.
   orthodox-bible:
     if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
     needs: deps

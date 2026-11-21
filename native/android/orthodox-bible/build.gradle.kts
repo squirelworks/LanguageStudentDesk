@@ -9,7 +9,7 @@ val bibleAssets = rootProject.layout.buildDirectory.dir("generated-orthodox-bibl
 val appVersion = readAppVersion(rootProject.file("versions/orthodox-bible.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-orthodox-bible/android/app/build.gradle"),
+    rootProject.file("../archive/webview/orthodox-bible/app/build.gradle"),
 )
 // release, the GitHub APK, always uses the committed debug key. The play
 // build type is the only one that may use UPLOAD_*, and only for its own bundle.
