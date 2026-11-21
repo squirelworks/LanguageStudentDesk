@@ -164,3 +164,28 @@ klingonCatalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/css/app.css",
     "SquirrelGo-Apps/shared/suite.js",
 )
+
+// The Desk menu's languages, feature switches and programming courses.
+fun deskCatalogTask(name: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-desk")
+        inputs.file("tools/desk_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/desk_catalog.py").absolutePath,
+            repo.resolve(watched[0]).absolutePath,
+            repo.resolve(watched[1]).absolutePath,
+            repo.resolve(watched[2]).absolutePath,
+            outDir.get().asFile.resolve("desk.json").absolutePath,
+        )
+    }
+
+deskCatalogTask(
+    "generateDeskCatalog",
+    "languages/features.js",
+    "languages/registry.js",
+    "programming-learner/data/catalog.js",
+)
