@@ -222,3 +222,32 @@ jedCatalogTask(
     "SquirrelGo-Apps/squirrelgo-dictionary/www",
     "SquirrelGo-Apps/shared/suite.js",
 )
+
+// Orthodox Bible books, bundled texts, versification and the lectionary.
+// Downloadable packs stay on the orthodox-bible-packs release.
+fun bibleCatalogTask(name: String, www: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-orthodox-bible")
+        inputs.dir(repo.resolve(www))
+        inputs.file("tools/bible_catalog.py")
+        inputs.file("tools/kana_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/bible_catalog.py").absolutePath,
+            repo.resolve(www).absolutePath,
+            outDir.get().asFile.absolutePath,
+        )
+    }
+
+bibleCatalogTask(
+    "generateOrthodoxBibleCatalog",
+    "SquirrelGo-Apps/squirrelgo-orthodox-bible/www",
+    "SquirrelGo-Apps/squirrelgo-orthodox-bible/www/data/catalog.js",
+    "SquirrelGo-Apps/squirrelgo-orthodox-bible/www/data/books.js",
+    "SquirrelGo-Apps/squirrelgo-orthodox-bible/www/data/lectionary.js",
+    "SquirrelGo-Apps/squirrelgo-orthodox-bible/www/data/paschalion.js",
+    "SquirrelGo-Apps/shared/suite.js",
+)
