@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Native release APKs must stay on the committed debug key even when UPLOAD_*
 # is set and their Play bundles are built in the same Gradle run.
-# Kana, Bopomofo, Alphabets, Kanji and Klingon.
+# Kana, Bopomofo, Alphabets, Kanji, Klingon and Phrasebook.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 DEBUG_SHA256="CDEC9F5CD92ED1608C0C9457699A25AD2101BD1E52ACCD11197BEAF672DDB369"
@@ -25,7 +25,8 @@ chmod +x gradlew
   :android:bopomofo:assembleRelease :android:bopomofo:bundlePlay \
   :android:alphabets:assembleRelease :android:alphabets:bundlePlay \
   :android:kanji:assembleRelease :android:kanji:bundlePlay \
-  :android:klingon:assembleRelease :android:klingon:bundlePlay
+  :android:klingon:assembleRelease :android:klingon:bundlePlay \
+  :android:phrasebook:assembleRelease :android:phrasebook:bundlePlay
 sdk_dir() {
   if [ -n "${ANDROID_HOME:-}" ]; then
     echo "$ANDROID_HOME"
@@ -75,3 +76,4 @@ check_pair Bopomofo android/bopomofo/build/outputs/apk/release/*.apk android/bop
 check_pair Alphabets android/alphabets/build/outputs/apk/release/*.apk android/alphabets/build/outputs/bundle/play/*.aab
 check_pair Kanji android/kanji/build/outputs/apk/release/*.apk android/kanji/build/outputs/bundle/play/*.aab
 check_pair Klingon android/klingon/build/outputs/apk/release/*.apk android/klingon/build/outputs/bundle/play/*.aab
+check_pair Phrasebook android/phrasebook/build/outputs/apk/release/*.apk android/phrasebook/build/outputs/bundle/play/*.aab

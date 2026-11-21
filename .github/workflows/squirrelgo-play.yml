@@ -108,7 +108,6 @@ jobs:
         include:
           - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary }
           - { app: orthodox-bible,   dir: SquirrelGo-Apps/squirrelgo-orthodox-bible }
-          - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook }
           - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite }
           - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk }
           - { app: math-desk,        dir: SquirrelGo-Apps/math-student-desk }
@@ -172,18 +171,9 @@ jobs:
             gradle-deps-v2-${{ runner.os }}-
             gradle-deps-v1-${{ runner.os }}-
       # The same preparation as each app's compile-only workflow.
-      - name: Check audio coverage
-        if: steps.pick.outputs.go == 'true' && matrix.app == 'phrasebook'
-        run: cd "$DIR" && python3 tools/phrasebook_audio.py --check
       - name: Download dictionary data
         if: steps.pick.outputs.go == 'true' && matrix.app == 'dictionary'
         run: cd "$DIR" && tools/fetch_data.sh
-      - name: Sync web assets into the AAB
-        if: steps.pick.outputs.go == 'true' && matrix.app == 'phrasebook'
-        run: |
-          rm -rf "$DIR/android/app/src/main/assets/www"
-          mkdir -p "$DIR/android/app/src/main/assets"
-          cp -a "$DIR/www" "$DIR/android/app/src/main/assets/www"
       - name: Install Android SDK packages
         if: steps.pick.outputs.go == 'true'
         run: |
@@ -755,6 +745,105 @@ jobs:
         run: |
           python -m pip install -q google-api-python-client google-auth
           python .github/scripts/play_upload.py --package com.squirelworks.squirrelgoklingon --aab "$AAB" \
+            --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
+            --status "${{ inputs.status || 'completed' }}" \
+            --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
+      - name: Remove the key and the bundle
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
+
+  # Native Phrasebook. Same closed-testing path as Klingon. The bundle is
+  # deleted on the runner: no artifact and no release asset. The GitHub APK
+  # stays the WebView build until that shell is archived.
+  phrasebook:
+    if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
+    needs: deps
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Is Phrasebook selected?
+        id: pick
+        env:
+          APPS: ${{ inputs.apps }}
+        run: |
+          if [ -z "$APPS" ] || echo ",$APPS," | tr -d ' ' | grep -q ",phrasebook,"; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Play access is set up
+        if: steps.pick.outputs.go == 'true'
+        env:
+          HAS_PLAY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          [ "$HAS_PLAY" = true ] || { echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is missing; see docs/PLAY.md"; exit 1; }
+      - uses: actions/checkout@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          ref: ${{ env.TAG }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Upload key
+        if: steps.pick.outputs.go == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+            {
+              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/upload.keystore"
+              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
+              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
+            } >> "$GITHUB_ENV"
+          else
+            echo "::warning::no upload key in secrets; Play refuses debug-signed bundles (see docs/PLAY.md)"
+          fi
+      - name: Build the native Phrasebook bundle
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:phrasebook:bundlePlay
+          VN=$(grep -m1 '^versionName=' versions/phrasebook.properties | cut -d= -f2-)
+          AAB=$(echo "$PWD"/android/phrasebook/build/outputs/bundle/play/*.aab)
+          test -f "$AAB"
+          echo "RELEASE_NAME=SquirrelGo Phrasebook $VN" >> "$GITHUB_ENV"
+          echo "AAB=$AAB" >> "$GITHUB_ENV"
+      - name: Release notes
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          if [ -f "release-notes/$TAG.md" ]; then
+            sed -E -e '/^\|/d' -e 's/^#+ *//' -e 's/\[([^]]*)\]\([^)]*\)/\1/g' -e 's/[*`]//g' "release-notes/$TAG.md" \
+              | grep -v '^\s*$' | head -c 500 > "$RUNNER_TEMP/notes.txt"
+          else
+            echo "SquirrelGo $TAG" > "$RUNNER_TEMP/notes.txt"
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.pick.outputs.go == 'true'
+        with:
+          python-version: "3.12"
+      - name: Send to Google Play
+        if: steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python -m pip install -q google-api-python-client google-auth
+          python .github/scripts/play_upload.py --package com.squirelworks.squirrelgophrasebook --aab "$AAB" \
             --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
             --status "${{ inputs.status || 'completed' }}" \
             --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
