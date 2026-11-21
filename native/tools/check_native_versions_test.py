@@ -52,6 +52,11 @@ def main():
     bopo_data = "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data"
     if kana_data not in kana or kana_audio not in kana:
         raise SystemExit(f"kana generator inputs missing: {sorted(kana)}")
+    suite = "SquirrelGo-Apps/shared/suite.js"
+    if suite not in kana:
+        raise SystemExit(f"kana is not watching the suite file: {sorted(kana)}")
+    if suite in bopo or suite in kokugo:
+        raise SystemExit("the suite file marked an app that does not generate it")
     if bopo_data not in bopo:
         raise SystemExit(f"bopomofo generator inputs missing: {sorted(bopo)}")
     if any(path.endswith("www/audio") for path in bopo):

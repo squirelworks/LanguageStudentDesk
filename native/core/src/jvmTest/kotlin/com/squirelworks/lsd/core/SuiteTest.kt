@@ -1,0 +1,58 @@
+package com.squirelworks.lsd.core
+
+import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.core.suite.SuiteLink
+import com.squirelworks.lsd.core.suite.SuiteNote
+import com.squirelworks.lsd.core.suite.noteGroups
+import com.squirelworks.lsd.core.suite.otherApps
+import com.squirelworks.lsd.core.suite.releaseUrl
+import com.squirelworks.lsd.core.suite.resourceList
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+
+class SuiteTest {
+    private fun app(id: String, vararg langs: String) =
+        SuiteApp(id, id, langs = langs.toList(), pkg = "pkg.$id", tag = "latest", apk = "$id.apk")
+
+    @Test
+    fun sisterAppsForTheSameLanguageComeFirst() {
+        val apps = listOf(
+            app("kana", "japanese"),
+            app("bopomofo", "taiwanese"),
+            app("kanji", "japanese"),
+            app("dictionary", "japanese"),
+            app("alphabets", "korean"),
+        )
+        assertEquals(
+            listOf("kanji", "dictionary", "bopomofo", "alphabets"),
+            otherApps("kana", apps).map { it.id },
+        )
+    }
+
+    @Test
+    fun aReleaseUrlNeedsBothATagAndAFile() {
+        val ready = SuiteApp("kana", "Kana", tag = "latest", apk = "SquirrelGoKana.apk")
+        assertEquals(
+            "https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKana.apk",
+            releaseUrl(ready),
+        )
+        assertEquals(
+            "https://github.com/squirelworks/LanguageStudentDesk/releases/download/v1/App.apk",
+            releaseUrl(ready.copy(tag = "v1", apk = "App.apk")),
+        )
+        assertNull(releaseUrl(ready.copy(tag = "", apk = "")))
+    }
+
+    @Test
+    fun notesFollowTheAppLanguagesAndResourcesStartWithTheGeneralList() {
+        val names = mapOf("japanese" to "Japanese")
+        val notes = mapOf("japanese" to listOf(SuiteNote("Particles", "wa and ga")))
+        assertEquals(listOf("Japanese" to notes.getValue("japanese")), noteGroups(listOf("japanese"), names, notes))
+        val resources = mapOf(
+            "general" to listOf(SuiteLink("Anki", "Cards", "https://apps.ankiweb.net")),
+            "japanese" to listOf(SuiteLink("Tanos", "Lists")),
+        )
+        assertEquals(listOf("Anki", "Tanos"), resourceList(listOf("japanese"), resources).map { it.title })
+    }
+}

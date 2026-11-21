@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
+import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.core.trainer.mastered
 import com.squirelworks.lsd.core.trainer.needsReview
 import com.squirelworks.lsd.core.trainer.recordAnswer
@@ -70,12 +71,20 @@ fun KanaApp(
     about: String = "",
     onLookup: ((String) -> Unit)? = null,
     canSpeak: Boolean = false,
+    suite: SuiteFile? = null,
+    suiteId: String = "",
+    installedPackages: Set<String>? = null,
+    onLaunchApp: (SuiteApp) -> Boolean = { false },
+    onOpenUrl: (String) -> Unit = {},
 ) {
     var stack by remember { mutableStateOf(listOf<Screen>(Screen.Home)) }
     var progress by remember { mutableStateOf(readProgress(progressStore)) }
     var picked by remember { mutableStateOf(mapOf<String, Set<Int>>()) }
     var quizKind by remember { mutableStateOf("read") }
     var quizCount by remember { mutableIntStateOf(10) }
+    var showSuite by remember { mutableStateOf(false) }
+    var suiteNotice by remember { mutableStateOf("") }
+    val openApps = if (suite == null) null else ({ showSuite = true })
     val screen = stack.last()
     fun open(next: Screen) { stack = stack + next }
     fun back() { if (stack.size > 1) stack = stack.dropLast(1) }
@@ -110,6 +119,7 @@ fun KanaApp(
         }
     }
     MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
+        Box(Modifier.fillMaxSize()) {
         BoxWithConstraints(
             Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp),
         ) {
@@ -142,7 +152,7 @@ fun KanaApp(
                 }
             } else {
                 when (screen) {
-                    Screen.Home -> HomePage(title, intro, scripts, progress) { open(Screen.Script(it)) }
+                    Screen.Home -> HomePage(title, intro, scripts, progress, { open(Screen.Script(it)) }, openApps)
                     is Screen.Script -> ScriptPage(
                         scripts.first { it.id == screen.scriptId },
                         progress,
@@ -152,6 +162,7 @@ fun KanaApp(
                         onPractice = { open(Screen.Choose(screen.scriptId, it)) },
                         onArticle = { open(Screen.Article(screen.scriptId, it)) },
                         onSettings = { open(Screen.Settings) },
+                        onApps = openApps,
                     )
                     is Screen.Lesson -> LessonPage(
                         scripts.first { it.id == screen.scriptId },
@@ -310,13 +321,42 @@ fun KanaApp(
                 }
             }
         }
+        if (showSuite && suite != null) {
+            SuiteSheet(
+                file = suite,
+                selfId = suiteId,
+                installed = installedPackages,
+                notice = suiteNotice,
+                onOpen = { app ->
+                    showSuite = false
+                    suiteNotice = openSuiteApp(app, installedPackages, onLaunchApp, onOpenUrl)
+                    if (suiteNotice.isNotBlank()) showSuite = true
+                },
+                onUrl = onOpenUrl,
+                onClose = {
+                    showSuite = false
+                    suiteNotice = ""
+                },
+            )
+        }
+        }
     }
 }
 
 @Composable
-private fun HomePage(title: String, intro: String, scripts: List<KanaScript>, progress: ProgressFile, onOpen: (String) -> Unit) {
+private fun HomePage(
+    title: String,
+    intro: String,
+    scripts: List<KanaScript>,
+    progress: ProgressFile,
+    onOpen: (String) -> Unit,
+    onApps: (() -> Unit)?,
+) {
     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(title, style = MaterialTheme.typography.headlineSmall)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(title, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
+            if (onApps != null) TextButton(onClick = onApps) { Text("Apps") }
+        }
         if (intro.isNotBlank()) Text(intro)
         scripts.forEach { script ->
             val all = lessonGlyphs(script)
@@ -341,6 +381,7 @@ private fun ScriptPage(
     onPractice: (String) -> Unit,
     onArticle: (Int) -> Unit,
     onSettings: () -> Unit,
+    onApps: (() -> Unit)?,
 ) {
     val all = lessonGlyphs(script)
     val done = all.count { mastered(progress.stat(it.key)) }
@@ -348,6 +389,7 @@ private fun ScriptPage(
         Row(verticalAlignment = Alignment.CenterVertically) {
             TextButton(onClick = onBack) { Text("‹") }
             Text(script.title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+            if (onApps != null) TextButton(onClick = onApps) { Text("Apps") }
             TextButton(onClick = onSettings) { Text("Settings") }
         }
         if (script.native.isNotBlank()) Text(script.native)

@@ -2,6 +2,7 @@ package com.squirelworks.squirrelgokana
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.media.MediaPlayer
 import android.media.PlaybackParams
 import android.os.Build
@@ -15,8 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.squirelworks.lsd.core.languages.FileTextStore
+import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.parseKanaAudio
+import com.squirelworks.lsd.kana.parseSuite
 import com.squirelworks.lsd.kana.parseKanaCopy
 import com.squirelworks.lsd.kana.parseKanaScripts
 import com.squirelworks.lsd.kana.parseKanaStrokes
@@ -38,6 +41,7 @@ class MainActivity : ComponentActivity() {
         val strokes = parseKanaStrokes(assets.open("kana-strokes.json").bufferedReader().use { it.readText() })
         val clips = parseKanaAudio(assets.open("kana-audio.json").bufferedReader().use { it.readText() })
         val copy = parseKanaCopy(assets.open("app.json").bufferedReader().use { it.readText() })
+        val suite = parseSuite(assets.open("suite.json").bufferedReader().use { it.readText() })
         val progress = FileTextStore(File(filesDir, "kana-progress.json"))
         setContent {
             KanaApp(
@@ -54,6 +58,11 @@ class MainActivity : ComponentActivity() {
                 about = copy.about,
                 onLookup = ::openDictionary,
                 canSpeak = true,
+                suite = suite,
+                suiteId = "kana",
+                installedPackages = suite.apps.map { it.pkg }.filter { launchIntentFor(it) != null }.toSet(),
+                onLaunchApp = ::launchApp,
+                onOpenUrl = ::openHttps,
             )
         }
     }
@@ -92,6 +101,30 @@ class MainActivity : ComponentActivity() {
         engine.setSpeechRate(rate)
         if (lang.isNotBlank()) engine.language = Locale.forLanguageTag(lang)
         engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kana")
+    }
+
+    private fun launchIntentFor(pkg: String): Intent? {
+        val debug = packageManager.getLaunchIntentForPackage("$pkg.debug")
+        return debug ?: packageManager.getLaunchIntentForPackage(pkg)
+    }
+
+    private fun launchApp(app: SuiteApp): Boolean {
+        val launch = launchIntentFor(app.pkg) ?: return false
+        launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        return try {
+            startActivity(launch)
+            true
+        } catch (_: ActivityNotFoundException) {
+            false
+        }
+    }
+
+    private fun openHttps(url: String) {
+        if (!url.startsWith("https://")) return
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (_: ActivityNotFoundException) {
+        }
     }
 
     private fun openDictionary(text: String) {

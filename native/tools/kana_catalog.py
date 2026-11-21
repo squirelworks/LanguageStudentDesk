@@ -111,6 +111,88 @@ def app_settings(path):
         raise SystemExit(f"node did not print JSON for {path}: {err}")
 
 
+_SUITE_EVAL = r"""
+const fs = require("fs");
+const vm = require("vm");
+const file = process.argv[1];
+const source = fs.readFileSync(file, "utf8");
+const marker = "window.SquirrelGoSuite = ";
+if (!source.includes(marker)) {
+  console.error("SquirrelGoSuite assignment missing in " + file);
+  process.exit(1);
+}
+const patched = source.replace(
+  marker,
+  "window.__dump = { apps: APPS, langNames: LANG_NAMES, notes: NOTES, resources: RESOURCES };\n" + marker
+);
+const window = {};
+const document = {
+  currentScript: { dataset: {} },
+  addEventListener() {},
+  createElement() { return { style: {}, appendChild() {} }; },
+  head: { appendChild() {} },
+  body: { appendChild() {} },
+  querySelector() { return null; },
+  getElementById() { return null; },
+};
+try {
+  vm.runInNewContext(patched, {
+    window,
+    document,
+    location: { search: "", pathname: "", href: "" },
+    history: { replaceState() {} },
+    URLSearchParams,
+    setTimeout() {},
+    clearTimeout() {},
+  }, { filename: file });
+} catch (err) {
+  console.error(err && err.stack ? err.stack : String(err));
+  process.exit(1);
+}
+if (!window.__dump || !Array.isArray(window.__dump.apps)) {
+  console.error("suite data missing after evaluating " + file);
+  process.exit(1);
+}
+function pairs(map, withUrl) {
+  const out = {};
+  for (const key of Object.keys(map || {})) {
+    out[key] = map[key].map((row) => {
+      const item = { title: row[0], body: row[1] };
+      if (withUrl) item.url = row[2] || "";
+      return item;
+    });
+  }
+  return out;
+}
+const dump = window.__dump;
+process.stdout.write(JSON.stringify({
+  apps: dump.apps,
+  langNames: dump.langNames,
+  notes: pairs(dump.notes, false),
+  resources: pairs(dump.resources, true),
+}));
+"""
+
+
+def suite_settings(path):
+    try:
+        result = subprocess.run(
+            ["node", "-e", _SUITE_EVAL, str(path)],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        raise SystemExit(f"node is required to read {path} and was not found")
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip()
+        raise SystemExit(f"Could not evaluate {path}:\n{detail}")
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError as err:
+        raise SystemExit(f"node did not print JSON for {path}: {err}")
+
+
 def strokes(text):
     at = text.find('"] = {')
     if at < 0:
@@ -153,6 +235,9 @@ def main():
     if app_js.is_file() and lessons_path.is_file():
         data = app_settings(app_js)
         (dest / "app.json").write_text(json.dumps(data, ensure_ascii=False) + "\n")
+    if len(sys.argv) > 7:
+        suite = suite_settings(pathlib.Path(sys.argv[7]))
+        (dest / "suite.json").write_text(json.dumps(suite, ensure_ascii=False) + "\n")
 
 
 if __name__ == "__main__":
