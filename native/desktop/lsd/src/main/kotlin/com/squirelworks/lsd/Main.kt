@@ -1,5 +1,6 @@
 package com.squirelworks.lsd
 
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -7,10 +8,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.squirelworks.lsd.core.desk.DeskRules
+import com.squirelworks.lsd.core.desk.applyDeskWebSnapshot
 import com.squirelworks.lsd.core.desk.decodeDeskSettings
-import com.squirelworks.lsd.core.desk.deskLearnerPage
+import com.squirelworks.lsd.core.desk.deskPagesRoot
 import com.squirelworks.lsd.core.desk.encodeDeskSettings
 import com.squirelworks.lsd.core.desk.parseDeskCatalog
+import com.squirelworks.lsd.core.desk.parseDeskWebSnapshot
 import com.squirelworks.lsd.core.languages.FavoriteLanguages
 import com.squirelworks.lsd.core.languages.FavoriteStore
 import com.squirelworks.lsd.core.languages.formatFavoriteOrder
@@ -20,6 +23,7 @@ import java.awt.Desktop
 import java.io.File
 import java.net.URI
 import javax.swing.JOptionPane
+import javax.swing.SwingUtilities
 
 fun main() = application {
     val catalog = parseDeskCatalog(
@@ -33,27 +37,52 @@ fun main() = application {
         override fun save(ids: Set<String>) { file.writeText(formatFavoriteOrder(ids)) }
     })
     val initial = decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), DeskRules(catalog).fresh())
-    Window(onCloseRequest = ::exitApplication, title = "Language Student Desk") {
+    val www = System.getProperty("compose.application.resources.dir")?.let(::File)?.let { deskPagesRoot(it) }
+    var host: DeskLearnerHost? = null
+    val sync = mutableStateOf<(String) -> Unit>({ })
+    if (www != null) {
+        host = DeskLearnerHost(www) { body ->
+            SwingUtilities.invokeLater { sync.value(body) }
+        }
+    }
+    Window(onCloseRequest = {
+        host?.close()
+        exitApplication()
+    }, title = "Language Student Desk") {
         var settings by remember { mutableStateOf(initial) }
+        var generation by remember { mutableStateOf(0) }
+        sync.value = sync@{ raw ->
+            val snapshot = parseDeskWebSnapshot(raw) ?: return@sync
+            val applied = applyDeskWebSnapshot(snapshot, settings, favorites.ids())
+            settings = applied.settings
+            settingsFile.writeText(encodeDeskSettings(settings))
+            favorites.replace(applied.favorites)
+            generation++
+        }
+        DisposableEffect(Unit) {
+            onDispose { sync.value = {} }
+        }
         DeskApp(
             catalog = catalog,
             settings = settings,
             favorites = favorites,
+            syncGeneration = generation,
             onSettings = { next ->
                 settings = next
                 settingsFile.writeText(encodeDeskSettings(next))
             },
             onFavorites = {},
             onOpenLearner = { learner, lang ->
-                val resources = System.getProperty("compose.application.resources.dir")?.let(::File)
-                val page = resources?.let { deskLearnerPage(it, learner.href) }
-                if (page == null) {
+                val open = host
+                if (open == null || deskLearnerPage(www!!, learner.href) == null) {
                     JOptionPane.showMessageDialog(null, "This learner is not in the installed Language Student Desk.")
                 } else {
-                    val query = if (learner.scoped && lang.isNotBlank()) "?lang=$lang" else ""
-                    Desktop.getDesktop().browse(URI(page.toURI().toString() + query))
+                    Desktop.getDesktop().browse(URI(open.seedUrl(settings, favorites.ids(), learner.href, learner.scoped, lang)))
                 }
             },
         )
     }
 }
+
+private fun deskLearnerPage(www: File, href: String) =
+    com.squirelworks.lsd.core.desk.deskLearnerPage(www.parentFile ?: www, href)

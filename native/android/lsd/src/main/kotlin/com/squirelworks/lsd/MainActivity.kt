@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
             decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), rules.fresh()),
         )
         val favorites = FavoriteLanguages(OrderedFavoriteStore(favoriteFile))
+        val learnerOpen = File(filesDir, "desk-learner-open")
         if (!settings.importedWebView) {
             val dataDir = File(applicationInfo.dataDir)
             fun stored(key: String) = (readWebViewProgress(dataDir, key, raw = true) as? WebViewStore.Value)?.text
@@ -49,6 +50,38 @@ class MainActivity : ComponentActivity() {
             settingsFile.writeText(encodeDeskSettings(settings))
             favorites.replace(imported.favorites)
         }
+        if (learnerOpen.isFile) {
+            val dataDir = File(applicationInfo.dataDir)
+            fun stored(key: String) = readWebViewProgress(dataDir, key, raw = true)
+            val saved = stored("lsd-settings")
+            val stars = stored("lsd-favorite-languages")
+            val lang = stored("lsd-suite-lang")
+            val values = listOf(saved, stars, lang)
+            if (values.any { it is WebViewStore.Value }) {
+                val applied = applyDeskWebSnapshot(
+                    com.squirelworks.lsd.core.desk.DeskWebSnapshot(
+                        (saved as? WebViewStore.Value)?.text,
+                        (stars as? WebViewStore.Value)?.text,
+                        (lang as? WebViewStore.Value)?.text,
+                    ),
+                    settings,
+                    favorites.ids(),
+                )
+                settings = applied.settings.copy(importedWebView = true)
+                settingsFile.writeText(encodeDeskSettings(settings))
+                favorites.replace(applied.favorites)
+                learnerOpen.delete()
+            } else if (values.none { it is WebViewStore.Unreadable }) {
+                learnerOpen.delete()
+            }
+        }
+        fun remember(raw: String?) {
+            val snapshot = parseDeskWebSnapshot(raw) ?: return
+            val applied = applyDeskWebSnapshot(snapshot, settings, favorites.ids())
+            settings = applied.settings
+            settingsFile.writeText(encodeDeskSettings(settings))
+            favorites.replace(applied.favorites)
+        }
         var learner by mutableStateOf<Pair<DeskLearner, String>?>(null)
         setContent {
             val open = learner
@@ -57,14 +90,10 @@ class MainActivity : ComponentActivity() {
                 LearnerWeb(
                     url = learnerAddress(page.href, page.scoped, lang),
                     seedHtml = learnerSeed(settings, favorites.ids(), page.href, page.scoped, lang),
+                    onSnapshot = { remember(it) },
                     onLeave = { raw ->
-                        val snapshot = parseDeskWebSnapshot(raw)
-                        if (snapshot != null) {
-                            val applied = applyDeskWebSnapshot(snapshot, settings, favorites.ids())
-                            settings = applied.settings
-                            settingsFile.writeText(encodeDeskSettings(settings))
-                            favorites.replace(applied.favorites)
-                        }
+                        remember(raw)
+                        learnerOpen.delete()
                         learner = null
                     },
                 )
@@ -78,7 +107,10 @@ class MainActivity : ComponentActivity() {
                         settingsFile.writeText(encodeDeskSettings(next))
                     },
                     onFavorites = {},
-                    onOpenLearner = { page, lang -> learner = page to lang },
+                    onOpenLearner = { page, lang ->
+                        learnerOpen.writeText("1")
+                        learner = page to lang
+                    },
                 )
             }
         }

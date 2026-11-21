@@ -36,8 +36,20 @@ tasks.named("processResources").configure {
 }
 
 tasks.configureEach {
-    if (name == "prepareAppResources" || name.startsWith("prepareAppResources")) {
+    if (name == "prepareAppResources" || name.startsWith("prepareAppResources") || name == "createDistributable") {
         dependsOn(rootProject.tasks.named("packDeskLearners"))
+    }
+}
+
+tasks.register("checkDeskPages") {
+    dependsOn("createDistributable")
+    doLast {
+        val binaries = layout.buildDirectory.dir("compose/binaries").get().asFile
+        val menu = binaries.walkTopDown().firstOrNull { file ->
+            file.isFile && file.invariantSeparatorsPath.endsWith("/www/index.html")
+        } ?: error("The desktop package has no www/index.html")
+        val learner = File(menu.parentFile, "klingon/index.html")
+        if (!learner.isFile) error("The desktop package has no learner page at ${learner.path}")
     }
 }
 

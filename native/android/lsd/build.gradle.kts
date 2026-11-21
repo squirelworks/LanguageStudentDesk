@@ -6,7 +6,7 @@ plugins {
 
 val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val deskAssets = rootProject.layout.buildDirectory.dir("generated-desk").get().asFile
-val learnerAssets = rootProject.layout.buildDirectory.dir("generated-desk-www").get().asFile
+val learnerAssets = rootProject.layout.buildDirectory.dir("generated-desk-www/common").get().asFile
 val appVersion = readAppVersion(rootProject.file("versions/lsd.properties"))
 requireNewerThanWebView(
     appVersion,

@@ -224,7 +224,8 @@ deskCatalogTask(
 // The same learner pages the Android WebView and the desktop package open.
 val packDeskLearners = tasks.register<Exec>("packDeskLearners") {
     val repo = rootProject.projectDir.parentFile
-    val dest = layout.buildDirectory.dir("generated-desk-www").get().asFile
+    // Compose packages only common/ and the OS-named folders of the resources root.
+    val dest = layout.buildDirectory.dir("generated-desk-www/common").get().asFile
     inputs.dir(repo.resolve("languages"))
     inputs.dir(repo.resolve("klingon"))
     inputs.dir(repo.resolve("character-learner"))

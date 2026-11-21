@@ -15,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.squirelworks.lsd.core.desk.deskSeedDocument
 import com.squirelworks.lsd.core.desk.isDeskMenuUrl
 import com.squirelworks.lsd.kana.PlatformBackHandler
@@ -47,10 +50,18 @@ private const val READ_STORAGE =
 // Back walks the learner's own history before returning to the native menu.
 @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
 @Composable
-fun LearnerWeb(url: String, seedHtml: String, onLeave: (String?) -> Unit) {
+fun LearnerWeb(url: String, seedHtml: String, onSnapshot: (String?) -> Unit, onLeave: (String?) -> Unit) {
     val holder = remember(url) { LearnerWebHolder(url, seedHtml) }
-    DisposableEffect(holder) {
-        onDispose { holder.destroy() }
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    DisposableEffect(holder, lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_STOP) holder.read(onSnapshot)
+        }
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+            holder.destroy()
+        }
     }
     PlatformBackHandler(true) { holder.back(onLeave) }
     AndroidView(
@@ -153,6 +164,14 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
         val view = webView ?: return
         if (!ttsReady) return
         view.evaluateJavascript(SPEECH_POLYFILL, null)
+    }
+
+    fun read(onSnapshot: (String?) -> Unit) {
+        val view = webView
+        if (view == null || leaving) {
+            return
+        }
+        view.evaluateJavascript(READ_STORAGE, onSnapshot)
     }
 
     private fun readAndLeave() {

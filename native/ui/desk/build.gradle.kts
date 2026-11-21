@@ -33,6 +33,10 @@ kotlin {
     }
 }
 
+tasks.matching { it.name == "jvmTest" }.configureEach {
+    dependsOn(rootProject.tasks.named("generateDeskCatalog"))
+}
+
 android {
     namespace = "com.squirelworks.lsd.desk"
     compileSdk = 37

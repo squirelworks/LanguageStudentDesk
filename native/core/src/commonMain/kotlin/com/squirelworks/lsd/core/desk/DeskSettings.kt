@@ -165,12 +165,36 @@ fun jsStringLiteral(value: String): String = buildString {
 
 // The packed suite menu, and the copy that still lives under lsd-suite.
 // A learner's own index, and another app's www/index.html, are not the menu.
+// The desktop server serves the packed www/ at the site root, so /index.html is the menu there.
 fun isDeskMenuUrl(url: String): Boolean {
-    val path = percentDecode(url.substringBefore('#').substringBefore('?'))
-    if (!path.startsWith("file:")) return false
-    return path.endsWith("/android_asset/www/index.html") ||
-        path.endsWith("/lsd-suite/www/index.html") ||
-        path.endsWith("/lsd-suite/index.html")
+    val bare = percentDecode(url.substringBefore('#').substringBefore('?')).trimEnd('/')
+    if (bare.endsWith("/android_asset/www/index.html") ||
+        bare.endsWith("/lsd-suite/www/index.html") ||
+        bare.endsWith("/lsd-suite/index.html")
+    ) {
+        return bare.startsWith("file:") || bare.startsWith("http://127.0.0.1") || bare.startsWith("http://localhost")
+    }
+    if (!(bare.startsWith("http://127.0.0.1") || bare.startsWith("http://localhost"))) return false
+    val path = bare.substringAfter("://").substringAfter('/')
+    return path == "index.html"
+}
+
+// Posted by a learner page so the desktop Desk hears changes without waiting for the tab to close.
+const val DESK_SYNC_SCRIPT: String =
+    "(function(){if(window.__lsdDeskSync)return;window.__lsdDeskSync=true;" +
+        "function send(){try{var body=JSON.stringify({settings:localStorage.getItem('lsd-settings')," +
+        "favorites:localStorage.getItem('lsd-favorite-languages'),lang:localStorage.getItem('lsd-suite-lang')});" +
+        "navigator.sendBeacon('/desk-sync',new Blob([body],{type:'application/json'}));}catch(e){}}" +
+        "window.addEventListener('pagehide',send);" +
+        "document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')send();});" +
+        "setInterval(send,1500);})();"
+
+fun injectDeskSync(html: String): String {
+    if (html.contains("__lsdDeskSync")) return html
+    val tag = "<script>$DESK_SYNC_SCRIPT</script>"
+    val head = html.indexOf("<head>", ignoreCase = true)
+    if (head >= 0) return html.replaceRange(head + "<head>".length, head + "<head>".length, tag)
+    return tag + html
 }
 
 private fun percentDecode(text: String): String = buildString {

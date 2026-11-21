@@ -54,11 +54,12 @@ fun DeskApp(
     onSettings: (DeskSettings) -> Unit,
     onFavorites: (FavoriteLanguages) -> Unit,
     onOpenLearner: (DeskLearner, String) -> Unit,
+    syncGeneration: Int = 0,
 ) {
     val rules = remember(catalog) { DeskRules(catalog) }
     var tab by remember { mutableStateOf("tools") }
     var selection by remember(settings.suiteLang) { mutableStateOf(settings.suiteLang) }
-    var favoriteIds by remember { mutableStateOf(favorites.ids()) }
+    var favoriteIds by remember(syncGeneration) { mutableStateOf(favorites.ids()) }
     fun toggleFavorite(id: String) {
         favorites.toggle(id)
         favoriteIds = favorites.ids()

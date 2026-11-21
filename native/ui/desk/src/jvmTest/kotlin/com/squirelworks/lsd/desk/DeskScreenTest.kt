@@ -4,10 +4,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
+import com.squirelworks.lsd.core.desk.parseDeskCatalog
+import java.io.File
+import javax.imageio.ImageIO
 import com.squirelworks.lsd.core.desk.DeskCatalog
 import com.squirelworks.lsd.core.desk.DeskCourse
 import com.squirelworks.lsd.core.desk.DeskFeature
@@ -51,6 +57,40 @@ class DeskScreenTest {
         assertEquals("klingon" to "", opened)
         onNodeWithText("Language Learner").performClick()
         assertEquals("language" to "latin", opened)
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun realCatalogRendersAtPhoneWidth() = runComposeUiTest {
+        val catalogFile = listOf(
+            File("../../build/generated-desk/desk.json"),
+            File("build/generated-desk/desk.json"),
+        ).firstOrNull { it.isFile } ?: return@runComposeUiTest
+        val catalog = parseDeskCatalog(catalogFile.readText())
+        setContent {
+            Box(Modifier.size(412.dp, 900.dp)) {
+                DeskApp(
+                    catalog = catalog,
+                    settings = com.squirelworks.lsd.core.desk.DeskSettings(
+                        level = catalog.defaultLevel.ifBlank { "simple" },
+                        welcomeDone = true,
+                        noticeDismissed = true,
+                    ),
+                    favorites = FavoriteLanguages(MemoryFavoriteStore()),
+                    onSettings = {},
+                    onFavorites = {},
+                    onOpenLearner = { _, _ -> },
+                )
+            }
+        }
+        onNodeWithText("Language Student Desk").assertExists()
+        onNodeWithText("• Tools").assertExists()
+        onNodeWithText("Open scoped tools in").assertExists()
+        val image = onRoot().captureToImage().toAwtImage()
+        val out = File("build/reports/desk-phone.png")
+        out.parentFile.mkdirs()
+        ImageIO.write(image, "png", out)
+        assertEquals(412, image.width)
     }
 }
 
