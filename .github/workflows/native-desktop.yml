@@ -44,13 +44,16 @@ jobs:
         run: |
           git fetch origin --tags --force
           python3 native/tools/check_native_versions.py --release
+      - name: Download the Japanese-English word list
+        shell: bash
+        run: SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh
       - name: Package
         working-directory: native
         shell: bash
         run: |
           if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > local.properties; fi
           chmod +x gradlew
-          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS :desktop:phrasebook:packageDistributionForCurrentOS :desktop:lsd:packageDistributionForCurrentOS
+          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS :desktop:phrasebook:packageDistributionForCurrentOS :desktop:lsd:packageDistributionForCurrentOS
       - name: Release APKs
         if: runner.os == 'Linux'
         shell: bash
@@ -76,7 +79,7 @@ jobs:
           for f in "${files[@]}"; do
             if [ ! -f "$f" ]; then continue; fi
             case "$(basename "$f")" in
-              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk|SquirrelGoAlphabets-*.apk|SquirrelGoKanji-*.apk|SquirrelGoKlingon-*.apk|SquirrelGoPhrasebook-*.apk|LanguageStudentDesk-*.apk)
+              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk|SquirrelGoAlphabets-*.apk|SquirrelGoKanji-*.apk|SquirrelGoKlingon-*.apk|SquirrelGoPhrasebook-*.apk|SquirrelGoJapaneseDictionary-*.apk|LanguageStudentDesk-*.apk)
                 # The release workflow is the only uploader for these APKs.
                 ;;
               *) upload+=("$f") ;;
