@@ -1,0 +1,63 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
+val catalogAssets = rootProject.layout.buildDirectory.dir("generated-math").get().asFile
+val learnerAssets = rootProject.layout.buildDirectory.dir("generated-math-www/common").get().asFile
+val appVersion = readAppVersion(rootProject.file("versions/math.properties"))
+requireNewerThanWebView(
+    appVersion,
+    rootProject.file("../SquirrelGo-Apps/math-student-desk/android/app/build.gradle"),
+)
+base { archivesName.set("MathsEduTrainingHelper-${appVersion.versionName}") }
+
+kotlin {
+    compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) }
+}
+
+android {
+    namespace = "com.squirelworks.mathseducationtraininghelper"
+    compileSdk = 37
+    defaultConfig {
+        applicationId = "com.squirelworks.mathseducationtraininghelper"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = appVersion.versionCode
+        versionName = appVersion.versionName
+    }
+    signingConfigs {
+        getByName("debug") {
+            storeFile = debugKeystore
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug { applicationIdSuffix = ".debug" }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    sourceSets.getByName("main").assets.srcDir(catalogAssets)
+    sourceSets.getByName("main").assets.srcDir(learnerAssets)
+}
+
+dependencies {
+    implementation(project(":ui:math"))
+    implementation(project(":learner"))
+    implementation(libs.androidx.activity.compose)
+}
+
+tasks.matching { it.name == "preBuild" || it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
+    dependsOn(rootProject.tasks.named("generateMathCatalog"))
+    dependsOn(rootProject.tasks.named("packMathLearners"))
+}

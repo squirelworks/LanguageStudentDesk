@@ -221,6 +221,50 @@ deskCatalogTask(
     "SquirrelGo-Apps/lsd-suite/www/index.html",
 )
 
+fun mathCatalogTask(name: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-math")
+        inputs.file("tools/math_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/math_catalog.py").absolutePath,
+            repo.resolve(watched[0]).absolutePath,
+            repo.resolve(watched[1]).absolutePath,
+            repo.resolve(watched[2]).absolutePath,
+            outDir.get().asFile.resolve("math.json").absolutePath,
+        )
+    }
+
+mathCatalogTask(
+    "generateMathCatalog",
+    "math-learner/data/catalog.js",
+    "math-learner/sections.js",
+    "languages/features.js",
+)
+
+val packMathLearners = tasks.register<Exec>("packMathLearners") {
+    val repo = rootProject.projectDir.parentFile
+    val dest = layout.buildDirectory.dir("generated-math-www/common").get().asFile
+    inputs.dir(repo.resolve("math-learner"))
+    inputs.file(repo.resolve("languages/features.js"))
+    inputs.file(repo.resolve("languages/lsd-features.js"))
+    inputs.file(repo.resolve("languages/lsd-features.css"))
+    inputs.file(repo.resolve("languages/learners.css"))
+    inputs.file(repo.resolve("languages/lsd-lang.js"))
+    inputs.file(repo.resolve("SquirrelGo-Apps/math-student-desk/www/index.html"))
+    inputs.file(repo.resolve("SquirrelGo-Apps/math-student-desk/tools/pack_assets.py"))
+    outputs.dir(dest)
+    commandLine(
+        "python3",
+        repo.resolve("SquirrelGo-Apps/math-student-desk/tools/pack_assets.py").absolutePath,
+        "--dest",
+        dest.absolutePath,
+    )
+}
+
 // The same learner pages the Android WebView and the desktop package open.
 val packDeskLearners = tasks.register<Exec>("packDeskLearners") {
     val repo = rootProject.projectDir.parentFile
