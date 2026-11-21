@@ -24,4 +24,18 @@ class ArticleTextTest {
         assertTrue(notice.contains("isn't installed"))
         assertTrue(opened.endsWith("SquirrelGoKanji.apk"))
     }
+
+    @Test
+    fun desktopOpenUsesTheReleasePage() {
+        var opened = ""
+        val notice = openSuiteApp(
+            SuiteApp("kanji", "SquirrelGo Kanji", tag = "latest", apk = "SquirrelGoKanji.apk"),
+            installed = null,
+            launch = { false },
+            browse = { opened = it },
+        )
+        assertEquals("", notice)
+        assertEquals("https://github.com/squirelworks/LanguageStudentDesk/releases/latest", opened)
+        assertTrue(!opened.endsWith(".apk"))
+    }
 }

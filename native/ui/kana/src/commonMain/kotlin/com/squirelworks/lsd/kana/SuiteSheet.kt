@@ -26,6 +26,7 @@ import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
 import com.squirelworks.lsd.core.suite.noteGroups
 import com.squirelworks.lsd.core.suite.otherApps
+import com.squirelworks.lsd.core.suite.desktopReleasePage
 import com.squirelworks.lsd.core.suite.releaseUrl
 import com.squirelworks.lsd.core.suite.resourceList
 import kotlinx.serialization.Serializable
@@ -116,11 +117,12 @@ fun openSuiteApp(
     launch: (SuiteApp) -> Boolean,
     browse: (String) -> Unit,
 ): String {
-    val url = releaseUrl(app)
     if (installed == null) {
-        if (url != null) browse(url)
+        val page = desktopReleasePage(app)
+        if (page != null) browse(page)
         return ""
     }
+    val url = releaseUrl(app)
     if (app.pkg in installed && launch(app)) return ""
     if (url != null) browse(url)
     return "${app.name} isn't installed yet. Opening its download page."

@@ -39,6 +39,14 @@ fun releaseUrl(app: SuiteApp): String? {
     return RELEASES + path
 }
 
+// Desktop Open uses the release page, where the desktop packages are attached,
+// rather than the Android package named in the suite file.
+fun desktopReleasePage(app: SuiteApp): String? {
+    if (app.tag.isBlank()) return null
+    val path = if (app.tag == "latest") "latest" else "tag/${app.tag}"
+    return RELEASES + path
+}
+
 // Sister apps that share a language come first. The order within each group
 // stays the order of the suite list.
 fun otherApps(selfId: String, apps: List<SuiteApp>): List<SuiteApp> {
