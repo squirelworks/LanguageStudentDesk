@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.squirelworks.lsd.kana.DesktopKeys
+import com.squirelworks.lsd.kana.DesktopVoice
 import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.KanaApp
@@ -32,7 +33,7 @@ fun main(args: Array<String>) = application {
     val copy = loader.getResource("app.json")?.readText()?.let { parseKanaCopy(it) }
     val suite = loader.getResource("suite.json")?.readText()?.let { parseSuite(it) }
     val player = Mp3ClipPlayer { path -> loader.getResourceAsStream(path) }
-    val voice = DesktopVoice()
+    val voice = DesktopVoice("kana")
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/kana-progress.json"))
     adoptWebViewProgress(progress, WebViewStore.Absent)
     val query = args.firstOrNull { it.startsWith("--query=") }?.substringAfter("=")
