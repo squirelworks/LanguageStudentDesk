@@ -9,7 +9,7 @@ val klingonAssets = rootProject.layout.buildDirectory.dir("generated-klingon").g
 val appVersion = readAppVersion(rootProject.file("versions/klingon.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/android/app/build.gradle"),
+    rootProject.file("../archive/webview/klingon/app/build.gradle"),
 )
 // release, the GitHub APK, always uses the committed debug key. The play
 // build type is the only one that may use UPLOAD_*, and only for its own bundle.

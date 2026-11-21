@@ -46,31 +46,14 @@ build_app() {
 build_app "$ROOT/SquirrelGo-Apps/programming-student-desk" ProgrammingStudentDesk ProgrammingStudentDesk "SquirrelGo-Apps/programming-student-desk/www/index.html"
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-phrasebook" SquirrelGoPhrasebook SquirrelGoPhrasebook
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-orthodox-bible" SquirrelGoOrthodoxBible SquirrelGoOrthodoxBible
-echo "======== BUILD SquirrelGoKlingon (WebView APK) ========"
-(
-  cd "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/android"
-  ./gradlew assembleRelease --no-daemon -q
-  apk="app/build/outputs/apk/release/app-release.apk"
-  python3 - "$apk" <<'PY'
-import sys, zipfile
-apk = sys.argv[1]
-needle = "assets/www/index.html"
-with zipfile.ZipFile(apk) as z:
-    hit = next((n for n in z.namelist() if n == needle or n.endswith("/" + needle)), None)
-if not hit:
-    print(f"FAIL SquirrelGoKlingon: WebView APK has no {needle}", file=sys.stderr)
-    sys.exit(1)
-print(f"OK SquirrelGoKlingon: {hit}")
-PY
-  cp "$apk" "$OUT_ART/SquirrelGoKlingon.apk"
-)
-echo "======== BUILD SquirrelGoKlingon (native Play bundle) ========"
+echo "======== BUILD SquirrelGoKlingon (native) ========"
 (
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
   # release stays on the debug key even though UPLOAD_* is exported above.
-  ./gradlew :android:klingon:bundlePlay --no-daemon -q
+  ./gradlew :android:klingon:assembleRelease :android:klingon:bundlePlay --no-daemon -q
+  cp android/klingon/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKlingon.apk"
   cp android/klingon/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKlingon.aab"
 )
 echo "======== BUILD SquirrelGoKanji (native) ========"
