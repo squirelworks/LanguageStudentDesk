@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SquirrelGoAlphabets" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#5A3D8A</item>
+        <item name="colorPrimaryVariant">#432D68</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:statusBarColor">#5A3D8A</item>
+        <item name="android:navigationBarColor">#F7F5F1</item>
+        <item name="android:windowBackground">#F7F5F1</item>
+    </style>
+</resources>
