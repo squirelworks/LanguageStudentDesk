@@ -57,9 +57,9 @@ The stroke files are generated from squirrel-lang-data (`data/strokes/<script>.j
 
 ## Install the APK
 
-Download [`SquirrelGoAlphabets.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoAlphabets.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+The release file is [`SquirrelGoAlphabets.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoAlphabets.apk), the native app, package `com.squirelworks.squirrelgoalphabets`, signed with the committed debug key. The WebView shell is archived at `archive/webview/alphabets/` and is not built. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `alphabets-native`.
 
-- Package id: `com.squirelworks.squirrelgoalphabets.debug`
+- Package id: `com.squirelworks.squirrelgoalphabets`
 - Min Android: 7.0 (API 24)
 
 ## Web / desktop
@@ -75,6 +75,11 @@ Open `www/index.html` in a browser (no build step).
 
 `www/js/` is shared with SquirrelGo Kana; keep the two copies the same.
 
-## Rebuild Android APK locally
+## Rebuild the Android APK locally
 
-Same steps as SquirrelGo Kana: copy `www` into `android/app/src/main/assets/www`, then `./gradlew assembleDebug` in `android/`.
+```bash
+export ANDROID_HOME=$HOME/android-sdk
+cd native
+echo "sdk.dir=$ANDROID_HOME" > local.properties
+./gradlew :android:alphabets:assembleRelease
+```

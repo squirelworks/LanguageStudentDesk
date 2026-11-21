@@ -76,7 +76,7 @@ jobs:
           for f in "${files[@]}"; do
             if [ ! -f "$f" ]; then continue; fi
             case "$(basename "$f")" in
-              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk)
+              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk|SquirrelGoAlphabets-*.apk)
                 # The release workflow is the only uploader for these APKs.
                 ;;
               *) upload+=("$f") ;;

@@ -11,7 +11,6 @@ on:
         required: true
         type: choice
         options:
-          - alphabets
           - dictionary
           - kanji
           - klingon
@@ -21,6 +20,7 @@ on:
           - multilingual
           - kana-native
           - bopomofo-native
+          - alphabets-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -66,7 +66,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -77,9 +77,12 @@ jobs:
             elif [ "$APP" = kana-native ]; then
               MODULE=kana
               NAME=SquirrelGoKana
-            else
+            elif [ "$APP" = bopomofo-native ]; then
               MODULE=bopomofo
               NAME=SquirrelGoBopomofo
+            else
+              MODULE=alphabets
+              NAME=SquirrelGoAlphabets
             fi
             echo "NATIVE=1" >> "$GITHUB_ENV"
             echo "NATIVE_MODULE=$MODULE" >> "$GITHUB_ENV"
@@ -87,11 +90,10 @@ jobs:
             exit 0
           fi
           case "$APP" in
-            alphabets|kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
+            kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
-            alphabets)      NAME=SquirrelGoAlphabets ;;
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
             kanji)          NAME=SquirrelGoKanji ;;
             klingon)        NAME=SquirrelGoKlingon ;;
