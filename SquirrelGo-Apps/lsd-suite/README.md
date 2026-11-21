@@ -1,38 +1,7 @@
-# Language Student Desk (Android)
+# Language Student Desk
 
-One offline Android app for the Desk learners. A home menu opens each learner's `index.html` inside a WebView. The asset root mirrors the repo, so the learners' relative links (`../languages/`, `../SquirrelGo-Apps/`, `?lang=`) work the same way they do on the desktop.
+The suite menu is `www/index.html`. The Desk launcher opens this folder's `index.html`, which redirects there. Learner pages stay in the repo and keep the same relative links (`../languages/`, `../SquirrelGo-Apps/`, `?lang=`).
 
-Package id: `com.squirelworks.lsd.debug` (the debug build adds `.debug`). Minimum Android: 7.0 (API 24).
+The Android app that ships is the native build, package `com.squirelworks.lsd`. The release file is [`LanguageStudentDesk.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/LanguageStudentDesk.apk), signed with the committed debug key. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `lsd-native`.
 
-This APK is not published. There is no rolling GitHub release and no Actions workflow for it. Build it on your machine and sideload it.
-
-## What's in the menu
-
-Every Desk learner, each opening inside the app; the full list is in the app's menu. The menu shows standard languages and the core learners by default. Settings has the same levels (Simple, More, Everything) and Customize switches as the Desk, read from the shared feature list, and a "What's in the app" page that lists everything turned off with the switch that turns it on. The first run shows a welcome card with a few languages to try.
-
-Pick a language or a programming course on the menu before opening a scoped tool. The system Back button returns to the menu. `https` links (resource lists) open in the browser. Recorded character audio is packed with the app. Where a learner asks the WebView to speak, the device text-to-speech engine is used if that language is installed.
-
-## Build the debug APK
-
-Java 17 and Android SDK 34 (platform `android-34`, build-tools `34.0.0`). Same Gradle wrapper as the other SquirrelGo apps (AGP 8.2.2, Gradle 8.5).
-
-```bash
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64   # a JDK 17, wherever it lives
-export ANDROID_HOME=$HOME/android-sdk                 # or your SDK path
-cd SquirrelGo-Apps/lsd-suite/android
-echo "sdk.dir=$ANDROID_HOME" > local.properties
-chmod +x gradlew
-./gradlew assembleDebug
-# output: app/build/outputs/apk/debug/app-debug.apk
-```
-
-`assembleDebug` runs `tools/pack_assets.py` first. That copies the learners, `languages/`, `klingon/`, and the SquirrelGo `www` data the learners load into `android/app/build/generated/deskAssets/`. Those copies are build output, not a second source tree.
-
-The same menu is `www/index.html`. The Desk launcher opens the folder's `index.html`, which redirects there, and the links resolve in the repo as well as in the APK.
-
-## Not in this APK
-
-- Phrasebook recordings (`www/audio/`). Vocabulary still has the phrase text from `packs.js`.
-- The dictionary's generated JMdict shards. They are not in the repo (`squirrelgo-dictionary/tools/fetch_data.sh` builds them). Vocabulary decks from `languages/` and the SquirrelGo scripts still load; dictionary search does not until those shards exist and you rebuild.
-- The SquirrelGo apps as separate activities, and the Orthodox Bible. Install those from their own APKs.
-- A GitHub release. v0.0.5 stays unpublished, and this app does not add a `*-latest` release.
+The old WebView shell is in `archive/webview/lsd-suite/` and is not built.

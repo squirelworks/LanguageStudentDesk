@@ -116,7 +116,15 @@ echo "======== BUILD SquirrelGoAlphabets (native) ========"
   cp android/alphabets/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoAlphabets.apk"
   cp android/alphabets/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoAlphabets.aab"
 )
-build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "assets/www/index.html"
+echo "======== BUILD LanguageStudentDesk (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:lsd:assembleRelease --no-daemon -q
+  cp android/lsd/build/outputs/apk/release/*.apk "$OUT_ART/LanguageStudentDesk.apk"
+)
 echo "======== BUILD SquirrelGoBopomofo (native) ========"
 (
   cd "$ROOT/native"
