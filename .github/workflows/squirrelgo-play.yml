@@ -847,8 +847,8 @@ jobs:
         run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
 
   # Native Japanese-English Dictionary. The bundle is deleted on the runner:
-  # no artifact and no release asset. The GitHub APK stays the WebView build
-  # until that shell is archived. The word list is the same download the WebView uses.
+  # no artifact and no release asset. The GitHub APK is the native release
+  # build. The word list is the same download the browser page uses.
   dictionary:
     if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
     needs: deps

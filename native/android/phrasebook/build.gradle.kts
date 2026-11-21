@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val phrasebookAssets = rootProject.layout.buildDirectory.dir("generated-phrasebook").get().asFile
 val appVersion = readAppVersion(rootProject.file("versions/phrasebook.properties"))
 requireNewerThanWebView(
