@@ -86,7 +86,7 @@ jobs:
         run: |
           # Same as squirrelgo-release: desk twins don't commit a debug key.
           K="$DIR/android/app/debug.keystore"
-          [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
+          [ -f "$K" ] || cp archive/webview/lsd-suite/app/debug.keystore "$K"
       - name: Build debug APK
         run: |
           cd "$DIR/android"

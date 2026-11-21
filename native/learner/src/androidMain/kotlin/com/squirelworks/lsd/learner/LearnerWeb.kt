@@ -1,4 +1,4 @@
-package com.squirelworks.lsd
+package com.squirelworks.lsd.learner
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
@@ -19,8 +19,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.squirelworks.lsd.core.desk.deskSeedDocument
-import com.squirelworks.lsd.core.desk.isDeskMenuUrl
 import com.squirelworks.lsd.kana.PlatformBackHandler
 import java.util.Locale
 
@@ -43,15 +41,24 @@ private const val SPEECH_POLYFILL =
         "};" +
         "})();"
 
-private const val READ_STORAGE =
-    "(function(){try{return{settings:localStorage.getItem('lsd-settings'),favorites:localStorage.getItem('lsd-favorite-languages'),lang:localStorage.getItem('lsd-suite-lang')};}catch(e){return null;}})()"
+class LearnerPage(
+    val isMenuUrl: (String) -> Boolean,
+    val readStorageJs: String,
+    val speech: Boolean,
+)
 
-// One WebView, configured the way the suite shell configured its WebView.
-// Back walks the learner's own history before returning to the native menu.
+// One WebView for a packed learner page. Back walks that page's history
+// before the shell's onLeave returns to the native menu.
 @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
 @Composable
-fun LearnerWeb(url: String, seedHtml: String, onSnapshot: (String?) -> Unit, onLeave: (String?) -> Unit) {
-    val holder = remember(url) { LearnerWebHolder(url, seedHtml) }
+fun LearnerWeb(
+    url: String,
+    seedHtml: String,
+    page: LearnerPage,
+    onSnapshot: (String?) -> Unit,
+    onLeave: (String?) -> Unit,
+) {
+    val holder = remember(url) { LearnerWebHolder(url, seedHtml, page) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     DisposableEffect(holder, lifecycle) {
         val observer = LifecycleEventObserver { _, event ->
@@ -72,7 +79,11 @@ fun LearnerWeb(url: String, seedHtml: String, onSnapshot: (String?) -> Unit, onL
 }
 
 @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
-private class LearnerWebHolder(private val url: String, private val seedHtml: String) {
+private class LearnerWebHolder(
+    private val url: String,
+    private val seedHtml: String,
+    private val page: LearnerPage,
+) {
     private var webView: WebView? = null
     private var tts: TextToSpeech? = null
     private var ttsReady = false
@@ -84,9 +95,13 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
         this.onLeave = onLeave
         webView?.let { return it }
         val created = WebView(context)
-        val engine = TextToSpeech(context) { status ->
-            ttsReady = status == TextToSpeech.SUCCESS
-            installSpeech()
+        val engine = if (page.speech) {
+            TextToSpeech(context) { status ->
+                ttsReady = status == TextToSpeech.SUCCESS
+                installSpeech()
+            }
+        } else {
+            null
         }
         tts = engine
         configure(created, engine)
@@ -113,7 +128,7 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
         webView = null
     }
 
-    private fun configure(view: WebView, engine: TextToSpeech) {
+    private fun configure(view: WebView, engine: TextToSpeech?) {
         val settings = view.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -128,12 +143,11 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
         settings.useWideViewPort = true
         settings.loadWithOverviewMode = true
         settings.mediaPlaybackRequiresUserGesture = false
-        view.addJavascriptInterface(SpeechBridge(view, engine), "AndroidTTS")
+        if (engine != null) view.addJavascriptInterface(SpeechBridge(view, engine), "AndroidTTS")
         view.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(web: WebView, request: WebResourceRequest): Boolean {
                 val uri = request.url
-                val url = uri.toString()
-                if (isDeskMenuUrl(url)) {
+                if (page.isMenuUrl(uri.toString())) {
                     readAndLeave()
                     return true
                 }
@@ -161,6 +175,7 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
     }
 
     private fun installSpeech() {
+        if (!page.speech) return
         val view = webView ?: return
         if (!ttsReady) return
         view.evaluateJavascript(SPEECH_POLYFILL, null)
@@ -168,10 +183,8 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
 
     fun read(onSnapshot: (String?) -> Unit) {
         val view = webView
-        if (view == null || leaving) {
-            return
-        }
-        view.evaluateJavascript(READ_STORAGE, onSnapshot)
+        if (view == null || leaving) return
+        view.evaluateJavascript(page.readStorageJs, onSnapshot)
     }
 
     private fun readAndLeave() {
@@ -183,7 +196,7 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
             leave(null)
             return
         }
-        view.evaluateJavascript(READ_STORAGE) { raw -> leave(raw) }
+        view.evaluateJavascript(page.readStorageJs) { raw -> leave(raw) }
     }
 
     private inner class SpeechBridge(private val view: WebView, private val engine: TextToSpeech) {
@@ -225,11 +238,3 @@ private class LearnerWebHolder(private val url: String, private val seedHtml: St
         }
     }
 }
-
-fun learnerAddress(href: String, scoped: Boolean, lang: String): String {
-    val query = if (scoped && lang.isNotBlank()) "?lang=" + java.net.URLEncoder.encode(lang, "UTF-8") else ""
-    return "file:///android_asset/www/$href$query"
-}
-
-fun learnerSeed(settings: com.squirelworks.lsd.core.desk.DeskSettings, favoriteIds: Iterable<String>, href: String, scoped: Boolean, lang: String): String =
-    deskSeedDocument(settings, favoriteIds, learnerAddress(href, scoped, lang))

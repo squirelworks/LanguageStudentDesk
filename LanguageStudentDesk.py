@@ -81,7 +81,7 @@ TOOLS = {
                            "Desk tools", True, None),
     "lsd-suite": ("Language Student Desk (Android)",
                   "The Desk learners in one offline Android app. A home menu opens each learner inside the app.",
-                  "Desk tools", False, None),
+                  "Desk tools", False, ("latest", "LanguageStudentDesk.apk")),
     "squirrelgo-kana": ("SquirrelGo Kana",
                         "Hiragana and katakana: lessons, charts, quizzes, flashcards, writing pad, audio.",
                         "SquirrelGo apps", False, ("latest", "SquirrelGoKana.apk")),

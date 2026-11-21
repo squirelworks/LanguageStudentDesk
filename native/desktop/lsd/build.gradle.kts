@@ -10,7 +10,7 @@ val deskAssets = rootProject.layout.buildDirectory.dir("generated-desk").get().a
 val appVersion = readAppVersion(rootProject.file("versions/lsd.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/lsd-suite/android/app/build.gradle"),
+    rootProject.file("../archive/webview/lsd-suite/app/build.gradle"),
 )
 
 kotlin {
@@ -27,6 +27,7 @@ java {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":ui:desk"))
+    implementation(project(":learner"))
 }
 
 sourceSets.main.get().resources.srcDir(deskAssets)

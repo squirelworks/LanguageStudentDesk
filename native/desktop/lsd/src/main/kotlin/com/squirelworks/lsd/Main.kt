@@ -7,13 +7,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.squirelworks.lsd.core.desk.DESK_SYNC_SCRIPT
 import com.squirelworks.lsd.core.desk.DeskRules
 import com.squirelworks.lsd.core.desk.applyDeskWebSnapshot
 import com.squirelworks.lsd.core.desk.decodeDeskSettings
 import com.squirelworks.lsd.core.desk.deskPagesRoot
+import com.squirelworks.lsd.core.desk.deskSeedDocument
+import com.squirelworks.lsd.core.desk.deskSeedSnapshot
 import com.squirelworks.lsd.core.desk.encodeDeskSettings
+import com.squirelworks.lsd.core.desk.isDeskMenuUrl
 import com.squirelworks.lsd.core.desk.parseDeskCatalog
 import com.squirelworks.lsd.core.desk.parseDeskWebSnapshot
+import com.squirelworks.lsd.core.desk.tabPostChanged
+import com.squirelworks.lsd.learner.LearnerPages
+import com.squirelworks.lsd.learner.LearnerPagesHost
+import com.squirelworks.lsd.learner.LearnerPortBusy
+import com.squirelworks.lsd.learner.learnerPath
 import com.squirelworks.lsd.core.languages.FavoriteLanguages
 import com.squirelworks.lsd.core.languages.FavoriteStore
 import com.squirelworks.lsd.core.languages.formatFavoriteOrder
@@ -38,15 +47,15 @@ fun main() = application {
     })
     val initial = decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), DeskRules(catalog).fresh())
     val www = System.getProperty("compose.application.resources.dir")?.let(::File)?.let { deskPagesRoot(it) }
-    var host: DeskLearnerHost? = null
+    var host: LearnerPagesHost<com.squirelworks.lsd.core.desk.DeskWebSnapshot>? = null
     var portMessage: String? = null
     val sync = mutableStateOf<(String) -> Unit>({ })
     if (www != null) {
         try {
-            host = DeskLearnerHost(www, File(dir, "desk-port")) { body ->
+            host = LearnerPagesHost(www, File(dir, "desk-port"), deskLearnerPages) { body ->
                 SwingUtilities.invokeLater { sync.value(body) }
             }
-        } catch (busy: DeskPortBusy) {
+        } catch (busy: LearnerPortBusy) {
             portMessage = busy.message
         }
     }
@@ -85,7 +94,8 @@ fun main() = application {
                 } else if (open == null || deskLearnerPage(www!!, learner.href) == null) {
                     JOptionPane.showMessageDialog(null, "This learner is not in the installed Language Student Desk.")
                 } else {
-                    Desktop.getDesktop().browse(URI(open.seedUrl(settings, favorites.ids(), learner.href, learner.scoped, lang)))
+                    val next = open.origin + learnerPath(learner.href, learner.scoped, lang)
+                    Desktop.getDesktop().browse(URI(open.seedUrl(deskSeedDocument(settings, favorites.ids(), next), deskSeedSnapshot(settings, favorites.ids()))))
                 }
             },
         )
@@ -94,3 +104,23 @@ fun main() = application {
 
 private fun deskLearnerPage(www: File, href: String) =
     com.squirelworks.lsd.core.desk.deskLearnerPage(www.parentFile ?: www, href)
+
+private val deskLearnerPages = LearnerPages(
+    syncMarker = "__lsdDeskSync",
+    syncScript = DESK_SYNC_SCRIPT,
+    isMenuUrl = ::isDeskMenuUrl,
+    menuHtml = """
+        <!DOCTYPE html>
+        <meta charset="utf-8">
+        <title>Language Student Desk</title>
+        <p>Back in Language Student Desk. You can close this tab.</p>
+        <script>$DESK_SYNC_SCRIPT</script>
+    """.trimIndent(),
+    portBusy = { port ->
+        "Language Student Desk already uses port $port for its learner pages. Close the other copy, then open a learner again."
+    },
+    seedMissing = "Open a learner from the Desk first.",
+    missingPage = "That page is not in this Desk.",
+    parse = ::parseDeskWebSnapshot,
+    changed = ::tabPostChanged,
+)

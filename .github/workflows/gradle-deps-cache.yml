@@ -94,7 +94,7 @@ jobs:
             (
               cd "$D"
               echo "sdk.dir=$ANDROID_HOME" > local.properties
-              [ -f app/debug.keystore ] || cp "$GITHUB_WORKSPACE/SquirrelGo-Apps/lsd-suite/android/app/debug.keystore" app/debug.keystore
+              [ -f app/debug.keystore ] || cp "$GITHUB_WORKSPACE/archive/webview/lsd-suite/app/debug.keystore" app/debug.keystore
               chmod +x gradlew
               ./gradlew --no-daemon $RETRY :app:dependencies > /dev/null
               ./gradlew --no-daemon $RETRY assembleDebug
