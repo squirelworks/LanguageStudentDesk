@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 73b5ace languages/hangul/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data f29cc38 languages/hangul/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 window.SCRIPTS.hangul = {
