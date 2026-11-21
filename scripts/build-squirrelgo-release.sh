@@ -54,7 +54,16 @@ echo "======== BUILD SquirrelGoPhrasebook (native) ========"
   cp android/phrasebook/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoPhrasebook.apk"
   cp android/phrasebook/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoPhrasebook.aab"
 )
-build_app "$ROOT/SquirrelGo-Apps/squirrelgo-orthodox-bible" SquirrelGoOrthodoxBible SquirrelGoOrthodoxBible
+echo "======== BUILD SquirrelGoOrthodoxBible (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:orthodox-bible:assembleRelease :android:orthodox-bible:bundlePlay --no-daemon -q
+  cp android/orthodox-bible/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoOrthodoxBible.apk"
+  cp android/orthodox-bible/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoOrthodoxBible.aab"
+)
 echo "======== BUILD SquirrelGoKlingon (native) ========"
 (
   cd "$ROOT/native"
