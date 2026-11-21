@@ -93,7 +93,7 @@ jobs:
           esac
           case "$APP" in
             alphabets)      NAME=SquirrelGoAlphabets ;;
-            dictionary)     NAME=SquirrelGoDictionary ;;
+            dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
             kana)           NAME=SquirrelGoKana ;;
             kanji)          NAME=SquirrelGoKanji ;;
             klingon)        NAME=SquirrelGoKlingon ;;

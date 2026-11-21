@@ -135,7 +135,7 @@ jobs:
           - { app: kana,             dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana,      name: SquirrelGoKana }
           - { app: kanji,            dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji,     name: SquirrelGoKanji }
           - { app: klingon,          dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon,   name: SquirrelGoKlingon }
-          - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary,                      name: SquirrelGoDictionary }
+          - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary,                      name: SquirrelGoJapaneseDictionary }
           - { app: orthodox-bible,   dir: SquirrelGo-Apps/squirrelgo-orthodox-bible,                  name: SquirrelGoOrthodoxBible }
           - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook,                      name: SquirrelGoPhrasebook }
           - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite,                                  name: LanguageStudentDesk }
