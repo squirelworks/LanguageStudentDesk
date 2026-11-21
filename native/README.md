@@ -18,10 +18,10 @@ Java 17 and Android SDK 37. The Compose artifacts this tree uses do not build ag
 ```bash
 cd native
 echo "sdk.dir=$ANDROID_HOME" > local.properties
-./gradlew :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin
+./gradlew :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin
 ```
 
-SquirrelGo 国語辞典 is `com.squirelworks.squirrelgokokugo`. A test APK comes from
+SquirrelGo 国語辞典 is `com.squirelworks.squirrelgokokugo`. SquirrelGo Multilingual Dictionary is `com.squirelworks.squirrelgomultidictionary`. A test APK comes from
 the hand-started SquirrelGo test APK workflow. Release builds sign with the
 debug keystore already committed for the SquirrelGo apps. Desktop packages for
 Linux, Windows and macOS are attached by the Native desktop builds workflow

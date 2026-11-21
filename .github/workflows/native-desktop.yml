@@ -40,7 +40,7 @@ jobs:
         run: |
           if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > local.properties; fi
           chmod +x gradlew
-          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS
+          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS
       - name: Attach to the release
         shell: bash
         env:
@@ -48,7 +48,7 @@ jobs:
           TAG: ${{ github.event.release.tag_name || inputs.tag }}
         run: |
           shopt -s globstar nullglob
-          files=(native/desktop/japanese-dictionary/build/compose/binaries/main/**/*)
+          files=(native/desktop/*/build/compose/binaries/main/**/*)
           files=("${files[@]}" )
           upload=()
           for f in "${files[@]}"; do
