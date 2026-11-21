@@ -1,8 +1,12 @@
 package com.squirelworks.squirrelgokana
 
+import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.speech.VoiceProbe
+import com.squirelworks.lsd.core.speech.VoiceStatus
 import com.squirelworks.lsd.core.speech.captureProcessOutput
+import com.squirelworks.lsd.core.speech.destroyProcessTree
 import com.squirelworks.lsd.core.speech.desktopSpeechFromProbe
+import com.squirelworks.lsd.core.speech.voiceStatus
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
 import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
@@ -33,8 +37,15 @@ class DesktopVoice {
         }
     }
 
-    fun speak(text: String, rate: Float, lang: String) {
-        val request = desktopSpeechFromProbe(System.getProperty("os.name"), text, rate, lang, probe) ?: return
+    fun speak(text: String, rate: Float, lang: String): SpeechOutcome {
+        val osName = System.getProperty("os.name")
+        val status = voiceStatus(osName, lang, probe)
+        if (status == VoiceStatus.Pending) return SpeechOutcome.Pending
+        val request = desktopSpeechFromProbe(osName, text, rate, lang, probe)
+        if (request == null) {
+            stop()
+            return SpeechOutcome.Missing
+        }
         stop()
         val started = runCatching {
             val builder = ProcessBuilder(listOf(request.program) + request.args)
@@ -42,7 +53,7 @@ class DesktopVoice {
                 .redirectError(ProcessBuilder.Redirect.DISCARD)
             request.environment.forEach { (key, value) -> builder.environment()[key] = value }
             builder.start()
-        }.getOrNull() ?: return
+        }.getOrNull() ?: return SpeechOutcome.Pending
         request.stdin?.let { words ->
             Thread {
                 runCatching { started.outputStream.bufferedWriter().use { it.write(words) } }
@@ -53,6 +64,7 @@ class DesktopVoice {
         }
         cancelDispatcher = request.cancelsSpeechDispatcher
         process = started
+        return SpeechOutcome.Spoken
     }
 
     fun stop() {
@@ -129,7 +141,7 @@ class DesktopVoice {
         }.getOrNull() ?: return false
         val done = runCatching { started.waitFor(PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS) }.getOrDefault(false)
         if (!done) {
-            started.destroyForcibly()
+            destroyProcessTree(started)
             return false
         }
         return started.exitValue() == 0

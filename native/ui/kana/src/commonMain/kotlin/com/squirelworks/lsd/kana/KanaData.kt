@@ -12,6 +12,7 @@ data class KanaScript(
     val title: String,
     val native: String = "",
     val lang: String = "",
+    val langName: String = "",
     val blurb: String = "",
     val writeTip: String = "",
     val lessons: List<KanaLesson> = emptyList(),
@@ -45,6 +46,15 @@ data class ChartGroup(val name: String, val cols: Int, val cells: List<KanaCell?
 private val json = Json { ignoreUnknownKeys = true }
 
 fun parseKanaScripts(text: String): List<KanaScript> = json.decodeFromString(text)
+
+fun missingVoiceNotice(langName: String): String {
+    val name = langName.trim()
+    return if (name.isEmpty()) {
+        "No text-to-speech voice found. Install one in your system settings."
+    } else {
+        "No $name voice found. Install a $name text-to-speech voice in your system settings."
+    }
+}
 
 fun parseKanaStrokes(text: String): Map<String, Map<String, List<String>>> = json.decodeFromString(text)
 

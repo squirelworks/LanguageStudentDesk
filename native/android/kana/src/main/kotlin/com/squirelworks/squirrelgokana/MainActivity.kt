@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.squirelworks.lsd.core.languages.FileTextStore
+import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.parseKanaAudio
@@ -32,13 +33,15 @@ class MainActivity : ComponentActivity() {
     private var suitePackages: List<String> = emptyList()
     private var player: MediaPlayer? = null
     private var voice: TextToSpeech? = null
-    private var voiceReady = false
+    @Volatile private var engineState = EngineState.Starting
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         query = queryOf(intent)
-        voice = TextToSpeech(this) { status -> voiceReady = status == TextToSpeech.SUCCESS }
+        voice = TextToSpeech(this) { status ->
+            engineState = if (status == TextToSpeech.SUCCESS) EngineState.Ready else EngineState.Failed
+        }
         val scripts = parseKanaScripts(assets.open("kana.json").bufferedReader().use { it.readText() })
         val strokes = parseKanaStrokes(assets.open("kana-strokes.json").bufferedReader().use { it.readText() })
         val clips = parseKanaAudio(assets.open("kana-audio.json").bufferedReader().use { it.readText() })
@@ -119,12 +122,25 @@ class MainActivity : ComponentActivity() {
         player = mp
     }
 
-    private fun speak(text: String, rate: Float, lang: String) {
-        val engine = voice ?: return
-        if (!voiceReady) return
+    private fun speak(text: String, rate: Float, lang: String): SpeechOutcome {
+        val engine = voice ?: return SpeechOutcome.Pending
+        when (engineState) {
+            EngineState.Starting -> return SpeechOutcome.Pending
+            EngineState.Failed -> return SpeechOutcome.Missing
+            EngineState.Ready -> Unit
+        }
+        val locale = Locale.forLanguageTag(lang)
+        if (engine.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) {
+            engine.stop()
+            return SpeechOutcome.Missing
+        }
         engine.setSpeechRate(rate)
-        if (lang.isNotBlank()) engine.language = Locale.forLanguageTag(lang)
-        engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kana")
+        if (lang.isNotBlank() && engine.setLanguage(locale) < TextToSpeech.LANG_AVAILABLE) {
+            engine.stop()
+            return SpeechOutcome.Missing
+        }
+        val spoken = engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kana")
+        return if (spoken == TextToSpeech.ERROR) SpeechOutcome.Pending else SpeechOutcome.Spoken
     }
 
     private fun installedNow(): Set<String> = suitePackages.filter { launchIntentFor(it) != null }.toSet()
@@ -173,3 +189,5 @@ class MainActivity : ComponentActivity() {
         const val EXTRA_QUERY = "com.squirelworks.squirrelgo.QUERY"
     }
 }
+
+private enum class EngineState { Starting, Ready, Failed }
