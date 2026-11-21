@@ -12,6 +12,9 @@ fun readAppVersion(file: File): AppVersion {
     val major = parts.groupValues[1].toInt()
     val minor = parts.groupValues[2].toInt()
     val patch = parts.groupValues[3].toInt()
+    if (major < 1) error("major must be at least 1 in ${file.path}, got $name")
+    if (minor !in 0..255) error("minor must be 0..255 (Windows installer limit) in ${file.path}, got $name")
+    if (patch !in 0..999) error("patch must be 0..999 so version codes do not collide, in ${file.path}, got $name")
     return AppVersion(name, major * 1_000_000 + minor * 1_000 + patch)
 }
 

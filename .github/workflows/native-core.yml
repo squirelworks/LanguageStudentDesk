@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -34,7 +37,7 @@ jobs:
           yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
       - name: Versions moved forward
         run: |
-          git fetch --tags --force --quiet
+          git fetch origin --tags --force
           python3 native/tools/check_native_versions.py
       - name: Test
         working-directory: native
