@@ -17,6 +17,8 @@ A copy of the roadmap issues on GitHub, taken 2026-11-14 for the handoff (`HANDO
 - [#194 Roadmap: Translation learner that accepts equivalent phrasings, alpha until then](https://github.com/squirelworks/LanguageStudentDesk/issues/194)
 - [#195 Roadmap: Programming learner sections (modern, older, joke), alphabetical view, more languages and a numerical methods track](https://github.com/squirelworks/LanguageStudentDesk/issues/195)
 - [#197 Roadmap: Native apps instead of WebView shells, if feasible](https://github.com/squirelworks/LanguageStudentDesk/issues/197)
+- [#371 Roadmap: SquirrelGo Japanese Dictionary (Japanese only, native)](https://github.com/squirelworks/LanguageStudentDesk/issues/371)
+- [#372 Roadmap: SquirrelGo Multilingual Dictionary (definitions in the language you pick, native)](https://github.com/squirelworks/LanguageStudentDesk/issues/372)
 - [#281 SquirrelGo Orthodox Bible: first-open notice, and the Patriarchal Text shows without accents](https://github.com/squirelworks/LanguageStudentDesk/issues/281)
 - [#284 Translation Learner (alpha): adding words scores 0% while a wrong noun scores 87%](https://github.com/squirelworks/LanguageStudentDesk/issues/284) (closed)
 
@@ -61,6 +63,8 @@ The plan for growing LanguageStudentDesk, the SquirrelGo apps and the Student De
 ### Later: Native apps
 
 - [ ] #197 Native apps instead of WebView shells, if feasible. *Decision recorded (#206, #231): Kotlin + Compose Multiplatform. squirrelator's `native/` app is the first Compose app; no LSD app is migrated yet (suggested pilot: SquirrelGo Kana). Replacing anything needs the owner's sign-off.*
+- [ ] #371 SquirrelGo Japanese Dictionary: Japanese only, native, its dictionary built in. *Planned 2026-11-20 (`docs/decisions/0002-dictionaries.md`); data first (data #181–#186), then #373 and #374.*
+- [ ] #372 SquirrelGo Multilingual Dictionary: a dropdown picks the definition language; packs download from squirrel-lang-data's separate `dictionaries-v*` releases. *Planned 2026-11-20.*
 
 ### Bugs found in testing
 
