@@ -4,6 +4,7 @@ import com.squirelworks.lsd.core.suite.KanaBack
 import com.squirelworks.lsd.core.suite.SuiteAction
 import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.core.suite.suiteAction
+import com.squirelworks.lsd.core.suite.escapeHandled
 import com.squirelworks.lsd.core.suite.kanaBack
 import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
@@ -14,7 +15,9 @@ import com.squirelworks.lsd.core.suite.releaseUrl
 import com.squirelworks.lsd.core.suite.resourceList
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class SuiteTest {
     private fun app(id: String, vararg langs: String) =
@@ -26,6 +29,10 @@ class SuiteTest {
         assertEquals(KanaBack.CloseDialog, kanaBack(sheetOpen = false, dialogOpen = true, screenCount = 2))
         assertEquals(KanaBack.PreviousScreen, kanaBack(sheetOpen = false, dialogOpen = false, screenCount = 2))
         assertEquals(KanaBack.Exit, kanaBack(sheetOpen = false, dialogOpen = false, screenCount = 1))
+        assertFalse(escapeHandled(sheetOpen = false, dialogOpen = false, screenCount = 1))
+        assertTrue(escapeHandled(sheetOpen = true, dialogOpen = false, screenCount = 1))
+        assertTrue(escapeHandled(sheetOpen = false, dialogOpen = true, screenCount = 1))
+        assertTrue(escapeHandled(sheetOpen = false, dialogOpen = false, screenCount = 2))
     }
 
     @Test

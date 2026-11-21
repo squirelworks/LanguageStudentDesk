@@ -26,7 +26,6 @@ fun main() = application {
                 scripts,
                 strokes,
                 isSystemInDarkTheme(),
-                onExit = ::exitApplication,
             )
         }
     }

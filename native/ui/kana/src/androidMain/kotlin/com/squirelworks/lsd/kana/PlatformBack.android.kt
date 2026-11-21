@@ -9,4 +9,4 @@ actual fun PlatformBackHandler(enabled: Boolean, onBack: () -> Unit) {
 }
 
 @Composable
-actual fun EscapeBackEffect(onEscape: () -> Unit) = Unit
+actual fun EscapeBackEffect(enabled: Boolean, onEscape: () -> Unit) = Unit

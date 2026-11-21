@@ -6,4 +6,4 @@ import androidx.compose.runtime.Composable
 expect fun PlatformBackHandler(enabled: Boolean, onBack: () -> Unit)
 
 @Composable
-expect fun EscapeBackEffect(onEscape: () -> Unit)
+expect fun EscapeBackEffect(enabled: Boolean, onEscape: () -> Unit)

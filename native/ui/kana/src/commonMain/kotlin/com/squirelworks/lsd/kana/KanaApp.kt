@@ -79,7 +79,6 @@ fun KanaApp(
     onLaunchApp: (SuiteApp) -> Boolean = { false },
     onOpenUrl: (String) -> Unit = {},
     onStopAudio: () -> Unit = {},
-    onExit: () -> Unit = {},
 ) {
     var stack by remember { mutableStateOf(listOf<Screen>(Screen.Home)) }
     var progress by remember { mutableStateOf(readProgress(progressStore)) }
@@ -108,11 +107,11 @@ fun KanaApp(
             }
             KanaBack.CloseDialog -> closeDialog()
             KanaBack.PreviousScreen -> back()
-            KanaBack.Exit -> onExit()
+            KanaBack.Exit -> Unit
         }
     }
     PlatformBackHandler(backEnabled, ::performBack)
-    EscapeBackEffect(::performBack)
+    EscapeBackEffect(backEnabled, ::performBack)
     fun save(next: ProgressFile) {
         progress = next
         writeProgress(progressStore, next)

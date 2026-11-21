@@ -17,18 +17,19 @@ class DesktopKeys {
 
     fun preview(event: KeyEvent): Boolean {
         if (event.type != KeyEventType.KeyDown || event.key != Key.Escape) return false
-        onEscape?.invoke()
-        return onEscape != null
+        val handler = onEscape ?: return false
+        handler()
+        return true
     }
 }
 
 val LocalDesktopKeys = staticCompositionLocalOf { DesktopKeys() }
 
 @Composable
-actual fun EscapeBackEffect(onEscape: () -> Unit) {
+actual fun EscapeBackEffect(enabled: Boolean, onEscape: () -> Unit) {
     val keys = LocalDesktopKeys.current
     val current by rememberUpdatedState(onEscape)
-    SideEffect { keys.onEscape = { current() } }
+    SideEffect { keys.onEscape = if (enabled) {{ current() }} else null }
     DisposableEffect(keys) {
         onDispose { keys.onEscape = null }
     }
