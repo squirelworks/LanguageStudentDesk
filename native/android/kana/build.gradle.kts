@@ -13,6 +13,10 @@ kotlin {
     }
 }
 
+val webview = webviewVersionAbove(
+    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/android/app/build.gradle"),
+)
+
 android {
     namespace = "com.squirelworks.squirrelgokana"
     compileSdk = 37
@@ -20,8 +24,8 @@ android {
         applicationId = "com.squirelworks.squirrelgokana"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = webview.code
+        versionName = webview.name
     }
     signingConfigs {
         getByName("debug") {

@@ -21,7 +21,7 @@ echo "sdk.dir=$ANDROID_HOME" > local.properties
 ./gradlew :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin
 ```
 
-SquirrelGo Kana (`com.squirelworks.squirrelgokana`) reads the generated Kana lessons and stroke paths. Its `versionCode` stays below the WebView app's, so it does not install over that release. The WebView `www/` is unchanged. Quiz, the writing pad and audio are still that build.
+A ported app keeps the WebView app's application id and the shared debug keystore. Its `versionCode` is read from that app's build file and set one higher, so the native release installs over the WebView release. The WebView `www/` stays. SquirrelGo Kana and SquirrelGo Bopomofo are chart builds of the same screen. Quiz, the writing pad and audio are still the WebView builds.
 
 SquirrelGo 国語辞典 is `com.squirelworks.squirrelgokokugo`. SquirrelGo Multilingual Dictionary is `com.squirelworks.squirrelgomultidictionary`. A test APK comes from
 the hand-started SquirrelGo test APK workflow. Release builds sign with the

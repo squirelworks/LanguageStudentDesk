@@ -7,6 +7,9 @@ plugins {
 }
 
 val kanaAssets = rootProject.layout.buildDirectory.dir("generated-kana").get().asFile
+val webview = webviewVersionAbove(
+    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/android/app/build.gradle"),
+)
 
 kotlin {
     compilerOptions {
@@ -42,7 +45,7 @@ compose.desktop {
             }
             targetFormats(*formats.toTypedArray())
             packageName = "SquirrelGoKana"
-            packageVersion = "1.0.0"
+            packageVersion = webview.name
             description = "SquirrelGo Kana"
             vendor = "SquirrelWorks"
         }

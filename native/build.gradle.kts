@@ -42,17 +42,34 @@ tasks.register("generateLanguageCatalog") {
 
 // Kana lessons and stroke paths, from the files generated out of the pinned
 // squirrel-lang-data commit. The app does not keep a second copy.
-tasks.register<Exec>("generateKanaCatalog") {
-    val repo = rootProject.projectDir.parentFile
-    val outDir = layout.buildDirectory.dir("generated-kana")
-    inputs.file(repo.resolve("SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/kana.js"))
-    inputs.dir(repo.resolve("SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes"))
-    inputs.file("tools/kana_catalog.py")
-    outputs.dir(outDir)
-    commandLine(
-        "python3",
-        rootProject.file("tools/kana_catalog.py").absolutePath,
-        repo.absolutePath,
-        outDir.get().asFile.absolutePath,
-    )
-}
+fun catalogTask(name: String, lessons: String, strokes: String, outName: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-$outName")
+        inputs.file(repo.resolve(lessons))
+        inputs.dir(repo.resolve(strokes))
+        inputs.file("tools/kana_catalog.py")
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/kana_catalog.py").absolutePath,
+            repo.resolve(lessons).absolutePath,
+            repo.resolve(strokes).absolutePath,
+            outDir.get().asFile.absolutePath,
+            "$outName.json",
+            "$outName-strokes.json",
+        )
+    }
+
+catalogTask(
+    "generateKanaCatalog",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/kana.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes",
+    "kana",
+)
+catalogTask(
+    "generateBopomofoCatalog",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/bopomofo.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/strokes",
+    "bopomofo",
+)
