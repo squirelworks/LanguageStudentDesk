@@ -26,6 +26,9 @@ kotlin {
             api(compose.ui)
             implementation(libs.kotlinx.serialization.json)
         }
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+        }
         jvmTest.dependencies {
             implementation(kotlin("test"))
         }

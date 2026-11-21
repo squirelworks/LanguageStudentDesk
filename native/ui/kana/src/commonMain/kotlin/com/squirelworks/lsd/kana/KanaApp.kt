@@ -37,7 +37,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
+import com.squirelworks.lsd.core.suite.KanaBack
 import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.core.suite.kanaBack
 import com.squirelworks.lsd.core.trainer.mastered
 import com.squirelworks.lsd.core.trainer.needsReview
 import com.squirelworks.lsd.core.trainer.recordAnswer
@@ -84,10 +86,24 @@ fun KanaApp(
     var quizCount by remember { mutableIntStateOf(10) }
     var showSuite by remember { mutableStateOf(false) }
     var suiteNotice by remember { mutableStateOf("") }
+    var dialogOpen by remember { mutableStateOf(false) }
+    var closeDialog by remember { mutableStateOf<() -> Unit>({ }) }
     val openApps = if (suite == null) null else ({ showSuite = true })
     val screen = stack.last()
     fun open(next: Screen) { stack = stack + next }
     fun back() { if (stack.size > 1) stack = stack.dropLast(1) }
+    val backEnabled = showSuite || dialogOpen || stack.size > 1
+    PlatformBackHandler(backEnabled) {
+        when (kanaBack(showSuite, dialogOpen, stack.size)) {
+            KanaBack.CloseSheet -> {
+                showSuite = false
+                suiteNotice = ""
+            }
+            KanaBack.CloseDialog -> closeDialog()
+            KanaBack.PreviousScreen -> back()
+            KanaBack.Exit -> Unit
+        }
+    }
     fun save(next: ProgressFile) {
         progress = next
         writeProgress(progressStore, next)
@@ -317,6 +333,10 @@ fun KanaApp(
                             save(progress.copy(stats = progress.stats.filterKeys { it !in keys }))
                         },
                         ::back,
+                        { open, close ->
+                            dialogOpen = open
+                            closeDialog = close
+                        },
                     )
                 }
             }
