@@ -131,7 +131,6 @@ jobs:
       matrix:
         include:
           - { app: alphabets,        dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets, name: SquirrelGoAlphabets }
-          - { app: bopomofo,         dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo,  name: SquirrelGoBopomofo }
           - { app: kanji,            dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji,     name: SquirrelGoKanji }
           - { app: klingon,          dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon,   name: SquirrelGoKlingon }
           - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary,                      name: SquirrelGoJapaneseDictionary }
@@ -255,6 +254,53 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # Native Bopomofo. Signed with the committed debug key, the same key as the
+  # published WebView build, so the release file installs over it.
+  native-bopomofo:
+    needs: [check, draft, deps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Build the native Bopomofo APK
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:bopomofo:assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp android/bopomofo/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/SquirrelGoBopomofo.apk"
+          VN=$(grep -m1 '^versionName=' versions/bopomofo.properties | cut -d= -f2-)
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VN"
+          VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
+          echo "| SquirrelGoBopomofo | com.squirelworks.squirrelgobopomofo | $VN | $VC |" > "$RUNNER_TEMP/apk/SquirrelGoBopomofo.row"
+          echo "SquirrelGo Bopomofo $VN" > "$RUNNER_TEMP/apk/SquirrelGoBopomofo.label"
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/SquirrelGoBopomofo.apk#$(cat "$RUNNER_TEMP/apk/SquirrelGoBopomofo.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: row-bopomofo
+          path: ${{ runner.temp }}/apk/SquirrelGoBopomofo.row
+          retention-days: 1
+          if-no-files-found: error
+
   # Native Kana. The file name stays SquirrelGoKana.apk so the existing
   # releases/latest/download link keeps working. The WebView shell is archived.
   native-kana:
@@ -338,7 +384,7 @@ jobs:
   # Once everything is attached: the version table, and SHA256SUMS.txt over
   # every file on the draft.
   finish:
-    needs: [check, draft, apk, native-kana, desktop]
+    needs: [check, draft, apk, native-kana, native-bopomofo, desktop]
     runs-on: ubuntu-latest
     permissions:
       contents: write

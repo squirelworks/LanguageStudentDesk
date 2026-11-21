@@ -27,7 +27,7 @@
       pkg: "com.squirelworks.squirrelgokana", tag: "latest", apk: "SquirrelGoKana.apk",
       web: "squirrelgo-characters/squirrelgo-kana/www/index.html", langs: ["japanese"] },
     { id: "bopomofo", name: "SquirrelGo Bopomofo", icon: "注", blurb: "Taiwan Zhuyin: initials, finals, tone marks, chart and quizzes.",
-      pkg: "com.squirelworks.squirrelgobopomofo", tag: "", apk: "",
+      pkg: "com.squirelworks.squirrelgobopomofo", tag: "latest", apk: "SquirrelGoBopomofo.apk",
       web: "squirrelgo-characters/squirrelgo-bopomofo/www/index.html", langs: ["taiwanese"] },
     { id: "kanji", name: "SquirrelGo Kanji", icon: "漢", blurb: "Kanji lessons, topic and JLPT quizzes, on-yomi groups, stroke order.",
       pkg: "com.squirelworks.squirrelgokanji", tag: "latest", apk: "SquirrelGoKanji.apk",

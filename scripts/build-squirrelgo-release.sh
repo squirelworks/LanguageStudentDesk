@@ -61,6 +61,13 @@ echo "======== BUILD SquirrelGoKana (native) ========"
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets
 build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "assets/www/index.html"
-build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo" SquirrelGoBopomofo SquirrelGoBopomofo
+echo "======== BUILD SquirrelGoBopomofo (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  ./gradlew :android:bopomofo:assembleRelease --no-daemon -q
+  cp android/bopomofo/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoBopomofo.apk"
+)
 
 echo "All builds finished."

@@ -9,7 +9,7 @@ val bopomofoAssets = rootProject.layout.buildDirectory.dir("generated-bopomofo")
 val appVersion = readAppVersion(rootProject.file("versions/bopomofo.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/android/app/build.gradle"),
+    rootProject.file("../archive/webview/bopomofo/app/build.gradle"),
 )
 base {
     archivesName.set("SquirrelGoBopomofo-${appVersion.versionName}")

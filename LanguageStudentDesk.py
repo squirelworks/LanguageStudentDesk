@@ -87,7 +87,7 @@ TOOLS = {
                         "SquirrelGo apps", False, ("latest", "SquirrelGoKana.apk")),
     "squirrelgo-bopomofo": ("SquirrelGo Bopomofo",
                             "Taiwan Zhuyin (Bopomofo): initials, medials, finals, tone marks, chart and quizzes.",
-                            "SquirrelGo apps", False, None),
+                            "SquirrelGo apps", False, ("latest", "SquirrelGoBopomofo.apk")),
     "squirrelgo-alphabets": ("SquirrelGo Alphabets",
                              "The world's alphabets, Latin and Greek to Thai and Tibetan: lessons, stroke order, writing pad, sounds.",
                              "SquirrelGo apps", False, ("latest", "SquirrelGoAlphabets.apk")),
