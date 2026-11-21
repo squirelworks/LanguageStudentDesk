@@ -30,6 +30,7 @@ fun main(args: Array<String>) = application {
     val copy = loader.getResource("app.json")?.readText()?.let { parseKanaCopy(it) }
     val suite = loader.getResource("suite.json")?.readText()?.let { parseSuite(it) }
     val player = Mp3ClipPlayer { path -> loader.getResourceAsStream(path) }
+    val voice = DesktopVoice()
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/kana-progress.json"))
     val query = args.firstOrNull { it.startsWith("--query=") }?.substringAfter("=")
     val keys = DesktopKeys()
@@ -45,7 +46,14 @@ fun main(args: Array<String>) = application {
             strokes = strokes,
             dark = isSystemInDarkTheme(),
             clips = clips,
-            playClip = player::play,
+            playClip = { path, rate ->
+                voice.stop()
+                player.play(path, rate)
+            },
+            speakFallback = { text, rate, lang ->
+                player.stop()
+                voice.speak(text, rate, lang)
+            },
             progressStore = progress,
             initialQuery = query,
             intro = copy?.intro.orEmpty(),
@@ -53,7 +61,10 @@ fun main(args: Array<String>) = application {
             suite = suite,
             suiteId = "kana",
             onOpenUrl = ::openHttps,
-            onStopAudio = player::stop,
+            onStopAudio = {
+                player.stop()
+                voice.stop()
+            },
         )
         }
     }
