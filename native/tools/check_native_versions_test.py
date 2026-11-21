@@ -39,6 +39,7 @@ def main():
     phrasebook = set(mod.source_paths("phrasebook"))
     bible = set(mod.source_paths("orthodox-bible"))
     lsd = set(mod.source_paths("lsd"))
+    programming = set(mod.source_paths("programming"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
     jed = set(mod.source_paths("dictionary"))
@@ -50,7 +51,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed, lsd):
+    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed, lsd, programming):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -110,7 +111,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd", "programming"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -175,6 +176,11 @@ def main():
         raise SystemExit("the Desk shell ignored its feature switches")
     if mod.app_changed("tag", "kana", features) or mod.app_changed("tag", "klingon", features):
         raise SystemExit("Desk feature switches marked a character app")
+    course = diff_of(["programming-learner/data/catalog.js"])
+    if "programming-learner/data/catalog.js" not in programming or not mod.app_changed("tag", "programming", course):
+        raise SystemExit("Programming Student Desk ignored its course catalog")
+    if mod.app_changed("tag", "kana", course):
+        raise SystemExit("a programming course marked Kana")
     print("ok")
 
 
