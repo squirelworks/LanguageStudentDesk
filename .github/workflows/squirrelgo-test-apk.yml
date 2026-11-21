@@ -13,7 +13,6 @@ on:
         options:
           - dictionary
           - orthodox-bible
-          - phrasebook
           - kokugo
           - multilingual
           - kana-native
@@ -23,6 +22,7 @@ on:
           - klingon-native
           - phrasebook-native
           - dictionary-native
+          - orthodox-bible-native
           - lsd-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
@@ -69,7 +69,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ] || [ "$APP" = lsd-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ] || [ "$APP" = orthodox-bible-native ] || [ "$APP" = lsd-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -98,9 +98,15 @@ jobs:
             elif [ "$APP" = dictionary-native ]; then
               MODULE=dictionary
               NAME=SquirrelGoJapaneseDictionary
-            else
+            elif [ "$APP" = orthodox-bible-native ]; then
+              MODULE=orthodox-bible
+              NAME=SquirrelGoOrthodoxBible
+            elif [ "$APP" = lsd-native ]; then
               MODULE=lsd
               NAME=LanguageStudentDesk
+            else
+              echo "Unknown native app $APP" >&2
+              exit 1
             fi
             echo "NATIVE=1" >> "$GITHUB_ENV"
             echo "NATIVE_MODULE=$MODULE" >> "$GITHUB_ENV"
@@ -113,28 +119,18 @@ jobs:
           case "$APP" in
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;
-            phrasebook)     NAME=SquirrelGoPhrasebook ;;
           esac
           test -d "$DIR/android" || { echo "No Android project at $DIR/android" >&2; exit 1; }
           SHA=$(git rev-parse --short HEAD)
           echo "DIR=$DIR" >> "$GITHUB_ENV"
           echo "APK_NAME=$NAME-test-$SHA" >> "$GITHUB_ENV"
       # Same preparation as the app's compile-only workflow.
-      - name: Check audio coverage
-        if: inputs.app == 'phrasebook'
-        run: cd "$DIR" && python3 tools/phrasebook_audio.py --check
       - name: Download dictionary data (JMdict, KANJIDIC2, RADKFILE, KRADFILE)
         if: inputs.app == 'dictionary'
         env:
           GH_TOKEN: ${{ github.token }}
           DATA_TAG: ${{ inputs.data_tag }}
         run: cd "$DIR" && tools/fetch_data.sh $DATA_TAG
-      - name: Sync web assets into the APK
-        if: inputs.app == 'phrasebook'
-        run: |
-          rm -rf "$DIR/android/app/src/main/assets/www"
-          mkdir -p "$DIR/android/app/src/main/assets"
-          cp -a "$DIR/www" "$DIR/android/app/src/main/assets/www"
       # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
         run: |

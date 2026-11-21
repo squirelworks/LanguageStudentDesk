@@ -10,7 +10,7 @@ val phrasebookAssets = rootProject.layout.buildDirectory.dir("generated-phrasebo
 val appVersion = readAppVersion(rootProject.file("versions/phrasebook.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-phrasebook/android/app/build.gradle"),
+    rootProject.file("../archive/webview/phrasebook/app/build.gradle"),
 )
 
 kotlin {

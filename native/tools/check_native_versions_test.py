@@ -37,6 +37,7 @@ def main():
     kanji = set(mod.source_paths("kanji"))
     klingon = set(mod.source_paths("klingon"))
     phrasebook = set(mod.source_paths("phrasebook"))
+    bible = set(mod.source_paths("orthodox-bible"))
     lsd = set(mod.source_paths("lsd"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
@@ -49,7 +50,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, kokugo, multi, jed, lsd):
+    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed, lsd):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -109,7 +110,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -141,13 +142,23 @@ def main():
         raise SystemExit("klingon ignored its lesson file")
     if mod.app_changed("tag", "kana", klingon_lesson) or mod.app_changed("tag", "kanji", klingon_lesson):
         raise SystemExit("a Klingon lesson marked another app")
+    bible_www = "SquirrelGo-Apps/squirrelgo-orthodox-bible/www"
+    if bible_www not in bible or suite not in bible:
+        raise SystemExit(f"orthodox bible generator inputs missing: {sorted(bible)}")
+    if kana_data in bible or klingon_www in bible or phrasebook_www in bible:
+        raise SystemExit("orthodox bible is watching another app's WebView files")
+    bible_text = diff_of([bible_www + "/data/catalog.js"])
+    if not mod.app_changed("tag", "orthodox-bible", bible_text):
+        raise SystemExit("orthodox bible ignored its catalog")
+    if mod.app_changed("tag", "kana", bible_text) or mod.app_changed("tag", "klingon", bible_text) or mod.app_changed("tag", "phrasebook", bible_text):
+        raise SystemExit("an Orthodox Bible file marked another app")
     phrase_file = diff_of([phrasebook_www + "/data/packs.js"])
     phrase_audio = diff_of([phrasebook_www + "/audio/clip.mp3"])
     if not mod.app_changed("tag", "phrasebook", phrase_file):
         raise SystemExit("phrasebook ignored its pack file")
     if not mod.app_changed("tag", "phrasebook", phrase_audio):
         raise SystemExit("phrasebook ignored a recording change")
-    if mod.app_changed("tag", "kana", phrase_file) or mod.app_changed("tag", "klingon", phrase_audio):
+    if mod.app_changed("tag", "kana", phrase_file) or mod.app_changed("tag", "klingon", phrase_audio) or mod.app_changed("tag", "orthodox-bible", phrase_audio):
         raise SystemExit("a Phrasebook file marked another app")
     jed_www = "SquirrelGo-Apps/squirrelgo-dictionary/www"
     if jed_www not in jed or suite not in jed:
