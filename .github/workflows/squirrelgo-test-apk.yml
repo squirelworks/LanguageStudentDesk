@@ -22,6 +22,7 @@ on:
           - kanji-native
           - klingon-native
           - phrasebook-native
+          - dictionary-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -67,7 +68,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -90,6 +91,9 @@ jobs:
             elif [ "$APP" = klingon-native ]; then
               MODULE=klingon
               NAME=SquirrelGoKlingon
+            elif [ "$APP" = dictionary-native ]; then
+              MODULE=dictionary
+              NAME=SquirrelGoJapaneseDictionary
             else
               MODULE=phrasebook
               NAME=SquirrelGoPhrasebook
@@ -132,6 +136,11 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-36" "platforms;android-37.0" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Download dictionary data for the native dictionary
+        if: inputs.app == 'dictionary-native'
+        env:
+          DATA_TAG: ${{ inputs.data_tag }}
+        run: SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh ${DATA_TAG}
       - name: Build native test APK
         if: env.NATIVE == '1'
         run: |
