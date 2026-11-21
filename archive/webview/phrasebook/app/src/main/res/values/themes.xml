@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SquirrelGoPhrasebook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#8F2D2D</item>
+        <item name="colorPrimaryVariant">#6E2020</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:statusBarColor">#8F2D2D</item>
+        <item name="android:navigationBarColor">#F7F5F1</item>
+        <item name="android:windowBackground">#F7F5F1</item>
+    </style>
+</resources>
