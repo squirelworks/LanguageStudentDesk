@@ -18,7 +18,10 @@ requireNewerThanWebView(
     appVersion,
     rootProject.file("../archive/webview/kana/app/build.gradle"),
 )
+// The GitHub APK stays on the committed debug key so it installs over the
+// published build. The Play bundle is the only task that may use UPLOAD_*.
 val uploadStore = System.getenv("UPLOAD_STORE_FILE").orEmpty()
+val playBundle = gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
 base {
     archivesName.set("SquirrelGoKana-${appVersion.versionName}")
 }
@@ -40,7 +43,7 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
-        if (uploadStore.isNotEmpty()) {
+        if (playBundle && uploadStore.isNotEmpty()) {
             create("upload") {
                 storeFile = file(uploadStore)
                 storePassword = System.getenv("UPLOAD_STORE_PASSWORD")
@@ -52,7 +55,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            signingConfig = if (uploadStore.isNotEmpty()) {
+            signingConfig = if (playBundle && uploadStore.isNotEmpty()) {
                 signingConfigs.getByName("upload")
             } else {
                 signingConfigs.getByName("debug")
