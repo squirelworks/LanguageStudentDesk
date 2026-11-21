@@ -58,8 +58,6 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           ./gradlew --no-daemon \
-            :android:kana:assembleRelease \
-            :android:bopomofo:assembleRelease \
             :android:japanese-dictionary:assembleRelease \
             :android:multilingual-dictionary:assembleRelease
       - name: Attach to the release
@@ -75,13 +73,8 @@ jobs:
           for f in "${files[@]}"; do
             if [ ! -f "$f" ]; then continue; fi
             case "$(basename "$f")" in
-              SquirrelGoKana-*.apk)
-                cp "$f" "$RUNNER_TEMP/SquirrelGoKana.apk"
-                upload+=("$RUNNER_TEMP/SquirrelGoKana.apk")
-                ;;
-              SquirrelGoBopomofo-*.apk)
-                cp "$f" "$RUNNER_TEMP/SquirrelGoBopomofo.apk"
-                upload+=("$RUNNER_TEMP/SquirrelGoBopomofo.apk")
+              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk)
+                # The release workflow is the only uploader for these APKs.
                 ;;
               *) upload+=("$f") ;;
             esac
