@@ -50,7 +50,7 @@ jobs:
         run: |
           if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > local.properties; fi
           chmod +x gradlew
-          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS
+          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS :desktop:phrasebook:packageDistributionForCurrentOS
       - name: Release APKs
         if: runner.os == 'Linux'
         shell: bash
@@ -76,7 +76,7 @@ jobs:
           for f in "${files[@]}"; do
             if [ ! -f "$f" ]; then continue; fi
             case "$(basename "$f")" in
-              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk|SquirrelGoAlphabets-*.apk|SquirrelGoKanji-*.apk|SquirrelGoKlingon-*.apk|SquirrelGoJapaneseDictionary-*.apk)
+              SquirrelGoKana-*.apk|SquirrelGoBopomofo-*.apk|SquirrelGoAlphabets-*.apk|SquirrelGoKanji-*.apk|SquirrelGoKlingon-*.apk|SquirrelGoPhrasebook-*.apk|SquirrelGoJapaneseDictionary-*.apk)
                 # The release workflow is the only uploader for these APKs.
                 ;;
               *) upload+=("$f") ;;

@@ -8,6 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.squirelworks.lsd.core.languages.FileTextStore
@@ -21,6 +24,7 @@ import com.squirelworks.lsd.klingon.loadKlingonBundle
 import java.io.File
 
 class MainActivity : ComponentActivity() {
+    private var installed by mutableStateOf(emptySet<String>())
     private val clips by lazy { AndroidClipPlayer(assets) }
     private val suiteIntents = SuiteIntents(this)
 
@@ -33,6 +37,7 @@ class MainActivity : ComponentActivity() {
             assets.open("suite.json").bufferedReader().use { it.readText() },
         )
         bundle.suite?.let { suiteIntents.remember(it.apps) }
+        installed = suiteIntents.installed()
         val hand = FontFamily(Font("fonts/pIqaD-qolqoS.ttf", assets))
         val classic = FontFamily(Font("fonts/pIqaD-classic.ttf", assets))
         val progress = FileTextStore(File(filesDir, "klingon-progress.json"))
@@ -48,7 +53,7 @@ class MainActivity : ComponentActivity() {
                     playClip = clips::play,
                     onStopAudio = clips::stop,
                     onCopy = ::copy,
-                    installedPackages = suiteIntents.installed(),
+                    installedPackages = installed,
                     onLaunchApp = suiteIntents::launch,
                     onOpenUrl = suiteIntents::openHttps,
                 )
@@ -70,6 +75,11 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         clips.stop()
         super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        installed = suiteIntents.installed()
     }
 
     override fun onDestroy() {

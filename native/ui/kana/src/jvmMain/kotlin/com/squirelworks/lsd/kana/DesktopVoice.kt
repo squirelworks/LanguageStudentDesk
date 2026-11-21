@@ -3,10 +3,10 @@ package com.squirelworks.lsd.kana
 import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.speech.VoiceProbe
 import com.squirelworks.lsd.core.speech.VoiceStatus
+import com.squirelworks.lsd.core.speech.voiceStatus
 import com.squirelworks.lsd.core.speech.captureProcessOutput
 import com.squirelworks.lsd.core.speech.destroyProcessTree
 import com.squirelworks.lsd.core.speech.desktopSpeechFromProbe
-import com.squirelworks.lsd.core.speech.voiceStatus
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
 import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
@@ -66,6 +66,8 @@ class DesktopVoice(private val threadPrefix: String) {
         process = started
         return SpeechOutcome.Spoken
     }
+
+    fun status(lang: String): VoiceStatus = voiceStatus(System.getProperty("os.name"), lang, probe)
 
     fun stop() {
         process?.let { runCatching { it.destroy() } }
