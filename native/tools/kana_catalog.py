@@ -214,12 +214,20 @@ def main():
     dest.mkdir(parents=True, exist_ok=True)
     (dest / lessons_name).write_text(json.dumps(scripts(lessons_path.read_text()), ensure_ascii=False))
     (dest / strokes_name).write_text(json.dumps(tables, ensure_ascii=False))
-    if len(sys.argv) > 6:
-        audio_js = pathlib.Path(sys.argv[6])
+    app_js = lessons_path.parent / "app.js"
+    if app_js.is_file() and lessons_path.is_file():
+        data = app_settings(app_js)
+        (dest / "app.json").write_text(json.dumps(data, ensure_ascii=False) + "\n")
+    for extra in sys.argv[6:]:
+        path = pathlib.Path(extra)
+        if path.name == "suite.js":
+            suite = suite_settings(path)
+            (dest / "suite.json").write_text(json.dumps(suite, ensure_ascii=False) + "\n")
+            continue
         spoken = {}
         clip_root = dest / "clips"
-        mp3_root = audio_js.parent.parent / "audio"
-        for js in sorted(p for p in audio_js.glob("*.js")):
+        mp3_root = path.parent.parent / "audio"
+        for js in sorted(p for p in path.glob("*.js")):
             mapping = strokes(js.read_text())
             spoken[js.stem] = mapping
             for filename in mapping.values():
@@ -231,13 +239,6 @@ def main():
                 shutil.copyfile(src, target)
         stem = lessons_name.removesuffix(".json")
         (dest / f"{stem}-audio.json").write_text(json.dumps(spoken, ensure_ascii=False))
-    app_js = lessons_path.parent / "app.js"
-    if app_js.is_file() and lessons_path.is_file():
-        data = app_settings(app_js)
-        (dest / "app.json").write_text(json.dumps(data, ensure_ascii=False) + "\n")
-    if len(sys.argv) > 7:
-        suite = suite_settings(pathlib.Path(sys.argv[7]))
-        (dest / "suite.json").write_text(json.dumps(suite, ensure_ascii=False) + "\n")
 
 
 if __name__ == "__main__":

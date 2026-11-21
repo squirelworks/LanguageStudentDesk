@@ -91,4 +91,5 @@ catalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/bopomofo.js",
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/data/strokes",
     "bopomofo",
+    suite = "SquirrelGo-Apps/shared/suite.js",
 )
