@@ -35,6 +35,7 @@ def main():
     bopo = set(mod.source_paths("bopomofo"))
     alpha = set(mod.source_paths("alphabets"))
     kanji = set(mod.source_paths("kanji"))
+    klingon = set(mod.source_paths("klingon"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
     shared = {
@@ -45,7 +46,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, kokugo, multi):
+    for paths in (kana, bopo, alpha, kanji, klingon, kokugo, multi):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -71,6 +72,11 @@ def main():
         raise SystemExit("kanji is watching another app's WebView files")
     if "native/ui/kanji" not in kanji:
         raise SystemExit("kanji is not watching its module")
+    klingon_www = "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www"
+    if klingon_www not in klingon or suite not in klingon:
+        raise SystemExit(f"klingon generator inputs missing: {sorted(klingon)}")
+    if kana_data in klingon or kanji_data in klingon:
+        raise SystemExit("klingon is watching another app's WebView files")
     if suite not in kana or suite not in bopo:
         raise SystemExit(f"a character app is not watching the suite file: kana={suite in kana} bopomofo={suite in bopo}")
     if suite in kokugo:
@@ -95,7 +101,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "japanese-dictionary", "multilingual-dictionary"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "japanese-dictionary", "multilingual-dictionary"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -122,6 +128,11 @@ def main():
         raise SystemExit("kanji ignored its character file")
     if mod.app_changed("tag", "kana", kanji_lesson) or mod.app_changed("tag", "alphabets", kanji_lesson):
         raise SystemExit("a Kanji character file marked another app")
+    klingon_lesson = diff_of([klingon_www + "/data/klingon.js"])
+    if not mod.app_changed("tag", "klingon", klingon_lesson):
+        raise SystemExit("klingon ignored its lesson file")
+    if mod.app_changed("tag", "kana", klingon_lesson) or mod.app_changed("tag", "kanji", klingon_lesson):
+        raise SystemExit("a Klingon lesson marked another app")
     print("ok")
 
 
