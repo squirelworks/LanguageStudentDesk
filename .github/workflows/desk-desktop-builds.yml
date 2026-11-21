@@ -16,6 +16,11 @@ on:
       tag:
         description: "Release tag to attach the builds to, e.g. v0.0.3"
         required: true
+      rewrite_checksums:
+        description: "Rewrite SHA256SUMS.txt after attaching. Defaults to true. A missing boolean compares equal to false, so a hand run must declare this input."
+        type: boolean
+        required: false
+        default: true
   workflow_call:
     inputs:
       tag:
@@ -126,14 +131,14 @@ jobs:
         shell: bash
         run: gh release upload "$TAG" "dist/${{ matrix.archive }}" --clobber --repo "$GITHUB_REPOSITORY"
 
-  # A called workflow sees the caller's event, so event_name is not
-  # workflow_call here. The draft release passes rewrite_checksums: false,
-  # and its workflow name is a second gate, so this does not rewrite the
-  # sums while other draft jobs are still uploading. Publish and a hand run
-  # of this workflow do rewrite them.
+  # GitHub treats a missing boolean as equal to false, so `!= false` skips
+  # a publish and a hand run, where this input is not set. A release event
+  # always rewrites. A hand run rewrites because workflow_dispatch defaults
+  # the input to true. The draft caller passes false, and its workflow name
+  # is a second gate, so it does not rewrite while other jobs are uploading.
   checksums:
     needs: build
-    if: needs.build.result == 'success' && inputs.rewrite_checksums != false && github.workflow != 'SquirrelGo release (draft)'
+    if: needs.build.result == 'success' && (github.event_name == 'release' || inputs.rewrite_checksums) && github.workflow != 'SquirrelGo release (draft)'
     permissions:
       contents: write
     uses: ./.github/workflows/release-checksums.yml
