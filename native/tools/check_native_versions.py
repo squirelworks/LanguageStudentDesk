@@ -4,9 +4,11 @@
 PR and push CI (the default) require each version code to be at least the
 one on the newest squirrelgo-v* tag. Equal is fine. A lower code fails.
 
-The release workflow passes --release. An app whose own Android, desktop, or
-version file changed since the previous squirrelgo-v* tag must have a strictly
-higher version code than that tag. Apps that did not change are left alone.
+The release workflow passes --release. An app must have a strictly higher
+version code than the previous tag when its Android or desktop sources, its
+version file, the shared build logic, or any module it depends on (including
+core and ui, and their dependencies) changed since that tag. Apps that did
+not change are left alone.
 
 The version code is major * 1000000 + minor * 1000 + patch, the same formula
 the Gradle build uses. major is at least 1, minor is 0..255, patch is 0..999.
@@ -87,12 +89,34 @@ def previous_release_tag(tags):
     return None
 
 
+def gradle_projects(text):
+    return re.findall(r'project\("(:[^"]+)"\)', text)
+
+
 def app_changed(tag, stem):
     paths = [
         f"native/android/{stem}",
         f"native/desktop/{stem}",
         f"native/versions/{stem}.properties",
+        "native/buildSrc",
     ]
+    seen = set()
+    pending = []
+    for side in ("android", "desktop"):
+        gradle = ROOT / "native" / side / stem / "build.gradle.kts"
+        if gradle.is_file():
+            pending.append(gradle)
+    while pending:
+        gradle = pending.pop()
+        for coord in gradle_projects(gradle.read_text()):
+            folder = "native/" + coord.strip(":").replace(":", "/")
+            if folder in seen:
+                continue
+            seen.add(folder)
+            paths.append(folder)
+            child = ROOT / folder / "build.gradle.kts"
+            if child.is_file():
+                pending.append(child)
     diff = git(["diff", "--name-only", f"{tag}..HEAD", "--", *paths])
     return bool(diff.stdout.strip())
 

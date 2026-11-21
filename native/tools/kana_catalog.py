@@ -7,6 +7,8 @@ commit. This does not invent a character list.
 
 import json
 import pathlib
+import re
+import shutil
 import sys
 
 FIELDS = ["g", "r", "hint", "ex", "exR", "exM", "speak", "ipa", "exLang", "exIpa"]
@@ -90,6 +92,33 @@ def main():
     dest.mkdir(parents=True, exist_ok=True)
     (dest / lessons_name).write_text(json.dumps(scripts(lessons_path.read_text()), ensure_ascii=False))
     (dest / strokes_name).write_text(json.dumps(tables, ensure_ascii=False))
+    if len(sys.argv) > 6:
+        audio_js = pathlib.Path(sys.argv[6])
+        spoken = {}
+        clip_root = dest / "clips"
+        mp3_root = audio_js.parent.parent / "audio"
+        for js in sorted(p for p in audio_js.glob("*.js")):
+            mapping = strokes(js.read_text())
+            spoken[js.stem] = mapping
+            for filename in mapping.values():
+                src = mp3_root / js.stem / filename
+                if not src.is_file():
+                    raise SystemExit(f"Missing recording {src}")
+                target = clip_root / js.stem / filename
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(src, target)
+        stem = lessons_name.removesuffix(".json")
+        (dest / f"{stem}-audio.json").write_text(json.dumps(spoken, ensure_ascii=False))
+    app_js = lessons_path.parent / "app.js"
+    if app_js.is_file() and lessons_path.is_file():
+        text = app_js.read_text()
+        marker = text.find("SG_APP")
+        if marker >= 0:
+            brace = text.find("{", marker)
+            raw = extract_json(text, brace)
+            quoted = re.sub(r'([{\s,])([A-Za-z_][A-Za-z0-9_]*)\s*:', r'\1"\2":', raw)
+            quoted = re.sub(r',\s*([}\]])', r'\1', quoted)
+            (dest / "app.json").write_text(json.dumps(json.loads(quoted), ensure_ascii=False))
 
 
 if __name__ == "__main__":

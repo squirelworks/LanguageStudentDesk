@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.strokes.Strokes
 
 @Composable
-fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifier) {
+fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifier, speed: Int = 70) {
     val lengths = remember(paths) { paths.map { Strokes.length(Strokes.points(it)) + 1.0 } }
     var shown by remember(paths) { mutableFloatStateOf(if (play) 0f else paths.size.toFloat()) }
-    LaunchedEffect(paths, play) {
+    LaunchedEffect(paths, play, speed) {
         if (!play) {
             shown = paths.size.toFloat()
             return@LaunchedEffect
@@ -36,7 +36,7 @@ fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifie
             withFrameMillis { now ->
                 val dt = if (last == 0L) 0.0 else (now - last) / 1000.0
                 last = now
-                into += dt * 90.0
+                into += dt * 90.0 * (speed.coerceAtLeast(1) / 70.0)
                 val len = lengths[index]
                 if (into >= len) {
                     into = 0.0

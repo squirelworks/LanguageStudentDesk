@@ -42,15 +42,21 @@ tasks.register("generateLanguageCatalog") {
 
 // Kana lessons and stroke paths, from the files generated out of the pinned
 // squirrel-lang-data commit. The app does not keep a second copy.
-fun catalogTask(name: String, lessons: String, strokes: String, outName: String) =
+fun catalogTask(name: String, lessons: String, strokes: String, outName: String, audio: String? = null) =
     tasks.register<Exec>(name) {
         val repo = rootProject.projectDir.parentFile
         val outDir = layout.buildDirectory.dir("generated-$outName")
         inputs.file(repo.resolve(lessons))
         inputs.dir(repo.resolve(strokes))
         inputs.file("tools/kana_catalog.py")
+        val about = repo.resolve(lessons).parentFile.resolve("app.js")
+        if (about.isFile) inputs.file(about)
+        if (audio != null) {
+            inputs.dir(repo.resolve(audio))
+            inputs.dir(repo.resolve(audio).parentFile.parentFile.resolve("audio"))
+        }
         outputs.dir(outDir)
-        commandLine(
+        val cmd = mutableListOf(
             "python3",
             rootProject.file("tools/kana_catalog.py").absolutePath,
             repo.resolve(lessons).absolutePath,
@@ -59,6 +65,8 @@ fun catalogTask(name: String, lessons: String, strokes: String, outName: String)
             "$outName.json",
             "$outName-strokes.json",
         )
+        if (audio != null) cmd += repo.resolve(audio).absolutePath
+        commandLine(cmd)
     }
 
 catalogTask(
@@ -66,6 +74,7 @@ catalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/kana.js",
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes",
     "kana",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/audio",
 )
 catalogTask(
     "generateBopomofoCatalog",
