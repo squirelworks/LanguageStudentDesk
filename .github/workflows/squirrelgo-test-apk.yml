@@ -18,6 +18,7 @@ on:
           - klingon
           - orthodox-bible
           - phrasebook
+          - kokugo
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -63,6 +64,12 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
+          if [ "$APP" = kokugo ]; then
+            SHA=$(git rev-parse --short HEAD)
+            echo "NATIVE=1" >> "$GITHUB_ENV"
+            echo "APK_NAME=SquirrelGoKokugoDictionary-test-$SHA" >> "$GITHUB_ENV"
+            exit 0
+          fi
           case "$APP" in
             alphabets|kana|kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
@@ -100,8 +107,18 @@ jobs:
       - name: Install Android SDK packages
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+          yes | "$SDKMANAGER" "platforms;android-36" "platforms;android-37.0" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Build native test APK
+        if: env.NATIVE == '1'
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          mkdir -p "$RUNNER_TEMP/apk"
+          ./gradlew --no-daemon :android:japanese-dictionary:assembleRelease
+          cp android/japanese-dictionary/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
       - name: Build test APK
+        if: env.NATIVE != '1'
         run: |
           cd "$DIR/android"
           echo "sdk.dir=$ANDROID_HOME" > local.properties

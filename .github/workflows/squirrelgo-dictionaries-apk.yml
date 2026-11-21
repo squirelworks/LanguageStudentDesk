@@ -1,0 +1,44 @@
+name: SquirrelGo dictionaries
+
+# Compile only: proves the native dictionary apps still build on every PR and
+# push to main, but uploads nothing. For a test APK, run "SquirrelGo test APK"
+# by hand; release APKs come from the release workflow.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "native/**"
+      - "languages/**"
+      - ".github/workflows/squirrelgo-dictionaries-apk.yml"
+  pull_request:
+    paths:
+      - "native/**"
+      - "languages/**"
+      - ".github/workflows/squirrelgo-dictionaries-apk.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Compile
+        working-directory: native
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin
