@@ -10,7 +10,7 @@ val learnerAssets = rootProject.layout.buildDirectory.dir("generated-desk-www/co
 val appVersion = readAppVersion(rootProject.file("versions/lsd.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/lsd-suite/android/app/build.gradle"),
+    rootProject.file("../archive/webview/lsd-suite/app/build.gradle"),
 )
 // release, the GitHub APK, always uses the committed debug key. The play
 // build type is the only one that may use UPLOAD_*, and only for its own bundle.

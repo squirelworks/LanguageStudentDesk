@@ -193,7 +193,7 @@ jobs:
             echo "::warning::no upload key in secrets; Play refuses debug-signed bundles (see docs/PLAY.md)"
             # Programming Student Desk doesn't commit its debug key; all apps share one.
             K="$DIR/android/app/debug.keystore"
-            [ -f "$K" ] || cp SquirrelGo-Apps/lsd-suite/android/app/debug.keystore "$K"
+            [ -f "$K" ] || cp archive/webview/lsd-suite/app/debug.keystore "$K"
           fi
       - name: Build AAB
         if: steps.pick.outputs.go == 'true'
