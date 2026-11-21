@@ -78,6 +78,7 @@ fun KanaApp(
     installedPackages: Set<String>? = null,
     onLaunchApp: (SuiteApp) -> Boolean = { false },
     onOpenUrl: (String) -> Unit = {},
+    onStopAudio: () -> Unit = {},
 ) {
     var stack by remember { mutableStateOf(listOf<Screen>(Screen.Home)) }
     var progress by remember { mutableStateOf(readProgress(progressStore)) }
@@ -91,7 +92,12 @@ fun KanaApp(
     val openApps = if (suite == null) null else ({ showSuite = true })
     val screen = stack.last()
     fun open(next: Screen) { stack = stack + next }
-    fun back() { if (stack.size > 1) stack = stack.dropLast(1) }
+    fun back() {
+        if (stack.size > 1) {
+            onStopAudio()
+            stack = stack.dropLast(1)
+        }
+    }
     val backEnabled = showSuite || dialogOpen || stack.size > 1
     PlatformBackHandler(backEnabled) {
         when (kanaBack(showSuite, dialogOpen, stack.size)) {

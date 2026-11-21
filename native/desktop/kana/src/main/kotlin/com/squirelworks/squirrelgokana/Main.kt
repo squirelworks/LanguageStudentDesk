@@ -44,6 +44,7 @@ fun main(args: Array<String>) = application {
             suite = suite,
             suiteId = "kana",
             onOpenUrl = ::openHttps,
+            onStopAudio = player::stop,
         )
     }
 }
