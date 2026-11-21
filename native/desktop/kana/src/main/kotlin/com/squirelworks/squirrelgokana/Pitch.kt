@@ -70,8 +70,10 @@ fun preservePitch(samples: ShortArray, channels: Int, sampleRate: Int, speed: Fl
     var last = outFrames
     while (start < last && weight[start] == 0f) start++
     while (last > start && weight[last - 1] == 0f) last--
-    val stretched = ShortArray((last - start) * channels)
-    for (i in start until last) {
+    val target = (frames / rate).toInt().coerceAtLeast(1)
+    val end = minOf(last, start + target)
+    val stretched = ShortArray((end - start) * channels)
+    for (i in start until end) {
         val scale = weight[i]
         val at = (i - start) * channels
         for (channel in 0 until channels) {
