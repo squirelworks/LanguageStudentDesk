@@ -14,10 +14,15 @@ class Mp3ClipPlayer(private val open: (String) -> InputStream?) {
     private var worker: Thread? = null
     private var line: SourceDataLine? = null
 
-    fun play(path: String, rate: Float) {
+    fun stop() {
         worker?.interrupt()
         line?.stop()
         line?.close()
+        line = null
+    }
+
+    fun play(path: String, rate: Float) {
+        stop()
         val stream = open(path) ?: return
         worker = Thread {
             try {
@@ -51,12 +56,13 @@ class Mp3ClipPlayer(private val open: (String) -> InputStream?) {
                     out.write(bytes, 0, bytes.size)
                     bitstream.closeFrame()
                 }
-                out?.drain()
+                if (!Thread.currentThread().isInterrupted) out?.drain()
+                out?.stop()
                 out?.close()
                 bitstream.close()
-            } catch (_: InterruptedException) {
+            } catch (_: Exception) {
             } finally {
-                stream.close()
+                runCatching { stream.close() }
             }
         }.also {
             it.isDaemon = true

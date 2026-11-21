@@ -67,6 +67,7 @@ class MainActivity : ComponentActivity() {
                 installedPackages = installed,
                 onLaunchApp = ::launchApp,
                 onOpenUrl = ::openHttps,
+                onStopAudio = ::stopAudio,
             )
         }
     }
@@ -88,8 +89,17 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
     }
 
+    private fun stopAudio() {
+        player?.let { playing ->
+            runCatching { playing.stop() }
+            playing.release()
+        }
+        player = null
+        voice?.stop()
+    }
+
     private fun playClip(path: String, rate: Float) {
-        player?.release()
+        stopAudio()
         val mp = MediaPlayer()
         val afd = assets.openFd(path)
         mp.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
