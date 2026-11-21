@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 73b5ace alphabets/gujarati.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data f29cc38 alphabets/gujarati.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // Gujarati for SquirrelGo Alphabets. Romanization is a simplified IAST. Hints,
 // groupings and articles are original.
 // Each character is [char, roman, hint, example, exampleRoman, meaning, speak, ipa, exampleLang, exampleIpa], cut after the last field it gives.

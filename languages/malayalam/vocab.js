@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 73b5ace languages/malayalam/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data f29cc38 languages/malayalam/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Malayalam, transliteration, English, note]. Written for this
 // project.
 window.LSD_DECKS = window.LSD_DECKS || {};

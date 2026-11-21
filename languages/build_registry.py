@@ -32,7 +32,6 @@ or reference.json:
     python3 languages/build_registry.py --check  # exit 1 if one is stale
 """
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -44,10 +43,6 @@ GENERATORS = ["gen_vocab.py", "gen_grammar.py", "gen_reference.py", "gen_charact
 # SquirrelGo Kanji's table, in the app and in its committed Android assets.
 KANJI_APP = [HERE.parent / "SquirrelGo-Apps" / "squirrelgo-characters" / "squirrelgo-kanji" / d / "data" / "kanji.js"
              for d in ("www", "android/app/src/main/assets/www")]
-# The pinned data tools still write a Bopomofo Android asset copy. That shell
-# is archived, so the copy is removed again after they run.
-BOPOMOFO = HERE.parent / "SquirrelGo-Apps" / "squirrelgo-characters" / "squirrelgo-bopomofo"
-BOPOMOFO_ANDROID = BOPOMOFO / "android"
 
 TOPICS = {"overview", "script", "sounds", "grammar", "verbs", "numbers", "phrases", "culture"}
 
@@ -128,25 +123,6 @@ def build():
     }, problems
 
 
-def mirror_archived_bopomofo():
-    """Let --check see the copies the pinned tools still expect."""
-    pairs = [
-        ("www/data/bopomofo.js", "android/app/src/main/assets/www/data/bopomofo.js"),
-        ("www/data/strokes/zhuyin.js", "android/app/src/main/assets/www/data/strokes/zhuyin.js"),
-    ]
-    for src_rel, dst_rel in pairs:
-        src = BOPOMOFO / src_rel
-        dst = BOPOMOFO / dst_rel
-        if src.is_file() and not dst.is_file():
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            dst.write_bytes(src.read_bytes())
-
-
-def drop_archived_bopomofo():
-    if BOPOMOFO_ANDROID.exists():
-        shutil.rmtree(BOPOMOFO_ANDROID)
-
-
 def generate(check):
     """Every file generated from the data submodule."""
     if not (DATA_TOOLS / "gen_registry.py").is_file():
@@ -158,10 +134,7 @@ def generate(check):
         status |= subprocess.run(cmd).returncode
     for tool in ("gen_strokes.py", "gen_alphabets.py"):
         cmd = [sys.executable, str(DATA_TOOLS / tool), "--apps", str(HERE.parent / "SquirrelGo-Apps")]
-        if check:
-            mirror_archived_bopomofo()
         status |= subprocess.run(cmd + (["--check"] if check else [])).returncode
-        drop_archived_bopomofo()
     for app in KANJI_APP:
         cmd = [sys.executable, str(DATA_TOOLS / "gen_characters.py"), "--kanji-app", str(app)] + (["--check"] if check else [])
         status |= subprocess.run(cmd).returncode

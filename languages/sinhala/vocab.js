@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 73b5ace languages/sinhala/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data f29cc38 languages/sinhala/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Sinhala, transliteration, English, note]. Written for this
 // project.
 window.LSD_DECKS = window.LSD_DECKS || {};
