@@ -100,19 +100,24 @@ fun KlingonApp(
     var writeMemory by remember { mutableStateOf(false) }
     val font = if (progress.font == "classic") classic else hand
     val page = stack.last()
+    var scrollStep by remember { mutableIntStateOf(0) }
     fun save(next: KlingonProgress) {
         progress = next
         writeKlingonProgress(progressStore, next)
     }
     fun push(next: Page) {
         stack = stack + next
+        scrollStep++
     }
     fun replace(next: Page) {
         stack = stack.dropLast(1) + next
     }
     fun back() {
         onStopAudio()
-        if (stack.size > 1) stack = stack.dropLast(1)
+        if (stack.size > 1) {
+            stack = stack.dropLast(1)
+            scrollStep++
+        }
     }
     val backEnabled = suiteOpen || stack.size > 1
     fun performBack() {
@@ -152,7 +157,7 @@ fun KlingonApp(
                     onSettings = { push(Page.Settings) },
                 )
                 Column(
-                    Modifier.weight(1f).verticalScroll(rememberPageScrollState(page)).padding(16.dp),
+                    Modifier.weight(1f).verticalScroll(rememberPageScrollState(scrollStep)).padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     when (val current = page) {

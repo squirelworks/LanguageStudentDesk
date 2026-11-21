@@ -4,7 +4,8 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
-// One scroll state for the whole shell keeps the previous page's offset.
-// Keying it by the page starts each newly opened page at the top.
+// Key this with the navigation step (push, jump, or back), not with the page
+// value. replace() keeps the step, so answering a quiz, switching a tab, or
+// typing keeps the offset. A new step starts at the top.
 @Composable
-fun rememberPageScrollState(page: Any): ScrollState = remember(page) { ScrollState(0) }
+fun rememberPageScrollState(step: Any): ScrollState = remember(step) { ScrollState(0) }
