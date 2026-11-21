@@ -134,7 +134,6 @@ jobs:
         include:
           - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary,                      name: SquirrelGoJapaneseDictionary }
           - { app: orthodox-bible,   dir: SquirrelGo-Apps/squirrelgo-orthodox-bible,                  name: SquirrelGoOrthodoxBible }
-          - { app: phrasebook,       dir: SquirrelGo-Apps/squirrelgo-phrasebook,                      name: SquirrelGoPhrasebook }
           - { app: lsd-suite,        dir: SquirrelGo-Apps/lsd-suite,                                  name: LanguageStudentDesk }
           - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk,                   name: ProgrammingStudentDesk }
           - { app: math-desk,         dir: SquirrelGo-Apps/math-student-desk,                          name: MathsEduTrainingHelper }
@@ -178,18 +177,9 @@ jobs:
             gradle-deps-v2-${{ runner.os }}-
             gradle-deps-v1-${{ runner.os }}-
       # The same preparation as each app's compile-only workflow.
-      - name: Check audio coverage
-        if: matrix.app == 'phrasebook'
-        run: cd "$DIR" && python3 tools/phrasebook_audio.py --check
       - name: Download dictionary data
         if: matrix.app == 'dictionary'
         run: cd "$DIR" && tools/fetch_data.sh
-      - name: Sync web assets into the APK
-        if: matrix.app == 'phrasebook'
-        run: |
-          rm -rf "$DIR/android/app/src/main/assets/www"
-          mkdir -p "$DIR/android/app/src/main/assets"
-          cp -a "$DIR/www" "$DIR/android/app/src/main/assets/www"
       - name: Install Android SDK packages
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
@@ -492,6 +482,54 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # Native Phrasebook. The file name stays SquirrelGoPhrasebook.apk. It is
+  # signed with the committed debug key, so APK_KEYSTORE_BASE64 cannot change
+  # the signature. The Play bundle is a different workflow.
+  native-phrasebook:
+    needs: [check, draft, deps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Build the native Phrasebook APK
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:phrasebook:assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp android/phrasebook/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/SquirrelGoPhrasebook.apk"
+          VN=$(grep -m1 '^versionName=' versions/phrasebook.properties | cut -d= -f2-)
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VN"
+          VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
+          echo "| SquirrelGoPhrasebook | com.squirelworks.squirrelgophrasebook | $VN | $VC |" > "$RUNNER_TEMP/apk/SquirrelGoPhrasebook.row"
+          echo "SquirrelGo Phrasebook $VN" > "$RUNNER_TEMP/apk/SquirrelGoPhrasebook.label"
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/SquirrelGoPhrasebook.apk#$(cat "$RUNNER_TEMP/apk/SquirrelGoPhrasebook.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: row-phrasebook
+          path: ${{ runner.temp }}/apk/SquirrelGoPhrasebook.row
+          retention-days: 1
+          if-no-files-found: error
+
   # The Linux, Windows and macOS Desk builds, each attached to the draft as
   # soon as it's built. Publishing doesn't build them again.
   desktop:
@@ -508,7 +546,7 @@ jobs:
   # SHA256SUMS.txt over every file on the draft. Assets added after publish
   # are covered when those workflows rewrite the sums.
   finish:
-    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, desktop]
+    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, desktop]
     runs-on: ubuntu-latest
     permissions:
       contents: write

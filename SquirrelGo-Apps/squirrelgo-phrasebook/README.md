@@ -53,22 +53,10 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 
 ## Install the APK
 
-Download [`SquirrelGoPhrasebook.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoPhrasebook.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+The release file is [`SquirrelGoPhrasebook.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoPhrasebook.apk), the native app, package `com.squirelworks.squirrelgophrasebook`, signed with the committed debug key. The WebView shell is archived at `archive/webview/phrasebook/` and is not built. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `phrasebook-native`.
 
-- Package id: `com.squirelworks.squirrelgophrasebook.debug`
+- Package id: `com.squirelworks.squirrelgophrasebook`
 - Min Android: 7.0 (API 24)
-
-## Rebuild Android APK locally
-
-```bash
-export ANDROID_HOME=$HOME/android-sdk   # or your SDK path
-echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android
-./gradlew assembleDebug
-# output: app/build/outputs/apk/debug/app-debug.apk
-```
 
 ## Adding phrases
 
@@ -81,12 +69,11 @@ pip install pyopenjtalk          # also needs ffmpeg and node
 python3 tools/phrasebook_audio.py
 ```
 
-It records only what changed into `www/audio/` and rewrites `www/data/audio.js`. Each phrase is read from its Japanese text when Open JTalk reads it the way the kana reading says, and from the kana reading otherwise, so a wrong kanji reading never ends up in a clip. `python3 tools/phrasebook_audio.py --check` lists phrases without a clip; the APK workflow runs it and fails if any phrase is silent.
+It records only what changed into `www/audio/` and rewrites `www/data/audio.js`. Each phrase is read from its Japanese text when Open JTalk reads it the way the kana reading says, and from the kana reading otherwise, so a wrong kanji reading never ends up in a clip. `python3 tools/phrasebook_audio.py --check` lists phrases without a clip. The native build fails if any phrase is silent.
 
 The recordings use the HTS voice Mei, © 2009-2013 Nagoya Institute of Technology, licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 
 ## Layout
 
-- `www/` — offline web UI (also packaged into the APK); `www/audio/` holds the phrase recordings
+- `www/` — offline web UI the Desk opens; `www/audio/` holds the phrase recordings the native app reads
 - `tools/` — `phrasebook_audio.py`, which records and checks the clips
-- `android/` — WebView shell targeting API 34, with a native text-to-speech bridge
