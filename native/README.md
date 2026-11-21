@@ -21,6 +21,8 @@ echo "sdk.dir=$ANDROID_HOME" > local.properties
 ./gradlew :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin
 ```
 
+SquirrelGo Kana (`com.squirelworks.squirrelgokana`) reads the generated Kana lessons and stroke paths. Its `versionCode` stays below the WebView app's, so it does not install over that release. The WebView `www/` is unchanged. Quiz, the writing pad and audio are still that build.
+
 SquirrelGo 国語辞典 is `com.squirelworks.squirrelgokokugo`. SquirrelGo Multilingual Dictionary is `com.squirelworks.squirrelgomultidictionary`. A test APK comes from
 the hand-started SquirrelGo test APK workflow. Release builds sign with the
 debug keystore already committed for the SquirrelGo apps. Desktop packages for
