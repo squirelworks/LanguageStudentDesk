@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Open book on a navy tile. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#2E4A7A"
+        android:pathData="M10,2h28a8,8 0 0 1 8,8v28a8,8 0 0 1 -8,8h-28a8,8 0 0 1 -8,-8v-28a8,8 0 0 1 8,-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8,14c5,-2 11,-2 15,1v21c-4,-3 -10,-3 -15,-1z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,14c-5,-2 -11,-2 -15,1v21c4,-3 10,-3 15,-1z" />
+    <path
+        android:fillColor="#C8D3E8"
+        android:pathData="M11,19h9v1.6h-9zM11,23h9v1.6h-9zM11,27h7v1.6h-7zM28,19h9v1.6h-9zM28,23h9v1.6h-9zM28,27h7v1.6h-7z" />
+</vector>
