@@ -22,6 +22,7 @@ on:
           - alphabets-native
           - kanji-native
           - klingon-native
+          - phrasebook-native
           - orthodox-bible-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
@@ -68,7 +69,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = orthodox-bible-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = orthodox-bible-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -91,6 +92,9 @@ jobs:
             elif [ "$APP" = klingon-native ]; then
               MODULE=klingon
               NAME=SquirrelGoKlingon
+            elif [ "$APP" = phrasebook-native ]; then
+              MODULE=phrasebook
+              NAME=SquirrelGoPhrasebook
             else
               MODULE=orthodox-bible
               NAME=SquirrelGoOrthodoxBible
