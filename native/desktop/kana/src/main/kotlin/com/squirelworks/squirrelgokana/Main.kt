@@ -9,6 +9,7 @@ import com.squirelworks.lsd.kana.DesktopVoice
 import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.KanaApp
+import com.squirelworks.lsd.kana.Mp3ClipPlayer
 import com.squirelworks.lsd.kana.WebViewStore
 import com.squirelworks.lsd.kana.adoptWebViewProgress
 import com.squirelworks.lsd.kana.parseKanaAudio

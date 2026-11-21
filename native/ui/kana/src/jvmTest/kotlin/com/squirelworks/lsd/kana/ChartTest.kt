@@ -51,6 +51,26 @@ class ChartTest {
     }
 
     @Test
+    fun aJoiningLetterTakesFourShapesAndANonJoiningLetterKeepsOne() {
+        val beh = letterForms("ب", "اأإآدذرزوؤة")
+        assertEquals("ب", beh.isolated)
+        assertEquals("ب\u200D", beh.initial)
+        assertEquals("\u200Dب\u200D", beh.medial)
+        assertEquals("\u200Dب", beh.final)
+        val alif = letterForms("ا", "اأإآدذرزوؤة")
+        assertEquals("ا", alif.isolated)
+        assertEquals("ا", alif.initial)
+        assertEquals("\u200Dا", alif.medial)
+        assertEquals("\u200Dا", alif.final)
+    }
+
+    @Test
+    fun hangulBlocksFollowTheUnicodeFormula() {
+        assertEquals("가", hangulSyllable(0, 0, 0))
+        assertEquals("각", hangulSyllable(0, 0, 1))
+    }
+
+    @Test
     fun pageAccentsComeFromTheStylesheetHex() {
         assertEquals(0xFF005A8C, accentArgb("#005a8c"))
         assertEquals(0xFF1F6F5C, accentArgb("#1f6f5c"))

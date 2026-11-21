@@ -29,6 +29,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
         }
+        jvmMain.dependencies {
+            implementation("javazoom:jlayer:1.0.1")
+        }
         jvmTest.dependencies {
             implementation(kotlin("test"))
         }

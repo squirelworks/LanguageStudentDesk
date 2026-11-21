@@ -1,4 +1,4 @@
-package com.squirelworks.squirrelgoalphabets
+package com.squirelworks.lsd.kana
 
 import javazoom.jl.decoder.Bitstream
 import javazoom.jl.decoder.Decoder

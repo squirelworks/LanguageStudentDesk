@@ -31,7 +31,6 @@ window.SG_AUDIO["mongolian"] = {
 "ᠬᠣᠶᠠᠷ": "c737c9e111.mp3",
 "ᠭ": "ad87bb21c5.mp3",
 "ᠭᠤᠷᠪᠠ": "bf1d7186b9.mp3",
-"ᠴ": "c7912a77dc.mp3",
 "ᠴᠠᠢ": "48164db114.mp3",
 "ᠵ": "1c4ccec808.mp3",
 "ᠶ": "498711dee0.mp3",

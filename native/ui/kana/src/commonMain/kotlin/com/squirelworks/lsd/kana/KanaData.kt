@@ -15,6 +15,9 @@ data class KanaScript(
     val langName: String = "",
     val dir: String = "ltr",
     val chartFlow: Boolean = false,
+    val vertical: Boolean = false,
+    val nonJoining: String? = null,
+    val builder: HangulBuilder? = null,
     val blurb: String = "",
     val tagline: String = "",
     val accent: String = "",
@@ -29,8 +32,41 @@ data class KanaLesson(
     val note: String = "",
     val group: String = "",
     val cols: Int = 5,
+    val forms: Boolean = true,
     val chars: List<KanaCell?> = emptyList(),
 )
+
+@Serializable
+data class HangulBuilder(
+    val title: String = "",
+    val note: String = "",
+    val initials: List<List<String>> = emptyList(),
+    val medials: List<List<String>> = emptyList(),
+    val finals: List<List<String>> = emptyList(),
+)
+
+data class LetterForms(val isolated: String, val initial: String, val medial: String, val final: String)
+
+private const val ZWJ = "\u200D"
+
+// A joining letter changes shape. A letter in nonJoining keeps one shape,
+// and still shows the joiner so the row can be compared.
+fun letterForms(glyph: String, nonJoining: String): LetterForms {
+    val alone = nonJoining.contains(glyph)
+    return LetterForms(
+        isolated = glyph,
+        initial = if (alone) glyph else glyph + ZWJ,
+        medial = if (alone) ZWJ + glyph else ZWJ + glyph + ZWJ,
+        final = ZWJ + glyph,
+    )
+}
+
+// Unicode precomposed Hangul: 0xAC00 + (initial * 21 + vowel) * 28 + final.
+fun hangulSyllable(initial: Int, medial: Int, final: Int): String =
+    (0xAC00 + (initial * 21 + medial) * 28 + final).toChar().toString()
+
+fun lessonOf(script: KanaScript, glyph: String): KanaLesson? =
+    script.lessons.firstOrNull { lesson -> lesson.chars.any { it?.g == glyph } }
 
 @Serializable
 data class KanaCell(

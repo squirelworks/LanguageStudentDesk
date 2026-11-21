@@ -10,7 +10,6 @@ window.SG_AUDIO["cherokee"] = {
 "ᎣᏏᏲ": "25fb44fcb8.mp3",
 "Ꭴ": "aacc756a3a.mp3",
 "ᎤᏁᏝᏅᎯ": "183cca4480.mp3",
-"Ꭵ": "1081939c04.mp3",
 "Ꭶ": "c15eba9000.mp3",
 "ᎦᏚ": "9867c36f51.mp3",
 "Ꭸ": "aa34e00e72.mp3",
@@ -110,6 +109,5 @@ window.SG_AUDIO["cherokee"] = {
 "Ᏹ": "e3665ee2d6.mp3",
 "Ᏺ": "7d5bafe41b.mp3",
 "Ᏻ": "357ca04b1e.mp3",
-"Ᏼ": "53d05174ef.mp3",
-"ᏴᏫ": "447fd409a0.mp3"
+"Ᏼ": "53d05174ef.mp3"
 };

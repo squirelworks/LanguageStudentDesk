@@ -8,6 +8,7 @@ import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.DesktopKeys
 import com.squirelworks.lsd.kana.DesktopVoice
 import com.squirelworks.lsd.kana.KanaApp
+import com.squirelworks.lsd.kana.Mp3ClipPlayer
 import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.kana.WebViewStore
 import com.squirelworks.lsd.kana.adoptWebViewProgress
@@ -30,6 +31,7 @@ fun main(args: Array<String>) = application {
     val strokes = parseKanaStrokes(loader.getResource("bopomofo-strokes.json")!!.readText())
     val copy = loader.getResource("app.json")?.readText()?.let { parseKanaCopy(it) }
     val suite = loader.getResource("suite.json")?.readText()?.let { parseSuite(it) }
+    val player = Mp3ClipPlayer { path -> loader.getResourceAsStream(path) }
     val voice = DesktopVoice("bopomofo")
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/bopomofo-progress.json"))
     adoptWebViewProgress(progress, WebViewStore.Absent)
@@ -46,7 +48,14 @@ fun main(args: Array<String>) = application {
                 scripts = scripts,
                 strokes = strokes,
                 dark = isSystemInDarkTheme(),
-                speakFallback = { text, rate, lang -> voice.speak(text, rate, lang) },
+                playClip = { path, rate ->
+                    voice.stop()
+                    player.play(path, rate)
+                },
+                speakFallback = { text, rate, lang ->
+                    player.stop()
+                    voice.speak(text, rate, lang)
+                },
                 progressStore = progress,
                 initialQuery = query,
                 intro = copy?.intro.orEmpty(),
@@ -55,7 +64,10 @@ fun main(args: Array<String>) = application {
                 suite = suite,
                 suiteId = "bopomofo",
                 onOpenUrl = ::openHttps,
-                onStopAudio = { voice.stop() },
+                onStopAudio = {
+                    player.stop()
+                    voice.stop()
+                },
             )
         }
     }

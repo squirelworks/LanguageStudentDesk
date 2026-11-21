@@ -1,4 +1,4 @@
-package com.squirelworks.squirrelgoalphabets
+package com.squirelworks.lsd.kana
 
 import kotlin.math.PI
 import kotlin.math.cos

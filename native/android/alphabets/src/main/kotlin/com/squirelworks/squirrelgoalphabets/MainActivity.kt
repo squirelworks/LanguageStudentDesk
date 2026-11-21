@@ -1,8 +1,5 @@
 package com.squirelworks.squirrelgoalphabets
 
-import android.media.MediaPlayer
-import android.media.PlaybackParams
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.squirelworks.lsd.core.languages.FileTextStore
+import com.squirelworks.lsd.kana.AndroidClipPlayer
 import com.squirelworks.lsd.kana.AndroidSpeech
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.SuiteIntents
@@ -27,7 +25,7 @@ import java.io.File
 class MainActivity : ComponentActivity() {
     private var query by mutableStateOf<String?>(null)
     private var installed by mutableStateOf(emptySet<String>())
-    private var player: MediaPlayer? = null
+    private val clipsPlayer by lazy { AndroidClipPlayer(assets) }
     private val speech = AndroidSpeech(this, "alphabets")
     private val suiteIntents = SuiteIntents(this)
 
@@ -53,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     strokes = strokes,
                     dark = isSystemInDarkTheme(),
                     clips = clips,
-                    playClip = ::playClip,
+                    playClip = clipsPlayer::play,
                     speakFallback = speech::speak,
                     progressStore = progress,
                     initialQuery = query,
@@ -65,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     installedPackages = installed,
                     onLaunchApp = suiteIntents::launch,
                     onOpenUrl = suiteIntents::openHttps,
-                    onStopAudio = ::stopAudio,
+                    onStopAudio = { clipsPlayer.stop(); speech.stop() },
                 )
             }
         }
@@ -80,7 +78,8 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onPause() {
-        stopAudio()
+        clipsPlayer.stop()
+        speech.stop()
         super.onPause()
     }
 
@@ -97,33 +96,8 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        player?.release()
+        clipsPlayer.stop()
         speech.shutdown()
         super.onDestroy()
-    }
-
-    private fun stopAudio() {
-        player?.let { playing ->
-            runCatching { playing.stop() }
-            playing.release()
-        }
-        player = null
-        speech.stop()
-    }
-
-    private fun playClip(path: String, rate: Float) {
-        stopAudio()
-        val mp = MediaPlayer()
-        val afd = assets.openFd(path)
-        mp.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
-        afd.close()
-        mp.setOnPreparedListener { ready ->
-            if (Build.VERSION.SDK_INT >= 23) {
-                runCatching { ready.playbackParams = PlaybackParams().setSpeed(rate).setPitch(1f) }
-            }
-            ready.start()
-        }
-        mp.prepareAsync()
-        player = mp
     }
 }

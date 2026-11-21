@@ -270,26 +270,16 @@ def main():
         spoken = {}
         clip_root = dest / "clips"
         mp3_root = path.parent.parent / "audio"
-        absent = []
-        listed = 0
         for js in sorted(p for p in path.glob("*.js")):
             mapping = strokes(js.read_text())
-            kept = {}
-            for key, filename in mapping.items():
-                listed += 1
+            spoken[js.stem] = mapping
+            for filename in mapping.values():
                 src = mp3_root / js.stem / filename
                 if not src.is_file():
-                    absent.append(src)
-                    continue
-                kept[key] = filename
+                    raise SystemExit(f"Missing recording {src}")
                 target = clip_root / js.stem / filename
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(src, target)
-            spoken[js.stem] = kept
-        if absent and len(absent) == listed:
-            raise SystemExit(f"Missing recording {absent[0]}")
-        for src in absent:
-            print(f"Recording listed but not in the tree, so speech is used: {src}", file=sys.stderr)
         stem = lessons_name.removesuffix(".json")
         (dest / f"{stem}-audio.json").write_text(json.dumps(spoken, ensure_ascii=False))
 

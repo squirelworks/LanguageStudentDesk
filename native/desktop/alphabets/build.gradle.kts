@@ -27,7 +27,6 @@ java {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":ui:kana"))
-    implementation("javazoom:jlayer:1.0.1")
 }
 
 sourceSets.main.get().resources.srcDir(alphabetsAssets)

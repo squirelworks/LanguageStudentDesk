@@ -62,6 +62,8 @@ private sealed interface Screen {
     data class Flash(val scriptId: String, val keys: List<String>) : Screen
     data class Write(val scriptId: String, val keys: List<String>, val start: Int) : Screen
     data class Article(val scriptId: String, val index: Int) : Screen
+    data class Forms(val scriptId: String) : Screen
+    data class Builder(val scriptId: String) : Screen
     data object Settings : Screen
 }
 
@@ -225,6 +227,8 @@ fun KanaApp(
                         onChart = { open(Screen.Chart(screen.scriptId)) },
                         onPractice = { open(Screen.Choose(screen.scriptId, it)) },
                         onArticle = { open(Screen.Article(screen.scriptId, it)) },
+                        onForms = { open(Screen.Forms(screen.scriptId)) },
+                        onBuilder = { open(Screen.Builder(screen.scriptId)) },
                         onSettings = { open(Screen.Settings) },
                         onApps = openApps,
                     )
@@ -361,6 +365,23 @@ fun KanaApp(
                             ::back,
                         )
                     }
+                    is Screen.Forms -> {
+                        val script = scripts.first { it.id == screen.scriptId }
+                        val glyphs = script.lessons.filter { it.forms }.flatMap { lesson ->
+                            lesson.chars.filterNotNull().map { it.g }
+                        }
+                        FormsPage(
+                            script,
+                            onBack = ::back,
+                            onOpen = { glyph ->
+                                open(Screen.Detail(script.id, glyphs, glyphs.indexOf(glyph).coerceAtLeast(0)))
+                            },
+                        )
+                    }
+                    is Screen.Builder -> {
+                        val script = scripts.first { it.id == screen.scriptId }
+                        BuilderPage(script, onBack = ::back, onPlay = { play(script, it, false, "") })
+                    }
                     is Screen.Article -> {
                         val script = scripts.first { it.id == screen.scriptId }
                         val article = script.articles[screen.index]
@@ -471,7 +492,7 @@ private fun HomePage(
             Column(Modifier.fillMaxWidth().clickable { onOpen(script.id) }.padding(vertical = 12.dp)) {
                 if (scripts.size > 1 && script.native.isNotBlank()) {
                     InScriptDirection(script.dir) {
-                        Text(script.native, style = MaterialTheme.typography.titleLarge.forLang(script.lang))
+                        GlyphText(script.native, MaterialTheme.typography.titleLarge.forLang(script.lang), script.vertical)
                     }
                 }
                 Text(script.title, style = MaterialTheme.typography.titleLarge)
@@ -492,6 +513,8 @@ private fun ScriptPage(
     onChart: () -> Unit,
     onPractice: (String) -> Unit,
     onArticle: (Int) -> Unit,
+    onForms: () -> Unit,
+    onBuilder: () -> Unit,
     onSettings: () -> Unit,
     onApps: (() -> Unit)?,
 ) {
@@ -506,7 +529,7 @@ private fun ScriptPage(
         }
         if (script.native.isNotBlank()) {
             InScriptDirection(script.dir) {
-                Text(script.native, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
+                GlyphText(script.native, MaterialTheme.typography.bodyLarge.forLang(script.lang), script.vertical)
             }
         }
         if (script.blurb.isNotBlank()) Text(script.blurb)
@@ -526,12 +549,21 @@ private fun ScriptPage(
             TextButton(onClick = { onLesson(index) }, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.fillMaxWidth()) {
                     InScriptDirection(script.dir) {
-                        Text(items.take(5).joinToString(" ") { it.g }, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
+                        GlyphText(items.take(5).joinToString(" ") { it.g }, MaterialTheme.typography.bodyLarge.forLang(script.lang), script.vertical)
                     }
                     Text(lesson.title, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
                     if (lesson.note.isNotBlank()) Text(lesson.note)
                     if (items.isNotEmpty()) Text("$known of ${items.size}")
                 }
+            }
+        }
+        if (script.builder != null || script.nonJoining != null) {
+            Text("Tools", style = MaterialTheme.typography.titleMedium)
+            script.builder?.let { builder ->
+                TextButton(onClick = onBuilder, modifier = Modifier.fillMaxWidth()) { Text(builder.title) }
+            }
+            if (script.nonJoining != null) {
+                TextButton(onClick = onForms, modifier = Modifier.fillMaxWidth()) { Text("Letter forms table") }
             }
         }
         if (script.articles.isNotEmpty()) {
@@ -574,7 +606,7 @@ private fun LessonPage(
                         Modifier.weight(1f).clickable { onOpen(cell.g) }.padding(4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.headlineSmall.forLang(script.lang))
+                        GlyphText(cell.g, MaterialTheme.typography.headlineSmall.forLang(script.lang), script.vertical, color = masteryColor(stat))
                         if (progress.showRoman) Text(cell.r, style = MaterialTheme.typography.bodySmall)
                     }
                 }
@@ -618,7 +650,7 @@ private fun ChartPage(
                                 if (cell != null) {
                                     val stat = progress.stat("${script.id}|${cell.g}")
                                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { onOpen(cell.g) }) {
-                                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.titleLarge.forLang(script.lang))
+                                        GlyphText(cell.g, MaterialTheme.typography.titleLarge.forLang(script.lang), script.vertical, color = masteryColor(stat))
                                         if (progress.showRoman && cell.r.isNotBlank()) {
                                             Text(cell.r, style = MaterialTheme.typography.labelSmall)
                                         }
@@ -662,7 +694,29 @@ private fun DetailPage(
             Text(cell?.r ?: glyph, style = MaterialTheme.typography.titleLarge)
         }
         InScriptDirection(script.dir) {
-            Text(glyph, style = MaterialTheme.typography.displayLarge.forLang(script.lang))
+            GlyphText(glyph, MaterialTheme.typography.displayLarge.forLang(script.lang), script.vertical)
+        }
+        run {
+            val lesson = lessonOf(script, glyph)
+            val joining = script.nonJoining
+            if (joining != null && lesson != null && lesson.forms) {
+                val forms = letterForms(glyph, joining)
+                InScriptDirection("rtl") {
+                    Row(Modifier.fillMaxWidth()) {
+                        listOf(
+                            "isolated" to forms.isolated,
+                            "initial" to forms.initial,
+                            "medial" to forms.medial,
+                            "final" to forms.final,
+                        ).forEach { (name, shape) ->
+                            Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                                GlyphText(shape, MaterialTheme.typography.headlineMedium.forLang(script.lang), script.vertical)
+                                Text(name, style = MaterialTheme.typography.labelSmall)
+                            }
+                        }
+                    }
+                }
+            }
         }
         if (!cell?.ipa.isNullOrBlank()) Text("/${cell.ipa.orEmpty()}/")
         if (!cell?.hint.isNullOrBlank()) Text(cell?.hint.orEmpty())
@@ -708,6 +762,8 @@ private fun scriptOn(scripts: List<KanaScript>, screen: Screen): KanaScript? {
         is Screen.Flash -> screen.scriptId
         is Screen.Write -> screen.scriptId
         is Screen.Article -> screen.scriptId
+        is Screen.Forms -> screen.scriptId
+        is Screen.Builder -> screen.scriptId
         Screen.Home, Screen.Settings -> null
     }
     return scripts.firstOrNull { it.id == id }
