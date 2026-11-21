@@ -7,6 +7,7 @@ import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
 import com.squirelworks.lsd.core.suite.noteGroups
 import com.squirelworks.lsd.core.suite.otherApps
+import com.squirelworks.lsd.core.suite.desktopReleasePage
 import com.squirelworks.lsd.core.suite.releaseUrl
 import com.squirelworks.lsd.core.suite.resourceList
 import kotlin.test.Test
@@ -52,6 +53,15 @@ class SuiteTest {
             releaseUrl(ready.copy(tag = "v1", apk = "App.apk")),
         )
         assertNull(releaseUrl(ready.copy(tag = "", apk = "")))
+        assertEquals(
+            "https://github.com/squirelworks/LanguageStudentDesk/releases/latest",
+            desktopReleasePage(ready),
+        )
+        assertEquals(
+            "https://github.com/squirelworks/LanguageStudentDesk/releases/tag/squirrelgo-v0.1.5",
+            desktopReleasePage(ready.copy(tag = "squirrelgo-v0.1.5")),
+        )
+        assertNull(desktopReleasePage(ready.copy(tag = "")))
     }
 
     @Test
