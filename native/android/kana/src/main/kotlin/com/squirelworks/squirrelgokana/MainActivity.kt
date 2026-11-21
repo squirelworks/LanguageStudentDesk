@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity() {
     private var player: MediaPlayer? = null
     private var voice: TextToSpeech? = null
     @Volatile private var engineState = EngineState.Starting
+    private val languageAvailable = HashMap<String, Boolean>()
+    private var appliedLanguage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,6 @@ class MainActivity : ComponentActivity() {
                 initialQuery = query,
                 intro = copy.intro,
                 about = copy.about,
-                onLookup = ::openDictionary,
                 canSpeak = true,
                 suite = suite,
                 suiteId = "kana",
@@ -83,6 +84,8 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         installed = installedNow()
+        languageAvailable.clear()
+        appliedLanguage = null
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -129,19 +132,27 @@ class MainActivity : ComponentActivity() {
             EngineState.Failed -> return SpeechOutcome.Missing
             EngineState.Ready -> Unit
         }
-        val locale = Locale.forLanguageTag(lang)
-        if (engine.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) {
+        if (!cachedLanguage(engine, lang)) {
             engine.stop()
             return SpeechOutcome.Missing
         }
         engine.setSpeechRate(rate)
-        if (lang.isNotBlank() && engine.setLanguage(locale) < TextToSpeech.LANG_AVAILABLE) {
-            engine.stop()
-            return SpeechOutcome.Missing
+        if (appliedLanguage != lang) {
+            if (lang.isNotBlank() && engine.setLanguage(Locale.forLanguageTag(lang)) < TextToSpeech.LANG_AVAILABLE) {
+                languageAvailable[lang] = false
+                engine.stop()
+                return SpeechOutcome.Missing
+            }
+            appliedLanguage = lang
         }
         val spoken = engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kana")
         return if (spoken == TextToSpeech.ERROR) SpeechOutcome.Pending else SpeechOutcome.Spoken
     }
+
+    private fun cachedLanguage(engine: TextToSpeech, lang: String): Boolean =
+        languageAvailable.getOrPut(lang) {
+            lang.isBlank() || engine.isLanguageAvailable(Locale.forLanguageTag(lang)) >= TextToSpeech.LANG_AVAILABLE
+        }
 
     private fun installedNow(): Set<String> = suitePackages.filter { launchIntentFor(it) != null }.toSet()
 
@@ -150,8 +161,9 @@ class MainActivity : ComponentActivity() {
         return debug ?: packageManager.getLaunchIntentForPackage(pkg)
     }
 
-    private fun launchApp(app: SuiteApp): Boolean {
+    private fun launchApp(app: SuiteApp, query: String): Boolean {
         val launch = launchIntentFor(app.pkg) ?: return false
+        if (query.isNotBlank()) launch.putExtra(EXTRA_QUERY, query)
         launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         return try {
             startActivity(launch)
@@ -165,17 +177,6 @@ class MainActivity : ComponentActivity() {
         if (!url.startsWith("https://")) return
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-        } catch (_: ActivityNotFoundException) {
-        }
-    }
-
-    private fun openDictionary(text: String) {
-        val launch = packageManager.getLaunchIntentForPackage("com.squirelworks.squirrelgodictionary.debug")
-            ?: packageManager.getLaunchIntentForPackage("com.squirelworks.squirrelgodictionary")
-            ?: return
-        launch.putExtra(EXTRA_QUERY, text)
-        try {
-            startActivity(launch)
         } catch (_: ActivityNotFoundException) {
         }
     }

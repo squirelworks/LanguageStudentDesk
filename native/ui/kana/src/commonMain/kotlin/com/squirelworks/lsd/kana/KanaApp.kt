@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.suite.KanaBack
+import com.squirelworks.lsd.core.suite.DictionaryLookup
 import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.core.suite.dictionaryLookup
 import com.squirelworks.lsd.core.suite.kanaBack
 import com.squirelworks.lsd.core.trainer.mastered
 import com.squirelworks.lsd.core.trainer.needsReview
@@ -73,12 +75,11 @@ fun KanaApp(
     initialQuery: String? = null,
     intro: String = "",
     about: String = "",
-    onLookup: ((String) -> Unit)? = null,
     canSpeak: Boolean = false,
     suite: SuiteFile? = null,
     suiteId: String = "",
     installedPackages: Set<String>? = null,
-    onLaunchApp: (SuiteApp) -> Boolean = { false },
+    onLaunchApp: (SuiteApp, String) -> Boolean = { _, _ -> false },
     onOpenUrl: (String) -> Unit = {},
     onStopAudio: () -> Unit = {},
 ) {
@@ -89,8 +90,25 @@ fun KanaApp(
     var quizCount by remember { mutableIntStateOf(10) }
     var showSuite by remember { mutableStateOf(false) }
     var suiteNotice by remember { mutableStateOf("") }
-    var voiceNotice by remember { mutableStateOf("") }
-    var voiceNoticeTick by remember { mutableIntStateOf(0) }
+    var toastText by remember { mutableStateOf("") }
+    var toastTick by remember { mutableIntStateOf(0) }
+    fun showToast(message: String) {
+        toastText = message
+        toastTick++
+    }
+    fun lookupWord(text: String) {
+        val app = suite?.apps?.firstOrNull { it.id == "dictionary" } ?: return
+        fun follow(step: DictionaryLookup) {
+            val browse = step as? DictionaryLookup.Browse ?: return
+            if (browse.url.isNotBlank()) onOpenUrl(browse.url)
+            if (browse.notice.isNotBlank()) showToast(browse.notice)
+        }
+        when (val step = dictionaryLookup(app, installedPackages)) {
+            DictionaryLookup.None -> Unit
+            DictionaryLookup.Launch -> if (!onLaunchApp(app, text)) follow(dictionaryLookup(app, emptySet()))
+            is DictionaryLookup.Browse -> follow(step)
+        }
+    }
     var dialogOpen by remember { mutableStateOf(false) }
     var closeDialog by remember { mutableStateOf<() -> Unit>({ }) }
     val openApps = if (suite == null) null else ({ showSuite = true })
@@ -126,8 +144,7 @@ fun KanaApp(
         val file = clips[script.id]?.get(text)
         if (file != null) playClip("clips/${script.id}/$file", rate)
         else if (speakFallback(text, rate, script.lang) == SpeechOutcome.Missing) {
-            voiceNotice = missingVoiceNotice(script.langName)
-            voiceNoticeTick++
+            showToast(missingVoiceNotice(script.langName))
         }
     }
     fun glyphs(keys: List<String>, script: KanaScript) =
@@ -176,7 +193,7 @@ fun KanaApp(
                             val refs = lessonGlyphs(script).filter { it.glyph in detail.glyphs }
                             open(Screen.Write(script.id, refs.map { it.key }, detail.index.coerceIn(0, refs.lastIndex.coerceAtLeast(0))))
                         },
-                        onLookup = onLookup,
+                        onLookup = if (script.lang == "ja-JP") ::lookupWord else null,
                         onStep = ::stepDetail,
                         modifier = Modifier.weight(1f),
                     )
@@ -242,7 +259,7 @@ fun KanaApp(
                                 val start = refs.indexOfFirst { it.glyph == screen.glyphs.getOrNull(screen.index) }.coerceAtLeast(0)
                                 open(Screen.Write(script.id, refs.map { it.key }, start))
                             },
-                            onLookup,
+                            if (script.lang == "ja-JP") ::lookupWord else null,
                             ::stepDetail,
                             Modifier.fillMaxSize(),
                         )
@@ -361,13 +378,13 @@ fun KanaApp(
                 }
             }
         }
-        if (voiceNotice.isNotBlank()) {
-            LaunchedEffect(voiceNoticeTick) {
+        if (toastText.isNotBlank()) {
+            LaunchedEffect(toastTick) {
                 kotlinx.coroutines.delay(2_800)
-                voiceNotice = ""
+                toastText = ""
             }
             Text(
-                voiceNotice,
+                toastText,
                 color = MaterialTheme.colorScheme.inverseOnSurface,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -386,7 +403,7 @@ fun KanaApp(
                 notice = suiteNotice,
                 onOpen = { app ->
                     showSuite = false
-                    suiteNotice = openSuiteApp(app, installedPackages, onLaunchApp, onOpenUrl)
+                    suiteNotice = openSuiteApp(app, installedPackages, { chosen -> onLaunchApp(chosen, "") }, onOpenUrl)
                     if (suiteNotice.isNotBlank()) showSuite = true
                 },
                 onUrl = onOpenUrl,
@@ -611,7 +628,7 @@ private fun DetailPage(
             val gloss = listOf(cell?.exR.orEmpty(), cell?.exM.orEmpty()).filter { it.isNotBlank() }.joinToString(" · ")
             if (gloss.isNotBlank()) Text(gloss)
             Button(onClick = { onPlay(example, false) }) { Text("Play example") }
-            if (onLookup != null && script.lang.startsWith("ja")) {
+            if (onLookup != null && script.lang == "ja-JP") {
                 Button(onClick = { onLookup(example) }) { Text("Look up $example in the Dictionary") }
             }
         }

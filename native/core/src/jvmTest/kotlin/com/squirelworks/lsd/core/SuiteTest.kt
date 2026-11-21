@@ -10,7 +10,9 @@ import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
 import com.squirelworks.lsd.core.suite.noteGroups
 import com.squirelworks.lsd.core.suite.otherApps
+import com.squirelworks.lsd.core.suite.DictionaryLookup
 import com.squirelworks.lsd.core.suite.desktopReleasePage
+import com.squirelworks.lsd.core.suite.dictionaryLookup
 import com.squirelworks.lsd.core.suite.releaseUrl
 import com.squirelworks.lsd.core.suite.resourceList
 import kotlin.test.Test
@@ -77,6 +79,30 @@ class SuiteTest {
         assertEquals(SuiteAction.Open, suiteAction(bopomofo, setOf(bopomofo.pkg)))
         assertEquals(SuiteAction.Get, suiteAction(ready, emptySet()))
         assertEquals(SuiteAction.Open, suiteAction(ready, null))
+    }
+
+    @Test
+    fun aDictionaryLookupLaunchesTheInstalledAppOrOpensItsDownload() {
+        val dictionary = SuiteApp(
+            "dictionary",
+            "SquirrelGo Dictionary",
+            pkg = "com.squirelworks.squirrelgodictionary",
+            tag = "latest",
+            apk = "SquirrelGoJapaneseDictionary.apk",
+        )
+        assertEquals(DictionaryLookup.Launch, dictionaryLookup(dictionary, setOf(dictionary.pkg)))
+        assertEquals(
+            DictionaryLookup.Browse(
+                "https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoJapaneseDictionary.apk",
+                "SquirrelGo Dictionary isn't installed yet. Opening its download page.",
+            ),
+            dictionaryLookup(dictionary, emptySet()),
+        )
+        assertEquals(
+            DictionaryLookup.Browse("https://github.com/squirelworks/LanguageStudentDesk/releases/latest", ""),
+            dictionaryLookup(dictionary, null),
+        )
+        assertEquals(DictionaryLookup.None, dictionaryLookup(dictionary.copy(tag = "", apk = ""), emptySet()))
     }
 
     @Test
