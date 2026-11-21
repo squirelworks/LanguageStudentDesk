@@ -158,6 +158,9 @@ def generator_inputs(build_text):
             paths.append(audio)
             # The catalog task also reads the mp3 directory next to www/data.
             paths.append(str(Path(audio).parent.parent / "audio"))
+        for extra in strings[5:]:
+            if extra:
+                paths.append(extra)
         found[name] = paths
     lang = re.search(r'file\("(\.\./[^"]+)"\)', build_text)
     if lang and "generateLanguageCatalog" in build_text:
