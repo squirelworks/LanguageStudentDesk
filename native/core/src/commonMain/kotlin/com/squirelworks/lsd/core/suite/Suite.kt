@@ -39,6 +39,22 @@ fun releaseUrl(app: SuiteApp): String? {
     return RELEASES + path
 }
 
+enum class SuiteAction { Open, Get, None }
+
+// Get only when there is a real download. An app with no release tag stays
+// on the list, with no button and no claim that a download is opening.
+fun suiteAction(app: SuiteApp, installed: Set<String>?): SuiteAction {
+    val desktop = installed == null
+    val destination = if (desktop) desktopReleasePage(app) else releaseUrl(app)
+    val here = !desktop && app.pkg in installed.orEmpty()
+    return when {
+        here -> SuiteAction.Open
+        desktop && destination != null -> SuiteAction.Open
+        destination != null -> SuiteAction.Get
+        else -> SuiteAction.None
+    }
+}
+
 // Desktop Open uses the release page, where the desktop packages are attached,
 // rather than the Android package named in the suite file.
 fun desktopReleasePage(app: SuiteApp): String? {

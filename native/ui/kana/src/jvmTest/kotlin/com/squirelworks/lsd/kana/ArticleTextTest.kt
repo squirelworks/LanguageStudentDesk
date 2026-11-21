@@ -38,4 +38,17 @@ class ArticleTextTest {
         assertEquals("https://github.com/squirelworks/LanguageStudentDesk/releases/latest", opened)
         assertTrue(!opened.endsWith(".apk"))
     }
+
+    @Test
+    fun anAppWithNoDownloadDoesNotClaimOneIsOpening() {
+        var opened = ""
+        val notice = openSuiteApp(
+            SuiteApp("bopomofo", "SquirrelGo Bopomofo", pkg = "com.squirelworks.squirrelgobopomofo"),
+            installed = emptySet(),
+            launch = { false },
+            browse = { opened = it },
+        )
+        assertEquals("", notice)
+        assertEquals("", opened)
+    }
 }

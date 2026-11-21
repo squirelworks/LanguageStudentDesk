@@ -26,8 +26,10 @@ import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
 import com.squirelworks.lsd.core.suite.noteGroups
 import com.squirelworks.lsd.core.suite.otherApps
+import com.squirelworks.lsd.core.suite.SuiteAction
 import com.squirelworks.lsd.core.suite.desktopReleasePage
 import com.squirelworks.lsd.core.suite.releaseUrl
+import com.squirelworks.lsd.core.suite.suiteAction
 import com.squirelworks.lsd.core.suite.resourceList
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -72,14 +74,16 @@ fun SuiteSheet(
             }
             Text("Apps", style = MaterialTheme.typography.titleMedium)
             otherApps(selfId, file.apps).forEach { app ->
-                val have = installed == null || app.pkg in installed
+                val action = suiteAction(app, installed)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(app.icon, style = MaterialTheme.typography.titleLarge)
                     Column(Modifier.weight(1f)) {
                         Text(app.name)
                         if (app.blurb.isNotBlank()) Text(app.blurb, style = MaterialTheme.typography.bodySmall)
                     }
-                    Button(onClick = { onOpen(app) }) { Text(if (have) "Open" else "Get") }
+                    if (action != SuiteAction.None) {
+                        Button(onClick = { onOpen(app) }) { Text(if (action == SuiteAction.Open) "Open" else "Get") }
+                    }
                 }
             }
             val groups = noteGroups(langs, file.langNames, file.notes)
@@ -124,6 +128,9 @@ fun openSuiteApp(
     }
     val url = releaseUrl(app)
     if (app.pkg in installed && launch(app)) return ""
-    if (url != null) browse(url)
-    return "${app.name} isn't installed yet. Opening its download page."
+    if (url != null) {
+        browse(url)
+        return "${app.name} isn't installed yet. Opening its download page."
+    }
+    return ""
 }
