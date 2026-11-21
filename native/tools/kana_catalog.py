@@ -77,17 +77,19 @@ def strokes(text):
 
 
 def main():
-    root = pathlib.Path(sys.argv[1])
-    dest = pathlib.Path(sys.argv[2])
-    lessons = (root / "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/kana.js").read_text()
-    stroke_dir = root / "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/data/strokes"
+    lessons_path = pathlib.Path(sys.argv[1])
+    stroke_dir = pathlib.Path(sys.argv[2])
+    dest = pathlib.Path(sys.argv[3])
+    lessons_name = sys.argv[4]
+    strokes_name = sys.argv[5]
     tables = {}
     for path in sorted(stroke_dir.glob("*.js")):
-        key = path.stem
-        tables[key] = strokes(path.read_text())
+        tables[path.stem] = strokes(path.read_text())
+    if not tables:
+        raise SystemExit(f"No stroke files in {stroke_dir}")
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / "kana.json").write_text(json.dumps(scripts(lessons), ensure_ascii=False))
-    (dest / "kana-strokes.json").write_text(json.dumps(tables, ensure_ascii=False))
+    (dest / lessons_name).write_text(json.dumps(scripts(lessons_path.read_text()), ensure_ascii=False))
+    (dest / strokes_name).write_text(json.dumps(tables, ensure_ascii=False))
 
 
 if __name__ == "__main__":

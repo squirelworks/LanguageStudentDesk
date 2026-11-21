@@ -40,6 +40,7 @@ private sealed interface Screen {
 
 @Composable
 fun KanaApp(
+    title: String,
     scripts: List<KanaScript>,
     strokes: Map<String, Map<String, List<String>>>,
     dark: Boolean,
@@ -72,7 +73,7 @@ fun KanaApp(
                 }
             } else {
                 when (screen) {
-                    Screen.Home -> HomePage(scripts) { open(Screen.Chart(it)) }
+                    Screen.Home -> HomePage(title, scripts) { open(Screen.Chart(it)) }
                     is Screen.Chart -> ChartPage(
                         scripts.first { it.id == screen.scriptId },
                         onBack = ::back,
@@ -93,9 +94,9 @@ fun KanaApp(
 }
 
 @Composable
-private fun HomePage(scripts: List<KanaScript>, onOpen: (String) -> Unit) {
+private fun HomePage(title: String, scripts: List<KanaScript>, onOpen: (String) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("SquirrelGo Kana", style = MaterialTheme.typography.headlineSmall)
+        Text(title, style = MaterialTheme.typography.headlineSmall)
         scripts.forEach { script ->
             Column(
                 Modifier.fillMaxWidth().clickable { onOpen(script.id) }.padding(vertical = 12.dp),

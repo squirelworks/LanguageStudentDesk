@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         val scripts = parseKanaScripts(assets.open("kana.json").bufferedReader().use { it.readText() })
         val strokes = parseKanaStrokes(assets.open("kana-strokes.json").bufferedReader().use { it.readText() })
         setContent {
-            KanaApp(scripts, strokes, isSystemInDarkTheme())
+            KanaApp("SquirrelGo Kana", scripts, strokes, isSystemInDarkTheme())
         }
     }
 }

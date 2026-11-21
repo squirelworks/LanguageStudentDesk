@@ -12,6 +12,6 @@ fun main() = application {
     val scripts = parseKanaScripts(loader.getResource("kana.json")!!.readText())
     val strokes = parseKanaStrokes(loader.getResource("kana-strokes.json")!!.readText())
     Window(onCloseRequest = ::exitApplication, title = "SquirrelGo Kana") {
-        KanaApp(scripts, strokes, isSystemInDarkTheme())
+        KanaApp("SquirrelGo Kana", scripts, strokes, isSystemInDarkTheme())
     }
 }
