@@ -46,10 +46,9 @@ tasks.register("checkDeskPages") {
     doLast {
         val binaries = layout.buildDirectory.dir("compose/binaries").get().asFile
         val menu = binaries.walkTopDown().firstOrNull { file ->
-            file.isFile && file.invariantSeparatorsPath.endsWith("/www/index.html")
-        } ?: error("The desktop package has no www/index.html")
-        val learner = File(menu.parentFile, "klingon/index.html")
-        if (!learner.isFile) error("The desktop package has no learner page at ${learner.path}")
+            file.isFile && file.name == "index.html" && file.parentFile?.name == "www" &&
+                File(file.parentFile, "klingon/index.html").isFile
+        } ?: error("The desktop package has no www/index.html with the Klingon learner beside it")
     }
 }
 
