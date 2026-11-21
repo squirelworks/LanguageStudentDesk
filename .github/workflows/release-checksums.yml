@@ -1,0 +1,55 @@
+name: Release checksums
+
+# Rewrites SHA256SUMS.txt over every asset on one release. An AAB is never
+# hashed. Callers that attach files after the draft's checksum job share one
+# queue, so the later rewrite includes the earlier one's files.
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Release whose checksums to rewrite"
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  checksums:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release-checksums-${{ inputs.tag }}
+      cancel-in-progress: false
+    env:
+      TAG: ${{ inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Rewrite SHA256SUMS.txt
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release download "$TAG" --dir dist --repo "$GITHUB_REPOSITORY"
+          shopt -s nullglob
+          aabs=()
+          files=()
+          for f in dist/*; do
+            name=${f#dist/}
+            case "$name" in
+              *.aab) aabs+=("$name") ;;
+              SHA256SUMS.txt) ;;
+              *) files+=("$name") ;;
+            esac
+          done
+          if [ "${#aabs[@]}" -gt 0 ]; then
+            echo "::error::an AAB is never included in SHA256SUMS.txt: ${aabs[*]}"
+            exit 1
+          fi
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::release $TAG has no assets to checksum"
+            exit 1
+          fi
+          mapfile -t files < <(printf '%s\n' "${files[@]}" | LC_ALL=C sort)
+          (cd dist && sha256sum -- "${files[@]}") > "$RUNNER_TEMP/SHA256SUMS.txt"
+          mv "$RUNNER_TEMP/SHA256SUMS.txt" dist/SHA256SUMS.txt
+          cat dist/SHA256SUMS.txt
+          gh release upload "$TAG" dist/SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
