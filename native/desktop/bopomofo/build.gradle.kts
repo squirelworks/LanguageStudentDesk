@@ -7,7 +7,9 @@ plugins {
 }
 
 val bopomofoAssets = rootProject.layout.buildDirectory.dir("generated-bopomofo").get().asFile
-val webview = webviewVersionAbove(
+val appVersion = readAppVersion(rootProject.file("versions/bopomofo.properties"))
+requireNewerThanWebView(
+    appVersion,
     rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/android/app/build.gradle"),
 )
 
@@ -45,7 +47,7 @@ compose.desktop {
             }
             targetFormats(*formats.toTypedArray())
             packageName = "SquirrelGoBopomofo"
-            packageVersion = webview.name
+            packageVersion = appVersion.versionName
             description = "SquirrelGo Bopomofo"
             vendor = "SquirrelWorks"
         }

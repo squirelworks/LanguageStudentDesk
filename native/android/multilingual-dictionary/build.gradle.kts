@@ -5,6 +5,10 @@ plugins {
 }
 
 val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val appVersion = readAppVersion(rootProject.file("versions/multilingual-dictionary.properties"))
+base {
+    archivesName.set("SquirrelGoMultilingualDictionary-${appVersion.versionName}")
+}
 val catalogDir = rootProject.layout.buildDirectory.dir("generated-catalog").get().asFile
 
 kotlin {
@@ -20,8 +24,8 @@ android {
         applicationId = "com.squirelworks.squirrelgomultidictionary"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = appVersion.versionCode
+        versionName = appVersion.versionName
     }
     signingConfigs {
         getByName("debug") {

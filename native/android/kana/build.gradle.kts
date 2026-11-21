@@ -13,9 +13,14 @@ kotlin {
     }
 }
 
-val webview = webviewVersionAbove(
+val appVersion = readAppVersion(rootProject.file("versions/kana.properties"))
+requireNewerThanWebView(
+    appVersion,
     rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/android/app/build.gradle"),
 )
+base {
+    archivesName.set("SquirrelGoKana-${appVersion.versionName}")
+}
 
 android {
     namespace = "com.squirelworks.squirrelgokana"
@@ -24,8 +29,8 @@ android {
         applicationId = "com.squirelworks.squirrelgokana"
         minSdk = 24
         targetSdk = 36
-        versionCode = webview.code
-        versionName = webview.name
+        versionCode = appVersion.versionCode
+        versionName = appVersion.versionName
     }
     signingConfigs {
         getByName("debug") {
