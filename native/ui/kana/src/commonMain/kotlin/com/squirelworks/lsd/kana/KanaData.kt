@@ -13,6 +13,8 @@ data class KanaScript(
     val native: String = "",
     val lang: String = "",
     val langName: String = "",
+    val dir: String = "ltr",
+    val chartFlow: Boolean = false,
     val blurb: String = "",
     val tagline: String = "",
     val accent: String = "",
@@ -88,9 +90,9 @@ data class KanaCopy(val name: String = "", val tagline: String = "", val intro: 
 
 fun parseKanaCopy(text: String): KanaCopy = json.decodeFromString(text)
 
-// The chart keeps each lesson on its own rows. A short lesson is padded so the
-// next lesson starts on a new row. The column count is the one the group
-// started with.
+// A chart that flows keeps lessons in one run. Otherwise a short lesson is
+// padded so the next one starts on a new row. The column count is the one
+// the group started with.
 fun chartGroups(script: KanaScript): List<ChartGroup> {
     val groups = linkedMapOf<String, MutableList<KanaLesson>>()
     for (lesson in script.lessons) {
@@ -99,7 +101,7 @@ fun chartGroups(script: KanaScript): List<ChartGroup> {
     return groups.map { (name, lessons) ->
         val cols = lessons.first().cols.coerceAtLeast(1)
         val cells = lessons.flatMap { lesson ->
-            val pad = (cols - lesson.chars.size % cols) % cols
+            val pad = if (script.chartFlow) 0 else (cols - lesson.chars.size % cols) % cols
             lesson.chars + List(pad) { null }
         }
         ChartGroup(name, cols, cells)

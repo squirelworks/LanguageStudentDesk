@@ -152,8 +152,10 @@ def generator_inputs(build_text):
         if len(strings) < 4:
             continue
         name, lessons, strokes = strings[0], strings[1], strings[2]
-        paths = [lessons, strokes, str(Path(lessons).parent / "app.js")]
-        paths.append(str(Path(lessons).parent.parent / "css" / "app.css"))
+        lesson = Path(lessons)
+        data_dir = lesson if lesson.suffix == "" else lesson.parent
+        paths = [lessons, strokes, str(data_dir / "app.js")]
+        paths.append(str(data_dir.parent / "css" / "app.css"))
         if len(strings) > 4 and strings[4]:
             audio = strings[4]
             paths.append(audio)

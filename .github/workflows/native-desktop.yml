@@ -47,7 +47,7 @@ jobs:
         run: |
           if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > local.properties; fi
           chmod +x gradlew
-          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS
+          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS
       - name: Release APKs
         if: runner.os == 'Linux'
         shell: bash

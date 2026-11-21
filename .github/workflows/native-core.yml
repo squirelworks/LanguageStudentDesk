@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin
+          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin
       - name: Kana and Bopomofo release APKs stay on the debug key
         working-directory: native
         run: bash tools/check_kana_release_signature.sh
