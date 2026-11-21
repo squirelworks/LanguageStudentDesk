@@ -40,7 +40,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.core.speech.SpeechOutcome
@@ -549,11 +553,20 @@ private fun QuizPage(
             option == quiz.lastChoice -> Color(0xFFC62828)
             else -> MaterialTheme.colorScheme.secondaryContainer
         }
+        val content = when {
+            quiz.answered && (option == question.answer || option == quiz.lastChoice) -> Color.White
+            else -> MaterialTheme.colorScheme.onSecondaryContainer
+        }
         Button(
             onClick = { onChoose(option) },
             enabled = !quiz.answered,
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = color),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = color,
+                contentColor = content,
+                disabledContainerColor = color,
+                disabledContentColor = content,
+            ),
         ) { Text(option) }
     }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -662,11 +675,32 @@ private fun WordsBlock(
     val line = bundle.sentences[item.char]
     if (sentence && line != null) {
         Text("Example sentence", style = MaterialTheme.typography.titleMedium)
-        Text(line.japanese)
+        MarkedKanji(line.japanese, item.char)
         TextButton(onClick = { onSpeak(line.japanese) }) { Text("Play sentence") }
         Text(line.english)
         Text("Tatoeba sentence #${line.id} (CC BY 2.0 FR)", style = MaterialTheme.typography.bodySmall)
     }
+}
+
+@Composable
+private fun MarkedKanji(text: String, kanji: String) {
+    if (kanji.isEmpty() || !text.contains(kanji)) {
+        Text(text)
+        return
+    }
+    val parts = text.split(kanji)
+    Text(
+        buildAnnotatedString {
+            parts.forEachIndexed { index, part ->
+                append(part)
+                if (index < parts.lastIndex) {
+                    withStyle(SpanStyle(background = Color(0xFFFFF3B0), fontWeight = FontWeight.Bold)) {
+                        append(kanji)
+                    }
+                }
+            }
+        },
+    )
 }
 
 @Composable
@@ -684,7 +718,7 @@ private fun StrokePanel(figure: StrokeFigure?, onOpenUrl: (String) -> Unit) {
         Text("No stroke-order data for this character.")
         return
     }
-    var play by remember(figure) { mutableStateOf(false) }
+    var play by remember(figure) { mutableStateOf(true) }
     var replay by remember(figure) { mutableIntStateOf(0) }
     var step by remember(figure) { mutableIntStateOf(figure.paths.size) }
     var numbers by remember(figure) { mutableStateOf(false) }

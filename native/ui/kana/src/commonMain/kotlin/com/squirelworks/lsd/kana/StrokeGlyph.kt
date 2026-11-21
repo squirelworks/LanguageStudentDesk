@@ -19,7 +19,33 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
+import com.squirelworks.lsd.core.strokes.StrokeSegment
 import com.squirelworks.lsd.core.strokes.Strokes
+
+fun strokePath(d: String, scale: Float): Path {
+    val path = Path()
+    for (seg in Strokes.segments(d)) {
+        when (seg) {
+            is StrokeSegment.Move -> path.moveTo((seg.x * scale).toFloat(), (seg.y * scale).toFloat())
+            is StrokeSegment.Line -> path.lineTo((seg.x * scale).toFloat(), (seg.y * scale).toFloat())
+            is StrokeSegment.Quad -> path.quadraticTo(
+                (seg.cx * scale).toFloat(),
+                (seg.cy * scale).toFloat(),
+                (seg.x * scale).toFloat(),
+                (seg.y * scale).toFloat(),
+            )
+            is StrokeSegment.Cubic -> path.cubicTo(
+                (seg.c1x * scale).toFloat(),
+                (seg.c1y * scale).toFloat(),
+                (seg.c2x * scale).toFloat(),
+                (seg.c2y * scale).toFloat(),
+                (seg.x * scale).toFloat(),
+                (seg.y * scale).toFloat(),
+            )
+        }
+    }
+    return path
+}
 
 @Composable
 fun StrokeGlyph(
@@ -66,44 +92,20 @@ fun StrokeGlyph(
             drawLine(Color(0xFFD9D3C5), Offset(size.width / 2f, 0f), Offset(size.width / 2f, size.height), strokeWidth = 1f)
             drawLine(Color(0xFFD9D3C5), Offset(0f, size.height / 2f), Offset(size.width, size.height / 2f), strokeWidth = 1f)
         }
-        fun pathOf(d: String): Path {
-            val path = Path()
-            val toks = Regex("""[MLQ]|-?[\d.]+""").findAll(d).map { it.value }.toList()
-            var cmd: String? = null
-            var i = 0
-            while (i < toks.size) {
-                if (toks[i].length == 1 && toks[i][0] in "MLQ") cmd = toks[i++]
-                if (cmd == "Q") {
-                    path.quadraticTo(
-                        toks[i].toFloat() * scale,
-                        toks[i + 1].toFloat() * scale,
-                        toks[i + 2].toFloat() * scale,
-                        toks[i + 3].toFloat() * scale,
-                    )
-                    i += 4
-                } else {
-                    val x = toks[i].toFloat() * scale
-                    val y = toks[i + 1].toFloat() * scale
-                    if (cmd == "M") path.moveTo(x, y) else path.lineTo(x, y)
-                    i += 2
-                }
-            }
-            return path
-        }
         val ink = Stroke(width = 7f, cap = StrokeCap.Round, join = StrokeJoin.Round)
         val ghost = if (highlightLast) paths.take(end) else paths
-        ghost.forEach { drawPath(pathOf(it), Color(0xFFD9D3C5), style = ink) }
+        ghost.forEach { drawPath(strokePath(it, scale), Color(0xFFD9D3C5), style = ink) }
         val full = shown.toInt().coerceIn(0, paths.size)
         val solidEnd = if (highlightLast && !play) (end - 1).coerceAtLeast(0) else full
-        for (i in 0 until solidEnd) drawPath(pathOf(paths[i]), Color(0xFF2C2416), style = ink)
+        for (i in 0 until solidEnd) drawPath(strokePath(paths[i], scale), Color(0xFF2C2416), style = ink)
         if (highlightLast && !play && end > 0) {
-            drawPath(pathOf(paths[end - 1]), Color(0xFF1F4F8A), style = ink)
+            drawPath(strokePath(paths[end - 1], scale), Color(0xFF1F4F8A), style = ink)
         }
         val frac = shown - full
         if (full < paths.size && frac > 0f) {
             val len = (lengths[full] * scale).toFloat().coerceAtLeast(1f)
             drawPath(
-                pathOf(paths[full]),
+                strokePath(paths[full], scale),
                 Color(0xFF2C2416),
                 style = Stroke(
                     width = ink.width,
