@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+
 package com.squirelworks.lsd.desk
 
 import androidx.compose.foundation.background
@@ -13,7 +15,13 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.darkColorScheme
@@ -34,17 +42,10 @@ import com.squirelworks.lsd.core.desk.DeskSettings
 import com.squirelworks.lsd.core.desk.deskLabel
 import com.squirelworks.lsd.core.desk.sortDeskLanguages
 import com.squirelworks.lsd.core.languages.FavoriteLanguages
-import com.squirelworks.lsd.kana.EscapeBackEffect
-import com.squirelworks.lsd.kana.PlatformBackHandler
-
 private val gold = Color(0xFFFFD54F)
 private val paper = Color(0xFF0F0F12)
 
-private sealed interface DeskPage {
-    data object Home : DeskPage
-    data class Learner(val learner: DeskLearner, val selection: String) : DeskPage
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeskApp(
     catalog: DeskCatalog,
@@ -52,9 +53,9 @@ fun DeskApp(
     favorites: FavoriteLanguages,
     onSettings: (DeskSettings) -> Unit,
     onFavorites: (FavoriteLanguages) -> Unit,
+    onOpenLearner: (DeskLearner, String) -> Unit,
 ) {
     val rules = remember(catalog) { DeskRules(catalog) }
-    var page by remember { mutableStateOf<DeskPage>(DeskPage.Home) }
     var tab by remember { mutableStateOf("tools") }
     var selection by remember { mutableStateOf("") }
     var favoriteIds by remember { mutableStateOf(favorites.ids()) }
@@ -63,34 +64,32 @@ fun DeskApp(
         favoriteIds = favorites.ids()
         onFavorites(favorites)
     }
-    val backEnabled = page !is DeskPage.Home
-    fun back() {
-        if (page !is DeskPage.Home) page = DeskPage.Home
-    }
-    PlatformBackHandler(backEnabled, ::back)
-    EscapeBackEffect(backEnabled, ::back)
-    MaterialTheme(colorScheme = darkColorScheme(primary = gold, background = paper)) {
-        Column(
-            Modifier.fillMaxSize().background(paper).windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            when (val current = page) {
-                DeskPage.Home -> Home(
+    val colors = darkColorScheme(
+        primary = gold,
+        background = paper,
+        surface = paper,
+        onBackground = Color(0xFFE8E8E8),
+        onSurface = Color(0xFFE8E8E8),
+        onSurfaceVariant = Color(0xFFAAAAAA),
+    )
+    MaterialTheme(colorScheme = colors) {
+        Surface(Modifier.fillMaxSize(), color = paper, contentColor = Color(0xFFAAAAAA)) {
+            Column(
+                Modifier.fillMaxSize().background(paper).windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Home(
                     catalog, rules, settings, favoriteIds, ::toggleFavorite, tab, selection,
                     onTab = { tab = it },
                     onSelection = { selection = it },
                     onSettings = onSettings,
-                    onOpen = { learner -> page = DeskPage.Learner(learner, selection) },
+                    onOpen = { learner -> onOpenLearner(learner, if (learner.scoped) selection else "") },
                     onLanguage = { id ->
                         onSettings(settings.copy(welcomeDone = true))
                         selection = id
-                        page = DeskPage.Learner(
-                            catalog.learners.first { it.id == "language" },
-                            id,
-                        )
+                        catalog.learners.firstOrNull { it.id == "language" }?.let { onOpenLearner(it, id) }
                     },
                 )
-                is DeskPage.Learner -> LearnerPage(current.learner, current.selection, catalog, ::back)
             }
         }
     }
@@ -127,6 +126,10 @@ private fun Home(
             "settings" -> SettingsTab(catalog, rules, settings, onSettings, onLanguage)
             else -> ToolsTab(catalog, rules, settings, favoriteIds, selection, onSelection, onSettings, onOpen, onLanguage)
         }
+        Text(
+            "Progress stays on this device. The separate SquirrelGo apps (Kana, Kanji, Dictionary, Phrasebook, Orthodox Bible) are not this app; Character and Vocabulary use the script and deck data packed with it.",
+            style = MaterialTheme.typography.bodySmall,
+        )
     }
 }
 
@@ -154,10 +157,30 @@ private fun ToolsTab(
         Text(catalog.text.notice)
         TextButton(onClick = { onSettings(settings.copy(noticeDismissed = true)) }) { Text("Dismiss") }
     }
-    Text("Open scoped tools in", style = MaterialTheme.typography.labelLarge)
     val choices = pickerChoices(catalog, rules, settings, favoriteIds.toList())
-    choices.forEach { (id, label) ->
-        TextButton(onClick = { onSelection(id) }) { Text(if (id == selection) "• $label" else label) }
+    var menuOpen by remember { mutableStateOf(false) }
+    val selectedLabel = choices.firstOrNull { it.first == selection }?.second ?: "All languages"
+    ExposedDropdownMenuBox(expanded = menuOpen, onExpandedChange = { menuOpen = it }) {
+        OutlinedTextField(
+            value = selectedLabel,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Open scoped tools in") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuOpen) },
+            modifier = Modifier.menuAnchor().fillMaxWidth(),
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+        )
+        ExposedDropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            choices.forEach { (id, label) ->
+                DropdownMenuItem(
+                    text = { Text(label) },
+                    onClick = {
+                        onSelection(id)
+                        menuOpen = false
+                    },
+                )
+            }
+        }
     }
     Text("Klingon and Legalese open the same whatever you pick. Back returns to this menu.", style = MaterialTheme.typography.bodySmall)
     catalog.learners.filter { rules.allows(settings, it.requires) }.forEach { learner ->
@@ -231,20 +254,6 @@ private fun SettingsTab(
         Text("${feature.label} ${if (on) "(on)" else "(off: turn on ${feature.label} in Customize)"}")
         Text(feature.description, style = MaterialTheme.typography.bodySmall)
     }
-}
-
-@Composable
-private fun LearnerPage(learner: DeskLearner, selection: String, catalog: DeskCatalog, onBack: () -> Unit) {
-    TextButton(onClick = onBack) { Text("‹ Menu") }
-    Text(learner.title, style = MaterialTheme.typography.headlineSmall, color = gold)
-    Text(learner.description)
-    if (learner.scoped && selection.isNotBlank()) {
-        val name = catalog.languages.firstOrNull { it.id == selection }?.let(::deskLabel)
-            ?: catalog.courses.firstOrNull { it.id == selection }?.name
-            ?: selection
-        Text("Open in $name")
-    }
-    Text("This learner's pages are still the Desk pages. The shell remembers where you were going.")
 }
 
 private fun pickerChoices(

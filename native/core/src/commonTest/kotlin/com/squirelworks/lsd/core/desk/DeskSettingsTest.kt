@@ -61,6 +61,23 @@ class DeskSettingsTest {
     }
 
     @Test
+    fun webViewSettingsAndStarsAreImportedOnce() {
+        val current = rules.fresh()
+        val first = importDeskWebView(
+            """{"level":"more","noticeDismissed":true,"welcomeDone":true}""",
+            """["latin","klingon"]""",
+            current,
+            emptySet(),
+        )
+        assertEquals("more", first.settings.level)
+        assertTrue(first.settings.importedWebView)
+        assertEquals(setOf("latin", "klingon"), first.favorites)
+        val again = importDeskWebView("""{"level":"everything"}""", """["arabic"]""", first.settings, first.favorites)
+        assertEquals("more", again.settings.level)
+        assertEquals(setOf("latin", "klingon"), again.favorites)
+    }
+
+    @Test
     fun favoritesLeadAndAreNotRepeated() {
         val languages = catalog.languages
         val sorted = sortDeskLanguages(languages, listOf("latin", "missing"))

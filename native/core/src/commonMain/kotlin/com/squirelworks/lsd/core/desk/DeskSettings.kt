@@ -32,6 +32,7 @@ data class DeskSettings(
     val switches: Map<String, Boolean> = emptyMap(),
     val noticeDismissed: Boolean = false,
     val welcomeDone: Boolean = false,
+    val importedWebView: Boolean = false,
 )
 
 @Serializable
@@ -51,6 +52,7 @@ data class DeskLearner(
     val id: String,
     val title: String,
     val description: String,
+    val href: String,
     val scoped: Boolean,
     val requires: List<String> = emptyList(),
 )
@@ -75,6 +77,23 @@ fun encodeDeskSettings(settings: DeskSettings): String = deskJson.encodeToString
 
 fun decodeDeskSettings(text: String, fallback: DeskSettings): DeskSettings =
     runCatching { deskJson.decodeFromString<DeskSettings>(text) }.getOrDefault(fallback)
+
+// One read of the WebView's localStorage. Settings use lsd-settings and stars
+// use lsd-favorite-languages. A later launch keeps the native copies.
+fun importDeskWebView(
+    settingsJson: String?,
+    favoritesJson: String?,
+    current: DeskSettings,
+    currentFavorites: Set<String>,
+): DeskImport {
+    if (current.importedWebView) return DeskImport(current, currentFavorites)
+    val imported = settingsJson?.let { runCatching { deskJson.decodeFromString<DeskSettings>(it) }.getOrNull() } ?: current
+    val stars = favoritesJson?.let { runCatching { deskJson.decodeFromString<List<String>>(it) }.getOrNull() }?.toSet()
+        ?: currentFavorites
+    return DeskImport(imported.copy(importedWebView = true), stars)
+}
+
+data class DeskImport(val settings: DeskSettings, val favorites: Set<String>)
 
 fun deskLabel(language: DeskLanguage): String =
     if (language.nativeName.isBlank()) language.name else "${language.name} · ${language.nativeName}"

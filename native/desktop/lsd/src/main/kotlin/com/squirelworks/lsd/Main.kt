@@ -15,7 +15,18 @@ import com.squirelworks.lsd.core.languages.FavoriteStore
 import com.squirelworks.lsd.core.languages.formatFavoriteFile
 import com.squirelworks.lsd.core.languages.parseFavoriteFile
 import com.squirelworks.lsd.desk.DeskApp
+import java.awt.Desktop
 import java.io.File
+import java.net.URI
+
+private fun repoRoot(): File {
+    var dir = File(System.getProperty("user.dir")).canonicalFile
+    repeat(5) {
+        if (File(dir, "klingon/index.html").isFile) return dir
+        dir = dir.parentFile ?: return dir
+    }
+    return dir
+}
 
 fun main() = application {
     val catalog = parseDeskCatalog(
@@ -40,6 +51,12 @@ fun main() = application {
                 settingsFile.writeText(encodeDeskSettings(next))
             },
             onFavorites = {},
+            onOpenLearner = { learner, lang ->
+                val root = repoRoot()
+                val page = root.resolve(learner.href)
+                val query = if (learner.scoped && lang.isNotBlank()) "?lang=$lang" else ""
+                Desktop.getDesktop().browse(URI(page.toURI().toString() + query))
+            },
         )
     }
 }
