@@ -4,11 +4,18 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Serializable
+data class KanaArticle(val title: String, val body: String)
+
+@Serializable
 data class KanaScript(
     val id: String,
     val title: String,
     val native: String = "",
+    val lang: String = "",
+    val blurb: String = "",
+    val writeTip: String = "",
     val lessons: List<KanaLesson> = emptyList(),
+    val articles: List<KanaArticle> = emptyList(),
 )
 
 @Serializable
@@ -28,6 +35,9 @@ data class KanaCell(
     val ex: String = "",
     val exR: String = "",
     val exM: String = "",
+    val speak: String = "",
+    val ipa: String = "",
+    val exLang: String = "",
 )
 
 data class ChartGroup(val name: String, val cols: Int, val cells: List<KanaCell?>)
@@ -37,6 +47,13 @@ private val json = Json { ignoreUnknownKeys = true }
 fun parseKanaScripts(text: String): List<KanaScript> = json.decodeFromString(text)
 
 fun parseKanaStrokes(text: String): Map<String, Map<String, List<String>>> = json.decodeFromString(text)
+
+fun parseKanaAudio(text: String): Map<String, Map<String, String>> = json.decodeFromString(text)
+
+@Serializable
+data class KanaCopy(val name: String = "", val tagline: String = "", val intro: String = "", val about: String = "")
+
+fun parseKanaCopy(text: String): KanaCopy = json.decodeFromString(text)
 
 // The chart keeps each lesson on its own rows. A short lesson is padded so the
 // next lesson starts on a new row. The column count is the one the group
