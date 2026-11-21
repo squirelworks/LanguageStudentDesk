@@ -90,6 +90,20 @@ class ProgressImportTest {
     }
 
     @Test
+    fun aComparatorOnlyManifestStaysUnmarked() {
+        val files = resourceDir("/chromium/comparator-only")
+        assertEquals(35, files.getValue("MANIFEST-000002").size)
+        assertTrue(files.containsKey("000005.ldb"))
+        val fresh = ProgressFile()
+        assertEquals(fresh, importWebViewProgress(fresh, levelDbStore(files, "squirrelgo-kana")))
+        val meta = levelDbStore(resourceDir("/chromium/meta-only"), "squirrelgo-kana")
+        assertTrue(meta is WebViewStore.Absent)
+        assertTrue(importWebViewProgress(fresh, meta).importedWebView)
+        val foreign = levelDbStore(resourceDir("/chromium/foreign-comparator"), "squirrelgo-kana")
+        assertEquals(fresh, importWebViewProgress(fresh, foreign))
+    }
+
+    @Test
     fun aDeletedTableEntryIsNoProgress() {
         val tomb = resource("/chromium/tombstone.ldb")
         val store = localStorageFromStore(emptyList(), listOf(tomb), "squirrelgo-kana")

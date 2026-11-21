@@ -33,61 +33,107 @@ fun liveLevel(manifest: ByteArray): LiveLevel? {
     val records = logicalRecords(manifest) ?: return null
     var minLog = 0L
     var prevLog = 0L
+    var sawLog = false
+    var sawNextFile = false
+    var sawSequence = false
     val tables = HashSet<Long>()
-    for (record in records) if (!applyVersionEdit(record, tables) { log, prev ->
-        if (log != null) minLog = log
-        if (prev != null) prevLog = prev
-    }) return null
+    for (record in records) {
+        val edit = versionEdit(record) ?: return null
+        if (edit.comparator != null && edit.comparator != BYTEWISE) return null
+        if (edit.log != null) {
+            minLog = edit.log
+            sawLog = true
+        }
+        if (edit.prev != null) prevLog = edit.prev
+        if (edit.sawNextFile) sawNextFile = true
+        if (edit.sawSequence) sawSequence = true
+        tables.removeAll(edit.removed)
+        tables.addAll(edit.added)
+    }
+    // VersionSet::Recover refuses a descriptor that never recorded these three.
+    if (!sawLog || !sawNextFile || !sawSequence) return null
     return LiveLevel(minLog, prevLog, tables)
 }
 
-private fun applyVersionEdit(record: ByteArray, tables: MutableSet<Long>, logs: (Long?, Long?) -> Unit): Boolean {
+private class VersionEdit(
+    val comparator: String?,
+    val log: Long?,
+    val prev: Long?,
+    val sawNextFile: Boolean,
+    val sawSequence: Boolean,
+    val added: List<Long>,
+    val removed: List<Long>,
+)
+
+private fun versionEdit(record: ByteArray): VersionEdit? {
     var pos = 0
+    var comparator: String? = null
+    var log: Long? = null
+    var prev: Long? = null
+    var sawNextFile = false
+    var sawSequence = false
+    val added = ArrayList<Long>()
+    val removed = ArrayList<Long>()
     while (pos < record.size) {
-        val (tag, afterTag) = varint64(record, pos) ?: return false
+        val (tag, afterTag) = varint64(record, pos) ?: return null
         pos = afterTag
         when (tag) {
-            1L -> pos = skipPrefixed(record, pos) ?: return false
-            2L -> {
-                val (number, next) = varint64(record, pos) ?: return false
-                logs(number, null)
+            1L -> {
+                val (name, next) = readPrefixed(record, pos) ?: return null
+                comparator = name.decodeToString()
                 pos = next
             }
-            3L, 4L -> {
-                val (_, next) = varint64(record, pos) ?: return false
+            2L -> {
+                val (number, next) = varint64(record, pos) ?: return null
+                log = number
+                pos = next
+            }
+            3L -> {
+                val (_, next) = varint64(record, pos) ?: return null
+                sawNextFile = true
+                pos = next
+            }
+            4L -> {
+                val (_, next) = varint64(record, pos) ?: return null
+                sawSequence = true
                 pos = next
             }
             5L -> {
-                val (_, afterLevel) = varint64(record, pos) ?: return false
-                pos = skipPrefixed(record, afterLevel) ?: return false
+                val (_, afterLevel) = varint64(record, pos) ?: return null
+                pos = skipPrefixed(record, afterLevel) ?: return null
             }
             6L -> {
-                val (_, afterLevel) = varint64(record, pos) ?: return false
-                val (number, next) = varint64(record, afterLevel) ?: return false
-                tables.remove(number)
+                val (_, afterLevel) = varint64(record, pos) ?: return null
+                val (number, next) = varint64(record, afterLevel) ?: return null
+                removed += number
                 pos = next
             }
             7L -> {
-                val (_, afterLevel) = varint64(record, pos) ?: return false
-                val (number, afterNumber) = varint64(record, afterLevel) ?: return false
-                val (_, afterSize) = varint64(record, afterNumber) ?: return false
-                val afterSmallest = skipPrefixed(record, afterSize) ?: return false
-                pos = skipPrefixed(record, afterSmallest) ?: return false
-                tables.add(number)
+                val (_, afterLevel) = varint64(record, pos) ?: return null
+                val (number, afterNumber) = varint64(record, afterLevel) ?: return null
+                val (_, afterSize) = varint64(record, afterNumber) ?: return null
+                val afterSmallest = skipPrefixed(record, afterSize) ?: return null
+                pos = skipPrefixed(record, afterSmallest) ?: return null
+                added += number
             }
             9L -> {
-                val (number, next) = varint64(record, pos) ?: return false
-                logs(null, number)
+                val (number, next) = varint64(record, pos) ?: return null
+                prev = number
                 pos = next
             }
-            else -> return false
+            else -> return null
         }
     }
-    return true
+    return VersionEdit(comparator, log, prev, sawNextFile, sawSequence, added, removed)
 }
 
-private fun skipPrefixed(data: ByteArray, start: Int): Int? {
+private fun skipPrefixed(data: ByteArray, start: Int): Int? = readPrefixed(data, start)?.second
+
+private fun readPrefixed(data: ByteArray, start: Int): Pair<ByteArray, Int>? {
     val (length, pos) = varint64(data, start) ?: return null
     if (length < 0L || pos.toLong() + length > data.size.toLong()) return null
-    return pos + length.toInt()
+    val end = pos + length.toInt()
+    return data.copyOfRange(pos, end) to end
 }
+
+private const val BYTEWISE = "leveldb.BytewiseComparator"
