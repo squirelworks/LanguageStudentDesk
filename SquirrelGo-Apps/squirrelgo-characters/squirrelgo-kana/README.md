@@ -20,9 +20,9 @@ Recorded clips play first; anything without one uses the device's Japanese text-
 
 ## Install the APK
 
-Download [`SquirrelGoKana.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKana.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+Download [`SquirrelGoKana.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKana.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. That file is the native app. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choice `kana-native`.
 
-- Package id: `com.squirelworks.squirrelgokana.debug`
+- Package id: `com.squirelworks.squirrelgokana`
 - Min Android: 7.0 (API 24)
 
 ## Web / desktop
@@ -38,16 +38,17 @@ Open `www/index.html` in a browser (no build step). The top-level `index.html` r
 - `www/data/kana-strokes.js` — the same KanjiVG data for all 177 kana in SquirrelGo Kanji's stroke format (`KANA_STROKES`, also merged into `KANJI_STROKES`), for the kanji stroke player and Character Learner
 - `www/audio/` and `www/data/audio/` — clips recorded with eSpeak NG by `tools/build_audio.py` (needs espeak-ng, ffmpeg and node; rerun it after changing words in `kana.js`)
 - `www/js/app.js` — the trainer (shared with SquirrelGo Alphabets)
-- `android/` — WebView shell targeting API 34, with a native text-to-speech bridge
 
-## Rebuild Android APK locally
+The Android WebView shell is archived at `archive/webview/kana/` and is not built. The native app is `native/android/kana` and `native/desktop/kana`.
+
+## Rebuild the Android APK locally
+
+From the repo root:
 
 ```bash
 export ANDROID_HOME=$HOME/android-sdk   # or your SDK path
-echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android
-./gradlew assembleDebug
-# output: app/build/outputs/apk/debug/app-debug.apk
+cd native
+echo "sdk.dir=$ANDROID_HOME" > local.properties
+./gradlew :android:kana:assembleRelease
+# output: android/kana/build/outputs/apk/release/SquirrelGoKana-<version>.apk
 ```

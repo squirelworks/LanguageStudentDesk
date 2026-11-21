@@ -108,7 +108,6 @@ jobs:
         include:
           - { app: alphabets,        dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets }
           - { app: bopomofo,         dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo }
-          - { app: kana,             dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana }
           - { app: kanji,            dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji }
           - { app: klingon,          dir: SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon }
           - { app: dictionary,       dir: SquirrelGo-Apps/squirrelgo-dictionary }

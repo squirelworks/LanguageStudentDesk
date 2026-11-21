@@ -10,7 +10,7 @@ val kanaAssets = rootProject.layout.buildDirectory.dir("generated-kana").get().a
 val appVersion = readAppVersion(rootProject.file("versions/kana.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/android/app/build.gradle"),
+    rootProject.file("../archive/webview/kana/app/build.gradle"),
 )
 
 kotlin {

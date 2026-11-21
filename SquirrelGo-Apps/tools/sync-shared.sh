@@ -41,7 +41,7 @@ done
 
 # shared/android/SafeArea.java goes into every Android wrapper, next to its
 # MainActivity, with the package line set to that app's package.
-for main in $(find . -path '*/android/app/src/main/java/*/MainActivity.java' | sort); do
+for main in $(find . -path '*/android/app/src/main/java/*/MainActivity.java' ! -path './archive/*' | sort); do
   dir=$(dirname "$main")
   pkg=$(sed -n 's/^package \(.*\);$/\1/p' "$main")
   dest="$dir/SafeArea.java"
