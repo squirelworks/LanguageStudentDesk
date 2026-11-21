@@ -11,7 +11,6 @@ on:
         required: true
         type: choice
         options:
-          - dictionary
           - orthodox-bible
           - kokugo
           - multilingual
@@ -113,7 +112,6 @@ jobs:
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
-            dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;
           esac
           test -d "$DIR/android" || { echo "No Android project at $DIR/android" >&2; exit 1; }
@@ -121,12 +119,6 @@ jobs:
           echo "DIR=$DIR" >> "$GITHUB_ENV"
           echo "APK_NAME=$NAME-test-$SHA" >> "$GITHUB_ENV"
       # Same preparation as the app's compile-only workflow.
-      - name: Download dictionary data (JMdict, KANJIDIC2, RADKFILE, KRADFILE)
-        if: inputs.app == 'dictionary'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DATA_TAG: ${{ inputs.data_tag }}
-        run: cd "$DIR" && tools/fetch_data.sh $DATA_TAG
       # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
         run: |
@@ -153,13 +145,8 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           mkdir -p "$RUNNER_TEMP/apk"
-          if [ "$APP" = dictionary ]; then
-            ./gradlew --no-daemon assembleRelease
-            cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
-          else
-            ./gradlew --no-daemon assembleDebug
-            cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
-          fi
+          ./gradlew --no-daemon assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.APK_NAME }}

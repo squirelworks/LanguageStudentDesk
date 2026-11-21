@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val appVersion = readAppVersion(rootProject.file("versions/multilingual-dictionary.properties"))
 base {
     archivesName.set("SquirrelGoMultilingualDictionary-${appVersion.versionName}")

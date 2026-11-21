@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val klingonAssets = rootProject.layout.buildDirectory.dir("generated-klingon").get().asFile
 val appVersion = readAppVersion(rootProject.file("versions/klingon.properties"))
 requireNewerThanWebView(
