@@ -1,7 +1,8 @@
 package com.squirelworks.squirrelgokana
 
-import com.squirelworks.lsd.core.speech.NamedVoice
-import com.squirelworks.lsd.core.speech.desktopSpeech
+import com.squirelworks.lsd.core.speech.VoiceProbe
+import com.squirelworks.lsd.core.speech.captureProcessOutput
+import com.squirelworks.lsd.core.speech.desktopSpeechFromProbe
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
 import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
@@ -11,42 +12,30 @@ import java.util.concurrent.TimeUnit
 
 private const val PROBE_TIMEOUT_SECONDS = 8L
 
-private data class VoiceCatalog(
-    val programs: Set<String>,
-    val macVoices: List<NamedVoice>,
-    val windowsVoices: List<NamedVoice>,
-    val espeakLanguages: Set<String>,
-    val dispatcherVoices: List<NamedVoice>,
-)
-
 class DesktopVoice {
     private var process: Process? = null
     private var cancelDispatcher = false
 
     @Volatile
-    private var catalog: VoiceCatalog? = null
+    private var probe = VoiceProbe()
+    private val probeLock = Any()
 
     init {
-        Thread(::discover, "kana-voices").apply {
-            isDaemon = true
-            start()
+        listOf(
+            Thread({ publishMac() }, "kana-say"),
+            Thread({ publishWindows() }, "kana-windows"),
+            Thread({ publishEspeakNg() }, "kana-espeak-ng"),
+            Thread({ publishEspeak() }, "kana-espeak"),
+            Thread({ publishDispatcher() }, "kana-spd-say"),
+        ).forEach {
+            it.isDaemon = true
+            it.start()
         }
     }
 
     fun speak(text: String, rate: Float, lang: String) {
-        val known = catalog ?: return
+        val request = desktopSpeechFromProbe(System.getProperty("os.name"), text, rate, lang, probe) ?: return
         stop()
-        val request = desktopSpeech(
-            System.getProperty("os.name"),
-            known.programs,
-            text,
-            rate,
-            lang,
-            known.macVoices,
-            known.windowsVoices,
-            known.espeakLanguages,
-            known.dispatcherVoices,
-        ) ?: return
         val started = runCatching {
             val builder = ProcessBuilder(listOf(request.program) + request.args)
                 .redirectOutput(ProcessBuilder.Redirect.DISCARD)
@@ -79,43 +68,55 @@ class DesktopVoice {
         }
     }
 
-    private fun discover() {
-        runCatching { discoverVoices() }
-        if (catalog == null) {
-            catalog = VoiceCatalog(emptySet(), emptyList(), emptyList(), emptySet(), emptyList())
-        }
+    private fun publishMac() {
+        val voices = runCatching {
+            if (!commandExists("say")) emptyList()
+            else readVoices(listOf("say", "-v", "?"), ::parseSayVoices)
+        }.getOrDefault(emptyList())
+        publish { it.copy(macVoices = voices) }
     }
 
-    private fun discoverVoices() {
-        val programs = speechPrograms()
-        val macVoices = if ("say" in programs) readVoices(listOf("say", "-v", "?"), ::parseSayVoices) else emptyList()
-        val windowsProgram = when {
-            "powershell.exe" in programs -> "powershell.exe"
-            "powershell" in programs -> "powershell"
-            else -> null
+    private fun publishWindows() {
+        val program = when {
+            commandExists("powershell.exe") -> "powershell.exe"
+            commandExists("powershell") -> "powershell"
+            else -> ""
         }
-        val windowsVoices = windowsProgram?.let {
-            readVoices(listOf(it, "-NoProfile", "-NonInteractive", "-Command", windowsListScript), ::parseWindowsVoices)
-        } ?: emptyList()
-        val espeakProgram = when {
-            "espeak-ng" in programs -> "espeak-ng"
-            "espeak" in programs -> "espeak"
-            else -> null
-        }
-        val espeakLanguages = espeakProgram?.let {
-            readVoices(listOf(it, "--voices"), ::parseEspeakLanguages)
-        } ?: emptySet()
-        val dispatcherVoices = if ("spd-say" in programs) {
-            readVoices(listOf("spd-say", "-L"), ::parseSpeechDispatcherVoices)
-        } else {
-            emptyList()
-        }
-        catalog = VoiceCatalog(programs, macVoices, windowsVoices, espeakLanguages, dispatcherVoices)
+        val voices = runCatching {
+            if (program.isEmpty()) emptyList()
+            else readVoices(listOf(program, "-NoProfile", "-NonInteractive", "-Command", windowsListScript), ::parseWindowsVoices)
+        }.getOrDefault(emptyList())
+        publish { it.copy(windowsProgram = program, windowsVoices = voices) }
     }
 
-    private fun speechPrograms(): Set<String> {
-        val names = listOf("espeak-ng", "espeak", "spd-say", "say", "powershell", "powershell.exe")
-        return names.filter { commandExists(it) }.toSet()
+    private fun publishEspeakNg() {
+        val languages = runCatching {
+            if (!commandExists("espeak-ng")) emptySet()
+            else readVoices(listOf("espeak-ng", "--voices"), ::parseEspeakLanguages)
+        }.getOrDefault(emptySet())
+        publish { it.copy(espeakNgLanguages = languages) }
+    }
+
+    private fun publishEspeak() {
+        val languages = runCatching {
+            if (!commandExists("espeak")) emptySet()
+            else readVoices(listOf("espeak", "--voices"), ::parseEspeakLanguages)
+        }.getOrDefault(emptySet())
+        publish { it.copy(espeakLanguages = languages) }
+    }
+
+    private fun publishDispatcher() {
+        val voices = runCatching {
+            if (!commandExists("spd-say")) emptyList()
+            else readVoices(listOf("spd-say", "-L"), ::parseSpeechDispatcherVoices)
+        }.getOrDefault(emptyList())
+        publish { it.copy(dispatcherVoices = voices) }
+    }
+
+    private fun publish(update: (VoiceProbe) -> VoiceProbe) {
+        synchronized(probeLock) {
+            probe = update(probe)
+        }
     }
 
     private fun commandExists(name: String): Boolean {
@@ -126,27 +127,17 @@ class DesktopVoice {
                 .redirectError(ProcessBuilder.Redirect.DISCARD)
                 .start()
         }.getOrNull() ?: return false
-        return finished(started) && started.exitValue() == 0
-    }
-
-    private fun <T> readVoices(command: List<String>, parse: (String) -> T): T {
-        val started = runCatching {
-            ProcessBuilder(command)
-                .redirectError(ProcessBuilder.Redirect.DISCARD)
-                .start()
-        }.getOrNull() ?: return parse("")
-        if (!finished(started)) return parse("")
-        val text = runCatching { started.inputStream.bufferedReader().readText() }.getOrDefault("")
-        return parse(text)
-    }
-
-    private fun finished(started: Process): Boolean {
         val done = runCatching { started.waitFor(PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS) }.getOrDefault(false)
         if (!done) {
             started.destroyForcibly()
             return false
         }
-        return true
+        return started.exitValue() == 0
+    }
+
+    private fun <T> readVoices(command: List<String>, parse: (String) -> T): T {
+        val text = captureProcessOutput(command, PROBE_TIMEOUT_SECONDS) ?: return parse("")
+        return parse(text)
     }
 }
 

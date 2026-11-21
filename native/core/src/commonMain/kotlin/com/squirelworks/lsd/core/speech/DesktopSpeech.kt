@@ -2,6 +2,18 @@ package com.squirelworks.lsd.core.speech
 
 data class NamedVoice(val name: String, val lang: String)
 
+// A null list means that program has not been checked yet. An empty list means
+// the check finished and there is nothing to use. Callers can speak with a
+// finished program while another check is still running.
+data class VoiceProbe(
+    val macVoices: List<NamedVoice>? = null,
+    val windowsProgram: String? = null,
+    val windowsVoices: List<NamedVoice>? = null,
+    val espeakNgLanguages: Set<String>? = null,
+    val espeakLanguages: Set<String>? = null,
+    val dispatcherVoices: List<NamedVoice>? = null,
+)
+
 data class SpeechRequest(
     val program: String,
     val args: List<String>,
@@ -51,6 +63,40 @@ fun parseSpeechDispatcherVoices(listing: String): List<NamedVoice> =
         if (name.equals("NAME", ignoreCase = true) && lang.equals("LANGUAGE", ignoreCase = true)) null
         else NamedVoice(name, lang)
     }.toList()
+
+fun desktopSpeechFromProbe(
+    osName: String,
+    text: String,
+    rate: Float,
+    lang: String,
+    probe: VoiceProbe,
+): SpeechRequest? {
+    val language = lang.substringBefore('-').substringBefore('_').lowercase().ifBlank { "en" }
+    val os = osName.lowercase()
+    return when {
+        "mac" in os -> {
+            val voices = probe.macVoices ?: return null
+            desktopSpeech(osName, setOf("say"), text, rate, lang, macVoices = voices)
+        }
+        "win" in os -> {
+            val program = probe.windowsProgram ?: return null
+            if (program.isEmpty()) return null
+            desktopSpeech(osName, setOf(program), text, rate, lang, windowsVoices = probe.windowsVoices.orEmpty())
+        }
+        else -> {
+            val espeakNg = probe.espeakNgLanguages
+            if (espeakNg != null && language in espeakNg) {
+                return desktopSpeech(osName, setOf("espeak-ng"), text, rate, lang, espeakLanguages = espeakNg)
+            }
+            val espeak = probe.espeakLanguages
+            if (espeak != null && language in espeak) {
+                return desktopSpeech(osName, setOf("espeak"), text, rate, lang, espeakLanguages = espeak)
+            }
+            val dispatcher = probe.dispatcherVoices ?: return null
+            desktopSpeech(osName, setOf("spd-say"), text, rate, lang, dispatcherVoices = dispatcher)
+        }
+    }
+}
 
 fun desktopSpeech(
     osName: String,

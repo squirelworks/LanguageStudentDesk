@@ -1,7 +1,9 @@
 package com.squirelworks.lsd.core
 
 import com.squirelworks.lsd.core.speech.NamedVoice
+import com.squirelworks.lsd.core.speech.VoiceProbe
 import com.squirelworks.lsd.core.speech.desktopSpeech
+import com.squirelworks.lsd.core.speech.desktopSpeechFromProbe
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
 import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
@@ -90,6 +92,28 @@ class DesktopSpeechTest {
                 dispatcherVoices = listOf(NamedVoice("english", "en")),
             ),
         )
+    }
+
+    @Test
+    fun aFinishedProgramSpeaksWhileAnotherProbeIsStillRunning() {
+        val espeakReady = desktopSpeechFromProbe(
+            "Linux",
+            "あ",
+            1f,
+            "ja-JP",
+            VoiceProbe(espeakNgLanguages = setOf("ja"), dispatcherVoices = null),
+        )
+        assertEquals("espeak-ng", espeakReady?.program)
+        val dispatcherReady = desktopSpeechFromProbe(
+            "Linux",
+            "あ",
+            1f,
+            "ja-JP",
+            VoiceProbe(dispatcherVoices = listOf(NamedVoice("japanese", "ja"))),
+        )
+        assertEquals("spd-say", dispatcherReady?.program)
+        assertNull(desktopSpeechFromProbe("Linux", "あ", 1f, "ja-JP", VoiceProbe()))
+        assertNull(desktopSpeechFromProbe("Mac OS X", "あ", 1f, "ja-JP", VoiceProbe()))
     }
 
     @Test
