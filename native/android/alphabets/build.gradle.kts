@@ -9,7 +9,7 @@ val alphabetsAssets = rootProject.layout.buildDirectory.dir("generated-alphabets
 val appVersion = readAppVersion(rootProject.file("versions/alphabets.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/android/app/build.gradle"),
+    rootProject.file("../archive/webview/alphabets/app/build.gradle"),
 )
 // release, the GitHub APK once the WebView is archived, always uses the
 // committed debug key. The play build type is the only one that may use

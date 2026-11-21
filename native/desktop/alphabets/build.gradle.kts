@@ -10,7 +10,7 @@ val alphabetsAssets = rootProject.layout.buildDirectory.dir("generated-alphabets
 val appVersion = readAppVersion(rootProject.file("versions/alphabets.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/android/app/build.gradle"),
+    rootProject.file("../archive/webview/alphabets/app/build.gradle"),
 )
 
 kotlin {

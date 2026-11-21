@@ -32,18 +32,12 @@ PY
 }
 
 build_app() {
-  local dir="$1" aab_name="$2" apk_name="$3" asset_path="${4:-assets/www/index.html}" apk_only="${5:-}"
+  local dir="$1" aab_name="$2" apk_name="$3" asset_path="${4:-assets/www/index.html}"
   echo "======== BUILD $aab_name ========"
   cd "$dir/android"
-  local apk="app/build/outputs/apk/release/app-release.apk"
-  if [ "$apk_only" = apk ]; then
-    ./gradlew assembleRelease --no-daemon -q
-    test -f "$apk"
-    cp "$apk" "$OUT_ART/${apk_name}.apk"
-    return
-  fi
   ./gradlew bundleRelease assembleRelease --no-daemon -q
   local aab="app/build/outputs/bundle/release/app-release.aab"
+  local apk="app/build/outputs/apk/release/app-release.apk"
   verify_bundle "$aab" "$apk" "$aab_name" "$asset_path"
   cp "$aab" "$OUT_AAB/${aab_name}.aab"
   cp "$apk" "$OUT_ART/${apk_name}.apk"
@@ -65,15 +59,14 @@ echo "======== BUILD SquirrelGoKana (native) ========"
   cp android/kana/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKana.aab"
 )
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
-# The WebView APK is still the release file. Its bundle is not built; the
-# native Play bundle below is the only Alphabets AAB.
-build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets assets/www/index.html apk
-echo "======== BUILD SquirrelGoAlphabets Play bundle (native) ========"
+echo "======== BUILD SquirrelGoAlphabets (native) ========"
 (
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
-  ./gradlew :android:alphabets:bundlePlay --no-daemon -q
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:alphabets:assembleRelease :android:alphabets:bundlePlay --no-daemon -q
+  cp android/alphabets/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoAlphabets.apk"
   cp android/alphabets/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoAlphabets.aab"
 )
 build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "assets/www/index.html"
