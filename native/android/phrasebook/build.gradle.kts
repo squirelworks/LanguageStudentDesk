@@ -9,7 +9,7 @@ val phrasebookAssets = rootProject.layout.buildDirectory.dir("generated-phrasebo
 val appVersion = readAppVersion(rootProject.file("versions/phrasebook.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-phrasebook/android/app/build.gradle"),
+    rootProject.file("../archive/webview/phrasebook/app/build.gradle"),
 )
 // release, the GitHub APK, always uses the committed debug key. The play
 // build type is the only one that may use UPLOAD_*, and only for its own bundle.
