@@ -208,6 +208,7 @@ fun deskCatalogTask(name: String, vararg watched: String) =
             repo.resolve(watched[0]).absolutePath,
             repo.resolve(watched[1]).absolutePath,
             repo.resolve(watched[2]).absolutePath,
+            repo.resolve(watched[3]).absolutePath,
             outDir.get().asFile.resolve("desk.json").absolutePath,
         )
     }
@@ -217,7 +218,26 @@ deskCatalogTask(
     "languages/features.js",
     "languages/registry.js",
     "programming-learner/data/catalog.js",
+    "SquirrelGo-Apps/lsd-suite/www/index.html",
 )
+
+// The same learner pages the Android WebView and the desktop package open.
+val packDeskLearners = tasks.register<Exec>("packDeskLearners") {
+    val repo = rootProject.projectDir.parentFile
+    val dest = layout.buildDirectory.dir("generated-desk-www").get().asFile
+    inputs.dir(repo.resolve("languages"))
+    inputs.dir(repo.resolve("klingon"))
+    inputs.dir(repo.resolve("character-learner"))
+    inputs.dir(repo.resolve("SquirrelGo-Apps/lsd-suite/www"))
+    inputs.file(repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py"))
+    outputs.dir(dest)
+    commandLine(
+        "python3",
+        repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py").absolutePath,
+        "--dest",
+        dest.absolutePath,
+    )
+}
 
 // Japanese-English word list, from the same generated files the WebView ships.
 // A build that can be installed fails when those files are missing.

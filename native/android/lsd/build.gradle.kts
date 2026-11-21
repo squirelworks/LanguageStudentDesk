@@ -4,9 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val debugKeystore = rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/debug.keystore")
+val debugKeystore = rootProject.file("../archive/webview/dictionary/app/debug.keystore")
 val deskAssets = rootProject.layout.buildDirectory.dir("generated-desk").get().asFile
-val learnerAssets = layout.buildDirectory.dir("generated-desk-www").get().asFile
+val learnerAssets = rootProject.layout.buildDirectory.dir("generated-desk-www").get().asFile
 val appVersion = readAppVersion(rootProject.file("versions/lsd.properties"))
 requireNewerThanWebView(
     appVersion,
@@ -62,18 +62,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 }
 
-val packDeskLearners = tasks.register<Exec>("packDeskLearners") {
-    val repo = rootProject.projectDir.parentFile
-    val dest = learnerAssets
-    inputs.dir(repo.resolve("languages"))
-    inputs.dir(repo.resolve("klingon"))
-    inputs.dir(repo.resolve("character-learner"))
-    inputs.file(repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py"))
-    outputs.dir(dest)
-    commandLine("python3", repo.resolve("SquirrelGo-Apps/lsd-suite/tools/pack_assets.py").absolutePath, "--dest", dest.absolutePath)
-}
-
 tasks.matching { it.name == "preBuild" || it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
     dependsOn(rootProject.tasks.named("generateDeskCatalog"))
-    dependsOn(packDeskLearners)
+    dependsOn(rootProject.tasks.named("packDeskLearners"))
 }

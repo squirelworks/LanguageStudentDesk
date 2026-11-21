@@ -33,6 +33,9 @@ data class DeskSettings(
     val noticeDismissed: Boolean = false,
     val welcomeDone: Boolean = false,
     val importedWebView: Boolean = false,
+    // The Tools menu's "Open scoped tools in" choice. The WebView stores it as
+    // lsd-suite-lang, separate from lsd-settings.
+    val suiteLang: String = "",
 )
 
 @Serializable
@@ -78,19 +81,113 @@ fun encodeDeskSettings(settings: DeskSettings): String = deskJson.encodeToString
 fun decodeDeskSettings(text: String, fallback: DeskSettings): DeskSettings =
     runCatching { deskJson.decodeFromString<DeskSettings>(text) }.getOrDefault(fallback)
 
-// One read of the WebView's localStorage. Settings use lsd-settings and stars
-// use lsd-favorite-languages. A later launch keeps the native copies.
+// The first launch reads the WebView app's localStorage once. After that, each
+// learner open writes the native copy in, and closing the learner reads it back.
 fun importDeskWebView(
     settingsJson: String?,
     favoritesJson: String?,
     current: DeskSettings,
     currentFavorites: Set<String>,
+    suiteLang: String? = null,
 ): DeskImport {
     if (current.importedWebView) return DeskImport(current, currentFavorites)
-    val imported = settingsJson?.let { runCatching { deskJson.decodeFromString<DeskSettings>(it) }.getOrNull() } ?: current
-    val stars = favoritesJson?.let { runCatching { deskJson.decodeFromString<List<String>>(it) }.getOrNull() }?.toSet()
-        ?: currentFavorites
-    return DeskImport(imported.copy(importedWebView = true), stars)
+    val applied = applyDeskWebSnapshot(DeskWebSnapshot(settingsJson, favoritesJson, suiteLang), current, currentFavorites)
+    return DeskImport(applied.settings.copy(importedWebView = true), applied.favorites)
+}
+
+@Serializable
+data class DeskWebSnapshot(
+    val settings: String? = null,
+    val favorites: String? = null,
+    val lang: String? = null,
+)
+
+// What the learner pages read: lsd-settings, lsd-favorite-languages, lsd-suite-lang.
+// A null field means that key was missing, so the native copy stays.
+fun applyDeskWebSnapshot(
+    snapshot: DeskWebSnapshot,
+    current: DeskSettings,
+    currentFavorites: Set<String>,
+): DeskImport {
+    val parsed = snapshot.settings?.let { runCatching { deskJson.decodeFromString<DeskSettings>(it) }.getOrNull() }
+    var settings = if (parsed == null) current
+    else parsed.copy(importedWebView = current.importedWebView, suiteLang = current.suiteLang)
+    if (snapshot.lang != null) settings = settings.copy(suiteLang = snapshot.lang)
+    val stars = snapshot.favorites?.let { runCatching { deskJson.decodeFromString<List<String>>(it) }.getOrNull() }
+    val favorites = if (stars == null) currentFavorites else stars.filter { it.isNotEmpty() }.toCollection(linkedSetOf())
+    return DeskImport(settings, favorites)
+}
+
+fun parseDeskWebSnapshot(evaluateResult: String?): DeskWebSnapshot? {
+    if (evaluateResult.isNullOrBlank() || evaluateResult == "null") return null
+    return runCatching { deskJson.decodeFromString<DeskWebSnapshot>(evaluateResult) }.getOrNull()
+}
+
+// A tiny page loaded with the learner's own file URL as its base, so the
+// localStorage write lands in the origin the learner scripts read.
+fun deskSeedDocument(settings: DeskSettings, favoriteIds: Iterable<String>, nextUrl: String): String {
+    val settingsJson = encodeDeskSettings(settings.copy(importedWebView = false))
+    val favoritesJson = deskJson.encodeToString(favoriteIds.toList())
+    val langLine = if (settings.suiteLang.isEmpty()) {
+        "localStorage.removeItem('lsd-suite-lang');"
+    } else {
+        "localStorage.setItem('lsd-suite-lang', ${jsStringLiteral(settings.suiteLang)});"
+    }
+    return """
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Language Student Desk</title>
+<script>
+try {
+  localStorage.setItem('lsd-settings', ${jsStringLiteral(settingsJson)});
+  localStorage.setItem('lsd-favorite-languages', ${jsStringLiteral(favoritesJson)});
+  $langLine
+} catch (e) {}
+location.replace(${jsStringLiteral(nextUrl)});
+</script>
+""".trim()
+}
+
+fun jsStringLiteral(value: String): String = buildString {
+    append('"')
+    for (ch in value) {
+        when (ch) {
+            '\\' -> append("\\\\")
+            '"' -> append("\\\"")
+            '\n' -> append("\\n")
+            '\r' -> append("\\r")
+            '<' -> append("\\u003c")
+            else -> append(ch)
+        }
+    }
+    append('"')
+}
+
+// The packed suite menu, and the copy that still lives under lsd-suite.
+// A learner's own index, and another app's www/index.html, are not the menu.
+fun isDeskMenuUrl(url: String): Boolean {
+    val path = percentDecode(url.substringBefore('#').substringBefore('?'))
+    if (!path.startsWith("file:")) return false
+    return path.endsWith("/android_asset/www/index.html") ||
+        path.endsWith("/lsd-suite/www/index.html") ||
+        path.endsWith("/lsd-suite/index.html")
+}
+
+private fun percentDecode(text: String): String = buildString {
+    var index = 0
+    while (index < text.length) {
+        val ch = text[index]
+        if (ch == '%' && index + 2 < text.length) {
+            val value = text.substring(index + 1, index + 3).toIntOrNull(16)
+            if (value != null) {
+                append(value.toChar())
+                index += 3
+                continue
+            }
+        }
+        append(ch)
+        index++
+    }
 }
 
 data class DeskImport(val settings: DeskSettings, val favorites: Set<String>)

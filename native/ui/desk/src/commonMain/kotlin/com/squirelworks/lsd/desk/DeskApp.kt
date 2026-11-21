@@ -57,7 +57,7 @@ fun DeskApp(
 ) {
     val rules = remember(catalog) { DeskRules(catalog) }
     var tab by remember { mutableStateOf("tools") }
-    var selection by remember { mutableStateOf("") }
+    var selection by remember(settings.suiteLang) { mutableStateOf(settings.suiteLang) }
     var favoriteIds by remember { mutableStateOf(favorites.ids()) }
     fun toggleFavorite(id: String) {
         favorites.toggle(id)
@@ -81,12 +81,15 @@ fun DeskApp(
                 Home(
                     catalog, rules, settings, favoriteIds, ::toggleFavorite, tab, selection,
                     onTab = { tab = it },
-                    onSelection = { selection = it },
+                    onSelection = { id ->
+                        selection = id
+                        if (id != settings.suiteLang) onSettings(settings.copy(suiteLang = id))
+                    },
                     onSettings = onSettings,
                     onOpen = { learner -> onOpenLearner(learner, if (learner.scoped) selection else "") },
                     onLanguage = { id ->
-                        onSettings(settings.copy(welcomeDone = true))
                         selection = id
+                        onSettings(settings.copy(welcomeDone = true, suiteLang = id))
                         catalog.learners.firstOrNull { it.id == "language" }?.let { onOpenLearner(it, id) }
                     },
                 )

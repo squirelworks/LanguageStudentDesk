@@ -68,13 +68,65 @@ class DeskSettingsTest {
             """["latin","klingon"]""",
             current,
             emptySet(),
+            suiteLang = "latin",
         )
         assertEquals("more", first.settings.level)
+        assertEquals("latin", first.settings.suiteLang)
         assertTrue(first.settings.importedWebView)
-        assertEquals(setOf("latin", "klingon"), first.favorites)
-        val again = importDeskWebView("""{"level":"everything"}""", """["arabic"]""", first.settings, first.favorites)
+        assertEquals(listOf("latin", "klingon"), first.favorites.toList())
+        val again = importDeskWebView("""{"level":"everything"}""", """["arabic"]""", first.settings, first.favorites, "arabic")
         assertEquals("more", again.settings.level)
-        assertEquals(setOf("latin", "klingon"), again.favorites)
+        assertEquals("latin", again.settings.suiteLang)
+        assertEquals(listOf("latin", "klingon"), again.favorites.toList())
+    }
+
+    @Test
+    fun aLearnerRoundTripUpdatesSettingsStarsAndLanguage() {
+        val current = rules.fresh().copy(importedWebView = true, suiteLang = "latin")
+        val read = applyDeskWebSnapshot(
+            DeskWebSnapshot(
+                settings = """{"level":"everything","noticeDismissed":true,"welcomeDone":true}""",
+                favorites = """["klingon","latin"]""",
+                lang = "",
+            ),
+            current,
+            setOf("latin"),
+        )
+        assertEquals("everything", read.settings.level)
+        assertTrue(read.settings.importedWebView)
+        assertEquals("", read.settings.suiteLang)
+        assertEquals(listOf("klingon", "latin"), read.favorites.toList())
+        val missing = applyDeskWebSnapshot(DeskWebSnapshot(null, null, null), read.settings, read.favorites)
+        assertEquals(read.settings, missing.settings)
+        assertEquals(read.favorites, missing.favorites)
+    }
+
+    @Test
+    fun theSeedPageWritesStorageThenOpensTheLearner() {
+        val page = deskSeedDocument(
+            rules.fresh().copy(suiteLang = "latin"),
+            listOf("latin"),
+            "file:///android_asset/www/grammar-learner/index.html?lang=latin",
+        )
+        assertTrue(page.contains("localStorage.setItem('lsd-settings'"))
+        assertTrue(page.contains("localStorage.setItem('lsd-favorite-languages'"))
+        assertTrue(page.contains("lsd-suite-lang"))
+        assertTrue(page.contains("location.replace(\"file:///android_asset/www/grammar-learner/index.html?lang=latin\")"))
+        assertFalse(page.contains("</script><script"))
+    }
+
+    @Test
+    fun onlyTheSuiteMenuReturnsToTheNativeShell() {
+        assertTrue(isDeskMenuUrl("file:///android_asset/www/index.html"))
+        assertTrue(isDeskMenuUrl("file:///android_asset/www/index.html?x=1"))
+        assertTrue(isDeskMenuUrl("file:///android_asset/www/SquirrelGo-Apps/lsd-suite/www/index.html"))
+        assertTrue(isDeskMenuUrl("file:///android_asset/www/SquirrelGo-Apps/lsd-suite/index.html"))
+        assertFalse(isDeskMenuUrl("file:///android_asset/www/klingon/index.html"))
+        assertFalse(isDeskMenuUrl("file:///android_asset/www/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/index.html"))
+        assertFalse(isDeskMenuUrl("https://example.com/android_asset/www/index.html"))
+        val parsed = parseDeskWebSnapshot("""{"settings":"{\"level\":\"simple\"}","favorites":"[\"latin\"]","lang":"latin"}""")
+        assertEquals("latin", parsed?.lang)
+        assertEquals(null, parseDeskWebSnapshot("null"))
     }
 
     @Test

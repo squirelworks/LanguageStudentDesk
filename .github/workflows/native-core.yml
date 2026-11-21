@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :ui:klingon:jvmTest :ui:phrasebook:jvmTest :ui:orthodox-bible:jvmTest :ui:desk:compileKotlinJvm :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :android:klingon:assembleDebug :android:phrasebook:assembleDebug :android:orthodox-bible:assembleDebug :android:lsd:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin :desktop:klingon:compileKotlin :desktop:phrasebook:compileKotlin :desktop:orthodox-bible:compileKotlin :desktop:lsd:compileKotlin
+          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :ui:klingon:jvmTest :ui:phrasebook:jvmTest :ui:orthodox-bible:jvmTest :ui:desk:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :android:klingon:assembleDebug :android:phrasebook:assembleDebug :android:orthodox-bible:assembleDebug :android:lsd:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin :desktop:klingon:compileKotlin :desktop:phrasebook:compileKotlin :desktop:orthodox-bible:compileKotlin :desktop:lsd:compileKotlin
       - name: Native release APKs stay on the debug key
         working-directory: native
         run: bash tools/check_native_release_signatures.sh

@@ -1,34 +1,53 @@
 #!/usr/bin/env python3
-"""Read the Desk menu's language registry, feature switches and programming
-courses into one JSON file. The native shell does not keep a second copy.
+"""Read the Desk menu's language registry, feature switches, programming
+courses and learner list into one JSON file. The native shell does not keep
+a second copy of any of them.
 """
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
 
-LEARNERS = [
-    {"id": "klingon", "title": "Klingon (tlhIngan Hol)", "href": "klingon/index.html",
-     "description": "pIqaD alphabet, handwriting, numbers, vocabulary, grammar, reader and quizzes.", "scoped": False},
-    {"id": "character", "title": "Character Learner", "href": "character-learner/index.html",
-     "description": "Kana, kanji, hanzi, hanja, pIqaD and the Alphabets scripts: stroke order and a writing pad.", "scoped": True},
-    {"id": "resource", "title": "Resource Learner", "href": "resource-learner/index.html",
-     "description": "Curated learning resources, general and per language.", "scoped": True},
-    {"id": "reference", "title": "Reference Learner", "href": "reference-learner/index.html",
-     "description": "Quick lookup for language facts and notes.", "scoped": True},
-    {"id": "translation", "title": "Translation Learner (alpha)", "href": "translation-learner/index.html",
-     "description": "Sentence translation checked by meaning, a meaning matrix, and top-1,000 word practice.", "scoped": True},
-    {"id": "programming", "title": "Programming Learner", "href": "programming-learner/index.html",
-     "description": "Syntax, concepts and practice, from Python, Slick and Chisel to the esolangs.", "scoped": True},
-    {"id": "legalese", "title": "Legalese Learner", "href": "legalese-learner/index.html",
-     "description": "How the heavy words in a contract work. Reading practice, not legal advice.", "scoped": False},
-    {"id": "language", "title": "Language Learner", "href": "language-learner/index.html",
-     "description": "A guided path per language: script, first words, grammar, then practice.", "scoped": True},
-    {"id": "grammar", "title": "Grammar Learner", "href": "grammar-learner/index.html",
-     "description": "Short grammar lessons with explained drills.", "scoped": True},
-    {"id": "vocabulary", "title": "Vocabulary Learner", "href": "vocabulary-learner/index.html",
-     "description": "Flashcards, spaced review and Anki export.", "scoped": True},
-]
+# One object from the LEARNERS array in the suite menu. requires is optional.
+LEARNER = re.compile(
+    r"""\{\s*href:\s*"([^"]+)"\s*,\s*title:\s*"([^"]+)"\s*,\s*"""
+    r"""desc:\s*"([^"]+)"\s*,\s*scoped:\s*(true|false)"""
+    r"""(?:\s*,\s*requires:\s*(\[[^\]]*\]|"[^"]*"))?\s*\}""",
+    re.S,
+)
+
+
+def learners_from_menu(text):
+    """The suite menu is the only learner list. Ids come from the folder name."""
+    start = text.find("var LEARNERS = [")
+    if start < 0:
+        sys.exit("desk menu has no LEARNERS list")
+    end = text.find("];", start)
+    if end < 0:
+        sys.exit("desk menu LEARNERS list is not closed")
+    found = LEARNER.findall(text[start:end])
+    if not found:
+        sys.exit("desk menu LEARNERS list was empty")
+    learners = []
+    for href, title, description, scoped, requires in found:
+        href = href.removeprefix("../../../")
+        folder = href.split("/", 1)[0]
+        ident = folder[: -len("-learner")] if folder.endswith("-learner") else folder
+        item = {
+            "id": ident,
+            "title": title,
+            "href": href,
+            "description": description,
+            "scoped": scoped == "true",
+        }
+        if requires:
+            if requires.startswith("["):
+                item["requires"] = json.loads(requires)
+            else:
+                item["requires"] = [json.loads(requires)]
+        learners.append(item)
+    return learners
 
 READER = r"""
 const fs = require("fs");
@@ -59,9 +78,9 @@ process.stdout.write(JSON.stringify({
 
 
 def main():
-    if len(sys.argv) != 5:
-        sys.exit("usage: desk_catalog.py <features.js> <registry.js> <catalog.js> <out.json>")
-    features, registry, catalog, out = [Path(arg) for arg in sys.argv[1:]]
+    if len(sys.argv) != 6:
+        sys.exit("usage: desk_catalog.py <features.js> <registry.js> <catalog.js> <menu.html> <out.json>")
+    features, registry, catalog, menu, out = [Path(arg) for arg in sys.argv[1:]]
     try:
         raw = subprocess.run(
             ["node", "-e", READER, str(features), str(registry), str(catalog)],
@@ -72,7 +91,7 @@ def main():
     except subprocess.CalledProcessError as error:
         sys.exit(error.stderr or "Could not read the Desk menu files")
     data = json.loads(raw)
-    data["learners"] = LEARNERS
+    data["learners"] = learners_from_menu(menu.read_text(encoding="utf-8"))
     if not data["languages"] or not data["features"]:
         sys.exit("The Desk menu files did not contain languages and feature switches")
     out.parent.mkdir(parents=True, exist_ok=True)

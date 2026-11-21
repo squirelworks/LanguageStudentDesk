@@ -1,34 +1,27 @@
 package com.squirelworks.lsd
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.viewinterop.AndroidView
 import com.squirelworks.lsd.core.desk.DeskLearner
 import com.squirelworks.lsd.core.desk.DeskRules
+import com.squirelworks.lsd.core.desk.applyDeskWebSnapshot
 import com.squirelworks.lsd.core.desk.decodeDeskSettings
 import com.squirelworks.lsd.core.desk.encodeDeskSettings
 import com.squirelworks.lsd.core.desk.importDeskWebView
 import com.squirelworks.lsd.core.desk.parseDeskCatalog
+import com.squirelworks.lsd.core.desk.parseDeskWebSnapshot
 import com.squirelworks.lsd.core.languages.FavoriteLanguages
-import com.squirelworks.lsd.core.languages.FavoriteStore
-import com.squirelworks.lsd.core.languages.formatFavoriteFile
+import com.squirelworks.lsd.core.languages.formatFavoriteOrder
 import com.squirelworks.lsd.core.languages.parseFavoriteFile
 import com.squirelworks.lsd.desk.DeskApp
-import com.squirelworks.lsd.kana.PlatformBackHandler
 import com.squirelworks.lsd.kana.WebViewStore
 import com.squirelworks.lsd.kana.readWebViewProgress
 import java.io.File
-import java.net.URLEncoder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,21 +34,40 @@ class MainActivity : ComponentActivity() {
         var settings by mutableStateOf(
             decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), rules.fresh()),
         )
+        val favorites = FavoriteLanguages(OrderedFavoriteStore(favoriteFile))
         if (!settings.importedWebView) {
             val dataDir = File(applicationInfo.dataDir)
-            val saved = (readWebViewProgress(dataDir, "lsd-settings") as? WebViewStore.Value)?.text
-            val stars = (readWebViewProgress(dataDir, "lsd-favorite-languages") as? WebViewStore.Value)?.text
-            val imported = importDeskWebView(saved, stars, settings, parseFavoriteFile(favoriteFile.takeIf { it.isFile }?.readText().orEmpty()))
+            fun stored(key: String) = (readWebViewProgress(dataDir, key, raw = true) as? WebViewStore.Value)?.text
+            val imported = importDeskWebView(
+                stored("lsd-settings"),
+                stored("lsd-favorite-languages"),
+                settings,
+                favorites.ids(),
+                stored("lsd-suite-lang"),
+            )
             settings = imported.settings
             settingsFile.writeText(encodeDeskSettings(settings))
-            favoriteFile.writeText(formatFavoriteFile(imported.favorites))
+            favorites.replace(imported.favorites)
         }
-        val favorites = FavoriteLanguages(FileFavoriteStore(favoriteFile))
-        var learnerUrl by mutableStateOf<String?>(null)
+        var learner by mutableStateOf<Pair<DeskLearner, String>?>(null)
         setContent {
-            if (learnerUrl != null) {
-                PlatformBackHandler(true) { learnerUrl = null }
-                LearnerWeb(learnerUrl!!)
+            val open = learner
+            if (open != null) {
+                val (page, lang) = open
+                LearnerWeb(
+                    url = learnerAddress(page.href, page.scoped, lang),
+                    seedHtml = learnerSeed(settings, favorites.ids(), page.href, page.scoped, lang),
+                    onLeave = { raw ->
+                        val snapshot = parseDeskWebSnapshot(raw)
+                        if (snapshot != null) {
+                            val applied = applyDeskWebSnapshot(snapshot, settings, favorites.ids())
+                            settings = applied.settings
+                            settingsFile.writeText(encodeDeskSettings(settings))
+                            favorites.replace(applied.favorites)
+                        }
+                        learner = null
+                    },
+                )
             } else {
                 DeskApp(
                     catalog = catalog,
@@ -66,41 +78,16 @@ class MainActivity : ComponentActivity() {
                         settingsFile.writeText(encodeDeskSettings(next))
                     },
                     onFavorites = {},
-                    onOpenLearner = { learner, lang -> learnerUrl = learnerUrl(learner, lang) },
+                    onOpenLearner = { page, lang -> learner = page to lang },
                 )
             }
         }
     }
 }
 
-private fun learnerUrl(learner: DeskLearner, lang: String): String {
-    val query = if (learner.scoped && lang.isNotBlank()) "?lang=" + URLEncoder.encode(lang, "UTF-8") else ""
-    return "file:///android_asset/www/${learner.href}$query"
-}
-
-@SuppressLint("SetJavaScriptEnabled")
-@Composable
-private fun LearnerWeb(url: String) {
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            WebView(context).apply {
-                settings.javaScriptEnabled = true
-                settings.allowFileAccess = true
-                @Suppress("DEPRECATION")
-                settings.allowFileAccessFromFileURLs = true
-                @Suppress("DEPRECATION")
-                settings.allowUniversalAccessFromFileURLs = true
-                loadUrl(url)
-            }
-        },
-        update = { if (it.url != url) it.loadUrl(url) },
-    )
-}
-
-private class FileFavoriteStore(private val file: File) : FavoriteStore {
+private class OrderedFavoriteStore(private val file: File) : com.squirelworks.lsd.core.languages.FavoriteStore {
     override fun load(): Set<String> = if (file.isFile) parseFavoriteFile(file.readText()) else emptySet()
     override fun save(ids: Set<String>) {
-        file.writeText(formatFavoriteFile(ids))
+        file.writeText(formatFavoriteOrder(ids))
     }
 }

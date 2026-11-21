@@ -83,6 +83,13 @@ fun parseFavoriteFile(text: String): Set<String> =
 fun formatFavoriteFile(ids: Set<String>): String =
     if (ids.isEmpty()) "" else ids.sorted().joinToString("\n", postfix = "\n")
 
+// Desk stars keep the order they were starred in, which is the order the
+// WebView's lsd-favorite-languages array uses.
+fun formatFavoriteOrder(ids: Iterable<String>): String {
+    val list = ids.toList()
+    return if (list.isEmpty()) "" else list.joinToString("\n", postfix = "\n")
+}
+
 class FavoriteLanguages(private val store: FavoriteStore) {
     private var ids: Set<String> = store.load()
 
@@ -91,6 +98,13 @@ class FavoriteLanguages(private val store: FavoriteStore) {
     fun toggle(id: String) {
         ids = if (id in ids) ids - id else ids + id
         store.save(ids)
+    }
+
+    fun replace(ids: Iterable<String>) {
+        val next = linkedSetOf<String>()
+        ids.forEach { if (it.isNotEmpty()) next += it }
+        this.ids = next
+        store.save(next)
     }
 }
 

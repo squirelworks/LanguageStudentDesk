@@ -5,7 +5,7 @@ data class LiveLevel(val minLog: Long, val prevLog: Long, val tables: Set<Long>)
 // CURRENT names the manifest. The manifest is a log of version edits.
 // Only tables still listed there, and logs at or after the log number, are live.
 // A half-written table from an interrupted compaction is not listed, so it is ignored.
-fun levelDbStore(files: Map<String, ByteArray>, key: String): WebViewStore {
+fun levelDbStore(files: Map<String, ByteArray>, key: String, raw: Boolean = false): WebViewStore {
     val current = files["CURRENT"] ?: return if (files.keys.any { it.endsWith(".ldb") || it.endsWith(".log") || it.startsWith("MANIFEST-") }) {
         WebViewStore.Unreadable
     } else {
@@ -26,7 +26,7 @@ fun levelDbStore(files: Map<String, ByteArray>, key: String): WebViewStore {
         val number = fileName.removeSuffix(".log").toLongOrNull() ?: continue
         if (number >= live.minLog || (live.prevLog > 0L && number == live.prevLog)) logs += bytes
     }
-    return localStorageFromStore(logs, tables, key)
+    return localStorageFromStore(logs, tables, key, raw)
 }
 
 fun liveLevel(manifest: ByteArray): LiveLevel? {

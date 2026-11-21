@@ -35,10 +35,20 @@ tasks.named("processResources").configure {
     dependsOn(rootProject.tasks.named("generateDeskCatalog"))
 }
 
+tasks.configureEach {
+    if (name == "prepareAppResources" || name.startsWith("prepareAppResources")) {
+        dependsOn(rootProject.tasks.named("packDeskLearners"))
+    }
+}
+
+val learnerPages = rootProject.layout.buildDirectory.dir("generated-desk-www")
+
 compose.desktop {
     application {
         mainClass = "com.squirelworks.lsd.MainKt"
         nativeDistributions {
+            // Packed learner pages, next to the installed app. Not the git checkout.
+            appResourcesRootDir.set(learnerPages)
             val os = System.getProperty("os.name").lowercase()
             val formats = when {
                 "mac" in os -> listOf(TargetFormat.Dmg)
