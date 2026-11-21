@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,7 +73,7 @@ internal fun VerseBody(ui: BibleUi, page: Page.Verse, onOpenChapter: (String, In
     }
     val kref = ui.verses.toKjv(display.versification, page.ref).orEmpty()
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = { onOpenChapter(parsed.book, parsed.chapter, parsed.verse) }) { Text("Open in chapter") }
             val marked = kref.isNotEmpty() && kref in ui.settings.bookmarks
             Button(onClick = {

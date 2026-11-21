@@ -11,27 +11,31 @@ internal class BibleLibrary(
     private val loadedCommentary = HashSet<String>()
     private val index = HashMap<String, MutableList<CommentaryHit>>()
 
-    fun loadedBibles(): Collection<BibleDocument> = bibles.values
+    fun loadedBibles(): Collection<BibleDocument> = bibleSync { bibles.values.toList() }
 
-    fun bible(id: String): BibleDocument? = bibles[id]
+    fun bible(id: String): BibleDocument? = bibleSync { bibles[id] }
 
-    fun ensureBible(entry: CatalogBible): BibleDocument? {
-        bibles[entry.id]?.let { return it }
+    fun ensureBible(entry: CatalogBible): BibleDocument? = bibleSync {
+        bibles[entry.id]?.let { return@bibleSync it }
         val json = if (entry.url.isBlank()) {
             readBundledBible(entry.id)
         } else {
             packs.read(packKey("bible", entry.id))?.let { parsePackJson(it, "SGO_BIBLES.push(") }
-        } ?: return null
-        val document = decodeBible(json)
-        bibles[document.id] = document
-        return document
+        }
+        if (json == null) {
+            null
+        } else {
+            val document = decodeBible(json)
+            bibles[document.id] = document
+            document
+        }
     }
 
-    fun forgetBible(id: String) {
+    fun forgetBible(id: String) = bibleSync {
         bibles.remove(id)
     }
 
-    fun ensureCommentary(bookIds: Set<String>, catalog: List<CatalogCommentary>, installed: (CatalogCommentary) -> Boolean) {
+    fun ensureCommentary(bookIds: Set<String>, catalog: List<CatalogCommentary>, installed: (CatalogCommentary) -> Boolean) = bibleSync {
         for (entry in catalog) {
             if (!installed(entry)) continue
             val covers = entry.books
@@ -55,8 +59,9 @@ internal class BibleLibrary(
         }
     }
 
-    fun commentaryFor(kref: String, hidden: Set<String>): List<CommentaryHit> =
-        index[kref].orEmpty().filter { it.source.id !in hidden }
+    fun commentaryFor(kref: String, hidden: Set<String>): List<CommentaryHit> = bibleSync {
+        index[kref].orEmpty().filter { it.source.id !in hidden }.toList()
+    }
 
     private fun index(document: CommentaryDocument) {
         val pattern = Regex("""^([0-9A-Z]{3})\.(\d+)\.(\d+)(?:-(\d+))?$""")
@@ -73,3 +78,5 @@ internal class BibleLibrary(
         }
     }
 }
+
+internal expect fun <T> bibleSync(block: () -> T): T

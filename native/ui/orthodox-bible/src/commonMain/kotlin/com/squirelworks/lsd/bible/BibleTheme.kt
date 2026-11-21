@@ -1,6 +1,7 @@
 package com.squirelworks.lsd.bible
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -113,23 +114,17 @@ internal fun BibleTopBar(
         if (canBack) {
             TextButton(onClick = onBack) { Text("‹", color = Color.White, fontSize = 22.sp) }
         }
-        if (titleOpensBooks) {
-            TextButton(onClick = onTitle, modifier = Modifier.weight(1f)) {
-                Text("$title ▾", color = Color.White, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Column(Modifier.weight(1f).padding(horizontal = 8.dp)) {
+            if (titleOpensBooks) {
+                TextButton(onClick = onTitle, contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)) {
+                    Text("$title ▾", color = Color.White, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+            } else {
+                Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
-        } else {
-            Text(
-                title,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
-            )
-        }
-        if (subtitle.isNotBlank() && !titleOpensBooks) {
-            Text(subtitle, color = Color.White.copy(alpha = 0.85f), fontSize = 12.sp, maxLines = 1, modifier = Modifier.padding(end = 4.dp))
+            if (subtitle.isNotBlank() && !titleOpensBooks) {
+                Text(subtitle, color = Color.White.copy(alpha = 0.85f), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
         }
         readerActions?.invoke(this)
         TextButton(onClick = onApps) { Text("▦", color = Color.White, fontSize = 18.sp) }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.core.speech.SpeechOutcome
@@ -228,7 +231,10 @@ fun BibleApp(
     }
     val palette = if (dark) darkBiblePalette else lightBiblePalette
     MaterialTheme(colorScheme = bibleColors(dark)) {
-        CompositionLocalProvider(LocalBiblePalette provides palette) {
+        CompositionLocalProvider(
+            LocalBiblePalette provides palette,
+            LocalContentColor provides palette.ink,
+        ) {
             BoxWithConstraints(Modifier.fillMaxSize().background(palette.bg)) {
                 val expanded = maxWidth >= 840.dp
                 val wideText = maxWidth >= 700.dp
@@ -316,6 +322,7 @@ fun BibleApp(
 private fun Action(label: String, description: String, onClick: () -> Unit) {
     androidx.compose.material3.TextButton(
         onClick = onClick,
+        modifier = Modifier.semantics { contentDescription = description },
         contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 4.dp),
     ) {
         Text(label, color = androidx.compose.ui.graphics.Color.White)

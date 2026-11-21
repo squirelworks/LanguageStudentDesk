@@ -92,6 +92,18 @@ class BibleLogicTest {
     }
 
     @Test
+    fun russianPsalmTitleHasNoParallelVerse() {
+        val verses = Versification(bibleJson.decodeFromString(extractJson(repoFile("www/data/versification.js"))))
+        assertNull(verses.toKjv("rso", "PSA.50.1"))
+        assertNull(verses.toKjv("rso", "PSA.50.2"))
+        val synodal = BibleDocument(id = "rus-synodal", name = "Synodal", versification = "rso")
+        val kjv = BibleDocument(id = "kjva", name = "KJV", versification = "kjv")
+        assertNull(sameRefIn(verses, kjv, synodal, "PSA.50.1"))
+        assertNull(sameRefIn(verses, kjv, synodal, "PSA.50.2"))
+        assertEquals("PSA.49.1", sameRefIn(verses, synodal, kjv, "PSA.50.1"))
+    }
+
+    @Test
     fun realKjvOpensGenesis() {
         val text = extractJson(repoFile("www/data/bibles/kjva.js"))
         val bible = decodeBible(text)

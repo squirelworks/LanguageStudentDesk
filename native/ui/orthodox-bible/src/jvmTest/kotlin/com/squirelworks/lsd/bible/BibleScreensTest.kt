@@ -3,6 +3,7 @@ package com.squirelworks.lsd.bible
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -85,6 +86,91 @@ class BibleScreensTest {
         }
     }
 
+    @Test
+    fun phoneThemesStayReadable() = runTest {
+        val books = bibleJson.decodeFromString<List<BookMeta>>(quoteKeys(jsonSlice(repoFile("www/data/books.js"))))
+        val lectionary = bibleJson.parseToJsonElement(jsonSlice(repoFile("www/data/lectionary.js"))).jsonObject
+        val sample = """
+            {"id":"sample","name":"Sample English","lang":"en","dir":"ltr","versification":"kjv",
+             "books":{"JHN":[["In the beginning was the Word.","And the Word was with God.","All things were made by him."]]}}
+        """.trimIndent()
+        val bundle = BibleBundle(
+            books = books,
+            catalog = BibleCatalog(bibles = listOf(CatalogBible(id = "sample", name = "Sample English", lang = "en", testaments = "NT"))),
+            versification = emptyMap(),
+            lectionary = lectionary,
+            suite = null,
+        )
+        val out = File("/tmp/bible-screens").apply { mkdirs() }
+        for ((label, width) in listOf("phone" to 412, "desk" to 1100)) {
+            for (theme in listOf("dark", "light")) {
+            val settings = ScreenStore()
+            writeBibleSettings(
+                settings,
+                BibleSettings(
+                    primary = "sample",
+                    theme = theme,
+                    last = LastPlace("JHN", 1),
+                    bookmarks = listOf("JHN.1.1"),
+                    notes = mapOf("JHN.1.1" to "A note"),
+                    highlights = mapOf("JHN.1.1" to "gold"),
+                ),
+            )
+            runDesktopComposeUiTest(width = width, height = 900) {
+                setContent {
+                    BibleApp(
+                        bundle = bundle,
+                        readBible = { if (it == "sample") sample else null },
+                        readCommentary = { null },
+                        settingsStore = settings,
+                        contentStore = ScreenStore(),
+                        packs = ScreenPacks(),
+                    )
+                }
+                waitUntil(timeoutMillis = 5_000) {
+                    onAllNodesWithText("In the beginning was the Word.", substring = true).fetchSemanticsNodes().isNotEmpty()
+                }
+                save(out, "$label-$theme-reader")
+                onNodeWithText("In the beginning was the Word.", substring = true).performClick()
+                waitUntil(timeoutMillis = 5_000) {
+                    onAllNodesWithText("Open in chapter").fetchSemanticsNodes().isNotEmpty()
+                }
+                if (width < 700) {
+                    val copy = onNodeWithText("Copy").fetchSemanticsNode()
+                    check(copy.size.height < 80) { "Copy is ${copy.size.height}px tall" }
+                    check(onNodeWithText("John 1:1").fetchSemanticsNode().size.width > 60)
+                }
+                save(out, "$label-$theme-verse")
+                onAllNodesWithText("‹")[0].performClick()
+                waitForIdle()
+                onNodeWithContentDescription("Bookmarks and notes").performClick()
+                waitUntil(timeoutMillis = 5_000) {
+                    onAllNodesWithText("A note", substring = true).fetchSemanticsNodes().isNotEmpty()
+                }
+                save(out, "$label-$theme-saved")
+                onAllNodesWithText("‹")[0].performClick()
+                waitForIdle()
+                onNodeWithContentDescription("Today's readings").performClick()
+                waitUntil(timeoutMillis = 5_000) {
+                    onAllNodesWithText("Readings").fetchSemanticsNodes().isNotEmpty()
+                }
+                save(out, "$label-$theme-today")
+                onAllNodesWithText("‹")[0].performClick()
+                waitForIdle()
+                onNodeWithContentDescription("Translations").performClick()
+                waitUntil(timeoutMillis = 5_000) {
+                    onAllNodesWithText("Sample English").fetchSemanticsNodes().isNotEmpty()
+                }
+                save(out, "$label-$theme-settings")
+            }
+            val ink = if (theme == "dark") 0xECE4D8 else 0x1D1A17
+            for (screen in listOf("reader", "verse", "saved", "today", "settings")) {
+                check(imageHasColor(File(out, "$label-$theme-$screen.png"), ink)) { "$label $theme $screen has no ink-coloured text" }
+            }
+            }
+        }
+    }
+
     private fun androidx.compose.ui.test.DesktopComposeUiTest.save(dir: File, name: String) {
         val image = captureToImage()
         val file = File(dir, "$name.png")
@@ -98,6 +184,28 @@ class BibleScreensTest {
             setRGB(0, 0, width, height, pixels, 0, width)
         }
     }
+}
+
+private fun imageHasColor(file: File, rgb: Int): Boolean {
+    val image = javax.imageio.ImageIO.read(file)
+    val targetR = (rgb shr 16) and 0xFF
+    val targetG = (rgb shr 8) and 0xFF
+    val targetB = rgb and 0xFF
+    var hits = 0
+    var y = 80
+    while (y < image.height) {
+        var x = 16
+        while (x < image.width - 16) {
+            val pixel = image.getRGB(x, y)
+            val distance = kotlin.math.abs(((pixel shr 16) and 0xFF) - targetR) +
+                kotlin.math.abs(((pixel shr 8) and 0xFF) - targetG) +
+                kotlin.math.abs((pixel and 0xFF) - targetB)
+            if (distance < 48) hits += 1
+            x += 3
+        }
+        y += 3
+    }
+    return hits > 30
 }
 
 private class ScreenStore : TextStore {
