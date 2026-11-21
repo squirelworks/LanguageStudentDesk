@@ -79,6 +79,7 @@ fun KanaApp(
     onLaunchApp: (SuiteApp) -> Boolean = { false },
     onOpenUrl: (String) -> Unit = {},
     onStopAudio: () -> Unit = {},
+    onExit: () -> Unit = {},
 ) {
     var stack by remember { mutableStateOf(listOf<Screen>(Screen.Home)) }
     var progress by remember { mutableStateOf(readProgress(progressStore)) }
@@ -99,7 +100,7 @@ fun KanaApp(
         }
     }
     val backEnabled = showSuite || dialogOpen || stack.size > 1
-    PlatformBackHandler(backEnabled) {
+    fun performBack() {
         when (kanaBack(showSuite, dialogOpen, stack.size)) {
             KanaBack.CloseSheet -> {
                 showSuite = false
@@ -107,9 +108,11 @@ fun KanaApp(
             }
             KanaBack.CloseDialog -> closeDialog()
             KanaBack.PreviousScreen -> back()
-            KanaBack.Exit -> Unit
+            KanaBack.Exit -> onExit()
         }
     }
+    PlatformBackHandler(backEnabled, ::performBack)
+    EscapeBackEffect(::performBack)
     fun save(next: ProgressFile) {
         progress = next
         writeProgress(progressStore, next)

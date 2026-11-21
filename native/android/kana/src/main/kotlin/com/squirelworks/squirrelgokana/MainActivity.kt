@@ -72,6 +72,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        stopAudio()
+        super.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
         installed = installedNow()
