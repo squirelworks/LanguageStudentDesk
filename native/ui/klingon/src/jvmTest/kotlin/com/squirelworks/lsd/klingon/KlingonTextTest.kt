@@ -2,9 +2,11 @@ package com.squirelworks.lsd.klingon
 
 import com.squirelworks.lsd.kana.WebViewStore
 import kotlin.random.Random
+import androidx.compose.ui.text.font.FontWeight
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class KlingonTextTest {
@@ -83,10 +85,30 @@ class KlingonTextTest {
     }
 
     @Test
-    fun articlesDropTags() {
-        val plain = articlePlain("<p><b>pIqaD</b> is the alphabet.</p><ul><li>One</li></ul>")
-        assertTrue(plain.contains("pIqaD"))
-        assertFalse(plain.contains("<"))
-        assertTrue(plain.contains("• One"))
+    fun allQuestionsAreShuffled() {
+        val lettersOnly = letters.filter { !it.numeral }
+        val first = buildQuiz(lettersOnly, "read", 0, true, bundle, Shuffler(Random(1)))
+        val second = buildQuiz(lettersOnly, "read", 0, true, bundle, Shuffler(Random(2)))
+        assertEquals(lettersOnly.size, first.questions.size)
+        assertNotEquals(first.questions.map { it.key }, second.questions.map { it.key })
+    }
+
+    @Test
+    fun againPutsTheCardAFewPlacesOn() {
+        val deck = listOf("a", "b", "c", "d", "e", "f")
+        assertEquals(listOf("b", "c", "d", "a", "e", "f"), reinsertFlashCard(deck, 3))
+        assertEquals(listOf("b", "a"), reinsertFlashCard(listOf("a", "b"), 5))
+    }
+
+    @Test
+    fun articlesKeepEmphasisAndSeparateTableCells() {
+        val marked = articleMarkup("<p><b>pIqaD</b> is <i>the</i> alphabet.</p><ul><li>One</li></ul><table><tr><th>Letter</th><th>Say it like</th></tr></table>")
+        assertTrue(marked.text.contains("pIqaD"))
+        assertFalse(marked.text.contains("<"))
+        assertTrue(marked.text.contains("• One"))
+        assertTrue(marked.text.contains("Letter"))
+        assertFalse(marked.text.contains("LetterSay"))
+        assertTrue(marked.spanStyles.any { it.item.fontWeight == FontWeight.Bold })
+        assertTrue(marked.spanStyles.any { it.item.fontStyle == androidx.compose.ui.text.font.FontStyle.Italic })
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -35,7 +36,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,7 +67,7 @@ private sealed interface Page {
     data object Chart : Page
     data class Choose(val mode: String) : Page
     data class QuizRun(val quiz: KlingonQuiz, val items: List<String>, val kind: String, val count: Int) : Page
-    data class Flash(val keys: List<String>, val shown: Boolean, val done: Int) : Page
+    data class Flash(val origin: List<String>, val keys: List<String>, val shown: Boolean, val done: Int) : Page
     data class Write(val keys: List<String>, val index: Int, val memory: Boolean, val revealed: Boolean) : Page
     data class Words(val text: String) : Page
     data class Article(val index: Int) : Page
@@ -153,17 +159,18 @@ fun KlingonApp(
                         Page.Home -> HomePage(bundle, progress, font, ::push)
                         is Page.Lesson -> LessonPage(bundle, progress, font, current.index, ::push)
                         is Page.Detail -> DetailPage(bundle, progress, font, current, ::play, ::replace, ::push)
-                        Page.Chart -> ChartPage(bundle, progress, font) { push(Page.Detail(it, bundle.letters.map { letter -> letter.key })) }
+                        Page.Chart -> ChartPage(bundle, progress, font) { key, list -> push(Page.Detail(key, list)) }
                         is Page.Choose -> ChoosePage(
                             bundle, progress, font, current.mode, selected, quizKind, quizCount, writeMemory,
                             onSelected = { selected = it },
                             onKind = { quizKind = it },
                             onCount = { quizCount = it },
                             onMemory = { writeMemory = it },
-                            onStart = { keys, mode ->
+                            onStart = { keys, mode, count ->
+                                val questions = count ?: quizCount
                                 when (mode) {
-                                    "quiz" -> push(Page.QuizRun(buildQuiz(keys.mapNotNull { bundle.byKey[it] }, quizKind, quizCount, progress.voice, bundle), keys, quizKind, quizCount))
-                                    "flash" -> push(Page.Flash(keys.shuffled(), false, 0))
+                                    "quiz" -> push(Page.QuizRun(buildQuiz(keys.mapNotNull { bundle.byKey[it] }, quizKind, questions, progress.voice, bundle), keys, quizKind, questions))
+                                    "flash" -> push(Page.Flash(keys, keys.shuffled(), false, 0))
                                     else -> push(Page.Write(keys, 0, writeMemory, false))
                                 }
                             },
@@ -172,27 +179,33 @@ fun KlingonApp(
                             val next = current.quiz.choose(choice)
                             if (next != current.quiz) {
                                 val question = current.quiz.questions[current.quiz.index]
-                                if (question.kind != "word") save(progress.record(question.key, choice == question.answer))
+                                save(progress.record(question.key, choice == question.answer))
                                 replace(current.copy(quiz = next))
                             }
                         }, onNext = { replace(current.copy(quiz = current.quiz.advance())) }, onRetry = { missed ->
-                            val source = if (missed) current.quiz.missed.distinct() else current.items
+                            val source = if (missed) current.quiz.missed.distinct() else current.quiz.questions.map { it.key }
                             val letters = source.mapNotNull { bundle.byKey[it] }
-                            replace(current.copy(quiz = buildQuiz(letters, current.kind, if (missed) 0 else current.count, progress.voice, bundle)))
+                            replace(current.copy(quiz = buildQuiz(letters, current.kind, 0, progress.voice, bundle)))
                         }, onDetail = { push(Page.Detail(it, listOf(it))) })
                         is Page.Flash -> FlashPage(bundle, progress, font, current, ::play, onFlip = { replace(current.copy(shown = true)) }, onAgain = {
-                            val rest = current.keys.drop(1) + current.keys.first()
-                            replace(current.copy(keys = rest, shown = false, done = current.done))
+                            val offset = 3 + kotlin.random.Random.nextInt(3)
+                            replace(current.copy(keys = reinsertFlashCard(current.keys, offset), shown = false))
                         }, onGood = {
                             if (current.keys.size <= 1) replace(current.copy(keys = emptyList(), shown = false, done = current.done + 1))
                             else replace(current.copy(keys = current.keys.drop(1), shown = false, done = current.done + 1))
-                        }, onRestart = { replace(current.copy(keys = current.keys.ifEmpty { bundle.letters.map { it.key } }.shuffled(), shown = false, done = 0)) })
+                        }, onRestart = { replace(current.copy(keys = current.origin.shuffled(), shown = false, done = 0)) })
                         is Page.Write -> WritePage(bundle, progress, font, current, ::play, onProgress = ::save, onReplace = ::replace)
-                        is Page.Words -> WordsPage(bundle, font, current.text, ::play, onText = { replace(Page.Words(it)) }, onCopy = onCopy, onWrite = { keys ->
+                        is Page.Words -> WordsPage(bundle, font, current.text, ::play, onText = { replace(Page.Words(it)) }, onCopy = { text ->
+                            onCopy(text)
+                            toast = "Copied pIqaD text."
+                        }, onWrite = { keys ->
                             if (keys.isNotEmpty()) push(Page.Write(keys, 0, false, false))
                         })
-                        is Page.Article -> Text(articlePlain(bundle.articles[current.index].body))
-                        Page.Settings -> SettingsPage(bundle, progress, font, ::save, onReset = { save(KlingonProgress(importedWebView = true)) })
+                        is Page.Article -> Text(articleMarkup(bundle.articles[current.index].body))
+                        Page.Settings -> SettingsPage(bundle, progress, font, ::save, onReset = {
+                            save(progress.copy(stats = emptyMap(), written = emptyMap()))
+                            toast = "Progress cleared."
+                        })
                     }
                 }
             }
@@ -278,8 +291,14 @@ private fun LessonPage(bundle: KlingonBundle, progress: KlingonProgress, font: F
     }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Button(onClick = { open(Page.Write(letters.map { it.key }, 0, false, false)) }) { Text("Write these") }
-        TextButton(onClick = { open(Page.QuizRun(buildQuiz(letters, "read", 10, true, bundle), letters.map { it.key }, "read", 10)) }) { Text("Quiz") }
-        TextButton(onClick = { open(Page.Flash(letters.map { it.key }.shuffled(), false, 0)) }) { Text("Flashcards") }
+        TextButton(onClick = {
+            val keys = letters.map { it.key }
+            open(Page.QuizRun(buildQuiz(letters, "mix", 0, progress.voice, bundle), keys, "mix", 0))
+        }) { Text("Quiz") }
+        TextButton(onClick = {
+            val keys = letters.map { it.key }
+            open(Page.Flash(keys, keys.shuffled(), false, 0))
+        }) { Text("Flashcards") }
     }
 }
 
@@ -327,7 +346,14 @@ private fun DetailPage(
         TextButton(onClick = { play("clips/${letter.clip}", false) }) { Text("Play") }
         TextButton(onClick = { play("clips/${letter.clip}", true) }) { Text("Slow") }
     }
-    Text(letter.hint)
+    if (letter.numeral) {
+        Text(buildAnnotatedString {
+            append("Said ")
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(letter.hint) }
+        })
+    } else {
+        Text(letter.hint)
+    }
     if (!letter.numeral) {
         Text("Sounds like: ${letter.like}")
         if (letter.example.isNotBlank()) {
@@ -340,21 +366,25 @@ private fun DetailPage(
     Text("Quiz record: ${stat?.c ?: 0} right, ${stat?.w ?: 0} wrong${if (progress.mastered(letter.key)) " · mastered" else ""} · written ${progress.written[letter.key] ?: 0} times")
     Row {
         TextButton(onClick = { if (index > 0) replace(page.copy(key = page.list[index - 1])) }, enabled = index > 0) { Text("Prev") }
-        Button(onClick = { open(Page.Write(listOf(letter.key), 0, false, false)) }) { Text("Write it") }
+        Button(onClick = { open(Page.Write(page.list, index.coerceAtLeast(0), false, false)) }) { Text("Write it") }
         TextButton(onClick = { if (index < page.list.lastIndex) replace(page.copy(key = page.list[index + 1])) }, enabled = index < page.list.lastIndex) { Text("Next") }
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ChartPage(bundle: KlingonBundle, progress: KlingonProgress, font: FontFamily, open: (String) -> Unit) {
+private fun ChartPage(bundle: KlingonBundle, progress: KlingonProgress, font: FontFamily, open: (String, List<String>) -> Unit) {
     Text("Tap a character for its sound and stroke order. Green means mastered in quizzes, orange means it needs review.")
     Text("Letters", style = MaterialTheme.typography.titleMedium)
     FlowRow {
-        bundle.letters.filter { !it.numeral }.sortedBy { it.codePoint }.forEach { LetterTile(it, progress, font) { open(it.key) } }
+        val alpha = bundle.letters.filter { !it.numeral }.sortedBy { it.codePoint }.map { it.key }
+        bundle.letters.filter { !it.numeral }.sortedBy { it.codePoint }.forEach { LetterTile(it, progress, font) { open(it.key, alpha) } }
     }
     Text("Numerals", style = MaterialTheme.typography.titleMedium)
-    FlowRow { bundle.letters.filter { it.numeral }.forEach { LetterTile(it, progress, font) { open(it.key) } } }
+    FlowRow {
+        val numerals = bundle.letters.filter { it.numeral }.map { it.key }
+        bundle.letters.filter { it.numeral }.forEach { LetterTile(it, progress, font) { open(it.key, numerals) } }
+    }
     Text("Punctuation", style = MaterialTheme.typography.titleMedium)
     FlowRow {
         punctuation.forEach { (glyph, name) ->
@@ -380,13 +410,13 @@ private fun ChoosePage(
     onKind: (String) -> Unit,
     onCount: (Int) -> Unit,
     onMemory: (Boolean) -> Unit,
-    onStart: (List<String>, String) -> Unit,
+    onStart: (List<String>, String, Int?) -> Unit,
 ) {
     val weak = bundle.letters.filter { progress.weak(it.key) }
     Row {
         TextButton(onClick = { onSelected(bundle.lessons.indices.toSet()) }) { Text("All") }
         TextButton(onClick = { onSelected(emptySet()) }) { Text("None") }
-        if (weak.isNotEmpty()) TextButton(onClick = { onStart(weak.map { it.key }, mode) }) { Text("Only the ${weak.size} to review") }
+        if (weak.isNotEmpty()) TextButton(onClick = { onStart(weak.map { it.key }, mode, 0) }) { Text("Only the ${weak.size} to review") }
     }
     bundle.lessons.forEachIndexed { index, lesson ->
         val glyphs = bundle.letters.filter { it.lesson == index }.take(5).joinToString(" ") { it.glyph }
@@ -419,7 +449,7 @@ private fun ChoosePage(
         TextButton(onClick = { onMemory(false) }) { Text(if (!memory) "• Trace over the guide" else "Trace over the guide") }
         TextButton(onClick = { onMemory(true) }) { Text(if (memory) "• From memory" else "From memory") }
     }
-    Button(onClick = { onStart(lettersIn(bundle, selected).map { it.key }, mode) }, enabled = selected.isNotEmpty()) { Text("Start") }
+    Button(onClick = { onStart(lettersIn(bundle, selected).map { it.key }, mode, null) }, enabled = selected.isNotEmpty()) { Text("Start") }
 }
 
 @Composable
@@ -494,7 +524,12 @@ private fun QuizPage(
             TextButton(onClick = { play(question.clip, false) }) { Text("Play word") }
         } else {
             val letter = bundle.byKey[question.key]
-            Text("${if (ok) "Correct." else "Not quite."} ${letter?.glyph.orEmpty()} is ${letter?.label.orEmpty()}")
+            val ipa = if (letter?.numeral == true) klingonIpa(letter.example, bundle.ipa) else bundle.ipa[question.key].orEmpty()
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(if (ok) "Correct. " else "Not quite. ")
+                if (letter != null) Glyph(letter.glyph, font, 22)
+                Text(" is ${letter?.label.orEmpty()} /$ipa/${if (letter?.numeral == true) "" else ": ${letter?.hint.orEmpty()}"}")
+            }
         }
         Button(onClick = onNext) { Text(if (quiz.index < quiz.questions.lastIndex) "Next" else "See results") }
     }
@@ -514,7 +549,7 @@ private fun FlashPage(
 ) {
     if (page.keys.isEmpty()) {
         Text("Done", style = MaterialTheme.typography.displaySmall)
-        Text("You went through the cards.")
+        Text("You went through all ${page.origin.size} cards.")
         Button(onClick = onRestart) { Text("Shuffle and go again") }
         return
     }
@@ -530,6 +565,12 @@ private fun FlashPage(
     } else {
         Glyph(letter.glyph, font, 72)
         if (bundle.strokes[letter.key].orEmpty().isNotEmpty()) StrokeGlyph(bundle.strokes.getValue(letter.key), play = true, speed = progress.speed, sizeDp = 140.dp)
+        if (!letter.numeral) Text(letter.hint)
+    }
+    if (page.shown && !letter.numeral && letter.example.isNotBlank()) {
+        Glyph(transliterate(letter.example, bundle.byKey).text, font, 28)
+        Text("${letter.example} /${klingonIpa(letter.example, bundle.ipa)}/ · ${letter.meaning}")
+        TextButton(onClick = { play("clips/${wordFile(letter.example)}", false) }) { Text("Play example") }
     }
     TextButton(onClick = { play("clips/${letter.clip}", false) }) { Text("Play") }
     if (!page.shown) Button(onClick = onFlip) { Text("Show answer") }
@@ -556,6 +597,12 @@ private fun WritePage(
     var undo by remember { mutableIntStateOf(0) }
     var clear by remember { mutableIntStateOf(0) }
     var message by remember(letter.key) { mutableStateOf(if (progress.check) "Stroke 1 of ${paths.size}" else "Free drawing: strokes are not checked") }
+    var advance by remember(letter.key) { mutableStateOf(false) }
+    LaunchedEffect(advance, letter.key) {
+        if (!advance) return@LaunchedEffect
+        delay(1100)
+        onReplace(page.copy(index = page.index + 1, revealed = false))
+    }
     val memory = page.memory && !page.revealed
     if (memory) {
         Text(letter.label, style = MaterialTheme.typography.headlineMedium)
@@ -584,6 +631,7 @@ private fun WritePage(
         onDone = {
             onProgress(progress.wrote(letter.key))
             message = if (page.index + 1 < page.keys.size) "Well written! On to the next one." else "Well written! That's the whole set."
+            if (page.index + 1 < page.keys.size) advance = true
         },
         modifier = Modifier.fillMaxWidth(),
     )
@@ -684,7 +732,21 @@ private fun SettingsPage(bundle: KlingonBundle, progress: KlingonProgress, font:
     TextButton(onClick = { save(progress.copy(flashDir = "glyph")) }) { Text(if (progress.flashDir == "glyph") "• pIqaD" else "pIqaD") }
     TextButton(onClick = { save(progress.copy(flashDir = "sound")) }) { Text(if (progress.flashDir == "sound") "• Sound" else "Sound") }
     Text("Progress", style = MaterialTheme.typography.titleMedium)
-    TextButton(onClick = onReset) { Text("Reset progress") }
+    var confirmReset by remember { mutableStateOf(false) }
+    TextButton(onClick = { confirmReset = true }) { Text("Reset progress") }
+    if (confirmReset) {
+        AlertDialog(
+            onDismissRequest = { confirmReset = false },
+            text = { Text("Clear all quiz and writing progress?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmReset = false
+                    onReset()
+                }) { Text("OK") }
+            },
+            dismissButton = { TextButton(onClick = { confirmReset = false }) { Text("Cancel") } },
+        )
+    }
     Text("About", style = MaterialTheme.typography.titleMedium)
     Text(bundle.about.about)
 }
@@ -707,13 +769,40 @@ private fun titleOf(page: Page, bundle: KlingonBundle): String = when (page) {
     Page.Settings -> "Settings"
 }
 
-fun articlePlain(html: String): String {
-    var text = html
-    text = text.replace(Regex("(?i)<br\\s*/?>"), "\n")
-    text = text.replace(Regex("(?i)</p>"), "\n\n")
-    text = text.replace(Regex("(?i)<li>"), "\n• ")
-    text = text.replace(Regex("(?i)</tr>"), "\n")
-    text = text.replace(Regex("(?i)<td>"), "  ")
-    text = text.replace(Regex("(?i)<[^>]+>"), "")
-    return text.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", "\"").trim()
+fun articleMarkup(html: String): androidx.compose.ui.text.AnnotatedString = buildAnnotatedString {
+    val tokens = Regex("(?is)<[^>]+>|[^<]+").findAll(html)
+    var bold = 0
+    var italic = 0
+    fun appendStyled(raw: String) {
+        val text = raw.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", "\"")
+        if (text.isEmpty()) return
+        if (bold == 0 && italic == 0) {
+            append(text)
+        } else {
+            withStyle(
+                SpanStyle(
+                    fontWeight = if (bold > 0) FontWeight.Bold else null,
+                    fontStyle = if (italic > 0) FontStyle.Italic else null,
+                ),
+            ) { append(text) }
+        }
+    }
+    tokens.forEach { token ->
+        val raw = token.value
+        if (!raw.startsWith("<")) {
+            appendStyled(raw)
+            return@forEach
+        }
+        val close = raw.startsWith("</")
+        val tag = Regex("(?i)^</?([a-z0-9]+)").find(raw)?.groupValues?.get(1)?.lowercase().orEmpty()
+        when (tag) {
+            "b", "strong" -> if (close) bold = (bold - 1).coerceAtLeast(0) else bold++
+            "i", "em" -> if (close) italic = (italic - 1).coerceAtLeast(0) else italic++
+            "br" -> append("\n")
+            "p" -> if (close) append("\n\n")
+            "li" -> if (!close) append("\n• ")
+            "tr" -> if (close) append("\n")
+            "th", "td" -> if (!close) append("\t")
+        }
+    }
 }

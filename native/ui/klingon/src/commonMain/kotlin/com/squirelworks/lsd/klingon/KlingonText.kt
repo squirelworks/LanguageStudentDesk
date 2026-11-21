@@ -118,7 +118,8 @@ fun buildQuiz(
     bundle: KlingonBundle,
     shuffler: Shuffler = Shuffler(),
 ): KlingonQuiz {
-    val pool = if (count <= 0) items else shuffler.shuffle(items).take(count.coerceAtMost(items.size))
+    val shuffled = shuffler.shuffle(items)
+    val pool = if (count <= 0) shuffled else shuffled.take(count.coerceAtMost(shuffled.size))
     val questions = pool.map { letter -> questionFor(letter, kind, items, voice, bundle, shuffler) }
     return KlingonQuiz(questions)
 }
@@ -203,6 +204,13 @@ fun KlingonQuiz.choose(choice: String): KlingonQuiz {
         right = right + if (correct) 1 else 0,
         missed = if (correct) missed else missed + question.key,
     )
+}
+
+fun reinsertFlashCard(deck: List<String>, offset: Int): List<String> {
+    if (deck.isEmpty()) return deck
+    val rest = deck.drop(1).toMutableList()
+    rest.add(minOf(rest.size, offset.coerceAtLeast(0)), deck.first())
+    return rest
 }
 
 fun KlingonQuiz.advance(): KlingonQuiz {
