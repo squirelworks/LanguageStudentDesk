@@ -3,6 +3,7 @@ package com.squirelworks.lsd.kana
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import com.squirelworks.lsd.core.speech.SpeechOutcome
+import com.squirelworks.lsd.core.speech.VoiceStatus
 import java.util.Locale
 
 // One text-to-speech engine for the character apps. The utterance id only
@@ -41,6 +42,15 @@ class AndroidSpeech(private val context: Context, private val utteranceId: Strin
         }
         val spoken = engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
         return if (spoken == TextToSpeech.ERROR) SpeechOutcome.Pending else SpeechOutcome.Spoken
+    }
+
+    fun languageStatus(lang: String): VoiceStatus {
+        val engine = voice ?: return VoiceStatus.Pending
+        return when (engineState) {
+            EngineState.Starting -> VoiceStatus.Pending
+            EngineState.Failed -> VoiceStatus.Missing
+            EngineState.Ready -> if (cachedLanguage(engine, lang)) VoiceStatus.Ready else VoiceStatus.Missing
+        }
     }
 
     fun stop() {

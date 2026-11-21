@@ -36,6 +36,7 @@ def main():
     alpha = set(mod.source_paths("alphabets"))
     kanji = set(mod.source_paths("kanji"))
     klingon = set(mod.source_paths("klingon"))
+    phrasebook = set(mod.source_paths("phrasebook"))
     lsd = set(mod.source_paths("lsd"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
@@ -47,7 +48,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, kokugo, multi, lsd):
+    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, kokugo, multi, lsd):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -78,6 +79,11 @@ def main():
         raise SystemExit(f"klingon generator inputs missing: {sorted(klingon)}")
     if kana_data in klingon or kanji_data in klingon:
         raise SystemExit("klingon is watching another app's WebView files")
+    phrasebook_www = "SquirrelGo-Apps/squirrelgo-phrasebook/www"
+    if phrasebook_www not in phrasebook or suite not in phrasebook:
+        raise SystemExit(f"phrasebook generator inputs missing: {sorted(phrasebook)}")
+    if kana_data in phrasebook or klingon_www in phrasebook:
+        raise SystemExit("phrasebook is watching another app's WebView files")
     if suite not in kana or suite not in bopo:
         raise SystemExit(f"a character app is not watching the suite file: kana={suite in kana} bopomofo={suite in bopo}")
     if suite in kokugo:
@@ -102,7 +108,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "japanese-dictionary", "multilingual-dictionary", "lsd"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "japanese-dictionary", "multilingual-dictionary", "lsd"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -134,6 +140,14 @@ def main():
         raise SystemExit("klingon ignored its lesson file")
     if mod.app_changed("tag", "kana", klingon_lesson) or mod.app_changed("tag", "kanji", klingon_lesson):
         raise SystemExit("a Klingon lesson marked another app")
+    phrase_file = diff_of([phrasebook_www + "/data/packs.js"])
+    phrase_audio = diff_of([phrasebook_www + "/audio/clip.mp3"])
+    if not mod.app_changed("tag", "phrasebook", phrase_file):
+        raise SystemExit("phrasebook ignored its pack file")
+    if not mod.app_changed("tag", "phrasebook", phrase_audio):
+        raise SystemExit("phrasebook ignored a recording change")
+    if mod.app_changed("tag", "kana", phrase_file) or mod.app_changed("tag", "klingon", phrase_audio):
+        raise SystemExit("a Phrasebook file marked another app")
     features = diff_of(["languages/features.js"])
     if "languages/features.js" not in lsd or not mod.app_changed("tag", "lsd", features):
         raise SystemExit("the Desk shell ignored its feature switches")
