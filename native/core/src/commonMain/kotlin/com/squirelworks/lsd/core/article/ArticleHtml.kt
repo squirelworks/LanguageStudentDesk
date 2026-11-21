@@ -1,7 +1,12 @@
 package com.squirelworks.lsd.core.article
 
 sealed interface ArticleRun {
-    data class Text(val value: String, val bold: Boolean = false, val italic: Boolean = false) : ArticleRun
+    data class Text(
+        val value: String,
+        val bold: Boolean = false,
+        val italic: Boolean = false,
+        val japanese: Boolean = false,
+    ) : ArticleRun
     data class Play(val spoken: String) : ArticleRun
 }
 
@@ -21,6 +26,8 @@ fun parseArticle(html: String): List<ArticleBlock> {
     val cells = mutableListOf<List<ArticleRun>>()
     var bold = false
     var italic = false
+    var japanese = false
+    var inline = false
     var inButton = false
     var inHeading = false
     var inCell = false
@@ -30,13 +37,13 @@ fun parseArticle(html: String): List<ArticleBlock> {
     var i = 0
     fun addText(raw: String) {
         val text = decodeEntities(raw)
-        if (text.isBlank()) return
         if (inButton) return
         if (inHeading) {
             heading.append(text)
             return
         }
-        runs += ArticleRun.Text(text, bold, italic)
+        if (!inline || text.isEmpty()) return
+        runs += ArticleRun.Text(text, bold, italic, japanese)
     }
     fun takeRuns(): List<ArticleRun> {
         val copy = runs.toList()
@@ -59,6 +66,7 @@ fun parseArticle(html: String): List<ArticleBlock> {
         when (name) {
             "b", "strong" -> bold = !closing
             "i", "em" -> italic = !closing
+            "span" -> japanese = !closing && Regex("""\blang\s*=\s*["']ja""").containsMatchIn(tag)
             "button" -> {
                 if (!closing && tag.contains("data-act=\"say\"")) {
                     val spoken = Regex("""data-text="([^"]*)"""").find(tag)?.groupValues?.get(1).orEmpty()
@@ -74,11 +82,13 @@ fun parseArticle(html: String): List<ArticleBlock> {
                 }
                 inHeading = !closing
             }
-            "p" -> if (closing) {
+            "p" -> if (!closing) inline = true else {
+                inline = false
                 val paragraph = takeRuns()
                 if (paragraph.isNotEmpty()) blocks += ArticleBlock.Paragraph(paragraph)
             }
-            "li" -> if (closing) {
+            "li" -> if (!closing) inline = true else {
+                inline = false
                 val item = takeRuns()
                 if (item.isNotEmpty()) blocks += ArticleBlock.Bullet(item)
             }
@@ -110,13 +120,15 @@ fun parseArticle(html: String): List<ArticleBlock> {
                 if (!closing) {
                     if (inCell) cells += takeRuns()
                     inCell = true
+                    inline = true
                     runs.clear()
                 } else if (inCell) {
                     cells += takeRuns()
                     inCell = false
+                    inline = false
                 }
             }
-            "br" -> if (!inButton && !inHeading) runs += ArticleRun.Text("\n", bold, italic)
+            "br" -> if (inline && !inButton && !inHeading) runs += ArticleRun.Text("\n", bold, italic, japanese)
         }
     }
     if (runs.isNotEmpty() && !inTable) blocks += ArticleBlock.Paragraph(takeRuns())

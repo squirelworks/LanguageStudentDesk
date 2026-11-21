@@ -27,4 +27,15 @@ class ArticleHtmlTest {
         assertEquals("ai, love", (row[1].single() as ArticleRun.Text).value)
         assertEquals("あい", (row[2].single() as ArticleRun.Play).spoken)
     }
+
+    @Test
+    fun aParagraphKeepsBoldJapaneseAndTheSpaceBeforePunctuation() {
+        val html = """<p>A sentence like <span lang="ja">わたし</span>, and <b>kanji</b>.</p>"""
+        val paragraph = parseArticle(html).single() as ArticleBlock.Paragraph
+        val text = paragraph.runs.filterIsInstance<ArticleRun.Text>()
+        assertEquals("A sentence like わたし, and kanji.", text.joinToString("") { it.value })
+        val japanese = text.single { it.japanese }
+        assertEquals("わたし", japanese.value)
+        assertEquals("kanji", text.single { it.bold }.value)
+    }
 }
