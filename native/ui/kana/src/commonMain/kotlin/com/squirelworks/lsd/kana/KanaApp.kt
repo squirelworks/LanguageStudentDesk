@@ -733,7 +733,7 @@ private fun DetailPage(
         val example = cell?.ex.orEmpty()
         if (example.isNotBlank()) {
             Text("Example", style = MaterialTheme.typography.labelLarge)
-            Text(example, style = MaterialTheme.typography.titleMedium.forLang(script.lang))
+            GlyphText(example, MaterialTheme.typography.titleMedium.forLang(script.lang), script.vertical)
             val gloss = listOf(cell?.exR.orEmpty(), cell?.exM.orEmpty()).filter { it.isNotBlank() }.joinToString(" · ")
             if (gloss.isNotBlank()) Text(gloss)
             Button(onClick = { onPlay(example, false, cell?.exLang.orEmpty()) }) { Text("Play example") }

@@ -21,8 +21,43 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+
+internal data class RotatedBox(val width: Int, val height: Int, val x: Int, val y: Int)
+
+// A 90° clockwise turn swaps the measured line into a top-to-bottom run.
+// The placeable is positioned so its center stays the center of that box.
+internal fun rotatedBox(contentWidth: Int, contentHeight: Int) = RotatedBox(
+    width = contentHeight,
+    height = contentWidth,
+    x = (contentHeight - contentWidth) / 2,
+    y = (contentWidth - contentHeight) / 2,
+)
+
+private fun Constraints.forHorizontalLine(): Constraints {
+    val lineMaxWidth = if (hasBoundedHeight) maxHeight else Constraints.Infinity
+    val lineMaxHeight = if (hasBoundedWidth) maxWidth else Constraints.Infinity
+    return Constraints(
+        minWidth = minHeight.coerceAtMost(lineMaxWidth),
+        maxWidth = lineMaxWidth,
+        minHeight = minWidth.coerceAtMost(lineMaxHeight),
+        maxHeight = lineMaxHeight,
+    )
+}
+
+// One text run, turned clockwise, so Mongolian letters keep their joining.
+private fun Modifier.turnTopToBottom(): Modifier = layout { measurable, constraints ->
+    val placeable = measurable.measure(constraints.forHorizontalLine())
+    val box = rotatedBox(placeable.width, placeable.height)
+    layout(box.width, box.height) {
+        placeable.placeWithLayer(box.x, box.y) {
+            rotationZ = 90f
+        }
+    }
+}
 
 @Composable
 internal fun GlyphText(
@@ -32,15 +67,13 @@ internal fun GlyphText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
 ) {
-    if (!vertical) {
-        Text(text, style = style, color = color, modifier = modifier)
-        return
-    }
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        text.forEach { ch ->
-            if (!ch.isWhitespace()) Text(ch.toString(), style = style, color = color)
-        }
-    }
+    Text(
+        text,
+        style = style,
+        color = color,
+        softWrap = !vertical,
+        modifier = if (vertical) modifier.turnTopToBottom() else modifier,
+    )
 }
 
 @Composable
