@@ -15,19 +15,12 @@ internal class BibleLibrary(
 
     fun bible(id: String): BibleDocument? = bibleSync { bibles[id] }
 
-    fun ensureBible(entry: CatalogBible): BibleDocument? = bibleSync {
-        bibles[entry.id]?.let { return@bibleSync it }
-        val json = if (entry.url.isBlank()) {
-            readBundledBible(entry.id)
-        } else {
-            packs.read(packKey("bible", entry.id))?.let { parsePackJson(it, "SGO_BIBLES.push(") }
-        }
-        if (json == null) {
-            null
-        } else {
-            val document = decodeBible(json)
-            bibles[document.id] = document
-            document
+    fun ensureBible(entry: CatalogBible): BibleDocument? {
+        bibleSync { bibles[entry.id] }?.let { return it }
+        val json = readBible(entry) ?: return null
+        val document = decodeBible(json)
+        return bibleSync {
+            bibles[entry.id] ?: document.also { bibles[it.id] = it }
         }
     }
 
@@ -35,28 +28,41 @@ internal class BibleLibrary(
         bibles.remove(id)
     }
 
-    fun ensureCommentary(bookIds: Set<String>, catalog: List<CatalogCommentary>, installed: (CatalogCommentary) -> Boolean) = bibleSync {
-        for (entry in catalog) {
-            if (!installed(entry)) continue
-            val covers = entry.books
-            if (covers != null && covers.none { it in bookIds }) continue
-            if (!loadedCommentary.add(entry.id)) continue
-            val json = if (entry.url.isBlank()) {
-                readBundledCommentary(entry.id)
-            } else {
-                packs.read(packKey("commentary", entry.id))?.let { parsePackJson(it, "SGO_COMMENTARY.push(") }
+    fun ensureCommentary(bookIds: Set<String>, catalog: List<CatalogCommentary>, installed: (CatalogCommentary) -> Boolean) {
+        val pending = bibleSync {
+            buildList {
+                for (entry in catalog) {
+                    if (!installed(entry)) continue
+                    val covers = entry.books
+                    if (covers != null && covers.none { it in bookIds }) continue
+                    if (!loadedCommentary.add(entry.id)) continue
+                    add(entry)
+                }
             }
-            if (json == null) {
-                loadedCommentary.remove(entry.id)
+        }
+        for (entry in pending) {
+            val document = readCommentary(entry)?.let { runCatching { decodeCommentary(it) }.getOrNull() }
+            if (document == null) {
+                bibleSync { loadedCommentary.remove(entry.id) }
                 continue
             }
-            val document = runCatching { decodeCommentary(json) }.getOrElse {
-                loadedCommentary.remove(entry.id)
-                null
-            } ?: continue
-            commentary[document.id] = document
-            index(document)
+            bibleSync {
+                commentary[document.id] = document
+                index(document)
+            }
         }
+    }
+
+    private fun readBible(entry: CatalogBible): String? = if (entry.url.isBlank()) {
+        readBundledBible(entry.id)
+    } else {
+        packs.read(packKey("bible", entry.id))?.let { parsePackJson(it, "SGO_BIBLES.push(") }
+    }
+
+    private fun readCommentary(entry: CatalogCommentary): String? = if (entry.url.isBlank()) {
+        readBundledCommentary(entry.id)
+    } else {
+        packs.read(packKey("commentary", entry.id))?.let { parsePackJson(it, "SGO_COMMENTARY.push(") }
     }
 
     fun commentaryFor(kref: String, hidden: Set<String>): List<CommentaryHit> = bibleSync {

@@ -3,6 +3,9 @@ package com.squirelworks.lsd.bible
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.kana.WebViewStore
 import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -207,6 +210,37 @@ class BibleLogicTest {
         }
         error("No JSON value in ${file.path}")
     }
+
+    @Test
+    fun cacheReadDoesNotWaitForABibleLoad() {
+        val started = CountDownLatch(1)
+        val release = CountDownLatch(1)
+        var reads = 0
+        val library = BibleLibrary(
+            readBundledBible = {
+                reads += 1
+                started.countDown()
+                check(release.await(5, TimeUnit.SECONDS))
+                """{"id":"slow"}"""
+            },
+            readBundledCommentary = { null },
+            packs = MemoryPacks(),
+            verses = Versification(emptyMap()),
+        )
+        val entry = CatalogBible(id = "slow", name = "Slow")
+        val loader = thread { library.ensureBible(entry) }
+        assertTrue(started.await(5, TimeUnit.SECONDS))
+        val lookup = thread { library.bible("other") }
+        lookup.join(500)
+        val waited = lookup.isAlive
+        release.countDown()
+        loader.join(5_000)
+        assertTrue(!waited, "cache read waited on the bible load")
+        assertTrue(!loader.isAlive)
+        assertEquals("slow", library.bible("slow")?.id)
+        library.ensureBible(entry)
+        assertEquals(1, reads)
+    }
 }
 
 private class MemoryStore : TextStore {
@@ -215,4 +249,11 @@ private class MemoryStore : TextStore {
     override fun write(text: String) {
         this.text = text
     }
+}
+
+private class MemoryPacks : PackStore {
+    override fun keys(): Set<String> = emptySet()
+    override fun read(key: String): String? = null
+    override fun write(key: String, text: String) = Unit
+    override fun remove(key: String) = Unit
 }
