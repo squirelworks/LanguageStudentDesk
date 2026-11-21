@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Kana and Bopomofo release APKs must stay on the committed debug key even
-# when UPLOAD_* is set and their Play bundles are built in the same Gradle run.
+# Native release APKs must stay on the committed debug key even when UPLOAD_*
+# is set and their Play bundles are built in the same Gradle run.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 DEBUG_SHA256="CDEC9F5CD92ED1608C0C9457699A25AD2101BD1E52ACCD11197BEAF672DDB369"

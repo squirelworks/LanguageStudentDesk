@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data 73b5ace alphabets/armenian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data f29cc38 alphabets/armenian.json by: python3 data/tools/gen_alphabets.py --apps SquirrelGo-Apps
 // The Armenian alphabet (Eastern Armenian values) for SquirrelGo Alphabets.
 // Hints, groupings and articles are original. An apostrophe in the romanization
 // marks an aspirated consonant (t' = t with a puff of air).
