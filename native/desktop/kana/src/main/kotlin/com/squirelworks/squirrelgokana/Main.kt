@@ -1,8 +1,11 @@
 package com.squirelworks.squirrelgokana
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.squirelworks.lsd.kana.DesktopKeys
+import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.parseKanaAudio
@@ -29,7 +32,13 @@ fun main(args: Array<String>) = application {
     val player = Mp3ClipPlayer { path -> loader.getResourceAsStream(path) }
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/kana-progress.json"))
     val query = args.firstOrNull { it.startsWith("--query=") }?.substringAfter("=")
-    Window(onCloseRequest = ::exitApplication, title = copy?.name ?: "SquirrelGo Kana") {
+    val keys = DesktopKeys()
+    Window(
+        onCloseRequest = ::exitApplication,
+        onPreviewKeyEvent = keys::preview,
+        title = copy?.name ?: "SquirrelGo Kana",
+    ) {
+        CompositionLocalProvider(LocalDesktopKeys provides keys) {
         KanaApp(
             title = copy?.name?.ifBlank { null } ?: "SquirrelGo Kana",
             scripts = scripts,
@@ -46,5 +55,6 @@ fun main(args: Array<String>) = application {
             onOpenUrl = ::openHttps,
             onStopAudio = player::stop,
         )
+        }
     }
 }

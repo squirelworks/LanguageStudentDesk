@@ -13,6 +13,11 @@ fun kanaBack(sheetOpen: Boolean, dialogOpen: Boolean, screenCount: Int): KanaBac
     else -> KanaBack.Exit
 }
 
+// Desktop Escape uses the same gate as Android Back. At home, with nothing
+// open, the key is left alone.
+fun escapeHandled(sheetOpen: Boolean, dialogOpen: Boolean, screenCount: Int): Boolean =
+    kanaBack(sheetOpen, dialogOpen, screenCount) != KanaBack.Exit
+
 @Serializable
 data class SuiteApp(
     val id: String,

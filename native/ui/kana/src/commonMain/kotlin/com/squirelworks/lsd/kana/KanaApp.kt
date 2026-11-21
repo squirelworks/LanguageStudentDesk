@@ -99,7 +99,7 @@ fun KanaApp(
         }
     }
     val backEnabled = showSuite || dialogOpen || stack.size > 1
-    PlatformBackHandler(backEnabled) {
+    fun performBack() {
         when (kanaBack(showSuite, dialogOpen, stack.size)) {
             KanaBack.CloseSheet -> {
                 showSuite = false
@@ -110,6 +110,8 @@ fun KanaApp(
             KanaBack.Exit -> Unit
         }
     }
+    PlatformBackHandler(backEnabled, ::performBack)
+    EscapeBackEffect(backEnabled, ::performBack)
     fun save(next: ProgressFile) {
         progress = next
         writeProgress(progressStore, next)
