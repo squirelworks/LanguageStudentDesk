@@ -11,11 +11,12 @@ fun preservePitch(samples: ShortArray, channels: Int, sampleRate: Int, speed: Fl
     if (rate in 0.99f..1.01f) return samples.copyOf()
     val frames = samples.size / channels
     if (frames < 2) return samples.copyOf()
-    val window = (sampleRate / 50).coerceIn(128, 2048)
+    val window = (sampleRate * 35 / 1000).coerceIn(256, 4096)
     if (frames <= window) return samples.copyOf()
     val synthHop = window / 2
     val analysisHop = (synthHop * rate).toInt().coerceAtLeast(1)
-    val seek = synthHop / 2
+    // One period of a 70 Hz voice, so a low voice can still line up at 0.42×.
+    val seek = maxOf(synthHop / 2, sampleRate / 70)
     val outFrames = (frames / rate).toInt() + window
     val mixed = FloatArray(outFrames * channels)
     val weight = FloatArray(outFrames)
@@ -32,19 +33,22 @@ fun preservePitch(samples: ShortArray, channels: Int, sampleRate: Int, speed: Fl
         }
     }
 
-    var inputAt = 0
+    // The next grain is chosen to continue what was just written, but the
+    // timeline itself advances by a fixed hop so the length stays 1/speed.
+    var inputBase = 0
     var outputAt = 0
     add(0, 0)
     while (true) {
         val nextOut = outputAt + synthHop
-        val nextIn = inputAt + analysisHop
-        if (nextOut + window > outFrames || nextIn + window > frames) break
+        val nextBase = inputBase + analysisHop
+        if (nextOut >= outFrames || nextBase >= frames) break
         var best = 0
         var bestScore = Double.NEGATIVE_INFINITY
-        val compare = synthHop
+        val compare = minOf(synthHop, frames - nextBase, outFrames - nextOut)
+        if (compare <= 0) break
         var delta = -seek
         while (delta <= seek) {
-            val candidate = nextIn + delta
+            val candidate = nextBase + delta
             if (candidate >= 0 && candidate + compare <= frames) {
                 var score = 0.0
                 for (i in 0 until compare) {
@@ -57,9 +61,9 @@ fun preservePitch(samples: ShortArray, channels: Int, sampleRate: Int, speed: Fl
             }
             delta++
         }
-        inputAt = nextIn + best
+        inputBase = nextBase
         outputAt = nextOut
-        add(inputAt, outputAt)
+        add(nextBase + best, outputAt)
     }
 
     var start = 0
