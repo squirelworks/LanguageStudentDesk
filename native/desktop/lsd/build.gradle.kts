@@ -27,6 +27,7 @@ java {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":ui:desk"))
+    implementation(project(":learner"))
 }
 
 sourceSets.main.get().resources.srcDir(deskAssets)

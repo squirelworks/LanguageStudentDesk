@@ -79,6 +79,7 @@ android {
 
 dependencies {
     implementation(project(":ui:desk"))
+    implementation(project(":learner"))
     implementation(libs.androidx.activity.compose)
 }
 
