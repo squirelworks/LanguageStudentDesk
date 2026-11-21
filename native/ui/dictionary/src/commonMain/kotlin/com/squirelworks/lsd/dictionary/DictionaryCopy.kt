@@ -53,6 +53,18 @@ fun kokugoGrammarLabel(label: String): String =
 private fun gloss(part: String): String =
     KOKUGO_GLOSS[part] ?: error("No Japanese label for $part")
 
+val MultiCopy = DictionaryCopy(
+    title = "Multilingual Dictionary",
+    searchHint = "Search",
+    favorites = "Favorites",
+    allLanguages = "All languages",
+    star = "Add to favorites",
+    unstar = "Remove from favorites",
+    emptyEntry = "No entry for this search.",
+    reading = "Reading",
+    label = { it },
+)
+
 val KokugoCopy = DictionaryCopy(
     title = "国語辞典",
     searchHint = "検索",

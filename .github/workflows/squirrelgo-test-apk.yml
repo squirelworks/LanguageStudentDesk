@@ -19,6 +19,7 @@ on:
           - orthodox-bible
           - phrasebook
           - kokugo
+          - multilingual
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -64,10 +65,18 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ]; then
             SHA=$(git rev-parse --short HEAD)
+            if [ "$APP" = kokugo ]; then
+              MODULE=japanese-dictionary
+              NAME=SquirrelGoKokugoDictionary
+            else
+              MODULE=multilingual-dictionary
+              NAME=SquirrelGoMultilingualDictionary
+            fi
             echo "NATIVE=1" >> "$GITHUB_ENV"
-            echo "APK_NAME=SquirrelGoKokugoDictionary-test-$SHA" >> "$GITHUB_ENV"
+            echo "NATIVE_MODULE=$MODULE" >> "$GITHUB_ENV"
+            echo "APK_NAME=$NAME-test-$SHA" >> "$GITHUB_ENV"
             exit 0
           fi
           case "$APP" in
@@ -115,8 +124,8 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           mkdir -p "$RUNNER_TEMP/apk"
-          ./gradlew --no-daemon :android:japanese-dictionary:assembleRelease
-          cp android/japanese-dictionary/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
+          ./gradlew --no-daemon ":android:${NATIVE_MODULE}:assembleRelease"
+          cp "android/${NATIVE_MODULE}/build/outputs/apk/release/"*.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
       - name: Build test APK
         if: env.NATIVE != '1'
         run: |
