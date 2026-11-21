@@ -194,6 +194,35 @@ phrasebookCatalogTask(
     "SquirrelGo-Apps/shared/suite.js",
 )
 
+// Japanese-English word list, from the same generated files the WebView ships.
+// A build that can be installed fails when those files are missing.
+// -Pjed.allowEmpty=true is only for a compile check.
+fun jedCatalogTask(name: String, www: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-jed")
+        inputs.dir(repo.resolve(www))
+        inputs.file("tools/jed_catalog.py")
+        inputs.file("tools/kana_catalog.py")
+        inputs.property("jed.allowEmpty", (findProperty("jed.allowEmpty") ?: "false").toString())
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        val cmd = mutableListOf(
+            "python3",
+            rootProject.file("tools/jed_catalog.py").absolutePath,
+            repo.resolve(www).absolutePath,
+            outDir.get().asFile.absolutePath,
+        )
+        if (findProperty("jed.allowEmpty") == "true") cmd += "--allow-empty"
+        commandLine(cmd)
+    }
+
+jedCatalogTask(
+    "generateJedCatalog",
+    "SquirrelGo-Apps/squirrelgo-dictionary/www",
+    "SquirrelGo-Apps/shared/suite.js",
+)
+
 // Orthodox Bible books, bundled texts, versification and the lectionary.
 // Downloadable packs stay on the orthodox-bible-packs release.
 fun bibleCatalogTask(name: String, www: String, vararg watched: String) =

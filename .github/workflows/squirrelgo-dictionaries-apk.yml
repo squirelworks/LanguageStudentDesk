@@ -48,4 +48,4 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin
+          ./gradlew --no-daemon -Pjed.allowEmpty=true :core:jvmTest :ui:dictionary:jvmTest :android:japanese-dictionary:assembleDebug :android:multilingual-dictionary:assembleDebug :android:dictionary:assembleDebug :desktop:japanese-dictionary:compileKotlin :desktop:multilingual-dictionary:compileKotlin :desktop:dictionary:compileKotlin

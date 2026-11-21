@@ -12,7 +12,6 @@ on:
         type: choice
         options:
           - dictionary
-          - klingon
           - orthodox-bible
           - phrasebook
           - kokugo
@@ -23,6 +22,8 @@ on:
           - kanji-native
           - klingon-native
           - phrasebook-native
+          - phrasebook-native
+          - dictionary-native
           - orthodox-bible-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
@@ -69,7 +70,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = orthodox-bible-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ] || [ "$APP" = orthodox-bible-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -95,6 +96,9 @@ jobs:
             elif [ "$APP" = phrasebook-native ]; then
               MODULE=phrasebook
               NAME=SquirrelGoPhrasebook
+            elif [ "$APP" = dictionary-native ]; then
+              MODULE=dictionary
+              NAME=SquirrelGoJapaneseDictionary
             else
               MODULE=orthodox-bible
               NAME=SquirrelGoOrthodoxBible
@@ -105,12 +109,10 @@ jobs:
             exit 0
           fi
           case "$APP" in
-            klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
-            klingon)        NAME=SquirrelGoKlingon ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;
             phrasebook)     NAME=SquirrelGoPhrasebook ;;
           esac
@@ -139,6 +141,11 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-36" "platforms;android-37.0" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Download dictionary data for the native dictionary
+        if: inputs.app == 'dictionary-native'
+        env:
+          DATA_TAG: ${{ inputs.data_tag }}
+        run: SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh ${DATA_TAG}
       - name: Build native test APK
         if: env.NATIVE == '1'
         run: |

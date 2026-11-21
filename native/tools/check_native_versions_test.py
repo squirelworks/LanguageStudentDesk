@@ -40,6 +40,7 @@ def main():
     bible = set(mod.source_paths("orthodox-bible"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
+    jed = set(mod.source_paths("dictionary"))
     shared = {
         "native/gradle",
         "native/build.gradle.kts",
@@ -48,7 +49,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi):
+    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -108,7 +109,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -158,6 +159,16 @@ def main():
         raise SystemExit("phrasebook ignored a recording change")
     if mod.app_changed("tag", "kana", phrase_file) or mod.app_changed("tag", "klingon", phrase_audio) or mod.app_changed("tag", "orthodox-bible", phrase_audio):
         raise SystemExit("a Phrasebook file marked another app")
+    jed_www = "SquirrelGo-Apps/squirrelgo-dictionary/www"
+    if jed_www not in jed or suite not in jed:
+        raise SystemExit(f"dictionary generator inputs missing: {sorted(jed)}")
+    if "native/ui/dictionary" not in jed:
+        raise SystemExit("the Japanese-English dictionary is not watching its module")
+    if mod.app_changed("tag", "dictionary", langs):
+        raise SystemExit("language metadata marked the Japanese-English dictionary")
+    jed_page = diff_of([jed_www + "/js/app.js"])
+    if not mod.app_changed("tag", "dictionary", jed_page):
+        raise SystemExit("the Japanese-English dictionary ignored its WebView page")
     print("ok")
 
 

@@ -24,9 +24,9 @@ python3 ../../tools/ipa_audio.py /tmp/clips.json www/audio
 
 ## Install the APK
 
-Download [`SquirrelGoKlingon.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKlingon.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+The release file is [`SquirrelGoKlingon.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKlingon.apk), the native app, package `com.squirelworks.squirrelgoklingon`, signed with the committed debug key. The WebView shell is archived at `archive/webview/klingon/` and is not built. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `klingon-native`.
 
-- Package id: `com.squirelworks.squirrelgoklingon.debug`
+- Package id: `com.squirelworks.squirrelgoklingon`
 - Min Android: 7.0 (API 24)
 
 ## Web / desktop
