@@ -14,6 +14,27 @@ data class VoiceProbe(
     val dispatcherVoices: List<NamedVoice>? = null,
 )
 
+enum class VoiceStatus { Ready, Missing, Pending }
+
+enum class SpeechOutcome { Spoken, Missing, Pending }
+
+// Ready when some finished probe can speak this language. Missing only when
+// every probe for this system has finished and none of them can. Pending
+// while a probe that might still match is running.
+fun voiceStatus(osName: String, lang: String, probe: VoiceProbe): VoiceStatus {
+    if (desktopSpeechFromProbe(osName, " ", 1f, lang, probe) != null) return VoiceStatus.Ready
+    return if (voiceProbeFinished(osName, probe)) VoiceStatus.Missing else VoiceStatus.Pending
+}
+
+fun voiceProbeFinished(osName: String, probe: VoiceProbe): Boolean {
+    val os = osName.lowercase()
+    return when {
+        "mac" in os -> probe.macVoices != null
+        "win" in os -> probe.windowsProgram != null
+        else -> probe.espeakNgLanguages != null && probe.espeakLanguages != null && probe.dispatcherVoices != null
+    }
+}
+
 data class SpeechRequest(
     val program: String,
     val args: List<String>,

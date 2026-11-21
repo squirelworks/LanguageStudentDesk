@@ -2,8 +2,10 @@ package com.squirelworks.lsd.core
 
 import com.squirelworks.lsd.core.speech.NamedVoice
 import com.squirelworks.lsd.core.speech.VoiceProbe
+import com.squirelworks.lsd.core.speech.VoiceStatus
 import com.squirelworks.lsd.core.speech.desktopSpeech
 import com.squirelworks.lsd.core.speech.desktopSpeechFromProbe
+import com.squirelworks.lsd.core.speech.voiceStatus
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
 import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
@@ -114,6 +116,36 @@ class DesktopSpeechTest {
         assertEquals("spd-say", dispatcherReady?.program)
         assertNull(desktopSpeechFromProbe("Linux", "あ", 1f, "ja-JP", VoiceProbe()))
         assertNull(desktopSpeechFromProbe("Mac OS X", "あ", 1f, "ja-JP", VoiceProbe()))
+    }
+
+    @Test
+    fun aMissingVoiceIsReportedOnlyAfterEveryProbeHasFinished() {
+        assertEquals(VoiceStatus.Pending, voiceStatus("Mac OS X", "ja-JP", VoiceProbe()))
+        assertEquals(VoiceStatus.Missing, voiceStatus("Mac OS X", "ja-JP", VoiceProbe(macVoices = listOf(NamedVoice("Alex", "en_US")))))
+        assertEquals(VoiceStatus.Ready, voiceStatus("Mac OS X", "ja-JP", VoiceProbe(macVoices = listOf(NamedVoice("Kyoko", "ja_JP")))))
+        assertEquals(VoiceStatus.Pending, voiceStatus("Windows 11", "ja-JP", VoiceProbe()))
+        assertEquals(VoiceStatus.Missing, voiceStatus("Windows 11", "ja-JP", VoiceProbe(windowsProgram = "")))
+        assertEquals(
+            VoiceStatus.Ready,
+            voiceStatus("Windows 11", "ja-JP", VoiceProbe(windowsProgram = "powershell.exe", windowsVoices = windowsVoices)),
+        )
+        assertEquals(VoiceStatus.Ready, voiceStatus("Linux", "ja-JP", VoiceProbe(espeakNgLanguages = setOf("ja"))))
+        assertEquals(
+            VoiceStatus.Pending,
+            voiceStatus("Linux", "ja-JP", VoiceProbe(espeakNgLanguages = setOf("en"), espeakLanguages = setOf("en"))),
+        )
+        assertEquals(
+            VoiceStatus.Missing,
+            voiceStatus(
+                "Linux",
+                "ja-JP",
+                VoiceProbe(
+                    espeakNgLanguages = setOf("en"),
+                    espeakLanguages = setOf("en"),
+                    dispatcherVoices = listOf(NamedVoice("english", "en")),
+                ),
+            ),
+        )
     }
 
     @Test

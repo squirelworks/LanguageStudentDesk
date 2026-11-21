@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.languages.TextStore
+import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.suite.KanaBack
 import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.core.suite.kanaBack
@@ -66,7 +68,7 @@ fun KanaApp(
     dark: Boolean,
     clips: Map<String, Map<String, String>> = emptyMap(),
     playClip: (String, Float) -> Unit = { _, _ -> },
-    speakFallback: (String, Float, String) -> Unit = { _, _, _ -> },
+    speakFallback: (String, Float, String) -> SpeechOutcome = { _, _, _ -> SpeechOutcome.Pending },
     progressStore: TextStore? = null,
     initialQuery: String? = null,
     intro: String = "",
@@ -87,6 +89,8 @@ fun KanaApp(
     var quizCount by remember { mutableIntStateOf(10) }
     var showSuite by remember { mutableStateOf(false) }
     var suiteNotice by remember { mutableStateOf("") }
+    var voiceNotice by remember { mutableStateOf("") }
+    var voiceNoticeTick by remember { mutableIntStateOf(0) }
     var dialogOpen by remember { mutableStateOf(false) }
     var closeDialog by remember { mutableStateOf<() -> Unit>({ }) }
     val openApps = if (suite == null) null else ({ showSuite = true })
@@ -121,7 +125,10 @@ fun KanaApp(
         val rate = (if (slow) 0.6f else 1f) * progress.rate
         val file = clips[script.id]?.get(text)
         if (file != null) playClip("clips/${script.id}/$file", rate)
-        else speakFallback(text, rate, script.lang)
+        else if (speakFallback(text, rate, script.lang) == SpeechOutcome.Missing) {
+            voiceNotice = missingVoiceNotice(script.langName)
+            voiceNoticeTick++
+        }
     }
     fun glyphs(keys: List<String>, script: KanaScript) =
         keys.mapNotNull { key -> lessonGlyphs(script).firstOrNull { it.key == key } }
@@ -353,6 +360,23 @@ fun KanaApp(
                     )
                 }
             }
+        }
+        if (voiceNotice.isNotBlank()) {
+            LaunchedEffect(voiceNoticeTick) {
+                kotlinx.coroutines.delay(2_800)
+                voiceNotice = ""
+            }
+            Text(
+                voiceNotice,
+                color = MaterialTheme.colorScheme.inverseOnSurface,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .windowInsetsPadding(WindowInsets.safeDrawing)
+                    .padding(16.dp)
+                    .background(MaterialTheme.colorScheme.inverseSurface, RoundedCornerShape(8.dp))
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            )
         }
         if (showSuite && suite != null) {
             SuiteSheet(

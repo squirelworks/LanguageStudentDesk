@@ -26,12 +26,18 @@ fun captureProcessOutput(command: List<String>, timeoutSeconds: Long): String? {
     val finished = runCatching { started.waitFor(millisLeft(deadline), TimeUnit.MILLISECONDS) }.getOrDefault(false)
     val readDone = finished && joined(stdout, deadline) && joined(stderr, deadline)
     if (!readDone) {
-        started.destroyForcibly()
+        destroyProcessTree(started)
         stdout.join(200)
         stderr.join(200)
         return null
     }
     return output.toString()
+}
+
+fun destroyProcessTree(process: Process) {
+    val children = runCatching { process.toHandle().descendants().toList() }.getOrDefault(emptyList())
+    children.forEach { child -> runCatching { child.destroyForcibly() } }
+    runCatching { process.destroyForcibly() }
 }
 
 private fun joined(thread: Thread, deadlineNanos: Long): Boolean {
