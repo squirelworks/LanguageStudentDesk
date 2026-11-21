@@ -13,7 +13,6 @@ on:
         options:
           - alphabets
           - dictionary
-          - kana
           - kanji
           - klingon
           - orthodox-bible
@@ -77,7 +76,7 @@ jobs:
               NAME=SquirrelGoMultilingualDictionary
             elif [ "$APP" = kana-native ]; then
               MODULE=kana
-              NAME=SquirrelGoKanaNative
+              NAME=SquirrelGoKana
             else
               MODULE=bopomofo
               NAME=SquirrelGoBopomofoNative
@@ -88,13 +87,12 @@ jobs:
             exit 0
           fi
           case "$APP" in
-            alphabets|kana|kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
+            alphabets|kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
             alphabets)      NAME=SquirrelGoAlphabets ;;
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
-            kana)           NAME=SquirrelGoKana ;;
             kanji)          NAME=SquirrelGoKanji ;;
             klingon)        NAME=SquirrelGoKlingon ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;

@@ -73,7 +73,14 @@ jobs:
           files=("${files[@]}" )
           upload=()
           for f in "${files[@]}"; do
-            if [ -f "$f" ]; then upload+=("$f"); fi
+            if [ ! -f "$f" ]; then continue; fi
+            case "$(basename "$f")" in
+              SquirrelGoKana-*.apk)
+                cp "$f" "$RUNNER_TEMP/SquirrelGoKana.apk"
+                upload+=("$RUNNER_TEMP/SquirrelGoKana.apk")
+                ;;
+              *) upload+=("$f") ;;
+            esac
           done
           test "${#upload[@]}" -gt 0
           gh release upload "$TAG" "${upload[@]}" --clobber
