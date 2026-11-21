@@ -18,6 +18,8 @@ requireNewerThanWebView(
     appVersion,
     rootProject.file("../archive/webview/kana/app/build.gradle"),
 )
+// release, the GitHub APK, always uses the committed debug key. The play
+// build type is the only one that may use UPLOAD_*, and only for its own output.
 val uploadStore = System.getenv("UPLOAD_STORE_FILE").orEmpty()
 base {
     archivesName.set("SquirrelGoKana-${appVersion.versionName}")
@@ -41,7 +43,7 @@ android {
             keyPassword = "android"
         }
         if (uploadStore.isNotEmpty()) {
-            create("upload") {
+            create("play") {
                 storeFile = file(uploadStore)
                 storePassword = System.getenv("UPLOAD_STORE_PASSWORD")
                 keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
@@ -52,8 +54,13 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("play") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
             signingConfig = if (uploadStore.isNotEmpty()) {
-                signingConfigs.getByName("upload")
+                signingConfigs.getByName("play")
             } else {
                 signingConfigs.getByName("debug")
             }

@@ -255,8 +255,9 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
-  # Native Kana. The file name stays SquirrelGoKana.apk so the existing
-  # releases/latest/download link keeps working. The WebView shell is archived.
+  # Native Kana. The file name stays SquirrelGoKana.apk. It is signed with the
+  # committed debug key, the same key native-desktop uses, so APK_KEYSTORE_BASE64
+  # cannot change the signature. The Play bundle is a different workflow.
   native-kana:
     needs: [check, draft, deps]
     runs-on: ubuntu-latest
@@ -278,25 +279,6 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
-      - name: APK signing key
-        env:
-          KEYSTORE_B64: ${{ secrets.APK_KEYSTORE_BASE64 }}
-          STORE_PW: ${{ secrets.APK_STORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.APK_KEY_ALIAS }}
-          KEY_PW: ${{ secrets.APK_KEY_PASSWORD }}
-        run: |
-          if [ -n "$KEYSTORE_B64" ]; then
-            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/apk.keystore"
-            {
-              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/apk.keystore"
-              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
-              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
-              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
-            } >> "$GITHUB_ENV"
-            echo "signing with the APK signing key"
-          else
-            echo "no APK signing key in secrets; signing with the debug key"
-          fi
       - name: Build the native Kana APK
         run: |
           cd native
@@ -310,9 +292,6 @@ jobs:
           VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
           echo "| SquirrelGoKana | com.squirelworks.squirrelgokana | $VN | $VC |" > "$RUNNER_TEMP/apk/SquirrelGoKana.row"
           echo "SquirrelGo Kana $VN" > "$RUNNER_TEMP/apk/SquirrelGoKana.label"
-      - name: Remove the signing key
-        if: always()
-        run: rm -f "$RUNNER_TEMP/apk.keystore"
       - name: Attach the APK to the draft
         run: |
           gh release upload "$VERSION" "$RUNNER_TEMP/apk/SquirrelGoKana.apk#$(cat "$RUNNER_TEMP/apk/SquirrelGoKana.label")" \
