@@ -17,7 +17,7 @@ Download [`SquirrelGoJapaneseDictionary.apk`](https://github.com/squirelworks/La
 The interface follows the original JED layout: grey gradient title bar with Menu / search field / Options, black list screens, a sectioned menu (Search · Dictionary · Kanji and Kana), long-press context menus, tag screens and a notepad drawer.
 
 
-- ~219,000 JMdict entries, searched as you type by English, rōmaji, kana or kanji
+- JMdict entries, searched as you type by English, rōmaji, kana or kanji
 - Conjugated verbs/adjectives traced to the dictionary form (食べました → 食べる)
 - `*` / `?` wildcards (`*語`), JED's Search Options (Both / Read / Mean, Common, allowed characters), word categories (verbs, non-suru verbs, nouns, adjectives, adverbs, counters, onomatopoeia), up to 1,000 results in pages
 - Entry pages with parts of speech, usage notes, other forms, cross-references and Tatoeba example sentences
@@ -28,7 +28,7 @@ The interface follows the original JED layout: grey gradient title bar with Menu
 
 ## Data
 
-`www/data/` is generated, not committed (~45 MB). Fetch the latest [jmdict-simplified](https://github.com/scriptin/jmdict-simplified) release and convert it:
+`www/data/` is generated, not committed. Fetch the latest [jmdict-simplified](https://github.com/scriptin/jmdict-simplified) release and convert it:
 
 ```bash
 cd SquirrelGo-Apps/squirrelgo-dictionary
@@ -37,16 +37,13 @@ tools/fetch_data.sh            # or: tools/fetch_data.sh <release-tag>
 
 Then open `www/index.html` in a browser (no build step).
 
-## Rebuild Android APK locally
+The Android app is the native build in `native/`. The old WebView shell is in `archive/webview/dictionary/` and is not built. Fetch the word list, then build the release APK from `native/`:
 
 ```bash
 tools/fetch_data.sh
-export ANDROID_HOME=$HOME/android-sdk
-echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android && ./gradlew assembleRelease
-# output: app/build/outputs/apk/release/app-release.apk
+cd ../../native
+echo "sdk.dir=$ANDROID_HOME" > local.properties
+./gradlew :android:dictionary:assembleRelease
 ```
 
 ## Licenses
