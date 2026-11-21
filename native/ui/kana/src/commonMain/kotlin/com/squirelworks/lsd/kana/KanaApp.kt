@@ -138,13 +138,13 @@ fun KanaApp(
         progress = next
         writeProgress(progressStore, next)
     }
-    fun play(script: KanaScript, text: String, slow: Boolean) {
+    fun play(script: KanaScript, text: String, slow: Boolean, lineLanguage: String = "") {
         if (!progress.voice || text.isBlank()) return
         val rate = (if (slow) 0.6f else 1f) * progress.rate
         val file = clips[script.id]?.get(text)
         if (file != null) playClip("clips/${script.id}/$file", rate)
-        else if (speakFallback(text, rate, script.lang) == SpeechOutcome.Missing) {
-            showToast(missingVoiceNotice(script.langName))
+        else if (speakFallback(text, rate, lineLanguage.ifBlank { script.lang }) == SpeechOutcome.Missing) {
+            showToast(missingVoiceNotice(script.langName, lineLanguage))
         }
     }
     fun glyphs(keys: List<String>, script: KanaScript) =
@@ -188,7 +188,7 @@ fun KanaApp(
                         progress,
                         speed = progress.speed,
                         onBack = ::back,
-                        onPlay = { text, slow -> play(script, text, slow) },
+                        onPlay = { text, slow, lineLanguage -> play(script, text, slow, lineLanguage) },
                         onWrite = {
                             val refs = lessonGlyphs(script).filter { it.glyph in detail.glyphs }
                             open(Screen.Write(script.id, refs.map { it.key }, detail.index.coerceIn(0, refs.lastIndex.coerceAtLeast(0))))
@@ -253,7 +253,7 @@ fun KanaApp(
                             progress,
                             progress.speed,
                             ::back,
-                            { text, slow -> play(script, text, slow) },
+                            { text, slow, lineLanguage -> play(script, text, slow, lineLanguage) },
                             {
                                 val refs = lessonGlyphs(script).filter { it.glyph in screen.glyphs }
                                 val start = refs.indexOfFirst { it.glyph == screen.glyphs.getOrNull(screen.index) }.coerceAtLeast(0)
@@ -592,7 +592,7 @@ private fun DetailPage(
     progress: ProgressFile,
     speed: Int,
     onBack: () -> Unit,
-    onPlay: (String, Boolean) -> Unit,
+    onPlay: (String, Boolean, String) -> Unit,
     onWrite: () -> Unit,
     onLookup: ((String) -> Unit)?,
     onStep: (Int) -> Unit,
@@ -618,8 +618,8 @@ private fun DetailPage(
         }
         val spoken = spokenText(cell).ifBlank { glyph }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { onPlay(spoken, false) }) { Text("Play") }
-            Button(onClick = { onPlay(spoken, true) }) { Text("Slow") }
+            Button(onClick = { onPlay(spoken, false, "") }) { Text("Play") }
+            Button(onClick = { onPlay(spoken, true, "") }) { Text("Slow") }
         }
         val example = cell?.ex.orEmpty()
         if (example.isNotBlank()) {
@@ -627,7 +627,7 @@ private fun DetailPage(
             Text(example, style = MaterialTheme.typography.titleMedium)
             val gloss = listOf(cell?.exR.orEmpty(), cell?.exM.orEmpty()).filter { it.isNotBlank() }.joinToString(" · ")
             if (gloss.isNotBlank()) Text(gloss)
-            Button(onClick = { onPlay(example, false) }) { Text("Play example") }
+            Button(onClick = { onPlay(example, false, cell?.exLang.orEmpty()) }) { Text("Play example") }
             if (onLookup != null && script.lang == "ja-JP") {
                 Button(onClick = { onLookup(example) }) { Text("Look up $example in the Dictionary") }
             }
