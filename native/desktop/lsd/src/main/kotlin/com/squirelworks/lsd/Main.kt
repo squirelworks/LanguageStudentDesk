@@ -39,10 +39,15 @@ fun main() = application {
     val initial = decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), DeskRules(catalog).fresh())
     val www = System.getProperty("compose.application.resources.dir")?.let(::File)?.let { deskPagesRoot(it) }
     var host: DeskLearnerHost? = null
+    var portMessage: String? = null
     val sync = mutableStateOf<(String) -> Unit>({ })
     if (www != null) {
-        host = DeskLearnerHost(www) { body ->
-            SwingUtilities.invokeLater { sync.value(body) }
+        try {
+            host = DeskLearnerHost(www, File(dir, "desk-port")) { body ->
+                SwingUtilities.invokeLater { sync.value(body) }
+            }
+        } catch (busy: DeskPortBusy) {
+            portMessage = busy.message
         }
     }
     Window(onCloseRequest = {
@@ -74,7 +79,10 @@ fun main() = application {
             onFavorites = {},
             onOpenLearner = { learner, lang ->
                 val open = host
-                if (open == null || deskLearnerPage(www!!, learner.href) == null) {
+                val blocked = portMessage
+                if (blocked != null) {
+                    JOptionPane.showMessageDialog(null, blocked)
+                } else if (open == null || deskLearnerPage(www!!, learner.href) == null) {
                     JOptionPane.showMessageDialog(null, "This learner is not in the installed Language Student Desk.")
                 } else {
                     Desktop.getDesktop().browse(URI(open.seedUrl(settings, favorites.ids(), learner.href, learner.scoped, lang)))

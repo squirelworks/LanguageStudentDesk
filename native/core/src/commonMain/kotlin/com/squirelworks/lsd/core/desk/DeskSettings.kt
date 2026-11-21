@@ -125,13 +125,25 @@ fun parseDeskWebSnapshot(evaluateResult: String?): DeskWebSnapshot? {
 
 // A tiny page loaded with the learner's own file URL as its base, so the
 // localStorage write lands in the origin the learner scripts read.
+fun deskSeedSnapshot(settings: DeskSettings, favoriteIds: Iterable<String>): DeskWebSnapshot {
+    val stored = settings.copy(importedWebView = false)
+    return DeskWebSnapshot(
+        settings = encodeDeskSettings(stored),
+        favorites = deskJson.encodeToString(favoriteIds.toList()),
+        lang = stored.suiteLang.ifEmpty { null },
+    )
+}
+
+// A repeat of the values already in the open tab is not a learner edit.
+// A Desk change made while that tab is open has to survive it.
+fun tabPostChanged(known: DeskWebSnapshot?, post: DeskWebSnapshot): Boolean = post != known
+
 fun deskSeedDocument(settings: DeskSettings, favoriteIds: Iterable<String>, nextUrl: String): String {
-    val settingsJson = encodeDeskSettings(settings.copy(importedWebView = false))
-    val favoritesJson = deskJson.encodeToString(favoriteIds.toList())
-    val langLine = if (settings.suiteLang.isEmpty()) {
+    val seed = deskSeedSnapshot(settings, favoriteIds)
+    val langLine = if (seed.lang == null) {
         "localStorage.removeItem('lsd-suite-lang');"
     } else {
-        "localStorage.setItem('lsd-suite-lang', ${jsStringLiteral(settings.suiteLang)});"
+        "localStorage.setItem('lsd-suite-lang', ${jsStringLiteral(seed.lang)});"
     }
     return """
 <!DOCTYPE html>
@@ -139,8 +151,8 @@ fun deskSeedDocument(settings: DeskSettings, favoriteIds: Iterable<String>, next
 <title>Language Student Desk</title>
 <script>
 try {
-  localStorage.setItem('lsd-settings', ${jsStringLiteral(settingsJson)});
-  localStorage.setItem('lsd-favorite-languages', ${jsStringLiteral(favoritesJson)});
+  localStorage.setItem('lsd-settings', ${jsStringLiteral(seed.settings!!)});
+  localStorage.setItem('lsd-favorite-languages', ${jsStringLiteral(seed.favorites!!)});
   $langLine
 } catch (e) {}
 location.replace(${jsStringLiteral(nextUrl)});
@@ -181,9 +193,10 @@ fun isDeskMenuUrl(url: String): Boolean {
 
 // Posted by a learner page so the desktop Desk hears changes without waiting for the tab to close.
 const val DESK_SYNC_SCRIPT: String =
-    "(function(){if(window.__lsdDeskSync)return;window.__lsdDeskSync=true;" +
+    "(function(){if(window.__lsdDeskSync)return;window.__lsdDeskSync=true;var last=null;" +
         "function send(){try{var body=JSON.stringify({settings:localStorage.getItem('lsd-settings')," +
         "favorites:localStorage.getItem('lsd-favorite-languages'),lang:localStorage.getItem('lsd-suite-lang')});" +
+        "if(body===last)return;last=body;" +
         "navigator.sendBeacon('/desk-sync',new Blob([body],{type:'application/json'}));}catch(e){}}" +
         "window.addEventListener('pagehide',send);" +
         "document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')send();});" +

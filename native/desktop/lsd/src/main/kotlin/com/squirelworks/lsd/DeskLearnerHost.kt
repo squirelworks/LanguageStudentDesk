@@ -2,28 +2,39 @@ package com.squirelworks.lsd
 
 import com.squirelworks.lsd.core.desk.DESK_SYNC_SCRIPT
 import com.squirelworks.lsd.core.desk.DeskSettings
+import com.squirelworks.lsd.core.desk.DeskWebSnapshot
 import com.squirelworks.lsd.core.desk.deskSeedDocument
+import com.squirelworks.lsd.core.desk.deskSeedSnapshot
 import com.squirelworks.lsd.core.desk.injectDeskSync
 import com.squirelworks.lsd.core.desk.isDeskMenuUrl
+import com.squirelworks.lsd.core.desk.parseDeskWebSnapshot
+import com.squirelworks.lsd.core.desk.tabPostChanged
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpServer
 import java.io.File
+import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-// Serves the packed learner pages on 127.0.0.1 so they share one origin, the
-// same way the phone WebView shares localStorage. A seed page writes the
-// Desk's settings, stars and language, then opens the learner. Learner pages
-// post those keys back while they are open.
+class DeskPortBusy(val port: Int) : Exception(
+    "Language Student Desk already uses port $port for its learner pages. Close the other copy, then open a learner again.",
+)
+
+// Serves the packed learner pages on one saved localhost port so they share
+// an origin across launches, the same way the phone WebView keeps its origin.
+// The seed page lives in memory. Learner pages post the three Desk keys back
+// only when those values change.
 class DeskLearnerHost(
     private val www: File,
+    portFile: File,
     private val onSync: (String) -> Unit,
 ) : AutoCloseable {
-    private val seedFile = File(www.parentFile, "desk-seed.html")
-    private val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
+    private val server = listen(portFile)
     val origin = "http://127.0.0.1:${server.address.port}"
+    @Volatile private var seedHtml: String? = null
+    @Volatile private var tabState: DeskWebSnapshot? = null
 
     init {
         server.createContext("/") { exchange ->
@@ -38,7 +49,8 @@ class DeskLearnerHost(
 
     fun seedUrl(settings: DeskSettings, favoriteIds: Iterable<String>, href: String, scoped: Boolean, lang: String): String {
         val next = origin + learnerPath(href, scoped, lang)
-        seedFile.writeText(deskSeedDocument(settings, favoriteIds, next))
+        tabState = deskSeedSnapshot(settings, favoriteIds)
+        seedHtml = deskSeedDocument(settings, favoriteIds, next)
         return "$origin/desk-seed.html"
     }
 
@@ -50,7 +62,11 @@ class DeskLearnerHost(
         val path = URLDecoder.decode(exchange.requestURI.rawPath ?: "/", StandardCharsets.UTF_8)
         if (exchange.requestMethod == "POST" && path == "/desk-sync") {
             val body = exchange.requestBody.use { it.readBytes() }.toString(StandardCharsets.UTF_8)
-            onSync(body)
+            val post = parseDeskWebSnapshot(body)
+            if (post != null && tabPostChanged(tabState, post)) {
+                tabState = post
+                onSync(body)
+            }
             send(exchange, 204, "text/plain", ByteArray(0))
             return
         }
@@ -59,11 +75,12 @@ class DeskLearnerHost(
             return
         }
         if (path == "/desk-seed.html") {
-            if (!seedFile.isFile) {
+            val page = seedHtml
+            if (page == null) {
                 send(exchange, 404, "text/plain; charset=utf-8", "Open a learner from the Desk first.".toByteArray())
                 return
             }
-            send(exchange, 200, "text/html; charset=utf-8", seedFile.readBytes())
+            send(exchange, 200, "text/html; charset=utf-8", page.toByteArray())
             return
         }
         if (isDeskMenuUrl(origin + path)) {
@@ -99,6 +116,21 @@ class DeskLearnerHost(
             exchange.responseBody.close()
         }
     }
+}
+
+private fun listen(portFile: File): HttpServer {
+    portFile.parentFile?.mkdirs()
+    val saved = portFile.takeIf { it.isFile }?.readText()?.trim()?.toIntOrNull()?.takeIf { it in 1..65535 }
+    if (saved != null) {
+        try {
+            return HttpServer.create(InetSocketAddress("127.0.0.1", saved), 0)
+        } catch (_: IOException) {
+            throw DeskPortBusy(saved)
+        }
+    }
+    val created = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
+    portFile.writeText(created.address.port.toString())
+    return created
 }
 
 fun learnerPath(href: String, scoped: Boolean, lang: String): String {

@@ -135,6 +135,24 @@ class DeskSettingsTest {
     }
 
     @Test
+    fun aDeskChangeSurvivesAnUnchangedLearnerPost() {
+        val opened = rules.fresh().copy(importedWebView = true, suiteLang = "latin")
+        val seeded = deskSeedSnapshot(opened, listOf("latin"))
+        val desk = rules.setLevel(opened, "more")
+        val kept = if (tabPostChanged(seeded, seeded)) {
+            applyDeskWebSnapshot(seeded, desk, setOf("latin")).settings
+        } else {
+            desk
+        }
+        assertEquals("more", kept.level)
+        assertEquals("latin", kept.suiteLang)
+        val edited = seeded.copy(lang = "klingon")
+        assertTrue(tabPostChanged(seeded, edited))
+        val applied = applyDeskWebSnapshot(edited, kept, setOf("latin"))
+        assertEquals("klingon", applied.settings.suiteLang)
+    }
+
+    @Test
     fun favoritesLeadAndAreNotRepeated() {
         val languages = catalog.languages
         val sorted = sortDeskLanguages(languages, listOf("latin", "missing"))
