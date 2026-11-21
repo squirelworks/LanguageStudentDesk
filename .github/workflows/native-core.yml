@@ -7,10 +7,22 @@ on:
     paths:
       - "native/**"
       - ".github/workflows/native-core.yml"
+      # The native catalogs read these at build time. A pull request that
+      # only changes them must still compile the apps.
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/**"
+      - "SquirrelGo-Apps/shared/suite.js"
   pull_request:
     paths:
       - "native/**"
       - ".github/workflows/native-core.yml"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kana/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-bopomofo/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/**"
+      - "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/**"
+      - "SquirrelGo-Apps/shared/suite.js"
 
 permissions:
   contents: read
