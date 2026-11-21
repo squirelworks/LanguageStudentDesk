@@ -4,52 +4,55 @@ import com.squirelworks.lsd.core.speech.NamedVoice
 import com.squirelworks.lsd.core.speech.desktopSpeech
 import com.squirelworks.lsd.core.speech.parseEspeakLanguages
 import com.squirelworks.lsd.core.speech.parseSayVoices
+import com.squirelworks.lsd.core.speech.parseSpeechDispatcherVoices
 import com.squirelworks.lsd.core.speech.parseWindowsVoices
 import java.io.File
+import java.util.concurrent.TimeUnit
+
+private const val PROBE_TIMEOUT_SECONDS = 8L
+
+private data class VoiceCatalog(
+    val programs: Set<String>,
+    val macVoices: List<NamedVoice>,
+    val windowsVoices: List<NamedVoice>,
+    val espeakLanguages: Set<String>,
+    val dispatcherVoices: List<NamedVoice>,
+)
 
 class DesktopVoice {
     private var process: Process? = null
     private var cancelDispatcher = false
-    private val programs: Set<String> by lazy { speechPrograms() }
-    private val macVoices: List<NamedVoice> by lazy { readVoices("say", "-v", "?") { parseSayVoices(it) } }
-    private val windowsVoices: List<NamedVoice> by lazy {
-        val dollar = '$'
-        val script = "Add-Type -AssemblyName System.Speech; " +
-            "(New-Object System.Speech.Synthesis.SpeechSynthesizer).GetInstalledVoices() | " +
-            "ForEach-Object { ${dollar}_.VoiceInfo.Name + \"`t\" + ${dollar}_.VoiceInfo.Culture.Name }"
-        val program = when {
-            commandExists("powershell.exe") -> "powershell.exe"
-            commandExists("powershell") -> "powershell"
-            else -> return@lazy emptyList()
+
+    @Volatile
+    private var catalog: VoiceCatalog? = null
+
+    init {
+        Thread(::discover, "kana-voices").apply {
+            isDaemon = true
+            start()
         }
-        readVoices(program, "-NoProfile", "-NonInteractive", "-Command", script) { parseWindowsVoices(it) }
-    }
-    private val espeakLanguages: Set<String> by lazy {
-        val program = when {
-            commandExists("espeak-ng") -> "espeak-ng"
-            commandExists("espeak") -> "espeak"
-            else -> return@lazy emptySet()
-        }
-        readVoices(program, "--voices") { parseEspeakLanguages(it) }
     }
 
     fun speak(text: String, rate: Float, lang: String) {
+        val known = catalog ?: return
         stop()
         val request = desktopSpeech(
             System.getProperty("os.name"),
-            programs,
+            known.programs,
             text,
             rate,
             lang,
-            macVoices,
-            windowsVoices,
-            espeakLanguages,
+            known.macVoices,
+            known.windowsVoices,
+            known.espeakLanguages,
+            known.dispatcherVoices,
         ) ?: return
         val started = runCatching {
-            ProcessBuilder(listOf(request.program) + request.args)
+            val builder = ProcessBuilder(listOf(request.program) + request.args)
                 .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                 .redirectError(ProcessBuilder.Redirect.DISCARD)
-                .start()
+            request.environment.forEach { (key, value) -> builder.environment()[key] = value }
+            builder.start()
         }.getOrNull() ?: return
         request.stdin?.let { words ->
             Thread {
@@ -76,6 +79,40 @@ class DesktopVoice {
         }
     }
 
+    private fun discover() {
+        runCatching { discoverVoices() }
+        if (catalog == null) {
+            catalog = VoiceCatalog(emptySet(), emptyList(), emptyList(), emptySet(), emptyList())
+        }
+    }
+
+    private fun discoverVoices() {
+        val programs = speechPrograms()
+        val macVoices = if ("say" in programs) readVoices(listOf("say", "-v", "?"), ::parseSayVoices) else emptyList()
+        val windowsProgram = when {
+            "powershell.exe" in programs -> "powershell.exe"
+            "powershell" in programs -> "powershell"
+            else -> null
+        }
+        val windowsVoices = windowsProgram?.let {
+            readVoices(listOf(it, "-NoProfile", "-NonInteractive", "-Command", windowsListScript), ::parseWindowsVoices)
+        } ?: emptyList()
+        val espeakProgram = when {
+            "espeak-ng" in programs -> "espeak-ng"
+            "espeak" in programs -> "espeak"
+            else -> null
+        }
+        val espeakLanguages = espeakProgram?.let {
+            readVoices(listOf(it, "--voices"), ::parseEspeakLanguages)
+        } ?: emptySet()
+        val dispatcherVoices = if ("spd-say" in programs) {
+            readVoices(listOf("spd-say", "-L"), ::parseSpeechDispatcherVoices)
+        } else {
+            emptyList()
+        }
+        catalog = VoiceCatalog(programs, macVoices, windowsVoices, espeakLanguages, dispatcherVoices)
+    }
+
     private fun speechPrograms(): Set<String> {
         val names = listOf("espeak-ng", "espeak", "spd-say", "say", "powershell", "powershell.exe")
         return names.filter { commandExists(it) }.toSet()
@@ -83,25 +120,37 @@ class DesktopVoice {
 
     private fun commandExists(name: String): Boolean {
         val finder = if (File.separatorChar == '\\') listOf("where", name) else listOf("which", name)
-        return runCatching {
+        val started = runCatching {
             ProcessBuilder(finder)
                 .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                 .redirectError(ProcessBuilder.Redirect.DISCARD)
                 .start()
-                .waitFor() == 0
-        }.getOrDefault(false)
+        }.getOrNull() ?: return false
+        return finished(started) && started.exitValue() == 0
     }
 
-    private fun <T> readVoices(vararg command: String, parse: (String) -> T): T {
-        val empty = parse("")
-        val text = runCatching {
-            val started = ProcessBuilder(command.toList())
+    private fun <T> readVoices(command: List<String>, parse: (String) -> T): T {
+        val started = runCatching {
+            ProcessBuilder(command)
                 .redirectError(ProcessBuilder.Redirect.DISCARD)
                 .start()
-            val output = started.inputStream.bufferedReader().readText()
-            started.waitFor()
-            output
-        }.getOrDefault("")
+        }.getOrNull() ?: return parse("")
+        if (!finished(started)) return parse("")
+        val text = runCatching { started.inputStream.bufferedReader().readText() }.getOrDefault("")
         return parse(text)
     }
+
+    private fun finished(started: Process): Boolean {
+        val done = runCatching { started.waitFor(PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS) }.getOrDefault(false)
+        if (!done) {
+            started.destroyForcibly()
+            return false
+        }
+        return true
+    }
 }
+
+private const val windowsListScript =
+    "Add-Type -AssemblyName System.Speech; " +
+        "(New-Object System.Speech.Synthesis.SpeechSynthesizer).GetInstalledVoices() | " +
+        "ForEach-Object { \$_.VoiceInfo.Name + \"`t\" + \$_.VoiceInfo.Culture.Name }"

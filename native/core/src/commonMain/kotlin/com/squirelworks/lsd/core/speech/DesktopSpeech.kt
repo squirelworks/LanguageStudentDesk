@@ -6,6 +6,7 @@ data class SpeechRequest(
     val program: String,
     val args: List<String>,
     val stdin: String? = null,
+    val environment: Map<String, String> = emptyMap(),
     val cancelsSpeechDispatcher: Boolean = false,
 )
 
@@ -41,6 +42,16 @@ fun parseWindowsVoices(listing: String): List<NamedVoice> =
         else NamedVoice(name, lang)
     }.toList()
 
+// spd-say -L prints padded columns: name, language, variant.
+fun parseSpeechDispatcherVoices(listing: String): List<NamedVoice> =
+    listing.lineSequence().mapNotNull { raw ->
+        val match = dispatcherVoiceLine.matchEntire(raw.trimEnd()) ?: return@mapNotNull null
+        val name = match.groupValues[1].trim()
+        val lang = match.groupValues[2]
+        if (name.equals("NAME", ignoreCase = true) && lang.equals("LANGUAGE", ignoreCase = true)) null
+        else NamedVoice(name, lang)
+    }.toList()
+
 fun desktopSpeech(
     osName: String,
     available: Set<String>,
@@ -50,6 +61,7 @@ fun desktopSpeech(
     macVoices: List<NamedVoice> = emptyList(),
     windowsVoices: List<NamedVoice> = emptyList(),
     espeakLanguages: Set<String> = emptySet(),
+    dispatcherVoices: List<NamedVoice> = emptyList(),
 ): SpeechRequest? {
     val language = lang.substringBefore('-').substringBefore('_').lowercase().ifBlank { "en" }
     val speed = (175f * rate).toInt().coerceIn(80, 450)
@@ -68,28 +80,32 @@ fun desktopSpeech(
             SpeechRequest("espeak-ng", listOf("-v", language, "-s", speed.toString(), "--", text))
         "espeak" in available && language in espeakLanguages ->
             SpeechRequest("espeak", listOf("-v", language, "-s", speed.toString(), "--", text))
-        "spd-say" in available ->
+        "spd-say" in available -> {
+            val voice = pickVoice(lang, dispatcherVoices) ?: return null
             SpeechRequest(
                 "spd-say",
-                listOf("-l", language, "-r", spdRate(rate).toString(), "-w", "--", text),
+                listOf("-y", voice.name, "-l", voice.lang, "-r", spdRate(rate).toString(), "-w", "--", text),
                 cancelsSpeechDispatcher = true,
             )
+        }
         else -> null
     }
 }
 
+private const val windowsSpeakScript =
+    "Add-Type -AssemblyName System.Speech; " +
+        "\$s = New-Object System.Speech.Synthesis.SpeechSynthesizer; " +
+        "\$s.SelectVoice(\$env:KANA_VOICE); " +
+        "\$s.Rate = [int]\$env:KANA_RATE; " +
+        "\$s.Speak([Console]::In.ReadToEnd())"
+
 private fun windowsSpeech(program: String, rate: Float, text: String, voice: String): SpeechRequest {
     val sapi = ((rate - 1f) * 10f).toInt().coerceIn(-10, 10)
-    val safeName = voice.replace("'", "''")
-    val script = "Add-Type -AssemblyName System.Speech; " +
-        "\$s = New-Object System.Speech.Synthesis.SpeechSynthesizer; " +
-        "\$s.SelectVoice('$safeName'); " +
-        "\$s.Rate = $sapi; " +
-        "\$s.Speak([Console]::In.ReadToEnd())"
     return SpeechRequest(
         program,
-        listOf("-NoProfile", "-NonInteractive", "-Command", script),
+        listOf("-NoProfile", "-NonInteractive", "-Command", windowsSpeakScript),
         stdin = text,
+        environment = mapOf("KANA_VOICE" to voice, "KANA_RATE" to sapi.toString()),
     )
 }
 
@@ -99,3 +115,5 @@ private fun normalize(lang: String): String =
     lang.trim().replace('_', '-').lowercase()
 
 private val sayVoiceLine = Regex("""(?m)^(.+?)\s+([A-Za-z]{2,3}[_-][A-Za-z0-9]+)\s+#""")
+
+private val dispatcherVoiceLine = Regex("""^(.+?)\s{2,}(\S+)\s+(\S+)\s*$""")
