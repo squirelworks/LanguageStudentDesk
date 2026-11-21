@@ -1,7 +1,13 @@
 package com.squirelworks.lsd.kana
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -9,16 +15,20 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.squirelworks.lsd.core.strokes.StrokeSegment
 import com.squirelworks.lsd.core.strokes.Strokes
 
@@ -57,6 +67,7 @@ fun StrokeGlyph(
     limit: Int = Int.MAX_VALUE,
     highlightLast: Boolean = false,
     guides: Boolean = false,
+    numbers: Boolean = true,
     sizeDp: Dp = 220.dp,
     replay: Int = 0,
 ) {
@@ -86,7 +97,10 @@ fun StrokeGlyph(
             }
         }
     }
-    Canvas(modifier.size(sizeDp)) {
+    val numberColor = MaterialTheme.colorScheme.primary
+    val numbered = if (numbers) visibleStrokeNumbers(paths.size, shown, play, end) else 0
+    Box(modifier.size(sizeDp)) {
+    Canvas(Modifier.fillMaxSize()) {
         val scale = size.minDimension / box.coerceAtLeast(1f)
         if (guides) {
             drawLine(Color(0xFFD9D3C5), Offset(size.width / 2f, 0f), Offset(size.width / 2f, size.height), strokeWidth = 1f)
@@ -115,5 +129,50 @@ fun StrokeGlyph(
                 ),
             )
         }
+        for (i in 0 until numbered) {
+            val start = Strokes.points(paths[i]).firstOrNull() ?: continue
+            drawCircle(
+                numberColor,
+                radius = 4.6f * scale,
+                center = Offset((start.x * scale).toFloat(), (start.y * scale).toFloat()),
+            )
+        }
     }
+    if (numbered > 0) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val glyphWidth = maxWidth
+            val glyphHeight = maxHeight
+            val diameter = glyphWidth * (9.2f / box)
+            val digit = (glyphWidth.value * 6f / box).sp
+            for (i in 0 until numbered) {
+                val start = Strokes.points(paths[i]).firstOrNull() ?: continue
+                val cx = glyphWidth * (start.x.toFloat() / box)
+                val cy = glyphHeight * (start.y.toFloat() / box)
+                Box(
+                    Modifier.offset(x = cx - diameter / 2, y = cy - diameter / 2).size(diameter),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        "${i + 1}",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = digit,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+        }
+    }
+    }
+}
+
+// How many stroke-start numbers are on screen. While the pen is moving, the
+// number appears as that stroke starts and stays. A still glyph numbers every
+// stroke already drawn.
+fun visibleStrokeNumbers(strokeCount: Int, shown: Float, playing: Boolean, drawn: Int): Int {
+    if (strokeCount <= 0 || drawn <= 0) return 0
+    val cap = drawn.coerceAtMost(strokeCount)
+    if (!playing) return cap
+    val started = shown.toInt().coerceIn(0, strokeCount - 1) + 1
+    return started.coerceAtMost(cap)
 }
