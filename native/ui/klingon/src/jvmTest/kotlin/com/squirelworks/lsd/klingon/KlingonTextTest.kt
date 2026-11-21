@@ -2,7 +2,9 @@ package com.squirelworks.lsd.klingon
 
 import com.squirelworks.lsd.kana.WebViewStore
 import kotlin.random.Random
-import androidx.compose.ui.text.font.FontWeight
+import com.squirelworks.lsd.core.article.ArticleBlock
+import com.squirelworks.lsd.core.article.ArticleRun
+import com.squirelworks.lsd.core.article.parseArticle
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -101,14 +103,16 @@ class KlingonTextTest {
     }
 
     @Test
-    fun articlesKeepEmphasisAndSeparateTableCells() {
-        val marked = articleMarkup("<p><b>pIqaD</b> is <i>the</i> alphabet.</p><ul><li>One</li></ul><table><tr><th>Letter</th><th>Say it like</th></tr></table>")
-        assertTrue(marked.text.contains("pIqaD"))
-        assertFalse(marked.text.contains("<"))
-        assertTrue(marked.text.contains("• One"))
-        assertTrue(marked.text.contains("Letter"))
-        assertFalse(marked.text.contains("LetterSay"))
-        assertTrue(marked.spanStyles.any { it.item.fontWeight == FontWeight.Bold })
-        assertTrue(marked.spanStyles.any { it.item.fontStyle == androidx.compose.ui.text.font.FontStyle.Italic })
+    fun pronunciationHeaderIsTwoColumns() {
+        val html = "<p><b>pIqaD</b> is <i>the</i> alphabet.</p><ul><li>One</li></ul><table><tr><th>Letter</th><th>Say it like</th></tr><tr><td>tlh</td><td>t then a hissed <b>l</b></td></tr></table>"
+        val blocks = parseArticle(html)
+        val paragraph = blocks[0] as ArticleBlock.Paragraph
+        assertTrue((paragraph.runs[0] as ArticleRun.Text).bold)
+        assertTrue((paragraph.runs[2] as ArticleRun.Text).italic)
+        assertEquals("One", ((blocks[1] as ArticleBlock.Bullet).runs.single() as ArticleRun.Text).value)
+        val table = blocks[2] as ArticleBlock.Table
+        assertEquals(listOf("Letter", "Say it like"), table.rows[0].map { (it.single() as ArticleRun.Text).value })
+        assertEquals("tlh", (table.rows[1][0].single() as ArticleRun.Text).value)
+        assertTrue((table.rows[1][1].last() as ArticleRun.Text).bold)
     }
 }

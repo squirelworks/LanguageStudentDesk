@@ -12,7 +12,6 @@ on:
         type: choice
         options:
           - dictionary
-          - klingon
           - orthodox-bible
           - phrasebook
           - kokugo
@@ -105,12 +104,10 @@ jobs:
             exit 0
           fi
           case "$APP" in
-            klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
-            klingon)        NAME=SquirrelGoKlingon ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;
             phrasebook)     NAME=SquirrelGoPhrasebook ;;
           esac

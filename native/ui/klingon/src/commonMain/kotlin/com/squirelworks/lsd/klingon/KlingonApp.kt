@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -39,7 +38,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -49,8 +47,10 @@ import androidx.compose.ui.unit.sp
 import com.squirelworks.lsd.core.languages.TextStore
 import com.squirelworks.lsd.core.strokes.StrokeVerdict
 import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.kana.ArticleBlocks
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
+import com.squirelworks.lsd.kana.rememberPageScrollState
 import com.squirelworks.lsd.kana.StrokeGlyph
 import com.squirelworks.lsd.kana.SuiteSheet
 import com.squirelworks.lsd.kana.WritePad
@@ -100,19 +100,24 @@ fun KlingonApp(
     var writeMemory by remember { mutableStateOf(false) }
     val font = if (progress.font == "classic") classic else hand
     val page = stack.last()
+    var scrollStep by remember { mutableIntStateOf(0) }
     fun save(next: KlingonProgress) {
         progress = next
         writeKlingonProgress(progressStore, next)
     }
     fun push(next: Page) {
         stack = stack + next
+        scrollStep++
     }
     fun replace(next: Page) {
         stack = stack.dropLast(1) + next
     }
     fun back() {
         onStopAudio()
-        if (stack.size > 1) stack = stack.dropLast(1)
+        if (stack.size > 1) {
+            stack = stack.dropLast(1)
+            scrollStep++
+        }
     }
     val backEnabled = suiteOpen || stack.size > 1
     fun performBack() {
@@ -152,7 +157,7 @@ fun KlingonApp(
                     onSettings = { push(Page.Settings) },
                 )
                 Column(
-                    Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp),
+                    Modifier.weight(1f).verticalScroll(rememberPageScrollState(scrollStep)).padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     when (val current = page) {
@@ -201,7 +206,7 @@ fun KlingonApp(
                         }, onWrite = { keys ->
                             if (keys.isNotEmpty()) push(Page.Write(keys, 0, false, false))
                         })
-                        is Page.Article -> Text(articleMarkup(bundle.articles[current.index].body))
+                        is Page.Article -> ArticleBlocks(bundle.articles[current.index].body, onPlay = {})
                         Page.Settings -> SettingsPage(bundle, progress, font, ::save, onReset = {
                             save(progress.copy(stats = emptyMap(), written = emptyMap()))
                             toast = "Progress cleared."
@@ -769,40 +774,3 @@ private fun titleOf(page: Page, bundle: KlingonBundle): String = when (page) {
     Page.Settings -> "Settings"
 }
 
-fun articleMarkup(html: String): androidx.compose.ui.text.AnnotatedString = buildAnnotatedString {
-    val tokens = Regex("(?is)<[^>]+>|[^<]+").findAll(html)
-    var bold = 0
-    var italic = 0
-    fun appendStyled(raw: String) {
-        val text = raw.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#39;", "'").replace("&quot;", "\"")
-        if (text.isEmpty()) return
-        if (bold == 0 && italic == 0) {
-            append(text)
-        } else {
-            withStyle(
-                SpanStyle(
-                    fontWeight = if (bold > 0) FontWeight.Bold else null,
-                    fontStyle = if (italic > 0) FontStyle.Italic else null,
-                ),
-            ) { append(text) }
-        }
-    }
-    tokens.forEach { token ->
-        val raw = token.value
-        if (!raw.startsWith("<")) {
-            appendStyled(raw)
-            return@forEach
-        }
-        val close = raw.startsWith("</")
-        val tag = Regex("(?i)^</?([a-z0-9]+)").find(raw)?.groupValues?.get(1)?.lowercase().orEmpty()
-        when (tag) {
-            "b", "strong" -> if (close) bold = (bold - 1).coerceAtLeast(0) else bold++
-            "i", "em" -> if (close) italic = (italic - 1).coerceAtLeast(0) else italic++
-            "br" -> append("\n")
-            "p" -> if (close) append("\n\n")
-            "li" -> if (!close) append("\n• ")
-            "tr" -> if (close) append("\n")
-            "th", "td" -> if (!close) append("\t")
-        }
-    }
-}
