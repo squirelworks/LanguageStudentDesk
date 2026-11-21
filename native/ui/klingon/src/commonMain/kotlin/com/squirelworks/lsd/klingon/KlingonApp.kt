@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -51,6 +50,7 @@ import com.squirelworks.lsd.core.strokes.StrokeVerdict
 import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
+import com.squirelworks.lsd.kana.rememberPageScrollState
 import com.squirelworks.lsd.kana.StrokeGlyph
 import com.squirelworks.lsd.kana.SuiteSheet
 import com.squirelworks.lsd.kana.WritePad
@@ -152,7 +152,7 @@ fun KlingonApp(
                     onSettings = { push(Page.Settings) },
                 )
                 Column(
-                    Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp),
+                    Modifier.weight(1f).verticalScroll(rememberPageScrollState(page)).padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     when (val current = page) {

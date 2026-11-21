@@ -53,6 +53,7 @@ import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.core.suite.dictionaryLookup
 import com.squirelworks.lsd.kana.EscapeBackEffect
 import com.squirelworks.lsd.kana.PlatformBackHandler
+import com.squirelworks.lsd.kana.rememberPageScrollState
 import com.squirelworks.lsd.kana.StrokeGlyph
 import com.squirelworks.lsd.kana.SuiteSheet
 import com.squirelworks.lsd.kana.accentArgb
@@ -236,7 +237,7 @@ fun KanjiApp(
                             onApps = { suiteOpen = true },
                         )
                         Column(
-                            Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp),
+                            Modifier.weight(1f).verticalScroll(rememberPageScrollState(page)).padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             when (val current = page) {
