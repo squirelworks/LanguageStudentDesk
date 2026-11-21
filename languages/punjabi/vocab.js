@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/punjabi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/punjabi/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Punjabi in Gurmukhi, transliteration, English, note]. Written
 // for this project.
 window.LSD_DECKS = window.LSD_DECKS || {};

@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 strokes/syriac.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 613e4e6 strokes/syriac.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for the Syriac alphabet (Estrangela), unattached forms, right to
 // left. Paths hand-redrawn in a 100 x 100 box after review against Mark
 // Francois, Classical Syriac Grammar, Practice Sheet 1.1 (Estrangela alphabet

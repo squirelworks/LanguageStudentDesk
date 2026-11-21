@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/hangul/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/hangul/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Hangul, Revised Romanization, English, note]. Written for this
 // project.
 // The decks Beginner, Intermediate and Advanced words are imported by

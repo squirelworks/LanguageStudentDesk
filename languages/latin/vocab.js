@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/latin/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/latin/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [Latin, English, note]. Written for this project. Long vowels
 // carry macrons. Nouns give the genitive and gender, verbs their principal
 // parts, so the note tells you which pattern the word follows.
