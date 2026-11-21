@@ -26,8 +26,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.squirelworks.lsd.core.article.ArticleBlock
+import com.squirelworks.lsd.core.article.ArticleRun
+import com.squirelworks.lsd.core.article.parseArticle
 import com.squirelworks.lsd.core.strokes.StrokeVerdict
 import com.squirelworks.lsd.core.trainer.FlashDeck
 import com.squirelworks.lsd.core.trainer.GlyphRef
@@ -419,11 +431,80 @@ fun WriteScreen(
 }
 
 @Composable
-fun ArticleScreen(title: String, body: String, onBack: () -> Unit) {
+fun ArticleScreen(title: String, body: String, onPlay: (String) -> Unit, onBack: () -> Unit) {
     Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         TextButton(onClick = onBack) { Text("‹") }
         Text(title, style = MaterialTheme.typography.titleLarge)
-        Text(plainArticle(body))
+        parseArticle(body).forEach { block ->
+            when (block) {
+                is ArticleBlock.Heading -> Text(block.text, style = MaterialTheme.typography.titleMedium)
+                is ArticleBlock.Paragraph -> ArticleLine(block.runs, onPlay)
+                is ArticleBlock.Bullet -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("•")
+                    ArticleLine(block.runs, onPlay, Modifier.weight(1f))
+                }
+                is ArticleBlock.Table -> Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    block.rows.forEach { row ->
+                        val play = (row.lastOrNull()?.singleOrNull() as? ArticleRun.Play)
+                        val cells = if (play == null) row else row.dropLast(1)
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            cells.forEachIndexed { index, cell ->
+                                val text = articleAnnotated(cell)
+                                if (index == 0) Text(text, softWrap = false)
+                                else Text(text, modifier = Modifier.weight(1f))
+                            }
+                            if (play != null) PlayControl(play.spoken, onPlay)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun articleAnnotated(runs: List<ArticleRun>): AnnotatedString = buildAnnotatedString {
+    runs.forEach { run ->
+        if (run !is ArticleRun.Text) return@forEach
+        val start = length
+        append(run.value)
+        if (run.bold || run.italic || run.japanese) {
+            addStyle(
+                SpanStyle(
+                    fontWeight = if (run.bold) FontWeight.Bold else null,
+                    fontStyle = if (run.italic) FontStyle.Italic else null,
+                    localeList = if (run.japanese) LocaleList(Locale("ja")) else null,
+                ),
+                start,
+                length,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ArticleLine(runs: List<ArticleRun>, onPlay: (String) -> Unit, modifier: Modifier = Modifier) {
+    val plays = runs.filterIsInstance<ArticleRun.Play>()
+    if (plays.isEmpty()) {
+        Text(articleAnnotated(runs), modifier)
+        return
+    }
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(articleAnnotated(runs), Modifier.weight(1f))
+        plays.forEach { PlayControl(it.spoken, onPlay) }
+    }
+}
+
+@Composable
+private fun PlayControl(spoken: String, onPlay: (String) -> Unit) {
+    TextButton(
+        onClick = { onPlay(spoken) },
+        modifier = Modifier.semantics { contentDescription = "Play $spoken" },
+    ) {
+        Text("▶")
     }
 }
 

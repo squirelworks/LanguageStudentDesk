@@ -309,7 +309,12 @@ fun KanaApp(
                     is Screen.Article -> {
                         val script = scripts.first { it.id == screen.scriptId }
                         val article = script.articles[screen.index]
-                        ArticleScreen(article.title, article.body, ::back)
+                        ArticleScreen(
+                            article.title,
+                            article.body,
+                            { text -> play(script, text, false) },
+                            ::back,
+                        )
                     }
                     Screen.Settings -> SettingsScreen(
                         progress.voice,
