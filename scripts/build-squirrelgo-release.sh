@@ -40,7 +40,6 @@ build_app() {
   local apk="app/build/outputs/apk/release/app-release.apk"
   verify_bundle "$aab" "$apk" "$aab_name" "$asset_path"
   cp "$aab" "$OUT_AAB/${aab_name}.aab"
-  cp "$apk" "$OUT_AAB/${apk_name}.apk"
   cp "$apk" "$OUT_ART/${apk_name}.apk"
 }
 
@@ -54,9 +53,10 @@ echo "======== BUILD SquirrelGoKana (native) ========"
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
-  ./gradlew :android:kana:assembleRelease --no-daemon -q
-  cp android/kana/build/outputs/apk/release/*.apk "$OUT_AAB/SquirrelGoKana.apk"
-  cp "$OUT_AAB/SquirrelGoKana.apk" "$OUT_ART/SquirrelGoKana.apk"
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:kana:assembleRelease :android:kana:bundlePlay --no-daemon -q
+  cp android/kana/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKana.apk"
+  cp android/kana/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKana.aab"
 )
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets
