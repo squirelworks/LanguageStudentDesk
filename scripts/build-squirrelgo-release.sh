@@ -53,13 +53,10 @@ echo "======== BUILD SquirrelGoKana (native) ========"
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
-  # The APK stays on the committed debug key. The bundle uses UPLOAD_*.
-  env -u UPLOAD_STORE_FILE -u UPLOAD_STORE_PASSWORD -u UPLOAD_KEY_ALIAS -u UPLOAD_KEY_PASSWORD \
-    ./gradlew :android:kana:assembleRelease --no-daemon -q
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:kana:assembleRelease :android:kana:bundlePlay --no-daemon -q
   cp android/kana/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKana.apk"
-  ./gradlew :android:kana:bundleRelease --no-daemon -q
-  cp android/kana/build/outputs/bundle/release/*.aab "$OUT_AAB/SquirrelGoKana.aab"
-  cp "$OUT_AAB/SquirrelGoKana.aab" "$OUT_ART/SquirrelGoKana.aab"
+  cp android/kana/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKana.aab"
 )
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets

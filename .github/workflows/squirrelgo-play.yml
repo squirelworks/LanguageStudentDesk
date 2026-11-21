@@ -339,9 +339,9 @@ jobs:
           cd native
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :android:kana:bundleRelease
+          ./gradlew --no-daemon :android:kana:bundlePlay
           VN=$(grep -m1 '^versionName=' versions/kana.properties | cut -d= -f2-)
-          AAB=$(echo "$PWD"/android/kana/build/outputs/bundle/release/*.aab)
+          AAB=$(echo "$PWD"/android/kana/build/outputs/bundle/play/*.aab)
           test -f "$AAB"
           echo "RELEASE_NAME=SquirrelGo Kana $VN" >> "$GITHUB_ENV"
           echo "AAB=$AAB" >> "$GITHUB_ENV"
