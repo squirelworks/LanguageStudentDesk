@@ -60,6 +60,16 @@ echo "======== BUILD SquirrelGoKana (native) ========"
 )
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-dictionary" SquirrelGoJapaneseDictionary SquirrelGoJapaneseDictionary
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets" SquirrelGoAlphabets SquirrelGoAlphabets
+echo "======== BUILD SquirrelGoAlphabets Play bundle (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # The WebView APK above stays the release file until that shell is archived.
+  # This bundle is the Play upload, and it does not replace the APK.
+  ./gradlew :android:alphabets:bundlePlay --no-daemon -q
+  cp android/alphabets/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoAlphabets.aab"
+)
 build_app "$ROOT/SquirrelGo-Apps/lsd-suite" LanguageStudentDesk LanguageStudentDesk "assets/www/index.html"
 echo "======== BUILD SquirrelGoBopomofo (native) ========"
 (

@@ -11,8 +11,10 @@ requireNewerThanWebView(
     appVersion,
     rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/android/app/build.gradle"),
 )
-// The GitHub APK is still the WebView build. This release stays on the
-// committed debug key so it can install over that app later.
+// release, the GitHub APK once the WebView is archived, always uses the
+// committed debug key. The play build type is the only one that may use
+// UPLOAD_*, and only for its own output.
+val uploadStore = System.getenv("UPLOAD_STORE_FILE").orEmpty()
 base {
     archivesName.set("SquirrelGoAlphabets-${appVersion.versionName}")
 }
@@ -40,11 +42,28 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
+        if (uploadStore.isNotEmpty()) {
+            create("play") {
+                storeFile = file(uploadStore)
+                storePassword = System.getenv("UPLOAD_STORE_PASSWORD")
+                keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
+                keyPassword = System.getenv("UPLOAD_KEY_PASSWORD")
+            }
+        }
     }
     buildTypes {
         release {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
+        }
+        create("play") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
+            signingConfig = if (uploadStore.isNotEmpty()) {
+                signingConfigs.getByName("play")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
         debug {
             applicationIdSuffix = ".debug"
