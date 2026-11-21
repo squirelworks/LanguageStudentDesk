@@ -47,10 +47,11 @@ private fun blockHandle(data: ByteArray, start: Int): Triple<Long, Long, Int>? {
 }
 
 private fun readBlock(file: ByteArray, offset: Long, size: Long): ByteArray? {
-    if (offset > Int.MAX_VALUE || size > Int.MAX_VALUE) return null
+    val end = offset + size + TRAILER
+    if (offset < 0L || size < 0L || end < 0L || end > file.size.toLong()) return null
+    if (offset > Int.MAX_VALUE.toLong() || size > Int.MAX_VALUE.toLong()) return null
     val off = offset.toInt()
     val length = size.toInt()
-    if (off < 0 || length < 0 || off + length + TRAILER > file.size) return null
     val raw = file.copyOfRange(off, off + length)
     val type = file[off + length].toInt() and 0xff
     val checked = file.copyOfRange(off, off + length + 1)
@@ -62,16 +63,16 @@ private fun readBlock(file: ByteArray, offset: Long, size: Long): ByteArray? {
     }
 }
 
-private fun blockEntries(block: ByteArray): List<Pair<ByteArray, ByteArray>>? {
+internal fun blockEntries(block: ByteArray): List<Pair<ByteArray, ByteArray>>? {
     if (block.size < 4) return null
-    val restarts = u32(block, block.size - 4)
-    if (restarts <= 0) return null
-    val restartAt = block.size - (restarts + 1) * 4
+    val restarts = u32(block, block.size - 4).toLong() and 0xffffffffL
+    if (restarts <= 0L || restarts > (block.size - 4L) / 4L) return null
+    val restartAt = (block.size - (restarts + 1L) * 4L).toInt()
     if (restartAt < 0) return null
     val entries = ArrayList<Pair<ByteArray, ByteArray>>()
-    for (restart in 0 until restarts) {
+    for (restart in 0 until restarts.toInt()) {
         val start = u32(block, restartAt + restart * 4)
-        val limit = if (restart + 1 < restarts) u32(block, restartAt + (restart + 1) * 4) else restartAt
+        val limit = if (restart + 1L < restarts) u32(block, restartAt + (restart + 1) * 4) else restartAt
         if (start < 0 || limit < start || limit > restartAt) return null
         var pos = start
         var key = ByteArray(0)
@@ -82,9 +83,10 @@ private fun blockEntries(block: ByteArray): List<Pair<ByteArray, ByteArray>>? {
             val (valueLength, p3) = varint(block, p2) ?: return null
             if (first && shared != 0) return null
             first = false
-            if (shared > key.size || nonShared < 0 || valueLength < 0) return null
+            val keyLength = shared.toLong() + nonShared.toLong()
+            if (shared > key.size || nonShared < 0 || valueLength < 0 || keyLength > Int.MAX_VALUE) return null
             if (p3 > limit || nonShared > limit - p3 || valueLength > limit - p3 - nonShared) return null
-            val next = ByteArray(shared + nonShared)
+            val next = ByteArray(keyLength.toInt())
             key.copyInto(next, 0, 0, shared)
             block.copyInto(next, shared, p3, p3 + nonShared)
             val value = block.copyOfRange(p3 + nonShared, p3 + nonShared + valueLength)
@@ -108,41 +110,36 @@ internal fun snappyDecode(data: ByteArray): ByteArray? {
         pos++
         when (tag and 3) {
             0 -> {
-                var literal = tag ushr 2
-                if (literal >= 60) {
-                    val extra = literal - 59
-                    if (pos + extra > data.size) return null
-                    literal = 0
-                    for (i in 0 until extra) literal = literal or ((data[pos + i].toInt() and 0xff) shl (8 * i))
-                    pos += extra
-                }
-                literal += 1
-                if (pos + literal > data.size || written + literal > out.size) return null
-                data.copyInto(out, written, pos, pos + literal)
-                written += literal
-                pos += literal
+                val literal = literalLength(data, pos, tag) ?: return null
+                pos = literal.second
+                val count = literal.first
+                if (count <= 0L || pos > data.size || count > (data.size - pos).toLong() || count > (out.size - written).toLong()) return null
+                val n = count.toInt()
+                data.copyInto(out, written, pos, pos + n)
+                written += n
+                pos += n
             }
             1 -> {
                 if (pos >= data.size) return null
                 val copy = ((tag ushr 2) and 7) + 4
-                val offset = ((tag ushr 5) shl 8) or (data[pos].toInt() and 0xff)
+                val offset = (((tag ushr 5) shl 8) or (data[pos].toInt() and 0xff)).toLong()
                 pos++
                 if (!copyFrom(out, written, copy, offset)) return null
                 written += copy
             }
             2 -> {
-                if (pos + 2 > data.size) return null
+                if (pos.toLong() + 2L > data.size.toLong()) return null
                 val copy = (tag ushr 2) + 1
-                val offset = (data[pos].toInt() and 0xff) or ((data[pos + 1].toInt() and 0xff) shl 8)
+                val offset = ((data[pos].toInt() and 0xff) or ((data[pos + 1].toInt() and 0xff) shl 8)).toLong()
                 pos += 2
                 if (!copyFrom(out, written, copy, offset)) return null
                 written += copy
             }
             else -> {
-                if (pos + 4 > data.size) return null
+                if (pos.toLong() + 4L > data.size.toLong()) return null
                 val copy = (tag ushr 2) + 1
-                var offset = 0
-                for (i in 0 until 4) offset = offset or ((data[pos + i].toInt() and 0xff) shl (8 * i))
+                var offset = 0L
+                for (i in 0 until 4) offset = offset or ((data[pos + i].toLong() and 0xff) shl (8 * i))
                 pos += 4
                 if (!copyFrom(out, written, copy, offset)) return null
                 written += copy
@@ -153,15 +150,26 @@ internal fun snappyDecode(data: ByteArray): ByteArray? {
     return out
 }
 
-private fun copyFrom(out: ByteArray, written: Int, length: Int, offset: Int): Boolean {
-    if (offset <= 0 || offset > written || written + length > out.size) return false
-    var from = written - offset
+private fun literalLength(data: ByteArray, pos: Int, tag: Int): Pair<Long, Int>? {
+    val head = tag ushr 2
+    if (head < 60) return (head + 1L) to pos
+    val extra = head - 59
+    if (extra !in 1..4 || pos.toLong() + extra > data.size.toLong()) return null
+    var length = 0L
+    for (i in 0 until extra) length = length or ((data[pos + i].toLong() and 0xff) shl (8 * i))
+    return (length + 1L) to (pos + extra)
+}
+
+private fun copyFrom(out: ByteArray, written: Int, length: Int, offset: Long): Boolean {
+    if (length <= 0 || offset <= 0L || offset > written.toLong()) return false
+    if (written.toLong() + length.toLong() > out.size.toLong()) return false
+    var from = written - offset.toInt()
     var to = written
     repeat(length) { out[to++] = out[from++] }
     return true
 }
 
-private fun varint64(data: ByteArray, start: Int): Pair<Long, Int>? {
+internal fun varint64(data: ByteArray, start: Int): Pair<Long, Int>? {
     var value = 0L
     var shift = 0
     var pos = start

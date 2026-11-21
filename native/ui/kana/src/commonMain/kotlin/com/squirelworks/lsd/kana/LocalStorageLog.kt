@@ -44,7 +44,7 @@ internal fun hitsFromLog(bytes: ByteArray, key: String): List<StoreHit>? {
     return hits
 }
 
-private fun logicalRecords(bytes: ByteArray): List<ByteArray>? {
+internal fun logicalRecords(bytes: ByteArray): List<ByteArray>? {
     val out = ArrayList<ByteArray>()
     var pending = ByteArray(0)
     var open = false

@@ -1,8 +1,11 @@
 package com.squirelworks.lsd.kana
 
+import java.io.File
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ProgressImportTest {
@@ -69,5 +72,57 @@ class ProgressImportTest {
         assertEquals(fresh, importWebViewProgress(fresh, localStorageFromStore(emptyList(), listOf(table.copyOf(40)), "squirrelgo-kana")))
     }
 
+    @Test
+    fun anOrphanTableDoesNotHideTheLiveValue() {
+        val files = resourceDir("/chromium/interrupted")
+        assertTrue(files.containsKey("000016.ldb"))
+        assertTrue(files.getValue("000016.ldb").size > 100_000)
+        val store = levelDbStore(files, "squirrelgo-kana") as WebViewStore.Value
+        val progress = importWebViewProgress(ProgressFile(), store)
+        assertEquals(9, progress.stats["hiragana|あ"]?.c)
+        assertEquals(7, progress.stats.size)
+        assertEquals(0.7f, progress.rate)
+        val manifestName = files.getValue("CURRENT").decodeToString().trim()
+        val broken = files.toMutableMap()
+        broken[manifestName] = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        val fresh = ProgressFile()
+        assertEquals(fresh, importWebViewProgress(fresh, levelDbStore(broken, "squirrelgo-kana")))
+    }
+
+    @Test
+    fun aDeletedTableEntryIsNoProgress() {
+        val tomb = resource("/chromium/tombstone.ldb")
+        val store = localStorageFromStore(emptyList(), listOf(tomb), "squirrelgo-kana")
+        assertTrue(store is WebViewStore.Absent)
+        assertTrue(importWebViewProgress(ProgressFile(), store).importedWebView)
+    }
+
+    @Test
+    fun badSnappyAndRestartCountsReturnNull() {
+        assertNull(snappyDecode(byteArrayOf(10, (63 shl 2).toByte(), 0xFE.toByte(), 0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(), 1, 2)))
+        val restarts = ByteArray(8)
+        restarts[4] = 0
+        restarts[5] = 0
+        restarts[6] = 0
+        restarts[7] = 0x40
+        assertNull(blockEntries(restarts))
+        val random = Random(1)
+        repeat(200_000) {
+            val size = random.nextInt(1, 24)
+            val bytes = ByteArray(size) { random.nextInt().toByte() }
+            snappyDecode(bytes)
+        }
+        repeat(2_000) {
+            val size = random.nextInt(1, 48)
+            val bytes = ByteArray(size) { random.nextInt().toByte() }
+            localStorageFromStore(listOf(bytes), listOf(bytes), "squirrelgo-kana")
+        }
+    }
+
     private fun resource(path: String): ByteArray = javaClass.getResourceAsStream(path)!!.readBytes()
+
+    private fun resourceDir(path: String): Map<String, ByteArray> {
+        val dir = File(javaClass.getResource(path)!!.toURI())
+        return dir.listFiles()!!.filter { it.isFile }.associate { it.name to it.readBytes() }
+    }
 }
