@@ -68,11 +68,7 @@ fun ArticleTable(
         val preferred = IntArray(colCount)
         rows.forEach { cells ->
             cells.forEachIndexed { index, text ->
-                val single = measurer.measure(
-                    text,
-                    style = style,
-                    constraints = Constraints(maxWidth = Int.MAX_VALUE / 4),
-                )
+                val single = measurer.measure(text, style = style)
                 preferred[index] = max(preferred[index], single.size.width)
             }
         }
