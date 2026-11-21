@@ -36,6 +36,7 @@ def main():
     alpha = set(mod.source_paths("alphabets"))
     kanji = set(mod.source_paths("kanji"))
     klingon = set(mod.source_paths("klingon"))
+    bible = set(mod.source_paths("orthodox-bible"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
     shared = {
@@ -46,7 +47,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, kokugo, multi):
+    for paths in (kana, bopo, alpha, kanji, klingon, bible, kokugo, multi):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -101,7 +102,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "japanese-dictionary", "multilingual-dictionary"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -133,6 +134,16 @@ def main():
         raise SystemExit("klingon ignored its lesson file")
     if mod.app_changed("tag", "kana", klingon_lesson) or mod.app_changed("tag", "kanji", klingon_lesson):
         raise SystemExit("a Klingon lesson marked another app")
+    bible_www = "SquirrelGo-Apps/squirrelgo-orthodox-bible/www"
+    if bible_www not in bible or suite not in bible:
+        raise SystemExit(f"orthodox bible generator inputs missing: {sorted(bible)}")
+    if kana_data in bible or klingon_www in bible:
+        raise SystemExit("orthodox bible is watching another app's WebView files")
+    bible_text = diff_of([bible_www + "/data/catalog.js"])
+    if not mod.app_changed("tag", "orthodox-bible", bible_text):
+        raise SystemExit("orthodox bible ignored its catalog")
+    if mod.app_changed("tag", "kana", bible_text) or mod.app_changed("tag", "klingon", bible_text):
+        raise SystemExit("an Orthodox Bible file marked another app")
     print("ok")
 
 
