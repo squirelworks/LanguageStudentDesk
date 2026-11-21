@@ -10,7 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
@@ -20,12 +22,24 @@ import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.strokes.Strokes
 
 @Composable
-fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifier, speed: Int = 70) {
+fun StrokeGlyph(
+    paths: List<String>,
+    play: Boolean,
+    modifier: Modifier = Modifier,
+    speed: Int = 70,
+    box: Float = 100f,
+    limit: Int = Int.MAX_VALUE,
+    highlightLast: Boolean = false,
+    guides: Boolean = false,
+    sizeDp: Dp = 220.dp,
+    replay: Int = 0,
+) {
+    val end = limit.coerceIn(0, paths.size)
     val lengths = remember(paths) { paths.map { Strokes.length(Strokes.points(it)) + 1.0 } }
-    var shown by remember(paths) { mutableFloatStateOf(if (play) 0f else paths.size.toFloat()) }
-    LaunchedEffect(paths, play, speed) {
+    var shown by remember(paths, play, end, replay) { mutableFloatStateOf(if (play) 0f else end.toFloat()) }
+    LaunchedEffect(paths, play, speed, end, replay) {
         if (!play) {
-            shown = paths.size.toFloat()
+            shown = end.toFloat()
             return@LaunchedEffect
         }
         shown = 0f
@@ -46,8 +60,12 @@ fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifie
             }
         }
     }
-    Canvas(modifier.size(220.dp)) {
-        val scale = size.minDimension / 100f
+    Canvas(modifier.size(sizeDp)) {
+        val scale = size.minDimension / box.coerceAtLeast(1f)
+        if (guides) {
+            drawLine(Color(0xFFD9D3C5), Offset(size.width / 2f, 0f), Offset(size.width / 2f, size.height), strokeWidth = 1f)
+            drawLine(Color(0xFFD9D3C5), Offset(0f, size.height / 2f), Offset(size.width, size.height / 2f), strokeWidth = 1f)
+        }
         fun pathOf(d: String): Path {
             val path = Path()
             val toks = Regex("""[MLQ]|-?[\d.]+""").findAll(d).map { it.value }.toList()
@@ -73,9 +91,14 @@ fun StrokeGlyph(paths: List<String>, play: Boolean, modifier: Modifier = Modifie
             return path
         }
         val ink = Stroke(width = 7f, cap = StrokeCap.Round, join = StrokeJoin.Round)
-        paths.forEach { drawPath(pathOf(it), Color(0xFFD9D3C5), style = ink) }
+        val ghost = if (highlightLast) paths.take(end) else paths
+        ghost.forEach { drawPath(pathOf(it), Color(0xFFD9D3C5), style = ink) }
         val full = shown.toInt().coerceIn(0, paths.size)
-        for (i in 0 until full) drawPath(pathOf(paths[i]), Color(0xFF2C2416), style = ink)
+        val solidEnd = if (highlightLast && !play) (end - 1).coerceAtLeast(0) else full
+        for (i in 0 until solidEnd) drawPath(pathOf(paths[i]), Color(0xFF2C2416), style = ink)
+        if (highlightLast && !play && end > 0) {
+            drawPath(pathOf(paths[end - 1]), Color(0xFF1F4F8A), style = ink)
+        }
         val frac = shown - full
         if (full < paths.size && frac > 0f) {
             val len = (lengths[full] * scale).toFloat().coerceAtLeast(1f)

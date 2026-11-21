@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries>
+        <package android:name="com.squirelworks.squirrelgokana" />
+        <package android:name="com.squirelworks.squirrelgokana.debug" />
+        <package android:name="com.squirelworks.squirrelgobopomofo" />
+        <package android:name="com.squirelworks.squirrelgobopomofo.debug" />
+        <package android:name="com.squirelworks.squirrelgokanji" />
+        <package android:name="com.squirelworks.squirrelgokanji.debug" />
+        <package android:name="com.squirelworks.squirrelgodictionary" />
+        <package android:name="com.squirelworks.squirrelgodictionary.debug" />
+        <package android:name="com.squirelworks.squirrelgophrasebook" />
+        <package android:name="com.squirelworks.squirrelgophrasebook.debug" />
+        <package android:name="com.squirelworks.squirrelgoalphabets" />
+        <package android:name="com.squirelworks.squirrelgoalphabets.debug" />
+        <package android:name="com.squirelworks.squirrelgoklingon" />
+        <package android:name="com.squirelworks.squirrelgoklingon.debug" />
+        <package android:name="com.squirelworks.squirrelgoorthodoxbible" />
+        <package android:name="com.squirelworks.squirrelgoorthodoxbible.debug" />
+    </queries>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.Material.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

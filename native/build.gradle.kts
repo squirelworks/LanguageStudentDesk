@@ -105,3 +105,34 @@ catalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-alphabets/www/data/audio",
     "SquirrelGo-Apps/shared/suite.js",
 )
+
+// Kanji lessons, words, sentences and stroke paths, from the WebView files.
+// The app does not keep a second copy.
+fun kanjiCatalogTask(name: String, www: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-kanji")
+        inputs.dir(repo.resolve(www))
+        inputs.file("tools/kanji_catalog.py")
+        inputs.file("tools/kana_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/kanji_catalog.py").absolutePath,
+            repo.resolve(www).absolutePath,
+            outDir.get().asFile.absolutePath,
+        )
+    }
+
+kanjiCatalogTask(
+    "generateKanjiCatalog",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/kanji.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/catalog.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/words.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/data/strokes.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/js/lessons.js",
+    "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/www/css/app.css",
+    "SquirrelGo-Apps/shared/suite.js",
+)
