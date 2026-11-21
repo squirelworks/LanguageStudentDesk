@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "native"
 include(":core")
+include(":ui:dictionary")
+include(":android:japanese-dictionary")
+include(":desktop:japanese-dictionary")

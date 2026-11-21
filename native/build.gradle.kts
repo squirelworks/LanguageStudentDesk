@@ -1,5 +1,41 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.compose) apply false
+}
+
+// Language rows come from the metadata generated from the pinned
+// squirrel-lang-data commit. The apps do not keep their own copy.
+tasks.register("generateLanguageCatalog") {
+    val languages = file("../languages")
+    val outDir = layout.buildDirectory.dir("generated-catalog")
+    inputs.dir(languages)
+    outputs.dir(outDir)
+    doLast {
+        val slurper = JsonSlurper()
+        val rows = languages.listFiles()?.filter { it.isDirectory }?.mapNotNull { dir ->
+            val metaFile = dir.resolve("meta.json")
+            if (!metaFile.isFile) return@mapNotNull null
+            val meta = slurper.parse(metaFile) as Map<*, *>
+            val id = meta["id"]?.toString() ?: return@mapNotNull null
+            val name = meta["name"]?.toString() ?: error("${metaFile.path} has no display name")
+            mapOf(
+                "id" to id,
+                "name" to name,
+                "nativeName" to (meta["nativeName"]?.toString() ?: ""),
+                "speech" to (meta["speech"]?.toString() ?: ""),
+            )
+        }?.sortedBy { it["id"] } ?: error("No language metadata under ${languages.path}")
+        val out = outDir.get().asFile.resolve("languages.json")
+        out.parentFile.mkdirs()
+        out.writeText(JsonOutput.toJson(rows))
+    }
 }

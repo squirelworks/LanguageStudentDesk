@@ -31,7 +31,7 @@ jobs:
       - name: Install Android SDK packages
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0" > /dev/null
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
       - name: Test
         working-directory: native
         run: |
