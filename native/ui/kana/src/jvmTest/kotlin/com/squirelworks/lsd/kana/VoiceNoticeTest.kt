@@ -15,4 +15,16 @@ class VoiceNoticeTest {
             missingVoiceNotice("  "),
         )
     }
+
+    @Test
+    fun anExampleUsesItsOwnLanguageInTheNotice() {
+        assertEquals(
+            "No text-to-speech voice is installed for this word's language.",
+            missingVoiceNotice("Japanese", "en-US"),
+        )
+        assertEquals(
+            "No Japanese voice found. Install a Japanese text-to-speech voice in your system settings.",
+            missingVoiceNotice("Japanese", ""),
+        )
+    }
 }

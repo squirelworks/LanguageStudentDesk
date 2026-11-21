@@ -56,6 +56,15 @@ fun missingVoiceNotice(langName: String): String {
     }
 }
 
+// A line with its own language, such as an example word, uses that voice.
+// An empty language means the script's voice, and names it in the notice.
+fun missingVoiceNotice(langName: String, lineLanguage: String): String =
+    if (lineLanguage.isNotBlank()) {
+        "No text-to-speech voice is installed for this word's language."
+    } else {
+        missingVoiceNotice(langName)
+    }
+
 fun parseKanaStrokes(text: String): Map<String, Map<String, List<String>>> = json.decodeFromString(text)
 
 fun parseKanaAudio(text: String): Map<String, Map<String, String>> = json.decodeFromString(text)
