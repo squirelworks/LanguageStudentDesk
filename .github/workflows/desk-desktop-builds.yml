@@ -27,6 +27,11 @@ on:
         type: string
         required: false
         default: ""
+      rewrite_checksums:
+        description: "Rewrite SHA256SUMS.txt after these builds attach. The draft release sets this false; its finish job writes the sums once every asset is on the draft."
+        type: boolean
+        required: false
+        default: true
 
 permissions:
   contents: write
@@ -121,11 +126,14 @@ jobs:
         shell: bash
         run: gh release upload "$TAG" "dist/${{ matrix.archive }}" --clobber --repo "$GITHUB_REPOSITORY"
 
-  # The draft's own call of this workflow finishes before that draft writes
-  # SHA256SUMS.txt, so this rewrite runs only after publish or a hand run.
+  # A called workflow sees the caller's event, so event_name is not
+  # workflow_call here. The draft release passes rewrite_checksums: false,
+  # and its workflow name is a second gate, so this does not rewrite the
+  # sums while other draft jobs are still uploading. Publish and a hand run
+  # of this workflow do rewrite them.
   checksums:
     needs: build
-    if: always() && needs.build.result == 'success' && github.event_name != 'workflow_call'
+    if: needs.build.result == 'success' && inputs.rewrite_checksums != false && github.workflow != 'SquirrelGo release (draft)'
     permissions:
       contents: write
     uses: ./.github/workflows/release-checksums.yml

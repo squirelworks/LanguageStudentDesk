@@ -361,6 +361,7 @@ jobs:
     with:
       tag: ${{ inputs.version }}
       ref: ${{ needs.check.outputs.sha }}
+      rewrite_checksums: false
 
   # Once everything on the draft is attached: the version table, and
   # SHA256SUMS.txt over every file on the draft. Assets added after publish
