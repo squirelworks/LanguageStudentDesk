@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/japanese/characters/kanji.jsonl by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/japanese/characters/kanji.jsonl by: python3 data/tools/gen_characters.py --out languages
 // The full Jōyō set, in frequency order, with on'yomi, kun'yomi, meaning
 // (info), JLPT level, school grade and frequency rank.
 // Moved from LanguageStudentDesk's Jōyō table, which SquirrelGo Kanji shares;

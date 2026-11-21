@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/french/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/french/vocab.jsonl by: python3 data/tools/gen_vocab.py --out languages
 // Each word is [French, English, note]. Nouns are given with the article.
 // Frequency tags come from wordfreq (CC BY-SA 4.0).
 window.LSD_DECKS = window.LSD_DECKS || {};

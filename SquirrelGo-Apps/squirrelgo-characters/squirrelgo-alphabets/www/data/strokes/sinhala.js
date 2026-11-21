@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 strokes/sinhala.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
+// Generated from squirrel-lang-data 613e4e6 strokes/sinhala.jsonl by: python3 data/tools/gen_strokes.py --apps SquirrelGo-Apps
 // Stroke order for Sinhala, drafted by SquirrelGo-Apps/tools/strokegen from
 // Noto Sans Sinhala (SIL Open Font License) and checked by hand. Paths sit in a
 // 100 x 100 box; see www/js/strokes.js.

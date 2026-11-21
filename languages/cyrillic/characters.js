@@ -1,4 +1,4 @@
-// Generated from squirrel-lang-data f29cc38 languages/cyrillic/characters/ by: python3 data/tools/gen_characters.py --out languages
+// Generated from squirrel-lang-data 613e4e6 languages/cyrillic/characters/ by: python3 data/tools/gen_characters.py --out languages
 window.SCRIPTS = window.SCRIPTS || {};
 
 window.SCRIPTS.cyrillic = {
