@@ -7,7 +7,6 @@ commit. This does not invent a character list.
 
 import json
 import pathlib
-import re
 import shutil
 import sys
 
@@ -115,10 +114,8 @@ def main():
         marker = text.find("SG_APP")
         if marker >= 0:
             brace = text.find("{", marker)
-            raw = extract_json(text, brace)
-            quoted = re.sub(r'([{\s,])([A-Za-z_][A-Za-z0-9_]*)\s*:', r'\1"\2":', raw)
-            quoted = re.sub(r',\s*([}\]])', r'\1', quoted)
-            (dest / "app.json").write_text(json.dumps(json.loads(quoted), ensure_ascii=False))
+            data = json.loads(extract_json(text, brace))
+            (dest / "app.json").write_text(json.dumps(data, ensure_ascii=False))
 
 
 if __name__ == "__main__":

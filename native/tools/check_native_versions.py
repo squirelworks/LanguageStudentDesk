@@ -5,16 +5,20 @@ PR and push CI (the default) require each version code to be at least the
 one on the newest squirrelgo-v* tag. Equal is fine. A lower code fails.
 
 The release workflow passes --release. An app must have a strictly higher
-version code than the previous tag when its Android or desktop sources, its
-version file, the shared build logic, or any module it depends on (including
-core and ui, and their dependencies) changed since that tag. Apps that did
-not change are left alone.
+version code than the previous tag when something it is built from changed
+since that tag. That includes its Android and desktop sources, its version
+file, modules it depends on (core, ui, and their dependencies), the shared
+Gradle setup, the native tools, and the files its generator reads. A Kana
+change in the WebView lesson data or recordings counts. The same idea
+applies to Bopomofo and to the language metadata the dictionaries read.
+Apps that did not change are left alone.
 
 The version code is major * 1000000 + minor * 1000 + patch, the same formula
 the Gradle build uses. major is at least 1, minor is 0..255, patch is 0..999.
 A tag that does not contain the file is skipped. A git failure is not.
 """
 
+import os
 import re
 import subprocess
 import sys
@@ -93,12 +97,85 @@ def gradle_projects(text):
     return re.findall(r'project\("(:[^"]+)"\)', text)
 
 
-def app_changed(tag, stem):
+def _add(paths, item):
+    item = item.replace("\\", "/").strip("/")
+    if item and item not in paths:
+        paths.append(item)
+
+
+def _www_tree(path):
+    parts = Path(path).parts
+    if "www" not in parts:
+        return None
+    index = parts.index("www")
+    if index + 1 < len(parts) and parts[index + 1] in ("data", "audio"):
+        return "/".join(parts[: index + 2])
+    return None
+
+
+def _watch(paths, raw):
+    raw = os.path.normpath(raw).replace("\\", "/").strip("/")
+    _add(paths, _www_tree(raw) or raw)
+
+
+def _balanced(text, start, open_ch, close_ch):
+    depth = 0
+    in_str = False
+    esc = False
+    for i in range(start, len(text)):
+        c = text[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif c == "\\":
+                esc = True
+            elif c == '"':
+                in_str = False
+            continue
+        if c == '"':
+            in_str = True
+        elif c == open_ch:
+            depth += 1
+        elif c == close_ch:
+            depth -= 1
+            if depth == 0:
+                return text[start + 1 : i]
+    sys.exit(f"Unbalanced {open_ch} in native/build.gradle.kts")
+
+
+def generator_inputs(build_text):
+    """Task name -> repo paths that task reads, taken from the root build file."""
+    found = {}
+    for match in re.finditer(r"(?<!fun )catalogTask\s*\(", build_text):
+        args = _balanced(build_text, match.end() - 1, "(", ")")
+        strings = re.findall(r'"([^"]*)"', args)
+        if len(strings) < 4:
+            continue
+        name, lessons, strokes = strings[0], strings[1], strings[2]
+        paths = [lessons, strokes, str(Path(lessons).parent / "app.js")]
+        if len(strings) > 4 and strings[4]:
+            audio = strings[4]
+            paths.append(audio)
+            # The catalog task also reads the mp3 directory next to www/data.
+            paths.append(str(Path(audio).parent.parent / "audio"))
+        found[name] = paths
+    lang = re.search(r'file\("(\.\./[^"]+)"\)', build_text)
+    if lang and "generateLanguageCatalog" in build_text:
+        found["generateLanguageCatalog"] = [str(Path("native", lang.group(1)))]
+    return found
+
+
+def source_paths(stem, build_text=None):
     paths = [
         f"native/android/{stem}",
         f"native/desktop/{stem}",
         f"native/versions/{stem}.properties",
         "native/buildSrc",
+        "native/gradle",
+        "native/build.gradle.kts",
+        "native/settings.gradle.kts",
+        "native/gradle.properties",
+        "native/tools",
     ]
     seen = set()
     pending = []
@@ -113,11 +190,26 @@ def app_changed(tag, stem):
             if folder in seen:
                 continue
             seen.add(folder)
-            paths.append(folder)
+            _add(paths, folder)
             child = ROOT / folder / "build.gradle.kts"
             if child.is_file():
                 pending.append(child)
-    diff = git(["diff", "--name-only", f"{tag}..HEAD", "--", *paths])
+    text = build_text if build_text is not None else (ROOT / "native" / "build.gradle.kts").read_text()
+    tasks = generator_inputs(text)
+    named = []
+    for side in ("android", "desktop"):
+        gradle = ROOT / "native" / side / stem / "build.gradle.kts"
+        if gradle.is_file():
+            named += re.findall(r'tasks\.named\("([^"]+)"\)', gradle.read_text())
+    for task in named:
+        for raw in tasks.get(task, []):
+            _watch(paths, raw)
+    return paths
+
+
+def app_changed(tag, stem, runner=None):
+    run = runner or git
+    diff = run(["diff", "--name-only", f"{tag}..HEAD", "--", *source_paths(stem)])
     return bool(diff.stdout.strip())
 
 

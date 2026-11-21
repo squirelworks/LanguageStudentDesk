@@ -467,7 +467,6 @@ fun SettingsScreen(
         TextButton(onClick = { onCheck(!check) }) { Text(if (check) "Check strokes when writing" else "Do not check strokes") }
         TextButton(onClick = { onGuide(!guide) }) { Text(if (guide) "Writing guide on" else "Writing guide off") }
         TextButton(onClick = { onFlash(!flashGlyph) }) { Text(if (flashGlyph) "Flashcard front: character" else "Flashcard front: sound") }
-        Text("Audio uses a recorded clip when this script has one, and the device voice otherwise.")
         Text("Progress", style = MaterialTheme.typography.titleMedium)
         scripts.forEach { script ->
             OutlinedButton(onClick = { pending = script }) { Text("Reset ${script.title}") }
