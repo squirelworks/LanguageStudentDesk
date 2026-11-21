@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# The release APK must stay on the committed debug key even when UPLOAD_* is
-# set and a Play bundle is built in the same Gradle run.
+# Kana and Bopomofo release APKs must stay on the committed debug key even
+# when UPLOAD_* is set and their Play bundles are built in the same Gradle run.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 DEBUG_SHA256="CDEC9F5CD92ED1608C0C9457699A25AD2101BD1E52ACCD11197BEAF672DDB369"
@@ -19,11 +19,9 @@ export UPLOAD_STORE_PASSWORD=throwaway
 export UPLOAD_KEY_ALIAS=upload
 export UPLOAD_KEY_PASSWORD=throwaway
 chmod +x gradlew
-./gradlew --no-daemon :android:kana:assembleRelease :android:kana:bundlePlay
-APK=$(echo android/kana/build/outputs/apk/release/*.apk)
-AAB=$(echo android/kana/build/outputs/bundle/play/*.aab)
-test -f "$APK"
-test -f "$AAB"
+./gradlew --no-daemon \
+  :android:kana:assembleRelease :android:kana:bundlePlay \
+  :android:bopomofo:assembleRelease :android:bopomofo:bundlePlay
 sdk_dir() {
   if [ -n "${ANDROID_HOME:-}" ]; then
     echo "$ANDROID_HOME"
@@ -51,14 +49,22 @@ sha256_of() {
     /SHA256:/{gsub(/.*SHA256: */, ""); gsub(/:/, ""); print toupper($0); exit}
   '
 }
-APK_SHA=$(sha256_of "$APK")
-AAB_SHA=$(sha256_of "$AAB")
-if [ "$APK_SHA" != "$DEBUG_SHA256" ]; then
-  echo "release APK signed $APK_SHA, expected the debug key $DEBUG_SHA256" >&2
-  exit 1
-fi
-if [ "$AAB_SHA" != "$UPLOAD_SHA256" ]; then
-  echo "play bundle signed $AAB_SHA, expected the upload key $UPLOAD_SHA256" >&2
-  exit 1
-fi
-echo "release APK is the debug key; play bundle is the upload key"
+check_pair() {
+  local name="$1" apk="$2" aab="$3"
+  test -f "$apk"
+  test -f "$aab"
+  local apk_sha aab_sha
+  apk_sha=$(sha256_of "$apk")
+  aab_sha=$(sha256_of "$aab")
+  if [ "$apk_sha" != "$DEBUG_SHA256" ]; then
+    echo "$name release APK signed $apk_sha, expected the debug key $DEBUG_SHA256" >&2
+    exit 1
+  fi
+  if [ "$aab_sha" != "$UPLOAD_SHA256" ]; then
+    echo "$name play bundle signed $aab_sha, expected the upload key $UPLOAD_SHA256" >&2
+    exit 1
+  fi
+  echo "$name release APK is the debug key; play bundle is the upload key"
+}
+check_pair Kana android/kana/build/outputs/apk/release/*.apk android/kana/build/outputs/bundle/play/*.aab
+check_pair Bopomofo android/bopomofo/build/outputs/apk/release/*.apk android/bopomofo/build/outputs/bundle/play/*.aab

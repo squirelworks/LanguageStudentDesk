@@ -66,8 +66,10 @@ echo "======== BUILD SquirrelGoBopomofo (native) ========"
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
-  ./gradlew :android:bopomofo:assembleRelease --no-daemon -q
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:bopomofo:assembleRelease :android:bopomofo:bundlePlay --no-daemon -q
   cp android/bopomofo/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoBopomofo.apk"
+  cp android/bopomofo/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoBopomofo.aab"
 )
 
 echo "All builds finished."
