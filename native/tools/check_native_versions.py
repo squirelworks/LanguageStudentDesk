@@ -165,6 +165,12 @@ def generator_inputs(build_text):
             if extra:
                 paths.append(extra)
         found[name] = paths
+    for match in re.finditer(r"(?<!fun )kanjiCatalogTask\s*\(", build_text):
+        args = _balanced(build_text, match.end() - 1, "(", ")")
+        strings = re.findall(r'"([^"]*)"', args)
+        if len(strings) < 2:
+            continue
+        found[strings[0]] = strings[1:]
     lang = re.search(r'file\("(\.\./[^"]+)"\)', build_text)
     if lang and "generateLanguageCatalog" in build_text:
         found["generateLanguageCatalog"] = [str(Path("native", lang.group(1)))]

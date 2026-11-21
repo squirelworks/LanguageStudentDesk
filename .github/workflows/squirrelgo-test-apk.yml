@@ -21,6 +21,7 @@ on:
           - kana-native
           - bopomofo-native
           - alphabets-native
+          - kanji-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -66,7 +67,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -80,9 +81,12 @@ jobs:
             elif [ "$APP" = bopomofo-native ]; then
               MODULE=bopomofo
               NAME=SquirrelGoBopomofo
-            else
+            elif [ "$APP" = alphabets-native ]; then
               MODULE=alphabets
               NAME=SquirrelGoAlphabets
+            else
+              MODULE=kanji
+              NAME=SquirrelGoKanji
             fi
             echo "NATIVE=1" >> "$GITHUB_ENV"
             echo "NATIVE_MODULE=$MODULE" >> "$GITHUB_ENV"

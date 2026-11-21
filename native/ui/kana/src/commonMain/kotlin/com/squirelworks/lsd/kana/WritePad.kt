@@ -119,27 +119,4 @@ private fun pointsPath(points: List<StrokePoint>, scale: Float): Path {
     return path
 }
 
-private fun pathOf(d: String, scale: Float): Path {
-    val path = Path()
-    val toks = Regex("""[MLQ]|-?[\d.]+""").findAll(d).map { it.value }.toList()
-    var cmd: String? = null
-    var i = 0
-    while (i < toks.size) {
-        if (toks[i].length == 1 && toks[i][0] in "MLQ") cmd = toks[i++]
-        if (cmd == "Q") {
-            path.quadraticTo(
-                toks[i].toFloat() * scale,
-                toks[i + 1].toFloat() * scale,
-                toks[i + 2].toFloat() * scale,
-                toks[i + 3].toFloat() * scale,
-            )
-            i += 4
-        } else {
-            val x = toks[i].toFloat() * scale
-            val y = toks[i + 1].toFloat() * scale
-            if (cmd == "M") path.moveTo(x, y) else path.lineTo(x, y)
-            i += 2
-        }
-    }
-    return path
-}
+private fun pathOf(d: String, scale: Float): Path = strokePath(d, scale)
