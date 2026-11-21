@@ -6,9 +6,9 @@ This is a **new open implementation** inspired by the discontinued TenguGo Kanji
 
 ## Install the APK
 
-Download [`SquirrelGoKanji.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKanji.apk) from the latest SquirrelGo release ([release page](https://github.com/squirelworks/LanguageStudentDesk/releases/latest)) and sideload it. Pull requests and pushes to `main` only check that it still builds; a test APK can be built by hand with the `SquirrelGo test APK` workflow.
+The release file is [`SquirrelGoKanji.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoKanji.apk), the native app, package `com.squirelworks.squirrelgokanji`, signed with the committed debug key. The WebView shell is archived at `archive/webview/kanji/` and is not built. A test APK can be built by hand with the `SquirrelGo test APK` workflow, choosing `kanji-native`.
 
-- Package id: `com.squirelworks.squirrelgokanji.debug`
+- Package id: `com.squirelworks.squirrelgokanji`
 - Min Android: 7.0 (API 24)
 
 On your phone: enable install from unknown sources / “Install unknown apps” for your file manager, then open the APK.
@@ -41,19 +41,16 @@ The stroke files are generated from squirrel-lang-data (`data/strokes/kanji.json
 
 Open `www/index.html` in a browser (no build step).
 
-## Rebuild Android APK
+## Rebuild the Android APK locally
 
 ```bash
-export ANDROID_HOME=$HOME/android-sdk   # or your SDK path
-echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-rm -rf android/app/src/main/assets/www
-cp -a www android/app/src/main/assets/www
-cd android
-./gradlew assembleDebug
-# output: app/build/outputs/apk/debug/app-debug.apk
+export ANDROID_HOME=$HOME/android-sdk
+cd native
+echo "sdk.dir=$ANDROID_HOME" > local.properties
+./gradlew :android:kanji:assembleRelease
 ```
 
 ## Layout
 
-- `www/` — offline web UI (also packaged into the APK)
-- `android/` — WebView shell targeting API 34
+- `www/` — the browser page and the data the native app reads
+- The WebView shell is in `archive/webview/kanji/` and is not built

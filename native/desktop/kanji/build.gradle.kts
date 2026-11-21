@@ -10,7 +10,7 @@ val kanjiAssets = rootProject.layout.buildDirectory.dir("generated-kanji").get()
 val appVersion = readAppVersion(rootProject.file("versions/kanji.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/android/app/build.gradle"),
+    rootProject.file("../archive/webview/kanji/app/build.gradle"),
 )
 
 kotlin {

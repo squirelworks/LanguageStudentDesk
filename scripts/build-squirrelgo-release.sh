@@ -19,13 +19,13 @@ aab, apk, name, needle = sys.argv[1:5]
 def find(path):
     with zipfile.ZipFile(path) as z:
         for n in z.namelist():
-            if needle in n:
+            if n == needle or n.endswith("/" + needle):
                 return n
     return None
 pa = find(aab)
 pp = find(apk)
 if not pa or not pp:
-    print(f"FAIL {name}: need *{needle}* in aab/apk; got aab={pa} apk={pp}", file=sys.stderr)
+    print(f"FAIL {name}: need {needle} in aab/apk; got aab={pa} apk={pp}", file=sys.stderr)
     sys.exit(1)
 print(f"OK {name}: {pa} | {pp}")
 PY
@@ -47,30 +47,14 @@ build_app "$ROOT/SquirrelGo-Apps/programming-student-desk" ProgrammingStudentDes
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-phrasebook" SquirrelGoPhrasebook SquirrelGoPhrasebook
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-orthodox-bible" SquirrelGoOrthodoxBible SquirrelGoOrthodoxBible
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon" SquirrelGoKlingon SquirrelGoKlingon
-echo "======== BUILD SquirrelGoKanji (WebView APK) ========"
-(
-  cd "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-kanji/android"
-  ./gradlew assembleRelease --no-daemon -q
-  apk="app/build/outputs/apk/release/app-release.apk"
-  python3 - "$apk" <<'PY'
-import sys, zipfile
-apk = sys.argv[1]
-with zipfile.ZipFile(apk) as z:
-    hit = next((n for n in z.namelist() if "index.html" in n), None)
-if not hit:
-    print("FAIL SquirrelGoKanji: WebView APK has no index.html", file=sys.stderr)
-    sys.exit(1)
-print(f"OK SquirrelGoKanji: {hit}")
-PY
-  cp "$apk" "$OUT_ART/SquirrelGoKanji.apk"
-)
-echo "======== BUILD SquirrelGoKanji (native Play bundle) ========"
+echo "======== BUILD SquirrelGoKanji (native) ========"
 (
   cd "$ROOT/native"
   echo "sdk.dir=$SDK" > local.properties
   chmod +x gradlew
   # release stays on the debug key even though UPLOAD_* is exported above.
-  ./gradlew :android:kanji:bundlePlay --no-daemon -q
+  ./gradlew :android:kanji:assembleRelease :android:kanji:bundlePlay --no-daemon -q
+  cp android/kanji/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKanji.apk"
   cp android/kanji/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKanji.aab"
 )
 echo "======== BUILD SquirrelGoKana (native) ========"
