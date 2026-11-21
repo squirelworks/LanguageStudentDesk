@@ -166,7 +166,14 @@ fun KanaApp(
             stack = listOf(Screen.Home, Screen.Script(hit.first.id), Screen.Detail(hit.first.id, hit.second.map { it.glyph }, hit.second.indexOfFirst { it.glyph == query }))
         }
     }
-    MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
+    val accent = accentArgb(scriptOn(scripts, screen)?.accent ?: scripts.firstOrNull()?.accent.orEmpty())?.let { Color(it) }
+    val colors = when {
+        accent == null && dark -> darkColorScheme()
+        accent == null -> lightColorScheme()
+        dark -> darkColorScheme(primary = accent)
+        else -> lightColorScheme(primary = accent)
+    }
+    MaterialTheme(colorScheme = colors) {
         Box(Modifier.fillMaxSize()) {
         BoxWithConstraints(
             Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(16.dp),
@@ -190,8 +197,13 @@ fun KanaApp(
                         onBack = ::back,
                         onPlay = { text, slow, lineLanguage -> play(script, text, slow, lineLanguage) },
                         onWrite = {
-                            val refs = lessonGlyphs(script).filter { it.glyph in detail.glyphs }
-                            open(Screen.Write(script.id, refs.map { it.key }, detail.index.coerceIn(0, refs.lastIndex.coerceAtLeast(0))))
+                            val table = strokes[script.id].orEmpty()
+                            val refs = lessonGlyphs(script).filter { it.glyph in detail.glyphs && strokeParts(it.glyph, table).isNotEmpty() }
+                            if (refs.isNotEmpty()) {
+                            val current = detail.glyphs.getOrNull(detail.index)
+                            val start = refs.indexOfFirst { it.glyph == current }.coerceAtLeast(0)
+                            open(Screen.Write(script.id, refs.map { it.key }, start))
+                            }
                         },
                         onLookup = if (script.lang == "ja-JP") ::lookupWord else null,
                         onStep = ::stepDetail,
@@ -203,6 +215,7 @@ fun KanaApp(
                     Screen.Home -> HomePage(title, intro, scripts, progress, { open(Screen.Script(it)) }, openApps)
                     is Screen.Script -> ScriptPage(
                         scripts.first { it.id == screen.scriptId },
+                        strokes[screen.scriptId].orEmpty(),
                         progress,
                         onBack = ::back,
                         onLesson = { open(Screen.Lesson(screen.scriptId, it)) },
@@ -214,6 +227,7 @@ fun KanaApp(
                     )
                     is Screen.Lesson -> LessonPage(
                         scripts.first { it.id == screen.scriptId },
+                        strokes[screen.scriptId].orEmpty(),
                         screen.index,
                         progress,
                         onBack = ::back,
@@ -224,8 +238,10 @@ fun KanaApp(
                         },
                         onPractice = { mode ->
                             val script = scripts.first { it.id == screen.scriptId }
-                            val keys = lessonGlyphs(script, setOf(screen.index)).map { it.key }
-                            when (mode) {
+                            val refs = lessonGlyphs(script, setOf(screen.index))
+                            val table = strokes[script.id].orEmpty()
+                            val keys = if (mode == "write") writableGlyphs(refs, table).map { it.key } else refs.map { it.key }
+                            if (keys.isNotEmpty()) when (mode) {
                                 "flash" -> open(Screen.Flash(script.id, keys))
                                 "write" -> open(Screen.Write(script.id, keys, 0))
                                 else -> open(Screen.Quiz(script.id, keys, "mix", 0))
@@ -255,9 +271,12 @@ fun KanaApp(
                             ::back,
                             { text, slow, lineLanguage -> play(script, text, slow, lineLanguage) },
                             {
-                                val refs = lessonGlyphs(script).filter { it.glyph in screen.glyphs }
-                                val start = refs.indexOfFirst { it.glyph == screen.glyphs.getOrNull(screen.index) }.coerceAtLeast(0)
-                                open(Screen.Write(script.id, refs.map { it.key }, start))
+                                val table = strokes[script.id].orEmpty()
+                                val refs = lessonGlyphs(script).filter { it.glyph in screen.glyphs && strokeParts(it.glyph, table).isNotEmpty() }
+                                if (refs.isNotEmpty()) {
+                                    val start = refs.indexOfFirst { it.glyph == screen.glyphs.getOrNull(screen.index) }.coerceAtLeast(0)
+                                    open(Screen.Write(script.id, refs.map { it.key }, start))
+                                }
                             },
                             if (script.lang == "ja-JP") ::lookupWord else null,
                             ::stepDetail,
@@ -286,8 +305,9 @@ fun KanaApp(
                             onCount = { quizCount = it },
                             onStart = { selection, weakOnly ->
                                 val pool = if (weakOnly) weak else lessonGlyphs(script, selection)
-                                if (pool.isEmpty()) return@ChooseScreen
-                                val keys = pool.map { it.key }
+                                val writing = if (screen.mode == "write") writableGlyphs(pool, strokes[script.id].orEmpty()) else pool
+                                if (writing.isEmpty()) return@ChooseScreen
+                                val keys = writing.map { it.key }
                                 when (screen.mode) {
                                     "flash" -> open(Screen.Flash(script.id, keys))
                                     "write" -> open(Screen.Write(script.id, keys, 0))
@@ -431,12 +451,18 @@ private fun HomePage(
             Text(title, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
             if (onApps != null) TextButton(onClick = onApps) { Text("Apps") }
         }
+        val tagline = scripts.firstOrNull()?.tagline.orEmpty()
+        if (tagline.isNotBlank()) {
+            Text(tagline, style = MaterialTheme.typography.titleMedium.forLang(scripts.first().lang))
+        }
         if (intro.isNotBlank()) Text(intro)
         scripts.forEach { script ->
             val all = lessonGlyphs(script)
             val done = all.count { mastered(progress.stat(it.key)) }
             Column(Modifier.fillMaxWidth().clickable { onOpen(script.id) }.padding(vertical = 12.dp)) {
-                if (script.native.isNotBlank()) Text(script.native, style = MaterialTheme.typography.titleLarge)
+                if (scripts.size > 1 && script.native.isNotBlank()) {
+                    Text(script.native, style = MaterialTheme.typography.titleLarge.forLang(script.lang))
+                }
                 Text(script.title, style = MaterialTheme.typography.titleLarge)
                 if (script.blurb.isNotBlank()) Text(script.blurb)
                 if (all.isNotEmpty()) Text("$done of ${all.size} characters mastered")
@@ -448,6 +474,7 @@ private fun HomePage(
 @Composable
 private fun ScriptPage(
     script: KanaScript,
+    strokes: Map<String, List<String>>,
     progress: ProgressFile,
     onBack: () -> Unit,
     onLesson: (Int) -> Unit,
@@ -466,14 +493,15 @@ private fun ScriptPage(
             if (onApps != null) TextButton(onClick = onApps) { Text("Apps") }
             TextButton(onClick = onSettings) { Text("Settings") }
         }
-        if (script.native.isNotBlank()) Text(script.native)
+        if (script.native.isNotBlank()) Text(script.native, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
         if (script.blurb.isNotBlank()) Text(script.blurb)
         if (all.isNotEmpty()) Text("$done of ${all.size} characters mastered")
         Text("Practice", style = MaterialTheme.typography.titleMedium)
+        val canWrite = writableGlyphs(all, strokes).isNotEmpty()
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = { onPractice("quiz") }) { Text("Quiz") }
             OutlinedPractice("Flashcards") { onPractice("flash") }
-            OutlinedPractice("Writing") { onPractice("write") }
+            if (canWrite) OutlinedPractice("Writing") { onPractice("write") }
             OutlinedPractice("Chart") { onChart() }
         }
         Text("Lessons", style = MaterialTheme.typography.titleMedium)
@@ -482,8 +510,8 @@ private fun ScriptPage(
             val known = items.count { mastered(progress.stat("${script.id}|${it.g}")) }
             TextButton(onClick = { onLesson(index) }, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.fillMaxWidth()) {
-                    Text(items.take(5).joinToString(" ") { it.g })
-                    Text(lesson.title)
+                    Text(items.take(5).joinToString(" ") { it.g }, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
+                    Text(lesson.title, style = MaterialTheme.typography.bodyLarge.forLang(script.lang))
                     if (lesson.note.isNotBlank()) Text(lesson.note)
                     if (items.isNotEmpty()) Text("$known of ${items.size}")
                 }
@@ -506,6 +534,7 @@ private fun OutlinedPractice(label: String, onClick: () -> Unit) {
 @Composable
 private fun LessonPage(
     script: KanaScript,
+    strokes: Map<String, List<String>>,
     index: Int,
     progress: ProgressFile,
     onBack: () -> Unit,
@@ -527,16 +556,17 @@ private fun LessonPage(
                         Modifier.weight(1f).clickable { onOpen(cell.g) }.padding(4.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.headlineSmall)
+                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.headlineSmall.forLang(script.lang))
                         if (progress.showRoman) Text(cell.r, style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
         }
+        val canWrite = writableGlyphs(lessonGlyphs(script, setOf(index)), strokes).isNotEmpty()
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = { onPractice("quiz") }) { Text("Quiz this lesson") }
             OutlinedPractice("Flashcards") { onPractice("flash") }
-            OutlinedPractice("Writing") { onPractice("write") }
+            if (canWrite) OutlinedPractice("Writing") { onPractice("write") }
         }
     }
 }
@@ -568,7 +598,7 @@ private fun ChartPage(
                                 if (cell != null) {
                                     val stat = progress.stat("${script.id}|${cell.g}")
                                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { onOpen(cell.g) }) {
-                                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.titleLarge)
+                                        Text(cell.g, color = masteryColor(stat), style = MaterialTheme.typography.titleLarge.forLang(script.lang))
                                         if (progress.showRoman && cell.r.isNotBlank()) {
                                             Text(cell.r, style = MaterialTheme.typography.labelSmall)
                                         }
@@ -608,7 +638,7 @@ private fun DetailPage(
             TextButton(onClick = onBack) { Text("‹") }
             Text(cell?.r ?: glyph, style = MaterialTheme.typography.titleLarge)
         }
-        Text(glyph, style = MaterialTheme.typography.displayLarge)
+        Text(glyph, style = MaterialTheme.typography.displayLarge.forLang(script.lang))
         if (!cell?.ipa.isNullOrBlank()) Text("/${cell.ipa.orEmpty()}/")
         if (!cell?.hint.isNullOrBlank()) Text(cell?.hint.orEmpty())
         if (paths.isNotEmpty()) {
@@ -624,7 +654,7 @@ private fun DetailPage(
         val example = cell?.ex.orEmpty()
         if (example.isNotBlank()) {
             Text("Example", style = MaterialTheme.typography.labelLarge)
-            Text(example, style = MaterialTheme.typography.titleMedium)
+            Text(example, style = MaterialTheme.typography.titleMedium.forLang(script.lang))
             val gloss = listOf(cell?.exR.orEmpty(), cell?.exM.orEmpty()).filter { it.isNotBlank() }.joinToString(" · ")
             if (gloss.isNotBlank()) Text(gloss)
             Button(onClick = { onPlay(example, false, cell?.exLang.orEmpty()) }) { Text("Play example") }
@@ -636,10 +666,26 @@ private fun DetailPage(
         Text(record)
         Row {
             TextButton(onClick = { onStep(-1) }, enabled = index > 0) { Text("‹ Prev") }
-            TextButton(onClick = onWrite) { Text("Write it") }
+            if (strokeParts(glyph, strokes).isNotEmpty()) TextButton(onClick = onWrite) { Text("Write it") }
             TextButton(onClick = { onStep(1) }, enabled = index < glyphs.lastIndex) { Text("Next ›") }
         }
     }
+}
+
+private fun scriptOn(scripts: List<KanaScript>, screen: Screen): KanaScript? {
+    val id = when (screen) {
+        is Screen.Script -> screen.scriptId
+        is Screen.Lesson -> screen.scriptId
+        is Screen.Chart -> screen.scriptId
+        is Screen.Detail -> screen.scriptId
+        is Screen.Choose -> screen.scriptId
+        is Screen.Quiz -> screen.scriptId
+        is Screen.Flash -> screen.scriptId
+        is Screen.Write -> screen.scriptId
+        is Screen.Article -> screen.scriptId
+        Screen.Home, Screen.Settings -> null
+    }
+    return scripts.firstOrNull { it.id == id }
 }
 
 private fun masteryColor(stat: com.squirelworks.lsd.core.trainer.PracticeStat): Color = when {

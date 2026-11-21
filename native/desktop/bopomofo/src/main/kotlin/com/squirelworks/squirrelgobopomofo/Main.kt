@@ -6,6 +6,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.kana.DesktopKeys
+import com.squirelworks.lsd.kana.DesktopVoice
 import com.squirelworks.lsd.kana.KanaApp
 import com.squirelworks.lsd.kana.LocalDesktopKeys
 import com.squirelworks.lsd.kana.WebViewStore
@@ -29,7 +30,7 @@ fun main(args: Array<String>) = application {
     val strokes = parseKanaStrokes(loader.getResource("bopomofo-strokes.json")!!.readText())
     val copy = loader.getResource("app.json")?.readText()?.let { parseKanaCopy(it) }
     val suite = loader.getResource("suite.json")?.readText()?.let { parseSuite(it) }
-    val voice = DesktopVoice()
+    val voice = DesktopVoice("bopomofo")
     val progress = FileTextStore(File(System.getProperty("user.home"), ".squirrelgo/bopomofo-progress.json"))
     adoptWebViewProgress(progress, WebViewStore.Absent)
     val query = args.firstOrNull { it.startsWith("--query=") }?.substringAfter("=")
