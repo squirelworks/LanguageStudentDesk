@@ -3,10 +3,12 @@ name: SquirrelGo release (draft)
 # Started by hand after the release PR merges (docs/RELEASE_PLAN.md).
 # Makes, or refreshes, a DRAFT GitHub Release right away, then each release
 # APK and each Linux, Windows and macOS Desk build is attached to it as soon
-# as its own job finishes, and SHA256SUMS.txt is written over everything at
-# the end. Rerunning reuses the same draft. It never publishes and never
-# creates, moves or deletes a tag: the owner clicks Publish, which creates
-# the tag and starts the Play workflow.
+# as its own job finishes, and SHA256SUMS.txt is written over the draft at
+# the end. After publish, the native desktop and Desk desktop workflows
+# attach the files they still owe and rewrite SHA256SUMS.txt over every
+# asset. An AAB is never included. Rerunning reuses the same draft. It never
+# publishes and never creates, moves or deletes a tag: the owner clicks
+# Publish, which creates the tag and starts the Play workflow.
 # No AAB and no Orthodox Bible pack is ever attached here.
 on:
   workflow_dispatch:
@@ -360,8 +362,9 @@ jobs:
       tag: ${{ inputs.version }}
       ref: ${{ needs.check.outputs.sha }}
 
-  # Once everything is attached: the version table, and SHA256SUMS.txt over
-  # every file on the draft.
+  # Once everything on the draft is attached: the version table, and
+  # SHA256SUMS.txt over every file on the draft. Assets added after publish
+  # are covered when those workflows rewrite the sums.
   finish:
     needs: [check, draft, apk, native-kana, native-bopomofo, desktop]
     runs-on: ubuntu-latest

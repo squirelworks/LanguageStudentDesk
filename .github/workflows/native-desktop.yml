@@ -1,7 +1,10 @@
 name: Native desktop builds
 
 # Linux, Windows and macOS packages of the native apps, attached to a published
-# release. PR and push builds do not run this and do not upload packages.
+# release, plus the native dictionary APKs. After they are attached, the
+# checksums job rewrites SHA256SUMS.txt over every asset on the release. An
+# AAB is never included. PR and push builds do not run this and do not upload
+# packages.
 on:
   release:
     types: [published]
@@ -81,3 +84,16 @@ jobs:
           done
           test "${#upload[@]}" -gt 0
           gh release upload "$TAG" "${upload[@]}" --clobber
+
+  # The draft wrote SHA256SUMS.txt before these files existed. Rewrite it
+  # once every package job has uploaded. Queued with the Desk desktop
+  # rewrite so the later one covers both.
+  checksums:
+    needs: package
+    if: always() && needs.package.result == 'success'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release-checksums.yml
+    with:
+      tag: ${{ github.event.release.tag_name || inputs.tag }}
+    secrets: inherit

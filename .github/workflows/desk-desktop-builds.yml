@@ -4,9 +4,10 @@ name: Desk desktop builds
 # with Python, Tk and every web app inside), attached to a tagged release.
 # The SquirrelGo release (draft) workflow calls it to attach the builds to
 # the draft as each one finishes. When a release is published, it builds only
-# what isn't attached yet; the rolling SquirrelGo *-latest pre-releases are
-# skipped. Run it by hand to (re)build and attach for a release that already
-# exists.
+# what isn't attached yet and then rewrites SHA256SUMS.txt over every asset
+# on the release. An AAB is never included. The rolling SquirrelGo *-latest
+# pre-releases are skipped. Run it by hand to (re)build and attach for a
+# release that already exists.
 on:
   release:
     types: [published]
@@ -119,3 +120,15 @@ jobs:
         if: steps.have.outputs.skip != 'true'
         shell: bash
         run: gh release upload "$TAG" "dist/${{ matrix.archive }}" --clobber --repo "$GITHUB_REPOSITORY"
+
+  # The draft's own call of this workflow finishes before that draft writes
+  # SHA256SUMS.txt, so this rewrite runs only after publish or a hand run.
+  checksums:
+    needs: build
+    if: always() && needs.build.result == 'success' && github.event_name != 'workflow_call'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release-checksums.yml
+    with:
+      tag: ${{ github.event.release.tag_name || inputs.tag }}
+    secrets: inherit

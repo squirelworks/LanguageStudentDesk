@@ -50,8 +50,11 @@ into the next one. The longer-term order is in `FUTURE-WORK.md`.
    a tag.
 2. The owner clicks **Publish**. Publishing creates the tag, and
    `squirrelgo-play.yml` sends each app's AAB to its Play closed testing
-   track (`PLAY.md`). The desktop-build workflow only builds what isn't
-   attached yet.
+   track (`PLAY.md`). That AAB is not a release asset and is not listed in
+   `SHA256SUMS.txt`. The desktop-build workflow only builds what isn't
+   attached yet. The native desktop workflow attaches the native dictionary
+   APKs and the native desktop packages. Each of those workflows then
+   rewrites `SHA256SUMS.txt` over every asset on the release.
 
 Not automated yet: installing each APK on an emulator before the draft. Until
 it is, the notes say the APKs weren't smoke-tested on a device.
