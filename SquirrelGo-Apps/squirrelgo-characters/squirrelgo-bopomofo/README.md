@@ -12,19 +12,18 @@ The stroke files are generated from squirrel-lang-data (`data/strokes/zhuyin.jso
 
 Open `www/index.html` in a browser. The top-level `index.html` redirects there for the Desk launcher.
 
-## Android release AAB
+## Android
 
-Package id: `com.squirelworks.squirrelgobopomofo` (debug builds add `.debug`).
+The release file is [`SquirrelGoBopomofo.apk`](https://github.com/squirelworks/LanguageStudentDesk/releases/latest/download/SquirrelGoBopomofo.apk), the native app, package `com.squirelworks.squirrelgobopomofo`, signed with the committed debug key. The WebView shell is archived at `archive/webview/bopomofo/` and is not built.
+
+From the repo root:
 
 ```bash
 export ANDROID_HOME=$HOME/android-sdk
-echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-# Optional Play signing (gitignored): upload.storeFile, upload.storePassword,
-# upload.keyAlias, upload.keyPassword — or the UPLOAD_* environment variables.
-cd android && ./gradlew bundleRelease assembleRelease
+cd native
+echo "sdk.dir=$ANDROID_HOME" > local.properties
+./gradlew :android:bopomofo:assembleRelease
 ```
-
-Release builds run `syncWwwAssets` automatically (copies `www/` into `android/app/src/main/assets/www` before packaging).
 
 ## Layout
 

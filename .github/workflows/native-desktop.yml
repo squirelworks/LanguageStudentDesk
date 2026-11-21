@@ -79,6 +79,10 @@ jobs:
                 cp "$f" "$RUNNER_TEMP/SquirrelGoKana.apk"
                 upload+=("$RUNNER_TEMP/SquirrelGoKana.apk")
                 ;;
+              SquirrelGoBopomofo-*.apk)
+                cp "$f" "$RUNNER_TEMP/SquirrelGoBopomofo.apk"
+                upload+=("$RUNNER_TEMP/SquirrelGoBopomofo.apk")
+                ;;
               *) upload+=("$f") ;;
             esac
           done

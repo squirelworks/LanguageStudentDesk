@@ -79,7 +79,7 @@ jobs:
               NAME=SquirrelGoKana
             else
               MODULE=bopomofo
-              NAME=SquirrelGoBopomofoNative
+              NAME=SquirrelGoBopomofo
             fi
             echo "NATIVE=1" >> "$GITHUB_ENV"
             echo "NATIVE_MODULE=$MODULE" >> "$GITHUB_ENV"
