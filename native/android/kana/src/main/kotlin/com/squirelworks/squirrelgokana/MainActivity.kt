@@ -19,6 +19,7 @@ import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.core.speech.SpeechOutcome
 import com.squirelworks.lsd.core.suite.SuiteApp
 import com.squirelworks.lsd.kana.KanaApp
+import com.squirelworks.lsd.kana.adoptWebViewProgress
 import com.squirelworks.lsd.kana.parseKanaAudio
 import com.squirelworks.lsd.kana.parseSuite
 import com.squirelworks.lsd.kana.parseKanaCopy
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
         suitePackages = suite.apps.map { it.pkg }
         installed = installedNow()
         val progress = FileTextStore(File(filesDir, "kana-progress.json"))
+        adoptWebViewProgress(progress, readWebViewProgress(File(applicationInfo.dataDir)))
         setContent {
             KanaApp(
                 title = copy.name.ifBlank { "SquirrelGo Kana" },

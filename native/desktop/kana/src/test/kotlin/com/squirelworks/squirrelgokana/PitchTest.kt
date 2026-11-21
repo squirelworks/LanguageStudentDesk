@@ -39,8 +39,8 @@ class PitchTest {
     fun theLengthFollowsTheSpeed() {
         val tone = sine(frames = 22050, period = 80)
         val stretched = preservePitch(tone, 1, 22050, 0.7f)
-        val ratio = stretched.size.toDouble() / tone.size
-        assertTrue(ratio in 1.38..1.48, "length ratio $ratio")
+        val expected = tone.size / 0.7
+        assertTrue(kotlin.math.abs(stretched.size - expected) / expected < 0.02, "length ${stretched.size}, expected $expected")
     }
 
     @Test
