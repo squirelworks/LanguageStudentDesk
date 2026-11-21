@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SquirrelGoOrthodoxBible" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#6B1F2E</item>
+        <item name="colorPrimaryVariant">#4E1520</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:statusBarColor">#6B1F2E</item>
+        <item name="android:navigationBarColor">#FAF6EE</item>
+        <item name="android:windowBackground">#FAF6EE</item>
+    </style>
+</resources>

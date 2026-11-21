@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gold three-bar cross over an open book on a burgundy tile. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#6B1F2E"
+        android:pathData="M10,2h28a8,8 0 0 1 8,8v28a8,8 0 0 1 -8,8h-28a8,8 0 0 1 -8,-8v-28a8,8 0 0 1 8,-8z" />
+    <path
+        android:fillColor="#FAF6EE"
+        android:pathData="M8,30c5,-2 11,-2 16,1c5,-3 11,-3 16,-1v10c-5,-2 -11,-2 -16,1c-5,-3 -11,-3 -16,-1z" />
+    <path
+        android:fillColor="#D4A73A"
+        android:pathData="M22.5,6h3v24h-3zM19,10h10v2h-10zM16,15h16v2.5h-16zM18.5,22.3l11,-3.2l0.6,2l-11,3.2z" />
+</vector>
