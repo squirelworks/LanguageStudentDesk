@@ -76,19 +76,31 @@ def strokes(text):
     return json.loads(extract_json(text, text.find("{", at)))
 
 
+def lesson_texts(path):
+    files = [path] if path.is_file() else sorted(
+        p for p in path.glob("*.js") if p.name != "app.js"
+    )
+    if not files:
+        raise SystemExit(f"No lesson files in {path}")
+    return [p.read_text() for p in files]
+
+
 def main():
     lessons_path = pathlib.Path(sys.argv[1])
     stroke_dir = pathlib.Path(sys.argv[2])
     dest = pathlib.Path(sys.argv[3])
     lessons_name = sys.argv[4]
     strokes_name = sys.argv[5]
+    loaded = []
+    for text in lesson_texts(lessons_path):
+        loaded.extend(scripts(text))
     tables = {}
     for path in sorted(stroke_dir.glob("*.js")):
         tables[path.stem] = strokes(path.read_text())
     if not tables:
         raise SystemExit(f"No stroke files in {stroke_dir}")
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / lessons_name).write_text(json.dumps(scripts(lessons_path.read_text()), ensure_ascii=False))
+    (dest / lessons_name).write_text(json.dumps(loaded, ensure_ascii=False))
     (dest / strokes_name).write_text(json.dumps(tables, ensure_ascii=False))
 
 
