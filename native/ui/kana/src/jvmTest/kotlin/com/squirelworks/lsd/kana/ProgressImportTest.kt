@@ -49,4 +49,25 @@ class ProgressImportTest {
         assertTrue(localStorageFromLog(bytes, "missing") is WebViewStore.Absent)
         assertTrue(localStorageFromLog(bytes.copyOf(20), "squirrelgo-kana") is WebViewStore.Unreadable)
     }
+
+    @Test
+    fun aCompactedTableKeepsKanaProgressAndLosesToANewerLog() {
+        val table = resource("/chromium/000017.ldb")
+        val olderLog = resource("/chromium/older-c3.log")
+        val olderTable = resource("/chromium/000009.ldb")
+        val newerLog = resource("/chromium/newer-c9.log")
+        val onlyTable = importWebViewProgress(ProgressFile(), localStorageFromStore(emptyList(), listOf(table), "squirrelgo-kana"))
+        assertEquals(7, onlyTable.stats.size)
+        assertEquals(9, onlyTable.stats["hiragana|あ"]?.c)
+        assertEquals(40, onlyTable.speed)
+        assertEquals(0.7f, onlyTable.rate)
+        val tableWins = importWebViewProgress(ProgressFile(), localStorageFromStore(listOf(olderLog), listOf(table), "squirrelgo-kana"))
+        assertEquals(9, tableWins.stats["hiragana|あ"]?.c)
+        val logWins = importWebViewProgress(ProgressFile(), localStorageFromStore(listOf(newerLog), listOf(olderTable), "squirrelgo-kana"))
+        assertEquals(9, logWins.stats["hiragana|あ"]?.c)
+        val fresh = ProgressFile()
+        assertEquals(fresh, importWebViewProgress(fresh, localStorageFromStore(emptyList(), listOf(table.copyOf(40)), "squirrelgo-kana")))
+    }
+
+    private fun resource(path: String): ByteArray = javaClass.getResourceAsStream(path)!!.readBytes()
 }

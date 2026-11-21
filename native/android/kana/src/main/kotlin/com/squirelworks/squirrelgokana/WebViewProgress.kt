@@ -2,7 +2,7 @@ package com.squirelworks.squirrelgokana
 
 import android.database.sqlite.SQLiteDatabase
 import com.squirelworks.lsd.kana.WebViewStore
-import com.squirelworks.lsd.kana.localStorageFromLogs
+import com.squirelworks.lsd.kana.localStorageFromStore
 import java.io.File
 
 // The WebView app keeps its progress in this package's data directory when the
@@ -26,13 +26,18 @@ fun readWebViewProgress(dataDir: File): WebViewStore {
         }
     }
     if (logs.isEmpty() && tables.isEmpty() && databases.isEmpty()) return WebViewStore.Absent
-    val chunks = ArrayList<ByteArray>(logs.size)
+    val logBytes = ArrayList<ByteArray>(logs.size)
     for (log in logs) {
         if (log.length() > MAX_SCAN) return WebViewStore.Unreadable
-        chunks += runCatching { log.readBytes() }.getOrElse { return WebViewStore.Unreadable }
+        logBytes += runCatching { log.readBytes() }.getOrElse { return WebViewStore.Unreadable }
     }
-    val fromLogs = localStorageFromLogs(chunks, STORE_KEY, unreadTables = tables.isNotEmpty())
-    if (fromLogs != WebViewStore.Absent || tables.isNotEmpty() || logs.isNotEmpty()) return fromLogs
+    val tableBytes = ArrayList<ByteArray>(tables.size)
+    for (table in tables) {
+        if (table.length() > MAX_SCAN) return WebViewStore.Unreadable
+        tableBytes += runCatching { table.readBytes() }.getOrElse { return WebViewStore.Unreadable }
+    }
+    val fromLevel = localStorageFromStore(logBytes, tableBytes, STORE_KEY)
+    if (fromLevel != WebViewStore.Absent || logs.isNotEmpty() || tables.isNotEmpty()) return fromLevel
     for (database in databases) {
         when (val row = readSqliteItem(database, STORE_KEY)) {
             SqliteRead.Skip -> Unit

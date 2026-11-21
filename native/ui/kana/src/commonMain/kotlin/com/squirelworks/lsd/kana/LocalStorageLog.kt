@@ -9,32 +9,39 @@ private const val LAST = 4
 private const val PUT = 1
 private const val DELETE = 0
 
-private class Hit(val sequence: Long, val text: String?)
+internal class StoreHit(val sequence: Long, val text: String?)
 
 // A Chromium localStorage .log file: LevelDB records, then write batches.
 // The newest write for [key] wins. A newer delete means the key is gone.
 // A record that does not check out is unreadable, not empty.
 fun localStorageFromLog(bytes: ByteArray, key: String): WebViewStore =
-    localStorageFromLogs(listOf(bytes), key, unreadTables = false)
+    localStorageFromStore(listOf(bytes), emptyList(), key)
 
-// [unreadTables] means an .ldb file was left unread. A missing key is then not
-// proof that the WebView never saved anything.
-fun localStorageFromLogs(logs: List<ByteArray>, key: String, unreadTables: Boolean): WebViewStore {
-    var best: Hit? = null
+fun localStorageFromLogs(logs: List<ByteArray>, key: String): WebViewStore =
+    localStorageFromStore(logs, emptyList(), key)
+
+// Newest sequence across the write-ahead logs and the compacted tables wins.
+fun localStorageFromStore(logs: List<ByteArray>, tables: List<ByteArray>, key: String): WebViewStore {
+    var best: StoreHit? = null
     for (bytes in logs) {
-        val records = logicalRecords(bytes) ?: return WebViewStore.Unreadable
-        for (record in records) {
-            val hits = batchHits(record, key) ?: return WebViewStore.Unreadable
-            for (hit in hits) {
-                if (best == null || hit.sequence >= best.sequence) best = hit
-            }
-        }
+        val hits = hitsFromLog(bytes, key) ?: return WebViewStore.Unreadable
+        for (hit in hits) if (best == null || hit.sequence >= best.sequence) best = hit
     }
-    val winner = best
-    if (winner == null) return if (unreadTables) WebViewStore.Unreadable else WebViewStore.Absent
+    for (bytes in tables) {
+        val hits = hitsFromTable(bytes, key) ?: return WebViewStore.Unreadable
+        for (hit in hits) if (best == null || hit.sequence >= best.sequence) best = hit
+    }
+    val winner = best ?: return WebViewStore.Absent
     val text = winner.text ?: return WebViewStore.Absent
     if (parseProgress(text) == null) return WebViewStore.Unreadable
     return WebViewStore.Value(text)
+}
+
+internal fun hitsFromLog(bytes: ByteArray, key: String): List<StoreHit>? {
+    val records = logicalRecords(bytes) ?: return null
+    val hits = ArrayList<StoreHit>()
+    for (record in records) hits += batchHits(record, key) ?: return null
+    return hits
 }
 
 private fun logicalRecords(bytes: ByteArray): List<ByteArray>? {
@@ -92,12 +99,12 @@ private fun logicalRecords(bytes: ByteArray): List<ByteArray>? {
     return out
 }
 
-private fun batchHits(record: ByteArray, key: String): List<Hit>? {
+private fun batchHits(record: ByteArray, key: String): List<StoreHit>? {
     if (record.size < 12) return null
     var sequence = u64(record, 0)
     val count = u32(record, 8)
     var pos = 12
-    val hits = ArrayList<Hit>()
+    val hits = ArrayList<StoreHit>()
     repeat(count) {
         if (pos >= record.size) return null
         val tag = record[pos].toInt() and 0xff
@@ -106,13 +113,13 @@ private fun batchHits(record: ByteArray, key: String): List<Hit>? {
         pos = keyBytes.second
         val matches = storageKey(keyBytes.first) == key
         when (tag) {
-            DELETE -> if (matches) hits += Hit(sequence, null)
+            DELETE -> if (matches) hits += StoreHit(sequence, null)
             PUT -> {
                 val value = readBytes(record, pos) ?: return null
                 pos = value.second
                 if (matches) {
                     val text = storageText(value.first) ?: return null
-                    hits += Hit(sequence, text)
+                    hits += StoreHit(sequence, text)
                 }
             }
             else -> return null
@@ -123,14 +130,14 @@ private fun batchHits(record: ByteArray, key: String): List<Hit>? {
     return hits
 }
 
-private fun storageKey(raw: ByteArray): String? {
+internal fun storageKey(raw: ByteArray): String? {
     if (raw.isEmpty() || raw[0] != '_'.code.toByte()) return null
     val sep = raw.indexOf(0)
     if (sep < 0 || sep + 1 >= raw.size) return null
     return decode(raw[sep + 1].toInt() and 0xff, raw.copyOfRange(sep + 2, raw.size))
 }
 
-private fun storageText(raw: ByteArray): String? {
+internal fun storageText(raw: ByteArray): String? {
     if (raw.isEmpty()) return null
     return decode(raw[0].toInt() and 0xff, raw.copyOfRange(1, raw.size))
 }
@@ -154,7 +161,7 @@ private fun readBytes(data: ByteArray, start: Int): Pair<ByteArray, Int>? {
     return data.copyOfRange(pos, pos + length) to pos + length
 }
 
-private fun varint(data: ByteArray, start: Int): Pair<Int, Int>? {
+internal fun varint(data: ByteArray, start: Int): Pair<Int, Int>? {
     var value = 0
     var shift = 0
     var pos = start
@@ -178,24 +185,24 @@ private operator fun ByteArray.plus(other: ByteArray): ByteArray {
 private fun u16(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() and 0xff) or ((data[offset + 1].toInt() and 0xff) shl 8)
 
-private fun u32(data: ByteArray, offset: Int): Int =
+internal fun u32(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() and 0xff) or
         ((data[offset + 1].toInt() and 0xff) shl 8) or
         ((data[offset + 2].toInt() and 0xff) shl 16) or
         ((data[offset + 3].toInt() and 0xff) shl 24)
 
-private fun u64(data: ByteArray, offset: Int): Long {
+internal fun u64(data: ByteArray, offset: Int): Long {
     var value = 0L
     for (i in 0 until 8) value = value or ((data[offset + i].toLong() and 0xff) shl (8 * i))
     return value
 }
 
-private fun mask(crc: Int): Int {
+internal fun mask(crc: Int): Int {
     val rotated = (crc ushr 15) or (crc shl 17)
     return rotated + 0xA282EAD8.toInt()
 }
 
-private fun crc32c(data: ByteArray): Int {
+internal fun crc32c(data: ByteArray): Int {
     var crc = 0.inv()
     for (byte in data) crc = CRC[(crc xor byte.toInt()) and 0xff] xor (crc ushr 8)
     return crc.inv()
