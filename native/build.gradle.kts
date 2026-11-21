@@ -164,3 +164,28 @@ klingonCatalogTask(
     "SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/www/css/app.css",
     "SquirrelGo-Apps/shared/suite.js",
 )
+
+// Japanese-English dictionary index, when the WebView data files are present.
+// The catalog says the word list is not installed when they are absent.
+fun jedCatalogTask(name: String, www: String, vararg watched: String) =
+    tasks.register<Exec>(name) {
+        val repo = rootProject.projectDir.parentFile
+        val outDir = layout.buildDirectory.dir("generated-jed")
+        inputs.dir(repo.resolve(www))
+        inputs.file("tools/jed_catalog.py")
+        inputs.file("tools/kana_catalog.py")
+        watched.forEach { inputs.file(repo.resolve(it)) }
+        outputs.dir(outDir)
+        commandLine(
+            "python3",
+            rootProject.file("tools/jed_catalog.py").absolutePath,
+            repo.resolve(www).absolutePath,
+            outDir.get().asFile.absolutePath,
+        )
+    }
+
+jedCatalogTask(
+    "generateJedCatalog",
+    "SquirrelGo-Apps/squirrelgo-dictionary/www",
+    "SquirrelGo-Apps/shared/suite.js",
+)
