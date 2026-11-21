@@ -12,7 +12,6 @@ on:
         type: choice
         options:
           - dictionary
-          - kanji
           - klingon
           - orthodox-bible
           - phrasebook
@@ -94,12 +93,11 @@ jobs:
             exit 0
           fi
           case "$APP" in
-            kanji|klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
+            klingon) DIR="SquirrelGo-Apps/squirrelgo-characters/squirrelgo-$APP" ;;
             *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
           esac
           case "$APP" in
             dictionary)     NAME=SquirrelGoJapaneseDictionary ;;
-            kanji)          NAME=SquirrelGoKanji ;;
             klingon)        NAME=SquirrelGoKlingon ;;
             orthodox-bible) NAME=SquirrelGoOrthodoxBible ;;
             phrasebook)     NAME=SquirrelGoPhrasebook ;;
@@ -119,7 +117,7 @@ jobs:
           DATA_TAG: ${{ inputs.data_tag }}
         run: cd "$DIR" && tools/fetch_data.sh $DATA_TAG
       - name: Sync web assets into the APK
-        if: inputs.app == 'kanji' || inputs.app == 'phrasebook'
+        if: inputs.app == 'phrasebook'
         run: |
           rm -rf "$DIR/android/app/src/main/assets/www"
           mkdir -p "$DIR/android/app/src/main/assets"

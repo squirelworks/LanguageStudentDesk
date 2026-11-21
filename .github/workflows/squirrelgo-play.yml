@@ -566,8 +566,8 @@ jobs:
         run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
 
   # Native Kanji. Same closed-testing path as Kana. The bundle is deleted
-  # on the runner: no artifact and no release asset. The GitHub APK is still
-  # the WebView build.
+  # on the runner: no artifact and no release asset. The GitHub APK is the
+  # native app, signed with the committed debug key.
   kanji:
     if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
     needs: deps

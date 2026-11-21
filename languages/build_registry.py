@@ -7,7 +7,7 @@
     */characters.js, cjk/characters.js, japanese/kanji.js, chinese/hanzi.js,
     hangul/hanja.js           <- data/languages/*/characters/, data/cjk/
                                                                   (gen_characters.py)
-    SquirrelGo Kanji's www/data/kanji.js, and its Android asset copy
+    SquirrelGo Kanji's www/data/kanji.js
                               <- the same kanji readings and table (gen_characters.py)
     the SquirrelGo apps' stroke files (Alphabets, Kana, Kanji, Bopomofo, Klingon)
                               <- data/strokes/*.jsonl              (gen_strokes.py)
@@ -32,6 +32,7 @@ or reference.json:
     python3 languages/build_registry.py --check  # exit 1 if one is stale
 """
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -40,9 +41,10 @@ HERE = Path(__file__).resolve().parent
 DATA_TOOLS = HERE.parent / "data" / "tools"
 # Content first, so the registry's "data" lists see the files they write.
 GENERATORS = ["gen_vocab.py", "gen_grammar.py", "gen_reference.py", "gen_characters.py", "gen_registry.py"]
-# SquirrelGo Kanji's table, in the app and in its committed Android assets.
-KANJI_APP = [HERE.parent / "SquirrelGo-Apps" / "squirrelgo-characters" / "squirrelgo-kanji" / d / "data" / "kanji.js"
-             for d in ("www", "android/app/src/main/assets/www")]
+# SquirrelGo Kanji's table. The WebView Android copy is archived, so only www remains.
+KANJI_APP = [HERE.parent / "SquirrelGo-Apps" / "squirrelgo-characters" / "squirrelgo-kanji" / "www" / "data" / "kanji.js"]
+# gen_strokes.py still names the old Android asset path and would recreate it.
+ARCHIVED_KANJI_ANDROID = HERE.parent / "SquirrelGo-Apps" / "squirrelgo-characters" / "squirrelgo-kanji" / "android"
 
 TOPICS = {"overview", "script", "sounds", "grammar", "verbs", "numbers", "phrases", "culture"}
 
@@ -138,7 +140,17 @@ def generate(check):
     for app in KANJI_APP:
         cmd = [sys.executable, str(DATA_TOOLS / "gen_characters.py"), "--kanji-app", str(app)] + (["--check"] if check else [])
         status |= subprocess.run(cmd).returncode
+    drop_archived_kanji_android()
     return status
+
+
+def drop_archived_kanji_android():
+    """Remove the asset stub gen_strokes writes for the archived WebView."""
+    root = ARCHIVED_KANJI_ANDROID
+    if (root / "settings.gradle").is_file():
+        return
+    if root.exists():
+        shutil.rmtree(root)
 
 
 def main():
