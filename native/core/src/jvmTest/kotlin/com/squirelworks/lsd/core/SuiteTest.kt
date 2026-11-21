@@ -1,7 +1,9 @@
 package com.squirelworks.lsd.core
 
 import com.squirelworks.lsd.core.suite.KanaBack
+import com.squirelworks.lsd.core.suite.SuiteAction
 import com.squirelworks.lsd.core.suite.SuiteApp
+import com.squirelworks.lsd.core.suite.suiteAction
 import com.squirelworks.lsd.core.suite.kanaBack
 import com.squirelworks.lsd.core.suite.SuiteLink
 import com.squirelworks.lsd.core.suite.SuiteNote
@@ -62,6 +64,12 @@ class SuiteTest {
             desktopReleasePage(ready.copy(tag = "squirrelgo-v0.1.5")),
         )
         assertNull(desktopReleasePage(ready.copy(tag = "")))
+        val bopomofo = SuiteApp("bopomofo", "SquirrelGo Bopomofo", pkg = "com.squirelworks.squirrelgobopomofo")
+        assertEquals(SuiteAction.None, suiteAction(bopomofo, emptySet()))
+        assertEquals(SuiteAction.None, suiteAction(bopomofo, null))
+        assertEquals(SuiteAction.Open, suiteAction(bopomofo, setOf(bopomofo.pkg)))
+        assertEquals(SuiteAction.Get, suiteAction(ready, emptySet()))
+        assertEquals(SuiteAction.Open, suiteAction(ready, null))
     }
 
     @Test
