@@ -9,8 +9,11 @@ val klingonAssets = rootProject.layout.buildDirectory.dir("generated-klingon").g
 val appVersion = readAppVersion(rootProject.file("versions/klingon.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon/android/app/build.gradle"),
+    rootProject.file("../archive/webview/klingon/app/build.gradle"),
 )
+// release, the GitHub APK, always uses the committed debug key. The play
+// build type is the only one that may use UPLOAD_*, and only for its own bundle.
+val uploadStore = System.getenv("UPLOAD_STORE_FILE").orEmpty()
 base {
     archivesName.set("SquirrelGoKlingon-${appVersion.versionName}")
 }
@@ -38,11 +41,28 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
+        if (uploadStore.isNotEmpty()) {
+            create("play") {
+                storeFile = file(uploadStore)
+                storePassword = System.getenv("UPLOAD_STORE_PASSWORD")
+                keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
+                keyPassword = System.getenv("UPLOAD_KEY_PASSWORD")
+            }
+        }
     }
     buildTypes {
         release {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
+        }
+        create("play") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
+            signingConfig = if (uploadStore.isNotEmpty()) {
+                signingConfigs.getByName("play")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
         debug {
             applicationIdSuffix = ".debug"

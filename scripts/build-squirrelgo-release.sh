@@ -46,7 +46,16 @@ build_app() {
 build_app "$ROOT/SquirrelGo-Apps/programming-student-desk" ProgrammingStudentDesk ProgrammingStudentDesk "SquirrelGo-Apps/programming-student-desk/www/index.html"
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-phrasebook" SquirrelGoPhrasebook SquirrelGoPhrasebook
 build_app "$ROOT/SquirrelGo-Apps/squirrelgo-orthodox-bible" SquirrelGoOrthodoxBible SquirrelGoOrthodoxBible
-build_app "$ROOT/SquirrelGo-Apps/squirrelgo-characters/squirrelgo-klingon" SquirrelGoKlingon SquirrelGoKlingon
+echo "======== BUILD SquirrelGoKlingon (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:klingon:assembleRelease :android:klingon:bundlePlay --no-daemon -q
+  cp android/klingon/build/outputs/apk/release/*.apk "$OUT_ART/SquirrelGoKlingon.apk"
+  cp android/klingon/build/outputs/bundle/play/*.aab "$OUT_AAB/SquirrelGoKlingon.aab"
+)
 echo "======== BUILD SquirrelGoKanji (native) ========"
 (
   cd "$ROOT/native"
