@@ -10,7 +10,7 @@ val dictionaryAssets = rootProject.layout.buildDirectory.dir("generated-jed").ge
 val appVersion = readAppVersion(rootProject.file("versions/dictionary.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/squirrelgo-dictionary/android/app/build.gradle"),
+    rootProject.file("../archive/webview/dictionary/app/build.gradle"),
 )
 
 kotlin {
