@@ -21,6 +21,7 @@ import com.squirelworks.lsd.core.languages.parseFavoriteFile
 import com.squirelworks.lsd.desk.DeskApp
 import com.squirelworks.lsd.kana.WebViewStore
 import com.squirelworks.lsd.kana.readWebViewProgress
+import com.squirelworks.lsd.learner.LearnerWeb
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -90,6 +91,7 @@ class MainActivity : ComponentActivity() {
                 LearnerWeb(
                     url = learnerAddress(page.href, page.scoped, lang),
                     seedHtml = learnerSeed(settings, favorites.ids(), page.href, page.scoped, lang),
+                    page = deskLearnerPage,
                     onSnapshot = { remember(it) },
                     onLeave = { raw ->
                         remember(raw)

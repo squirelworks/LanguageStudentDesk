@@ -202,13 +202,21 @@ const val DESK_SYNC_SCRIPT: String =
         "document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')send();});" +
         "setInterval(send,1500);})();"
 
-fun injectDeskSync(html: String): String {
-    if (html.contains("__lsdDeskSync")) return html
-    val tag = "<script>$DESK_SYNC_SCRIPT</script>"
+// Insert the page script just after <head>, so a leading <!DOCTYPE html> stays
+// first and the browser stays in standards mode. A page that already contains
+// the marker is left alone. A page with no head keeps the script in front.
+fun injectPageScript(html: String, marker: String, script: String): String {
+    if (html.contains(marker)) return html
+    val tag = "<script>$script</script>"
     val head = html.indexOf("<head>", ignoreCase = true)
-    if (head >= 0) return html.replaceRange(head + "<head>".length, head + "<head>".length, tag)
+    if (head >= 0) {
+        val end = head + "<head>".length
+        return html.replaceRange(end, end, tag)
+    }
     return tag + html
 }
+
+fun injectDeskSync(html: String): String = injectPageScript(html, "__lsdDeskSync", DESK_SYNC_SCRIPT)
 
 private fun percentDecode(text: String): String = buildString {
     var index = 0
