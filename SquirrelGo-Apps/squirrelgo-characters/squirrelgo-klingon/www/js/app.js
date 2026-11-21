@@ -29,11 +29,16 @@
   const PUNCT = { ",": "", ".": "" };
   // Fold what people actually type: curly apostrophes, and lower-case d, h, i, s
   // (which only exist as capitals). q and Q are different letters, so they keep their case.
+  // ch, gh and tlh are single letters, so their h is not the capital H.
+  // Lower-case the capitals first, hide those three letters, then raise a lone d, h, i or s.
   function normalize(text) {
-    return text
-      .replace(/[‘’ʼ`´]/g, "'")
+    const folded = text.replace(/[‘’ʼ`´]/g, "'").replace(/[ABCEGJLMNOPRTUVWY]/g, (c) => c.toLowerCase());
+    const hidden = folded.replace(/tlh/g, "\u0001").replace(/ch/g, "\u0002").replace(/gh/g, "\u0003");
+    return hidden
       .replace(/[dhis]/g, (c) => c.toUpperCase())
-      .replace(/[ABCEGJLMNOPRTUVWY]/g, (c) => c.toLowerCase());
+      .replace(/\u0001/g, "tlh")
+      .replace(/\u0002/g, "ch")
+      .replace(/\u0003/g, "gh");
   }
   // Split romanized text into pIqaD letters. Unknown characters pass through.
   function transliterate(text) {
