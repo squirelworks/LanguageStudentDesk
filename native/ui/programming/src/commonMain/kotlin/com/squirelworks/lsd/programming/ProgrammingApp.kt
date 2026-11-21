@@ -3,6 +3,7 @@ package com.squirelworks.lsd.programming
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,7 +78,7 @@ fun ProgrammingApp(
                     Text("No programming course with id “${startLang.trim()}”. Pick one below.", color = note)
                 }
                 val (showOlder, showJoke) = programmingShows(rules, settings)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(onClick = { onLayout(layout.copy(view = "sections")) }) {
                         Text(if (layout.view != "az") "• By section" else "By section", color = if (layout.view != "az") teal else Color(0xFFE8E8E8))
                     }
@@ -85,7 +86,7 @@ fun ProgrammingApp(
                         Text(if (layout.view == "az") "• A–Z" else "A–Z", color = if (layout.view == "az") teal else Color(0xFFE8E8E8))
                     }
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     TextButton(onClick = { onLayout(layout.copy(tag = "")) }) {
                         Text(if (layout.tag.isEmpty()) "• All" else "All", color = if (layout.tag.isEmpty()) teal else Color(0xFFE8E8E8))
                     }

@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import com.squirelworks.lsd.core.desk.DeskFeature
 import com.squirelworks.lsd.core.desk.DeskLevel
-import com.squirelworks.lsd.core.desk.DeskSettings
 import com.squirelworks.lsd.core.programming.ProgrammingCatalog
 import com.squirelworks.lsd.core.programming.ProgrammingCourse
 import com.squirelworks.lsd.core.programming.ProgrammingGroup
@@ -42,6 +42,7 @@ class ProgrammingScreenTest {
             }
         }
         onNodeWithText("Programming Student Desk").assertExists()
+        onNodeWithText("Web").assertIsDisplayed()
         onNodeWithText("No programming course with id “missing”. Pick one below.").assertExists()
         onNodeWithText("Python").assertExists()
         onNodeWithText("A–Z").performClick()
@@ -58,7 +59,14 @@ private fun sample() = ProgrammingCatalog(
         ProgrammingGroup("joke", "Joke and esoteric", "For fun."),
     ),
     courses = listOf(
-        ProgrammingCourse("python", "Python", "1991 · general purpose", "A friendly language.", "modern", listOf("Scripting")),
+        ProgrammingCourse(
+            "python",
+            "Python",
+            "1991 · general purpose",
+            "A friendly language.",
+            "modern",
+            listOf("Assembly", "Compiled programs", "Data", "Hardware", "Scripting", "Web"),
+        ),
         ProgrammingCourse("intercal", "INTERCAL", "Esoteric · 1972", "Politeness is mandatory.", "joke"),
     ),
     levels = listOf(DeskLevel("simple", "Simple")),

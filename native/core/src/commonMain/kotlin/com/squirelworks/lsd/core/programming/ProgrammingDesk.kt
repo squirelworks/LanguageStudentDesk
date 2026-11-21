@@ -4,6 +4,7 @@ import com.squirelworks.lsd.core.desk.DeskFeature
 import com.squirelworks.lsd.core.desk.DeskLevel
 import com.squirelworks.lsd.core.desk.DeskRules
 import com.squirelworks.lsd.core.desk.DeskSettings
+import com.squirelworks.lsd.core.desk.decodeDeskSettings
 import com.squirelworks.lsd.core.desk.encodeDeskSettings
 import com.squirelworks.lsd.core.desk.jsStringLiteral
 import com.squirelworks.lsd.core.languages.compareDisplayNames
@@ -69,6 +70,42 @@ fun encodeProgrammingLayout(layout: ProgrammingLayout): String = programmingJson
 fun decodeProgrammingLayout(text: String): ProgrammingLayout =
     runCatching { programmingJson.decodeFromString<ProgrammingLayout>(text) }.getOrDefault(ProgrammingLayout())
         .let { if (it.view == "az") it else it.copy(view = "sections") }
+
+data class ProgrammingState(val settings: DeskSettings, val layout: ProgrammingLayout)
+
+// A saved category that the catalog no longer has goes back to All.
+fun normalizeProgrammingLayout(layout: ProgrammingLayout, tags: Collection<String>): ProgrammingLayout {
+    val view = if (layout.view == "az") "az" else "sections"
+    val tag = if (layout.tag.isNotEmpty() && layout.tag !in tags) "" else layout.tag
+    return ProgrammingLayout(view, tag)
+}
+
+// The first launch reads the WebView app's two keys once. Later launches keep the native copy.
+fun importProgrammingWebView(
+    settingsJson: String?,
+    viewJson: String?,
+    current: DeskSettings,
+    layout: ProgrammingLayout,
+    tags: Collection<String>,
+): ProgrammingState {
+    if (current.importedWebView) return ProgrammingState(current, normalizeProgrammingLayout(layout, tags))
+    val settings = if (settingsJson == null) current else decodeDeskSettings(settingsJson, current)
+    val next = if (viewJson == null) layout else decodeProgrammingLayout(viewJson)
+    return ProgrammingState(settings.copy(importedWebView = true), normalizeProgrammingLayout(next, tags))
+}
+
+// A learner post, or values left behind when the app was killed. The imported flag stays as it was.
+fun applyProgrammingSync(
+    post: ProgrammingSync,
+    current: DeskSettings,
+    layout: ProgrammingLayout,
+    tags: Collection<String>,
+): ProgrammingState {
+    val settings = if (post.settings == null) current
+    else decodeDeskSettings(post.settings, current).copy(importedWebView = current.importedWebView)
+    val next = if (post.view == null) layout else decodeProgrammingLayout(post.view)
+    return ProgrammingState(settings, normalizeProgrammingLayout(next, tags))
+}
 
 fun programmingRules(catalog: ProgrammingCatalog): DeskRules = DeskRules(
     com.squirelworks.lsd.core.desk.DeskCatalog(

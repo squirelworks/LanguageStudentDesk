@@ -28,6 +28,7 @@ java {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(project(":ui:programming"))
+    implementation(project(":learner"))
 }
 
 sourceSets.main.get().resources.srcDir(catalogAssets)
