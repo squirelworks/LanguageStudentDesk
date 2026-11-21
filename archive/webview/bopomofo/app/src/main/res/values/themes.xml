@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SquirrelGoBopomofo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#005A8C</item>
+        <item name="colorPrimaryVariant">#00456B</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:statusBarColor">#005A8C</item>
+        <item name="android:navigationBarColor">#F7F5F1</item>
+        <item name="android:windowBackground">#F7F5F1</item>
+    </style>
+</resources>
