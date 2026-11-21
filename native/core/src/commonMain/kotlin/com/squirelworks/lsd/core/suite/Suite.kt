@@ -2,6 +2,17 @@ package com.squirelworks.lsd.core.suite
 
 import kotlinx.serialization.Serializable
 
+enum class KanaBack { CloseSheet, CloseDialog, PreviousScreen, Exit }
+
+// One Android back press does the topmost thing: the apps sheet, then a
+// confirmation dialog, then the previous screen. The app leaves only from home.
+fun kanaBack(sheetOpen: Boolean, dialogOpen: Boolean, screenCount: Int): KanaBack = when {
+    sheetOpen -> KanaBack.CloseSheet
+    dialogOpen -> KanaBack.CloseDialog
+    screenCount > 1 -> KanaBack.PreviousScreen
+    else -> KanaBack.Exit
+}
+
 @Serializable
 data class SuiteApp(
     val id: String,

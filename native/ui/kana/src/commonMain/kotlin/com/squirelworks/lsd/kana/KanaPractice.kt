@@ -15,7 +15,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -445,8 +447,13 @@ fun SettingsScreen(
     onSpeed: (Int) -> Unit,
     onReset: (KanaScript) -> Unit,
     onBack: () -> Unit,
+    onDialog: (Boolean, () -> Unit) -> Unit = { _, _ -> },
 ) {
     var pending by remember { mutableStateOf<KanaScript?>(null) }
+    SideEffect { onDialog(pending != null) { pending = null } }
+    DisposableEffect(Unit) {
+        onDispose { onDialog(false) {} }
+    }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         TextButton(onClick = onBack) { Text("‹") }
         Text("Settings", style = MaterialTheme.typography.titleLarge)
