@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Build the native Japanese-English dictionary catalog.
 
-The word list is the WebView's generated data when that directory is present.
-It is not copied into git. Dictionary packs stay in squirrel-lang-data; this
-tool does not download one and does not invent entries. Without the word list
-the catalog says it is not installed.
+The word list is the same generated data the WebView uses. tools/fetch_data.sh
+downloads the jmdict-simplified release and tools/build_data.py writes www/data/.
+This tool reads those files. It does not invent entries.
+
+Without www/data/meta.js the tool exits. Pass --allow-empty only for a
+compile check that is not installed: the catalog then says the word list is
+not installed. Release, test APK and desktop package builds do not pass that
+flag, so they fail until fetch_data.sh has been run.
 """
 
 import json
@@ -78,22 +82,49 @@ def empty_catalog():
     return meta, [], [], {}, []
 
 
+SHARD = 4096
+
+
 def main():
-    www = Path(sys.argv[1])
-    dest = Path(sys.argv[2])
+    args = [arg for arg in sys.argv[1:] if arg != "--allow-empty"]
+    allow_empty = "--allow-empty" in sys.argv[1:]
+    if len(args) != 2:
+        raise SystemExit("usage: jed_catalog.py [--allow-empty] WWW DEST")
+    www = Path(args[0])
+    dest = Path(args[1])
     dest.mkdir(parents=True, exist_ok=True)
+    for stale in ("jed-index.json", "jed-entries.json"):
+        old = dest / stale
+        if old.is_file():
+            old.unlink()
     data = www / "data"
     if (data / "meta.js").is_file():
         meta, lines, entries, kanji, radicals = load_words(data)
-    else:
+    elif allow_empty:
         meta, lines, entries, kanji, radicals = empty_catalog()
+    else:
+        raise SystemExit(
+            "The Japanese-English word list is missing. "
+            "Run SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh before this build."
+        )
     dump = lambda name, value: (dest / name).write_text(
         json.dumps(value, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8",
     )
     dump("jed-meta.json", meta)
-    dump("jed-index.json", lines)
-    dump("jed-entries.json", entries)
+    (dest / "jed-index.txt").write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    shard_dir = dest / "jed-entries"
+    if shard_dir.is_dir():
+        for old in shard_dir.glob("*.json"):
+            old.unlink()
+    shard_dir.mkdir(exist_ok=True)
+    shards = (len(entries) + SHARD - 1) // SHARD if entries else 0
+    for shard in range(shards):
+        chunk = entries[shard * SHARD:(shard + 1) * SHARD]
+        (shard_dir / ("%02d.json" % shard)).write_text(
+            json.dumps(chunk, ensure_ascii=False, separators=(",", ":")),
+            encoding="utf-8",
+        )
     dump("jed-kanji.json", kanji)
     dump("jed-radicals.json", radicals)
     suite = www.parent.parent / "shared" / "suite.js"

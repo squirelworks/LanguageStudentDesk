@@ -62,10 +62,32 @@ class JedSearchTest {
 
     @Test
     fun anEmptyCatalogIsNotAnInventedEntry() {
-        val empty = JedIndex(JedMeta(installed = false), emptyList(), emptyList(), emptyMap(), emptyList())
+        val empty = JedIndex(JedMeta(installed = false), emptyList(), emptyMap(), emptyList())
         assertEquals(0, jedSearch(empty, "eat").total)
         assertFalse(empty.meta.installed)
         assertFalse(WORD_LIST_MISSING.any { it.isDigit() })
+    }
+}
+
+class JedShardTest {
+    @Test
+    fun anEntryBodyLoadsItsShardOnce() {
+        val row = parseIndexLine("1\t猫\tねこ\t1\tN\tcat")!!
+        var reads = 0
+        val index = JedIndex(
+            JedMeta(installed = true),
+            listOf(row),
+            emptyMap(),
+            emptyList(),
+        ) { shard ->
+            reads++
+            if (shard == 0) """[{"s":[{"g":["cat"]}]}]""" else null
+        }
+        assertEquals(0, reads)
+        assertEquals(listOf("cat"), index.body(0).s.single().g)
+        index.body(0)
+        assertEquals(1, reads)
+        assertEquals(JedEntryBody(), index.body(ENTRY_SHARD))
     }
 }
 
@@ -132,7 +154,6 @@ private fun sampleIndex(): JedIndex {
     return JedIndex(
         JedMeta(installed = true, words = rows.size, kanjiCount = 1, tags = mapOf("v1" to "Ichidan verb")),
         rows,
-        emptyList(),
         mapOf("猫" to JedKanji(s = 11, on = listOf("ビョウ"), kun = listOf("ねこ"), m = listOf("cat"), f = 100, g = 2)),
         listOf(JedRadical("犭", 3, "猫")),
     )

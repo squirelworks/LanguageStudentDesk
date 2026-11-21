@@ -110,18 +110,21 @@ data class JedSaved(
     val importedWebView: Boolean = false,
 )
 
+const val ENTRY_SHARD = 4096
+
 class JedIndex(
     val meta: JedMeta,
     val rows: List<JedRow>,
-    val entries: List<JedEntryBody>,
     val kanji: Map<String, JedKanji>,
     val radicals: List<JedRadical>,
+    private val readShard: (Int) -> String? = { null },
 ) {
     val forms: List<String> = rows.map { row ->
         Kana.kataToHira(row.kanji.joinToString(";") + ";" + row.kana.joinToString(";"))
     }
     val glossLower: List<String> = rows.map { it.senses.joinToString("|").lowercase() }
     val byId: Map<String, Int> = rows.mapIndexed { index, row -> row.id to index }.toMap()
+    private val shardCache = HashMap<Int, List<JedEntryBody>>()
 
     val exact: Map<String, List<Int>> by lazy {
         val map = HashMap<String, MutableList<Int>>()
@@ -134,7 +137,17 @@ class JedIndex(
         map
     }
 
-    fun body(pos: Int): JedEntryBody = entries.getOrNull(pos) ?: JedEntryBody()
+    fun body(pos: Int): JedEntryBody {
+        if (pos !in rows.indices) return JedEntryBody()
+        val shard = pos / ENTRY_SHARD
+        val page = synchronized(shardCache) {
+            shardCache.getOrPut(shard) {
+                val text = readShard(shard) ?: return@getOrPut emptyList()
+                runCatching { jedJson.decodeFromString<List<JedEntryBody>>(text) }.getOrDefault(emptyList())
+            }
+        }
+        return page.getOrElse(pos % ENTRY_SHARD) { JedEntryBody() }
+    }
 }
 
 fun parseIndexLine(line: String): JedRow? {
@@ -154,17 +167,15 @@ fun parseIndexLine(line: String): JedRow? {
 fun loadJedIndex(
     metaText: String,
     indexText: String,
-    entriesText: String,
     kanjiText: String,
     radicalsText: String,
+    readShard: (Int) -> String? = { null },
 ): JedIndex {
     val meta = jedJson.decodeFromString<JedMeta>(metaText)
-    val lines = jedJson.decodeFromString<List<String>>(indexText)
-    val rows = lines.mapNotNull(::parseIndexLine)
-    val entries = jedJson.decodeFromString<List<JedEntryBody>>(entriesText)
+    val rows = indexText.split('\n').mapNotNull(::parseIndexLine)
     val kanji = jedJson.decodeFromString<Map<String, JedKanji>>(kanjiText)
     val radicals = jedJson.decodeFromString<List<JedRadical>>(radicalsText)
-    return JedIndex(meta, rows, entries, kanji, radicals)
+    return JedIndex(meta, rows, kanji, radicals, readShard)
 }
 
 fun headOf(row: JedRow): String = row.kanji.firstOrNull() ?: row.kana.firstOrNull().orEmpty()

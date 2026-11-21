@@ -9,13 +9,21 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.squirelworks.lsd.core.languages.FileTextStore
 import com.squirelworks.lsd.dictionary.DICTIONARY_STORE_KEY
 import com.squirelworks.lsd.dictionary.DictionaryLegacy
 import com.squirelworks.lsd.dictionary.EnglishDictionaryApp
+import com.squirelworks.lsd.dictionary.JedIndex
 import com.squirelworks.lsd.dictionary.adoptDictionaryState
 import com.squirelworks.lsd.dictionary.loadJedIndex
 import com.squirelworks.lsd.kana.AndroidSpeech
@@ -49,18 +57,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         speech.start()
         query = suiteIntents.queryOf(intent)
-        fun text(name: String) = assets.open(name).bufferedReader().use { it.readText() }
-        val index = loadJedIndex(text("jed-meta.json"), text("jed-index.json"), text("jed-entries.json"), text("jed-kanji.json"), text("jed-radicals.json"))
-        val suite = parseSuite(text("suite.json"))
+        val suite = parseSuite(assets.open("suite.json").bufferedReader().use { it.readText() })
         suiteIntents.remember(suite.apps)
         installed = suiteIntents.installed()
         val state = FileTextStore(File(filesDir, "dictionary-state.json"))
         val dataDir = File(applicationInfo.dataDir)
-        fun show() {
-            setContent {
+        var index by mutableStateOf<JedIndex?>(null)
+        var loadFailed by mutableStateOf(false)
+        setContent {
+            val ready = index
+            if (ready == null) {
+                Box(Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
+                    Text(
+                        if (loadFailed) "The word list isn't installed in this copy." else "Loading dictionary…",
+                        color = Color.White,
+                    )
+                }
+            } else {
                 BackHandler(enabled = backEnabled) { backAction() }
                 EnglishDictionaryApp(
-                    index = index,
+                    index = ready,
                     store = state,
                     speak = { speech.speak(it, 1f, "ja-JP") },
                     onStopAudio = speech::stop,
@@ -93,8 +109,23 @@ class MainActivity : ComponentActivity() {
             val legacy = runCatching { readWebViewProgress(dataDir, DICTIONARY_STORE_KEY) }
                 .getOrElse { WebViewStore.Unreadable }
             adoptDictionaryState(state, legacy.toDictionary())
-            runOnUiThread { if (!isDestroyed) show() }
-        }, "dictionary-webview-progress").apply { isDaemon = true }.start()
+            val loaded = runCatching {
+                fun text(name: String) = assets.open(name).bufferedReader().use { it.readText() }
+                loadJedIndex(
+                    text("jed-meta.json"),
+                    text("jed-index.txt"),
+                    text("jed-kanji.json"),
+                    text("jed-radicals.json"),
+                ) { shard ->
+                    val name = "jed-entries/%02d.json".format(shard)
+                    runCatching { assets.open(name).bufferedReader().use { it.readText() } }.getOrNull()
+                }
+            }
+            runOnUiThread {
+                if (isDestroyed) return@runOnUiThread
+                loaded.onSuccess { index = it }.onFailure { loadFailed = true }
+            }
+        }, "dictionary-load").apply { isDaemon = true }.start()
     }
 
     override fun onPause() {

@@ -194,8 +194,9 @@ phrasebookCatalogTask(
     "SquirrelGo-Apps/shared/suite.js",
 )
 
-// Japanese-English dictionary index, when the WebView data files are present.
-// The catalog says the word list is not installed when they are absent.
+// Japanese-English word list, from the same generated files the WebView ships.
+// A build that can be installed fails when those files are missing.
+// -Pjed.allowEmpty=true is only for a compile check.
 fun jedCatalogTask(name: String, www: String, vararg watched: String) =
     tasks.register<Exec>(name) {
         val repo = rootProject.projectDir.parentFile
@@ -203,14 +204,17 @@ fun jedCatalogTask(name: String, www: String, vararg watched: String) =
         inputs.dir(repo.resolve(www))
         inputs.file("tools/jed_catalog.py")
         inputs.file("tools/kana_catalog.py")
+        inputs.property("jed.allowEmpty", (findProperty("jed.allowEmpty") ?: "false").toString())
         watched.forEach { inputs.file(repo.resolve(it)) }
         outputs.dir(outDir)
-        commandLine(
+        val cmd = mutableListOf(
             "python3",
             rootProject.file("tools/jed_catalog.py").absolutePath,
             repo.resolve(www).absolutePath,
             outDir.get().asFile.absolutePath,
         )
+        if (findProperty("jed.allowEmpty") == "true") cmd += "--allow-empty"
+        commandLine(cmd)
     }
 
 jedCatalogTask(

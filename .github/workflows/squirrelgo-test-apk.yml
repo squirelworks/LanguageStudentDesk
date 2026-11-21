@@ -139,6 +139,11 @@ jobs:
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
           yes | "$SDKMANAGER" "platforms;android-36" "platforms;android-37.0" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
+      - name: Download dictionary data for the native dictionary
+        if: inputs.app == 'dictionary-native'
+        env:
+          DATA_TAG: ${{ inputs.data_tag }}
+        run: SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh ${DATA_TAG}
       - name: Build native test APK
         if: env.NATIVE == '1'
         run: |

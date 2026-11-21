@@ -44,6 +44,9 @@ jobs:
         run: |
           git fetch origin --tags --force
           python3 native/tools/check_native_versions.py --release
+      - name: Download the Japanese-English word list
+        shell: bash
+        run: SquirrelGo-Apps/squirrelgo-dictionary/tools/fetch_data.sh
       - name: Package
         working-directory: native
         shell: bash

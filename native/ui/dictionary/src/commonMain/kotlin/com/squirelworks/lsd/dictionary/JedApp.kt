@@ -54,27 +54,10 @@ fun EnglishDictionaryApp(
     onBackState: (Boolean, () -> Unit) -> Unit,
     suiteSheet: @Composable (String, (SuiteApp) -> Unit, () -> Unit) -> Unit,
     initialQuery: String? = null,
-    shot: String? = null,
 ) {
     val density = LocalDensity.current
     var saved by remember { mutableStateOf(readDictionaryState(store)) }
-    var stack by remember {
-        mutableStateOf(
-            when (shot) {
-                "menu" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Menu)
-                "settings" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Settings)
-                "kana" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.KanaChart(false))
-                "about" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.About)
-                "categories" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Categories)
-                "tags" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Tags(null))
-                "radicals" -> listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Radicals(null))
-                "detail" -> if (index.rows.isNotEmpty()) listOf(DictScreen.Search(DictScope.All, ""), DictScreen.Details(0, "past")) else listOf(DictScreen.Search(DictScope.All, ""))
-                "kanji" -> index.kanji.keys.firstOrNull()?.let { listOf(DictScreen.Search(DictScope.All, ""), DictScreen.KanjiPage(it)) }
-                    ?: listOf(DictScreen.Search(DictScope.All, ""))
-                else -> listOf(DictScreen.Search(DictScope.All, initialQuery?.trim().orEmpty()))
-            },
-        )
-    }
+    var stack by remember { mutableStateOf(listOf<DictScreen>(DictScreen.Search(DictScope.All, initialQuery?.trim().orEmpty()))) }
     var overlays by remember { mutableStateOf(listOf<DictOverlay>()) }
     var sheet by remember { mutableStateOf(false) }
     var suiteNotice by remember { mutableStateOf("") }
@@ -161,7 +144,7 @@ fun EnglishDictionaryApp(
     SideEffect { onBackState(dictionaryBack(sheet, overlays.size, stack.size) != KanaBack.Exit, ::performBack) }
     LaunchedEffect(initialQuery) {
         val query = initialQuery?.trim().orEmpty()
-        if (shot == null && query.isNotEmpty()) stack = listOf(DictScreen.Search(DictScope.All, query))
+        if (query.isNotEmpty()) stack = listOf(DictScreen.Search(DictScope.All, query))
     }
     LaunchedEffect(toastTick) {
         if (toast.isEmpty()) return@LaunchedEffect
