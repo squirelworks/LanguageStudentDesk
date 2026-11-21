@@ -9,7 +9,7 @@ release asset or a commit.
 
 It can also be run by hand: **Actions → SquirrelGo Play closed testing → Run
 workflow**, with the tag, optionally a comma-separated list of apps (`kana,
-kanji`), the track, and the status.
+kanji, klingon`), the track, and the status.
 
 ## One-time setup (owner)
 

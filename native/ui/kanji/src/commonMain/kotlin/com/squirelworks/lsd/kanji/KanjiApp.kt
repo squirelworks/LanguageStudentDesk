@@ -595,7 +595,7 @@ private fun DetailPage(
     if (figure != null && figure.paths.isNotEmpty()) {
         var replay by remember(item.char) { mutableIntStateOf(0) }
         Box(Modifier.clickable { replay++ }) {
-            StrokeGlyph(figure.paths, play = true, box = 109f, guides = true, replay = replay)
+            StrokeGlyph(figure.paths, play = true, box = 109f, guides = true, numbers = false, replay = replay)
             Text("Tap to replay", modifier = Modifier.align(Alignment.BottomCenter))
         }
     } else {
@@ -729,6 +729,7 @@ private fun StrokePanel(figure: StrokeFigure?, onOpenUrl: (String) -> Unit) {
             box = 109f,
             limit = if (play) figure.paths.size else step,
             guides = true,
+            numbers = false,
             replay = replay,
         )
         if (numbers) {
@@ -767,6 +768,7 @@ private fun StrokePanel(figure: StrokeFigure?, onOpenUrl: (String) -> Unit) {
                 limit = index + 1,
                 highlightLast = true,
                 guides = true,
+                numbers = false,
                 sizeDp = 56.dp,
             )
         }
