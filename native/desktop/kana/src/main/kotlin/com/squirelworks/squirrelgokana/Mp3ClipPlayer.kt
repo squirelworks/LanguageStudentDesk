@@ -72,7 +72,7 @@ class Mp3ClipPlayer(private val open: (String) -> InputStream?) {
     private fun decode(stream: InputStream, ticket: Int): Pcm? {
         val bitstream = Bitstream(stream)
         val decoder = Decoder()
-        val parts = ArrayList<Short>()
+        val parts = ShortBuffer()
         var channels = 1
         var sampleRate = 22050
         try {
@@ -81,15 +81,14 @@ class Mp3ClipPlayer(private val open: (String) -> InputStream?) {
                 val buffer = decoder.decodeFrame(header, bitstream) as SampleBuffer
                 channels = buffer.channelCount.coerceAtLeast(1)
                 sampleRate = buffer.sampleFrequency.coerceAtLeast(1)
-                val frame = buffer.buffer
-                for (i in 0 until buffer.bufferLength) parts.add(frame[i])
+                parts.add(buffer.buffer, buffer.bufferLength)
                 bitstream.closeFrame()
             }
         } finally {
             runCatching { bitstream.close() }
         }
-        if (parts.isEmpty()) return null
-        return Pcm(parts.toShortArray(), channels, sampleRate)
+        if (parts.size == 0) return null
+        return Pcm(parts.toArray(), channels, sampleRate)
     }
 
     private fun halt() {
@@ -104,3 +103,22 @@ class Mp3ClipPlayer(private val open: (String) -> InputStream?) {
 }
 
 private class Pcm(val samples: ShortArray, val channels: Int, val sampleRate: Int)
+
+private class ShortBuffer {
+    private var data = ShortArray(4096)
+    var size = 0
+        private set
+
+    fun add(frame: ShortArray, count: Int) {
+        val needed = size + count
+        if (needed > data.size) {
+            var grown = data.size
+            while (grown < needed) grown *= 2
+            data = data.copyOf(grown)
+        }
+        frame.copyInto(data, size, 0, count)
+        size += count
+    }
+
+    fun toArray(): ShortArray = data.copyOf(size)
+}
