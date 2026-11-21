@@ -15,8 +15,6 @@ name: squirrelator Play testing
 # The AAB never leaves the runner: no artifact, no release asset, no commit.
 # See docs/PLAY.md, "squirrelator".
 on:
-  schedule:
-    - cron: "23 * * * *"
   workflow_dispatch:
     inputs:
       action:
