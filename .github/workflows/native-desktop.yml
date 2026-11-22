@@ -29,6 +29,10 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    # Windows decodes node's UTF-8 as cp1252 unless Python is told to use
+    # UTF-8. A dispatch builds the tag, so this has to be set here.
+    env:
+      PYTHONUTF8: "1"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,8 +62,8 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+          SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -type f -path '*/bin/sdkmanager' | sort -V | tail -1)
+          { yes || true; } | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
           cd native
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
@@ -72,9 +76,26 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name || inputs.tag }}
         run: |
-          shopt -s globstar nullglob
-          files=(native/desktop/*/build/compose/binaries/main/**/* native/android/*/build/outputs/apk/release/*.apk)
-          files=("${files[@]}" )
+          # macOS ships bash 3.2, which has no globstar. nullglob is older.
+          shopt -s nullglob
+          desktop_dirs=(native/desktop/*/build/compose/binaries/main)
+          apk_dirs=(native/android/*/build/outputs/apk/release)
+          shopt -u nullglob
+          files=()
+          if [ "${#desktop_dirs[@]}" -gt 0 ]; then
+            while IFS= read -r -d '' f; do
+              files+=("$f")
+            done < <(find "${desktop_dirs[@]}" -mindepth 2 -maxdepth 2 -type f \( -name '*.deb' -o -name '*.dmg' -o -name '*.msi' \) -print0)
+          fi
+          if [ "${#files[@]}" -lt 14 ]; then
+            echo "::error::found ${#files[@]} desktop packages, expected at least 14"
+            exit 1
+          fi
+          if [ "${#apk_dirs[@]}" -gt 0 ]; then
+            while IFS= read -r -d '' f; do
+              files+=("$f")
+            done < <(find "${apk_dirs[@]}" -name '*.apk' -print0)
+          fi
           upload=()
           for f in "${files[@]}"; do
             if [ ! -f "$f" ]; then continue; fi
