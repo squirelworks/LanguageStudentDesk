@@ -123,117 +123,6 @@ jobs:
     with:
       ref: ${{ needs.check.outputs.sha }}
 
-  apk:
-    needs: [check, draft, deps]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - { app: electronics-desk,  dir: SquirrelGo-Apps/electronics-student-desk,                   name: ElectronicsStudentDesk }
-    env:
-      VERSION: ${{ inputs.version }}
-      DIR: ${{ matrix.dir }}
-      GH_TOKEN: ${{ github.token }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.check.outputs.sha }}
-          submodules: recursive
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-      # The cache key covers only what decides the downloads: the Gradle
-      # wrapper, plugin and library versions and repositories in the Gradle
-      # files, minus versionCode/versionName, so a release's version bump
-      # keeps the cache. This step is the same in every workflow that uses it.
-      - name: Gradle cache key
-        id: gradle-key
-        shell: bash
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          FP=$(git ls-files ':(glob)SquirrelGo-Apps/**/gradle-wrapper.properties' ':(glob)SquirrelGo-Apps/**/android/*.gradle' ':(glob)SquirrelGo-Apps/**/android/app/build.gradle' ':(glob)SquirrelGo-Apps/tools/*.gradle' \
-            | LC_ALL=C sort | while read -r F; do echo "== $F"; grep -vE '^[[:space:]]*version(Code|Name)([[:space:]=(]|$)' "$F" || true; done \
-            | sha256sum | cut -c1-40)
-          echo "key=gradle-deps-v2-$RUNNER_OS-$FP" | tee -a "$GITHUB_OUTPUT"
-      # Gradle and the Android build tools come from one shared cache, filled
-      # once by the "Gradle deps cache" workflow; builds only read it.
-      - name: Restore Gradle cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ~/.gradle/caches/modules-2
-            ~/.gradle/wrapper/dists
-          key: ${{ steps.gradle-key.outputs.key }}
-          restore-keys: |
-            gradle-deps-v2-${{ runner.os }}-
-            gradle-deps-v1-${{ runner.os }}-
-      - name: Install Android SDK packages
-        run: |
-          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
-      # With an APK signing key in secrets the APK is release-signed; without
-      # it, each app's build.gradle falls back to its fixed debug key. This is
-      # not the Play upload key, which stays out of this repo's CI (RELEASES.md).
-      - name: APK signing key
-        env:
-          KEYSTORE_B64: ${{ secrets.APK_KEYSTORE_BASE64 }}
-          STORE_PW: ${{ secrets.APK_STORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.APK_KEY_ALIAS }}
-          KEY_PW: ${{ secrets.APK_KEY_PASSWORD }}
-        run: |
-          if [ -n "$KEYSTORE_B64" ]; then
-            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/apk.keystore"
-            {
-              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/apk.keystore"
-              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
-              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
-              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
-            } >> "$GITHUB_ENV"
-            echo "signing with the APK signing key"
-          else
-            echo "no APK signing key in secrets; signing with the app's debug key"
-            # Programming Student Desk doesn't commit its debug key; all apps share one.
-            K="$DIR/android/app/debug.keystore"
-            [ -f "$K" ] || cp archive/webview/lsd-suite/app/debug.keystore "$K"
-          fi
-      - name: Build release APK
-        run: |
-          cd "$DIR/android"
-          echo "sdk.dir=$ANDROID_HOME" > local.properties
-          chmod +x gradlew
-          ./gradlew --no-daemon assembleRelease
-          mkdir -p "$RUNNER_TEMP/apk"
-          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/apk/${{ matrix.name }}.apk"
-          VN=$(grep -m1 -E '^\s*versionName' app/build.gradle | sed -E 's/.*"(.*)".*/\1/')
-          VC=$(grep -m1 -E '^\s*versionCode' app/build.gradle | grep -oE '[0-9]+')
-          PKG=$(grep -m1 -E '^\s*applicationId' app/build.gradle | sed -E "s/.*['\"](.*)['\"].*/\1/")
-          echo "| ${{ matrix.name }} | $PKG | $VN | $VC |" > "$RUNNER_TEMP/apk/${{ matrix.name }}.row"
-          # The release shows each APK as its app's name and version
-          # ("SquirrelGo Kana 1.1.10"); the file name stays the same so
-          # releases/latest/download/<name>.apk links keep working.
-          APP=$(grep -m1 -oE '<string name="app_name">[^<]+' app/src/main/res/values/strings.xml | sed 's/.*>//')
-          [ -n "$APP" ] || { echo "no app_name in strings.xml"; exit 1; }
-          echo "$APP $VN" > "$RUNNER_TEMP/apk/${{ matrix.name }}.label"
-      - name: Remove the signing key
-        if: always()
-        run: rm -f "$RUNNER_TEMP/apk.keystore"
-      # On the draft as soon as this app is built.
-      - name: Attach the APK to the draft
-        run: |
-          gh release upload "$VERSION" "$RUNNER_TEMP/apk/${{ matrix.name }}.apk#$(cat "$RUNNER_TEMP/apk/${{ matrix.name }}.label")" \
-            --clobber --repo "$GITHUB_REPOSITORY"
-      # The app's row for the version table in the notes; kept for one day.
-      - uses: actions/upload-artifact@v4
-        with:
-          name: row-${{ matrix.app }}
-          path: ${{ runner.temp }}/apk/${{ matrix.name }}.row
-          retention-days: 1
-          if-no-files-found: error
-
   # Native Alphabets. The file name stays SquirrelGoAlphabets.apk. It is signed
   # with the committed debug key, so APK_KEYSTORE_BASE64 cannot change the
   # signature. The Play bundle is a different workflow.
@@ -771,6 +660,56 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # Native Electronics Student Desk. The file name stays ElectronicsStudentDesk.apk.
+  # It is signed with the committed debug key, so APK_KEYSTORE_BASE64 cannot
+  # change the signature. The Play bundle is a different workflow and is not
+  # uploaded here. The learner pages stay in the repo; this job only builds
+  # the native APK.
+  native-electronics:
+    needs: [check, draft, deps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Build the native Electronics Student Desk APK
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:electronics:assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp android/electronics/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/ElectronicsStudentDesk.apk"
+          VN=$(grep -m1 '^versionName=' versions/electronics.properties | cut -d= -f2-)
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VN"
+          VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
+          echo "| ElectronicsStudentDesk | com.squirelworks.electronicsstudentdesk | $VN | $VC |" > "$RUNNER_TEMP/apk/ElectronicsStudentDesk.row"
+          echo "Electronics Student Desk $VN" > "$RUNNER_TEMP/apk/ElectronicsStudentDesk.label"
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/ElectronicsStudentDesk.apk#$(cat "$RUNNER_TEMP/apk/ElectronicsStudentDesk.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: row-electronics
+          path: ${{ runner.temp }}/apk/ElectronicsStudentDesk.row
+          retention-days: 1
+          if-no-files-found: error
+
   # The Linux, Windows and macOS Desk builds, each attached to the draft as
   # soon as it's built. Publishing doesn't build them again.
   desktop:
@@ -787,7 +726,7 @@ jobs:
   # SHA256SUMS.txt over every file on the draft. Assets added after publish
   # are covered when those workflows rewrite the sums.
   finish:
-    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, native-programming, native-math, desktop]
+    needs: [check, draft, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, native-programming, native-math, native-electronics, desktop]
     runs-on: ubuntu-latest
     permissions:
       contents: write
