@@ -5,8 +5,7 @@ name: SquirrelGo Play closed testing
 # leaves the runner: no artifact, no release asset, no commit (RELEASES.md).
 # Needs the PLAY_SERVICE_ACCOUNT_JSON secret, and the UPLOAD_* secrets unless
 # the apps' Play upload key is the committed debug key. See docs/PLAY.md.
-# Store listings (text and graphics from each app's play/ folder) are never
-# pushed by a release; only a hand run with push_store_listing ticked does.
+# Store listings are pushed by squirrelgo-listing.yml, not by this workflow.
 on:
   release:
     types: [published]
@@ -30,11 +29,6 @@ on:
         options: [completed, draft]
       check_only:
         description: "Only check the secrets: unlock the upload key and open (then discard) a Play edit for each app. Builds and uploads nothing."
-        required: false
-        default: false
-        type: boolean
-      push_store_listing:
-        description: "Also push the store listing (text and graphics from the app's play/ folder) after the upload. One-time, for a new app; releases never do this."
         required: false
         default: false
         type: boolean
