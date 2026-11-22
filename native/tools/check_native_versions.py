@@ -165,7 +165,7 @@ def generator_inputs(build_text):
             if extra:
                 paths.append(extra)
         found[name] = paths
-    for match in re.finditer(r"(?<!fun )(?:kanji|klingon|phrasebook|desk|jed|bible|math)CatalogTask\s*\(", build_text):
+    for match in re.finditer(r"(?<!fun )(?:kanji|klingon|phrasebook|desk|jed|bible|programming|math)CatalogTask\s*\(", build_text):
         args = _balanced(build_text, match.end() - 1, "(", ")")
         strings = re.findall(r'"([^"]*)"', args)
         if len(strings) < 2:
