@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           cd "$GITHUB_WORKSPACE"
-          FP=$(git ls-files ':(glob)SquirrelGo-Apps/**/gradle-wrapper.properties' ':(glob)SquirrelGo-Apps/**/android/*.gradle' ':(glob)SquirrelGo-Apps/**/android/app/build.gradle' ':(glob)SquirrelGo-Apps/tools/*.gradle' \
+          FP=$(git ls-files ':(glob)native/**/gradle-wrapper.properties' ':(glob)native/**/*.gradle.kts' ':(glob)native/**/*.toml' ':(glob)native/gradle.properties' \
             | LC_ALL=C sort | while read -r F; do echo "== $F"; grep -vE '^[[:space:]]*version(Code|Name)([[:space:]=(]|$)' "$F" || true; done \
             | sha256sum | cut -c1-40)
           echo "key=gradle-deps-v2-$RUNNER_OS-$FP" | tee -a "$GITHUB_OUTPUT"
@@ -123,13 +123,8 @@ jobs:
             echo "APK_NAME=$NAME-test-$SHA" >> "$GITHUB_ENV"
             exit 0
           fi
-          case "$APP" in
-            *)                            DIR="SquirrelGo-Apps/squirrelgo-$APP" ;;
-          esac
-          test -d "$DIR/android" || { echo "No Android project at $DIR/android" >&2; exit 1; }
-          SHA=$(git rev-parse --short HEAD)
-          echo "DIR=$DIR" >> "$GITHUB_ENV"
-          echo "APK_NAME=$NAME-test-$SHA" >> "$GITHUB_ENV"
+          echo "Unknown app $APP" >&2
+          exit 1
       # Same preparation as the app's compile-only workflow.
       # The runner image ships the Android SDK; just make sure API 36 is there.
       - name: Install Android SDK packages
@@ -150,15 +145,6 @@ jobs:
           mkdir -p "$RUNNER_TEMP/apk"
           ./gradlew --no-daemon ":android:${NATIVE_MODULE}:assembleRelease"
           cp "android/${NATIVE_MODULE}/build/outputs/apk/release/"*.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
-      - name: Build test APK
-        if: env.NATIVE != '1'
-        run: |
-          cd "$DIR/android"
-          echo "sdk.dir=$ANDROID_HOME" > local.properties
-          chmod +x gradlew
-          mkdir -p "$RUNNER_TEMP/apk"
-          ./gradlew --no-daemon assembleDebug
-          cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/apk/$APK_NAME.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.APK_NAME }}

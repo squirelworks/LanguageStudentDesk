@@ -11,38 +11,6 @@ OUT_AAB="$ROOT/aabs"
 OUT_ART="/opt/cursor/artifacts/aabs"
 mkdir -p "$OUT_AAB" "$OUT_ART"
 
-verify_bundle() {
-  local aab="$1" apk="$2" name="$3" asset_subpath="${4:-assets/www/index.html}"
-  python3 - "$aab" "$apk" "$name" "$asset_subpath" <<'PY'
-import sys, zipfile
-aab, apk, name, needle = sys.argv[1:5]
-def find(path):
-    with zipfile.ZipFile(path) as z:
-        for n in z.namelist():
-            if n == needle or n.endswith("/" + needle):
-                return n
-    return None
-pa = find(aab)
-pp = find(apk)
-if not pa or not pp:
-    print(f"FAIL {name}: need {needle} in aab/apk; got aab={pa} apk={pp}", file=sys.stderr)
-    sys.exit(1)
-print(f"OK {name}: {pa} | {pp}")
-PY
-}
-
-build_app() {
-  local dir="$1" aab_name="$2" apk_name="$3" asset_path="${4:-assets/www/index.html}"
-  echo "======== BUILD $aab_name ========"
-  cd "$dir/android"
-  ./gradlew bundleRelease assembleRelease --no-daemon -q
-  local aab="app/build/outputs/bundle/release/app-release.aab"
-  local apk="app/build/outputs/apk/release/app-release.apk"
-  verify_bundle "$aab" "$apk" "$aab_name" "$asset_path"
-  cp "$aab" "$OUT_AAB/${aab_name}.aab"
-  cp "$apk" "$OUT_ART/${apk_name}.apk"
-}
-
 echo "======== BUILD ProgrammingStudentDesk (native) ========"
 (
   cd "$ROOT/native"
