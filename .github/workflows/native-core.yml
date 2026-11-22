@@ -20,6 +20,7 @@ on:
       - "languages/features.js"
       - "languages/registry.js"
       - "programming-learner/**"
+      - "math-learner/**"
   pull_request:
     paths:
       - "native/**"
@@ -35,6 +36,7 @@ on:
       - "languages/features.js"
       - "languages/registry.js"
       - "programming-learner/**"
+      - "math-learner/**"
 
 permissions:
   contents: read
@@ -68,7 +70,7 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
-          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :ui:klingon:jvmTest :ui:phrasebook:jvmTest :ui:orthodox-bible:jvmTest :ui:desk:jvmTest :learner:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :android:klingon:assembleDebug :android:phrasebook:assembleDebug :android:orthodox-bible:assembleDebug :android:lsd:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin :desktop:klingon:compileKotlin :desktop:phrasebook:compileKotlin :desktop:orthodox-bible:compileKotlin :desktop:lsd:checkDeskPages :ui:programming:jvmTest :android:programming:assembleDebug :desktop:programming:checkProgrammingPages
+          ./gradlew --no-daemon :core:jvmTest :ui:kana:jvmTest :ui:kanji:jvmTest :ui:klingon:jvmTest :ui:phrasebook:jvmTest :ui:orthodox-bible:jvmTest :ui:desk:jvmTest :learner:jvmTest :android:kana:assembleDebug :android:bopomofo:assembleDebug :android:alphabets:assembleDebug :android:kanji:assembleDebug :android:klingon:assembleDebug :android:phrasebook:assembleDebug :android:orthodox-bible:assembleDebug :android:lsd:assembleDebug :desktop:kana:compileKotlin :desktop:bopomofo:compileKotlin :desktop:alphabets:compileKotlin :desktop:kanji:compileKotlin :desktop:klingon:compileKotlin :desktop:phrasebook:compileKotlin :desktop:orthodox-bible:compileKotlin :desktop:lsd:checkDeskPages :ui:programming:jvmTest :android:programming:assembleDebug :desktop:programming:checkProgrammingPages :ui:math:jvmTest :android:math:assembleDebug :desktop:math:checkMathPages
       - name: Native release APKs stay on the debug key
         working-directory: native
         run: bash tools/check_native_release_signatures.sh
