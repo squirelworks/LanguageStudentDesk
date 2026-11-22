@@ -22,4 +22,5 @@ so your system may ask you to confirm before opening one.
 
 The APKs for every app are attached here, along with `SHA256SUMS.txt`. The
 Linux, Windows and macOS builds are attached as each one finishes. Each app
-goes to its Google Play closed testing track.
+except SquirrelGo 国語辞典 and SquirrelGo Multilingual Dictionary also goes to
+its Google Play closed testing track; those ship as APKs here.
