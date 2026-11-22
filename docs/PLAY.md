@@ -87,7 +87,7 @@ others).
 
 Maths Edu-Training Helper's Play listing pack is
 `archive/webview/math/app/src/main/play/`. Electronics Student Desk's pack
-is still `SquirrelGo-Apps/electronics-student-desk/android/app/src/main/play/`.
+is `archive/webview/electronics/app/src/main/play/`.
 Each pack contains:
 
 | File | Play Console field | Size / limit |

@@ -11,7 +11,7 @@ val learnerPages = rootProject.layout.buildDirectory.dir("generated-electronics-
 val appVersion = readAppVersion(rootProject.file("versions/electronics.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/electronics-student-desk/android/app/build.gradle"),
+    rootProject.file("../archive/webview/electronics/app/build.gradle"),
 )
 
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }

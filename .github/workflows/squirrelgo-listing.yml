@@ -28,7 +28,7 @@ jobs:
       matrix:
         include:
           - { app: math-desk,        package: com.squirelworks.mathseducationtraininghelper, play: archive/webview/math/app/src/main/play }
-          - { app: electronics-desk, package: com.squirelworks.electronicsstudentdesk,       play: SquirrelGo-Apps/electronics-student-desk/android/app/src/main/play }
+          - { app: electronics-desk, package: com.squirelworks.electronicsstudentdesk,       play: archive/webview/electronics/app/src/main/play }
     steps:
       - name: Is this app selected?
         id: pick
