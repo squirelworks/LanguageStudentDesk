@@ -106,7 +106,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { app: math-desk,        dir: SquirrelGo-Apps/math-student-desk }
           - { app: electronics-desk, dir: SquirrelGo-Apps/electronics-student-desk }
     env:
       TAG: ${{ github.event.release.tag_name || inputs.tag }}
@@ -1034,6 +1033,105 @@ jobs:
         run: |
           python -m pip install -q google-api-python-client google-auth
           python .github/scripts/play_upload.py --package com.squirelworks.programmingstudentdesk --aab "$AAB" \
+            --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
+            --status "${{ inputs.status || 'completed' }}" \
+            --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
+      - name: Remove the key and the bundle
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.keystore" "$AAB"
+
+  # Native Maths Edu-Training Helper. Same closed-testing path as Language Student Desk.
+  # The bundle is deleted on the runner: no artifact and no release asset.
+  # The GitHub APK is the native app, signed with the committed debug key.
+  math:
+    if: (github.event_name == 'workflow_dispatch' && !inputs.check_only) || (github.event_name == 'release' && !github.event.release.prerelease && !github.event.release.draft)
+    needs: deps
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Is Maths Edu-Training Helper selected?
+        id: pick
+        env:
+          APPS: ${{ inputs.apps }}
+        run: |
+          if [ -z "$APPS" ] || echo ",$APPS," | tr -d ' ' | grep -q ",math,"; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Play access is set up
+        if: steps.pick.outputs.go == 'true'
+        env:
+          HAS_PLAY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          [ "$HAS_PLAY" = true ] || { echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is missing; see docs/PLAY.md"; exit 1; }
+      - uses: actions/checkout@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          ref: ${{ env.TAG }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        if: steps.pick.outputs.go == 'true'
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Upload key
+        if: steps.pick.outputs.go == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+            {
+              echo "UPLOAD_STORE_FILE=$RUNNER_TEMP/upload.keystore"
+              echo "UPLOAD_STORE_PASSWORD=$STORE_PW"
+              echo "UPLOAD_KEY_ALIAS=$KEY_ALIAS"
+              echo "UPLOAD_KEY_PASSWORD=$KEY_PW"
+            } >> "$GITHUB_ENV"
+          else
+            echo "::warning::no upload key in secrets; Play refuses debug-signed bundles (see docs/PLAY.md)"
+          fi
+      - name: Build the native Maths Edu-Training Helper bundle
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:math:bundlePlay
+          VN=$(grep -m1 '^versionName=' versions/math.properties | cut -d= -f2-)
+          AAB=$(echo "$PWD"/android/math/build/outputs/bundle/play/*.aab)
+          test -f "$AAB"
+          echo "RELEASE_NAME=Maths Edu-Training Helper $VN" >> "$GITHUB_ENV"
+          echo "AAB=$AAB" >> "$GITHUB_ENV"
+      - name: Release notes
+        if: steps.pick.outputs.go == 'true'
+        run: |
+          if [ -f "release-notes/$TAG.md" ]; then
+            sed -E -e '/^\|/d' -e 's/^#+ *//' -e 's/\[([^]]*)\]\([^)]*\)/\1/g' -e 's/[*`]//g' "release-notes/$TAG.md" \
+              | grep -v '^\s*$' | head -c 500 > "$RUNNER_TEMP/notes.txt"
+          else
+            echo "SquirrelGo $TAG" > "$RUNNER_TEMP/notes.txt"
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.pick.outputs.go == 'true'
+        with:
+          python-version: "3.12"
+      - name: Send to Google Play
+        if: steps.pick.outputs.go == 'true'
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python -m pip install -q google-api-python-client google-auth
+          python .github/scripts/play_upload.py --package com.squirelworks.mathseducationtraininghelper --aab "$AAB" \
             --track "${{ inputs.track || vars.PLAY_TRACK || 'alpha' }}" \
             --status "${{ inputs.status || 'completed' }}" \
             --name "$RELEASE_NAME" --notes-file "$RUNNER_TEMP/notes.txt"
