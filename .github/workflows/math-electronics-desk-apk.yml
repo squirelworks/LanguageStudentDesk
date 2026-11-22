@@ -1,14 +1,13 @@
-name: Math/Electronics Student Desk APK
+name: Electronics Student Desk APK
 
-# Compile only: proves both phone twins still build on every PR and push
-# to main, but uploads nothing. Release APKs come from squirrelgo-release.
+# Compile only: proves the Electronics WebView still builds on every PR and
+# push to main, but uploads nothing. Release APKs come from squirrelgo-release.
+# Maths Edu-Training Helper's WebView shell is archived and is not built here.
 on:
   push:
     branches: [main]
     paths:
-      - "SquirrelGo-Apps/math-student-desk/**"
       - "SquirrelGo-Apps/electronics-student-desk/**"
-      - "math-learner/**"
       - "electronics-learner/**"
       - "languages/learners.css"
       - "languages/lsd-lang.js"
@@ -18,9 +17,7 @@ on:
       - ".github/workflows/math-electronics-desk-apk.yml"
   pull_request:
     paths:
-      - "SquirrelGo-Apps/math-student-desk/**"
       - "SquirrelGo-Apps/electronics-student-desk/**"
-      - "math-learner/**"
       - "electronics-learner/**"
       - "languages/learners.css"
       - "languages/lsd-lang.js"
@@ -43,7 +40,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { app: math-desk,        dir: SquirrelGo-Apps/math-student-desk }
           - { app: electronics-desk, dir: SquirrelGo-Apps/electronics-student-desk }
     env:
       DIR: ${{ matrix.dir }}

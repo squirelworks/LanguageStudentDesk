@@ -132,7 +132,6 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - { app: math-desk,         dir: SquirrelGo-Apps/math-student-desk,                          name: MathsEduTrainingHelper }
           - { app: electronics-desk,  dir: SquirrelGo-Apps/electronics-student-desk,                   name: ElectronicsStudentDesk }
     env:
       VERSION: ${{ inputs.version }}
@@ -722,6 +721,56 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # Native Maths Edu-Training Helper. The file name stays MathsEduTrainingHelper.apk.
+  # It is signed with the committed debug key, so APK_KEYSTORE_BASE64 cannot
+  # change the signature. The Play bundle is a different workflow and is not
+  # uploaded here. The learner pages stay in the repo; this job only builds
+  # the native APK.
+  native-math:
+    needs: [check, draft, deps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Build the native Maths Edu-Training Helper APK
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:math:assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp android/math/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/MathsEduTrainingHelper.apk"
+          VN=$(grep -m1 '^versionName=' versions/math.properties | cut -d= -f2-)
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VN"
+          VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
+          echo "| MathsEduTrainingHelper | com.squirelworks.mathseducationtraininghelper | $VN | $VC |" > "$RUNNER_TEMP/apk/MathsEduTrainingHelper.row"
+          echo "Maths Edu-Training Helper $VN" > "$RUNNER_TEMP/apk/MathsEduTrainingHelper.label"
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/MathsEduTrainingHelper.apk#$(cat "$RUNNER_TEMP/apk/MathsEduTrainingHelper.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: row-math
+          path: ${{ runner.temp }}/apk/MathsEduTrainingHelper.row
+          retention-days: 1
+          if-no-files-found: error
+
   # The Linux, Windows and macOS Desk builds, each attached to the draft as
   # soon as it's built. Publishing doesn't build them again.
   desktop:
@@ -738,7 +787,7 @@ jobs:
   # SHA256SUMS.txt over every file on the draft. Assets added after publish
   # are covered when those workflows rewrite the sums.
   finish:
-    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, native-programming, desktop]
+    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, native-programming, native-math, desktop]
     runs-on: ubuntu-latest
     permissions:
       contents: write

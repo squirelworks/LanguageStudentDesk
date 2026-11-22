@@ -52,6 +52,15 @@ echo "======== BUILD ProgrammingStudentDesk (native) ========"
   ./gradlew :android:programming:assembleRelease --no-daemon -q
   cp android/programming/build/outputs/apk/release/*.apk "$OUT_ART/ProgrammingStudentDesk.apk"
 )
+echo "======== BUILD MathsEduTrainingHelper (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:math:assembleRelease --no-daemon -q
+  cp android/math/build/outputs/apk/release/*.apk "$OUT_ART/MathsEduTrainingHelper.apk"
+)
 echo "======== BUILD SquirrelGoPhrasebook (native) ========"
 (
   cd "$ROOT/native"

@@ -27,8 +27,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { app: math-desk,        dir: SquirrelGo-Apps/math-student-desk,        package: com.squirelworks.mathseducationtraininghelper }
-          - { app: electronics-desk, dir: SquirrelGo-Apps/electronics-student-desk, package: com.squirelworks.electronicsstudentdesk }
+          - { app: math-desk,        package: com.squirelworks.mathseducationtraininghelper, play: archive/webview/math/app/src/main/play }
+          - { app: electronics-desk, package: com.squirelworks.electronicsstudentdesk,       play: SquirrelGo-Apps/electronics-student-desk/android/app/src/main/play }
     steps:
       - name: Is this app selected?
         id: pick
@@ -56,10 +56,9 @@ jobs:
         if: steps.pick.outputs.go == 'true'
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
-          DIR: ${{ matrix.dir }}
           PKG: ${{ matrix.package }}
+          PLAY: ${{ matrix.play }}
         run: |
-          PLAY="$DIR/android/app/src/main/play"
           [ -d "$PLAY" ] || { echo "::error::$PLAY is missing"; exit 1; }
           python -m pip install -q google-api-python-client google-auth
           python .github/scripts/squirrelator_play.py listing --package "$PKG" --dir "$PLAY"

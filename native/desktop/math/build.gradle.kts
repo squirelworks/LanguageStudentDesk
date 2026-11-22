@@ -11,7 +11,7 @@ val learnerPages = rootProject.layout.buildDirectory.dir("generated-math-www")
 val appVersion = readAppVersion(rootProject.file("versions/math.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/math-student-desk/android/app/build.gradle"),
+    rootProject.file("../archive/webview/math/app/build.gradle"),
 )
 
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
