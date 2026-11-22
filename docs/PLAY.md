@@ -101,16 +101,12 @@ Privacy policy URL for both apps:
 `https://github.com/squirelworks/LanguageStudentDesk/blob/main/PRIVACY.md`
 
 A store listing is pushed once, by hand, never by a release or a push to
-`main`. To change a listing later, edit it in Play Console or run one of these
-again. Two ways to push one:
+`main`. To change a listing later, edit it in Play Console or run the listing
+workflow again. One way to push one:
 
 - **SquirrelGo Play store listing** (`squirrelgo-listing.yml`), run by hand,
   pushes the pack for Maths Edu-Training Helper and Electronics Student Desk
   (or only the apps you list) without uploading a build.
-- **SquirrelGo Play closed testing**, run by hand with **push_store_listing**
-  ticked (and the app named in **apps**), pushes the pack right after that
-  app's AAB upload. This is the route for a new app's first upload. Apps
-  without `listing/en-US/title.txt` are skipped with a warning.
 
 The service account needs **Manage store presence** on each app (same as
 squirrelator). squirrelator's listing is set the same way, only by its
@@ -133,9 +129,9 @@ workflow's hand-run **listing** action, from `native/android/src/main/play/`.
 | SquirrelGo Phrasebook | `com.squirelworks.squirrelgophrasebook` |
 | squirrelator | `com.squirelworks.squirrelator` (its own workflow, below) |
 
-Maths Edu-Training Helper and Electronics Student Desk are in the
-**SquirrelGo Play closed testing** matrix (`math-desk`, `electronics-desk`).
-First upload for a never-published app: run the workflow by hand with
+Maths Edu-Training Helper and Electronics Student Desk upload from their
+native Play jobs (`math`, `electronics`), the same way as the other native
+apps. First upload for a never-published app: run the workflow by hand with
 status `draft`.
 
 ## squirrelator
