@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Native release APKs must stay on the committed debug key even when UPLOAD_*
 # is set and their Play bundles are built in the same Gradle run.
-# Kana, Bopomofo, Alphabets, Kanji, Klingon, the Japanese-English Dictionary, Phrasebook, the Orthodox Bible and Language Student Desk.
+# Kana, Bopomofo, Alphabets, Kanji, Klingon, the Japanese-English Dictionary, Phrasebook, the Orthodox Bible, Language Student Desk and Programming Student Desk.
 # The dictionary catalog may be empty here: this check only compares certificates.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -30,7 +30,8 @@ chmod +x gradlew
   :android:dictionary:assembleRelease :android:dictionary:bundlePlay \
   :android:phrasebook:assembleRelease :android:phrasebook:bundlePlay \
   :android:orthodox-bible:assembleRelease :android:orthodox-bible:bundlePlay \
-  :android:lsd:assembleRelease :android:lsd:bundlePlay
+  :android:lsd:assembleRelease :android:lsd:bundlePlay \
+  :android:programming:assembleRelease :android:programming:bundlePlay
 sdk_dir() {
   if [ -n "${ANDROID_HOME:-}" ]; then
     echo "$ANDROID_HOME"
@@ -84,3 +85,4 @@ check_pair Dictionary android/dictionary/build/outputs/apk/release/*.apk android
 check_pair Phrasebook android/phrasebook/build/outputs/apk/release/*.apk android/phrasebook/build/outputs/bundle/play/*.aab
 check_pair "Orthodox Bible" android/orthodox-bible/build/outputs/apk/release/*.apk android/orthodox-bible/build/outputs/bundle/play/*.aab
 check_pair "Language Student Desk" android/lsd/build/outputs/apk/release/*.apk android/lsd/build/outputs/bundle/play/*.aab
+check_pair "Programming Student Desk" android/programming/build/outputs/apk/release/*.apk android/programming/build/outputs/bundle/play/*.aab
