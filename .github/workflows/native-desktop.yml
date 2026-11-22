@@ -85,7 +85,11 @@ jobs:
           if [ "${#desktop_dirs[@]}" -gt 0 ]; then
             while IFS= read -r -d '' f; do
               files+=("$f")
-            done < <(find "${desktop_dirs[@]}" -type f -print0)
+            done < <(find "${desktop_dirs[@]}" -mindepth 2 -maxdepth 2 -type f \( -name '*.deb' -o -name '*.dmg' -o -name '*.msi' \) -print0)
+          fi
+          if [ "${#files[@]}" -lt 14 ]; then
+            echo "::error::found ${#files[@]} desktop packages, expected at least 14"
+            exit 1
           fi
           if [ "${#apk_dirs[@]}" -gt 0 ]; then
             while IFS= read -r -d '' f; do
