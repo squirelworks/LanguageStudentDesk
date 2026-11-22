@@ -41,6 +41,7 @@ def main():
     lsd = set(mod.source_paths("lsd"))
     programming = set(mod.source_paths("programming"))
     math = set(mod.source_paths("math"))
+    electronics = set(mod.source_paths("electronics"))
     kokugo = set(mod.source_paths("japanese-dictionary"))
     multi = set(mod.source_paths("multilingual-dictionary"))
     jed = set(mod.source_paths("dictionary"))
@@ -52,7 +53,7 @@ def main():
         "native/tools",
         "native/buildSrc",
     }
-    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed, lsd, programming, math):
+    for paths in (kana, bopo, alpha, kanji, klingon, phrasebook, bible, kokugo, multi, jed, lsd, programming, math, electronics):
         missing = shared - paths
         if missing:
             raise SystemExit(f"shared paths missing: {missing}")
@@ -112,7 +113,7 @@ def main():
     audio = diff_of([kana_audio + "/hiragana/clip.mp3"])
     data = diff_of([bopo_data + "/bopomofo.js"])
     langs = diff_of(["languages/japanese/meta.json"])
-    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd", "programming", "math"):
+    for stem in ("kana", "bopomofo", "alphabets", "kanji", "klingon", "phrasebook", "orthodox-bible", "japanese-dictionary", "multilingual-dictionary", "dictionary", "lsd", "programming", "math", "electronics"):
         if not mod.app_changed("tag", stem, gradle):
             raise SystemExit(f"{stem} ignored a Gradle version catalog change")
         if not mod.app_changed("tag", stem, tools):
@@ -180,13 +181,18 @@ def main():
     programming_course = diff_of(["programming-learner/data/catalog.js"])
     if "programming-learner/data/catalog.js" not in programming or not mod.app_changed("tag", "programming", programming_course):
         raise SystemExit("Programming Student Desk ignored its course catalog")
-    if mod.app_changed("tag", "kana", programming_course) or mod.app_changed("tag", "math", programming_course):
+    if mod.app_changed("tag", "kana", programming_course) or mod.app_changed("tag", "math", programming_course) or mod.app_changed("tag", "electronics", programming_course):
         raise SystemExit("a programming course marked another app")
     math_course = diff_of(["math-learner/data/catalog.js"])
     if "math-learner/data/catalog.js" not in math or not mod.app_changed("tag", "math", math_course):
         raise SystemExit("Maths Edu-Training Helper ignored its course catalog")
-    if mod.app_changed("tag", "kana", math_course) or mod.app_changed("tag", "programming", math_course):
+    if mod.app_changed("tag", "kana", math_course) or mod.app_changed("tag", "programming", math_course) or mod.app_changed("tag", "electronics", math_course):
         raise SystemExit("a math course marked another app")
+    electronics_course = diff_of(["electronics-learner/data/catalog.js"])
+    if "electronics-learner/data/catalog.js" not in electronics or not mod.app_changed("tag", "electronics", electronics_course):
+        raise SystemExit("Electronics Student Desk ignored its course catalog")
+    if mod.app_changed("tag", "kana", electronics_course) or mod.app_changed("tag", "math", electronics_course):
+        raise SystemExit("an electronics course marked another app")
     print("ok")
 
 
