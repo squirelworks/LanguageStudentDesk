@@ -9,9 +9,12 @@ name: Translation Learner corpora
 #   translation-learner/data/network.js and data/wordbank/<lang>.js
 # On a branch the commit goes to that branch. On main it goes to the
 # translation-learner-corpora branch instead, to be merged by pull request.
+# A tag is not a branch, so a tag push does not run this.
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "**"
     paths:
       - ".github/workflows/translation-learner-corpora.yml"
       - "translation-learner/tools/fetch_corpora.py"
