@@ -79,7 +79,7 @@ fun MathApp(
                         }
                     }
                 }
-                CourseButton("All courses", "Open the Math Learner and pick from the same list.") { onOpenCourse(null) }
+                CourseButton("All courses", "Open the Math Learner and pick from the same list.", null) { onOpenCourse(null) }
                 val blocks = arrangeMath(catalog, layout)
                 if (blocks.isEmpty()) Text("No courses match this filter.", color = note)
                 blocks.forEach { block ->
@@ -89,10 +89,8 @@ fun MathApp(
                     }
                     block.items.forEach { course ->
                         val detail = listOf(course.era, course.blurb).filter { it.isNotBlank() }.joinToString(" — ")
-                        val tags = if (course.tags.isEmpty()) "" else course.tags.joinToString(" · ")
-                        CourseButton(course.name, listOf(detail, tags).filter { it.isNotBlank() }.joinToString("\n")) {
-                            onOpenCourse(course)
-                        }
+                        val tags = if (course.tags.isEmpty()) null else course.tags.joinToString(" · ")
+                        CourseButton(course.name, detail, tags) { onOpenCourse(course) }
                     }
                 }
                 Text(
@@ -105,11 +103,12 @@ fun MathApp(
 }
 
 @Composable
-private fun CourseButton(title: String, detail: String, onClick: () -> Unit) {
+private fun CourseButton(title: String, detail: String, tags: String?, onClick: () -> Unit) {
     TextButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.fillMaxWidth()) {
             Text(title, color = cardTitle)
             if (detail.isNotBlank()) Text(detail)
+            if (!tags.isNullOrBlank()) Text(tags, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

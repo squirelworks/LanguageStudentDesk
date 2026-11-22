@@ -40,19 +40,18 @@ data class MathCatalog(
 data class MathLayout(val view: String = "sections", val tag: String = "")
 
 @Serializable
-data class MathSync(val settings: String? = null, val view: String? = null, val progress: String? = null)
+data class MathSync(val settings: String? = null, val view: String? = null)
 
-data class MathState(val settings: DeskSettings, val layout: MathLayout, val progress: String?)
+data class MathState(val settings: DeskSettings, val layout: MathLayout)
 
 private val mathJson = Json { ignoreUnknownKeys = true }
 
 const val MATH_VIEW_KEY = "lsd-math-view-v1"
-const val MATH_PROGRESS_KEY = "lsd-math-v1"
 
 const val MATH_SYNC_SCRIPT: String =
     "(function(){if(window.__methSync)return;window.__methSync=true;var last=null;" +
         "function send(){try{var body=JSON.stringify({settings:localStorage.getItem('lsd-settings')," +
-        "view:localStorage.getItem('lsd-math-view-v1'),progress:localStorage.getItem('lsd-math-v1')});" +
+        "view:localStorage.getItem('lsd-math-view-v1')});" +
         "if(body===last)return;last=body;" +
         "navigator.sendBeacon('/desk-sync',new Blob([body],{type:'application/json'}));}catch(e){}}" +
         "window.addEventListener('pagehide',send);" +
@@ -117,35 +116,30 @@ fun mathSyncChanged(known: MathSync?, post: MathSync): Boolean = post != known
 fun importMathWebView(
     settingsJson: String?,
     viewJson: String?,
-    progressJson: String?,
     current: DeskSettings,
     layout: MathLayout,
     tags: Collection<String>,
 ): MathState {
-    if (current.importedWebView) return MathState(current, normalizeMathLayout(layout, tags), progressJson)
+    if (current.importedWebView) return MathState(current, normalizeMathLayout(layout, tags))
     val settings = if (settingsJson == null) current else decodeDeskSettings(settingsJson, current)
     val next = if (viewJson == null) layout else decodeMathLayout(viewJson)
-    return MathState(settings.copy(importedWebView = true), normalizeMathLayout(next, tags), progressJson)
+    return MathState(settings.copy(importedWebView = true), normalizeMathLayout(next, tags))
 }
 
-fun applyMathSync(post: MathSync, current: DeskSettings, layout: MathLayout, progress: String?, tags: Collection<String>): MathState {
+fun applyMathSync(post: MathSync, current: DeskSettings, layout: MathLayout, tags: Collection<String>): MathState {
     val settings = if (post.settings == null) current
     else decodeDeskSettings(post.settings, current).copy(importedWebView = current.importedWebView)
     val next = if (post.view == null) layout else decodeMathLayout(post.view)
-    val kept = if (post.progress == null) progress else post.progress
-    return MathState(settings, normalizeMathLayout(next, tags), kept)
+    return MathState(settings, normalizeMathLayout(next, tags))
 }
 
-fun mathSeedSnapshot(settings: DeskSettings, layout: MathLayout, progress: String?): MathSync = MathSync(
+fun mathSeedSnapshot(settings: DeskSettings, layout: MathLayout): MathSync = MathSync(
     settings = encodeDeskSettings(settings.copy(importedWebView = false)),
     view = encodeMathLayout(MathLayout(view = if (layout.view == "az") "az" else "sections", tag = layout.tag)),
-    progress = progress,
 )
 
-fun mathSeedDocument(settings: DeskSettings, layout: MathLayout, progress: String?, nextUrl: String): String {
-    val seed = mathSeedSnapshot(settings, layout, progress)
-    val progressLine = if (seed.progress == null) ""
-    else "localStorage.setItem('$MATH_PROGRESS_KEY', ${jsStringLiteral(seed.progress)});"
+fun mathSeedDocument(settings: DeskSettings, layout: MathLayout, nextUrl: String): String {
+    val seed = mathSeedSnapshot(settings, layout)
     return """
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -154,7 +148,6 @@ fun mathSeedDocument(settings: DeskSettings, layout: MathLayout, progress: Strin
 try {
   localStorage.setItem('lsd-settings', ${jsStringLiteral(seed.settings!!)});
   localStorage.setItem('$MATH_VIEW_KEY', ${jsStringLiteral(seed.view!!)});
-  $progressLine
 } catch (e) {}
 location.replace(${jsStringLiteral(nextUrl)});
 </script>

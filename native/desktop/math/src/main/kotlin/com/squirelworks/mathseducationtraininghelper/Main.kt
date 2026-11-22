@@ -44,10 +44,8 @@ fun main() = application {
     val dir = File(System.getProperty("user.home"), ".squirrelgo").apply { mkdirs() }
     val settingsFile = File(dir, "math-settings.json")
     val layoutFile = File(dir, "math-view.json")
-    val progressFile = File(dir, "math-progress.json")
     val initialSettings = decodeDeskSettings(settingsFile.takeIf { it.isFile }?.readText().orEmpty(), rules.fresh())
     val initialLayout = normalizeMathLayout(decodeMathLayout(layoutFile.takeIf { it.isFile }?.readText().orEmpty()), tags)
-    val initialProgress = progressFile.takeIf { it.isFile }?.readText()?.ifEmpty { null }
     val www = System.getProperty("compose.application.resources.dir")?.let(::File)?.let { deskPagesRoot(it) }
     var host: LearnerPagesHost<com.squirelworks.lsd.core.math.MathSync>? = null
     var portMessage: String? = null
@@ -67,19 +65,16 @@ fun main() = application {
     }, title = "Maths Edu-Training Helper") {
         var settings by remember { mutableStateOf(initialSettings) }
         var layout by remember { mutableStateOf(initialLayout) }
-        var progress by remember { mutableStateOf(initialProgress) }
-        var known by remember { mutableStateOf(mathSeedSnapshot(settings, layout, progress)) }
+        var known by remember { mutableStateOf(mathSeedSnapshot(settings, layout)) }
         sync.value = sync@{ raw ->
             val post = parseMathSync(raw) ?: return@sync
             if (!mathSyncChanged(known, post)) return@sync
             known = post
-            val applied = applyMathSync(post, settings, layout, progress, tags)
+            val applied = applyMathSync(post, settings, layout, tags)
             settings = applied.settings
             layout = applied.layout
-            progress = applied.progress
             settingsFile.writeText(encodeDeskSettings(settings))
             layoutFile.writeText(encodeMathLayout(layout))
-            progressFile.writeText(progress.orEmpty())
         }
         DisposableEffect(Unit) { onDispose { sync.value = {} } }
         MathApp(
@@ -88,7 +83,7 @@ fun main() = application {
             onLayout = {
                 layout = normalizeMathLayout(it, tags)
                 layoutFile.writeText(encodeMathLayout(layout))
-                known = mathSeedSnapshot(settings, layout, progress)
+                known = mathSeedSnapshot(settings, layout)
             },
             onOpenCourse = { course ->
                 val open = host
@@ -100,8 +95,8 @@ fun main() = application {
                     JOptionPane.showMessageDialog(null, "This course is not in the installed Maths Edu-Training Helper.")
                 } else {
                     val next = open.origin + coursePath(course?.id.orEmpty())
-                    known = mathSeedSnapshot(settings, layout, progress)
-                    Desktop.getDesktop().browse(URI(open.seedUrl(mathSeedDocument(settings, layout, progress, next), known)))
+                    known = mathSeedSnapshot(settings, layout)
+                    Desktop.getDesktop().browse(URI(open.seedUrl(mathSeedDocument(settings, layout, next), known)))
                 }
             },
         )
