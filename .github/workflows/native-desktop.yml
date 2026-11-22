@@ -53,7 +53,7 @@ jobs:
         run: |
           if [ -n "${ANDROID_HOME:-}" ]; then echo "sdk.dir=$ANDROID_HOME" > local.properties; fi
           chmod +x gradlew
-          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS :desktop:phrasebook:packageDistributionForCurrentOS :desktop:orthodox-bible:packageDistributionForCurrentOS :desktop:lsd:packageDistributionForCurrentOS
+          ./gradlew --no-daemon :desktop:japanese-dictionary:packageDistributionForCurrentOS :desktop:multilingual-dictionary:packageDistributionForCurrentOS :desktop:dictionary:packageDistributionForCurrentOS :desktop:kana:packageDistributionForCurrentOS :desktop:bopomofo:packageDistributionForCurrentOS :desktop:alphabets:packageDistributionForCurrentOS :desktop:kanji:packageDistributionForCurrentOS :desktop:klingon:packageDistributionForCurrentOS :desktop:phrasebook:packageDistributionForCurrentOS :desktop:orthodox-bible:packageDistributionForCurrentOS :desktop:lsd:packageDistributionForCurrentOS :desktop:programming:packageDistributionForCurrentOS :desktop:math:packageDistributionForCurrentOS :desktop:electronics:packageDistributionForCurrentOS
       - name: Release APKs
         if: runner.os == 'Linux'
         shell: bash
