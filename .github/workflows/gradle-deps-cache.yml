@@ -1,16 +1,18 @@
 name: Gradle deps cache
 
-# Downloads Gradle, the Android Gradle plugin and the apps' libraries once and
-# saves them as one cache that every Android build restores. The builds only
-# read it, so a PR that touches many apps doesn't send each build to Maven
-# Central for the same files. It saves nothing new when the cache is current.
-# The release and Play workflows run this first, before their app matrix.
+# Downloads Gradle, the Android Gradle plugin and the native apps' libraries
+# once and saves them as one cache. A build that restores this key only reads
+# it, so several apps don't each download the same files. It saves nothing
+# new when the cache is current. The release and Play workflows run this
+# first, before their app builds.
 on:
   push:
     branches: [main]
     paths:
-      - "SquirrelGo-Apps/**/gradle-wrapper.properties"
-      - "SquirrelGo-Apps/**/*.gradle"
+      - "native/**/gradle-wrapper.properties"
+      - "native/**/*.gradle.kts"
+      - "native/**/*.toml"
+      - "native/gradle.properties"
       - ".github/workflows/gradle-deps-cache.yml"
   # GitHub drops a cache nobody has read for a week; this puts it back.
   schedule:
@@ -43,7 +45,7 @@ jobs:
         shell: bash
         run: |
           cd "$GITHUB_WORKSPACE"
-          FP=$(git ls-files ':(glob)SquirrelGo-Apps/**/gradle-wrapper.properties' ':(glob)SquirrelGo-Apps/**/android/*.gradle' ':(glob)SquirrelGo-Apps/**/android/app/build.gradle' ':(glob)SquirrelGo-Apps/tools/*.gradle' \
+          FP=$(git ls-files ':(glob)native/**/gradle-wrapper.properties' ':(glob)native/**/*.gradle.kts' ':(glob)native/**/*.toml' ':(glob)native/gradle.properties' \
             | LC_ALL=C sort | while read -r F; do echo "== $F"; grep -vE '^[[:space:]]*version(Code|Name)([[:space:]=(]|$)' "$F" || true; done \
             | sha256sum | cut -c1-40)
           echo "key=gradle-deps-v2-$RUNNER_OS-$FP" | tee -a "$GITHUB_OUTPUT"
@@ -79,28 +81,18 @@ jobs:
         if: steps.lookup.outputs.cache-hit != 'true'
         run: |
           SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
-          yes | "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" > /dev/null
-      # One app after another, so Maven Central sees one client. A debug build
-      # also fetches what Gradle only downloads while building (aapt2). An app
-      # that doesn't build here only gets a warning: its compile-only workflow
-      # is the check for that, and the cache is still saved for the rest.
-      - name: Download the build tooling for every app
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      # One native debug build fetches Gradle, the Android Gradle plugin and
+      # the libraries the apps share, including what Gradle only downloads
+      # while building (aapt2). The apps are one project, so this covers them.
+      - name: Download the native build tooling
         if: steps.lookup.outputs.cache-hit != 'true'
         run: |
           RETRY="-Dorg.gradle.internal.repository.max.retries=6 -Dorg.gradle.internal.repository.initial.backoff=2000"
-          for W in $(git ls-files ':(glob)SquirrelGo-Apps/**/android/gradle/wrapper/gradle-wrapper.properties'); do
-            D=${W%/gradle/wrapper/gradle-wrapper.properties}
-            echo "::group::$D"
-            (
-              cd "$D"
-              echo "sdk.dir=$ANDROID_HOME" > local.properties
-              [ -f app/debug.keystore ] || cp "$GITHUB_WORKSPACE/archive/webview/lsd-suite/app/debug.keystore" app/debug.keystore
-              chmod +x gradlew
-              ./gradlew --no-daemon $RETRY :app:dependencies > /dev/null
-              ./gradlew --no-daemon $RETRY assembleDebug
-            ) || echo "::warning::$D did not build here; its downloads so far are still cached"
-            echo "::endgroup::"
-          done
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon $RETRY :android:kana:assembleDebug
           rm -f ~/.gradle/caches/modules-2/*.lock ~/.gradle/caches/modules-2/gc.properties
       - name: Save the cache
         if: steps.lookup.outputs.cache-hit != 'true'
