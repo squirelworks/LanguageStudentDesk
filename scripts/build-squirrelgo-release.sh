@@ -43,7 +43,15 @@ build_app() {
   cp "$apk" "$OUT_ART/${apk_name}.apk"
 }
 
-build_app "$ROOT/SquirrelGo-Apps/programming-student-desk" ProgrammingStudentDesk ProgrammingStudentDesk "SquirrelGo-Apps/programming-student-desk/www/index.html"
+echo "======== BUILD ProgrammingStudentDesk (native) ========"
+(
+  cd "$ROOT/native"
+  echo "sdk.dir=$SDK" > local.properties
+  chmod +x gradlew
+  # release stays on the debug key even though UPLOAD_* is exported above.
+  ./gradlew :android:programming:assembleRelease --no-daemon -q
+  cp android/programming/build/outputs/apk/release/*.apk "$OUT_ART/ProgrammingStudentDesk.apk"
+)
 echo "======== BUILD SquirrelGoPhrasebook (native) ========"
 (
   cd "$ROOT/native"

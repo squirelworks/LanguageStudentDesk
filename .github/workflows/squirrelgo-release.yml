@@ -132,7 +132,6 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - { app: programming-desk, dir: SquirrelGo-Apps/programming-student-desk,                   name: ProgrammingStudentDesk }
           - { app: math-desk,         dir: SquirrelGo-Apps/math-student-desk,                          name: MathsEduTrainingHelper }
           - { app: electronics-desk,  dir: SquirrelGo-Apps/electronics-student-desk,                   name: ElectronicsStudentDesk }
     env:
@@ -673,6 +672,56 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # Native Programming Student Desk. The file name stays ProgrammingStudentDesk.apk.
+  # It is signed with the committed debug key, so APK_KEYSTORE_BASE64 cannot
+  # change the signature. The Play bundle is a different workflow and is not
+  # uploaded here. The learner pages stay in the repo; this job only builds
+  # the native APK.
+  native-programming:
+    needs: [check, draft, deps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
+      - name: Build the native Programming Student Desk APK
+        run: |
+          cd native
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :android:programming:assembleRelease
+          mkdir -p "$RUNNER_TEMP/apk"
+          cp android/programming/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk/ProgrammingStudentDesk.apk"
+          VN=$(grep -m1 '^versionName=' versions/programming.properties | cut -d= -f2-)
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VN"
+          VC=$((MAJOR * 1000000 + MINOR * 1000 + PATCH))
+          echo "| ProgrammingStudentDesk | com.squirelworks.programmingstudentdesk | $VN | $VC |" > "$RUNNER_TEMP/apk/ProgrammingStudentDesk.row"
+          echo "Programming Student Desk $VN" > "$RUNNER_TEMP/apk/ProgrammingStudentDesk.label"
+      - name: Attach the APK to the draft
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/apk/ProgrammingStudentDesk.apk#$(cat "$RUNNER_TEMP/apk/ProgrammingStudentDesk.label")" \
+            --clobber --repo "$GITHUB_REPOSITORY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: row-programming
+          path: ${{ runner.temp }}/apk/ProgrammingStudentDesk.row
+          retention-days: 1
+          if-no-files-found: error
+
   # The Linux, Windows and macOS Desk builds, each attached to the draft as
   # soon as it's built. Publishing doesn't build them again.
   desktop:
@@ -689,7 +738,7 @@ jobs:
   # SHA256SUMS.txt over every file on the draft. Assets added after publish
   # are covered when those workflows rewrite the sums.
   finish:
-    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, desktop]
+    needs: [check, draft, apk, native-kana, native-bopomofo, native-alphabets, native-kanji, native-klingon, native-phrasebook, native-dictionary, native-orthodox-bible, native-lsd, native-programming, desktop]
     runs-on: ubuntu-latest
     permissions:
       contents: write

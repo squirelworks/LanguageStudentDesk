@@ -11,7 +11,7 @@ val learnerPages = rootProject.layout.buildDirectory.dir("generated-programming-
 val appVersion = readAppVersion(rootProject.file("versions/programming.properties"))
 requireNewerThanWebView(
     appVersion,
-    rootProject.file("../SquirrelGo-Apps/programming-student-desk/android/app/build.gradle"),
+    rootProject.file("../archive/webview/programming/app/build.gradle"),
 )
 
 kotlin {
