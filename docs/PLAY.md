@@ -133,9 +133,9 @@ workflow's hand-run **listing** action, from `native/android/src/main/play/`.
 | SquirrelGo Phrasebook | `com.squirelworks.squirrelgophrasebook` |
 | squirrelator | `com.squirelworks.squirrelator` (its own workflow, below) |
 
-Maths Edu-Training Helper and Electronics Student Desk are in the
-**SquirrelGo Play closed testing** matrix (`math-desk`, `electronics-desk`).
-First upload for a never-published app: run the workflow by hand with
+Maths Edu-Training Helper and Electronics Student Desk upload from their
+native Play jobs (`math`, `electronics`), the same way as the other native
+apps. First upload for a never-published app: run the workflow by hand with
 status `draft`.
 
 ## squirrelator
