@@ -101,7 +101,9 @@ jobs:
           if [ "$N" -gt 1 ]; then
             echo "::error::$N releases exist for $VERSION; delete the extra drafts, then rerun"; exit 1
           elif [ "$N" -eq 1 ]; then
-            gh api -X PATCH "repos/$R/releases/$IDS" -F draft=true -f target_commitish="$SHA" \
+            # Keep tag_name. A PATCH that omits it renames a draft whose tag
+            # does not exist yet to untagged-<hash>.
+            gh api -X PATCH "repos/$R/releases/$IDS" -F draft=true -f tag_name="$VERSION" -f target_commitish="$SHA" \
               -f name="$TITLE" -F body=@notes.md > /dev/null
             # The old checksums would be wrong until the last job rewrites them.
             for A in $(gh api "repos/$R/releases/$IDS/assets?per_page=100" --jq '.[] | select(.name == "SHA256SUMS.txt") | .id'); do
@@ -787,6 +789,11 @@ jobs:
           } > notes.md
       - name: Finish the draft
         run: |
+          ID="${{ needs.draft.outputs.id }}"
           gh release upload "$VERSION" dist/SHA256SUMS.txt --clobber --repo "$GITHUB_REPOSITORY"
-          gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/${{ needs.draft.outputs.id }}" -F draft=true -F body=@notes.md > /dev/null
-          gh release view "$VERSION" --json url,isDraft -q '"\(.url) draft=\(.isDraft)"' --repo "$GITHUB_REPOSITORY"
+          # Keep tag_name. A PATCH that omits it renames a draft whose tag
+          # does not exist yet to untagged-<hash>.
+          gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/$ID" -F draft=true -f tag_name="$VERSION" -F body=@notes.md > /dev/null
+          gh api "repos/$GITHUB_REPOSITORY/releases/$ID" --jq '"\(.html_url) draft=\(.draft) tag=\(.tag_name)"'
+          TAG=$(gh api "repos/$GITHUB_REPOSITORY/releases/$ID" --jq .tag_name)
+          [ "$TAG" = "$VERSION" ] || { echo "::error::draft tag is $TAG, expected $VERSION"; exit 1; }
