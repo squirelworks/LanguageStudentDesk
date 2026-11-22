@@ -24,6 +24,7 @@ on:
           - lsd-native
           - programming-native
           - math-native
+          - electronics-native
       data_tag:
         description: "Dictionary only: jmdict-simplified release tag (blank = latest)"
         required: false
@@ -69,7 +70,7 @@ jobs:
             gradle-deps-v1-${{ runner.os }}-
       - name: Pick the app
         run: |
-          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ] || [ "$APP" = orthodox-bible-native ] || [ "$APP" = lsd-native ] || [ "$APP" = programming-native ] || [ "$APP" = math-native ]; then
+          if [ "$APP" = kokugo ] || [ "$APP" = multilingual ] || [ "$APP" = kana-native ] || [ "$APP" = bopomofo-native ] || [ "$APP" = alphabets-native ] || [ "$APP" = kanji-native ] || [ "$APP" = klingon-native ] || [ "$APP" = phrasebook-native ] || [ "$APP" = dictionary-native ] || [ "$APP" = orthodox-bible-native ] || [ "$APP" = lsd-native ] || [ "$APP" = programming-native ] || [ "$APP" = math-native ] || [ "$APP" = electronics-native ]; then
             SHA=$(git rev-parse --short HEAD)
             if [ "$APP" = kokugo ]; then
               MODULE=japanese-dictionary
@@ -110,6 +111,9 @@ jobs:
             elif [ "$APP" = math-native ]; then
               MODULE=math
               NAME=MathsEduTrainingHelper
+            elif [ "$APP" = electronics-native ]; then
+              MODULE=electronics
+              NAME=ElectronicsStudentDesk
             else
               echo "Unknown native app $APP" >&2
               exit 1
