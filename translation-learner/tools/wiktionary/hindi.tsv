@@ -1,5 +1,6 @@
 # From Wiktionary via kaikki.org, CC BY-SA 4.0, https://kaikki.org. Written by fetch_corpora.py.
 # word, the headword it is a form of (blank when the same), English
+अंग्रेज़ी		English; British; of or pertaining to the English language; Western
 अंग्रेजी		nuqtaless form of अंग्रेज़ी (aṅgrezī)
 अंडा		egg
 अंत		ending, conclusion; outcome, result
@@ -28,6 +29,7 @@
 अभियान		mission, undertaking; expedition, campaign
 अभी		right now; just now
 अमेरिका		America, United States of America (a country in North America; in full, संयुक्त
+अरबी		Arab person
 अरे		hey, oh, arrey (used chiefly in calling to or addressing inferiors)
 अर्थ		meaning, purport; sense
 अलग		separate, distinct, detached, independent; different
@@ -132,6 +134,7 @@
 कई		several things, several people (animate/inanimate plural (several)); many, many
 कदम		kadam, burflower tree, Leichhardt pine (Neolamarckia cadamba)
 कपड़े	कपड़ा	clothing; article of clothing; cloth, garment
+कप्तान		captain, leader, head; captain
 कब		when (interrogative)
 कभी		sometimes, once in a while; ever
 कभी कभी		sometimes, from time to time
@@ -182,6 +185,7 @@
 कार्यक्रम		program, itinerary
 काल		time (as a concept); era, epoch, age, period
 काला		black (color/colour); dirty, grimy
+काहिरा	क़ाहिरा	Cairo (the capital city of Egypt); Cairo (a governorate of Egypt, containing
 कि		that
 कितना		how much; how many
 कितनी	कितना	how much; how many
@@ -212,9 +216,11 @@
 केवल		sole; one and only
 कैसा		what type of, what kind of
 कैसे		how (manner)
+कॉफ़ी		coffee
 कॉलेज	कालिज	college, university
 को		marks the accusative case in certain contexts, i.e. the Theme of an action;
 कोई		some, certain, any (particularized); some, certain, any (particularized)
+कोरियाई		Korean
 कोर्ट		court; court, field
 कोशिश		effort, try; attempt
 कौन		who?
@@ -222,6 +228,7 @@
 क्यों		why
 क्योंकि		because
 क्रिकेट		cricket
+क्षण		instant, blink of an eye (a short amount of time); moment
 क्षेत्र		field, area of study; region, area, zone
 खड़ा		standing, upright; erect
 खड़ा होना		to stand up
@@ -231,6 +238,8 @@
 ख़रीदना		to buy, to purchase
 ख़ुश		happy, glad, gay, pleased, merry, cheerful, pleasant, delighted; good,
 खा	खाना	to eat, consume (food); to consume, use up, waste (time, resources, effort)
+खाता		account (such as a bank account, etc.); ledger
+खाते	खाना	to eat, consume (food); to consume, use up, waste (time, resources, effort)
 खान		mine, quarry; treasury; storehouse; repository
 खाना		food, meal
 खाने	खाना	food, meal
@@ -252,6 +261,7 @@
 गया		Gaya (a city in Bihar, India)
 गये	गया	Gaya (a city in Bihar, India)
 गरम	गर्म	warm; hot; active, live; fresh
+गर्म		warm; hot; active, live; fresh
 गर्मी		heat; hot months; summer
 गलत		nuqtaless form of ग़लत (ġalat)
 गलती		nuqtaless form of ग़लती (ġaltī)
@@ -261,6 +271,7 @@
 गाड़ी		car, truck, bus; carriage
 गाना		song
 गाय		cow; a naive person; innocent, docile or gentle person
+गिनें	गिनना	to count
 गीत		song
 गुजरात		Gujarat (a state in western India)
 गुरु		heavy
@@ -274,6 +285,7 @@
 घी		ghee, clarified butter
 घोषणा		advertisement; announcement
 घोषित		declared, proclaimed
+चर		variable; wandering, moving
 चरण		foot; step, stride
 चर्चा		discussion, talk
 चल		moving; trembling; movable, mobile
@@ -326,6 +338,7 @@
 जल्दी		quickly, rapidly; soon; early
 जवाब		answer, reply, response
 जहाँ		wherever
+जहाज़		ship; craft
 ज़रूरी		necessary; important
 ज़िन्दगी	ज़िंदगी	life (as in the state of being alive)
 ज़्यादा		more, very many; too many
@@ -340,6 +353,7 @@
 जाते	जाना	to go, leave, depart; to go to, extend
 जान		life, soul; spirit, vitality, stamina
 जानकारी		information, knowledge, data
+जानता	जानना	to know, comprehend, understand; to be familiar with
 जानते	जानना	to know, comprehend, understand; to be familiar with
 जानना		to know, comprehend, understand; to be familiar with
 जाना		to go, leave, depart; to go to, extend
@@ -372,11 +386,13 @@
 जैसी	जैसा	like, similar to
 जैसे		like, as; in the manner
 जो		the relative pronoun:; the relative pronoun:
+जोड़ें	जोड़ना	to join, connect, link, unite, attach; to associate
 ज्ञान		knowledge
 ज्यादा		nuqtaless form of ज़्यादा (zyādā)
 टिकट		ticket
 टीम		team
 टीवी		TV, television
+टोक्यो		Tokyo (a prefecture, the capital city of Japan)
 ट्रेन		train, rail
 ठंडा		cold, chilly; extinguished
 ठीक		right, correct, accurate, appropriate, proper; good, okay, fine
@@ -384,6 +400,7 @@
 डर		fear, fright, dread; phobia
 डाल		branch, bough
 डालना		to put, place; to pour
+डेटा		data
 डॉक्टर		doctor; physician
 ढूँढना		seek, search for, look for; to find; to explore; to investigate
 तक		till; until
@@ -401,6 +418,7 @@
 तीन		three (3)
 तुझे	तू	you, thou (informal, grammatically singular)
 तुम		you, ye (mid-level formality and grammatically plural)
+तुमसे	तुम	you, ye (mid-level formality and grammatically plural)
 तुम्हारा	तुम	you, ye (mid-level formality and grammatically plural)
 तुम्हें	तुम	you, ye (mid-level formality and grammatically plural)
 तू		you, thou (informal, grammatically singular)
@@ -459,6 +477,7 @@
 देकर	देना	to give, grant, award; to lay (eggs), give birth to
 देख	देखना	to see, to look, to watch; to perceive with eyes, to observe, to notice
 देखकर	देखना	to see, to look, to watch; to perceive with eyes, to observe, to notice
+देखता	देखना	to see, to look, to watch; to perceive with eyes, to observe, to notice
 देखते	देखना	to see, to look, to watch; to perceive with eyes, to observe, to notice
 देखना		to see, to look, to watch; to perceive with eyes, to observe, to notice
 देखने	देखना	to see, to look, to watch; to perceive with eyes, to observe, to notice
@@ -533,6 +552,7 @@
 पड़ा	पड़ना	to fall, to fall down, to drop; to fall, hit or strike
 पड़े	पड़ना	to fall, to fall down, to drop; to fall, hit or strike
 पड़ेगा	पड़ना	to fall, to fall down, to drop; to fall, hit or strike
+पढ़ता	पढ़ना	to read; to study, learn
 पढ़ना		to read; to study, learn
 पता		address; knowledge, clue
 पति		husband; master, lord
@@ -597,6 +617,7 @@
 पोस्ट		post, position; post, mail
 प्याज़		onion
 प्यार		love, strong affection; caress
+प्यार करता हूँ	प्यार करना	to love
 प्यार करना		to love
 प्यास		thirst; desire, longing
 प्रकार		type, kind, sort; way, manner, method, mode
@@ -624,6 +645,7 @@
 प्रसाद		a type of food that is served as a religious offering
 प्राप्त		obtained, got, procured, acquired; befallen
 प्रेम		love; affection, care
+प्रोग्राम		program (set of structured activities; leaflet listing information); program
 फल		fruit; result, outcome
 फ़ोन		phone
 फिर		then, afterwards; so; again
@@ -681,12 +703,14 @@
 बाहर		outside; outdoors, out
 बिजली		electricity; lightning, thunder
 बिना		without, lacking
+बिल		hole
 बिल्कुल		quite, at all, wholly, absolutely, utterly
 बिल्ली		cat (of any gender); female cat
 बिस्तर		bed, mattress, bedding
 बिहार		Bihar (a state in eastern India)
 बी		synonym of बीवी (bīvī, “wife”)
 बीच		middle, centre
+बीजिंग		Beijing (a direct-administered municipality, the capital city of China)
 बीजेपी		synonym of भाजपा (bhājpā)
 बीमार		ill, sick
 बुधवार		Wednesday
@@ -702,6 +726,7 @@
 बोर्ड		board
 बोल		word; speech, speaking; conversation
 बोलता	बोलना	to speak, say; to tell, say to
+बोलते	बोलना	to speak, say; to tell, say to
 बोलना		to speak, say; to tell, say to
 बोला	बोलना	to speak, say; to tell, say to
 बोले	बोलना	to speak, say; to tell, say to
@@ -779,6 +804,7 @@
 मिली	मिलना	to meet, encounter; have a meeting; to be found
 मिले	मिलना	to meet, encounter; have a meeting; to be found
 मिलेगा	मिलना	to meet, encounter; have a meeting; to be found
+मिस्र		Egypt (a country in North Africa and West Asia); Egypt (a civilization based
 मीठा		sweet; pleasant, agreeable
 मीडिया		the media; news media
 मुँह		mouth; face
@@ -803,6 +829,7 @@
 मोदी		grocer; grain and flour merchant
 मौका		nuqtaless form of मौक़ा (mauqā)
 मौत		death
+मौसम		season; weather
 यदि		if; whether
 यह		this one; he; she; it (proximal third person singular personal pronoun)
 यहाँ		here
@@ -863,6 +890,7 @@
 रेल		a rail; a railway, train
 रेलगाड़ी		train, locomotive, railcar
 रेलवे		railway
+रेस्तराँ		restaurant
 रोक		stop; stopping, halt; barrier, obstacle
 रोज		nuqtaless form of रोज़ (roz)
 रोटी		roti (flat bread, especially chapati and naan)
@@ -870,6 +898,7 @@
 लक्ष्य		aim; object (to be aimed at)
 लखनऊ		Lucknow (a city, district, and division, the state capital of Uttar Pradesh,
 लग		up to, as far as, until; near, along with
+लग रही है	लगना	to seem, appear; to be perceived
 लगता	लगना	to seem, appear; to be perceived
 लगती	लगना	to seem, appear; to be perceived
 लगना		to seem, appear; to be perceived
@@ -882,6 +911,8 @@
 लगी	लगना	to seem, appear; to be perceived
 लगे	लगना	to seem, appear; to be perceived
 लड़की		girl; daughter
+लड़ता	लड़ना	to fight; to argue
+लड़ते	लड़ना	to fight; to argue
 लाख		one hundred thousand, lakh
 लागू		valid, applicable, in force
 लाभ		benefit, advantage; profit
@@ -965,6 +996,7 @@
 शुभकामना		best wishes, congratulations
 शुरुआत		beginning, commencement; opening
 शुरू		beginning; commencement
+शुरू करें	शुरू करना	to begin; to start
 शून्य		zero; 0
 शो		show, program
 शौचालय		toilet, loo; bathroom
@@ -1007,6 +1039,7 @@
 समाज		society, community; an association
 समान		similar; equal
 समाप्त		finished, completed, terminated
+समाप्त करें	समाप्त करना	to end, finish, terminate
 समिति		committee
 समुदाय		community
 समुद्र		sea (body of water)
@@ -1030,6 +1063,7 @@
 सामने		opposite; in front, facing; in comparison to
 सामाजिक		social
 सामान्य		common, general; ordinary, average
+सामी		Semitic
 सारा		whole, entire; all
 सारी	सारा	whole, entire; all
 सारे	सारा	whole, entire; all
@@ -1051,22 +1085,28 @@
 सुन	सुनना	to listen, hear; to take abuse passively, to bear, suffer silently
 सुनना		to listen, hear; to take abuse passively, to bear, suffer silently
 सुना	सुनना	to listen, hear; to take abuse passively, to bear, suffer silently
+सुप्रभात		good morning
 सुबह		morning, dawn
 सुरक्षा		security; safety
 सुरक्षित		protected, safe
+सुशी		sushi
 सूचना		information; notice
+सूची		list, catalogue; needle
 सूरज		Sun; a male given name, Suraj, from Sanskrit
 से		indicates association or mutual dealing; comitative case: by; with; to;
 सेक्स		sex
 सेना		army, military, body of troops
 सेवा		service, care; service, facility
 सो		used in constructions with जो (jo, “whoever”); he, she, it
+सोओ	सोना	to sleep; to repose
 सोच		contemplation, thought, musing
 सोचना		to think, ponder
+सोता		fountain; spring
 सोना		gold
 सोमवार		Monday
 सौ		hundred
 स्कूल		school
+स्क्रीन		screen
 स्टेशन		station
 स्तर		level, slope
 स्थान		place, site, location; room
